@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: default_timezones.py ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('df/d15/shared_2resources_2apn_2default__timezones_8py.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">default_timezones.py</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../df/d15/shared_2resources_2apn_2default__timezones_8py.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment"># -*- coding: utf-8 -*-</span>
+<a name="l00002"></a>00002 <span class="keyword">import</span> sys, re, json
+<a name="l00003"></a>00003 <span class="keyword">from</span> xml.parsers <span class="keyword">import</span> expat
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">#</span>
+<a name="l00006"></a>00006 <span class="comment"># Parse the TZ input file and build the tree.</span>
+<a name="l00007"></a>00007 <span class="comment">#</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 text = <a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(<span class="stringliteral">&quot;../tz.json&quot;</span>).read()
+<a name="l00010"></a>00010 data = json.loads(text)
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 cities = {}
+<a name="l00013"></a>00013 conflicts = {
+<a name="l00014"></a>00014     <span class="stringliteral">&#39;CD&#39;</span>: <span class="stringliteral">&#39;Africa/Kinshasa&#39;</span>,
+<a name="l00015"></a>00015     <span class="stringliteral">&#39;ML&#39;</span>: <span class="stringliteral">&#39;Africa/Bamako&#39;</span>,
+<a name="l00016"></a>00016     <span class="stringliteral">&#39;AR&#39;</span>: <span class="stringliteral">&#39;America/Argentina/Buenos_Aires&#39;</span>, <span class="comment"># This is weird in tz.json I guess</span>
+<a name="l00017"></a>00017     <span class="stringliteral">&#39;BR&#39;</span>: <span class="stringliteral">&#39;America/Sao_Paulo&#39;</span>,
+<a name="l00018"></a>00018     <span class="stringliteral">&#39;CA&#39;</span>: <span class="stringliteral">&#39;America/Toronto&#39;</span>,
+<a name="l00019"></a>00019     <span class="stringliteral">&#39;CL&#39;</span>: <span class="stringliteral">&#39;America/Santiago&#39;</span>,
+<a name="l00020"></a>00020     <span class="stringliteral">&#39;GL&#39;</span>: <span class="stringliteral">&#39;America/Godthab&#39;</span>,
+<a name="l00021"></a>00021     <span class="stringliteral">&#39;MX&#39;</span>: <span class="stringliteral">&#39;America/Mexico_City&#39;</span>,
+<a name="l00022"></a>00022     <span class="stringliteral">&#39;US&#39;</span>: <span class="stringliteral">&#39;America/New_York&#39;</span>,
+<a name="l00023"></a>00023     <span class="stringliteral">&#39;VI&#39;</span>: <span class="stringliteral">&#39;America/Virgin&#39;</span>,
+<a name="l00024"></a>00024     <span class="stringliteral">&#39;AQ&#39;</span>: <span class="stringliteral">&#39;Antarctica/South_Pole&#39;</span>,
+<a name="l00025"></a>00025     <span class="stringliteral">&#39;CN&#39;</span>: <span class="stringliteral">&#39;Asia/Chongqing&#39;</span>,                 <span class="comment"># Beijing is not in our database?</span>
+<a name="l00026"></a>00026     <span class="stringliteral">&#39;CY&#39;</span>: <span class="stringliteral">&#39;Asia/Nicosia&#39;</span>,
+<a name="l00027"></a>00027     <span class="stringliteral">&#39;ID&#39;</span>: <span class="stringliteral">&#39;Asia/Jakarta&#39;</span>,
+<a name="l00028"></a>00028     <span class="stringliteral">&#39;IL&#39;</span>: <span class="stringliteral">&#39;Asia/Jerusalem&#39;</span>,
+<a name="l00029"></a>00029     <span class="stringliteral">&#39;KZ&#39;</span>: <span class="stringliteral">&#39;Asia/Almaty&#39;</span>,
+<a name="l00030"></a>00030     <span class="stringliteral">&#39;MN&#39;</span>: <span class="stringliteral">&#39;Asia/Ulan_Bator&#39;</span>,
+<a name="l00031"></a>00031     <span class="stringliteral">&#39;MY&#39;</span>: <span class="stringliteral">&#39;Asia/Kuala_Lumpur&#39;</span>,
+<a name="l00032"></a>00032     <span class="stringliteral">&#39;PS&#39;</span>: <span class="stringliteral">&#39;Asia/Gaza&#39;</span>,
+<a name="l00033"></a>00033     <span class="stringliteral">&#39;TM&#39;</span>: <span class="stringliteral">&#39;Asia/Ashgabat&#39;</span>,
+<a name="l00034"></a>00034     <span class="stringliteral">&#39;UZ&#39;</span>: <span class="stringliteral">&#39;Asia/Tashkent&#39;</span>,
+<a name="l00035"></a>00035     <span class="stringliteral">&#39;VN&#39;</span>: <span class="stringliteral">&#39;Asia/Saigon&#39;</span>,
+<a name="l00036"></a>00036     <span class="stringliteral">&#39;AU&#39;</span>: <span class="stringliteral">&#39;Australia/Sydney&#39;</span>,
+<a name="l00037"></a>00037     <span class="stringliteral">&#39;ES&#39;</span>: <span class="stringliteral">&#39;Europe/Madrid&#39;</span>,
+<a name="l00038"></a>00038     <span class="stringliteral">&#39;GB&#39;</span>: <span class="stringliteral">&#39;Europe/London&#39;</span>,
+<a name="l00039"></a>00039     <span class="stringliteral">&#39;MD&#39;</span>: <span class="stringliteral">&#39;Europe/Chisinau&#39;</span>,
+<a name="l00040"></a>00040     <span class="stringliteral">&#39;NO&#39;</span>: <span class="stringliteral">&#39;Europe/Oslo&#39;</span>,
+<a name="l00041"></a>00041     <span class="stringliteral">&#39;PT&#39;</span>: <span class="stringliteral">&#39;Europe/Lisbon&#39;</span>,
+<a name="l00042"></a>00042     <span class="stringliteral">&#39;RU&#39;</span>: <span class="stringliteral">&#39;Europe/Moscow&#39;</span>,
+<a name="l00043"></a>00043     <span class="stringliteral">&#39;TR&#39;</span>: <span class="stringliteral">&#39;Europe/Istanbul&#39;</span>,
+<a name="l00044"></a>00044     <span class="stringliteral">&#39;UA&#39;</span>: <span class="stringliteral">&#39;Europe/Kiev&#39;</span>,
+<a name="l00045"></a>00045     <span class="stringliteral">&#39;AS&#39;</span>: <span class="stringliteral">&#39;Pacific/Samoa&#39;</span>,
+<a name="l00046"></a>00046     <span class="stringliteral">&#39;EC&#39;</span>: <span class="stringliteral">&#39;Pacific/Galapagos&#39;</span>,
+<a name="l00047"></a>00047     <span class="stringliteral">&#39;FM&#39;</span>: <span class="stringliteral">&#39;Pacific/Ponape&#39;</span>,
+<a name="l00048"></a>00048     <span class="stringliteral">&#39;KI&#39;</span>: <span class="stringliteral">&#39;Pacific/Kiritimati&#39;</span>,
+<a name="l00049"></a>00049     <span class="stringliteral">&#39;MH&#39;</span>: <span class="stringliteral">&#39;Pacific/Kwajalein&#39;</span>,
+<a name="l00050"></a>00050     <span class="stringliteral">&#39;NZ&#39;</span>: <span class="stringliteral">&#39;Pacific/Auckland&#39;</span>,
+<a name="l00051"></a>00051     <span class="stringliteral">&#39;PF&#39;</span>: <span class="stringliteral">&#39;Pacific/Tahiti&#39;</span>,
+<a name="l00052"></a>00052     <span class="stringliteral">&#39;UM&#39;</span>: <span class="stringliteral">&#39;Pacific/Midway&#39;</span>
+<a name="l00053"></a>00053 }
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 <span class="keywordflow">for</span> continent <span class="keywordflow">in</span> data:
+<a name="l00056"></a>00056     <span class="keywordflow">for</span> entry <span class="keywordflow">in</span> data[continent]:
+<a name="l00057"></a>00057         cc = entry[<span class="stringliteral">&#39;cc&#39;</span>].encode(<span class="stringliteral">&#39;ascii&#39;</span>)
+<a name="l00058"></a>00058         city = entry[<span class="stringliteral">&#39;city&#39;</span>].encode(<span class="stringliteral">&#39;ascii&#39;</span>)
+<a name="l00059"></a>00059         <span class="keywordflow">if</span> cc <span class="keywordflow">in</span> cities:
+<a name="l00060"></a>00060             <span class="keywordflow">if</span> <span class="keywordflow">not</span> cc <span class="keywordflow">in</span> conflicts:
+<a name="l00061"></a>00061                 <a class="code" href="../../da/d7d/cook_8js.html#ab73f4a250dadcbe62393ae213ecd01c3">print</a>(city)
+<a name="l00062"></a>00062             cities[cc] = conflicts[cc]
+<a name="l00063"></a>00063         <span class="keywordflow">else</span>:
+<a name="l00064"></a>00064             cities[cc] = continent + <span class="stringliteral">&#39;/&#39;</span> + city
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066 <span class="comment">#</span>
+<a name="l00067"></a>00067 <span class="comment"># Parse the APN input file and build the tree.</span>
+<a name="l00068"></a>00068 <span class="comment">#</span>
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 apn_tz = {}
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072 <span class="keyword">def </span><a class="code" href="../../db/de5/namespacedefault__timezones.html#ad8d337875504cfc6d3259cb01a121528">start_element</a>(name, attrs):
+<a name="l00073"></a>00073     <span class="keyword">global</span> cc, apn_tz
+<a name="l00074"></a>00074     <span class="keywordflow">if</span> name == <span class="stringliteral">&quot;country&quot;</span>:
+<a name="l00075"></a>00075         cc = attrs[<span class="stringliteral">&#39;code&#39;</span>].encode(<span class="stringliteral">&#39;ascii&#39;</span>)
+<a name="l00076"></a>00076         <span class="keywordflow">if</span> <span class="keywordflow">not</span> re.match(<span class="stringliteral">&#39;[a-z]{2}&#39;</span>, cc):
+<a name="l00077"></a>00077             <a class="code" href="../../da/d7d/cook_8js.html#ab73f4a250dadcbe62393ae213ecd01c3">print</a>(<span class="stringliteral">&quot;invalid cc=&#39;&quot;</span> + cc + <span class="stringliteral">&quot;&#39;&quot;</span>)
+<a name="l00078"></a>00078             sys.exit(-1)
+<a name="l00079"></a>00079     <span class="keywordflow">if</span> name == <span class="stringliteral">&quot;network-id&quot;</span>:
+<a name="l00080"></a>00080         mcc = attrs[<span class="stringliteral">&#39;mcc&#39;</span>].encode(<span class="stringliteral">&#39;ascii&#39;</span>)
+<a name="l00081"></a>00081         mnc = attrs[<span class="stringliteral">&#39;mnc&#39;</span>].encode(<span class="stringliteral">&#39;ascii&#39;</span>)
+<a name="l00082"></a>00082         <span class="keywordflow">if</span> <span class="keywordflow">not</span> re.match(<span class="stringliteral">&#39;[0-9]{3}&#39;</span>, mcc) <span class="keywordflow">or</span> <span class="keywordflow">not</span> re.match(<span class="stringliteral">&#39;[0-9]{1,3}&#39;</span>, mnc):
+<a name="l00083"></a>00083             <a class="code" href="../../da/d7d/cook_8js.html#ab73f4a250dadcbe62393ae213ecd01c3">print</a>(<span class="stringliteral">&quot;invalid mcc=&#39;&quot;</span> + mcc + <span class="stringliteral">&quot;&#39; or mnc=&#39;&quot;</span> + mnc + <span class="stringliteral">&quot;&#39;&quot;</span>)
+<a name="l00084"></a>00084             sys.exit(-1)
+<a name="l00085"></a>00085         <span class="keywordflow">if</span> <span class="keywordflow">not</span> mcc <span class="keywordflow">in</span> apn_tz:
+<a name="l00086"></a>00086             apn_tz[mcc] = {}
+<a name="l00087"></a>00087         apn_tz[mcc][mnc] = cities[cc.upper()]
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 <span class="keyword">def </span><a class="code" href="../../db/de5/namespacedefault__timezones.html#a37b85ffce88c371001ec4d2a65ccbdba">char_data</a>(text):
+<a name="l00090"></a>00090     <span class="keyword">True</span>
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 <span class="keyword">def </span><a class="code" href="../../db/de5/namespacedefault__timezones.html#a5b3d8a6c3a6456c6fc680a4df6aa0e74">end_element</a>(name):
+<a name="l00093"></a>00093     <span class="keyword">True</span>
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095 p = expat.ParserCreate()
+<a name="l00096"></a>00096 p.StartElementHandler = start_element
+<a name="l00097"></a>00097 p.CharacterDataHandler = char_data
+<a name="l00098"></a>00098 p.EndElementHandler = end_element
+<a name="l00099"></a>00099 p.ParseFile(<a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(<span class="stringliteral">&#39;service_providers.xml&#39;</span>, <span class="stringliteral">&#39;rb&#39;</span>))
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 <span class="comment">#</span>
+<a name="l00102"></a>00102 <span class="comment"># Sort/filter apn_tz</span>
+<a name="l00103"></a>00103 <span class="comment">#</span>
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105 <span class="keywordflow">for</span> mcc <span class="keywordflow">in</span> apn_tz:
+<a name="l00106"></a>00106     tz_list = apn_tz[mcc]
+<a name="l00107"></a>00107     tmp = <span class="stringliteral">&#39;&#39;</span>
+<a name="l00108"></a>00108     same_tz = <span class="keyword">True</span>
+<a name="l00109"></a>00109     <span class="keywordflow">for</span> mnc <span class="keywordflow">in</span> tz_list:
+<a name="l00110"></a>00110         <span class="keywordflow">if</span> (tmp == <span class="stringliteral">&#39;&#39;</span>):
+<a name="l00111"></a>00111             tmp = tz_list[mnc]
+<a name="l00112"></a>00112         <span class="keywordflow">elif</span> (tmp != tz_list[mnc]):
+<a name="l00113"></a>00113             same_tz = <span class="keyword">False</span>
+<a name="l00114"></a>00114             <span class="keywordflow">break</span>
+<a name="l00115"></a>00115     <span class="keywordflow">if</span> same_tz:
+<a name="l00116"></a>00116         apn_tz[mcc] = tmp
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118 <a class="code" href="../../da/d7d/cook_8js.html#ab73f4a250dadcbe62393ae213ecd01c3">print</a>(json.dumps(apn_tz, sort_keys = <span class="keyword">True</span>, indent = 2))
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120 <a class="code" href="../../d6/da5/libpinyin_8js.html#a8d1dff3494178f5d5c3fad9689db37ab">exit</a>()
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../df/d15/shared_2resources_2apn_2default__timezones_8py.html">default_timezones.py</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:51:54に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

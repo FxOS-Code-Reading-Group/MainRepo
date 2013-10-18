@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: gfxXlibSurface.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d9/d6b/gfx_xlib_surface_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">gfxXlibSurface.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d9/d6b/gfx_xlib_surface_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 20; indent-tabs-mode: nil; c-basic-offset: 4 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef GFX_XLIBSURFACE_H</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define GFX_XLIBSURFACE_H</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/dca/gfx_a_surface_8h.html">gfxASurface.h</a>&quot;</span>
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="preprocessor">#include &lt;X11/extensions/Xrender.h&gt;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &lt;X11/Xlib.h&gt;</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="preprocessor">#if defined(GL_PROVIDER_GLX)</span>
+<a name="l00015"></a>00015 <span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="../../d1/d33/_g_l_x_library_8h.html">GLXLibrary.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#endif</span>
+<a name="l00017"></a>00017 <span class="preprocessor"></span>
+<a name="l00018"></a><a class="code" href="../../dc/dfe/classgfx_xlib_surface.html">00018</a> <span class="keyword">class </span><a class="code" href="../../dc/dfe/classgfx_xlib_surface.html">gfxXlibSurface</a> : <span class="keyword">public</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a> {
+<a name="l00019"></a>00019 <span class="keyword">public</span>:
+<a name="l00020"></a>00020     <span class="comment">// construct a wrapper around the specified drawable with dpy/visual.</span>
+<a name="l00021"></a>00021     <span class="comment">// Will use XGetGeometry to query the window/pixmap size.</span>
+<a name="l00022"></a>00022     <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a57727f02deae90c3f9c900642caf856e">gfxXlibSurface</a>(Display *dpy, Drawable drawable, Visual *visual);
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024     <span class="comment">// construct a wrapper around the specified drawable with dpy/visual,</span>
+<a name="l00025"></a>00025     <span class="comment">// and known width/height.</span>
+<a name="l00026"></a>00026     <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a57727f02deae90c3f9c900642caf856e">gfxXlibSurface</a>(Display *dpy, Drawable drawable, Visual *visual, <span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a>&amp; <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>);
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028     <span class="comment">// construct a wrapper around the specified drawable with dpy/format,</span>
+<a name="l00029"></a>00029     <span class="comment">// and known width/height.</span>
+<a name="l00030"></a>00030     <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a57727f02deae90c3f9c900642caf856e">gfxXlibSurface</a>(<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28aa6246c5d7f64b72ad1adb4594c5617ea">Screen</a> *<a class="code" href="../../dc/db8/system_2test_2unit_2action__menu__test_8js.html#a143b83738f9fab453e3116d14dfac0e7">screen</a>, Drawable drawable, XRenderPictFormat *<a class="code" href="../../d5/dca/reply__imap__email__test_8js.html#a63214d8f1727e71292b73e09dc39644f">format</a>,
+<a name="l00031"></a>00031                    <span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a>&amp; size);
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033     <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a57727f02deae90c3f9c900642caf856e">gfxXlibSurface</a>(<a class="code" href="../../d3/d6e/cairo_8h.html#a17d877b06bebaf368693c73860584555">cairo_surface_t</a> *csurf);
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035     <span class="comment">// create a new Pixmap and wrapper surface.</span>
+<a name="l00036"></a>00036     <span class="comment">// |relatedDrawable| provides a hint to the server for determining whether</span>
+<a name="l00037"></a>00037     <span class="comment">// the pixmap should be in video or system memory.  It must be on</span>
+<a name="l00038"></a>00038     <span class="comment">// |screen| (if specified).</span>
+<a name="l00039"></a>00039     <span class="keyword">static</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxXlibSurface&gt;</a>
+<a name="l00040"></a>00040     <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a4d57bcb381c92c2e3aac4a30295b2c92">Create</a>(<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28aa6246c5d7f64b72ad1adb4594c5617ea">Screen</a> *screen, Visual *visual, <span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a>&amp; size,
+<a name="l00041"></a>00041            Drawable relatedDrawable = None);
+<a name="l00042"></a>00042     <span class="keyword">static</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxXlibSurface&gt;</a>
+<a name="l00043"></a>00043     <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a4d57bcb381c92c2e3aac4a30295b2c92">Create</a>(<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28aa6246c5d7f64b72ad1adb4594c5617ea">Screen</a>* screen, XRenderPictFormat *format, <span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a>&amp; size,
+<a name="l00044"></a>00044            Drawable relatedDrawable = None);
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     <span class="keyword">virtual</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a7a976a040e93313e26d119e8084464c6">~gfxXlibSurface</a>();
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048     <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxASurface&gt;</a>
+<a name="l00049"></a>00049     <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a3bdd18ff5a4666661eaf2bb8a5486682">CreateSimilarSurface</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">gfxContentType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>, <span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a>&amp; aSize);
+<a name="l00050"></a>00050     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#ae318b3fb81e58113af0cbbd94a1bcb1e">Finish</a>() MOZ_OVERRIDE;
+<a name="l00051"></a>00051 
+<a name="l00052"></a><a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a9eec075c0822be2b29ea020c18a24d17">00052</a>     <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a9eec075c0822be2b29ea020c18a24d17">GetSize</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a732c5a9a13ed779d8bf0c3fce1f6f870">mSize</a>; }
+<a name="l00053"></a>00053 
+<a name="l00054"></a><a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a35570a2cd6f3c12d76df4dbf87d04860">00054</a>     Display* <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a35570a2cd6f3c12d76df4dbf87d04860">XDisplay</a>() { <span class="keywordflow">return</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a49b612ea58f1641a6e6c88ab367485dc">mDisplay</a>; }
+<a name="l00055"></a>00055     <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28aa6246c5d7f64b72ad1adb4594c5617ea">Screen</a>* <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#ac150e5f1b7882c6b1e3101b7136c29d7">XScreen</a>();
+<a name="l00056"></a><a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a410917eb834bc239f573735c439dee7b">00056</a>     Drawable <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a410917eb834bc239f573735c439dee7b">XDrawable</a>() { <span class="keywordflow">return</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a0c8a55af05777dacea52a4ab558070c1">mDrawable</a>; }
+<a name="l00057"></a>00057     XRenderPictFormat* <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a97bd3a35a7d27487d75cc5b0a1c8304f">XRenderFormat</a>();
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059     <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a20dad591b4c31f639c029921e24e1c44">DepthOfVisual</a>(<span class="keyword">const</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28aa6246c5d7f64b72ad1adb4594c5617ea">Screen</a>* screen, <span class="keyword">const</span> Visual* visual);
+<a name="l00060"></a>00060     <span class="keyword">static</span> Visual* <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a41f5624eb254caa3bb8ef5e2eac6d4e2">FindVisual</a>(<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28aa6246c5d7f64b72ad1adb4594c5617ea">Screen</a>* screen, <a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893e">gfxImageFormat</a> format);
+<a name="l00061"></a>00061     <span class="keyword">static</span> XRenderPictFormat *<a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a09fc352304107d9bd6173726619850af">FindRenderFormat</a>(Display *dpy, <a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893e">gfxImageFormat</a> format);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063     <span class="comment">// take ownership of a passed-in Pixmap, calling XFreePixmap on it</span>
+<a name="l00064"></a>00064     <span class="comment">// when the gfxXlibSurface is destroyed.</span>
+<a name="l00065"></a>00065     <span class="keywordtype">void</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#af684f392fc921e905f0c20766689ee93">TakePixmap</a>();
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067     <span class="comment">// Release ownership of this surface&#39;s Pixmap.  This is only valid</span>
+<a name="l00068"></a>00068     <span class="comment">// on gfxXlibSurfaces for which the user called TakePixmap(), or</span>
+<a name="l00069"></a>00069     <span class="comment">// on those created by a Create() factory method.</span>
+<a name="l00070"></a>00070     Drawable <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#aeff6c8bb60e1f6e0197cfc42ad2950d2">ReleasePixmap</a>();
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072     <span class="comment">// Find a visual and colormap pair suitable for rendering to this surface.</span>
+<a name="l00073"></a>00073     <span class="keywordtype">bool</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#afd00c706057a3022e62c3730921d7a09">GetColormapAndVisual</a>(Colormap* colormap, Visual **visual);
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075     <span class="comment">// This surface is a wrapper around X pixmaps, which are stored in the X</span>
+<a name="l00076"></a>00076     <span class="comment">// server, not the main application.</span>
+<a name="l00077"></a>00077     <span class="keyword">virtual</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a05271f980947886fec44467d778e4f65">gfxASurface::MemoryLocation</a> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a17f7d958bbde321f2963ace8a1232108">GetMemoryLocation</a>() <span class="keyword">const</span>;
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 <span class="preprocessor">#if defined(GL_PROVIDER_GLX)</span>
+<a name="l00080"></a>00080 <span class="preprocessor"></span>    GLXPixmap GetGLXPixmap();
+<a name="l00081"></a>00081 <span class="preprocessor">#endif</span>
+<a name="l00082"></a>00082 <span class="preprocessor"></span>
+<a name="l00083"></a>00083     <span class="comment">// Return true if cairo will take its slow path when this surface is used</span>
+<a name="l00084"></a>00084     <span class="comment">// in a pattern with EXTEND_PAD.  As a workaround for XRender&#39;s RepeatPad</span>
+<a name="l00085"></a>00085     <span class="comment">// not being implemented correctly on old X servers, cairo avoids XRender</span>
+<a name="l00086"></a>00086     <span class="comment">// and instead reads back to perform EXTEND_PAD with pixman.  Cairo does</span>
+<a name="l00087"></a>00087     <span class="comment">// this for servers older than xorg-server 1.7.</span>
+<a name="l00088"></a><a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a91bdea7ab82ddddcd1fe03d38e55c2c7">00088</a>     <span class="keywordtype">bool</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a91bdea7ab82ddddcd1fe03d38e55c2c7">IsPadSlow</a>() {
+<a name="l00089"></a>00089         <span class="comment">// The test here matches that for buggy_pad_reflect in</span>
+<a name="l00090"></a>00090         <span class="comment">// _cairo_xlib_device_create.</span>
+<a name="l00091"></a>00091         <span class="keywordflow">return</span> VendorRelease(<a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a49b612ea58f1641a6e6c88ab367485dc">mDisplay</a>) &gt;= 60700000 ||
+<a name="l00092"></a>00092             VendorRelease(<a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a49b612ea58f1641a6e6c88ab367485dc">mDisplay</a>) &lt; 10699000;
+<a name="l00093"></a>00093     }
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095 <span class="keyword">protected</span>:
+<a name="l00096"></a>00096     <span class="comment">// if TakePixmap() has been called on this</span>
+<a name="l00097"></a><a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#aa5864398f478d2bf286e1261c5cf2ed7">00097</a>     <span class="keywordtype">bool</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#aa5864398f478d2bf286e1261c5cf2ed7">mPixmapTaken</a>;
+<a name="l00098"></a>00098     
+<a name="l00099"></a><a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a49b612ea58f1641a6e6c88ab367485dc">00099</a>     Display *<a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a49b612ea58f1641a6e6c88ab367485dc">mDisplay</a>;
+<a name="l00100"></a><a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a0c8a55af05777dacea52a4ab558070c1">00100</a>     Drawable <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a0c8a55af05777dacea52a4ab558070c1">mDrawable</a>;
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102     <span class="keywordtype">void</span> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a5a7bb3dc8c19b951ffd7077adfb592a2">DoSizeQuery</a>();
+<a name="l00103"></a>00103 
+<a name="l00104"></a><a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a732c5a9a13ed779d8bf0c3fce1f6f870">00104</a>     <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a> <a class="code" href="../../dc/dfe/classgfx_xlib_surface.html#a732c5a9a13ed779d8bf0c3fce1f6f870">mSize</a>;
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106 <span class="preprocessor">#if defined(GL_PROVIDER_GLX)</span>
+<a name="l00107"></a>00107 <span class="preprocessor"></span>    GLXPixmap mGLXPixmap;
+<a name="l00108"></a>00108 <span class="preprocessor">#endif</span>
+<a name="l00109"></a>00109 <span class="preprocessor"></span>};
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111 <span class="preprocessor">#endif </span><span class="comment">/* GFX_XLIBSURFACE_H */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d9/d6b/gfx_xlib_surface_8h.html">gfxXlibSurface.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:05に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

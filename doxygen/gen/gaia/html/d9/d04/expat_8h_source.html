@@ -1,0 +1,1149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: expat.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d9/d04/expat_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">expat.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d9/d04/expat_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* Copyright (c) 1998, 1999, 2000 Thai Open Source Software Center Ltd</span>
+<a name="l00002"></a>00002 <span class="comment">   See the file COPYING for copying permission.</span>
+<a name="l00003"></a>00003 <span class="comment">*/</span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="preprocessor">#ifndef Expat_INCLUDED</span>
+<a name="l00006"></a>00006 <span class="preprocessor"></span><span class="preprocessor">#define Expat_INCLUDED 1</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span>
+<a name="l00008"></a>00008 <span class="preprocessor">#ifdef __VMS</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span><span class="comment">/*      0        1         2         3      0        1         2         3</span>
+<a name="l00010"></a>00010 <span class="comment">        1234567890123456789012345678901     1234567890123456789012345678901 */</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#define XML_SetProcessingInstructionHandler XML_SetProcessingInstrHandler</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span><span class="preprocessor">#define XML_SetUnparsedEntityDeclHandler    XML_SetUnparsedEntDeclHandler</span>
+<a name="l00013"></a>00013 <span class="preprocessor"></span><span class="preprocessor">#define XML_SetStartNamespaceDeclHandler    XML_SetStartNamespcDeclHandler</span>
+<a name="l00014"></a>00014 <span class="preprocessor"></span><span class="preprocessor">#define XML_SetExternalEntityRefHandlerArg  XML_SetExternalEntRefHandlerArg</span>
+<a name="l00015"></a>00015 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00016"></a>00016 <span class="preprocessor"></span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d36/expat__external_8h.html">expat_external.h</a>&quot;</span>
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l00021"></a>00021 <span class="preprocessor"></span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {
+<a name="l00022"></a>00022 <span class="preprocessor">#endif</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span>
+<a name="l00024"></a>00024 <span class="keyword">struct </span>XML_ParserStruct;
+<a name="l00025"></a><a class="code" href="../../d9/d04/expat_8h.html#a9dc0003156857c67b3a60b3993846013">00025</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>XML_ParserStruct *<a class="code" href="../../d9/d04/expat_8h.html#a9dc0003156857c67b3a60b3993846013">XML_Parser</a>;
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="comment">/* Should this be defined using stdbool.h when C99 is available? */</span>
+<a name="l00028"></a><a class="code" href="../../d9/d04/expat_8h.html#a5fe41bca8b7a23b2405f1b967e70f33a">00028</a> <span class="keyword">typedef</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="../../d9/d04/expat_8h.html#a5fe41bca8b7a23b2405f1b967e70f33a">XML_Bool</a>;
+<a name="l00029"></a><a class="code" href="../../d9/d04/expat_8h.html#aece5d476114d1bcc830391af0d1160fd">00029</a> <span class="preprocessor">#define XML_TRUE   ((XML_Bool) 1)</span>
+<a name="l00030"></a><a class="code" href="../../d9/d04/expat_8h.html#a10f4e50c3f8ef8a50f00110b0319b12a">00030</a> <span class="preprocessor"></span><span class="preprocessor">#define XML_FALSE  ((XML_Bool) 0)</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span>
+<a name="l00032"></a>00032 <span class="comment">/* The XML_Status enum gives the possible return values for several</span>
+<a name="l00033"></a>00033 <span class="comment">   API functions.  The preprocessor #defines are included so this</span>
+<a name="l00034"></a>00034 <span class="comment">   stanza can be added to code that still needs to support older</span>
+<a name="l00035"></a>00035 <span class="comment">   versions of Expat 1.95.x:</span>
+<a name="l00036"></a>00036 <span class="comment"></span>
+<a name="l00037"></a>00037 <span class="comment">   #ifndef XML_STATUS_OK</span>
+<a name="l00038"></a>00038 <span class="comment">   #define XML_STATUS_OK    1</span>
+<a name="l00039"></a>00039 <span class="comment">   #define XML_STATUS_ERROR 0</span>
+<a name="l00040"></a>00040 <span class="comment">   #endif</span>
+<a name="l00041"></a>00041 <span class="comment"></span>
+<a name="l00042"></a>00042 <span class="comment">   Otherwise, the #define hackery is quite ugly and would have been</span>
+<a name="l00043"></a>00043 <span class="comment">   dropped.</span>
+<a name="l00044"></a>00044 <span class="comment">*/</span>
+<a name="l00045"></a><a class="code" href="../../d9/d04/expat_8h.html#aef71ca3ac8198499d56aaa7b474303bb">00045</a> <span class="keyword">enum</span> <a class="code" href="../../d9/d04/expat_8h.html#aef71ca3ac8198499d56aaa7b474303bb">XML_Status</a> {
+<a name="l00046"></a><a class="code" href="../../d9/d04/expat_8h.html#aef71ca3ac8198499d56aaa7b474303bbaa24b654694daef98d474312bf84b1a52">00046</a>   <a class="code" href="../../d9/d04/expat_8h.html#a23470b6fbc11734113a97bb16784f425">XML_STATUS_ERROR</a> = 0,
+<a name="l00047"></a><a class="code" href="../../d9/d04/expat_8h.html#a23470b6fbc11734113a97bb16784f425">00047</a> <span class="preprocessor">#define XML_STATUS_ERROR XML_STATUS_ERROR</span>
+<a name="l00048"></a>00048 <span class="preprocessor"></span>  <a class="code" href="../../d9/d04/expat_8h.html#ab38219dfecd7be55a897cbc8a71512f8">XML_STATUS_OK</a> = 1,
+<a name="l00049"></a><a class="code" href="../../d9/d04/expat_8h.html#ab38219dfecd7be55a897cbc8a71512f8">00049</a> <span class="preprocessor">#define XML_STATUS_OK XML_STATUS_OK</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>  <a class="code" href="../../d9/d04/expat_8h.html#a762722e1945b30f728ccbfe2ffc863f2">XML_STATUS_SUSPENDED</a> = 2
+<a name="l00051"></a>00051 <span class="preprocessor">#define XML_STATUS_SUSPENDED XML_STATUS_SUSPENDED</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span>};
+<a name="l00053"></a>00053 
+<a name="l00054"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118">00054</a> <span class="keyword">enum</span> <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118">XML_Error</a> {
+<a name="l00055"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a94d7f2071bd24ca8a0b718b21301dbae">00055</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a94d7f2071bd24ca8a0b718b21301dbae">XML_ERROR_NONE</a>,
+<a name="l00056"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a7f073b3492312b2b2744266fbd8d99cd">00056</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a7f073b3492312b2b2744266fbd8d99cd">XML_ERROR_NO_MEMORY</a>,
+<a name="l00057"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118afdff9df9f5a13e4956307fdfd8831133">00057</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118afdff9df9f5a13e4956307fdfd8831133">XML_ERROR_SYNTAX</a>,
+<a name="l00058"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a30806cc55ad9a3d0a5d3b210a59ba9f3">00058</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a30806cc55ad9a3d0a5d3b210a59ba9f3">XML_ERROR_NO_ELEMENTS</a>,
+<a name="l00059"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ae0955060e14faab05faa346c9be641de">00059</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ae0955060e14faab05faa346c9be641de">XML_ERROR_INVALID_TOKEN</a>,
+<a name="l00060"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a014760abb9dc590d653a8dbc1c67dc1f">00060</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a014760abb9dc590d653a8dbc1c67dc1f">XML_ERROR_UNCLOSED_TOKEN</a>,
+<a name="l00061"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a524cee9bec6321c9ae86ff948ae6b58b">00061</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a524cee9bec6321c9ae86ff948ae6b58b">XML_ERROR_PARTIAL_CHAR</a>,
+<a name="l00062"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aa899d9719d3a91d2611402eb65c6aacb">00062</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aa899d9719d3a91d2611402eb65c6aacb">XML_ERROR_TAG_MISMATCH</a>,
+<a name="l00063"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a5d968af631073c5ea62b83119d418cb8">00063</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a5d968af631073c5ea62b83119d418cb8">XML_ERROR_DUPLICATE_ATTRIBUTE</a>,
+<a name="l00064"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aa97bf530524671001c50569ffae7d26a">00064</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aa97bf530524671001c50569ffae7d26a">XML_ERROR_JUNK_AFTER_DOC_ELEMENT</a>,
+<a name="l00065"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a9700d1b17a181c3ebdc282bb285f8559">00065</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a9700d1b17a181c3ebdc282bb285f8559">XML_ERROR_PARAM_ENTITY_REF</a>,
+<a name="l00066"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ad48a9855f09eb3e586f737882653b49a">00066</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ad48a9855f09eb3e586f737882653b49a">XML_ERROR_UNDEFINED_ENTITY</a>,
+<a name="l00067"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a4ee7d262582821311683fa9e2036462d">00067</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a4ee7d262582821311683fa9e2036462d">XML_ERROR_RECURSIVE_ENTITY_REF</a>,
+<a name="l00068"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a0cc463ba999dce675efada76ab7a7ae1">00068</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a0cc463ba999dce675efada76ab7a7ae1">XML_ERROR_ASYNC_ENTITY</a>,
+<a name="l00069"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ad02a255f05184fe6f59dd5ebbc9654c3">00069</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ad02a255f05184fe6f59dd5ebbc9654c3">XML_ERROR_BAD_CHAR_REF</a>,
+<a name="l00070"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ae3e63f65884b55e5444fad83163d1777">00070</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ae3e63f65884b55e5444fad83163d1777">XML_ERROR_BINARY_ENTITY_REF</a>,
+<a name="l00071"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a14f9d5721c3a94bebdb1d12325e34961">00071</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a14f9d5721c3a94bebdb1d12325e34961">XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF</a>,
+<a name="l00072"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a878586f07e83b5215b7e43fa6957aee4">00072</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a878586f07e83b5215b7e43fa6957aee4">XML_ERROR_MISPLACED_XML_PI</a>,
+<a name="l00073"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ae3fd18418e1ef36726486d175e43404f">00073</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ae3fd18418e1ef36726486d175e43404f">XML_ERROR_UNKNOWN_ENCODING</a>,
+<a name="l00074"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a7dd87295923a83486c1ee32dcc72b276">00074</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a7dd87295923a83486c1ee32dcc72b276">XML_ERROR_INCORRECT_ENCODING</a>,
+<a name="l00075"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ab8b5142f4c88b80b0fd94b8fcb78f101">00075</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ab8b5142f4c88b80b0fd94b8fcb78f101">XML_ERROR_UNCLOSED_CDATA_SECTION</a>,
+<a name="l00076"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a7485dfe2229b74b0ac5abbbe5e69e528">00076</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a7485dfe2229b74b0ac5abbbe5e69e528">XML_ERROR_EXTERNAL_ENTITY_HANDLING</a>,
+<a name="l00077"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a35d00aec5104d0d95c4684e339609e31">00077</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a35d00aec5104d0d95c4684e339609e31">XML_ERROR_NOT_STANDALONE</a>,
+<a name="l00078"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aa7e8eabb57de34509adf8ed0c22a19de">00078</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aa7e8eabb57de34509adf8ed0c22a19de">XML_ERROR_UNEXPECTED_STATE</a>,
+<a name="l00079"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a5d0c800771b3bed49aba971818f467df">00079</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a5d0c800771b3bed49aba971818f467df">XML_ERROR_ENTITY_DECLARED_IN_PE</a>,
+<a name="l00080"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a9c56b241750a66ad045af7f701e3a3a8">00080</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a9c56b241750a66ad045af7f701e3a3a8">XML_ERROR_FEATURE_REQUIRES_XML_DTD</a>,
+<a name="l00081"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a59a16308b56e00dca247ac63f87b165c">00081</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a59a16308b56e00dca247ac63f87b165c">XML_ERROR_CANT_CHANGE_FEATURE_ONCE_PARSING</a>,
+<a name="l00082"></a>00082   <span class="comment">/* Added in 1.95.7. */</span>
+<a name="l00083"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ad5c3e9e15d85440a3d8d8215cd4c4771">00083</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ad5c3e9e15d85440a3d8d8215cd4c4771">XML_ERROR_UNBOUND_PREFIX</a>,
+<a name="l00084"></a>00084   <span class="comment">/* Added in 1.95.8. */</span>
+<a name="l00085"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118add61ca21b27c0251daf4ed882e2c1b1f">00085</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118add61ca21b27c0251daf4ed882e2c1b1f">XML_ERROR_UNDECLARING_PREFIX</a>,
+<a name="l00086"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a36ff78124834ad24d4105e8ec127f57b">00086</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a36ff78124834ad24d4105e8ec127f57b">XML_ERROR_INCOMPLETE_PE</a>,
+<a name="l00087"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a2fb52fa51b56fb76b7bc717ec6116c28">00087</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a2fb52fa51b56fb76b7bc717ec6116c28">XML_ERROR_XML_DECL</a>,
+<a name="l00088"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a49839fc9c3d673e9ec62d88cb5c5d017">00088</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a49839fc9c3d673e9ec62d88cb5c5d017">XML_ERROR_TEXT_DECL</a>,
+<a name="l00089"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ad7bbf806dd63715a925b422b703068dc">00089</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ad7bbf806dd63715a925b422b703068dc">XML_ERROR_PUBLICID</a>,
+<a name="l00090"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a549c0b9238aa4781007f91af376cedb5">00090</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a549c0b9238aa4781007f91af376cedb5">XML_ERROR_SUSPENDED</a>,
+<a name="l00091"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aafc6bc70586542c3a9514fc9cabcd678">00091</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aafc6bc70586542c3a9514fc9cabcd678">XML_ERROR_NOT_SUSPENDED</a>,
+<a name="l00092"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a285887f8112dc911f19e3791a49bd3ca">00092</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118a285887f8112dc911f19e3791a49bd3ca">XML_ERROR_ABORTED</a>,
+<a name="l00093"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aa92e9288dc9de92d90de882bd28caf08">00093</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aa92e9288dc9de92d90de882bd28caf08">XML_ERROR_FINISHED</a>,
+<a name="l00094"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ae5a36b9bc5d50dd263b59de2b249c0d0">00094</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118ae5a36b9bc5d50dd263b59de2b249c0d0">XML_ERROR_SUSPEND_PE</a>,
+<a name="l00095"></a>00095   <span class="comment">/* Added in 2.0. */</span>
+<a name="l00096"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aa6e7c0867b74df3dfa81aa0885d8aad8">00096</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aa6e7c0867b74df3dfa81aa0885d8aad8">XML_ERROR_RESERVED_PREFIX_XML</a>,
+<a name="l00097"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aff2303e00312b7f380507f7f7f12eb49">00097</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118aff2303e00312b7f380507f7f7f12eb49">XML_ERROR_RESERVED_PREFIX_XMLNS</a>,
+<a name="l00098"></a><a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118acab12aab558fd805a0b76ac4bee3dea5">00098</a>   <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118acab12aab558fd805a0b76ac4bee3dea5">XML_ERROR_RESERVED_NAMESPACE_URI</a>
+<a name="l00099"></a>00099 };
+<a name="l00100"></a>00100 
+<a name="l00101"></a><a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473">00101</a> <span class="keyword">enum</span> <a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473">XML_Content_Type</a> {
+<a name="l00102"></a><a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473aee728cebe0c9f9e10da86b1314f261c2">00102</a>   <a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473aee728cebe0c9f9e10da86b1314f261c2">XML_CTYPE_EMPTY</a> = 1,
+<a name="l00103"></a><a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473a3a4ee8c34fe7c515c0afbb37ccb273b7">00103</a>   <a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473a3a4ee8c34fe7c515c0afbb37ccb273b7">XML_CTYPE_ANY</a>,
+<a name="l00104"></a><a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473a666bf89162b31c5ee5b7d4317f320da5">00104</a>   <a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473a666bf89162b31c5ee5b7d4317f320da5">XML_CTYPE_MIXED</a>,
+<a name="l00105"></a><a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473afe24cd69df548d996ebf15d2945648ce">00105</a>   <a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473afe24cd69df548d996ebf15d2945648ce">XML_CTYPE_NAME</a>,
+<a name="l00106"></a><a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473ab72a7b0dcd0ff685af8a9de498890452">00106</a>   <a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473ab72a7b0dcd0ff685af8a9de498890452">XML_CTYPE_CHOICE</a>,
+<a name="l00107"></a><a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473a4bb069ce88a7581e220e5ca37bcb691a">00107</a>   <a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473a4bb069ce88a7581e220e5ca37bcb691a">XML_CTYPE_SEQ</a>
+<a name="l00108"></a>00108 };
+<a name="l00109"></a>00109 
+<a name="l00110"></a><a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024">00110</a> <span class="keyword">enum</span> <a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024">XML_Content_Quant</a> {
+<a name="l00111"></a><a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024a3782b2d80b73f569e25e2bec9c9dd384">00111</a>   <a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024a3782b2d80b73f569e25e2bec9c9dd384">XML_CQUANT_NONE</a>,
+<a name="l00112"></a><a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024a2cd7411de474b3bc2d6eea49c2283e99">00112</a>   <a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024a2cd7411de474b3bc2d6eea49c2283e99">XML_CQUANT_OPT</a>,
+<a name="l00113"></a><a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024a8df8b6346cafc2fa20f35ac4fdbdf615">00113</a>   <a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024a8df8b6346cafc2fa20f35ac4fdbdf615">XML_CQUANT_REP</a>,
+<a name="l00114"></a><a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024a17956d9213f9385fe14f2ea779ea35ad">00114</a>   <a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024a17956d9213f9385fe14f2ea779ea35ad">XML_CQUANT_PLUS</a>
+<a name="l00115"></a>00115 };
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117 <span class="comment">/* If type == XML_CTYPE_EMPTY or XML_CTYPE_ANY, then quant will be</span>
+<a name="l00118"></a>00118 <span class="comment">   XML_CQUANT_NONE, and the other fields will be zero or NULL.</span>
+<a name="l00119"></a>00119 <span class="comment">   If type == XML_CTYPE_MIXED, then quant will be NONE or REP and</span>
+<a name="l00120"></a>00120 <span class="comment">   numchildren will contain number of elements that may be mixed in</span>
+<a name="l00121"></a>00121 <span class="comment">   and children point to an array of XML_Content cells that will be</span>
+<a name="l00122"></a>00122 <span class="comment">   all of XML_CTYPE_NAME type with no quantification.</span>
+<a name="l00123"></a>00123 <span class="comment"></span>
+<a name="l00124"></a>00124 <span class="comment">   If type == XML_CTYPE_NAME, then the name points to the name, and</span>
+<a name="l00125"></a>00125 <span class="comment">   the numchildren field will be zero and children will be NULL. The</span>
+<a name="l00126"></a>00126 <span class="comment">   quant fields indicates any quantifiers placed on the name.</span>
+<a name="l00127"></a>00127 <span class="comment"></span>
+<a name="l00128"></a>00128 <span class="comment">   CHOICE and SEQ will have name NULL, the number of children in</span>
+<a name="l00129"></a>00129 <span class="comment">   numchildren and children will point, recursively, to an array</span>
+<a name="l00130"></a>00130 <span class="comment">   of XML_Content cells.</span>
+<a name="l00131"></a>00131 <span class="comment"></span>
+<a name="l00132"></a>00132 <span class="comment">   The EMPTY, ANY, and MIXED types will only occur at top level.</span>
+<a name="l00133"></a>00133 <span class="comment">*/</span>
+<a name="l00134"></a>00134 
+<a name="l00135"></a><a class="code" href="../../d9/d04/expat_8h.html#a791d9e7de669ec5395df17978e1c507e">00135</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d8/d6d/struct_x_m_l__cp.html">XML_cp</a> <a class="code" href="../../d8/d6d/struct_x_m_l__cp.html">XML_Content</a>;
+<a name="l00136"></a>00136 
+<a name="l00137"></a><a class="code" href="../../d8/d6d/struct_x_m_l__cp.html">00137</a> <span class="keyword">struct </span><a class="code" href="../../d8/d6d/struct_x_m_l__cp.html">XML_cp</a> {
+<a name="l00138"></a><a class="code" href="../../d8/d6d/struct_x_m_l__cp.html#a98deeadbd7d0e20387a29f9030c2a397">00138</a>   <span class="keyword">enum</span> <a class="code" href="../../d9/d04/expat_8h.html#abb42ccef87efb634487d28753d14b473">XML_Content_Type</a>         <a class="code" href="../../d8/d6d/struct_x_m_l__cp.html#a98deeadbd7d0e20387a29f9030c2a397">type</a>;
+<a name="l00139"></a><a class="code" href="../../d8/d6d/struct_x_m_l__cp.html#a85e6c8f3118df403b0d15491c93ae9e7">00139</a>   <span class="keyword">enum</span> <a class="code" href="../../d9/d04/expat_8h.html#a63f73d88e3afb7c5fe7d33bbb193b024">XML_Content_Quant</a>        <a class="code" href="../../d8/d6d/struct_x_m_l__cp.html#a85e6c8f3118df403b0d15491c93ae9e7">quant</a>;
+<a name="l00140"></a><a class="code" href="../../d8/d6d/struct_x_m_l__cp.html#a7f06eaeb1604d4c2f2fa19f4dd13167c">00140</a>   <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *                    <a class="code" href="../../d8/d6d/struct_x_m_l__cp.html#a7f06eaeb1604d4c2f2fa19f4dd13167c">name</a>;
+<a name="l00141"></a><a class="code" href="../../d8/d6d/struct_x_m_l__cp.html#a5395f658297ee88a3ab45dfdbe389ef1">00141</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>                  <a class="code" href="../../d8/d6d/struct_x_m_l__cp.html#a5395f658297ee88a3ab45dfdbe389ef1">numchildren</a>;
+<a name="l00142"></a><a class="code" href="../../d8/d6d/struct_x_m_l__cp.html#a09c80a4bc4a029f785e262e9ca166b79">00142</a>   <a class="code" href="../../d8/d6d/struct_x_m_l__cp.html">XML_Content</a> *                 <a class="code" href="../../d8/d6d/struct_x_m_l__cp.html#a09c80a4bc4a029f785e262e9ca166b79">children</a>;
+<a name="l00143"></a>00143 };
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146 <span class="comment">/* This is called for an element declaration. See above for</span>
+<a name="l00147"></a>00147 <span class="comment">   description of the model argument. It&#39;s the caller&#39;s responsibility</span>
+<a name="l00148"></a>00148 <span class="comment">   to free model when finished with it.</span>
+<a name="l00149"></a>00149 <span class="comment">*/</span>
+<a name="l00150"></a>00150 <span class="keyword">typedef</span> <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_ElementDeclHandler) (<span class="keywordtype">void</span> *userData,
+<a name="l00151"></a><a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">00151</a>                                                 <span class="keyword">const</span> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>,
+<a name="l00152"></a>00152                                                 <a class="code" href="../../d8/d6d/struct_x_m_l__cp.html">XML_Content</a> *<a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>);
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00155"></a>00155 <a class="code" href="../../d9/d04/expat_8h.html#acea003c7329cc1605ad6075551670d69">XML_SetElementDeclHandler</a>(XML_Parser <a class="code" href="../../d1/d3e/namespaceadditional-extensions.html#a31dc95d3bc13df39986d40a96bc88a9e">parser</a>,
+<a name="l00156"></a>00156                           XML_ElementDeclHandler eldecl);
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158 <span class="comment">/* The Attlist declaration handler is called for *each* attribute. So</span>
+<a name="l00159"></a>00159 <span class="comment">   a single Attlist declaration with multiple attributes declared will</span>
+<a name="l00160"></a>00160 <span class="comment">   generate multiple calls to this handler. The &quot;default&quot; parameter</span>
+<a name="l00161"></a>00161 <span class="comment">   may be NULL in the case of the &quot;#IMPLIED&quot; or &quot;#REQUIRED&quot;</span>
+<a name="l00162"></a>00162 <span class="comment">   keyword. The &quot;isrequired&quot; parameter will be true and the default</span>
+<a name="l00163"></a>00163 <span class="comment">   value will be NULL in the case of &quot;#REQUIRED&quot;. If &quot;isrequired&quot; is</span>
+<a name="l00164"></a>00164 <span class="comment">   true and default is non-NULL, then this is a &quot;#FIXED&quot; default.</span>
+<a name="l00165"></a>00165 <span class="comment">*/</span>
+<a name="l00166"></a>00166 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_AttlistDeclHandler) (
+<a name="l00167"></a>00167                                     <span class="keywordtype">void</span>            *userData,
+<a name="l00168"></a><a class="code" href="../../d9/d04/expat_8h.html#a28fd97225913c29b46e4cda850654118">00168</a>                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a>  *<a class="code" href="../../d9/d04/expat_8h.html#ad9f3a1fb555339e8041b8a049fcf43aa">elname</a>,
+<a name="l00169"></a>00169                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a>  *<a class="code" href="../../d9/d04/expat_8h.html#a71d2743ea4a12a5c39719cd0b593655e">attname</a>,
+<a name="l00170"></a>00170                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a>  *<a class="code" href="../../d9/d04/expat_8h.html#aea521a4f65ce4992d37ce641d1ca5c66">att_type</a>,
+<a name="l00171"></a>00171                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a>  *<a class="code" href="../../d9/d04/expat_8h.html#a53e5d991495e767cfc84a375e5b01890">dflt</a>,
+<a name="l00172"></a>00172                                     <span class="keywordtype">int</span>              <a class="code" href="../../d9/d04/expat_8h.html#a28fd97225913c29b46e4cda850654118">isrequired</a>);
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00175"></a>00175 <a class="code" href="../../d9/d04/expat_8h.html#ab9defc95aa4e928c4d33fa0aae16e614">XML_SetAttlistDeclHandler</a>(XML_Parser parser,
+<a name="l00176"></a>00176                           XML_AttlistDeclHandler attdecl);
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178 <span class="comment">/* The XML declaration handler is called for *both* XML declarations</span>
+<a name="l00179"></a>00179 <span class="comment">   and text declarations. The way to distinguish is that the version</span>
+<a name="l00180"></a>00180 <span class="comment">   parameter will be NULL for text declarations. The encoding</span>
+<a name="l00181"></a>00181 <span class="comment">   parameter may be NULL for XML declarations. The standalone</span>
+<a name="l00182"></a>00182 <span class="comment">   parameter will be -1, 0, or 1 indicating respectively that there</span>
+<a name="l00183"></a>00183 <span class="comment">   was no standalone parameter in the declaration, that it was given</span>
+<a name="l00184"></a>00184 <span class="comment">   as no, or that it was given as yes.</span>
+<a name="l00185"></a>00185 <span class="comment">*/</span>
+<a name="l00186"></a>00186 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_XmlDeclHandler) (<span class="keywordtype">void</span>           *userData,
+<a name="l00187"></a><a class="code" href="../../d9/d04/expat_8h.html#aa323a7729fa99ab75ae910c7267ac071">00187</a>                                             <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#aa323a7729fa99ab75ae910c7267ac071">version</a>,
+<a name="l00188"></a>00188                                             <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a4dfeb87c47b4dde2571b24c1a6798056">encoding</a>,
+<a name="l00189"></a>00189                                             <span class="keywordtype">int</span>             <a class="code" href="../../d9/d04/expat_8h.html#aac81fd29c59263b77fc75a088dada810">standalone</a>);
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00192"></a>00192 <a class="code" href="../../d9/d04/expat_8h.html#a561111336f3db075409fa6f9c0a55015">XML_SetXmlDeclHandler</a>(XML_Parser parser,
+<a name="l00193"></a>00193                       XML_XmlDeclHandler xmldecl);
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195 
+<a name="l00196"></a><a class="code" href="../../d8/dc0/struct_x_m_l___memory___handling___suite.html">00196</a> typedef struct {
+<a name="l00197"></a><a class="code" href="../../d8/dc0/struct_x_m_l___memory___handling___suite.html#a3d1a60e00d5829b16304defce1c9ee96">00197</a>   <span class="keywordtype">void</span> *(*malloc_fcn)(<span class="keywordtype">size_t</span> <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>);
+<a name="l00198"></a><a class="code" href="../../d8/dc0/struct_x_m_l___memory___handling___suite.html#a209df95c1048cda80ed546023da0fc04">00198</a>   <span class="keywordtype">void</span> *(*realloc_fcn)(<span class="keywordtype">void</span> *ptr, <span class="keywordtype">size_t</span> <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>);
+<a name="l00199"></a><a class="code" href="../../d8/dc0/struct_x_m_l___memory___handling___suite.html#a5da6db22e9aba955d071875a589b1b42">00199</a>   <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a> (*free_fcn)(<span class="keywordtype">void</span> *ptr);
+<a name="l00200"></a>00200 } <a class="code" href="../../d8/dc0/struct_x_m_l___memory___handling___suite.html">XML_Memory_Handling_Suite</a>;
+<a name="l00201"></a>00201 
+<a name="l00202"></a>00202 <span class="comment">/* Constructs a new parser; encoding is the encoding specified by the</span>
+<a name="l00203"></a>00203 <span class="comment">   external protocol or NULL if there is none specified.</span>
+<a name="l00204"></a>00204 <span class="comment">*/</span>
+<a name="l00205"></a>00205 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(XML_Parser)
+<a name="l00206"></a>00206 <a class="code" href="../../d9/d04/expat_8h.html#a170e5a6b1a8ae0534d3d69f93aa15b0c">XML_ParserCreate</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a4dfeb87c47b4dde2571b24c1a6798056">encoding</a>);
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208 <span class="comment">/* Constructs a new parser and namespace processor.  Element type</span>
+<a name="l00209"></a>00209 <span class="comment">   names and attribute names that belong to a namespace will be</span>
+<a name="l00210"></a>00210 <span class="comment">   expanded; unprefixed attribute names are never expanded; unprefixed</span>
+<a name="l00211"></a>00211 <span class="comment">   element type names are expanded only if there is a default</span>
+<a name="l00212"></a>00212 <span class="comment">   namespace. The expanded name is the concatenation of the namespace</span>
+<a name="l00213"></a>00213 <span class="comment">   URI, the namespace separator character, and the local part of the</span>
+<a name="l00214"></a>00214 <span class="comment">   name.  If the namespace separator is &#39;\0&#39; then the namespace URI</span>
+<a name="l00215"></a>00215 <span class="comment">   and the local part will be concatenated without any separator.</span>
+<a name="l00216"></a>00216 <span class="comment">   It is a programming error to use the separator &#39;\0&#39; with namespace</span>
+<a name="l00217"></a>00217 <span class="comment">   triplets (see XML_SetReturnNSTriplet).</span>
+<a name="l00218"></a>00218 <span class="comment">*/</span>
+<a name="l00219"></a>00219 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(XML_Parser)
+<a name="l00220"></a>00220 <a class="code" href="../../d9/d04/expat_8h.html#a9a4e2bf0ff9a36aaff159f370eae6126">XML_ParserCreateNS</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *encoding, <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> namespaceSeparator);
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223 <span class="comment">/* Constructs a new parser using the memory management suite referred to</span>
+<a name="l00224"></a>00224 <span class="comment">   by memsuite. If memsuite is NULL, then use the standard library memory</span>
+<a name="l00225"></a>00225 <span class="comment">   suite. If namespaceSeparator is non-NULL it creates a parser with</span>
+<a name="l00226"></a>00226 <span class="comment">   namespace processing as described above. The character pointed at</span>
+<a name="l00227"></a>00227 <span class="comment">   will serve as the namespace separator.</span>
+<a name="l00228"></a>00228 <span class="comment"></span>
+<a name="l00229"></a>00229 <span class="comment">   All further memory operations used for the created parser will come from</span>
+<a name="l00230"></a>00230 <span class="comment">   the given suite.</span>
+<a name="l00231"></a>00231 <span class="comment">*/</span>
+<a name="l00232"></a>00232 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(XML_Parser)
+<a name="l00233"></a>00233 <a class="code" href="../../d9/d04/expat_8h.html#a23732fee31870eb85d9981daabf1cf5e">XML_ParserCreate_MM</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *encoding,
+<a name="l00234"></a>00234                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d8/dc0/struct_x_m_l___memory___handling___suite.html">XML_Memory_Handling_Suite</a> *memsuite,
+<a name="l00235"></a>00235                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *namespaceSeparator);
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237 <span class="comment">/* Prepare a parser object to be re-used.  This is particularly</span>
+<a name="l00238"></a>00238 <span class="comment">   valuable when memory allocation overhead is disproportionatly high,</span>
+<a name="l00239"></a>00239 <span class="comment">   such as when a large number of small documnents need to be parsed.</span>
+<a name="l00240"></a>00240 <span class="comment">   All handlers are cleared from the parser, except for the</span>
+<a name="l00241"></a>00241 <span class="comment">   unknownEncodingHandler. The parser&#39;s external state is re-initialized</span>
+<a name="l00242"></a>00242 <span class="comment">   except for the values of ns and ns_triplets.</span>
+<a name="l00243"></a>00243 <span class="comment"></span>
+<a name="l00244"></a>00244 <span class="comment">   Added in Expat 1.95.3.</span>
+<a name="l00245"></a>00245 <span class="comment">*/</span>
+<a name="l00246"></a>00246 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(XML_Bool)
+<a name="l00247"></a>00247 <a class="code" href="../../d9/d04/expat_8h.html#ac6aba21e5cd7431eeca4be6312f9c523">XML_ParserReset</a>(XML_Parser <a class="code" href="../../d1/d3e/namespaceadditional-extensions.html#a31dc95d3bc13df39986d40a96bc88a9e">parser</a>, <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *encoding);
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249 <span class="comment">/* atts is array of name/value pairs, terminated by 0;</span>
+<a name="l00250"></a>00250 <span class="comment">   names and values are 0 terminated.</span>
+<a name="l00251"></a>00251 <span class="comment">*/</span>
+<a name="l00252"></a>00252 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_StartElementHandler) (<span class="keywordtype">void</span> *userData,
+<a name="l00253"></a><a class="code" href="../../d9/d04/expat_8h.html#aabf48bc707494afd1ab76d41878a29c6">00253</a>                                                  <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *name,
+<a name="l00254"></a>00254                                                  <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> **<a class="code" href="../../d9/d04/expat_8h.html#aabf48bc707494afd1ab76d41878a29c6">atts</a>);
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_EndElementHandler) (<span class="keywordtype">void</span> *userData,
+<a name="l00257"></a>00257                                                <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *name);
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260 <span class="comment">/* s is not 0 terminated. */</span>
+<a name="l00261"></a>00261 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_CharacterDataHandler) (<span class="keywordtype">void</span> *userData,
+<a name="l00262"></a><a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">00262</a>                                                   <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>,
+<a name="l00263"></a>00263                                                   <span class="keywordtype">int</span> <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a>);
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265 <span class="comment">/* target and data are 0 terminated */</span>
+<a name="l00266"></a>00266 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_ProcessingInstructionHandler) (
+<a name="l00267"></a>00267                                                 <span class="keywordtype">void</span> *userData,
+<a name="l00268"></a><a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">00268</a>                                                 <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">target</a>,
+<a name="l00269"></a>00269                                                 <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>);
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271 <span class="comment">/* data is 0 terminated */</span>
+<a name="l00272"></a>00272 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_CommentHandler) (<span class="keywordtype">void</span> *userData,
+<a name="l00273"></a>00273                                             <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *data);
+<a name="l00274"></a>00274 
+<a name="l00275"></a>00275 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_StartCdataSectionHandler) (<span class="keywordtype">void</span> *userData);
+<a name="l00276"></a>00276 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_EndCdataSectionHandler) (<span class="keywordtype">void</span> *userData);
+<a name="l00277"></a>00277 
+<a name="l00278"></a>00278 <span class="comment">/* This is called for any characters in the XML document for which</span>
+<a name="l00279"></a>00279 <span class="comment">   there is no applicable handler.  This includes both characters that</span>
+<a name="l00280"></a>00280 <span class="comment">   are part of markup which is of a kind that is not reported</span>
+<a name="l00281"></a>00281 <span class="comment">   (comments, markup declarations), or characters that are part of a</span>
+<a name="l00282"></a>00282 <span class="comment">   construct which could be reported but for which no handler has been</span>
+<a name="l00283"></a>00283 <span class="comment">   supplied. The characters are passed exactly as they were in the XML</span>
+<a name="l00284"></a>00284 <span class="comment">   document except that they will be encoded in UTF-8 or UTF-16.</span>
+<a name="l00285"></a>00285 <span class="comment">   Line boundaries are not normalized. Note that a byte order mark</span>
+<a name="l00286"></a>00286 <span class="comment">   character is not passed to the default handler. There are no</span>
+<a name="l00287"></a>00287 <span class="comment">   guarantees about how characters are divided between calls to the</span>
+<a name="l00288"></a>00288 <span class="comment">   default handler: for example, a comment might be split between</span>
+<a name="l00289"></a>00289 <span class="comment">   multiple calls.</span>
+<a name="l00290"></a>00290 <span class="comment">*/</span>
+<a name="l00291"></a>00291 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_DefaultHandler) (<span class="keywordtype">void</span> *userData,
+<a name="l00292"></a>00292                                             <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *s,
+<a name="l00293"></a>00293                                             <span class="keywordtype">int</span> len);
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295 <span class="comment">/* This is called for the start of the DOCTYPE declaration, before</span>
+<a name="l00296"></a>00296 <span class="comment">   any DTD or internal subset is parsed.</span>
+<a name="l00297"></a>00297 <span class="comment">*/</span>
+<a name="l00298"></a>00298 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_StartDoctypeDeclHandler) (
+<a name="l00299"></a>00299                                             <span class="keywordtype">void</span> *userData,
+<a name="l00300"></a><a class="code" href="../../d9/d04/expat_8h.html#a117320ced001292b00ae196fda247e88">00300</a>                                             <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#ab59e3dc00d0bd69e6e68d15e0829e601">doctypeName</a>,
+<a name="l00301"></a>00301                                             <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a117320ced001292b00ae196fda247e88">sysid</a>,
+<a name="l00302"></a>00302                                             <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a55c23cc42328d767c14f29256160577d">pubid</a>,
+<a name="l00303"></a>00303                                             <span class="keywordtype">int</span> <a class="code" href="../../d9/d04/expat_8h.html#a8d564e754bb3e4ed3dbfcd31c695c077">has_internal_subset</a>);
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305 <span class="comment">/* This is called for the start of the DOCTYPE declaration when the</span>
+<a name="l00306"></a>00306 <span class="comment">   closing &gt; is encountered, but after processing any external</span>
+<a name="l00307"></a>00307 <span class="comment">   subset.</span>
+<a name="l00308"></a>00308 <span class="comment">*/</span>
+<a name="l00309"></a><a class="code" href="../../d9/d04/expat_8h.html#a8b99ce2b2f1ce4ae4c22452460fbe0bf">00309</a> typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *<a class="code" href="../../d9/d04/expat_8h.html#a8b99ce2b2f1ce4ae4c22452460fbe0bf">XML_EndDoctypeDeclHandler</a>)(<span class="keywordtype">void</span> *userData);
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311 <span class="comment">/* This is called for entity declarations. The is_parameter_entity</span>
+<a name="l00312"></a>00312 <span class="comment">   argument will be non-zero if the entity is a parameter entity, zero</span>
+<a name="l00313"></a>00313 <span class="comment">   otherwise.</span>
+<a name="l00314"></a>00314 <span class="comment"></span>
+<a name="l00315"></a>00315 <span class="comment">   For internal entities (&lt;!ENTITY foo &quot;bar&quot;&gt;), value will</span>
+<a name="l00316"></a>00316 <span class="comment">   be non-NULL and systemId, publicID, and notationName will be NULL.</span>
+<a name="l00317"></a>00317 <span class="comment">   The value string is NOT nul-terminated; the length is provided in</span>
+<a name="l00318"></a>00318 <span class="comment">   the value_length argument. Since it is legal to have zero-length</span>
+<a name="l00319"></a>00319 <span class="comment">   values, do not use this argument to test for internal entities.</span>
+<a name="l00320"></a>00320 <span class="comment"></span>
+<a name="l00321"></a>00321 <span class="comment">   For external entities, value will be NULL and systemId will be</span>
+<a name="l00322"></a>00322 <span class="comment">   non-NULL. The publicId argument will be NULL unless a public</span>
+<a name="l00323"></a>00323 <span class="comment">   identifier was provided. The notationName argument will have a</span>
+<a name="l00324"></a>00324 <span class="comment">   non-NULL value only for unparsed entity declarations.</span>
+<a name="l00325"></a>00325 <span class="comment"></span>
+<a name="l00326"></a>00326 <span class="comment">   Note that is_parameter_entity can&#39;t be changed to XML_Bool, since</span>
+<a name="l00327"></a>00327 <span class="comment">   that would break binary compatibility.</span>
+<a name="l00328"></a>00328 <span class="comment">*/</span>
+<a name="l00329"></a>00329 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_EntityDeclHandler) (
+<a name="l00330"></a>00330                               <span class="keywordtype">void</span> *userData,
+<a name="l00331"></a><a class="code" href="../../d9/d04/expat_8h.html#acb7c1f86e7cb887c6e040dabf5ad1a10">00331</a>                               <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a3d8d1f092881d3dd4e9ba997001c9883">entityName</a>,
+<a name="l00332"></a>00332                               <span class="keywordtype">int</span> <a class="code" href="../../d9/d04/expat_8h.html#a586486ed8fe06b64d6bf4f215c01ed3a">is_parameter_entity</a>,
+<a name="l00333"></a>00333                               <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>,
+<a name="l00334"></a>00334                               <span class="keywordtype">int</span> <a class="code" href="../../d9/d04/expat_8h.html#acb7c1f86e7cb887c6e040dabf5ad1a10">value_length</a>,
+<a name="l00335"></a>00335                               <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a938e186c531ea86ae9adf3c0a649d8fc">base</a>,
+<a name="l00336"></a>00336                               <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a0713b4ddfceba53ef272e377a6d39fc0">systemId</a>,
+<a name="l00337"></a>00337                               <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a8bb3e4080f81b91a05cf10785cd4112e">publicId</a>,
+<a name="l00338"></a>00338                               <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#aafb508a35e8552c894219b51c7236cab">notationName</a>);
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00341"></a>00341 <a class="code" href="../../d9/d04/expat_8h.html#a8072d21c310e6a08187b403fd7dad7e9">XML_SetEntityDeclHandler</a>(XML_Parser parser,
+<a name="l00342"></a>00342                          XML_EntityDeclHandler <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>);
+<a name="l00343"></a>00343 
+<a name="l00344"></a>00344 <span class="comment">/* OBSOLETE -- OBSOLETE -- OBSOLETE</span>
+<a name="l00345"></a>00345 <span class="comment">   This handler has been superseded by the EntityDeclHandler above.</span>
+<a name="l00346"></a>00346 <span class="comment">   It is provided here for backward compatibility.</span>
+<a name="l00347"></a>00347 <span class="comment"></span>
+<a name="l00348"></a>00348 <span class="comment">   This is called for a declaration of an unparsed (NDATA) entity.</span>
+<a name="l00349"></a>00349 <span class="comment">   The base argument is whatever was set by XML_SetBase. The</span>
+<a name="l00350"></a>00350 <span class="comment">   entityName, systemId and notationName arguments will never be</span>
+<a name="l00351"></a>00351 <span class="comment">   NULL. The other arguments may be.</span>
+<a name="l00352"></a>00352 <span class="comment">*/</span>
+<a name="l00353"></a>00353 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_UnparsedEntityDeclHandler) (
+<a name="l00354"></a>00354                                     <span class="keywordtype">void</span> *userData,
+<a name="l00355"></a>00355                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *entityName,
+<a name="l00356"></a>00356                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *base,
+<a name="l00357"></a>00357                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *systemId,
+<a name="l00358"></a>00358                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *publicId,
+<a name="l00359"></a>00359                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *notationName);
+<a name="l00360"></a>00360 
+<a name="l00361"></a>00361 <span class="comment">/* This is called for a declaration of notation.  The base argument is</span>
+<a name="l00362"></a>00362 <span class="comment">   whatever was set by XML_SetBase. The notationName will never be</span>
+<a name="l00363"></a>00363 <span class="comment">   NULL.  The other arguments can be.</span>
+<a name="l00364"></a>00364 <span class="comment">*/</span>
+<a name="l00365"></a>00365 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_NotationDeclHandler) (
+<a name="l00366"></a>00366                                     <span class="keywordtype">void</span> *userData,
+<a name="l00367"></a>00367                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *notationName,
+<a name="l00368"></a>00368                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *base,
+<a name="l00369"></a>00369                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *systemId,
+<a name="l00370"></a>00370                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *publicId);
+<a name="l00371"></a>00371 
+<a name="l00372"></a>00372 <span class="comment">/* When namespace processing is enabled, these are called once for</span>
+<a name="l00373"></a>00373 <span class="comment">   each namespace declaration. The call to the start and end element</span>
+<a name="l00374"></a>00374 <span class="comment">   handlers occur between the calls to the start and end namespace</span>
+<a name="l00375"></a>00375 <span class="comment">   declaration handlers. For an xmlns attribute, prefix will be</span>
+<a name="l00376"></a>00376 <span class="comment">   NULL.  For an xmlns=&quot;&quot; attribute, uri will be NULL.</span>
+<a name="l00377"></a>00377 <span class="comment">*/</span>
+<a name="l00378"></a>00378 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_StartNamespaceDeclHandler) (
+<a name="l00379"></a>00379                                     <span class="keywordtype">void</span> *userData,
+<a name="l00380"></a><a class="code" href="../../d9/d04/expat_8h.html#a5a9fdd6c2606370ad12f24c078ac6585">00380</a>                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#ab9c3d990bb61927ef5406b25c41652ee">prefix</a>,
+<a name="l00381"></a>00381                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a5a9fdd6c2606370ad12f24c078ac6585">uri</a>);
+<a name="l00382"></a>00382 
+<a name="l00383"></a>00383 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_EndNamespaceDeclHandler) (
+<a name="l00384"></a>00384                                     <span class="keywordtype">void</span> *userData,
+<a name="l00385"></a>00385                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *prefix);
+<a name="l00386"></a>00386 
+<a name="l00387"></a>00387 <span class="comment">/* This is called if the document is not standalone, that is, it has an</span>
+<a name="l00388"></a>00388 <span class="comment">   external subset or a reference to a parameter entity, but does not</span>
+<a name="l00389"></a>00389 <span class="comment">   have standalone=&quot;yes&quot;. If this handler returns XML_STATUS_ERROR,</span>
+<a name="l00390"></a>00390 <span class="comment">   then processing will not continue, and the parser will return a</span>
+<a name="l00391"></a>00391 <span class="comment">   XML_ERROR_NOT_STANDALONE error.</span>
+<a name="l00392"></a>00392 <span class="comment">   If parameter entity parsing is enabled, then in addition to the</span>
+<a name="l00393"></a>00393 <span class="comment">   conditions above this handler will only be called if the referenced</span>
+<a name="l00394"></a>00394 <span class="comment">   entity was actually read.</span>
+<a name="l00395"></a>00395 <span class="comment">*/</span>
+<a name="l00396"></a>00396 typedef <span class="keywordtype">int</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_NotStandaloneHandler) (<span class="keywordtype">void</span> *userData);
+<a name="l00397"></a>00397 
+<a name="l00398"></a>00398 <span class="comment">/* This is called for a reference to an external parsed general</span>
+<a name="l00399"></a>00399 <span class="comment">   entity.  The referenced entity is not automatically parsed.  The</span>
+<a name="l00400"></a>00400 <span class="comment">   application can parse it immediately or later using</span>
+<a name="l00401"></a>00401 <span class="comment">   XML_ExternalEntityParserCreate.</span>
+<a name="l00402"></a>00402 <span class="comment"></span>
+<a name="l00403"></a>00403 <span class="comment">   The parser argument is the parser parsing the entity containing the</span>
+<a name="l00404"></a>00404 <span class="comment">   reference; it can be passed as the parser argument to</span>
+<a name="l00405"></a>00405 <span class="comment">   XML_ExternalEntityParserCreate.  The systemId argument is the</span>
+<a name="l00406"></a>00406 <span class="comment">   system identifier as specified in the entity declaration; it will</span>
+<a name="l00407"></a>00407 <span class="comment">   not be NULL.</span>
+<a name="l00408"></a>00408 <span class="comment"></span>
+<a name="l00409"></a>00409 <span class="comment">   The base argument is the system identifier that should be used as</span>
+<a name="l00410"></a>00410 <span class="comment">   the base for resolving systemId if systemId was relative; this is</span>
+<a name="l00411"></a>00411 <span class="comment">   set by XML_SetBase; it may be NULL.</span>
+<a name="l00412"></a>00412 <span class="comment"></span>
+<a name="l00413"></a>00413 <span class="comment">   The publicId argument is the public identifier as specified in the</span>
+<a name="l00414"></a>00414 <span class="comment">   entity declaration, or NULL if none was specified; the whitespace</span>
+<a name="l00415"></a>00415 <span class="comment">   in the public identifier will have been normalized as required by</span>
+<a name="l00416"></a>00416 <span class="comment">   the XML spec.</span>
+<a name="l00417"></a>00417 <span class="comment"></span>
+<a name="l00418"></a>00418 <span class="comment">   The context argument specifies the parsing context in the format</span>
+<a name="l00419"></a>00419 <span class="comment">   expected by the context argument to XML_ExternalEntityParserCreate;</span>
+<a name="l00420"></a>00420 <span class="comment">   context is valid only until the handler returns, so if the</span>
+<a name="l00421"></a>00421 <span class="comment">   referenced entity is to be parsed later, it must be copied.</span>
+<a name="l00422"></a>00422 <span class="comment">   context is NULL only when the entity is a parameter entity.</span>
+<a name="l00423"></a>00423 <span class="comment"></span>
+<a name="l00424"></a>00424 <span class="comment">   The handler should return XML_STATUS_ERROR if processing should not</span>
+<a name="l00425"></a>00425 <span class="comment">   continue because of a fatal error in the handling of the external</span>
+<a name="l00426"></a>00426 <span class="comment">   entity.  In this case the calling parser will return an</span>
+<a name="l00427"></a>00427 <span class="comment">   XML_ERROR_EXTERNAL_ENTITY_HANDLING error.</span>
+<a name="l00428"></a>00428 <span class="comment"></span>
+<a name="l00429"></a>00429 <span class="comment">   Note that unlike other handlers the first argument is the parser,</span>
+<a name="l00430"></a>00430 <span class="comment">   not userData.</span>
+<a name="l00431"></a>00431 <span class="comment">*/</span>
+<a name="l00432"></a>00432 typedef <span class="keywordtype">int</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_ExternalEntityRefHandler) (
+<a name="l00433"></a>00433                                     XML_Parser parser,
+<a name="l00434"></a><a class="code" href="../../d9/d04/expat_8h.html#afe0934df1732463fe5378d8c8724edc6">00434</a>                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#afe0934df1732463fe5378d8c8724edc6">context</a>,
+<a name="l00435"></a>00435                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *base,
+<a name="l00436"></a>00436                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *systemId,
+<a name="l00437"></a>00437                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *publicId);
+<a name="l00438"></a>00438 
+<a name="l00439"></a>00439 <span class="comment">/* This is called in two situations:</span>
+<a name="l00440"></a>00440 <span class="comment">   1) An entity reference is encountered for which no declaration</span>
+<a name="l00441"></a>00441 <span class="comment">      has been read *and* this is not an error.</span>
+<a name="l00442"></a>00442 <span class="comment">   2) An internal entity reference is read, but not expanded, because</span>
+<a name="l00443"></a>00443 <span class="comment">      XML_SetDefaultHandler has been called.</span>
+<a name="l00444"></a>00444 <span class="comment">   Note: skipped parameter entities in declarations and skipped general</span>
+<a name="l00445"></a>00445 <span class="comment">         entities in attribute values cannot be reported, because</span>
+<a name="l00446"></a>00446 <span class="comment">         the event would be out of sync with the reporting of the</span>
+<a name="l00447"></a>00447 <span class="comment">         declarations or attribute values</span>
+<a name="l00448"></a>00448 <span class="comment">*/</span>
+<a name="l00449"></a>00449 typedef <span class="keywordtype">void</span> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_SkippedEntityHandler) (
+<a name="l00450"></a>00450                                     <span class="keywordtype">void</span> *userData,
+<a name="l00451"></a>00451                                     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *entityName,
+<a name="l00452"></a>00452                                     <span class="keywordtype">int</span> is_parameter_entity);
+<a name="l00453"></a>00453 
+<a name="l00454"></a>00454 <span class="comment">/* This structure is filled in by the XML_UnknownEncodingHandler to</span>
+<a name="l00455"></a>00455 <span class="comment">   provide information to the parser about encodings that are unknown</span>
+<a name="l00456"></a>00456 <span class="comment">   to the parser.</span>
+<a name="l00457"></a>00457 <span class="comment"></span>
+<a name="l00458"></a>00458 <span class="comment">   The map[b] member gives information about byte sequences whose</span>
+<a name="l00459"></a>00459 <span class="comment">   first byte is b.</span>
+<a name="l00460"></a>00460 <span class="comment"></span>
+<a name="l00461"></a>00461 <span class="comment">   If map[b] is c where c is &gt;= 0, then b by itself encodes the</span>
+<a name="l00462"></a>00462 <span class="comment">   Unicode scalar value c.</span>
+<a name="l00463"></a>00463 <span class="comment"></span>
+<a name="l00464"></a>00464 <span class="comment">   If map[b] is -1, then the byte sequence is malformed.</span>
+<a name="l00465"></a>00465 <span class="comment"></span>
+<a name="l00466"></a>00466 <span class="comment">   If map[b] is -n, where n &gt;= 2, then b is the first byte of an</span>
+<a name="l00467"></a>00467 <span class="comment">   n-byte sequence that encodes a single Unicode scalar value.</span>
+<a name="l00468"></a>00468 <span class="comment"></span>
+<a name="l00469"></a>00469 <span class="comment">   The data member will be passed as the first argument to the convert</span>
+<a name="l00470"></a>00470 <span class="comment">   function.</span>
+<a name="l00471"></a>00471 <span class="comment"></span>
+<a name="l00472"></a>00472 <span class="comment">   The convert function is used to convert multibyte sequences; s will</span>
+<a name="l00473"></a>00473 <span class="comment">   point to a n-byte sequence where map[(unsigned char)*s] == -n.  The</span>
+<a name="l00474"></a>00474 <span class="comment">   convert function must return the Unicode scalar value represented</span>
+<a name="l00475"></a>00475 <span class="comment">   by this byte sequence or -1 if the byte sequence is malformed.</span>
+<a name="l00476"></a>00476 <span class="comment"></span>
+<a name="l00477"></a>00477 <span class="comment">   The convert function may be NULL if the encoding is a single-byte</span>
+<a name="l00478"></a>00478 <span class="comment">   encoding, that is if map[b] &gt;= -1 for all bytes b.</span>
+<a name="l00479"></a>00479 <span class="comment"></span>
+<a name="l00480"></a>00480 <span class="comment">   When the parser is finished with the encoding, then if release is</span>
+<a name="l00481"></a>00481 <span class="comment">   not NULL, it will call release passing it the data member; once</span>
+<a name="l00482"></a>00482 <span class="comment">   release has been called, the convert function will not be called</span>
+<a name="l00483"></a>00483 <span class="comment">   again.</span>
+<a name="l00484"></a>00484 <span class="comment"></span>
+<a name="l00485"></a>00485 <span class="comment">   Expat places certain restrictions on the encodings that are supported</span>
+<a name="l00486"></a>00486 <span class="comment">   using this mechanism.</span>
+<a name="l00487"></a>00487 <span class="comment"></span>
+<a name="l00488"></a>00488 <span class="comment">   1. Every ASCII character that can appear in a well-formed XML document,</span>
+<a name="l00489"></a>00489 <span class="comment">      other than the characters</span>
+<a name="l00490"></a>00490 <span class="comment"></span>
+<a name="l00491"></a>00491 <span class="comment">      $@\^`{}~</span>
+<a name="l00492"></a>00492 <span class="comment"></span>
+<a name="l00493"></a>00493 <span class="comment">      must be represented by a single byte, and that byte must be the</span>
+<a name="l00494"></a>00494 <span class="comment">      same byte that represents that character in ASCII.</span>
+<a name="l00495"></a>00495 <span class="comment"></span>
+<a name="l00496"></a>00496 <span class="comment">   2. No character may require more than 4 bytes to encode.</span>
+<a name="l00497"></a>00497 <span class="comment"></span>
+<a name="l00498"></a>00498 <span class="comment">   3. All characters encoded must have Unicode scalar values &lt;=</span>
+<a name="l00499"></a>00499 <span class="comment">      0xFFFF, (i.e., characters that would be encoded by surrogates in</span>
+<a name="l00500"></a>00500 <span class="comment">      UTF-16 are  not allowed).  Note that this restriction doesn&#39;t</span>
+<a name="l00501"></a>00501 <span class="comment">      apply to the built-in support for UTF-8 and UTF-16.</span>
+<a name="l00502"></a>00502 <span class="comment"></span>
+<a name="l00503"></a>00503 <span class="comment">   4. No Unicode character may be encoded by more than one distinct</span>
+<a name="l00504"></a>00504 <span class="comment">      sequence of bytes.</span>
+<a name="l00505"></a>00505 <span class="comment">*/</span>
+<a name="l00506"></a><a class="code" href="../../da/d03/struct_x_m_l___encoding.html">00506</a> typedef struct {
+<a name="l00507"></a><a class="code" href="../../da/d03/struct_x_m_l___encoding.html#a969fc4ff9f38c5e5d9105efb1b64f8af">00507</a>   <span class="keywordtype">int</span> map[256];
+<a name="l00508"></a><a class="code" href="../../da/d03/struct_x_m_l___encoding.html#a308f320aa234f14b1effd3526a7ae840">00508</a>   <span class="keywordtype">void</span> *<a class="code" href="../../da/d03/struct_x_m_l___encoding.html#a308f320aa234f14b1effd3526a7ae840">data</a>;
+<a name="l00509"></a><a class="code" href="../../da/d03/struct_x_m_l___encoding.html#a71954164de94d278141718e5e80771ae">00509</a>   <a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *<a class="code" href="../../d1/d5b/namespacejcconv.html#a4d7154383cca30c97dfdcbcde09f3c49">convert</a>)(<span class="keywordtype">void</span> *<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../da/d03/struct_x_m_l___encoding.html#a71954164de94d278141718e5e80771ae">s</a>);
+<a name="l00510"></a>00510   <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a170fe99e732335290145d391f9ca24dd">release</a>)(<span class="keywordtype">void</span> *<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>);
+<a name="l00511"></a>00511 } <a class="code" href="../../da/d03/struct_x_m_l___encoding.html">XML_Encoding</a>;
+<a name="l00512"></a>00512 
+<a name="l00513"></a>00513 <span class="comment">/* This is called for an encoding that is unknown to the parser.</span>
+<a name="l00514"></a>00514 <span class="comment"></span>
+<a name="l00515"></a>00515 <span class="comment">   The encodingHandlerData argument is that which was passed as the</span>
+<a name="l00516"></a>00516 <span class="comment">   second argument to XML_SetUnknownEncodingHandler.</span>
+<a name="l00517"></a>00517 <span class="comment"></span>
+<a name="l00518"></a>00518 <span class="comment">   The name argument gives the name of the encoding as specified in</span>
+<a name="l00519"></a>00519 <span class="comment">   the encoding declaration.</span>
+<a name="l00520"></a>00520 <span class="comment"></span>
+<a name="l00521"></a>00521 <span class="comment">   If the callback can provide information about the encoding, it must</span>
+<a name="l00522"></a>00522 <span class="comment">   fill in the XML_Encoding structure, and return XML_STATUS_OK.</span>
+<a name="l00523"></a>00523 <span class="comment">   Otherwise it must return XML_STATUS_ERROR.</span>
+<a name="l00524"></a>00524 <span class="comment"></span>
+<a name="l00525"></a>00525 <span class="comment">   If info does not describe a suitable encoding, then the parser will</span>
+<a name="l00526"></a>00526 <span class="comment">   return an XML_UNKNOWN_ENCODING error.</span>
+<a name="l00527"></a>00527 <span class="comment">*/</span>
+<a name="l00528"></a>00528 <span class="keyword">typedef</span> <a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a> (<a class="code" href="../../d2/d18/expat__config_8h.html#aad85d290912c3ffed7a2ec0b6173dad3">XMLCALL</a> *XML_UnknownEncodingHandler) (
+<a name="l00529"></a>00529                                     <span class="keywordtype">void</span> *encodingHandlerData,
+<a name="l00530"></a><a class="code" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">00530</a>                                     <span class="keyword">const</span> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>,
+<a name="l00531"></a>00531                                     <a class="code" href="../../da/d03/struct_x_m_l___encoding.html">XML_Encoding</a> *<a class="code" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>);
+<a name="l00532"></a>00532 
+<a name="l00533"></a>00533 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00534"></a>00534 <a class="code" href="../../d9/d04/expat_8h.html#a69921a6d7f1be3d717332cea5e7ceca8">XML_SetElementHandler</a>(XML_Parser <a class="code" href="../../d1/d3e/namespaceadditional-extensions.html#a31dc95d3bc13df39986d40a96bc88a9e">parser</a>,
+<a name="l00535"></a>00535                       XML_StartElementHandler <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>,
+<a name="l00536"></a>00536                       XML_EndElementHandler <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>);
+<a name="l00537"></a>00537 
+<a name="l00538"></a>00538 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00539"></a>00539 <a class="code" href="../../d9/d04/expat_8h.html#a2272a36ebb32322500ab05058754fa09">XML_SetStartElementHandler</a>(XML_Parser parser,
+<a name="l00540"></a>00540                            XML_StartElementHandler <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>);
+<a name="l00541"></a>00541 
+<a name="l00542"></a>00542 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00543"></a>00543 <a class="code" href="../../d9/d04/expat_8h.html#a2a208ddaf0435da3c83299c90ccbb1c7">XML_SetEndElementHandler</a>(XML_Parser parser,
+<a name="l00544"></a>00544                          XML_EndElementHandler handler);
+<a name="l00545"></a>00545 
+<a name="l00546"></a>00546 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00547"></a>00547 <a class="code" href="../../d9/d04/expat_8h.html#affa8d2057a1e75fe4e1c7de26c70cd24">XML_SetCharacterDataHandler</a>(XML_Parser parser,
+<a name="l00548"></a>00548                             XML_CharacterDataHandler handler);
+<a name="l00549"></a>00549 
+<a name="l00550"></a>00550 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00551"></a>00551 <a class="code" href="../../d9/d04/expat_8h.html#a26dbed024734a41ac175fef4d91e37b7">XML_SetProcessingInstructionHandler</a>(XML_Parser parser,
+<a name="l00552"></a>00552                                     XML_ProcessingInstructionHandler handler);
+<a name="l00553"></a>00553 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00554"></a>00554 <a class="code" href="../../d9/d04/expat_8h.html#a16310f1819cb65f8d989ade5e4665ce0">XML_SetCommentHandler</a>(XML_Parser parser,
+<a name="l00555"></a>00555                       XML_CommentHandler handler);
+<a name="l00556"></a>00556 
+<a name="l00557"></a>00557 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00558"></a>00558 <a class="code" href="../../d9/d04/expat_8h.html#a600a35c5cea081c0dddabff148d692d7">XML_SetCdataSectionHandler</a>(XML_Parser parser,
+<a name="l00559"></a>00559                            XML_StartCdataSectionHandler start,
+<a name="l00560"></a>00560                            XML_EndCdataSectionHandler end);
+<a name="l00561"></a>00561 
+<a name="l00562"></a>00562 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00563"></a>00563 <a class="code" href="../../d9/d04/expat_8h.html#ada1df723a09bf5090e11f6a665e32389">XML_SetStartCdataSectionHandler</a>(XML_Parser parser,
+<a name="l00564"></a>00564                                 XML_StartCdataSectionHandler start);
+<a name="l00565"></a>00565 
+<a name="l00566"></a>00566 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00567"></a>00567 <a class="code" href="../../d9/d04/expat_8h.html#a0c5742fc6a00b5b4eb627c5188c36c3e">XML_SetEndCdataSectionHandler</a>(XML_Parser parser,
+<a name="l00568"></a>00568                               XML_EndCdataSectionHandler end);
+<a name="l00569"></a>00569 
+<a name="l00570"></a>00570 <span class="comment">/* This sets the default handler and also inhibits expansion of</span>
+<a name="l00571"></a>00571 <span class="comment">   internal entities. These entity references will be passed to the</span>
+<a name="l00572"></a>00572 <span class="comment">   default handler, or to the skipped entity handler, if one is set.</span>
+<a name="l00573"></a>00573 <span class="comment">*/</span>
+<a name="l00574"></a>00574 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00575"></a>00575 <a class="code" href="../../d9/d04/expat_8h.html#af05132d710426f9e5290de30abdca344">XML_SetDefaultHandler</a>(XML_Parser parser,
+<a name="l00576"></a>00576                       XML_DefaultHandler handler);
+<a name="l00577"></a>00577 
+<a name="l00578"></a>00578 <span class="comment">/* This sets the default handler but does not inhibit expansion of</span>
+<a name="l00579"></a>00579 <span class="comment">   internal entities.  The entity reference will not be passed to the</span>
+<a name="l00580"></a>00580 <span class="comment">   default handler.</span>
+<a name="l00581"></a>00581 <span class="comment">*/</span>
+<a name="l00582"></a>00582 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00583"></a>00583 <a class="code" href="../../d9/d04/expat_8h.html#a636e1cfc284897fa9bbfd06ebb102b7b">XML_SetDefaultHandlerExpand</a>(XML_Parser parser,
+<a name="l00584"></a>00584                             XML_DefaultHandler handler);
+<a name="l00585"></a>00585 
+<a name="l00586"></a>00586 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00587"></a>00587 <a class="code" href="../../d9/d04/expat_8h.html#a1a44eac18dc373ae7d1d777224b628e6">XML_SetDoctypeDeclHandler</a>(XML_Parser parser,
+<a name="l00588"></a>00588                           XML_StartDoctypeDeclHandler start,
+<a name="l00589"></a>00589                           <a class="code" href="../../d9/d04/expat_8h.html#a8b99ce2b2f1ce4ae4c22452460fbe0bf">XML_EndDoctypeDeclHandler</a> end);
+<a name="l00590"></a>00590 
+<a name="l00591"></a>00591 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00592"></a>00592 <a class="code" href="../../d9/d04/expat_8h.html#a36ac7acf7cebd775a7e55e418c58cadd">XML_SetStartDoctypeDeclHandler</a>(XML_Parser parser,
+<a name="l00593"></a>00593                                XML_StartDoctypeDeclHandler start);
+<a name="l00594"></a>00594 
+<a name="l00595"></a>00595 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00596"></a>00596 <a class="code" href="../../d9/d04/expat_8h.html#a12657f3ae3075d9d91d394b8e52cbdb3">XML_SetEndDoctypeDeclHandler</a>(XML_Parser parser,
+<a name="l00597"></a>00597                              <a class="code" href="../../d9/d04/expat_8h.html#a8b99ce2b2f1ce4ae4c22452460fbe0bf">XML_EndDoctypeDeclHandler</a> end);
+<a name="l00598"></a>00598 
+<a name="l00599"></a>00599 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00600"></a>00600 <a class="code" href="../../d9/d04/expat_8h.html#a4a339c880076d284d206afd4c756ce19">XML_SetUnparsedEntityDeclHandler</a>(XML_Parser parser,
+<a name="l00601"></a>00601                                  XML_UnparsedEntityDeclHandler handler);
+<a name="l00602"></a>00602 
+<a name="l00603"></a>00603 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00604"></a>00604 <a class="code" href="../../d9/d04/expat_8h.html#adcdc4c0fce8d0fa3e0e4d9f7beac5fec">XML_SetNotationDeclHandler</a>(XML_Parser parser,
+<a name="l00605"></a>00605                            XML_NotationDeclHandler handler);
+<a name="l00606"></a>00606 
+<a name="l00607"></a>00607 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00608"></a>00608 <a class="code" href="../../d9/d04/expat_8h.html#a320bb302d14d8d7cba2991cbdb7553a3">XML_SetNamespaceDeclHandler</a>(XML_Parser parser,
+<a name="l00609"></a>00609                             XML_StartNamespaceDeclHandler start,
+<a name="l00610"></a>00610                             XML_EndNamespaceDeclHandler end);
+<a name="l00611"></a>00611 
+<a name="l00612"></a>00612 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00613"></a>00613 <a class="code" href="../../d9/d04/expat_8h.html#a3a97654197f3451b5df3755daaef8c4b">XML_SetStartNamespaceDeclHandler</a>(XML_Parser parser,
+<a name="l00614"></a>00614                                  XML_StartNamespaceDeclHandler start);
+<a name="l00615"></a>00615 
+<a name="l00616"></a>00616 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00617"></a>00617 <a class="code" href="../../d9/d04/expat_8h.html#a936c72c7eacc7e69620d7014e33d7862">XML_SetEndNamespaceDeclHandler</a>(XML_Parser parser,
+<a name="l00618"></a>00618                                XML_EndNamespaceDeclHandler end);
+<a name="l00619"></a>00619 
+<a name="l00620"></a>00620 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00621"></a>00621 <a class="code" href="../../d9/d04/expat_8h.html#a02cd29bfe12ad0a2d17b3a572a040f42">XML_SetNotStandaloneHandler</a>(XML_Parser parser,
+<a name="l00622"></a>00622                             XML_NotStandaloneHandler handler);
+<a name="l00623"></a>00623 
+<a name="l00624"></a>00624 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00625"></a>00625 <a class="code" href="../../d9/d04/expat_8h.html#a133bded8cfbd6bb1fbcfad40b986f814">XML_SetExternalEntityRefHandler</a>(XML_Parser parser,
+<a name="l00626"></a>00626                                 XML_ExternalEntityRefHandler handler);
+<a name="l00627"></a>00627 
+<a name="l00628"></a>00628 <span class="comment">/* If a non-NULL value for arg is specified here, then it will be</span>
+<a name="l00629"></a>00629 <span class="comment">   passed as the first argument to the external entity ref handler</span>
+<a name="l00630"></a>00630 <span class="comment">   instead of the parser object.</span>
+<a name="l00631"></a>00631 <span class="comment">*/</span>
+<a name="l00632"></a>00632 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00633"></a>00633 <a class="code" href="../../d9/d04/expat_8h.html#a41e5324c09b2fd7e783b8766324ab7a0">XML_SetExternalEntityRefHandlerArg</a>(XML_Parser parser,
+<a name="l00634"></a>00634                                    <span class="keywordtype">void</span> *<a class="code" href="../../d2/dbe/jsprf_8h.html#ae036856e415526e58e249638733f6752">arg</a>);
+<a name="l00635"></a>00635 
+<a name="l00636"></a>00636 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00637"></a>00637 <a class="code" href="../../d9/d04/expat_8h.html#a299534d405738de35f283306f99f0f0a">XML_SetSkippedEntityHandler</a>(XML_Parser parser,
+<a name="l00638"></a>00638                             XML_SkippedEntityHandler handler);
+<a name="l00639"></a>00639 
+<a name="l00640"></a>00640 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00641"></a>00641 <a class="code" href="../../d9/d04/expat_8h.html#a726ba0601211ec3a969651fb82b5d488">XML_SetUnknownEncodingHandler</a>(XML_Parser parser,
+<a name="l00642"></a>00642                               XML_UnknownEncodingHandler handler,
+<a name="l00643"></a>00643                               <span class="keywordtype">void</span> *encodingHandlerData);
+<a name="l00644"></a>00644 
+<a name="l00645"></a>00645 <span class="comment">/* This can be called within a handler for a start element, end</span>
+<a name="l00646"></a>00646 <span class="comment">   element, processing instruction or character data.  It causes the</span>
+<a name="l00647"></a>00647 <span class="comment">   corresponding markup to be passed to the default handler.</span>
+<a name="l00648"></a>00648 <span class="comment">*/</span>
+<a name="l00649"></a>00649 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00650"></a>00650 <a class="code" href="../../d9/d04/expat_8h.html#a656640fa46f78f5fa297dea4ae1722ec">XML_DefaultCurrent</a>(XML_Parser parser);
+<a name="l00651"></a>00651 
+<a name="l00652"></a>00652 <span class="comment">/* If do_nst is non-zero, and namespace processing is in effect, and</span>
+<a name="l00653"></a>00653 <span class="comment">   a name has a prefix (i.e. an explicit namespace qualifier) then</span>
+<a name="l00654"></a>00654 <span class="comment">   that name is returned as a triplet in a single string separated by</span>
+<a name="l00655"></a>00655 <span class="comment">   the separator character specified when the parser was created: URI</span>
+<a name="l00656"></a>00656 <span class="comment">   + sep + local_name + sep + prefix.</span>
+<a name="l00657"></a>00657 <span class="comment"></span>
+<a name="l00658"></a>00658 <span class="comment">   If do_nst is zero, then namespace information is returned in the</span>
+<a name="l00659"></a>00659 <span class="comment">   default manner (URI + sep + local_name) whether or not the name</span>
+<a name="l00660"></a>00660 <span class="comment">   has a prefix.</span>
+<a name="l00661"></a>00661 <span class="comment"></span>
+<a name="l00662"></a>00662 <span class="comment">   Note: Calling XML_SetReturnNSTriplet after XML_Parse or</span>
+<a name="l00663"></a>00663 <span class="comment">     XML_ParseBuffer has no effect.</span>
+<a name="l00664"></a>00664 <span class="comment">*/</span>
+<a name="l00665"></a>00665 
+<a name="l00666"></a>00666 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00667"></a>00667 <a class="code" href="../../d9/d04/expat_8h.html#a76fcdf6315a13945f02323c6885f0313">XML_SetReturnNSTriplet</a>(XML_Parser parser, <span class="keywordtype">int</span> do_nst);
+<a name="l00668"></a>00668 
+<a name="l00669"></a>00669 <span class="comment">/* This value is passed as the userData argument to callbacks. */</span>
+<a name="l00670"></a>00670 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00671"></a>00671 <a class="code" href="../../d9/d04/expat_8h.html#a468e51741c78867604101f505767de67">XML_SetUserData</a>(XML_Parser parser, <span class="keywordtype">void</span> *userData);
+<a name="l00672"></a>00672 
+<a name="l00673"></a>00673 <span class="comment">/* Returns the last value set by XML_SetUserData or NULL. */</span>
+<a name="l00674"></a><a class="code" href="../../d9/d04/expat_8h.html#a90154f812f977b217bbac5b4bb133065">00674</a> <span class="preprocessor">#define XML_GetUserData(parser) (*(void **)(parser))</span>
+<a name="l00675"></a>00675 <span class="preprocessor"></span>
+<a name="l00676"></a>00676 <span class="comment">/* This is equivalent to supplying an encoding argument to</span>
+<a name="l00677"></a>00677 <span class="comment">   XML_ParserCreate. On success XML_SetEncoding returns non-zero,</span>
+<a name="l00678"></a>00678 <span class="comment">   zero otherwise.</span>
+<a name="l00679"></a>00679 <span class="comment">   Note: Calling XML_SetEncoding after XML_Parse or XML_ParseBuffer</span>
+<a name="l00680"></a>00680 <span class="comment">     has no effect and returns XML_STATUS_ERROR.</span>
+<a name="l00681"></a>00681 <span class="comment">*/</span>
+<a name="l00682"></a>00682 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keyword">enum</span> <a class="code" href="../../d9/d04/expat_8h.html#aef71ca3ac8198499d56aaa7b474303bb">XML_Status</a>)
+<a name="l00683"></a>00683 <a class="code" href="../../d9/d04/expat_8h.html#a52b6c9717933df0e16f03044b7c0ff0b">XML_SetEncoding</a>(XML_Parser parser, <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a4dfeb87c47b4dde2571b24c1a6798056">encoding</a>);
+<a name="l00684"></a>00684 
+<a name="l00685"></a>00685 <span class="comment">/* If this function is called, then the parser will be passed as the</span>
+<a name="l00686"></a>00686 <span class="comment">   first argument to callbacks instead of userData.  The userData will</span>
+<a name="l00687"></a>00687 <span class="comment">   still be accessible using XML_GetUserData.</span>
+<a name="l00688"></a>00688 <span class="comment">*/</span>
+<a name="l00689"></a>00689 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00690"></a>00690 <a class="code" href="../../d9/d04/expat_8h.html#a940cf0f11f4372ee7cb7997fbc411265">XML_UseParserAsHandlerArg</a>(XML_Parser parser);
+<a name="l00691"></a>00691 
+<a name="l00692"></a>00692 <span class="comment">/* If useDTD == XML_TRUE is passed to this function, then the parser</span>
+<a name="l00693"></a>00693 <span class="comment">   will assume that there is an external subset, even if none is</span>
+<a name="l00694"></a>00694 <span class="comment">   specified in the document. In such a case the parser will call the</span>
+<a name="l00695"></a>00695 <span class="comment">   externalEntityRefHandler with a value of NULL for the systemId</span>
+<a name="l00696"></a>00696 <span class="comment">   argument (the publicId and context arguments will be NULL as well).</span>
+<a name="l00697"></a>00697 <span class="comment">   Note: For the purpose of checking WFC: Entity Declared, passing</span>
+<a name="l00698"></a>00698 <span class="comment">     useDTD == XML_TRUE will make the parser behave as if the document</span>
+<a name="l00699"></a>00699 <span class="comment">     had a DTD with an external subset.</span>
+<a name="l00700"></a>00700 <span class="comment">   Note: If this function is called, then this must be done before</span>
+<a name="l00701"></a>00701 <span class="comment">     the first call to XML_Parse or XML_ParseBuffer, since it will</span>
+<a name="l00702"></a>00702 <span class="comment">     have no effect after that.  Returns</span>
+<a name="l00703"></a>00703 <span class="comment">     XML_ERROR_CANT_CHANGE_FEATURE_ONCE_PARSING.</span>
+<a name="l00704"></a>00704 <span class="comment">   Note: If the document does not have a DOCTYPE declaration at all,</span>
+<a name="l00705"></a>00705 <span class="comment">     then startDoctypeDeclHandler and endDoctypeDeclHandler will not</span>
+<a name="l00706"></a>00706 <span class="comment">     be called, despite an external subset being parsed.</span>
+<a name="l00707"></a>00707 <span class="comment">   Note: If XML_DTD is not defined when Expat is compiled, returns</span>
+<a name="l00708"></a>00708 <span class="comment">     XML_ERROR_FEATURE_REQUIRES_XML_DTD.</span>
+<a name="l00709"></a>00709 <span class="comment">*/</span>
+<a name="l00710"></a>00710 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118">XML_Error</a>)
+<a name="l00711"></a>00711 <a class="code" href="../../d9/d04/expat_8h.html#aa22249af467c9d1911e8e4ce23fe7aae">XML_UseForeignDTD</a>(XML_Parser parser, XML_Bool useDTD);
+<a name="l00712"></a>00712 
+<a name="l00713"></a>00713 
+<a name="l00714"></a>00714 <span class="comment">/* Sets the base to be used for resolving relative URIs in system</span>
+<a name="l00715"></a>00715 <span class="comment">   identifiers in declarations.  Resolving relative identifiers is</span>
+<a name="l00716"></a>00716 <span class="comment">   left to the application: this value will be passed through as the</span>
+<a name="l00717"></a>00717 <span class="comment">   base argument to the XML_ExternalEntityRefHandler,</span>
+<a name="l00718"></a>00718 <span class="comment">   XML_NotationDeclHandler and XML_UnparsedEntityDeclHandler. The base</span>
+<a name="l00719"></a>00719 <span class="comment">   argument will be copied.  Returns XML_STATUS_ERROR if out of memory,</span>
+<a name="l00720"></a>00720 <span class="comment">   XML_STATUS_OK otherwise.</span>
+<a name="l00721"></a>00721 <span class="comment">*/</span>
+<a name="l00722"></a>00722 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#aef71ca3ac8198499d56aaa7b474303bb">XML_Status</a>)
+<a name="l00723"></a>00723 <a class="code" href="../../d9/d04/expat_8h.html#a92301b7dc0e4653219bb70830e94fb10">XML_SetBase</a>(XML_Parser parser, <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a938e186c531ea86ae9adf3c0a649d8fc">base</a>);
+<a name="l00724"></a>00724 
+<a name="l00725"></a>00725 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *)
+<a name="l00726"></a>00726 <a class="code" href="../../d9/d04/expat_8h.html#a11f47e2c3c4eabe81359a90bbeab9796">XML_GetBase</a>(XML_Parser parser);
+<a name="l00727"></a>00727 
+<a name="l00728"></a>00728 <span class="comment">/* Returns the number of the attribute/value pairs passed in last call</span>
+<a name="l00729"></a>00729 <span class="comment">   to the XML_StartElementHandler that were specified in the start-tag</span>
+<a name="l00730"></a>00730 <span class="comment">   rather than defaulted. Each attribute/value pair counts as 2; thus</span>
+<a name="l00731"></a>00731 <span class="comment">   this correspondds to an index into the atts array passed to the</span>
+<a name="l00732"></a>00732 <span class="comment">   XML_StartElementHandler.</span>
+<a name="l00733"></a>00733 <span class="comment">*/</span>
+<a name="l00734"></a>00734 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">int</span>)
+<a name="l00735"></a>00735 <a class="code" href="../../d9/d04/expat_8h.html#a5871673801b34ac556398ebaf8c46753">XML_GetSpecifiedAttributeCount</a>(XML_Parser parser);
+<a name="l00736"></a>00736 
+<a name="l00737"></a>00737 <span class="comment">/* Returns the index of the ID attribute passed in the last call to</span>
+<a name="l00738"></a>00738 <span class="comment">   XML_StartElementHandler, or -1 if there is no ID attribute.  Each</span>
+<a name="l00739"></a>00739 <span class="comment">   attribute/value pair counts as 2; thus this correspondds to an</span>
+<a name="l00740"></a>00740 <span class="comment">   index into the atts array passed to the XML_StartElementHandler.</span>
+<a name="l00741"></a>00741 <span class="comment">*/</span>
+<a name="l00742"></a>00742 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">int</span>)
+<a name="l00743"></a>00743 <a class="code" href="../../d9/d04/expat_8h.html#aa196256e8aeed81148d0066f2cdb0778">XML_GetIdAttributeIndex</a>(XML_Parser parser);
+<a name="l00744"></a>00744 
+<a name="l00745"></a>00745 <span class="comment">/* Parses some input. Returns XML_STATUS_ERROR if a fatal error is</span>
+<a name="l00746"></a>00746 <span class="comment">   detected.  The last call to XML_Parse must have isFinal true; len</span>
+<a name="l00747"></a>00747 <span class="comment">   may be zero for this call (or any other).</span>
+<a name="l00748"></a>00748 <span class="comment"></span>
+<a name="l00749"></a>00749 <span class="comment">   Though the return values for these functions has always been</span>
+<a name="l00750"></a>00750 <span class="comment">   described as a Boolean value, the implementation, at least for the</span>
+<a name="l00751"></a>00751 <span class="comment">   1.95.x series, has always returned exactly one of the XML_Status</span>
+<a name="l00752"></a>00752 <span class="comment">   values.</span>
+<a name="l00753"></a>00753 <span class="comment">*/</span>
+<a name="l00754"></a>00754 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#aef71ca3ac8198499d56aaa7b474303bb">XML_Status</a>)
+<a name="l00755"></a>00755 <a class="code" href="../../d9/d04/expat_8h.html#a74b71c0c1edba09393f8450a5cff20f7">XML_Parse</a>(XML_Parser parser, <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>, <span class="keywordtype">int</span> <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a>, <span class="keywordtype">int</span> isFinal);
+<a name="l00756"></a>00756 
+<a name="l00757"></a>00757 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span> *)
+<a name="l00758"></a>00758 <a class="code" href="../../d9/d04/expat_8h.html#a2ba88067eec56ba4c937b99aa8f7e9fa">XML_GetBuffer</a>(XML_Parser parser, <span class="keywordtype">int</span> len);
+<a name="l00759"></a>00759 
+<a name="l00760"></a>00760 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#aef71ca3ac8198499d56aaa7b474303bb">XML_Status</a>)
+<a name="l00761"></a>00761 <a class="code" href="../../d9/d04/expat_8h.html#a266deaa2cc7dff28d352e548e9938b15">XML_ParseBuffer</a>(XML_Parser parser, <span class="keywordtype">int</span> len, <span class="keywordtype">int</span> isFinal);
+<a name="l00762"></a>00762 
+<a name="l00763"></a>00763 <span class="comment">/* Stops parsing, causing XML_Parse() or XML_ParseBuffer() to return.</span>
+<a name="l00764"></a>00764 <span class="comment">   Must be called from within a call-back handler, except when aborting</span>
+<a name="l00765"></a>00765 <span class="comment">   (resumable = 0) an already suspended parser. Some call-backs may</span>
+<a name="l00766"></a>00766 <span class="comment">   still follow because they would otherwise get lost. Examples:</span>
+<a name="l00767"></a>00767 <span class="comment">   - endElementHandler() for empty elements when stopped in</span>
+<a name="l00768"></a>00768 <span class="comment">     startElementHandler(), </span>
+<a name="l00769"></a>00769 <span class="comment">   - endNameSpaceDeclHandler() when stopped in endElementHandler(), </span>
+<a name="l00770"></a>00770 <span class="comment">   and possibly others.</span>
+<a name="l00771"></a>00771 <span class="comment"></span>
+<a name="l00772"></a>00772 <span class="comment">   Can be called from most handlers, including DTD related call-backs,</span>
+<a name="l00773"></a>00773 <span class="comment">   except when parsing an external parameter entity and resumable != 0.</span>
+<a name="l00774"></a>00774 <span class="comment">   Returns XML_STATUS_OK when successful, XML_STATUS_ERROR otherwise.</span>
+<a name="l00775"></a>00775 <span class="comment">   Possible error codes: </span>
+<a name="l00776"></a>00776 <span class="comment">   - XML_ERROR_SUSPENDED: when suspending an already suspended parser.</span>
+<a name="l00777"></a>00777 <span class="comment">   - XML_ERROR_FINISHED: when the parser has already finished.</span>
+<a name="l00778"></a>00778 <span class="comment">   - XML_ERROR_SUSPEND_PE: when suspending while parsing an external PE.</span>
+<a name="l00779"></a>00779 <span class="comment"></span>
+<a name="l00780"></a>00780 <span class="comment">   When resumable != 0 (true) then parsing is suspended, that is, </span>
+<a name="l00781"></a>00781 <span class="comment">   XML_Parse() and XML_ParseBuffer() return XML_STATUS_SUSPENDED. </span>
+<a name="l00782"></a>00782 <span class="comment">   Otherwise, parsing is aborted, that is, XML_Parse() and XML_ParseBuffer()</span>
+<a name="l00783"></a>00783 <span class="comment">   return XML_STATUS_ERROR with error code XML_ERROR_ABORTED.</span>
+<a name="l00784"></a>00784 <span class="comment"></span>
+<a name="l00785"></a>00785 <span class="comment">   *Note*:</span>
+<a name="l00786"></a>00786 <span class="comment">   This will be applied to the current parser instance only, that is, if</span>
+<a name="l00787"></a>00787 <span class="comment">   there is a parent parser then it will continue parsing when the</span>
+<a name="l00788"></a>00788 <span class="comment">   externalEntityRefHandler() returns. It is up to the implementation of</span>
+<a name="l00789"></a>00789 <span class="comment">   the externalEntityRefHandler() to call XML_StopParser() on the parent</span>
+<a name="l00790"></a>00790 <span class="comment">   parser (recursively), if one wants to stop parsing altogether.</span>
+<a name="l00791"></a>00791 <span class="comment"></span>
+<a name="l00792"></a>00792 <span class="comment">   When suspended, parsing can be resumed by calling XML_ResumeParser(). </span>
+<a name="l00793"></a>00793 <span class="comment">*/</span>
+<a name="l00794"></a>00794 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#aef71ca3ac8198499d56aaa7b474303bb">XML_Status</a>)
+<a name="l00795"></a>00795 <a class="code" href="../../d9/d04/expat_8h.html#a2ed188bab24ab1b97c8bc812d0e1de01">XML_StopParser</a>(XML_Parser parser, XML_Bool resumable);
+<a name="l00796"></a>00796 
+<a name="l00797"></a>00797 <span class="comment">/* Resumes parsing after it has been suspended with XML_StopParser().</span>
+<a name="l00798"></a>00798 <span class="comment">   Must not be called from within a handler call-back. Returns same</span>
+<a name="l00799"></a>00799 <span class="comment">   status codes as XML_Parse() or XML_ParseBuffer().</span>
+<a name="l00800"></a>00800 <span class="comment">   Additional error code XML_ERROR_NOT_SUSPENDED possible.   </span>
+<a name="l00801"></a>00801 <span class="comment"></span>
+<a name="l00802"></a>00802 <span class="comment">   *Note*:</span>
+<a name="l00803"></a>00803 <span class="comment">   This must be called on the most deeply nested child parser instance</span>
+<a name="l00804"></a>00804 <span class="comment">   first, and on its parent parser only after the child parser has finished,</span>
+<a name="l00805"></a>00805 <span class="comment">   to be applied recursively until the document entity&#39;s parser is restarted.</span>
+<a name="l00806"></a>00806 <span class="comment">   That is, the parent parser will not resume by itself and it is up to the</span>
+<a name="l00807"></a>00807 <span class="comment">   application to call XML_ResumeParser() on it at the appropriate moment.</span>
+<a name="l00808"></a>00808 <span class="comment">*/</span>
+<a name="l00809"></a>00809 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#aef71ca3ac8198499d56aaa7b474303bb">XML_Status</a>)
+<a name="l00810"></a>00810 <a class="code" href="../../d9/d04/expat_8h.html#a36bc47ccd8bf45dd483d7a21746a01fc">XML_ResumeParser</a>(XML_Parser parser);
+<a name="l00811"></a>00811 
+<a name="l00812"></a><a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6">00812</a> <a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6">XML_Parsing</a> {
+<a name="l00813"></a><a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6afbbdcc361a41cc96cad54045449bc276">00813</a>   <a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6afbbdcc361a41cc96cad54045449bc276">XML_INITIALIZED</a>,
+<a name="l00814"></a><a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6a04ce97557ea4c03d32e92c62fb7c65e1">00814</a>   <a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6a04ce97557ea4c03d32e92c62fb7c65e1">XML_PARSING</a>,
+<a name="l00815"></a><a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6ab398d4cb838da79432e317837b07ea42">00815</a>   <a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6ab398d4cb838da79432e317837b07ea42">XML_FINISHED</a>,
+<a name="l00816"></a><a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6a15979fdec1239f8443cfbbf20b6917a5">00816</a>   <a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6a15979fdec1239f8443cfbbf20b6917a5">XML_SUSPENDED</a>
+<a name="l00817"></a>00817 };
+<a name="l00818"></a>00818 
+<a name="l00819"></a><a class="code" href="../../d1/db6/struct_x_m_l___parsing_status.html">00819</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
+<a name="l00820"></a><a class="code" href="../../d1/db6/struct_x_m_l___parsing_status.html#af7f58f4731cf34a10da39dd7b9cfb82b">00820</a>   <span class="keyword">enum</span> <a class="code" href="../../d9/d04/expat_8h.html#a1e8b2aa21ec26bcf0eb696197b53aab6">XML_Parsing</a> <a class="code" href="../../d1/db6/struct_x_m_l___parsing_status.html#af7f58f4731cf34a10da39dd7b9cfb82b">parsing</a>;
+<a name="l00821"></a><a class="code" href="../../d1/db6/struct_x_m_l___parsing_status.html#ac9f1a8f3a0f2f0e886760756c0022880">00821</a>   XML_Bool <a class="code" href="../../d1/db6/struct_x_m_l___parsing_status.html#ac9f1a8f3a0f2f0e886760756c0022880">finalBuffer</a>;
+<a name="l00822"></a>00822 } <a class="code" href="../../d1/db6/struct_x_m_l___parsing_status.html">XML_ParsingStatus</a>;
+<a name="l00823"></a>00823 
+<a name="l00824"></a>00824 <span class="comment">/* Returns status of parser with respect to being initialized, parsing,</span>
+<a name="l00825"></a>00825 <span class="comment">   finished, or suspended and processing the final buffer.</span>
+<a name="l00826"></a>00826 <span class="comment">   XXX XML_Parse() and XML_ParseBuffer() should return XML_ParsingStatus,</span>
+<a name="l00827"></a>00827 <span class="comment">   XXX with XML_FINISHED_OK or XML_FINISHED_ERROR replacing XML_FINISHED</span>
+<a name="l00828"></a>00828 <span class="comment">*/</span>
+<a name="l00829"></a>00829 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00830"></a>00830 <a class="code" href="../../d9/d04/expat_8h.html#af4ed8f0f62c35fa4a34bdad0ffe7aab7">XML_GetParsingStatus</a>(XML_Parser parser, <a class="code" href="../../d1/db6/struct_x_m_l___parsing_status.html">XML_ParsingStatus</a> *<a class="code" href="../../da/da1/communications_2contacts_2js_2utilities_2status_8js.html#a0818854fd36b9ae0fdfe5872464dae94">status</a>);
+<a name="l00831"></a>00831 
+<a name="l00832"></a>00832 <span class="comment">/* Creates an XML_Parser object that can parse an external general</span>
+<a name="l00833"></a>00833 <span class="comment">   entity; context is a &#39;\0&#39;-terminated string specifying the parse</span>
+<a name="l00834"></a>00834 <span class="comment">   context; encoding is a &#39;\0&#39;-terminated string giving the name of</span>
+<a name="l00835"></a>00835 <span class="comment">   the externally specified encoding, or NULL if there is no</span>
+<a name="l00836"></a>00836 <span class="comment">   externally specified encoding.  The context string consists of a</span>
+<a name="l00837"></a>00837 <span class="comment">   sequence of tokens separated by formfeeds (\f); a token consisting</span>
+<a name="l00838"></a>00838 <span class="comment">   of a name specifies that the general entity of the name is open; a</span>
+<a name="l00839"></a>00839 <span class="comment">   token of the form prefix=uri specifies the namespace for a</span>
+<a name="l00840"></a>00840 <span class="comment">   particular prefix; a token of the form =uri specifies the default</span>
+<a name="l00841"></a>00841 <span class="comment">   namespace.  This can be called at any point after the first call to</span>
+<a name="l00842"></a>00842 <span class="comment">   an ExternalEntityRefHandler so longer as the parser has not yet</span>
+<a name="l00843"></a>00843 <span class="comment">   been freed.  The new parser is completely independent and may</span>
+<a name="l00844"></a>00844 <span class="comment">   safely be used in a separate thread.  The handlers and userData are</span>
+<a name="l00845"></a>00845 <span class="comment">   initialized from the parser argument.  Returns NULL if out of memory.</span>
+<a name="l00846"></a>00846 <span class="comment">   Otherwise returns a new XML_Parser object.</span>
+<a name="l00847"></a>00847 <span class="comment">*/</span>
+<a name="l00848"></a>00848 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(XML_Parser)
+<a name="l00849"></a>00849 <a class="code" href="../../d9/d04/expat_8h.html#a97ce0f371ec32a0ee199d0ee03e557be">XML_ExternalEntityParserCreate</a>(XML_Parser parser,
+<a name="l00850"></a>00850                                <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#afe0934df1732463fe5378d8c8724edc6">context</a>,
+<a name="l00851"></a>00851                                <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a> *<a class="code" href="../../d9/d04/expat_8h.html#a4dfeb87c47b4dde2571b24c1a6798056">encoding</a>);
+<a name="l00852"></a>00852 
+<a name="l00853"></a><a class="code" href="../../d9/d04/expat_8h.html#a83ffd61320d59d0c6c33dfcf1a0c098f">00853</a> <a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#a83ffd61320d59d0c6c33dfcf1a0c098f">XML_ParamEntityParsing</a> {
+<a name="l00854"></a><a class="code" href="../../d9/d04/expat_8h.html#a83ffd61320d59d0c6c33dfcf1a0c098fad8126c34122c4e63a9c2feee23f42566">00854</a>   <a class="code" href="../../d9/d04/expat_8h.html#a83ffd61320d59d0c6c33dfcf1a0c098fad8126c34122c4e63a9c2feee23f42566">XML_PARAM_ENTITY_PARSING_NEVER</a>,
+<a name="l00855"></a><a class="code" href="../../d9/d04/expat_8h.html#a83ffd61320d59d0c6c33dfcf1a0c098fa71233f0d7358f5620b5694c43bcb35e8">00855</a>   <a class="code" href="../../d9/d04/expat_8h.html#a83ffd61320d59d0c6c33dfcf1a0c098fa71233f0d7358f5620b5694c43bcb35e8">XML_PARAM_ENTITY_PARSING_UNLESS_STANDALONE</a>,
+<a name="l00856"></a><a class="code" href="../../d9/d04/expat_8h.html#a83ffd61320d59d0c6c33dfcf1a0c098fa8cee6618dd630799836822449aa2fdf9">00856</a>   <a class="code" href="../../d9/d04/expat_8h.html#a83ffd61320d59d0c6c33dfcf1a0c098fa8cee6618dd630799836822449aa2fdf9">XML_PARAM_ENTITY_PARSING_ALWAYS</a>
+<a name="l00857"></a>00857 };
+<a name="l00858"></a>00858 
+<a name="l00859"></a>00859 <span class="comment">/* Controls parsing of parameter entities (including the external DTD</span>
+<a name="l00860"></a>00860 <span class="comment">   subset). If parsing of parameter entities is enabled, then</span>
+<a name="l00861"></a>00861 <span class="comment">   references to external parameter entities (including the external</span>
+<a name="l00862"></a>00862 <span class="comment">   DTD subset) will be passed to the handler set with</span>
+<a name="l00863"></a>00863 <span class="comment">   XML_SetExternalEntityRefHandler.  The context passed will be 0.</span>
+<a name="l00864"></a>00864 <span class="comment"></span>
+<a name="l00865"></a>00865 <span class="comment">   Unlike external general entities, external parameter entities can</span>
+<a name="l00866"></a>00866 <span class="comment">   only be parsed synchronously.  If the external parameter entity is</span>
+<a name="l00867"></a>00867 <span class="comment">   to be parsed, it must be parsed during the call to the external</span>
+<a name="l00868"></a>00868 <span class="comment">   entity ref handler: the complete sequence of</span>
+<a name="l00869"></a>00869 <span class="comment">   XML_ExternalEntityParserCreate, XML_Parse/XML_ParseBuffer and</span>
+<a name="l00870"></a>00870 <span class="comment">   XML_ParserFree calls must be made during this call.  After</span>
+<a name="l00871"></a>00871 <span class="comment">   XML_ExternalEntityParserCreate has been called to create the parser</span>
+<a name="l00872"></a>00872 <span class="comment">   for the external parameter entity (context must be 0 for this</span>
+<a name="l00873"></a>00873 <span class="comment">   call), it is illegal to make any calls on the old parser until</span>
+<a name="l00874"></a>00874 <span class="comment">   XML_ParserFree has been called on the newly created parser.</span>
+<a name="l00875"></a>00875 <span class="comment">   If the library has been compiled without support for parameter</span>
+<a name="l00876"></a>00876 <span class="comment">   entity parsing (ie without XML_DTD being defined), then</span>
+<a name="l00877"></a>00877 <span class="comment">   XML_SetParamEntityParsing will return 0 if parsing of parameter</span>
+<a name="l00878"></a>00878 <span class="comment">   entities is requested; otherwise it will return non-zero.</span>
+<a name="l00879"></a>00879 <span class="comment">   Note: If XML_SetParamEntityParsing is called after XML_Parse or</span>
+<a name="l00880"></a>00880 <span class="comment">      XML_ParseBuffer, then it has no effect and will always return 0.</span>
+<a name="l00881"></a>00881 <span class="comment">*/</span>
+<a name="l00882"></a>00882 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">int</span>)
+<a name="l00883"></a>00883 <a class="code" href="../../d9/d04/expat_8h.html#ad09c926ea3d49d087a16e6224a5a9304">XML_SetParamEntityParsing</a>(XML_Parser parser,
+<a name="l00884"></a>00884                           <a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#a83ffd61320d59d0c6c33dfcf1a0c098f">XML_ParamEntityParsing</a> parsing);
+<a name="l00885"></a>00885 
+<a name="l00886"></a>00886 <span class="comment">/* If XML_Parse or XML_ParseBuffer have returned XML_STATUS_ERROR, then</span>
+<a name="l00887"></a>00887 <span class="comment">   XML_GetErrorCode returns information about the error.</span>
+<a name="l00888"></a>00888 <span class="comment">*/</span>
+<a name="l00889"></a>00889 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118">XML_Error</a>)
+<a name="l00890"></a>00890 <a class="code" href="../../d9/d04/expat_8h.html#a2c9bf949546187a0b6090ecb008a3ea2">XML_GetErrorCode</a>(XML_Parser parser);
+<a name="l00891"></a>00891 
+<a name="l00892"></a>00892 <span class="comment">/* These functions return information about the current parse</span>
+<a name="l00893"></a>00893 <span class="comment">   location.  They may be called from any callback called to report</span>
+<a name="l00894"></a>00894 <span class="comment">   some parse event; in this case the location is the location of the</span>
+<a name="l00895"></a>00895 <span class="comment">   first of the sequence of characters that generated the event.  When</span>
+<a name="l00896"></a>00896 <span class="comment">   called from callbacks generated by declarations in the document</span>
+<a name="l00897"></a>00897 <span class="comment">   prologue, the location identified isn&#39;t as neatly defined, but will</span>
+<a name="l00898"></a>00898 <span class="comment">   be within the relevant markup.  When called outside of the callback</span>
+<a name="l00899"></a>00899 <span class="comment">   functions, the position indicated will be just past the last parse</span>
+<a name="l00900"></a>00900 <span class="comment">   event (regardless of whether there was an associated callback).</span>
+<a name="l00901"></a>00901 <span class="comment">   </span>
+<a name="l00902"></a>00902 <span class="comment">   They may also be called after returning from a call to XML_Parse</span>
+<a name="l00903"></a>00903 <span class="comment">   or XML_ParseBuffer.  If the return value is XML_STATUS_ERROR then</span>
+<a name="l00904"></a>00904 <span class="comment">   the location is the location of the character at which the error</span>
+<a name="l00905"></a>00905 <span class="comment">   was detected; otherwise the location is the location of the last</span>
+<a name="l00906"></a>00906 <span class="comment">   parse event, as described above.</span>
+<a name="l00907"></a>00907 <span class="comment">*/</span>
+<a name="l00908"></a>00908 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../da/d36/expat__external_8h.html#ad22a225e6e62127360b44b2f7559f789">XML_Size</a>) <a class="code" href="../../d2/d18/expat__config_8h.html#a26926f5907cd74bd6bd56e9f9a787937">XML_GetCurrentLineNumber</a>(XML_Parser parser);
+<a name="l00909"></a>00909 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../da/d36/expat__external_8h.html#ad22a225e6e62127360b44b2f7559f789">XML_Size</a>) <a class="code" href="../../d2/d18/expat__config_8h.html#a8d7874bfff2355479be0a40b8a5f803f">XML_GetCurrentColumnNumber</a>(XML_Parser parser);
+<a name="l00910"></a>00910 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../da/d36/expat__external_8h.html#ae2a9a55c7071b0c6da19fea14ce8f504">XML_Index</a>) <a class="code" href="../../d2/d18/expat__config_8h.html#a42d7e5026a7eb0c866c9962bebade1e3">XML_GetCurrentByteIndex</a>(XML_Parser parser);
+<a name="l00911"></a>00911 
+<a name="l00912"></a>00912 <span class="comment">/* Return the number of bytes in the current event.</span>
+<a name="l00913"></a>00913 <span class="comment">   Returns 0 if the event is in an internal entity.</span>
+<a name="l00914"></a>00914 <span class="comment">*/</span>
+<a name="l00915"></a>00915 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">int</span>)
+<a name="l00916"></a>00916 <a class="code" href="../../d9/d04/expat_8h.html#a9f79dd11b63d0cb0a7ef05c471500fd9">XML_GetCurrentByteCount</a>(XML_Parser parser);
+<a name="l00917"></a>00917 
+<a name="l00918"></a>00918 <span class="comment">/* If XML_CONTEXT_BYTES is defined, returns the input buffer, sets</span>
+<a name="l00919"></a>00919 <span class="comment">   the integer pointed to by offset to the offset within this buffer</span>
+<a name="l00920"></a>00920 <span class="comment">   of the current parse position, and sets the integer pointed to by size</span>
+<a name="l00921"></a>00921 <span class="comment">   to the size of this buffer (the number of input bytes). Otherwise</span>
+<a name="l00922"></a>00922 <span class="comment">   returns a NULL pointer. Also returns a NULL pointer if a parse isn&#39;t</span>
+<a name="l00923"></a>00923 <span class="comment">   active.</span>
+<a name="l00924"></a>00924 <span class="comment"></span>
+<a name="l00925"></a>00925 <span class="comment">   NOTE: The character pointer returned should not be used outside</span>
+<a name="l00926"></a>00926 <span class="comment">   the handler that makes the call.</span>
+<a name="l00927"></a>00927 <span class="comment">*/</span>
+<a name="l00928"></a>00928 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *)
+<a name="l00929"></a>00929 <a class="code" href="../../d9/d04/expat_8h.html#a13b1eb36d3245596ee0afabd9183b897">XML_GetInputContext</a>(XML_Parser parser,
+<a name="l00930"></a>00930                     <span class="keywordtype">int</span> *<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>,
+<a name="l00931"></a>00931                     <span class="keywordtype">int</span> *<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>);
+<a name="l00932"></a>00932 
+<a name="l00933"></a>00933 <span class="comment">/* For backwards compatibility with previous versions. */</span>
+<a name="l00934"></a><a class="code" href="../../d9/d04/expat_8h.html#af9a2f5af4c77c93f28476a8e35885e93">00934</a> <span class="preprocessor">#define XML_GetErrorLineNumber   XML_GetCurrentLineNumber</span>
+<a name="l00935"></a><a class="code" href="../../d9/d04/expat_8h.html#adc61c007a99464ed452068125921c8e9">00935</a> <span class="preprocessor"></span><span class="preprocessor">#define XML_GetErrorColumnNumber XML_GetCurrentColumnNumber</span>
+<a name="l00936"></a><a class="code" href="../../d9/d04/expat_8h.html#a79598e9e91bba3a0407b3ea363b6a83b">00936</a> <span class="preprocessor"></span><span class="preprocessor">#define XML_GetErrorByteIndex    XML_GetCurrentByteIndex</span>
+<a name="l00937"></a>00937 <span class="preprocessor"></span>
+<a name="l00938"></a>00938 <span class="comment">/* Frees the content model passed to the element declaration handler */</span>
+<a name="l00939"></a>00939 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00940"></a>00940 <a class="code" href="../../d9/d04/expat_8h.html#a7af523f8175790f31b5dc844aaf489b3">XML_FreeContentModel</a>(XML_Parser parser, <a class="code" href="../../d8/d6d/struct_x_m_l__cp.html">XML_Content</a> *<a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>);
+<a name="l00941"></a>00941 
+<a name="l00942"></a>00942 <span class="comment">/* Exposing the memory handling functions used in Expat */</span>
+<a name="l00943"></a>00943 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span> *)
+<a name="l00944"></a>00944 <a class="code" href="../../d9/d04/expat_8h.html#afbc60c7b2f025ed6a6471e566ba096ee">XML_MemMalloc</a>(XML_Parser parser, <span class="keywordtype">size_t</span> size);
+<a name="l00945"></a>00945 
+<a name="l00946"></a>00946 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span> *)
+<a name="l00947"></a>00947 <a class="code" href="../../d9/d04/expat_8h.html#a160cbcbce19813e20caa562f4c6b4618">XML_MemRealloc</a>(XML_Parser parser, <span class="keywordtype">void</span> *ptr, <span class="keywordtype">size_t</span> size);
+<a name="l00948"></a>00948 
+<a name="l00949"></a>00949 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00950"></a>00950 <a class="code" href="../../d9/d04/expat_8h.html#a5bc14956f967dc816dc242a6a2559e1a">XML_MemFree</a>(XML_Parser parser, <span class="keywordtype">void</span> *ptr);
+<a name="l00951"></a>00951 
+<a name="l00952"></a>00952 <span class="comment">/* Frees memory used by the parser. */</span>
+<a name="l00953"></a>00953 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keywordtype">void</span>)
+<a name="l00954"></a>00954 <a class="code" href="../../d9/d04/expat_8h.html#a6911b3212a330e3d23bdd8e1b433d59e">XML_ParserFree</a>(XML_Parser parser);
+<a name="l00955"></a>00955 
+<a name="l00956"></a>00956 <span class="comment">/* Returns a string describing the error. */</span>
+<a name="l00957"></a>00957 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a728c9a3114531eaeb70753ba4601c418">XML_LChar</a> *)
+<a name="l00958"></a>00958 <a class="code" href="../../d9/d04/expat_8h.html#a8251288f9a95e1da7eb24bdb29ee586b">XML_ErrorString</a>(<a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#a6a06dad2fbbc37dd288c51e577494118">XML_Error</a> <a class="code" href="../../d3/d4b/lockscreen_8js.html#a3bc1c2f8ec4ed34fc21f9f10eacbfa93">code</a>);
+<a name="l00959"></a>00959 
+<a name="l00960"></a>00960 <span class="comment">/* Return a string containing the version number of this expat */</span>
+<a name="l00961"></a>00961 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d2/d18/expat__config_8h.html#a728c9a3114531eaeb70753ba4601c418">XML_LChar</a> *)
+<a name="l00962"></a>00962 <a class="code" href="../../d9/d04/expat_8h.html#abb55b97e846e0186244a72414f035e98">XML_ExpatVersion</a>(<span class="keywordtype">void</span>);
+<a name="l00963"></a>00963 
+<a name="l00964"></a><a class="code" href="../../d1/d1c/struct_x_m_l___expat___version.html">00964</a> typedef struct {
+<a name="l00965"></a><a class="code" href="../../d1/d1c/struct_x_m_l___expat___version.html#a0c16da8d497c8eefd86a1bb4c6ea23b5">00965</a>   <span class="keywordtype">int</span> <a class="code" href="../../d1/d1c/struct_x_m_l___expat___version.html#a0c16da8d497c8eefd86a1bb4c6ea23b5">major</a>;
+<a name="l00966"></a><a class="code" href="../../d1/d1c/struct_x_m_l___expat___version.html#ab9b1e025090b5f4e7c8f206c72aeb8b6">00966</a>   <span class="keywordtype">int</span> <a class="code" href="../../d1/d1c/struct_x_m_l___expat___version.html#ab9b1e025090b5f4e7c8f206c72aeb8b6">minor</a>;
+<a name="l00967"></a><a class="code" href="../../d1/d1c/struct_x_m_l___expat___version.html#ac6b159560f37010366faaf9531f74929">00967</a>   <span class="keywordtype">int</span> <a class="code" href="../../d1/d1c/struct_x_m_l___expat___version.html#ac6b159560f37010366faaf9531f74929">micro</a>;
+<a name="l00968"></a>00968 } <a class="code" href="../../d1/d1c/struct_x_m_l___expat___version.html">XML_Expat_Version</a>;
+<a name="l00969"></a>00969 
+<a name="l00970"></a>00970 <span class="comment">/* Return an XML_Expat_Version structure containing numeric version</span>
+<a name="l00971"></a>00971 <span class="comment">   number information for this version of expat.</span>
+<a name="l00972"></a>00972 <span class="comment">*/</span>
+<a name="l00973"></a>00973 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<a class="code" href="../../d1/d1c/struct_x_m_l___expat___version.html">XML_Expat_Version</a>)
+<a name="l00974"></a>00974 <a class="code" href="../../d9/d04/expat_8h.html#a697dd3e01bb959d89e28622faff96479">XML_ExpatVersionInfo</a>(<span class="keywordtype">void</span>);
+<a name="l00975"></a>00975 
+<a name="l00976"></a>00976 <span class="comment">/* Added in Expat 1.95.5. */</span>
+<a name="l00977"></a><a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8e">00977</a> <a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8e">XML_FeatureEnum</a> {
+<a name="l00978"></a><a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea8745903bc09073b2abe0ebef13816cfe">00978</a>   <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea8745903bc09073b2abe0ebef13816cfe">XML_FEATURE_END</a> = 0,
+<a name="l00979"></a><a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea2ba23d9f0f47866bc35a968eaeeddb16">00979</a>   <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea2ba23d9f0f47866bc35a968eaeeddb16">XML_FEATURE_UNICODE</a>,
+<a name="l00980"></a><a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8eaab838e6ac060c50f2eda9d065133bb6a">00980</a>   <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8eaab838e6ac060c50f2eda9d065133bb6a">XML_FEATURE_UNICODE_WCHAR_T</a>,
+<a name="l00981"></a><a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea09d653173612d6a423520078ff8b7019">00981</a>   <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea09d653173612d6a423520078ff8b7019">XML_FEATURE_DTD</a>,
+<a name="l00982"></a><a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8eabb78df14b1efdff2d11d4d335a089d2e">00982</a>   <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8eabb78df14b1efdff2d11d4d335a089d2e">XML_FEATURE_CONTEXT_BYTES</a>,
+<a name="l00983"></a><a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea681374d691371442bc3d9f88bacafb3a">00983</a>   <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea681374d691371442bc3d9f88bacafb3a">XML_FEATURE_MIN_SIZE</a>,
+<a name="l00984"></a><a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea549e5efbee635add738a9cc9b531a501">00984</a>   <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea549e5efbee635add738a9cc9b531a501">XML_FEATURE_SIZEOF_XML_CHAR</a>,
+<a name="l00985"></a><a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea0cb25cc352faa48daaecf78ee2cfb4d8">00985</a>   <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea0cb25cc352faa48daaecf78ee2cfb4d8">XML_FEATURE_SIZEOF_XML_LCHAR</a>,
+<a name="l00986"></a><a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea1c4fd57d24d089f3f7a57ea2208f9739">00986</a>   <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8ea1c4fd57d24d089f3f7a57ea2208f9739">XML_FEATURE_NS</a>
+<a name="l00987"></a>00987   <span class="comment">/* Additional features must be added to the end of this enum. */</span>
+<a name="l00988"></a>00988 };
+<a name="l00989"></a>00989 
+<a name="l00990"></a><a class="code" href="../../de/db6/struct_x_m_l___feature.html">00990</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
+<a name="l00991"></a><a class="code" href="../../de/db6/struct_x_m_l___feature.html#ae66421def7745a794da86612a9464b48">00991</a>   <span class="keyword">enum</span> <a class="code" href="../../d9/d04/expat_8h.html#a3003d8415d1239ab78a8adfce6a34a8e">XML_FeatureEnum</a>  <a class="code" href="../../de/db6/struct_x_m_l___feature.html#ae66421def7745a794da86612a9464b48">feature</a>;
+<a name="l00992"></a><a class="code" href="../../de/db6/struct_x_m_l___feature.html#a0c69fbed3789a944a6c9168b1a6e5add">00992</a>   <span class="keyword">const</span> <a class="code" href="../../d2/d18/expat__config_8h.html#a728c9a3114531eaeb70753ba4601c418">XML_LChar</a>       *<a class="code" href="../../de/db6/struct_x_m_l___feature.html#a0c69fbed3789a944a6c9168b1a6e5add">name</a>;
+<a name="l00993"></a><a class="code" href="../../de/db6/struct_x_m_l___feature.html#a4d50cc5cb43a39f49435d0e81a4189dd">00993</a>   <span class="keywordtype">long</span> <span class="keywordtype">int</span>              <a class="code" href="../../de/db6/struct_x_m_l___feature.html#a4d50cc5cb43a39f49435d0e81a4189dd">value</a>;
+<a name="l00994"></a>00994 } <a class="code" href="../../de/db6/struct_x_m_l___feature.html">XML_Feature</a>;
+<a name="l00995"></a>00995 
+<a name="l00996"></a>00996 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keyword">const</span> <a class="code" href="../../de/db6/struct_x_m_l___feature.html">XML_Feature</a> *)
+<a name="l00997"></a>00997 <a class="code" href="../../d9/d04/expat_8h.html#a5461b9ee2320302609ae9ece4a7f0363">XML_GetFeatureList</a>(<span class="keywordtype">void</span>);
+<a name="l00998"></a>00998 
+<a name="l00999"></a>00999 
+<a name="l01000"></a>01000 <span class="comment">/* Expat follows the GNU/Linux convention of odd number minor version for</span>
+<a name="l01001"></a>01001 <span class="comment">   beta/development releases and even number minor version for stable</span>
+<a name="l01002"></a>01002 <span class="comment">   releases. Micro is bumped with each release, and set to 0 with each</span>
+<a name="l01003"></a>01003 <span class="comment">   change to major or minor version.</span>
+<a name="l01004"></a>01004 <span class="comment">*/</span>
+<a name="l01005"></a><a class="code" href="../../d9/d04/expat_8h.html#a4945478464354832f015ccd712c68040">01005</a> <span class="preprocessor">#define XML_MAJOR_VERSION 2</span>
+<a name="l01006"></a><a class="code" href="../../d9/d04/expat_8h.html#a56dc70319455d3f56903ed7034fc836f">01006</a> <span class="preprocessor"></span><span class="preprocessor">#define XML_MINOR_VERSION 0</span>
+<a name="l01007"></a><a class="code" href="../../d9/d04/expat_8h.html#a9608842863effc648f8d38857cd8ffab">01007</a> <span class="preprocessor"></span><span class="preprocessor">#define XML_MICRO_VERSION 0</span>
+<a name="l01008"></a>01008 <span class="preprocessor"></span>
+<a name="l01009"></a>01009 <span class="comment">/* BEGIN MOZILLA CHANGE (Report opening tag of mismatched closing tag) */</span>
+<a name="l01010"></a>01010 <a class="code" href="../../da/d36/expat__external_8h.html#ad5c8c58b4ddb7221f29218099ac3dd45">XMLPARSEAPI</a>(<span class="keyword">const</span> <a class="code" href="../../d2/d18/expat__config_8h.html#a9244b1cf06f39ff302ccbf66ac30f0fd">XML_Char</a>*)
+<a name="l01011"></a>01011 <a class="code" href="../../d9/d04/expat_8h.html#aaf048d4411d42e1a1add539bf5d3edb8">MOZ_XML_GetMismatchedTag</a>(XML_Parser parser);
+<a name="l01012"></a>01012 <span class="comment">/* END MOZILLA CHANGE */</span>
+<a name="l01013"></a>01013 
+<a name="l01014"></a>01014 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l01015"></a>01015 <span class="preprocessor"></span>}
+<a name="l01016"></a>01016 <span class="preprocessor">#endif</span>
+<a name="l01017"></a>01017 <span class="preprocessor"></span>
+<a name="l01018"></a>01018 <span class="preprocessor">#endif </span><span class="comment">/* not Expat_INCLUDED */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d9/d04/expat_8h.html">expat.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:51:59に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

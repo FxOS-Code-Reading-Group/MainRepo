@@ -1,0 +1,25 @@
+var struct___n_p_plugin_funcs =
+[
+    [ "asfile", "d9/d1a/struct___n_p_plugin_funcs.html#a319c2eff17541dcb01d89089b2cbdd9e", null ],
+    [ "clearsitedata", "d9/d1a/struct___n_p_plugin_funcs.html#a28dd62937b8a6924042604f61093a3df", null ],
+    [ "destroy", "d9/d1a/struct___n_p_plugin_funcs.html#a4ac404eacf1b7df7d7d56893833af018", null ],
+    [ "destroystream", "d9/d1a/struct___n_p_plugin_funcs.html#a42e0e0834c9ec36eecd4a6de950b5461", null ],
+    [ "didComposite", "d9/d1a/struct___n_p_plugin_funcs.html#a779bb7eeafcdf26b2236df943751da5d", null ],
+    [ "event", "d9/d1a/struct___n_p_plugin_funcs.html#a77c082393e65906b4131934d39ed7ac5", null ],
+    [ "getsiteswithdata", "d9/d1a/struct___n_p_plugin_funcs.html#af67d5a85ce501900c8f8c0a2bca7831e", null ],
+    [ "getvalue", "d9/d1a/struct___n_p_plugin_funcs.html#a0da6676c010699f0a6ef72d20aae2508", null ],
+    [ "gotfocus", "d9/d1a/struct___n_p_plugin_funcs.html#a073e00f7dec65a3412a78500df5f13a7", null ],
+    [ "javaClass", "d9/d1a/struct___n_p_plugin_funcs.html#af5b980573ff4092423a02ec7bc742f60", null ],
+    [ "lostfocus", "d9/d1a/struct___n_p_plugin_funcs.html#a2c55b0340e00a495963d64b4301a4cb0", null ],
+    [ "newp", "d9/d1a/struct___n_p_plugin_funcs.html#aa55ed6ac4e90cb95225606b0b07d55bc", null ],
+    [ "newstream", "d9/d1a/struct___n_p_plugin_funcs.html#a90845b9d85755161e49c729a95946c21", null ],
+    [ "print", "d9/d1a/struct___n_p_plugin_funcs.html#ae472fb122d9dcdb7ac9d89206b0002dd", null ],
+    [ "setvalue", "d9/d1a/struct___n_p_plugin_funcs.html#ae0c7a9ca048cad9eec7d7d69df311bdf", null ],
+    [ "setwindow", "d9/d1a/struct___n_p_plugin_funcs.html#a5535af5c8168fe6e4d2ecfe3af1c5667", null ],
+    [ "size", "d9/d1a/struct___n_p_plugin_funcs.html#ae56a05ff9615e602eeb6d750417b45ab", null ],
+    [ "urlnotify", "d9/d1a/struct___n_p_plugin_funcs.html#a9a8a9425b6531d5b77f0bdc3ab779e7c", null ],
+    [ "urlredirectnotify", "d9/d1a/struct___n_p_plugin_funcs.html#af8907d04c6f098575a278950473ac0e0", null ],
+    [ "version", "d9/d1a/struct___n_p_plugin_funcs.html#a86672b8f4c5e096d3858729fe12b97ae", null ],
+    [ "write", "d9/d1a/struct___n_p_plugin_funcs.html#a4469cc48ef16ecb1f4f62aab97b977c4", null ],
+    [ "writeready", "d9/d1a/struct___n_p_plugin_funcs.html#ac195e383405cb0f4f0483aaa9afcf59f", null ]
+];

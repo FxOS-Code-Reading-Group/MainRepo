@@ -1,0 +1,527 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: MediaEngineWebRTC.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/d6e/_media_engine_web_r_t_c_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">MediaEngineWebRTC.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/d6e/_media_engine_web_r_t_c_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00002"></a>00002 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this file,</span>
+<a name="l00003"></a>00003 <span class="comment"> * You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="preprocessor">#ifndef MEDIAENGINEWEBRTC_H_</span>
+<a name="l00006"></a>00006 <span class="preprocessor"></span><span class="preprocessor">#define MEDIAENGINEWEBRTC_H_</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span>
+<a name="l00008"></a>00008 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/d77/prcvar_8h.html">prcvar.h</a>&quot;</span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/df8/prthread_8h.html">prthread.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d24/ns_i_thread_8h.html">nsIThread.h</a>&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d4d/ns_i_runnable_8h.html">nsIRunnable.h</a>&quot;</span>
+<a name="l00012"></a>00012 
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d78/_mutex_8h.html">mozilla/Mutex.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/d29/_monitor_8h.html">mozilla/Monitor.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d4c/ns_d_o_m_file_8h.html">nsDOMFile.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html">nsThreadUtils.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d5a/_d_o_m_media_stream_8h.html">DOMMediaStream.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d91/ns_directory_service_defs_8h.html">nsDirectoryServiceDefs.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/db2/ns_component_manager_utils_8h.html">nsComponentManagerUtils.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d97/ns_ref_ptr_hashtable_8h.html">nsRefPtrHashtable.h</a>&quot;</span>
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../de/dbf/_video_utils_8h.html">VideoUtils.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/dcc/_media_engine_8h.html">MediaEngine.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d91/_video_segment_8h.html">VideoSegment.h</a>&quot;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/dad/_audio_segment_8h.html">AudioSegment.h</a>&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="../../db/dba/_stream_buffer_8h.html">StreamBuffer.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="../../de/df8/_media_stream_graph_8h.html">MediaStreamGraph.h</a>&quot;</span>
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="comment">// WebRTC library includes follow</span>
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="comment">// Audio Engine</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;voice_engine/include/voe_base.h&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;voice_engine/include/voe_codec.h&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;voice_engine/include/voe_hardware.h&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;voice_engine/include/voe_network.h&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;voice_engine/include/voe_audio_processing.h&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;voice_engine/include/voe_volume_control.h&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;voice_engine/include/voe_external_media.h&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;voice_engine/include/voe_audio_processing.h&quot;</span>
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042 <span class="comment">// Video Engine</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#include &quot;video_engine/include/vie_base.h&quot;</span>
+<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;video_engine/include/vie_codec.h&quot;</span>
+<a name="l00045"></a>00045 <span class="preprocessor">#include &quot;video_engine/include/vie_render.h&quot;</span>
+<a name="l00046"></a>00046 <span class="preprocessor">#include &quot;video_engine/include/vie_capture.h&quot;</span>
+<a name="l00047"></a>00047 <span class="preprocessor">#include &quot;video_engine/include/vie_file.h&quot;</span>
+<a name="l00048"></a>00048 <span class="preprocessor">#ifdef MOZ_B2G_CAMERA</span>
+<a name="l00049"></a>00049 <span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="../../d4/d4e/_camera_preview_media_stream_8h.html">CameraPreviewMediaStream.h</a>&quot;</span>
+<a name="l00050"></a>00050 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/de9/_d_o_m_camera_manager_8h.html">DOMCameraManager.h</a>&quot;</span>
+<a name="l00051"></a>00051 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d45/_gonk_camera_control_8h.html">GonkCameraControl.h</a>&quot;</span>
+<a name="l00052"></a>00052 <span class="preprocessor">#include &quot;<a class="code" href="../../db/da0/_image_container_8h.html">ImageContainer.h</a>&quot;</span>
+<a name="l00053"></a>00053 <span class="preprocessor">#include &quot;nsGlobalWindow.h&quot;</span>
+<a name="l00054"></a>00054 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/d2b/prprf_8h.html">prprf.h</a>&quot;</span>
+<a name="l00055"></a>00055 <span class="preprocessor">#endif</span>
+<a name="l00056"></a>00056 <span class="preprocessor"></span>
+<a name="l00057"></a>00057 <span class="preprocessor">#include &quot;NullTransport.h&quot;</span>
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059 <span class="keyword">namespace </span>mozilla {
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061 <span class="preprocessor">#ifdef MOZ_B2G_CAMERA</span>
+<a name="l00062"></a>00062 <span class="preprocessor"></span><span class="keyword">class </span>CameraAllocateRunnable;
+<a name="l00063"></a>00063 <span class="keyword">class </span>GetCameraNameRunnable;
+<a name="l00064"></a>00064 <span class="preprocessor">#endif</span>
+<a name="l00065"></a>00065 <span class="preprocessor"></span>
+<a name="l00083"></a><a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html">00083</a> <span class="keyword">class </span><a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html">MediaEngineWebRTCVideoSource</a> : <span class="keyword">public</span> <a class="code" href="../../d1/d62/classmozilla_1_1_media_engine_video_source.html">MediaEngineVideoSource</a>
+<a name="l00084"></a>00084                                    , <span class="keyword">public</span> <a class="code" href="../../da/ddb/classns_runnable.html">nsRunnable</a>
+<a name="l00085"></a>00085 <span class="preprocessor">#ifdef MOZ_B2G_CAMERA</span>
+<a name="l00086"></a>00086 <span class="preprocessor"></span>                                   , <span class="keyword">public</span> <a class="code" href="../../d8/d3d/interfacens_i_camera_get_camera_callback.html">nsICameraGetCameraCallback</a>
+<a name="l00087"></a>00087                                    , <span class="keyword">public</span> <a class="code" href="../../d8/d1e/interfacens_i_camera_preview_stream_callback.html">nsICameraPreviewStreamCallback</a>
+<a name="l00088"></a>00088                                    , <span class="keyword">public</span> <a class="code" href="../../d0/dfa/interfacens_i_camera_take_picture_callback.html">nsICameraTakePictureCallback</a>
+<a name="l00089"></a>00089                                    , <span class="keyword">public</span> <a class="code" href="../../d2/d85/interfacens_i_camera_release_callback.html">nsICameraReleaseCallback</a>
+<a name="l00090"></a>00090                                    , <span class="keyword">public</span> <a class="code" href="../../da/d18/interfacens_i_camera_error_callback.html">nsICameraErrorCallback</a>
+<a name="l00091"></a>00091                                    , <span class="keyword">public</span> <a class="code" href="../../dd/dea/classmozilla_1_1_camera_preview_frame_callback.html">CameraPreviewFrameCallback</a>
+<a name="l00092"></a>00092 <span class="preprocessor">#else</span>
+<a name="l00093"></a>00093 <span class="preprocessor"></span>                                   , <span class="keyword">public</span> webrtc::ExternalRenderer
+<a name="l00094"></a>00094 <span class="preprocessor">#endif</span>
+<a name="l00095"></a>00095 <span class="preprocessor"></span>{
+<a name="l00096"></a>00096 <span class="keyword">public</span>:
+<a name="l00097"></a>00097 <span class="preprocessor">#ifdef MOZ_B2G_CAMERA</span>
+<a name="l00098"></a>00098 <span class="preprocessor"></span>  <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#aa83149b78149c1064f48eb4b88f69c62">MediaEngineWebRTCVideoSource</a>(nsDOMCameraManager* aCameraManager,
+<a name="l00099"></a>00099     <span class="keywordtype">int</span> aIndex, uint64_t aWindowId)
+<a name="l00100"></a>00100     : mCameraManager(aCameraManager)
+<a name="l00101"></a>00101     , mNativeCameraControl(<span class="keyword">nullptr</span>)
+<a name="l00102"></a>00102     , mPreviewStream(<span class="keyword">nullptr</span>)
+<a name="l00103"></a>00103     , mWindowId(aWindowId)
+<a name="l00104"></a>00104     , mCallbackMonitor(<span class="stringliteral">&quot;WebRTCCamera.CallbackMonitor&quot;</span>)
+<a name="l00105"></a>00105     , mCaptureIndex(aIndex)
+<a name="l00106"></a>00106     , mMonitor(<span class="stringliteral">&quot;WebRTCCamera.Monitor&quot;</span>)
+<a name="l00107"></a>00107     , mWidth(0)
+<a name="l00108"></a>00108     , mHeight(0)
+<a name="l00109"></a>00109     , mInitDone(<span class="keyword">false</span>)
+<a name="l00110"></a>00110     , mInSnapshotMode(<span class="keyword">false</span>)
+<a name="l00111"></a>00111     , mSnapshotPath(<span class="keyword">nullptr</span>)
+<a name="l00112"></a>00112   {
+<a name="l00113"></a>00113     <a class="code" href="../../da/d89/classmozilla_1_1_media_engine_source.html#ac4ca0935740a6532cb55972450196156">mState</a> = <a class="code" href="../../d2/d93/namespacemozilla.html#a327a114051bfeaf294c09ba7460f97b4a288997a553732b471781ab04a693c2bc">kReleased</a>;
+<a name="l00114"></a>00114     <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a837aaa583d5b8fe5d83ef69a79b097ae">NS_NewNamedThread</a>(<span class="stringliteral">&quot;CameraThread&quot;</span>, <a class="code" href="../../de/db2/ns_auto_ptr_8h.html#a3892f2732d861ecbf1e20826158db1b6">getter_AddRefs</a>(mCameraThread), <span class="keyword">nullptr</span>);
+<a name="l00115"></a>00115     Init();
+<a name="l00116"></a>00116   }
+<a name="l00117"></a>00117 <span class="preprocessor">#else</span>
+<a name="l00118"></a>00118 <span class="preprocessor"></span>  <span class="comment">// ViEExternalRenderer.</span>
+<a name="l00119"></a>00119   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a30632f436b5c2f976bea64b0287ca6d6">FrameSizeChange</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>);
+<a name="l00120"></a>00120   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a621963ba5706426e5944425b4e992f6a">DeliverFrame</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*, <span class="keywordtype">int</span>, uint32_t, int64_t);
+<a name="l00121"></a>00121 
+<a name="l00122"></a><a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#aa83149b78149c1064f48eb4b88f69c62">00122</a>   <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#aa83149b78149c1064f48eb4b88f69c62">MediaEngineWebRTCVideoSource</a>(webrtc::VideoEngine* aVideoEnginePtr, <span class="keywordtype">int</span> aIndex)
+<a name="l00123"></a>00123     : mVideoEngine(aVideoEnginePtr)
+<a name="l00124"></a>00124     , mCaptureIndex(aIndex)
+<a name="l00125"></a>00125     , mFps(-1)
+<a name="l00126"></a>00126     , mMinFps(-1)
+<a name="l00127"></a>00127     , mMonitor(<span class="stringliteral">&quot;WebRTCCamera.Monitor&quot;</span>)
+<a name="l00128"></a>00128     , mWidth(0)
+<a name="l00129"></a>00129     , mHeight(0)
+<a name="l00130"></a>00130     , mInitDone(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00131"></a>00131     , mInSnapshotMode(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00132"></a>00132     , mSnapshotPath(<a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) {
+<a name="l00133"></a>00133     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(aVideoEnginePtr);
+<a name="l00134"></a>00134     <a class="code" href="../../da/d89/classmozilla_1_1_media_engine_source.html#ac4ca0935740a6532cb55972450196156">mState</a> = <a class="code" href="../../d2/d93/namespacemozilla.html#a327a114051bfeaf294c09ba7460f97b4a288997a553732b471781ab04a693c2bc">kReleased</a>;
+<a name="l00135"></a>00135     Init();
+<a name="l00136"></a>00136   }
+<a name="l00137"></a>00137 <span class="preprocessor">#endif</span>
+<a name="l00138"></a>00138 <span class="preprocessor"></span>
+<a name="l00139"></a><a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a190ba370504bb5c80084c9a7b0427050">00139</a>   <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a190ba370504bb5c80084c9a7b0427050">~MediaEngineWebRTCVideoSource</a>() { Shutdown(); }
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a692979f5aeb15794106b02026885f43c">GetName</a>(nsAString&amp;);
+<a name="l00142"></a>00142   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a38d1cec839f8cd689075f198cdf431d3">GetUUID</a>(nsAString&amp;);
+<a name="l00143"></a>00143   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a88da8d12e268d6233f66f532db13d520">Allocate</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4b/structmozilla_1_1_media_engine_prefs.html">MediaEnginePrefs</a> &amp;aPrefs);
+<a name="l00144"></a>00144   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a9f8d86a1f258fe8317b016625f283153">Deallocate</a>();
+<a name="l00145"></a>00145   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a1dd47165f22c0493f10f2e195766fc85">Start</a>(<a class="code" href="../../dc/dd0/classmozilla_1_1_source_media_stream.html">SourceMediaStream</a>*, <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a>);
+<a name="l00146"></a>00146   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a8baac0eaa8c1ce062e1cc2f2334e9876">Stop</a>(<a class="code" href="../../dc/dd0/classmozilla_1_1_source_media_stream.html">SourceMediaStream</a>*, <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a>);
+<a name="l00147"></a>00147   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a0ef10d1bad48c5c505add0b9c8d6f7fd">Snapshot</a>(uint32_t aDuration, <a class="code" href="../../d8/d57/interfacens_i_d_o_m_file.html">nsIDOMFile</a>** aFile);
+<a name="l00148"></a><a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a456b6064cb39f1e384af4eec1972023d">00148</a>   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a456b6064cb39f1e384af4eec1972023d">Config</a>(<span class="keywordtype">bool</span> aEchoOn, uint32_t aEcho,
+<a name="l00149"></a>00149                           <span class="keywordtype">bool</span> aAgcOn, uint32_t aAGC,
+<a name="l00150"></a>00150                           <span class="keywordtype">bool</span> aNoiseOn, uint32_t aNoise) { <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a>; };
+<a name="l00151"></a>00151   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#a5d5bfa3b3b1e53803dedcce4d256c75f">NotifyPull</a>(<a class="code" href="../../db/d84/classmozilla_1_1_media_stream_graph.html">MediaStreamGraph</a>* aGraph,
+<a name="l00152"></a>00152                           <a class="code" href="../../dc/dd0/classmozilla_1_1_source_media_stream.html">SourceMediaStream</a> *aSource,
+<a name="l00153"></a>00153                           <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a> aId,
+<a name="l00154"></a>00154                           <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> aDesiredTime,
+<a name="l00155"></a>00155                           <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> &amp;aLastEndTime);
+<a name="l00156"></a>00156 
+<a name="l00157"></a><a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#abafcb666832d17a35182edadaf001efe">00157</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#abafcb666832d17a35182edadaf001efe">IsFake</a>() {
+<a name="l00158"></a>00158     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00159"></a>00159   }
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#adc7f4e7f315cf8145f2c1312234d960b">NS_DECL_THREADSAFE_ISUPPORTS</a>
+<a name="l00162"></a>00162 <span class="preprocessor">#ifdef MOZ_B2G_CAMERA</span>
+<a name="l00163"></a>00163 <span class="preprocessor"></span>  <a class="code" href="../../d7/d44/ns_i_d_o_m_camera_manager_8h.html#aff979f78439041fa1a9509267fec4680">NS_DECL_NSICAMERAGETCAMERACALLBACK</a>
+<a name="l00164"></a>00164   <a class="code" href="../../d7/d44/ns_i_d_o_m_camera_manager_8h.html#af32e29d5a701264ab031eb51bc075ec6">NS_DECL_NSICAMERAPREVIEWSTREAMCALLBACK</a>
+<a name="l00165"></a>00165   <a class="code" href="../../d7/d44/ns_i_d_o_m_camera_manager_8h.html#a469fc688809846c463020c3d671ddb94">NS_DECL_NSICAMERATAKEPICTURECALLBACK</a>
+<a name="l00166"></a>00166   <a class="code" href="../../d7/d44/ns_i_d_o_m_camera_manager_8h.html#a8ab33bf77738e0496af67d264aed286a">NS_DECL_NSICAMERARELEASECALLBACK</a>
+<a name="l00167"></a>00167   <a class="code" href="../../d7/d44/ns_i_d_o_m_camera_manager_8h.html#ae9fa897c7530723e88cc880813f26ea1">NS_DECL_NSICAMERAERRORCALLBACK</a>
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169   <span class="keywordtype">void</span> AllocImpl();
+<a name="l00170"></a>00170   <span class="keywordtype">void</span> DeallocImpl();
+<a name="l00171"></a>00171   <span class="keywordtype">void</span> StartImpl(webrtc::CaptureCapability aCapability);
+<a name="l00172"></a>00172   <span class="keywordtype">void</span> StopImpl();
+<a name="l00173"></a>00173   <span class="keywordtype">void</span> SnapshotImpl();
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175   <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnNewFrame(<span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a>&amp; aIntrinsicSize, <a class="code" href="../../d8/d56/classmozilla_1_1layers_1_1_image.html">layers::Image</a>* aImage);
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177 <span class="preprocessor">#endif</span>
+<a name="l00178"></a>00178 <span class="preprocessor"></span>
+<a name="l00179"></a>00179   <span class="comment">// This runnable is for creating a temporary file on the main thread.</span>
+<a name="l00180"></a>00180   <a class="code" href="../../d3/dd8/nscore_8h.html#afc3adc01d2f9ecece5d5badcf841f9a7">NS_IMETHODIMP</a>
+<a name="l00181"></a><a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#af081282f9d64525af600c3a9e7831851">00181</a>   <a class="code" href="../../d9/d12/classmozilla_1_1_media_engine_web_r_t_c_video_source.html#af081282f9d64525af600c3a9e7831851">Run</a>()
+<a name="l00182"></a>00182   {
+<a name="l00183"></a>00183     nsCOMPtr&lt;nsIFile&gt; <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>;
+<a name="l00184"></a>00184     <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> rv = <a class="code" href="../../d3/d57/ns_directory_service_utils_8h.html#a78c0a2e8b7d68972b461fdc730fa09bb">NS_GetSpecialDirectory</a>(<a class="code" href="../../d9/d91/ns_directory_service_defs_8h.html#aa776af3903b42643b498a9b4a23d3361">NS_OS_TEMP_DIR</a>, <a class="code" href="../../de/db2/ns_auto_ptr_8h.html#a3892f2732d861ecbf1e20826158db1b6">getter_AddRefs</a>(tmp));
+<a name="l00185"></a>00185     <a class="code" href="../../dc/d6d/ns_debug_8h.html#a0d677d0a1fb618e227f48d08695b5317">NS_ENSURE_SUCCESS</a>(rv, rv);
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187     tmp-&gt;Append(<a class="code" href="../../d5/d6e/ns_literal_string_8h.html#af4d2105e3a561d34eaa52d399a745a8e">NS_LITERAL_STRING</a>(<span class="stringliteral">&quot;webrtc_snapshot.jpeg&quot;</span>));
+<a name="l00188"></a>00188     rv = tmp-&gt;CreateUnique(<a class="code" href="../../d0/d3e/interfacens_i_file.html#a7a1f013f01e1eb64cff80a86388a688b">nsIFile::NORMAL_FILE_TYPE</a>, 0600);
+<a name="l00189"></a>00189     <a class="code" href="../../dc/d6d/ns_debug_8h.html#a0d677d0a1fb618e227f48d08695b5317">NS_ENSURE_SUCCESS</a>(rv, rv);
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191     mSnapshotPath = <span class="keyword">new</span> nsString();
+<a name="l00192"></a>00192     rv = tmp-&gt;GetPath(*mSnapshotPath);
+<a name="l00193"></a>00193     <a class="code" href="../../dc/d6d/ns_debug_8h.html#a0d677d0a1fb618e227f48d08695b5317">NS_ENSURE_SUCCESS</a>(rv, rv);
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195     <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a>;
+<a name="l00196"></a>00196   }
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198 <span class="keyword">private</span>:
+<a name="l00199"></a>00199   <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> KMaxDeviceNameLength = 128;
+<a name="l00200"></a>00200   <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> KMaxUniqueIdLength = 256;
+<a name="l00201"></a>00201 
+<a name="l00202"></a>00202   <span class="comment">// Initialize the needed Video engine interfaces.</span>
+<a name="l00203"></a>00203   <span class="keywordtype">void</span> Init();
+<a name="l00204"></a>00204   <span class="keywordtype">void</span> Shutdown();
+<a name="l00205"></a>00205 
+<a name="l00206"></a>00206   <span class="comment">// Engine variables.</span>
+<a name="l00207"></a>00207 <span class="preprocessor">#ifdef MOZ_B2G_CAMERA</span>
+<a name="l00208"></a>00208 <span class="preprocessor"></span>  <span class="comment">// MediaEngine hold this DOM object, and the MediaEngine is hold by Navigator</span>
+<a name="l00209"></a>00209   <span class="comment">// Their life time is always much longer than this object. Use a raw-pointer</span>
+<a name="l00210"></a>00210   <span class="comment">// here should be safe.</span>
+<a name="l00211"></a>00211   <span class="comment">// We need raw pointer here since such DOM-object should not addref/release on</span>
+<a name="l00212"></a>00212   <span class="comment">// any thread other than main thread, but we must use this object for now. To</span>
+<a name="l00213"></a>00213   <span class="comment">// avoid any bad thing do to addref/release DOM-object on other thread, we use</span>
+<a name="l00214"></a>00214   <span class="comment">// raw-pointer for now.</span>
+<a name="l00215"></a>00215   nsDOMCameraManager* mCameraManager;
+<a name="l00216"></a>00216   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsDOMCameraControl&gt;</a> mDOMCameraControl;
+<a name="l00217"></a>00217   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsGonkCameraControl&gt;</a> mNativeCameraControl;
+<a name="l00218"></a>00218   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;DOMCameraPreview&gt;</a> mPreviewStream;
+<a name="l00219"></a>00219   uint64_t mWindowId;
+<a name="l00220"></a>00220   <a class="code" href="../../dc/d74/classmozilla_1_1_reentrant_monitor.html">mozilla::ReentrantMonitor</a> mCallbackMonitor; <span class="comment">// Monitor for camera callback handling</span>
+<a name="l00221"></a>00221   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsIThread&gt;</a> mCameraThread;
+<a name="l00222"></a>00222   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsIDOMFile&gt;</a> mLastCapture;
+<a name="l00223"></a>00223 <span class="preprocessor">#else</span>
+<a name="l00224"></a>00224 <span class="preprocessor"></span>  webrtc::VideoEngine* mVideoEngine; <span class="comment">// Weak reference, don&#39;t free.</span>
+<a name="l00225"></a>00225   webrtc::ViEBase* mViEBase;
+<a name="l00226"></a>00226   webrtc::ViECapture* mViECapture;
+<a name="l00227"></a>00227   webrtc::ViERender* mViERender;
+<a name="l00228"></a>00228 <span class="preprocessor">#endif</span>
+<a name="l00229"></a>00229 <span class="preprocessor"></span>  webrtc::CaptureCapability mCapability; <span class="comment">// Doesn&#39;t work on OS X.</span>
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231   <span class="keywordtype">int</span> mCaptureIndex;
+<a name="l00232"></a>00232   <span class="keywordtype">int</span> mFps; <span class="comment">// Track rate (30 fps by default)</span>
+<a name="l00233"></a>00233   <span class="keywordtype">int</span> mMinFps; <span class="comment">// Min rate we want to accept</span>
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235   <span class="comment">// mMonitor protects mImage access/changes, and transitions of mState</span>
+<a name="l00236"></a>00236   <span class="comment">// from kStarted to kStopped (which are combined with EndTrack() and</span>
+<a name="l00237"></a>00237   <span class="comment">// image changes).  Note that mSources is not accessed from other threads</span>
+<a name="l00238"></a>00238   <span class="comment">// for video and is not protected.</span>
+<a name="l00239"></a>00239   <a class="code" href="../../dd/d10/classmozilla_1_1_monitor.html">Monitor</a> mMonitor; <span class="comment">// Monitor for processing WebRTC frames.</span>
+<a name="l00240"></a>00240   <span class="keywordtype">int</span> mWidth, mHeight;
+<a name="l00241"></a>00241   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;layers::Image&gt;</a> mImage;
+<a name="l00242"></a>00242   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;layers::ImageContainer&gt;</a> mImageContainer;
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;SourceMediaStream *&gt;</a> mSources; <span class="comment">// When this goes empty, we shut down HW</span>
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246   <span class="keywordtype">bool</span> mInitDone;
+<a name="l00247"></a>00247   <span class="keywordtype">bool</span> mInSnapshotMode;
+<a name="l00248"></a>00248   nsString* mSnapshotPath;
+<a name="l00249"></a>00249 
+<a name="l00250"></a>00250   <span class="comment">// These are in UTF-8 but webrtc api uses char arrays</span>
+<a name="l00251"></a>00251   <span class="keywordtype">char</span> mDeviceName[KMaxDeviceNameLength];
+<a name="l00252"></a>00252   <span class="keywordtype">char</span> mUniqueId[KMaxUniqueIdLength];
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254   <span class="keywordtype">void</span> ChooseCapability(<span class="keyword">const</span> <a class="code" href="../../df/d4b/structmozilla_1_1_media_engine_prefs.html">MediaEnginePrefs</a> &amp;aPrefs);
+<a name="l00255"></a>00255 };
+<a name="l00256"></a>00256 
+<a name="l00257"></a><a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html">00257</a> <span class="keyword">class </span><a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html">MediaEngineWebRTCAudioSource</a> : <span class="keyword">public</span> <a class="code" href="../../db/de7/classmozilla_1_1_media_engine_audio_source.html">MediaEngineAudioSource</a>,
+<a name="l00258"></a>00258                                      <span class="keyword">public</span> webrtc::VoEMediaProcess
+<a name="l00259"></a>00259 {
+<a name="l00260"></a>00260 <span class="keyword">public</span>:
+<a name="l00261"></a><a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a32e2d401f749bd593405aef532e0a17c">00261</a>   <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a32e2d401f749bd593405aef532e0a17c">MediaEngineWebRTCAudioSource</a>(webrtc::VoiceEngine* aVoiceEnginePtr, <span class="keywordtype">int</span> aIndex,
+<a name="l00262"></a>00262     <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../d1/d9a/local__test_8js.html#a80846c081aa1e744a86338db64eaa889">uuid</a>)
+<a name="l00263"></a>00263     : mVoiceEngine(aVoiceEnginePtr)
+<a name="l00264"></a>00264     , mMonitor(<span class="stringliteral">&quot;WebRTCMic.Monitor&quot;</span>)
+<a name="l00265"></a>00265     , mCapIndex(aIndex)
+<a name="l00266"></a>00266     , mChannel(-1)
+<a name="l00267"></a>00267     , mInitDone(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00268"></a>00268     , mEchoOn(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>), mAgcOn(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>), mNoiseOn(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00269"></a>00269     , mEchoCancel(webrtc::kEcDefault)
+<a name="l00270"></a>00270     , mAGC(webrtc::kAgcDefault)
+<a name="l00271"></a>00271     , mNoiseSuppress(webrtc::kNsDefault)
+<a name="l00272"></a>00272     , mNullTransport(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>) {
+<a name="l00273"></a>00273     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(aVoiceEnginePtr);
+<a name="l00274"></a>00274     <a class="code" href="../../da/d89/classmozilla_1_1_media_engine_source.html#ac4ca0935740a6532cb55972450196156">mState</a> = <a class="code" href="../../d2/d93/namespacemozilla.html#a327a114051bfeaf294c09ba7460f97b4a288997a553732b471781ab04a693c2bc">kReleased</a>;
+<a name="l00275"></a>00275     mDeviceName.Assign(<a class="code" href="../../df/d05/class_n_s___convert_u_t_f8to_u_t_f16.html">NS_ConvertUTF8toUTF16</a>(name));
+<a name="l00276"></a>00276     mDeviceUUID.Assign(<a class="code" href="../../df/d05/class_n_s___convert_u_t_f8to_u_t_f16.html">NS_ConvertUTF8toUTF16</a>(uuid));
+<a name="l00277"></a>00277     Init();
+<a name="l00278"></a>00278   }
+<a name="l00279"></a><a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a2eea068373c12257eb634b3e7d20d4b0">00279</a>   <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a2eea068373c12257eb634b3e7d20d4b0">~MediaEngineWebRTCAudioSource</a>() { Shutdown(); }
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#ab08ff0fc857b4247b4c1004cd236bfd1">GetName</a>(nsAString&amp;);
+<a name="l00282"></a>00282   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a5fadef19d16ecc1df6d3bb76dd7048de">GetUUID</a>(nsAString&amp;);
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a55c49503985688c835c36a97cd38e985">Allocate</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4b/structmozilla_1_1_media_engine_prefs.html">MediaEnginePrefs</a> &amp;aPrefs);
+<a name="l00285"></a>00285   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#ae9637b3b973b22e2981371ec2b706ea5">Deallocate</a>();
+<a name="l00286"></a>00286   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#aa5095acbbfb0ac5a3d4c91769b653d47">Start</a>(<a class="code" href="../../dc/dd0/classmozilla_1_1_source_media_stream.html">SourceMediaStream</a>*, <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a>);
+<a name="l00287"></a>00287   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a11512bddef24f586cedf133e31b58d50">Stop</a>(<a class="code" href="../../dc/dd0/classmozilla_1_1_source_media_stream.html">SourceMediaStream</a>*, <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a>);
+<a name="l00288"></a>00288   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a1b3df7c5f548a9398d5d787074f08ccc">Snapshot</a>(uint32_t aDuration, <a class="code" href="../../d8/d57/interfacens_i_d_o_m_file.html">nsIDOMFile</a>** aFile);
+<a name="l00289"></a>00289   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a4dd5a3c714a38034752422ff4ecc8951">Config</a>(<span class="keywordtype">bool</span> aEchoOn, uint32_t aEcho,
+<a name="l00290"></a>00290                           <span class="keywordtype">bool</span> aAgcOn, uint32_t aAGC,
+<a name="l00291"></a>00291                           <span class="keywordtype">bool</span> aNoiseOn, uint32_t aNoise);
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a9ed38d2c6a7749a6fcca3f58ed5060da">NotifyPull</a>(<a class="code" href="../../db/d84/classmozilla_1_1_media_stream_graph.html">MediaStreamGraph</a>* aGraph,
+<a name="l00294"></a>00294                           <a class="code" href="../../dc/dd0/classmozilla_1_1_source_media_stream.html">SourceMediaStream</a> *aSource,
+<a name="l00295"></a>00295                           <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a> aId,
+<a name="l00296"></a>00296                           <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> aDesiredTime,
+<a name="l00297"></a>00297                           <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> &amp;aLastEndTime);
+<a name="l00298"></a>00298 
+<a name="l00299"></a><a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a3ee5f2a96a66e6c74191d3e5f549cda6">00299</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a3ee5f2a96a66e6c74191d3e5f549cda6">IsFake</a>() {
+<a name="l00300"></a>00300     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00301"></a>00301   }
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303   <span class="comment">// VoEMediaProcess.</span>
+<a name="l00304"></a>00304   <span class="keywordtype">void</span> <a class="code" href="../../d0/da8/classmozilla_1_1_media_engine_web_r_t_c_audio_source.html#a9f52f1a8653088352574b0f6697494b6">Process</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> channel, <span class="keyword">const</span> webrtc::ProcessingTypes <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00305"></a>00305                WebRtc_Word16 audio10ms[], <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>,
+<a name="l00306"></a>00306                <span class="keyword">const</span> <span class="keywordtype">int</span> samplingFreq, <span class="keyword">const</span> <span class="keywordtype">bool</span> isStereo);
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#adc7f4e7f315cf8145f2c1312234d960b">NS_DECL_THREADSAFE_ISUPPORTS</a>
+<a name="l00309"></a>00309 
+<a name="l00310"></a>00310 <span class="keyword">private</span>:
+<a name="l00311"></a>00311   <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> KMaxDeviceNameLength = 128;
+<a name="l00312"></a>00312   <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> KMaxUniqueIdLength = 256;
+<a name="l00313"></a>00313 
+<a name="l00314"></a>00314   <span class="keywordtype">void</span> Init();
+<a name="l00315"></a>00315   <span class="keywordtype">void</span> Shutdown();
+<a name="l00316"></a>00316 
+<a name="l00317"></a>00317   webrtc::VoiceEngine* mVoiceEngine;
+<a name="l00318"></a>00318   webrtc::VoEBase* mVoEBase;
+<a name="l00319"></a>00319   webrtc::VoEExternalMedia* mVoERender;
+<a name="l00320"></a>00320   webrtc::VoENetwork*  mVoENetwork;
+<a name="l00321"></a>00321   webrtc::VoEAudioProcessing *mVoEProcessing;
+<a name="l00322"></a>00322 
+<a name="l00323"></a>00323   <span class="comment">// mMonitor protects mSources[] access/changes, and transitions of mState</span>
+<a name="l00324"></a>00324   <span class="comment">// from kStarted to kStopped (which are combined with EndTrack()).</span>
+<a name="l00325"></a>00325   <span class="comment">// mSources[] is accessed from webrtc threads.</span>
+<a name="l00326"></a>00326   <a class="code" href="../../dd/d10/classmozilla_1_1_monitor.html">Monitor</a> mMonitor;
+<a name="l00327"></a>00327   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;SourceMediaStream *&gt;</a> mSources; <span class="comment">// When this goes empty, we shut down HW</span>
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329   <span class="keywordtype">int</span> mCapIndex;
+<a name="l00330"></a>00330   <span class="keywordtype">int</span> mChannel;
+<a name="l00331"></a>00331   <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a> mTrackID;
+<a name="l00332"></a>00332   <span class="keywordtype">bool</span> mInitDone;
+<a name="l00333"></a>00333 
+<a name="l00334"></a>00334   nsString mDeviceName;
+<a name="l00335"></a>00335   nsString mDeviceUUID;
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337   <span class="keywordtype">bool</span> mEchoOn, mAgcOn, mNoiseOn;
+<a name="l00338"></a>00338   webrtc::EcModes  mEchoCancel;
+<a name="l00339"></a>00339   webrtc::AgcModes mAGC;
+<a name="l00340"></a>00340   webrtc::NsModes  mNoiseSuppress;
+<a name="l00341"></a>00341 
+<a name="l00342"></a>00342   NullTransport *mNullTransport;
+<a name="l00343"></a>00343 };
+<a name="l00344"></a>00344 
+<a name="l00345"></a><a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html">00345</a> <span class="keyword">class </span><a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html">MediaEngineWebRTC</a> : <span class="keyword">public</span> <a class="code" href="../../df/dc5/classmozilla_1_1_media_engine.html">MediaEngine</a>
+<a name="l00346"></a>00346 {
+<a name="l00347"></a>00347 <span class="keyword">public</span>:
+<a name="l00348"></a>00348 <span class="preprocessor">#ifdef MOZ_B2G_CAMERA</span>
+<a name="l00349"></a>00349 <span class="preprocessor"></span>  <a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html#ad4d77d194544e97b3776398136effc55">MediaEngineWebRTC</a>(nsDOMCameraManager* aCameraManager, uint64_t aWindowId)
+<a name="l00350"></a>00350     : mMutex(<span class="stringliteral">&quot;mozilla::MediaEngineWebRTC&quot;</span>)
+<a name="l00351"></a>00351     , mVideoEngine(<span class="keyword">nullptr</span>)
+<a name="l00352"></a>00352     , mVoiceEngine(<span class="keyword">nullptr</span>)
+<a name="l00353"></a>00353     , mVideoEngineInit(<span class="keyword">false</span>)
+<a name="l00354"></a>00354     , mAudioEngineInit(<span class="keyword">false</span>)
+<a name="l00355"></a>00355     , mCameraManager(aCameraManager)
+<a name="l00356"></a>00356     , mWindowId(aWindowId)
+<a name="l00357"></a>00357   {
+<a name="l00358"></a>00358     mVideoSources.<a class="code" href="../../da/dba/classns_base_hashtable.html#a4f48e1b8f52b1065f6351f7e77e9b4a2">Init</a>();
+<a name="l00359"></a>00359     mAudioSources.<a class="code" href="../../da/dba/classns_base_hashtable.html#a4f48e1b8f52b1065f6351f7e77e9b4a2">Init</a>();
+<a name="l00360"></a>00360   }
+<a name="l00361"></a>00361 <span class="preprocessor">#else</span>
+<a name="l00362"></a><a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html#ad4d77d194544e97b3776398136effc55">00362</a> <span class="preprocessor"></span>  <a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html#ad4d77d194544e97b3776398136effc55">MediaEngineWebRTC</a>()
+<a name="l00363"></a>00363     : mMutex(<span class="stringliteral">&quot;mozilla::MediaEngineWebRTC&quot;</span>)
+<a name="l00364"></a>00364     , mVideoEngine(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>)
+<a name="l00365"></a>00365     , mVoiceEngine(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>)
+<a name="l00366"></a>00366     , mVideoEngineInit(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00367"></a>00367     , mAudioEngineInit(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00368"></a>00368   {
+<a name="l00369"></a>00369     mVideoSources.<a class="code" href="../../da/dba/classns_base_hashtable.html#a4f48e1b8f52b1065f6351f7e77e9b4a2">Init</a>();
+<a name="l00370"></a>00370     mAudioSources.<a class="code" href="../../da/dba/classns_base_hashtable.html#a4f48e1b8f52b1065f6351f7e77e9b4a2">Init</a>();
+<a name="l00371"></a>00371   }
+<a name="l00372"></a>00372 <span class="preprocessor">#endif</span>
+<a name="l00373"></a><a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html#a254966c0674efad8a00d32f8750a04f6">00373</a> <span class="preprocessor"></span>  <a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html#a254966c0674efad8a00d32f8750a04f6">~MediaEngineWebRTC</a>() { <a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html#ae893c1d7f4582f6262855b616c8336f1">Shutdown</a>(); }
+<a name="l00374"></a>00374 
+<a name="l00375"></a>00375   <span class="comment">// Clients should ensure to clean-up sources video/audio sources</span>
+<a name="l00376"></a>00376   <span class="comment">// before invoking Shutdown on this class.</span>
+<a name="l00377"></a>00377   <span class="keywordtype">void</span> <a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html#ae893c1d7f4582f6262855b616c8336f1">Shutdown</a>();
+<a name="l00378"></a>00378 
+<a name="l00379"></a>00379   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html#a6d6d17302ef972978d531fd328e53bf1">EnumerateVideoDevices</a>(<a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray</a>&lt;<a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;MediaEngineVideoSource&gt;</a> &gt;*);
+<a name="l00380"></a>00380   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d1b/classmozilla_1_1_media_engine_web_r_t_c.html#a0e7e469d5915815638f16c19bce82d1b">EnumerateAudioDevices</a>(<a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray</a>&lt;<a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;MediaEngineAudioSource&gt;</a> &gt;*);
+<a name="l00381"></a>00381 
+<a name="l00382"></a>00382 <span class="keyword">private</span>:
+<a name="l00383"></a>00383   <a class="code" href="../../d9/d12/classmozilla_1_1_mutex.html">Mutex</a> mMutex;
+<a name="l00384"></a>00384   <span class="comment">// protected with mMutex:</span>
+<a name="l00385"></a>00385 
+<a name="l00386"></a>00386   webrtc::VideoEngine* mVideoEngine;
+<a name="l00387"></a>00387   webrtc::VoiceEngine* mVoiceEngine;
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389   <span class="comment">// Need this to avoid unneccesary WebRTC calls while enumerating.</span>
+<a name="l00390"></a>00390   <span class="keywordtype">bool</span> mVideoEngineInit;
+<a name="l00391"></a>00391   <span class="keywordtype">bool</span> mAudioEngineInit;
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393   <span class="comment">// Store devices we&#39;ve already seen in a hashtable for quick return.</span>
+<a name="l00394"></a>00394   <span class="comment">// Maps UUID to MediaEngineSource (one set for audio, one for video).</span>
+<a name="l00395"></a>00395   <a class="code" href="../../d8/db9/classns_ref_ptr_hashtable.html">nsRefPtrHashtable&lt;nsStringHashKey, MediaEngineWebRTCVideoSource &gt;</a> mVideoSources;
+<a name="l00396"></a>00396   <a class="code" href="../../d8/db9/classns_ref_ptr_hashtable.html">nsRefPtrHashtable&lt;nsStringHashKey, MediaEngineWebRTCAudioSource &gt;</a> mAudioSources;
+<a name="l00397"></a>00397 
+<a name="l00398"></a>00398 <span class="preprocessor">#ifdef MOZ_B2G_CAMERA</span>
+<a name="l00399"></a>00399 <span class="preprocessor"></span>  <span class="comment">// MediaEngine hold this DOM object, and the MediaEngine is hold by Navigator</span>
+<a name="l00400"></a>00400   <span class="comment">// Their life time is always much longer than this object. Use a raw-pointer</span>
+<a name="l00401"></a>00401   <span class="comment">// here should be safe.</span>
+<a name="l00402"></a>00402   <span class="comment">// We need raw pointer here since such DOM-object should not addref/release on</span>
+<a name="l00403"></a>00403   <span class="comment">// any thread other than main thread, but we must use this object for now. To</span>
+<a name="l00404"></a>00404   <span class="comment">// avoid any bad thing do to addref/release DOM-object on other thread, we use</span>
+<a name="l00405"></a>00405   <span class="comment">// raw-pointer for now.</span>
+<a name="l00406"></a>00406   nsDOMCameraManager* mCameraManager;
+<a name="l00407"></a>00407   uint64_t mWindowId;
+<a name="l00408"></a>00408 <span class="preprocessor">#endif</span>
+<a name="l00409"></a>00409 <span class="preprocessor"></span>};
+<a name="l00410"></a>00410 
+<a name="l00411"></a>00411 }
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413 <span class="preprocessor">#endif </span><span class="comment">/* NSMEDIAENGINEWEBRTC_H_ */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/d6e/_media_engine_web_r_t_c_8h.html">MediaEngineWebRTC.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:45に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

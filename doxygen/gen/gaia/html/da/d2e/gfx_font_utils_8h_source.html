@@ -1,0 +1,1188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: gfxFontUtils.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/d2e/gfx_font_utils_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">gfxFontUtils.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/d2e/gfx_font_utils_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 20; indent-tabs-mode: nil; c-basic-offset: 4 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef GFX_FONT_UTILS_H</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define GFX_FONT_UTILS_H</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/db4/gfx_types_8h.html">gfxTypes.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/db7/gfx_platform_8h.html">gfxPlatform.h</a>&quot;</span>
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/dbf/ns_algorithm_8h.html">nsAlgorithm.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/d7e/prcpucfg_8h.html">prcpucfg.h</a>&quot;</span>
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d66/ns_data_hashtable_8h.html">nsDataHashtable.h</a>&quot;</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d1c/ns_i_timer_8h.html">nsITimer.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d4d/ns_i_runnable_8h.html">nsIRunnable.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html">nsThreadUtils.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/db2/ns_component_manager_utils_8h.html">nsComponentManagerUtils.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/db9/ns_t_array_8h.html">nsTArray.h</a>&quot;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/d8a/_likely_8h.html">mozilla/Likely.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/d30/_endian_8h.html">mozilla/Endian.h</a>&quot;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6d/_memory_reporting_8h.html">mozilla/MemoryReporting.h</a>&quot;</span>
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="../../d4/dae/zlib_8h.html">zlib.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &lt;algorithm&gt;</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="comment">/* Bug 341128 - w32api defines min/max which causes problems with &lt;bitset&gt; */</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#ifdef __MINGW32__</span>
+<a name="l00033"></a>00033 <span class="preprocessor"></span><span class="preprocessor">#undef min</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor">#undef max</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span>
+<a name="l00037"></a><a class="code" href="../../da/d2e/gfx_font_utils_8h.html#ae8466762131f0380fe515390ead91d81">00037</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../da/d2e/gfx_font_utils_8h.html#ae8466762131f0380fe515390ead91d81">hb_blob_t</a> <a class="code" href="../../da/d2e/gfx_font_utils_8h.html#ae8466762131f0380fe515390ead91d81">hb_blob_t</a>;
+<a name="l00038"></a>00038 
+<a name="l00039"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html">00039</a> <span class="keyword">class </span><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html">gfxSparseBitSet</a> {
+<a name="l00040"></a>00040 <span class="keyword">private</span>:
+<a name="l00041"></a>00041     <span class="keyword">enum</span> { BLOCK_SIZE = 32 };   <span class="comment">// ==&gt; 256 codepoints per block</span>
+<a name="l00042"></a>00042     <span class="keyword">enum</span> { BLOCK_SIZE_BITS = BLOCK_SIZE * 8 };
+<a name="l00043"></a>00043     <span class="keyword">enum</span> { BLOCK_INDEX_SHIFT = 8 };
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045     <span class="keyword">struct </span>Block {
+<a name="l00046"></a>00046         Block(<span class="keyword">const</span> Block&amp; aBlock) { memcpy(mBits, aBlock.mBits, <span class="keyword">sizeof</span>(mBits)); }
+<a name="l00047"></a>00047         Block(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> memsetValue = 0) { memset(mBits, memsetValue, BLOCK_SIZE); }
+<a name="l00048"></a>00048         uint8_t mBits[BLOCK_SIZE];
+<a name="l00049"></a>00049     };
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051 <span class="keyword">public</span>:
+<a name="l00052"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a1c15be968820dbeb1f28383e9f905ee2">00052</a>     <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a1c15be968820dbeb1f28383e9f905ee2">gfxSparseBitSet</a>() { }
+<a name="l00053"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a8145ca81f0261982c462296006f2f1af">00053</a>     <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a8145ca81f0261982c462296006f2f1af">gfxSparseBitSet</a>(<span class="keyword">const</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html">gfxSparseBitSet</a>&amp; aBitset) {
+<a name="l00054"></a>00054         uint32_t <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a> = aBitset.mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>();
+<a name="l00055"></a>00055         mBlocks.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#a1c222edc1c9c3fa51d40b1bccbee6ffd">AppendElements</a>(len);
+<a name="l00056"></a>00056         <span class="keywordflow">for</span> (uint32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a>; ++<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>) {
+<a name="l00057"></a>00057             Block *block = aBitset.mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00058"></a>00058             <span class="keywordflow">if</span> (block)
+<a name="l00059"></a>00059                 mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>] = <span class="keyword">new</span> Block(*block);
+<a name="l00060"></a>00060         }
+<a name="l00061"></a>00061     }
+<a name="l00062"></a>00062 
+<a name="l00063"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a2929eef8d9a530612346b07132f09e58">00063</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a2929eef8d9a530612346b07132f09e58">Equals</a>(<span class="keyword">const</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html">gfxSparseBitSet</a> *aOther)<span class="keyword"> const </span>{
+<a name="l00064"></a>00064         <span class="keywordflow">if</span> (mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>() != aOther-&gt;mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>()) {
+<a name="l00065"></a>00065             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00066"></a>00066         }
+<a name="l00067"></a>00067         <span class="keywordtype">size_t</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a> = mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>();
+<a name="l00068"></a>00068         <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>; ++<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>) {
+<a name="l00069"></a>00069             <span class="keyword">const</span> Block *b1 = mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00070"></a>00070             <span class="keyword">const</span> Block *b2 = aOther-&gt;mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00071"></a>00071             <span class="keywordflow">if</span> (!b1 != !b2) {
+<a name="l00072"></a>00072                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00073"></a>00073             }
+<a name="l00074"></a>00074             <span class="keywordflow">if</span> (!b1) {
+<a name="l00075"></a>00075                 <span class="keywordflow">continue</span>;
+<a name="l00076"></a>00076             }
+<a name="l00077"></a>00077             <span class="keywordflow">if</span> (memcmp(&amp;b1-&gt;mBits, &amp;b2-&gt;mBits, BLOCK_SIZE) != 0) {
+<a name="l00078"></a>00078                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00079"></a>00079             }
+<a name="l00080"></a>00080         }
+<a name="l00081"></a>00081         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00082"></a>00082     }
+<a name="l00083"></a>00083 
+<a name="l00084"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a04c0afe2197d86698b51f000e5eba465">00084</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a04c0afe2197d86698b51f000e5eba465">test</a>(uint32_t aIndex)<span class="keyword"> const </span>{
+<a name="l00085"></a>00085         <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(mBlocks.DebugGetHeader(), <span class="stringliteral">&quot;mHdr is null, this is bad&quot;</span>);
+<a name="l00086"></a>00086         uint32_t blockIndex = aIndex/BLOCK_SIZE_BITS;
+<a name="l00087"></a>00087         <span class="keywordflow">if</span> (blockIndex &gt;= mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>())
+<a name="l00088"></a>00088             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00089"></a>00089         Block *block = mBlocks[blockIndex];
+<a name="l00090"></a>00090         <span class="keywordflow">if</span> (!block)
+<a name="l00091"></a>00091             <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00092"></a>00092         <span class="keywordflow">return</span> ((block-&gt;mBits[(aIndex&gt;&gt;3) &amp; (BLOCK_SIZE - 1)]) &amp; (1 &lt;&lt; (aIndex &amp; 0x7))) != 0;
+<a name="l00093"></a>00093     }
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095 <span class="preprocessor">#if PR_LOGGING</span>
+<a name="l00096"></a>00096 <span class="preprocessor"></span>    <span class="comment">// dump out contents of bitmap</span>
+<a name="l00097"></a>00097     <span class="keywordtype">void</span> Dump(<span class="keyword">const</span> <span class="keywordtype">char</span>* aPrefix, <a class="code" href="../../d7/db7/gfx_platform_8h.html#ab7a3ed30f1c8e18c1aa012d5cf7c0c82">eGfxLog</a> aWhichLog) <span class="keyword">const</span>;
+<a name="l00098"></a>00098 <span class="preprocessor">#endif</span>
+<a name="l00099"></a>00099 <span class="preprocessor"></span>
+<a name="l00100"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a328c489a5eaa3fb69b1620ceeba512f2">00100</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a328c489a5eaa3fb69b1620ceeba512f2">TestRange</a>(uint32_t aStart, uint32_t aEnd) {
+<a name="l00101"></a>00101         uint32_t startBlock, endBlock, blockLen;
+<a name="l00102"></a>00102         
+<a name="l00103"></a>00103         <span class="comment">// start point is beyond the end of the block array? return false immediately</span>
+<a name="l00104"></a>00104         startBlock = aStart &gt;&gt; BLOCK_INDEX_SHIFT;
+<a name="l00105"></a>00105         blockLen = mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>();
+<a name="l00106"></a>00106         <span class="keywordflow">if</span> (startBlock &gt;= blockLen) <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00107"></a>00107         
+<a name="l00108"></a>00108         <span class="comment">// check for blocks in range, if none, return false</span>
+<a name="l00109"></a>00109         uint32_t blockIndex;
+<a name="l00110"></a>00110         <span class="keywordtype">bool</span> hasBlocksInRange = <span class="keyword">false</span>;
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112         endBlock = aEnd &gt;&gt; BLOCK_INDEX_SHIFT;
+<a name="l00113"></a>00113         blockIndex = startBlock;
+<a name="l00114"></a>00114         <span class="keywordflow">for</span> (blockIndex = startBlock; blockIndex &lt;= endBlock; blockIndex++) {
+<a name="l00115"></a>00115             <span class="keywordflow">if</span> (blockIndex &lt; blockLen &amp;&amp; mBlocks[blockIndex])
+<a name="l00116"></a>00116                 hasBlocksInRange = <span class="keyword">true</span>;
+<a name="l00117"></a>00117         }
+<a name="l00118"></a>00118         <span class="keywordflow">if</span> (!hasBlocksInRange) <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120         Block *block;
+<a name="l00121"></a>00121         uint32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>, <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>, <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>;
+<a name="l00122"></a>00122         
+<a name="l00123"></a>00123         <span class="comment">// first block, check bits</span>
+<a name="l00124"></a>00124         <span class="keywordflow">if</span> ((block = mBlocks[startBlock])) {
+<a name="l00125"></a>00125             start = aStart;
+<a name="l00126"></a>00126             end = <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#aad36546e8175d2922bee165fe028fedc">std::min</a>(aEnd, ((startBlock+1) &lt;&lt; BLOCK_INDEX_SHIFT) - 1);
+<a name="l00127"></a>00127             <span class="keywordflow">for</span> (i = start; i &lt;= <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>; i++) {
+<a name="l00128"></a>00128                 <span class="keywordflow">if</span> ((block-&gt;mBits[(i&gt;&gt;3) &amp; (BLOCK_SIZE - 1)]) &amp; (1 &lt;&lt; (i &amp; 0x7)))
+<a name="l00129"></a>00129                     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00130"></a>00130             }
+<a name="l00131"></a>00131         }
+<a name="l00132"></a>00132         <span class="keywordflow">if</span> (endBlock == startBlock) <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134         <span class="comment">// [2..n-1] blocks check bytes</span>
+<a name="l00135"></a>00135         <span class="keywordflow">for</span> (blockIndex = startBlock + 1; blockIndex &lt; endBlock; blockIndex++) {
+<a name="l00136"></a>00136             uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>;
+<a name="l00137"></a>00137             
+<a name="l00138"></a>00138             <span class="keywordflow">if</span> (blockIndex &gt;= blockLen || !(block = mBlocks[blockIndex])) <span class="keywordflow">continue</span>;
+<a name="l00139"></a>00139             <span class="keywordflow">for</span> (index = 0; index &lt; BLOCK_SIZE; index++) {
+<a name="l00140"></a>00140                 <span class="keywordflow">if</span> (block-&gt;mBits[index]) 
+<a name="l00141"></a>00141                     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00142"></a>00142             }
+<a name="l00143"></a>00143         }
+<a name="l00144"></a>00144         
+<a name="l00145"></a>00145         <span class="comment">// last block, check bits</span>
+<a name="l00146"></a>00146         <span class="keywordflow">if</span> (endBlock &lt; blockLen &amp;&amp; (block = mBlocks[endBlock])) {
+<a name="l00147"></a>00147             start = endBlock &lt;&lt; BLOCK_INDEX_SHIFT;
+<a name="l00148"></a>00148             end = aEnd;
+<a name="l00149"></a>00149             <span class="keywordflow">for</span> (i = start; i &lt;= <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>; i++) {
+<a name="l00150"></a>00150                 <span class="keywordflow">if</span> ((block-&gt;mBits[(i&gt;&gt;3) &amp; (BLOCK_SIZE - 1)]) &amp; (1 &lt;&lt; (i &amp; 0x7)))
+<a name="l00151"></a>00151                     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00152"></a>00152             }
+<a name="l00153"></a>00153         }
+<a name="l00154"></a>00154         
+<a name="l00155"></a>00155         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00156"></a>00156     }
+<a name="l00157"></a>00157     
+<a name="l00158"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a6e4409e089886fc1526a9235e4d95f5a">00158</a>     <span class="keywordtype">void</span> <span class="keyword">set</span>(uint32_t aIndex) {
+<a name="l00159"></a>00159         uint32_t blockIndex = aIndex/BLOCK_SIZE_BITS;
+<a name="l00160"></a>00160         <span class="keywordflow">if</span> (blockIndex &gt;= mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>()) {
+<a name="l00161"></a>00161             <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;Block&gt;</a> *blocks = mBlocks.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#a1c222edc1c9c3fa51d40b1bccbee6ffd">AppendElements</a>(blockIndex + 1 - mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>());
+<a name="l00162"></a>00162             <span class="keywordflow">if</span> (<a class="code" href="../../d1/d8a/_likely_8h.html#a017cc7db7d122a8bd07caba5c6f9397a">MOZ_UNLIKELY</a>(!blocks)) <span class="comment">// OOM</span>
+<a name="l00163"></a>00163                 <span class="keywordflow">return</span>;
+<a name="l00164"></a>00164         }
+<a name="l00165"></a>00165         Block *block = mBlocks[blockIndex];
+<a name="l00166"></a>00166         <span class="keywordflow">if</span> (!block) {
+<a name="l00167"></a>00167             block = <span class="keyword">new</span> Block;
+<a name="l00168"></a>00168             mBlocks[blockIndex] = block;
+<a name="l00169"></a>00169         }
+<a name="l00170"></a>00170         block-&gt;mBits[(aIndex&gt;&gt;3) &amp; (BLOCK_SIZE - 1)] |= 1 &lt;&lt; (aIndex &amp; 0x7);
+<a name="l00171"></a>00171     }
+<a name="l00172"></a>00172 
+<a name="l00173"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#aa756f784b14a63bbb8e0d59c085e5da1">00173</a>     <span class="keywordtype">void</span> <span class="keyword">set</span>(uint32_t aIndex, <span class="keywordtype">bool</span> aValue) {
+<a name="l00174"></a>00174         <span class="keywordflow">if</span> (aValue)
+<a name="l00175"></a>00175             <span class="keyword">set</span>(aIndex);
+<a name="l00176"></a>00176         <span class="keywordflow">else</span>
+<a name="l00177"></a>00177             <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#acf250415e0a1842732d922a0d43ff8cf">clear</a>(aIndex);
+<a name="l00178"></a>00178     }
+<a name="l00179"></a>00179 
+<a name="l00180"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#aeead3d1160d7a13f36073faf8b5e53be">00180</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#aeead3d1160d7a13f36073faf8b5e53be">SetRange</a>(uint32_t aStart, uint32_t aEnd) {
+<a name="l00181"></a>00181         <span class="keyword">const</span> uint32_t startIndex = aStart/BLOCK_SIZE_BITS;
+<a name="l00182"></a>00182         <span class="keyword">const</span> uint32_t endIndex = aEnd/BLOCK_SIZE_BITS;
+<a name="l00183"></a>00183 
+<a name="l00184"></a>00184         <span class="keywordflow">if</span> (endIndex &gt;= mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>()) {
+<a name="l00185"></a>00185             uint32_t numNewBlocks = endIndex + 1 - mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>();
+<a name="l00186"></a>00186             <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;Block&gt;</a> *blocks = mBlocks.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#a1c222edc1c9c3fa51d40b1bccbee6ffd">AppendElements</a>(numNewBlocks);
+<a name="l00187"></a>00187             <span class="keywordflow">if</span> (<a class="code" href="../../d1/d8a/_likely_8h.html#a017cc7db7d122a8bd07caba5c6f9397a">MOZ_UNLIKELY</a>(!blocks)) <span class="comment">// OOM</span>
+<a name="l00188"></a>00188                 <span class="keywordflow">return</span>;
+<a name="l00189"></a>00189         }
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191         <span class="keywordflow">for</span> (uint32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = startIndex; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt;= endIndex; ++<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>) {
+<a name="l00192"></a>00192             <span class="keyword">const</span> uint32_t blockFirstBit = <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> * BLOCK_SIZE_BITS;
+<a name="l00193"></a>00193             <span class="keyword">const</span> uint32_t blockLastBit = blockFirstBit + BLOCK_SIZE_BITS - 1;
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195             Block *block = mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00196"></a>00196             <span class="keywordflow">if</span> (!block) {
+<a name="l00197"></a>00197                 <span class="keywordtype">bool</span> fullBlock = <span class="keyword">false</span>;
+<a name="l00198"></a>00198                 <span class="keywordflow">if</span> (aStart &lt;= blockFirstBit &amp;&amp; aEnd &gt;= blockLastBit)
+<a name="l00199"></a>00199                     fullBlock = <span class="keyword">true</span>;
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201                 block = <span class="keyword">new</span> Block(fullBlock ? 0xFF : 0);
+<a name="l00202"></a>00202                 mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>] = block;
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204                 <span class="keywordflow">if</span> (fullBlock)
+<a name="l00205"></a>00205                     <span class="keywordflow">continue</span>;
+<a name="l00206"></a>00206             }
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208             <span class="keyword">const</span> uint32_t <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> = aStart &gt; blockFirstBit ? aStart - blockFirstBit : 0;
+<a name="l00209"></a>00209             <span class="keyword">const</span> uint32_t <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a> = std::min&lt;uint32_t&gt;(aEnd - blockFirstBit, BLOCK_SIZE_BITS - 1);
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211             <span class="keywordflow">for</span> (uint32_t bit = start; bit &lt;= <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>; ++bit) {
+<a name="l00212"></a>00212                 block-&gt;mBits[bit&gt;&gt;3] |= 1 &lt;&lt; (bit &amp; 0x7);
+<a name="l00213"></a>00213             }
+<a name="l00214"></a>00214         }
+<a name="l00215"></a>00215     }
+<a name="l00216"></a>00216 
+<a name="l00217"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#acf250415e0a1842732d922a0d43ff8cf">00217</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#acf250415e0a1842732d922a0d43ff8cf">clear</a>(uint32_t aIndex) {
+<a name="l00218"></a>00218         uint32_t blockIndex = aIndex/BLOCK_SIZE_BITS;
+<a name="l00219"></a>00219         <span class="keywordflow">if</span> (blockIndex &gt;= mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>()) {
+<a name="l00220"></a>00220             <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;Block&gt;</a> *blocks = mBlocks.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#a1c222edc1c9c3fa51d40b1bccbee6ffd">AppendElements</a>(blockIndex + 1 - mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>());
+<a name="l00221"></a>00221             <span class="keywordflow">if</span> (<a class="code" href="../../d1/d8a/_likely_8h.html#a017cc7db7d122a8bd07caba5c6f9397a">MOZ_UNLIKELY</a>(!blocks)) <span class="comment">// OOM</span>
+<a name="l00222"></a>00222                 <span class="keywordflow">return</span>;
+<a name="l00223"></a>00223         }
+<a name="l00224"></a>00224         Block *block = mBlocks[blockIndex];
+<a name="l00225"></a>00225         <span class="keywordflow">if</span> (!block) {
+<a name="l00226"></a>00226             <span class="keywordflow">return</span>;
+<a name="l00227"></a>00227         }
+<a name="l00228"></a>00228         block-&gt;mBits[(aIndex&gt;&gt;3) &amp; (BLOCK_SIZE - 1)] &amp;= ~(1 &lt;&lt; (aIndex &amp; 0x7));
+<a name="l00229"></a>00229     }
+<a name="l00230"></a>00230 
+<a name="l00231"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a6a3cc6ea95600ee6ddee6458691bc131">00231</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a6a3cc6ea95600ee6ddee6458691bc131">ClearRange</a>(uint32_t aStart, uint32_t aEnd) {
+<a name="l00232"></a>00232         <span class="keyword">const</span> uint32_t startIndex = aStart/BLOCK_SIZE_BITS;
+<a name="l00233"></a>00233         <span class="keyword">const</span> uint32_t endIndex = aEnd/BLOCK_SIZE_BITS;
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235         <span class="keywordflow">if</span> (endIndex &gt;= mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>()) {
+<a name="l00236"></a>00236             uint32_t numNewBlocks = endIndex + 1 - mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>();
+<a name="l00237"></a>00237             <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;Block&gt;</a> *blocks = mBlocks.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#a1c222edc1c9c3fa51d40b1bccbee6ffd">AppendElements</a>(numNewBlocks);
+<a name="l00238"></a>00238             <span class="keywordflow">if</span> (<a class="code" href="../../d1/d8a/_likely_8h.html#a017cc7db7d122a8bd07caba5c6f9397a">MOZ_UNLIKELY</a>(!blocks)) <span class="comment">// OOM</span>
+<a name="l00239"></a>00239                 <span class="keywordflow">return</span>;
+<a name="l00240"></a>00240         }
+<a name="l00241"></a>00241 
+<a name="l00242"></a>00242         <span class="keywordflow">for</span> (uint32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = startIndex; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt;= endIndex; ++<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>) {
+<a name="l00243"></a>00243             <span class="keyword">const</span> uint32_t blockFirstBit = <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> * BLOCK_SIZE_BITS;
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245             Block *block = mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00246"></a>00246             <span class="keywordflow">if</span> (!block) {
+<a name="l00247"></a>00247                 <span class="comment">// any nonexistent block is implicitly all clear,</span>
+<a name="l00248"></a>00248                 <span class="comment">// so there&#39;s no need to even create it</span>
+<a name="l00249"></a>00249                 <span class="keywordflow">continue</span>;
+<a name="l00250"></a>00250             }
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252             <span class="keyword">const</span> uint32_t <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> = aStart &gt; blockFirstBit ? aStart - blockFirstBit : 0;
+<a name="l00253"></a>00253             <span class="keyword">const</span> uint32_t <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a> = std::min&lt;uint32_t&gt;(aEnd - blockFirstBit, BLOCK_SIZE_BITS - 1);
+<a name="l00254"></a>00254 
+<a name="l00255"></a>00255             <span class="keywordflow">for</span> (uint32_t bit = start; bit &lt;= <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>; ++bit) {
+<a name="l00256"></a>00256                 block-&gt;mBits[bit&gt;&gt;3] &amp;= ~(1 &lt;&lt; (bit &amp; 0x7));
+<a name="l00257"></a>00257             }
+<a name="l00258"></a>00258         }
+<a name="l00259"></a>00259     }
+<a name="l00260"></a>00260 
+<a name="l00261"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a3548bf2c4d9633fd820dcf7798a8239d">00261</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a3548bf2c4d9633fd820dcf7798a8239d">SizeOfExcludingThis</a>(mozilla::MallocSizeOf aMallocSizeOf)<span class="keyword"> const </span>{
+<a name="l00262"></a>00262         <span class="keywordtype">size_t</span> <a class="code" href="../../da/ddf/ns_i_d_o_m_progress_event_8idl.html#ac3db248c35e11a75b4e99f0087d77c90">total</a> = mBlocks.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#a3b062ff0e48c0b9c8a99097df62fede5">SizeOfExcludingThis</a>(aMallocSizeOf);
+<a name="l00263"></a>00263         <span class="keywordflow">for</span> (uint32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>(); <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00264"></a>00264             <span class="keywordflow">if</span> (mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]) {
+<a name="l00265"></a>00265                 total += aMallocSizeOf(mBlocks[i]);
+<a name="l00266"></a>00266             }
+<a name="l00267"></a>00267         }
+<a name="l00268"></a>00268         <span class="keywordflow">return</span> <a class="code" href="../../da/ddf/ns_i_d_o_m_progress_event_8idl.html#ac3db248c35e11a75b4e99f0087d77c90">total</a>;
+<a name="l00269"></a>00269     }
+<a name="l00270"></a>00270 
+<a name="l00271"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a217ab90e5b7f12675934d7f5f274d37e">00271</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a217ab90e5b7f12675934d7f5f274d37e">SizeOfIncludingThis</a>(mozilla::MallocSizeOf aMallocSizeOf)<span class="keyword"> const </span>{
+<a name="l00272"></a>00272         <span class="keywordflow">return</span> aMallocSizeOf(<span class="keyword">this</span>) + <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a3548bf2c4d9633fd820dcf7798a8239d">SizeOfExcludingThis</a>(aMallocSizeOf);
+<a name="l00273"></a>00273     }
+<a name="l00274"></a>00274 
+<a name="l00275"></a>00275     <span class="comment">// clear out all blocks in the array</span>
+<a name="l00276"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a67f925ffad0272b5567c472a4f75e4c2">00276</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a67f925ffad0272b5567c472a4f75e4c2">reset</a>() {
+<a name="l00277"></a>00277         uint32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>;
+<a name="l00278"></a>00278         <span class="keywordflow">for</span> (i = 0; i &lt; mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>(); i++)
+<a name="l00279"></a>00279             mBlocks[i] = <span class="keyword">nullptr</span>;    
+<a name="l00280"></a>00280     }
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282     <span class="comment">// set this bitset to the union of its current contents and another</span>
+<a name="l00283"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a5cbb57d422ffeaf969606a311abc85c3">00283</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a5cbb57d422ffeaf969606a311abc85c3">Union</a>(<span class="keyword">const</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html">gfxSparseBitSet</a>&amp; aBitset) {
+<a name="l00284"></a>00284         <span class="comment">// ensure mBlocks is large enough</span>
+<a name="l00285"></a>00285         uint32_t blockCount = aBitset.mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>();
+<a name="l00286"></a>00286         <span class="keywordflow">if</span> (blockCount &gt; mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>()) {
+<a name="l00287"></a>00287             uint32_t needed = blockCount - mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>();
+<a name="l00288"></a>00288             <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;Block&gt;</a> *blocks = mBlocks.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#a1c222edc1c9c3fa51d40b1bccbee6ffd">AppendElements</a>(needed);
+<a name="l00289"></a>00289             <span class="keywordflow">if</span> (<a class="code" href="../../d1/d8a/_likely_8h.html#a017cc7db7d122a8bd07caba5c6f9397a">MOZ_UNLIKELY</a>(!blocks)) { <span class="comment">// OOM</span>
+<a name="l00290"></a>00290                 <span class="keywordflow">return</span>;
+<a name="l00291"></a>00291             }
+<a name="l00292"></a>00292         }
+<a name="l00293"></a>00293         <span class="comment">// for each block that may be present in aBitset...</span>
+<a name="l00294"></a>00294         <span class="keywordflow">for</span> (uint32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; blockCount; ++<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>) {
+<a name="l00295"></a>00295             <span class="comment">// if it is missing (implicitly empty), just skip</span>
+<a name="l00296"></a>00296             <span class="keywordflow">if</span> (!aBitset.mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]) {
+<a name="l00297"></a>00297                 <span class="keywordflow">continue</span>;
+<a name="l00298"></a>00298             }
+<a name="l00299"></a>00299             <span class="comment">// if the block is missing in this set, just copy the other</span>
+<a name="l00300"></a>00300             <span class="keywordflow">if</span> (!mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]) {
+<a name="l00301"></a>00301                 mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>] = <span class="keyword">new</span> Block(*aBitset.mBlocks[i]);
+<a name="l00302"></a>00302                 <span class="keywordflow">continue</span>;
+<a name="l00303"></a>00303             }
+<a name="l00304"></a>00304             <span class="comment">// else set existing block to the union of both</span>
+<a name="l00305"></a>00305             uint32_t *dst = <span class="keyword">reinterpret_cast&lt;</span>uint32_t*<span class="keyword">&gt;</span>(mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]-&gt;mBits);
+<a name="l00306"></a>00306             <span class="keyword">const</span> uint32_t *src =
+<a name="l00307"></a>00307                 <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>uint32_t*<span class="keyword">&gt;</span>(aBitset.mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]-&gt;mBits);
+<a name="l00308"></a>00308             <span class="keywordflow">for</span> (uint32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a8a080bd96df5681d77f59f96dc5da089">j</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a8a080bd96df5681d77f59f96dc5da089">j</a> &lt; BLOCK_SIZE / 4; ++<a class="code" href="../../da/d7d/sylvester_8js.html#a8a080bd96df5681d77f59f96dc5da089">j</a>) {
+<a name="l00309"></a>00309                 dst[<a class="code" href="../../da/d7d/sylvester_8js.html#a8a080bd96df5681d77f59f96dc5da089">j</a>] |= src[<a class="code" href="../../da/d7d/sylvester_8js.html#a8a080bd96df5681d77f59f96dc5da089">j</a>];
+<a name="l00310"></a>00310             }
+<a name="l00311"></a>00311         }
+<a name="l00312"></a>00312     }
+<a name="l00313"></a>00313 
+<a name="l00314"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a5abcf593cc10f60010d4456c02327d1b">00314</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a5abcf593cc10f60010d4456c02327d1b">Compact</a>() {
+<a name="l00315"></a>00315         mBlocks.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#aa4bafea0f89ebe567a616e41416e3df8">Compact</a>();
+<a name="l00316"></a>00316     }
+<a name="l00317"></a>00317 
+<a name="l00318"></a><a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a20eebbf58478160a34c7c63775c6924a">00318</a>     uint32_t <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html#a20eebbf58478160a34c7c63775c6924a">GetChecksum</a>()<span class="keyword"> const </span>{
+<a name="l00319"></a>00319         uint32_t <a class="code" href="../../d1/d5b/namespacejcconv.html#a846efc552618562a262a88978ef66841">check</a> = <a class="code" href="../../dc/d4d/mozzconf_8h.html#a88899508e9a73aad5db1854cd1cc87d7">adler32</a>(0, <a class="code" href="../../d4/dae/zlib_8h.html#ad15afa2776b41b2f4d8582dd152bd736">Z_NULL</a>, 0);
+<a name="l00320"></a>00320         <span class="keywordflow">for</span> (uint32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; mBlocks.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>(); <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00321"></a>00321             <span class="keywordflow">if</span> (mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]) {
+<a name="l00322"></a>00322                 <span class="keyword">const</span> Block *block = mBlocks[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00323"></a>00323                 check = <a class="code" href="../../dc/d4d/mozzconf_8h.html#a88899508e9a73aad5db1854cd1cc87d7">adler32</a>(check, (uint8_t*) (&amp;i), 4);
+<a name="l00324"></a>00324                 check = <a class="code" href="../../dc/d4d/mozzconf_8h.html#a88899508e9a73aad5db1854cd1cc87d7">adler32</a>(check, (uint8_t*) block, <span class="keyword">sizeof</span>(Block));
+<a name="l00325"></a>00325             }
+<a name="l00326"></a>00326         }
+<a name="l00327"></a>00327         <span class="keywordflow">return</span> <a class="code" href="../../d1/d5b/namespacejcconv.html#a846efc552618562a262a88978ef66841">check</a>;
+<a name="l00328"></a>00328     }
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330 <span class="keyword">private</span>:
+<a name="l00331"></a>00331     <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt; nsAutoPtr&lt;Block&gt;</a> &gt; mBlocks;
+<a name="l00332"></a>00332 };
+<a name="l00333"></a>00333 
+<a name="l00334"></a><a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a8a54bab439413b11375baf36892411d1">00334</a> <span class="preprocessor">#define TRUETYPE_TAG(a, b, c, d) ((a) &lt;&lt; 24 | (b) &lt;&lt; 16 | (c) &lt;&lt; 8 | (d))</span>
+<a name="l00335"></a>00335 <span class="preprocessor"></span>
+<a name="l00336"></a>00336 <span class="keyword">namespace </span>mozilla {
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338 <span class="comment">// Byte-swapping types and name table structure definitions moved from</span>
+<a name="l00339"></a>00339 <span class="comment">// gfxFontUtils.cpp to .h file so that gfxFont.cpp can also refer to them</span>
+<a name="l00340"></a>00340 <span class="preprocessor">#pragma pack(1)</span>
+<a name="l00341"></a>00341 <span class="preprocessor"></span>
+<a name="l00342"></a><a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">00342</a> <span class="keyword">struct </span><a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a> {
+<a name="l00343"></a>00343 <span class="preprocessor">#ifdef __SUNPRO_CC</span>
+<a name="l00344"></a>00344 <span class="preprocessor"></span>    <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>&amp; operator = (<span class="keyword">const</span> uint16_t aValue)
+<a name="l00345"></a>00345     {
+<a name="l00346"></a>00346         this-&gt;<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = mozilla::NativeEndian::swapToBigEndian(aValue);
+<a name="l00347"></a>00347         <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00348"></a>00348     }
+<a name="l00349"></a>00349 <span class="preprocessor">#else</span>
+<a name="l00350"></a><a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html#a89cffe535cdeff9a37d762436f8bde64">00350</a> <span class="preprocessor"></span>    <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html#a89cffe535cdeff9a37d762436f8bde64">AutoSwap_PRUint16</a>(uint16_t aValue)
+<a name="l00351"></a>00351     {
+<a name="l00352"></a>00352         <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = mozilla::NativeEndian::swapToBigEndian(aValue);
+<a name="l00353"></a>00353     }
+<a name="l00354"></a>00354 <span class="preprocessor">#endif</span>
+<a name="l00355"></a><a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html#a65aa6dd967948a0478974c9c9ab9c9ce">00355</a> <span class="preprocessor"></span>    <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html#a65aa6dd967948a0478974c9c9ab9c9ce">operator uint16_t</a>()<span class="keyword"> const</span>
+<a name="l00356"></a>00356 <span class="keyword">    </span>{
+<a name="l00357"></a>00357         <span class="keywordflow">return</span> mozilla::NativeEndian::swapFromBigEndian(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00358"></a>00358     }
+<a name="l00359"></a>00359 
+<a name="l00360"></a><a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html#a5effa4091ca926f2f5f837d2709ab57f">00360</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html#a5effa4091ca926f2f5f837d2709ab57f">operator uint32_t</a>()<span class="keyword"> const</span>
+<a name="l00361"></a>00361 <span class="keyword">    </span>{
+<a name="l00362"></a>00362         <span class="keywordflow">return</span> mozilla::NativeEndian::swapFromBigEndian(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00363"></a>00363     }
+<a name="l00364"></a>00364 
+<a name="l00365"></a><a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html#a7e1395bf886278ff76b5d3766ffaaa29">00365</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html#a7e1395bf886278ff76b5d3766ffaaa29">operator uint64_t</a>()<span class="keyword"> const</span>
+<a name="l00366"></a>00366 <span class="keyword">    </span>{
+<a name="l00367"></a>00367         <span class="keywordflow">return</span> mozilla::NativeEndian::swapFromBigEndian(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00368"></a>00368     }
+<a name="l00369"></a>00369 
+<a name="l00370"></a>00370 <span class="keyword">private</span>:
+<a name="l00371"></a>00371     uint16_t <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00372"></a>00372 };
+<a name="l00373"></a>00373 
+<a name="l00374"></a><a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">00374</a> <span class="keyword">struct </span><a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a> {
+<a name="l00375"></a>00375 <span class="preprocessor">#ifdef __SUNPRO_CC</span>
+<a name="l00376"></a>00376 <span class="preprocessor"></span>    <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>&amp; operator = (<span class="keyword">const</span> int16_t aValue)
+<a name="l00377"></a>00377     {
+<a name="l00378"></a>00378         this-&gt;<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = mozilla::NativeEndian::swapToBigEndian(aValue);
+<a name="l00379"></a>00379         <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00380"></a>00380     }
+<a name="l00381"></a>00381 <span class="preprocessor">#else</span>
+<a name="l00382"></a><a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html#ab36024095280f7c273ebfc4a121342b6">00382</a> <span class="preprocessor"></span>    <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html#ab36024095280f7c273ebfc4a121342b6">AutoSwap_PRInt16</a>(int16_t aValue)
+<a name="l00383"></a>00383     {
+<a name="l00384"></a>00384         <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = mozilla::NativeEndian::swapToBigEndian(aValue);
+<a name="l00385"></a>00385     }
+<a name="l00386"></a>00386 <span class="preprocessor">#endif</span>
+<a name="l00387"></a><a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html#a217e8572b17bcdbf796f0d3bd8caefef">00387</a> <span class="preprocessor"></span>    <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html#a217e8572b17bcdbf796f0d3bd8caefef">operator int16_t</a>()<span class="keyword"> const</span>
+<a name="l00388"></a>00388 <span class="keyword">    </span>{
+<a name="l00389"></a>00389         <span class="keywordflow">return</span> mozilla::NativeEndian::swapFromBigEndian(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00390"></a>00390     }
+<a name="l00391"></a>00391 
+<a name="l00392"></a><a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html#a065ec623c83ef7126c668b21bdd378ec">00392</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html#a065ec623c83ef7126c668b21bdd378ec">operator uint32_t</a>()<span class="keyword"> const</span>
+<a name="l00393"></a>00393 <span class="keyword">    </span>{
+<a name="l00394"></a>00394         <span class="keywordflow">return</span> mozilla::NativeEndian::swapFromBigEndian(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00395"></a>00395     }
+<a name="l00396"></a>00396 
+<a name="l00397"></a>00397 <span class="keyword">private</span>:
+<a name="l00398"></a>00398     int16_t  <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00399"></a>00399 };
+<a name="l00400"></a>00400 
+<a name="l00401"></a><a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">00401</a> <span class="keyword">struct </span><a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a> {
+<a name="l00402"></a>00402 <span class="preprocessor">#ifdef __SUNPRO_CC</span>
+<a name="l00403"></a>00403 <span class="preprocessor"></span>    <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>&amp; operator = (<span class="keyword">const</span> uint32_t aValue)
+<a name="l00404"></a>00404     {
+<a name="l00405"></a>00405         this-&gt;<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = mozilla::NativeEndian::swapToBigEndian(aValue);
+<a name="l00406"></a>00406         <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00407"></a>00407     }
+<a name="l00408"></a>00408 <span class="preprocessor">#else</span>
+<a name="l00409"></a><a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html#a5e403a3eaeeba7cf473a6504b5a058d6">00409</a> <span class="preprocessor"></span>    <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html#a5e403a3eaeeba7cf473a6504b5a058d6">AutoSwap_PRUint32</a>(uint32_t aValue)
+<a name="l00410"></a>00410     {
+<a name="l00411"></a>00411         <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = mozilla::NativeEndian::swapToBigEndian(aValue);
+<a name="l00412"></a>00412     }
+<a name="l00413"></a>00413 <span class="preprocessor">#endif</span>
+<a name="l00414"></a><a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html#aa68467afc597d7635af50fdc11343f4e">00414</a> <span class="preprocessor"></span>    <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html#aa68467afc597d7635af50fdc11343f4e">operator uint32_t</a>()<span class="keyword"> const</span>
+<a name="l00415"></a>00415 <span class="keyword">    </span>{
+<a name="l00416"></a>00416         <span class="keywordflow">return</span> mozilla::NativeEndian::swapFromBigEndian(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00417"></a>00417     }
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419 <span class="keyword">private</span>:
+<a name="l00420"></a>00420     uint32_t  <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00421"></a>00421 };
+<a name="l00422"></a>00422 
+<a name="l00423"></a><a class="code" href="../../d5/d2f/structmozilla_1_1_auto_swap___p_r_int32.html">00423</a> <span class="keyword">struct </span><a class="code" href="../../d5/d2f/structmozilla_1_1_auto_swap___p_r_int32.html">AutoSwap_PRInt32</a> {
+<a name="l00424"></a>00424 <span class="preprocessor">#ifdef __SUNPRO_CC</span>
+<a name="l00425"></a>00425 <span class="preprocessor"></span>    <a class="code" href="../../d5/d2f/structmozilla_1_1_auto_swap___p_r_int32.html">AutoSwap_PRInt32</a>&amp; operator = (<span class="keyword">const</span> int32_t aValue)
+<a name="l00426"></a>00426     {
+<a name="l00427"></a>00427         this-&gt;<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = mozilla::NativeEndian::swapToBigEndian(aValue);
+<a name="l00428"></a>00428         <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00429"></a>00429     }
+<a name="l00430"></a>00430 <span class="preprocessor">#else</span>
+<a name="l00431"></a><a class="code" href="../../d5/d2f/structmozilla_1_1_auto_swap___p_r_int32.html#aea61ddd7ddcc9aab0e0f3475f76e88e0">00431</a> <span class="preprocessor"></span>    <a class="code" href="../../d5/d2f/structmozilla_1_1_auto_swap___p_r_int32.html#aea61ddd7ddcc9aab0e0f3475f76e88e0">AutoSwap_PRInt32</a>(int32_t aValue)
+<a name="l00432"></a>00432     {
+<a name="l00433"></a>00433         <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = mozilla::NativeEndian::swapToBigEndian(aValue);
+<a name="l00434"></a>00434     }
+<a name="l00435"></a>00435 <span class="preprocessor">#endif</span>
+<a name="l00436"></a><a class="code" href="../../d5/d2f/structmozilla_1_1_auto_swap___p_r_int32.html#a9d204f484a2a3529d419479347bbfb44">00436</a> <span class="preprocessor"></span>    <a class="code" href="../../d5/d2f/structmozilla_1_1_auto_swap___p_r_int32.html#a9d204f484a2a3529d419479347bbfb44">operator int32_t</a>()<span class="keyword"> const</span>
+<a name="l00437"></a>00437 <span class="keyword">    </span>{
+<a name="l00438"></a>00438         <span class="keywordflow">return</span> mozilla::NativeEndian::swapFromBigEndian(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00439"></a>00439     }
+<a name="l00440"></a>00440 
+<a name="l00441"></a>00441 <span class="keyword">private</span>:
+<a name="l00442"></a>00442     int32_t  <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00443"></a>00443 };
+<a name="l00444"></a>00444 
+<a name="l00445"></a><a class="code" href="../../d6/db0/structmozilla_1_1_auto_swap___p_r_uint64.html">00445</a> <span class="keyword">struct </span><a class="code" href="../../d6/db0/structmozilla_1_1_auto_swap___p_r_uint64.html">AutoSwap_PRUint64</a> {
+<a name="l00446"></a>00446 <span class="preprocessor">#ifdef __SUNPRO_CC</span>
+<a name="l00447"></a>00447 <span class="preprocessor"></span>    <a class="code" href="../../d6/db0/structmozilla_1_1_auto_swap___p_r_uint64.html">AutoSwap_PRUint64</a>&amp; operator = (<span class="keyword">const</span> uint64_t aValue)
+<a name="l00448"></a>00448     {
+<a name="l00449"></a>00449         this-&gt;<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = mozilla::NativeEndian::swapToBigEndian(aValue);
+<a name="l00450"></a>00450         <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00451"></a>00451     }
+<a name="l00452"></a>00452 <span class="preprocessor">#else</span>
+<a name="l00453"></a><a class="code" href="../../d6/db0/structmozilla_1_1_auto_swap___p_r_uint64.html#a84b4f19336a788d3686eb791b9899c01">00453</a> <span class="preprocessor"></span>    <a class="code" href="../../d6/db0/structmozilla_1_1_auto_swap___p_r_uint64.html#a84b4f19336a788d3686eb791b9899c01">AutoSwap_PRUint64</a>(uint64_t aValue)
+<a name="l00454"></a>00454     {
+<a name="l00455"></a>00455         <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = mozilla::NativeEndian::swapToBigEndian(aValue);
+<a name="l00456"></a>00456     }
+<a name="l00457"></a>00457 <span class="preprocessor">#endif</span>
+<a name="l00458"></a><a class="code" href="../../d6/db0/structmozilla_1_1_auto_swap___p_r_uint64.html#a722a137ee7c220ca94a5a0b7ed230346">00458</a> <span class="preprocessor"></span>    <a class="code" href="../../d6/db0/structmozilla_1_1_auto_swap___p_r_uint64.html#a722a137ee7c220ca94a5a0b7ed230346">operator uint64_t</a>()<span class="keyword"> const</span>
+<a name="l00459"></a>00459 <span class="keyword">    </span>{
+<a name="l00460"></a>00460         <span class="keywordflow">return</span> mozilla::NativeEndian::swapFromBigEndian(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00461"></a>00461     }
+<a name="l00462"></a>00462 
+<a name="l00463"></a>00463 <span class="keyword">private</span>:
+<a name="l00464"></a>00464     uint64_t  <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00465"></a>00465 };
+<a name="l00466"></a>00466 
+<a name="l00467"></a><a class="code" href="../../db/d5d/structmozilla_1_1_auto_swap___p_r_uint24.html">00467</a> <span class="keyword">struct </span><a class="code" href="../../db/d5d/structmozilla_1_1_auto_swap___p_r_uint24.html">AutoSwap_PRUint24</a> {
+<a name="l00468"></a><a class="code" href="../../db/d5d/structmozilla_1_1_auto_swap___p_r_uint24.html#aed5cba098cdd9208ede990846928e3b7">00468</a>     <a class="code" href="../../db/d5d/structmozilla_1_1_auto_swap___p_r_uint24.html#aed5cba098cdd9208ede990846928e3b7">operator uint32_t</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>[0] &lt;&lt; 16 | <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>[1] &lt;&lt; 8 | <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>[2]; }
+<a name="l00469"></a>00469 <span class="keyword">private</span>:
+<a name="l00470"></a>00470     <a class="code" href="../../db/d5d/structmozilla_1_1_auto_swap___p_r_uint24.html">AutoSwap_PRUint24</a>() { }
+<a name="l00471"></a>00471     uint8_t  <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>[3];
+<a name="l00472"></a>00472 };
+<a name="l00473"></a>00473 
+<a name="l00474"></a><a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html">00474</a> <span class="keyword">struct </span><a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html">SFNTHeader</a> {
+<a name="l00475"></a><a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html#a6aba004dde406b3143dc3f864d7c7a60">00475</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html#a6aba004dde406b3143dc3f864d7c7a60">sfntVersion</a>;            <span class="comment">// Fixed, 0x00010000 for version 1.0.</span>
+<a name="l00476"></a><a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html#a90046da82be6383593a2f45700f9ae61">00476</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html#a90046da82be6383593a2f45700f9ae61">numTables</a>;              <span class="comment">// Number of tables.</span>
+<a name="l00477"></a><a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html#acd8d80e52ac05ea5b1690312dff67e1c">00477</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html#acd8d80e52ac05ea5b1690312dff67e1c">searchRange</a>;            <span class="comment">// (Maximum power of 2 &lt;= numTables) x 16.</span>
+<a name="l00478"></a><a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html#a7595af987a03143cdbeb77afcb030873">00478</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html#a7595af987a03143cdbeb77afcb030873">entrySelector</a>;          <span class="comment">// Log2(maximum power of 2 &lt;= numTables).</span>
+<a name="l00479"></a><a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html#a12aca2b57c93758c15a56c72b6a122a8">00479</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d1/dd2/structmozilla_1_1_s_f_n_t_header.html#a12aca2b57c93758c15a56c72b6a122a8">rangeShift</a>;             <span class="comment">// NumTables x 16-searchRange.        </span>
+<a name="l00480"></a>00480 };
+<a name="l00481"></a>00481 
+<a name="l00482"></a><a class="code" href="../../dc/d79/structmozilla_1_1_table_dir_entry.html">00482</a> <span class="keyword">struct </span><a class="code" href="../../dc/d79/structmozilla_1_1_table_dir_entry.html">TableDirEntry</a> {
+<a name="l00483"></a><a class="code" href="../../dc/d79/structmozilla_1_1_table_dir_entry.html#aff0448d76b3c4252a4c2542d45f78279">00483</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../dc/d79/structmozilla_1_1_table_dir_entry.html#aff0448d76b3c4252a4c2542d45f78279">tag</a>;                    <span class="comment">// 4 -byte identifier.</span>
+<a name="l00484"></a><a class="code" href="../../dc/d79/structmozilla_1_1_table_dir_entry.html#ab1ca4c1339f3fc2036366190f6d89c6f">00484</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../dc/d79/structmozilla_1_1_table_dir_entry.html#ab1ca4c1339f3fc2036366190f6d89c6f">checkSum</a>;               <span class="comment">// CheckSum for this table.</span>
+<a name="l00485"></a><a class="code" href="../../dc/d79/structmozilla_1_1_table_dir_entry.html#af1ee20ba294f84497f3b76bd4e106846">00485</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../dc/d79/structmozilla_1_1_table_dir_entry.html#af1ee20ba294f84497f3b76bd4e106846">offset</a>;                 <span class="comment">// Offset from beginning of TrueType font file.</span>
+<a name="l00486"></a><a class="code" href="../../dc/d79/structmozilla_1_1_table_dir_entry.html#aac15a5e5dece6fa5012fb3aef08cbe5d">00486</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../dc/d79/structmozilla_1_1_table_dir_entry.html#aac15a5e5dece6fa5012fb3aef08cbe5d">length</a>;                 <span class="comment">// Length of this table.        </span>
+<a name="l00487"></a>00487 };
+<a name="l00488"></a>00488 
+<a name="l00489"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html">00489</a> <span class="keyword">struct </span><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html">HeadTable</a> {
+<a name="l00490"></a>00490     <span class="keyword">enum</span> {
+<a name="l00491"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ae18dd385904466ef26c5be6646d4d9a1aa360ec7dcf1776139f70129a6b254959">00491</a>         <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ae18dd385904466ef26c5be6646d4d9a1aa360ec7dcf1776139f70129a6b254959">HEAD_VERSION</a> = 0x00010000,
+<a name="l00492"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ae18dd385904466ef26c5be6646d4d9a1a0defc9f1ca768e121e2143ded71dc346">00492</a>         <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ae18dd385904466ef26c5be6646d4d9a1a0defc9f1ca768e121e2143ded71dc346">HEAD_MAGIC_NUMBER</a> = 0x5F0F3CF5,
+<a name="l00493"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ae18dd385904466ef26c5be6646d4d9a1aa31b9fba81794e41a2d57d2aa1fc7477">00493</a>         <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ae18dd385904466ef26c5be6646d4d9a1aa31b9fba81794e41a2d57d2aa1fc7477">HEAD_CHECKSUM_CALC_CONST</a> = 0xB1B0AFBA
+<a name="l00494"></a>00494     };
+<a name="l00495"></a>00495 
+<a name="l00496"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a86c1186c14f04c61ae6d21faed28f258">00496</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a86c1186c14f04c61ae6d21faed28f258">tableVersionNumber</a>;    <span class="comment">// Fixed, 0x00010000 for version 1.0.</span>
+<a name="l00497"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ac51c4612871e943912cde560ac85f702">00497</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ac51c4612871e943912cde560ac85f702">fontRevision</a>;          <span class="comment">// Set by font manufacturer.</span>
+<a name="l00498"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a5cc2ddb1eb5ca17d73bf961a1d5635a4">00498</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a5cc2ddb1eb5ca17d73bf961a1d5635a4">checkSumAdjustment</a>;    <span class="comment">// To compute: set it to 0, sum the entire font as ULONG, then store 0xB1B0AFBA - sum.</span>
+<a name="l00499"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ae046cd36a325d7201358193637a30b76">00499</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ae046cd36a325d7201358193637a30b76">magicNumber</a>;           <span class="comment">// Set to 0x5F0F3CF5.</span>
+<a name="l00500"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a784543bf1b6db68f55d43480acbd0f4e">00500</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a784543bf1b6db68f55d43480acbd0f4e">flags</a>;
+<a name="l00501"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a6d7aacb36297b65c8cf7826b0c2654be">00501</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a6d7aacb36297b65c8cf7826b0c2654be">unitsPerEm</a>;            <span class="comment">// Valid range is from 16 to 16384. This value should be a power of 2 for fonts that have TrueType outlines.</span>
+<a name="l00502"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a66f581a404fc325531e0f7e0c76d38ee">00502</a>     <a class="code" href="../../d6/db0/structmozilla_1_1_auto_swap___p_r_uint64.html">AutoSwap_PRUint64</a>    <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a66f581a404fc325531e0f7e0c76d38ee">created</a>;               <span class="comment">// Number of seconds since 12:00 midnight, January 1, 1904. 64-bit integer</span>
+<a name="l00503"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a89b585881cfb0dc37e5e94ee0dc462b6">00503</a>     <a class="code" href="../../d6/db0/structmozilla_1_1_auto_swap___p_r_uint64.html">AutoSwap_PRUint64</a>    <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a89b585881cfb0dc37e5e94ee0dc462b6">modified</a>;              <span class="comment">// Number of seconds since 12:00 midnight, January 1, 1904. 64-bit integer</span>
+<a name="l00504"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a1b9ec6af6e2333c45343674e8cb6a7ec">00504</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a1b9ec6af6e2333c45343674e8cb6a7ec">xMin</a>;                  <span class="comment">// For all glyph bounding boxes.</span>
+<a name="l00505"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a5376f9e1f3d21e69e57e380b1fede6e5">00505</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a5376f9e1f3d21e69e57e380b1fede6e5">yMin</a>;                  <span class="comment">// For all glyph bounding boxes.</span>
+<a name="l00506"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ac4d90bf69562d2603de6cae4eb30c87b">00506</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#ac4d90bf69562d2603de6cae4eb30c87b">xMax</a>;                  <span class="comment">// For all glyph bounding boxes.</span>
+<a name="l00507"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#af65fc1be1f84ccab6d6a71638b0ce177">00507</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#af65fc1be1f84ccab6d6a71638b0ce177">yMax</a>;                  <span class="comment">// For all glyph bounding boxes.</span>
+<a name="l00508"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#aa4b92f13cfd21509c03191f11eedd2de">00508</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#aa4b92f13cfd21509c03191f11eedd2de">macStyle</a>;              <span class="comment">// Bit 0: Bold (if set to 1);</span>
+<a name="l00509"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#aeac35339cdac3e1bfa8606b6765265b7">00509</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#aeac35339cdac3e1bfa8606b6765265b7">lowestRecPPEM</a>;         <span class="comment">// Smallest readable size in pixels.</span>
+<a name="l00510"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a4eee93b40b4b47fa30eb94e7f1267d21">00510</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a4eee93b40b4b47fa30eb94e7f1267d21">fontDirectionHint</a>;
+<a name="l00511"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a1ebb192e5d221bc8824e77fa7838f846">00511</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a1ebb192e5d221bc8824e77fa7838f846">indexToLocFormat</a>;
+<a name="l00512"></a><a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a452ad3db2778dde285cdf327eb287f0a">00512</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d1/df9/structmozilla_1_1_head_table.html#a452ad3db2778dde285cdf327eb287f0a">glyphDataFormat</a>;
+<a name="l00513"></a>00513 };
+<a name="l00514"></a>00514 
+<a name="l00515"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html">00515</a> <span class="keyword">struct </span><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html">OS2Table</a> {
+<a name="l00516"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a311bc167340eaaadf5475a81bbcff2b8">00516</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a311bc167340eaaadf5475a81bbcff2b8">version</a>;                <span class="comment">// 0004 = OpenType 1.5</span>
+<a name="l00517"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a0e8aca08b7ea82fa2412dd3d83cfaf72">00517</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a0e8aca08b7ea82fa2412dd3d83cfaf72">xAvgCharWidth</a>;
+<a name="l00518"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a4d06558f0f9dea6510e47885e2e271fe">00518</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a4d06558f0f9dea6510e47885e2e271fe">usWeightClass</a>;
+<a name="l00519"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a56de05eb2634fb7bd7147c1f12dbdadc">00519</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a56de05eb2634fb7bd7147c1f12dbdadc">usWidthClass</a>;
+<a name="l00520"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#afe983fad4249f8a7b115a584d18ba597">00520</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#afe983fad4249f8a7b115a584d18ba597">fsType</a>;
+<a name="l00521"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#accaeb1a0eef776704f61643ea80fb825">00521</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#accaeb1a0eef776704f61643ea80fb825">ySubscriptXSize</a>;
+<a name="l00522"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#acb9a7511fba272067a847f5f0ca47386">00522</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#acb9a7511fba272067a847f5f0ca47386">ySubscriptYSize</a>;
+<a name="l00523"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a04dd407ad70226cf17d7cd4e05f02d46">00523</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a04dd407ad70226cf17d7cd4e05f02d46">ySubscriptXOffset</a>;
+<a name="l00524"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a5ea34884197da90c333f5433f2b7910c">00524</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a5ea34884197da90c333f5433f2b7910c">ySubscriptYOffset</a>;
+<a name="l00525"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a998dcab4f905616b99576181d97ec7b2">00525</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a998dcab4f905616b99576181d97ec7b2">ySuperscriptXSize</a>;
+<a name="l00526"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#adff812ea3cacb427cc5faaffe723e797">00526</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#adff812ea3cacb427cc5faaffe723e797">ySuperscriptYSize</a>;
+<a name="l00527"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#ad556544f400f95064e5b1e5eae94252b">00527</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#ad556544f400f95064e5b1e5eae94252b">ySuperscriptXOffset</a>;
+<a name="l00528"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a8491dd40c6540fdc6e85166d79c63d31">00528</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a8491dd40c6540fdc6e85166d79c63d31">ySuperscriptYOffset</a>;
+<a name="l00529"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#af8d0479d82f7e6f181a0d01e458675ef">00529</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#af8d0479d82f7e6f181a0d01e458675ef">yStrikeoutSize</a>;
+<a name="l00530"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a534e9c8c6df8b3e2c04fd0f485e56ddf">00530</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a534e9c8c6df8b3e2c04fd0f485e56ddf">yStrikeoutPosition</a>;
+<a name="l00531"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a257c042d12211c41ba8e69a3ae6fa592">00531</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a257c042d12211c41ba8e69a3ae6fa592">sFamilyClass</a>;
+<a name="l00532"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a73aacdbd6256fe069ac7c8c3e7efb383">00532</a>     uint8_t              <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a73aacdbd6256fe069ac7c8c3e7efb383">panose</a>[10];
+<a name="l00533"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a16d25105783f1deb39f8390696bb9fdc">00533</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a16d25105783f1deb39f8390696bb9fdc">unicodeRange1</a>;
+<a name="l00534"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a5103b9b0e6c91b0fc2a3ad671ff1190c">00534</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a5103b9b0e6c91b0fc2a3ad671ff1190c">unicodeRange2</a>;
+<a name="l00535"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a8146e5d72ed28469c3a8cbc53a6bbff0">00535</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a8146e5d72ed28469c3a8cbc53a6bbff0">unicodeRange3</a>;
+<a name="l00536"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#ae06d29bb8fdc1ed954e7ff9834304587">00536</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#ae06d29bb8fdc1ed954e7ff9834304587">unicodeRange4</a>;
+<a name="l00537"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a3aa340438e25e2b3c69e05ba64ac03be">00537</a>     uint8_t              <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a3aa340438e25e2b3c69e05ba64ac03be">achVendID</a>[4];
+<a name="l00538"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a0f0bd77c540f42bf48eaed21f460cfec">00538</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a0f0bd77c540f42bf48eaed21f460cfec">fsSelection</a>;
+<a name="l00539"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a5957feb399fdae8a0df5b51b7ef2390e">00539</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a5957feb399fdae8a0df5b51b7ef2390e">usFirstCharIndex</a>;
+<a name="l00540"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#abe6246e23014aa92a66d8c6fdf81621a">00540</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#abe6246e23014aa92a66d8c6fdf81621a">usLastCharIndex</a>;
+<a name="l00541"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a718950966facbb5815dcde4490acc151">00541</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a718950966facbb5815dcde4490acc151">sTypoAscender</a>;
+<a name="l00542"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#ade8add534dcf00e5860f971bdb87f78a">00542</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#ade8add534dcf00e5860f971bdb87f78a">sTypoDescender</a>;
+<a name="l00543"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a57dda3124a729506ec32c768ade630af">00543</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a57dda3124a729506ec32c768ade630af">sTypoLineGap</a>;
+<a name="l00544"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a55fa5157e70d7323b7cf3611eb0eb626">00544</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a55fa5157e70d7323b7cf3611eb0eb626">usWinAscent</a>;
+<a name="l00545"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a34588c071b629adc3a5bd98a26abd1d8">00545</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a34588c071b629adc3a5bd98a26abd1d8">usWinDescent</a>;
+<a name="l00546"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#ad18032cc1a192a28a5b0a266f6a7f8b5">00546</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#ad18032cc1a192a28a5b0a266f6a7f8b5">codePageRange1</a>;
+<a name="l00547"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a1a4053c72855e8d6c39bc32561cc4a67">00547</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a1a4053c72855e8d6c39bc32561cc4a67">codePageRange2</a>;
+<a name="l00548"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a4a4cf7821d6ec683acb2a56842b8ca71">00548</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a4a4cf7821d6ec683acb2a56842b8ca71">sxHeight</a>;
+<a name="l00549"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a74c547d91210e210c6ddfe5c895c3b02">00549</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a74c547d91210e210c6ddfe5c895c3b02">sCapHeight</a>;
+<a name="l00550"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a05a98636a5ae2a97c41e62b5f31d7c17">00550</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a05a98636a5ae2a97c41e62b5f31d7c17">usDefaultChar</a>;
+<a name="l00551"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a8554a3585aca6cff743c5a25afeeae9c">00551</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#a8554a3585aca6cff743c5a25afeeae9c">usBreakChar</a>;
+<a name="l00552"></a><a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#af379b4f9748ca7f1101b0271f8b1898e">00552</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d1b/structmozilla_1_1_o_s2_table.html#af379b4f9748ca7f1101b0271f8b1898e">usMaxContext</a>;
+<a name="l00553"></a>00553 };
+<a name="l00554"></a>00554 
+<a name="l00555"></a><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html">00555</a> <span class="keyword">struct </span><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html">PostTable</a> {
+<a name="l00556"></a><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#a2752be859b086ef0c62612ec5bb6270b">00556</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#a2752be859b086ef0c62612ec5bb6270b">version</a>;
+<a name="l00557"></a><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#a4ff8fd36bd2d619923a27cb8b389ace7">00557</a>     <a class="code" href="../../d5/d2f/structmozilla_1_1_auto_swap___p_r_int32.html">AutoSwap_PRInt32</a>     <a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#a4ff8fd36bd2d619923a27cb8b389ace7">italicAngle</a>;
+<a name="l00558"></a><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#aafae794b08d14b4e184a3d91626943b7">00558</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#aafae794b08d14b4e184a3d91626943b7">underlinePosition</a>;
+<a name="l00559"></a><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#af74010f3bb1b8c1049d485115d1ce2d7">00559</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#af74010f3bb1b8c1049d485115d1ce2d7">underlineThickness</a>;
+<a name="l00560"></a><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#ad23fad5be8ea44427be7ec82bef4fa8d">00560</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#ad23fad5be8ea44427be7ec82bef4fa8d">isFixedPitch</a>;
+<a name="l00561"></a><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#abb213c0cd52523970bd082384e3032f1">00561</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#abb213c0cd52523970bd082384e3032f1">minMemType42</a>;
+<a name="l00562"></a><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#a95c61f445c60e4d199d99617e2ae4458">00562</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#a95c61f445c60e4d199d99617e2ae4458">maxMemType42</a>;
+<a name="l00563"></a><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#adc01b16a812f5527e3cab67a0a4da121">00563</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#adc01b16a812f5527e3cab67a0a4da121">minMemType1</a>;
+<a name="l00564"></a><a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#ac2223ccca8c8275cc1b18743a52e653f">00564</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d1/d04/structmozilla_1_1_post_table.html#ac2223ccca8c8275cc1b18743a52e653f">maxMemType1</a>;
+<a name="l00565"></a>00565 };
+<a name="l00566"></a>00566 
+<a name="l00567"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html">00567</a> <span class="keyword">struct </span><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html">HheaTable</a> {
+<a name="l00568"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a11dfe4430fc70f80628e69c0bc5046db">00568</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a11dfe4430fc70f80628e69c0bc5046db">version</a>;
+<a name="l00569"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a1c70cea89a826749905a002cb1756422">00569</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a1c70cea89a826749905a002cb1756422">ascender</a>;
+<a name="l00570"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a5c4f074b5b545169e78035788d0f2edb">00570</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a5c4f074b5b545169e78035788d0f2edb">descender</a>;
+<a name="l00571"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a16d901b3d4e298c8561e012baa154d3c">00571</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a16d901b3d4e298c8561e012baa154d3c">lineGap</a>;
+<a name="l00572"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#aac865eb79f3910ab88b7ac86c33e34b3">00572</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#aac865eb79f3910ab88b7ac86c33e34b3">advanceWidthMax</a>;
+<a name="l00573"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a8612a3d236f4059814e573ea1a271401">00573</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a8612a3d236f4059814e573ea1a271401">minLeftSideBearing</a>;
+<a name="l00574"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a76aa39ee6dc68d6daf2d377e4e82b85f">00574</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a76aa39ee6dc68d6daf2d377e4e82b85f">minRightSideBearing</a>;
+<a name="l00575"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a662a8e5ced4f24ea024b5d09b8fc6c81">00575</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a662a8e5ced4f24ea024b5d09b8fc6c81">xMaxExtent</a>;
+<a name="l00576"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a2bfe64e6b7adc3709e35447c04269ee4">00576</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a2bfe64e6b7adc3709e35447c04269ee4">caretSlopeRise</a>;
+<a name="l00577"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#ac8c392a8fd2d86437a03b6593ab2516d">00577</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#ac8c392a8fd2d86437a03b6593ab2516d">caretSlopeRun</a>;
+<a name="l00578"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a7bfd33368370ab6c5db9a5993acb0d12">00578</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a7bfd33368370ab6c5db9a5993acb0d12">caretOffset</a>;
+<a name="l00579"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#ac3d5c73e34ad833d0a05f16b952c27cd">00579</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#ac3d5c73e34ad833d0a05f16b952c27cd">reserved1</a>;
+<a name="l00580"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a9cfe777a7f86461ff28bc3bed6185d02">00580</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a9cfe777a7f86461ff28bc3bed6185d02">reserved2</a>;
+<a name="l00581"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a1695a58785ac48d371b0cf0a66ffc2da">00581</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a1695a58785ac48d371b0cf0a66ffc2da">reserved3</a>;
+<a name="l00582"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a220461ccd81586267b6763a4deed1504">00582</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a220461ccd81586267b6763a4deed1504">reserved4</a>;
+<a name="l00583"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#af049eb232fb54a56381f8fbb62d4ce6e">00583</a>     <a class="code" href="../../d4/dd5/structmozilla_1_1_auto_swap___p_r_int16.html">AutoSwap_PRInt16</a>     <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#af049eb232fb54a56381f8fbb62d4ce6e">metricDataFormat</a>;
+<a name="l00584"></a><a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a6442c03beb5ba9906f6a9c3dbd8b04d8">00584</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d3/d55/structmozilla_1_1_hhea_table.html#a6442c03beb5ba9906f6a9c3dbd8b04d8">numOfLongHorMetrics</a>;
+<a name="l00585"></a>00585 };
+<a name="l00586"></a>00586 
+<a name="l00587"></a><a class="code" href="../../d2/d7b/structmozilla_1_1_maxp_table_header.html">00587</a> <span class="keyword">struct </span><a class="code" href="../../d2/d7b/structmozilla_1_1_maxp_table_header.html">MaxpTableHeader</a> {
+<a name="l00588"></a><a class="code" href="../../d2/d7b/structmozilla_1_1_maxp_table_header.html#aa0775be0d9a635641db4fc1aba87ca13">00588</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d2/d7b/structmozilla_1_1_maxp_table_header.html#aa0775be0d9a635641db4fc1aba87ca13">version</a>; <span class="comment">// CFF: 0x00005000; TrueType: 0x00010000</span>
+<a name="l00589"></a><a class="code" href="../../d2/d7b/structmozilla_1_1_maxp_table_header.html#a8c918124abb53bccbe85bb81bc621f14">00589</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d2/d7b/structmozilla_1_1_maxp_table_header.html#a8c918124abb53bccbe85bb81bc621f14">numGlyphs</a>;
+<a name="l00590"></a>00590 <span class="comment">// truetype version has additional fields that we don&#39;t currently use</span>
+<a name="l00591"></a>00591 };
+<a name="l00592"></a>00592 
+<a name="l00593"></a>00593 <span class="comment">// old &#39;kern&#39; table, supported on Windows</span>
+<a name="l00594"></a>00594 <span class="comment">// see http://www.microsoft.com/typography/otspec/kern.htm</span>
+<a name="l00595"></a><a class="code" href="../../da/d3a/structmozilla_1_1_kern_table_version0.html">00595</a> <span class="keyword">struct </span><a class="code" href="../../da/d3a/structmozilla_1_1_kern_table_version0.html">KernTableVersion0</a> {
+<a name="l00596"></a><a class="code" href="../../da/d3a/structmozilla_1_1_kern_table_version0.html#adf00be2ff9766b789cd84f7c047b49b2">00596</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d3a/structmozilla_1_1_kern_table_version0.html#adf00be2ff9766b789cd84f7c047b49b2">version</a>; <span class="comment">// 0x0000</span>
+<a name="l00597"></a><a class="code" href="../../da/d3a/structmozilla_1_1_kern_table_version0.html#a8b8a4c8848cb5a1b6b68f1a056e52f20">00597</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../da/d3a/structmozilla_1_1_kern_table_version0.html#a8b8a4c8848cb5a1b6b68f1a056e52f20">nTables</a>;
+<a name="l00598"></a>00598 };
+<a name="l00599"></a>00599 
+<a name="l00600"></a><a class="code" href="../../db/d63/structmozilla_1_1_kern_table_subtable_header_version0.html">00600</a> <span class="keyword">struct </span><a class="code" href="../../db/d63/structmozilla_1_1_kern_table_subtable_header_version0.html">KernTableSubtableHeaderVersion0</a> {
+<a name="l00601"></a><a class="code" href="../../db/d63/structmozilla_1_1_kern_table_subtable_header_version0.html#ac7a05a6ac56956cef1a400c864fdacf5">00601</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../db/d63/structmozilla_1_1_kern_table_subtable_header_version0.html#ac7a05a6ac56956cef1a400c864fdacf5">version</a>;
+<a name="l00602"></a><a class="code" href="../../db/d63/structmozilla_1_1_kern_table_subtable_header_version0.html#ae9bb15a57a21ca0abd1484a4400c7b07">00602</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../db/d63/structmozilla_1_1_kern_table_subtable_header_version0.html#ae9bb15a57a21ca0abd1484a4400c7b07">length</a>;
+<a name="l00603"></a><a class="code" href="../../db/d63/structmozilla_1_1_kern_table_subtable_header_version0.html#a686b35f1844f1294c6510797b5483d5c">00603</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../db/d63/structmozilla_1_1_kern_table_subtable_header_version0.html#a686b35f1844f1294c6510797b5483d5c">coverage</a>;
+<a name="l00604"></a>00604 };
+<a name="l00605"></a>00605 
+<a name="l00606"></a>00606 <span class="comment">// newer Mac-only &#39;kern&#39; table, ignored by Windows</span>
+<a name="l00607"></a>00607 <span class="comment">// see http://developer.apple.com/textfonts/TTRefMan/RM06/Chap6kern.html</span>
+<a name="l00608"></a><a class="code" href="../../d3/d2c/structmozilla_1_1_kern_table_version1.html">00608</a> <span class="keyword">struct </span><a class="code" href="../../d3/d2c/structmozilla_1_1_kern_table_version1.html">KernTableVersion1</a> {
+<a name="l00609"></a><a class="code" href="../../d3/d2c/structmozilla_1_1_kern_table_version1.html#a37cb2eb6275fca4135c015cfdb9ffcf0">00609</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d3/d2c/structmozilla_1_1_kern_table_version1.html#a37cb2eb6275fca4135c015cfdb9ffcf0">version</a>; <span class="comment">// 0x00010000</span>
+<a name="l00610"></a><a class="code" href="../../d3/d2c/structmozilla_1_1_kern_table_version1.html#a19294653b2783eb711d28b2b7c300c41">00610</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d3/d2c/structmozilla_1_1_kern_table_version1.html#a19294653b2783eb711d28b2b7c300c41">nTables</a>;
+<a name="l00611"></a>00611 };
+<a name="l00612"></a>00612 
+<a name="l00613"></a><a class="code" href="../../d6/dff/structmozilla_1_1_kern_table_subtable_header_version1.html">00613</a> <span class="keyword">struct </span><a class="code" href="../../d6/dff/structmozilla_1_1_kern_table_subtable_header_version1.html">KernTableSubtableHeaderVersion1</a> {
+<a name="l00614"></a><a class="code" href="../../d6/dff/structmozilla_1_1_kern_table_subtable_header_version1.html#a6e635846b124669bab77a23e9c17389b">00614</a>     <a class="code" href="../../d5/d53/structmozilla_1_1_auto_swap___p_r_uint32.html">AutoSwap_PRUint32</a>    <a class="code" href="../../d6/dff/structmozilla_1_1_kern_table_subtable_header_version1.html#a6e635846b124669bab77a23e9c17389b">length</a>;
+<a name="l00615"></a><a class="code" href="../../d6/dff/structmozilla_1_1_kern_table_subtable_header_version1.html#ab26cd60a62f94dcb43c39782e171082c">00615</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d6/dff/structmozilla_1_1_kern_table_subtable_header_version1.html#ab26cd60a62f94dcb43c39782e171082c">coverage</a>;
+<a name="l00616"></a><a class="code" href="../../d6/dff/structmozilla_1_1_kern_table_subtable_header_version1.html#affa6a4069ddd0581aedc9ef6c2faa243">00616</a>     <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">AutoSwap_PRUint16</a>    <a class="code" href="../../d6/dff/structmozilla_1_1_kern_table_subtable_header_version1.html#affa6a4069ddd0581aedc9ef6c2faa243">tupleIndex</a>;
+<a name="l00617"></a>00617 };
+<a name="l00618"></a>00618 
+<a name="l00619"></a>00619 <span class="preprocessor">#pragma pack()</span>
+<a name="l00620"></a>00620 <span class="preprocessor"></span>
+<a name="l00621"></a>00621 <span class="comment">// Return just the highest bit of the given value, i.e., the highest</span>
+<a name="l00622"></a>00622 <span class="comment">// power of 2 that is &lt;= value, or zero if the input value is zero.</span>
+<a name="l00623"></a>00623 <span class="keyword">inline</span> uint32_t
+<a name="l00624"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a021767f622634cc7400f16b9ad85e2fc">00624</a> <a class="code" href="../../d2/d93/namespacemozilla.html#a021767f622634cc7400f16b9ad85e2fc">FindHighestBit</a>(uint32_t <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>)
+<a name="l00625"></a>00625 {
+<a name="l00626"></a>00626     <span class="comment">// propagate highest bit into all lower bits of the value</span>
+<a name="l00627"></a>00627     value |= (value &gt;&gt; 1);
+<a name="l00628"></a>00628     value |= (value &gt;&gt; 2);
+<a name="l00629"></a>00629     value |= (value &gt;&gt; 4);
+<a name="l00630"></a>00630     value |= (value &gt;&gt; 8);
+<a name="l00631"></a>00631     value |= (value &gt;&gt; 16);
+<a name="l00632"></a>00632     <span class="comment">// isolate the leftmost bit</span>
+<a name="l00633"></a>00633     <span class="keywordflow">return</span> (value &amp; ~(value &gt;&gt; 1));
+<a name="l00634"></a>00634 }
+<a name="l00635"></a>00635 
+<a name="l00636"></a>00636 } <span class="comment">// namespace mozilla</span>
+<a name="l00637"></a>00637 
+<a name="l00638"></a>00638 <span class="comment">// used for overlaying name changes without touching original font data</span>
+<a name="l00639"></a><a class="code" href="../../de/dfc/struct_font_data_overlay.html">00639</a> <span class="keyword">struct </span><a class="code" href="../../de/dfc/struct_font_data_overlay.html">FontDataOverlay</a> {
+<a name="l00640"></a>00640     <span class="comment">// overlaySrc != 0 ==&gt; use overlay</span>
+<a name="l00641"></a><a class="code" href="../../de/dfc/struct_font_data_overlay.html#a6e2932d7b4a4069487b75079aa7a29a7">00641</a>     uint32_t  <a class="code" href="../../de/dfc/struct_font_data_overlay.html#a6e2932d7b4a4069487b75079aa7a29a7">overlaySrc</a>;    <span class="comment">// src offset from start of font data</span>
+<a name="l00642"></a><a class="code" href="../../de/dfc/struct_font_data_overlay.html#a4b4c480bf5724bb90c7184ea71c4ae01">00642</a>     uint32_t  <a class="code" href="../../de/dfc/struct_font_data_overlay.html#a4b4c480bf5724bb90c7184ea71c4ae01">overlaySrcLen</a>; <span class="comment">// src length</span>
+<a name="l00643"></a><a class="code" href="../../de/dfc/struct_font_data_overlay.html#adfdded2bc463108b10591df7a2d2dece">00643</a>     uint32_t  <a class="code" href="../../de/dfc/struct_font_data_overlay.html#adfdded2bc463108b10591df7a2d2dece">overlayDest</a>;   <span class="comment">// dest offset from start of font data</span>
+<a name="l00644"></a>00644 };
+<a name="l00645"></a>00645     
+<a name="l00646"></a><a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cf">00646</a> <span class="keyword">enum</span> <a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cf">gfxUserFontType</a> {
+<a name="l00647"></a><a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cfa3b818f30bc6c593d5241796c5e9fa85d">00647</a>     <a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cfa3b818f30bc6c593d5241796c5e9fa85d">GFX_USERFONT_UNKNOWN</a> = 0,
+<a name="l00648"></a><a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cfacfddf65f5c37647c925c628f75933a3e">00648</a>     <a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cfacfddf65f5c37647c925c628f75933a3e">GFX_USERFONT_OPENTYPE</a> = 1,
+<a name="l00649"></a><a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cfa06c5c74189957c8d9c68779c37e29def">00649</a>     <a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cfa06c5c74189957c8d9c68779c37e29def">GFX_USERFONT_SVG</a> = 2,
+<a name="l00650"></a><a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cfa41be1c74c048d1344c5992232e848fca">00650</a>     <a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cfa41be1c74c048d1344c5992232e848fca">GFX_USERFONT_WOFF</a> = 3
+<a name="l00651"></a>00651 };
+<a name="l00652"></a>00652 
+<a name="l00653"></a><a class="code" href="../../df/de1/classgfx_font_utils.html">00653</a> <span class="keyword">class </span><a class="code" href="../../df/de1/classgfx_font_utils.html">gfxFontUtils</a> {
+<a name="l00654"></a>00654 
+<a name="l00655"></a>00655 <span class="keyword">public</span>:
+<a name="l00656"></a>00656     <span class="comment">// these are public because gfxFont.cpp also looks into the name table</span>
+<a name="l00657"></a>00657     <span class="keyword">enum</span> {
+<a name="l00658"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a8e9c1133eaa0544a55273f362f32f957">00658</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a8e9c1133eaa0544a55273f362f32f957">NAME_ID_FAMILY</a> = 1,
+<a name="l00659"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a5812d4142c3a54c74f1e257468be79aa">00659</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a5812d4142c3a54c74f1e257468be79aa">NAME_ID_STYLE</a> = 2,
+<a name="l00660"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a9f2bafa4ba97d1bb5471771808cac0a8">00660</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a9f2bafa4ba97d1bb5471771808cac0a8">NAME_ID_UNIQUE</a> = 3,
+<a name="l00661"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aeee5395db3ebb783b170e2e2b048fb5a">00661</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aeee5395db3ebb783b170e2e2b048fb5a">NAME_ID_FULL</a> = 4,
+<a name="l00662"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a75a613177b04e0727edf02e0de72b11a">00662</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a75a613177b04e0727edf02e0de72b11a">NAME_ID_VERSION</a> = 5,
+<a name="l00663"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a8f99d0952d8e4f00ca14fb11c1513d55">00663</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a8f99d0952d8e4f00ca14fb11c1513d55">NAME_ID_POSTSCRIPT</a> = 6,
+<a name="l00664"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a1039b861115a569b145cca0f508ff8c9">00664</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a1039b861115a569b145cca0f508ff8c9">NAME_ID_PREFERRED_FAMILY</a> = 16,
+<a name="l00665"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ab28f1a7e0f0377e86a51ab15d1ae56ff">00665</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ab28f1a7e0f0377e86a51ab15d1ae56ff">NAME_ID_PREFERRED_STYLE</a> = 17,
+<a name="l00666"></a>00666 
+<a name="l00667"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a42512638f3b0fc2dee70ef9a184f4561">00667</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a42512638f3b0fc2dee70ef9a184f4561">PLATFORM_ALL</a> = -1,
+<a name="l00668"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1accd29d83cd1bae47bb8f470b07025e99">00668</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1accd29d83cd1bae47bb8f470b07025e99">PLATFORM_ID_UNICODE</a> = 0,           <span class="comment">// Mac OS uses this typically</span>
+<a name="l00669"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ab45780268a01ee01ee9fafdb325b1464">00669</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ab45780268a01ee01ee9fafdb325b1464">PLATFORM_ID_MAC</a> = 1,
+<a name="l00670"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ae563ae1c4a1e8ce80724ba85ab869802">00670</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ae563ae1c4a1e8ce80724ba85ab869802">PLATFORM_ID_ISO</a> = 2,
+<a name="l00671"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a876091d0548a6e5507fa428767bda786">00671</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a876091d0548a6e5507fa428767bda786">PLATFORM_ID_MICROSOFT</a> = 3,
+<a name="l00672"></a>00672 
+<a name="l00673"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a0c2e3da3d007ebe9a06b0f29044e8322">00673</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a0c2e3da3d007ebe9a06b0f29044e8322">ENCODING_ID_MAC_ROMAN</a> = 0,         <span class="comment">// traditional Mac OS script manager encodings</span>
+<a name="l00674"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a1f8692763fece3b65018f0037109f3d3">00674</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a1f8692763fece3b65018f0037109f3d3">ENCODING_ID_MAC_JAPANESE</a> = 1,      <span class="comment">// (there are others defined, but some were never</span>
+<a name="l00675"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ab9de3592310f464ec1109a74ec1810d4">00675</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ab9de3592310f464ec1109a74ec1810d4">ENCODING_ID_MAC_TRAD_CHINESE</a> = 2,  <span class="comment">// implemented by Apple, and I have never seen them</span>
+<a name="l00676"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a1940acbf8dddd97f4762d7ad86eac335">00676</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a1940acbf8dddd97f4762d7ad86eac335">ENCODING_ID_MAC_KOREAN</a> = 3,        <span class="comment">// used in font names)</span>
+<a name="l00677"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a6311f132e3904f3f8d5acd4000125b4c">00677</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a6311f132e3904f3f8d5acd4000125b4c">ENCODING_ID_MAC_ARABIC</a> = 4,
+<a name="l00678"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aa7dc9b13bc1b38f6c22247555153155e">00678</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aa7dc9b13bc1b38f6c22247555153155e">ENCODING_ID_MAC_HEBREW</a> = 5,
+<a name="l00679"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ada25f6661efe36a88ea19b98be20fb08">00679</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ada25f6661efe36a88ea19b98be20fb08">ENCODING_ID_MAC_GREEK</a> = 6,
+<a name="l00680"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a66c8e6c7564c87fb29ef1045b06f7795">00680</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a66c8e6c7564c87fb29ef1045b06f7795">ENCODING_ID_MAC_CYRILLIC</a> = 7,
+<a name="l00681"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ad799875962bd9e6bbcaa3b304883e620">00681</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ad799875962bd9e6bbcaa3b304883e620">ENCODING_ID_MAC_DEVANAGARI</a> = 9,
+<a name="l00682"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1afaf0461303d8d5bb21c0cf0e413a50ea">00682</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1afaf0461303d8d5bb21c0cf0e413a50ea">ENCODING_ID_MAC_GURMUKHI</a> = 10,
+<a name="l00683"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a46973f360ce8f6bed19353a2f904c93d">00683</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a46973f360ce8f6bed19353a2f904c93d">ENCODING_ID_MAC_GUJARATI</a> = 11,
+<a name="l00684"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aaf4cc08e4876fe71119c57b6c78cab1f">00684</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aaf4cc08e4876fe71119c57b6c78cab1f">ENCODING_ID_MAC_SIMP_CHINESE</a> = 25,
+<a name="l00685"></a>00685 
+<a name="l00686"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1abc1ff056417cc48f513c1292c3255775">00686</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1abc1ff056417cc48f513c1292c3255775">ENCODING_ID_MICROSOFT_SYMBOL</a> = 0,  <span class="comment">// Microsoft platform encoding IDs</span>
+<a name="l00687"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1af05d3c9ac7a4fb26862176bd4fca359a">00687</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1af05d3c9ac7a4fb26862176bd4fca359a">ENCODING_ID_MICROSOFT_UNICODEBMP</a> = 1,
+<a name="l00688"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aef9754cbd18087fec8a428f952a370ca">00688</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aef9754cbd18087fec8a428f952a370ca">ENCODING_ID_MICROSOFT_SHIFTJIS</a> = 2,
+<a name="l00689"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a0847828607e270686971e093821084d2">00689</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a0847828607e270686971e093821084d2">ENCODING_ID_MICROSOFT_PRC</a> = 3,
+<a name="l00690"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ae1ebed22adccb8a1d5240d3f050cffb7">00690</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1ae1ebed22adccb8a1d5240d3f050cffb7">ENCODING_ID_MICROSOFT_BIG5</a> = 4,
+<a name="l00691"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a5d6607947df8f2bfd8058202e544750b">00691</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a5d6607947df8f2bfd8058202e544750b">ENCODING_ID_MICROSOFT_WANSUNG</a> = 5,
+<a name="l00692"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1acbb5635f50bc5106cc08f470dec08eb4">00692</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1acbb5635f50bc5106cc08f470dec08eb4">ENCODING_ID_MICROSOFT_JOHAB</a>  = 6,
+<a name="l00693"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a5692ac89eb52ff9c009263c093379efb">00693</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a5692ac89eb52ff9c009263c093379efb">ENCODING_ID_MICROSOFT_UNICODEFULL</a> = 10,
+<a name="l00694"></a>00694 
+<a name="l00695"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a25efc816f916ff4fe7228906faa7c114">00695</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a25efc816f916ff4fe7228906faa7c114">LANG_ALL</a> = -1,
+<a name="l00696"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a35bc1555afbd215f85da4be6272342b6">00696</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a35bc1555afbd215f85da4be6272342b6">LANG_ID_MAC_ENGLISH</a> = 0,      <span class="comment">// many others are defined, but most don&#39;t affect</span>
+<a name="l00697"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a65f2617627df1125052bce92f908932e">00697</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a65f2617627df1125052bce92f908932e">LANG_ID_MAC_HEBREW</a> = 10,      <span class="comment">// the charset; should check all the central/eastern</span>
+<a name="l00698"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aea10fc6a48876a617d10ba97f1f760f3">00698</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aea10fc6a48876a617d10ba97f1f760f3">LANG_ID_MAC_JAPANESE</a> = 11,    <span class="comment">// european codes, though</span>
+<a name="l00699"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a7330d51319aeb94d1b9592791653cab2">00699</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a7330d51319aeb94d1b9592791653cab2">LANG_ID_MAC_ARABIC</a> = 12,
+<a name="l00700"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a8e4d3d4bc9ebb03d6abacd2508ddf682">00700</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a8e4d3d4bc9ebb03d6abacd2508ddf682">LANG_ID_MAC_ICELANDIC</a> = 15,
+<a name="l00701"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1afa7de3a04cd8f8de34620d09ccd5b0c8">00701</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1afa7de3a04cd8f8de34620d09ccd5b0c8">LANG_ID_MAC_TURKISH</a> = 17,
+<a name="l00702"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a5a3844556b4b675f8d9bf8c076b489e0">00702</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a5a3844556b4b675f8d9bf8c076b489e0">LANG_ID_MAC_TRAD_CHINESE</a> = 19,
+<a name="l00703"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a9a399fbb887f558f75cd398a2098861a">00703</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a9a399fbb887f558f75cd398a2098861a">LANG_ID_MAC_URDU</a> = 20,
+<a name="l00704"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1abba93be40f9578fd0d92cc3f70c45a26">00704</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1abba93be40f9578fd0d92cc3f70c45a26">LANG_ID_MAC_KOREAN</a> = 23,
+<a name="l00705"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a845980ff4b713146332567582d0da0fa">00705</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a845980ff4b713146332567582d0da0fa">LANG_ID_MAC_POLISH</a> = 25,
+<a name="l00706"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1afbf14c71074c189bd4eb4d39b0531fb3">00706</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1afbf14c71074c189bd4eb4d39b0531fb3">LANG_ID_MAC_FARSI</a> = 31,
+<a name="l00707"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aa4eae518a72945c1929993a8429eec7e">00707</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aa4eae518a72945c1929993a8429eec7e">LANG_ID_MAC_SIMP_CHINESE</a> = 33,
+<a name="l00708"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a2da72ae21d4b7270f9d3810587d80605">00708</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a2da72ae21d4b7270f9d3810587d80605">LANG_ID_MAC_ROMANIAN</a> = 37,
+<a name="l00709"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1abdcd169fe55bbcb6811ada962b157c9b">00709</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1abdcd169fe55bbcb6811ada962b157c9b">LANG_ID_MAC_CZECH</a> = 38,
+<a name="l00710"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aa7d63f2fc93572438b6a08108d225cf2">00710</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1aa7d63f2fc93572438b6a08108d225cf2">LANG_ID_MAC_SLOVAK</a> = 39,
+<a name="l00711"></a>00711 
+<a name="l00712"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a8f0c75a21c9f4e1c5384b2ec18f115d5">00712</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a8f0c75a21c9f4e1c5384b2ec18f115d5">LANG_ID_MICROSOFT_EN_US</a> = 0x0409,        <span class="comment">// with Microsoft platformID, EN US lang code</span>
+<a name="l00713"></a>00713         
+<a name="l00714"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a4aec448fbf660c5b6d885ab56e9c27b0">00714</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#af97d08d6d1c62e6ebcc6ce417d3816e1a4aec448fbf660c5b6d885ab56e9c27b0">CMAP_MAX_CODEPOINT</a> = 0x10ffff     <span class="comment">// maximum possible Unicode codepoint </span>
+<a name="l00715"></a>00715                                           <span class="comment">// contained in a cmap</span>
+<a name="l00716"></a>00716     };
+<a name="l00717"></a>00717 
+<a name="l00718"></a>00718     <span class="comment">// name table has a header, followed by name records, followed by string data</span>
+<a name="l00719"></a><a class="code" href="../../d2/dcb/structgfx_font_utils_1_1_name_header.html">00719</a>     <span class="keyword">struct </span><a class="code" href="../../d2/dcb/structgfx_font_utils_1_1_name_header.html">NameHeader</a> {
+<a name="l00720"></a><a class="code" href="../../d2/dcb/structgfx_font_utils_1_1_name_header.html#a32cda960a261b6308efaffd423c15781">00720</a>         <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">mozilla::AutoSwap_PRUint16</a>    <a class="code" href="../../d2/dcb/structgfx_font_utils_1_1_name_header.html#a32cda960a261b6308efaffd423c15781">format</a>;       <span class="comment">// Format selector (=0).</span>
+<a name="l00721"></a><a class="code" href="../../d2/dcb/structgfx_font_utils_1_1_name_header.html#a56770eeb96f97804497ac53784606b13">00721</a>         <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">mozilla::AutoSwap_PRUint16</a>    <a class="code" href="../../d2/dcb/structgfx_font_utils_1_1_name_header.html#a56770eeb96f97804497ac53784606b13">count</a>;        <span class="comment">// Number of name records.</span>
+<a name="l00722"></a><a class="code" href="../../d2/dcb/structgfx_font_utils_1_1_name_header.html#a19588e63d972012e8d6b3535d4304479">00722</a>         <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">mozilla::AutoSwap_PRUint16</a>    <a class="code" href="../../d2/dcb/structgfx_font_utils_1_1_name_header.html#a19588e63d972012e8d6b3535d4304479">stringOffset</a>; <span class="comment">// Offset to start of string storage</span>
+<a name="l00723"></a>00723                                                     <span class="comment">// (from start of table)</span>
+<a name="l00724"></a>00724     };
+<a name="l00725"></a>00725 
+<a name="l00726"></a><a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html">00726</a>     <span class="keyword">struct </span><a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html">NameRecord</a> {
+<a name="l00727"></a><a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#a96e3d21377861ac27d116642e5873e92">00727</a>         <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">mozilla::AutoSwap_PRUint16</a>    <a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#a96e3d21377861ac27d116642e5873e92">platformID</a>;   <span class="comment">// Platform ID</span>
+<a name="l00728"></a><a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#a1812eab53a7453c0aab0ff8800232c76">00728</a>         <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">mozilla::AutoSwap_PRUint16</a>    <a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#a1812eab53a7453c0aab0ff8800232c76">encodingID</a>;   <span class="comment">// Platform-specific encoding ID</span>
+<a name="l00729"></a><a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#a35b0e779846093b7ef7899682a408ad4">00729</a>         <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">mozilla::AutoSwap_PRUint16</a>    <a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#a35b0e779846093b7ef7899682a408ad4">languageID</a>;   <span class="comment">// Language ID</span>
+<a name="l00730"></a><a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#a7b1e1d8dbc583313b07b7c8d55a9df75">00730</a>         <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">mozilla::AutoSwap_PRUint16</a>    <a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#a7b1e1d8dbc583313b07b7c8d55a9df75">nameID</a>;       <span class="comment">// Name ID.</span>
+<a name="l00731"></a><a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#a2ff0ce4977b55d9db8ef48e3ab906b29">00731</a>         <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">mozilla::AutoSwap_PRUint16</a>    <a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#a2ff0ce4977b55d9db8ef48e3ab906b29">length</a>;       <span class="comment">// String length (in bytes).</span>
+<a name="l00732"></a><a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#abdd04a3f16f7e6607f5aeb1c8481c635">00732</a>         <a class="code" href="../../d3/d48/structmozilla_1_1_auto_swap___p_r_uint16.html">mozilla::AutoSwap_PRUint16</a>    <a class="code" href="../../d9/d4b/structgfx_font_utils_1_1_name_record.html#abdd04a3f16f7e6607f5aeb1c8481c635">offset</a>;       <span class="comment">// String offset from start of storage</span>
+<a name="l00733"></a>00733                                                     <span class="comment">// (in bytes).</span>
+<a name="l00734"></a>00734     };
+<a name="l00735"></a>00735 
+<a name="l00736"></a>00736     <span class="comment">// for reading big-endian font data on either big or little-endian platforms</span>
+<a name="l00737"></a>00737 
+<a name="l00738"></a>00738     <span class="keyword">static</span> <span class="keyword">inline</span> uint16_t
+<a name="l00739"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a0fb2578d91c9315ba3fa64ad503d8d95">00739</a>     <a class="code" href="../../df/de1/classgfx_font_utils.html#a0fb2578d91c9315ba3fa64ad503d8d95">ReadShortAt</a>(<span class="keyword">const</span> uint8_t *aBuf, uint32_t aIndex)
+<a name="l00740"></a>00740     {
+<a name="l00741"></a>00741         <span class="keywordflow">return</span> (aBuf[aIndex] &lt;&lt; 8) | aBuf[aIndex + 1];
+<a name="l00742"></a>00742     }
+<a name="l00743"></a>00743 
+<a name="l00744"></a>00744     <span class="keyword">static</span> <span class="keyword">inline</span> uint16_t
+<a name="l00745"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a53e58afd8547d66083344eb11c399f23">00745</a>     <a class="code" href="../../df/de1/classgfx_font_utils.html#a53e58afd8547d66083344eb11c399f23">ReadShortAt16</a>(<span class="keyword">const</span> uint16_t *aBuf, uint32_t aIndex)
+<a name="l00746"></a>00746     {
+<a name="l00747"></a>00747         <span class="keyword">const</span> uint8_t *<a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a> = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>uint8_t*<span class="keyword">&gt;</span>(aBuf);
+<a name="l00748"></a>00748         uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> = aIndex &lt;&lt; 1;
+<a name="l00749"></a>00749         <span class="keywordflow">return</span> (buf[index] &lt;&lt; 8) | buf[index+1];
+<a name="l00750"></a>00750     }
+<a name="l00751"></a>00751 
+<a name="l00752"></a>00752     <span class="keyword">static</span> <span class="keyword">inline</span> uint32_t
+<a name="l00753"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a53c98a9b7a2ace188cd25b12421aa07d">00753</a>     <a class="code" href="../../df/de1/classgfx_font_utils.html#a53c98a9b7a2ace188cd25b12421aa07d">ReadUint24At</a>(<span class="keyword">const</span> uint8_t *aBuf, uint32_t aIndex)
+<a name="l00754"></a>00754     {
+<a name="l00755"></a>00755         <span class="keywordflow">return</span> ((aBuf[aIndex] &lt;&lt; 16) | (aBuf[aIndex + 1] &lt;&lt; 8) |
+<a name="l00756"></a>00756                 (aBuf[aIndex + 2]));
+<a name="l00757"></a>00757     }
+<a name="l00758"></a>00758 
+<a name="l00759"></a>00759     <span class="keyword">static</span> <span class="keyword">inline</span> uint32_t
+<a name="l00760"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af2f6306d81c4877e6eb3869195663c43">00760</a>     <a class="code" href="../../df/de1/classgfx_font_utils.html#af2f6306d81c4877e6eb3869195663c43">ReadLongAt</a>(<span class="keyword">const</span> uint8_t *aBuf, uint32_t aIndex)
+<a name="l00761"></a>00761     {
+<a name="l00762"></a>00762         <span class="keywordflow">return</span> ((aBuf[aIndex] &lt;&lt; 24) | (aBuf[aIndex + 1] &lt;&lt; 16) | 
+<a name="l00763"></a>00763                 (aBuf[aIndex + 2] &lt;&lt; 8) | (aBuf[aIndex + 3]));
+<a name="l00764"></a>00764     }
+<a name="l00765"></a>00765 
+<a name="l00766"></a>00766     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00767"></a>00767     <a class="code" href="../../df/de1/classgfx_font_utils.html#a6aa7ec962d355f84829188875eceb167">ReadCMAPTableFormat12</a>(<span class="keyword">const</span> uint8_t *aBuf, uint32_t aLength, 
+<a name="l00768"></a>00768                           <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html">gfxSparseBitSet</a>&amp; aCharacterMap);
+<a name="l00769"></a>00769 
+<a name="l00770"></a>00770     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> 
+<a name="l00771"></a>00771     <a class="code" href="../../df/de1/classgfx_font_utils.html#a9ee3b2a5f37932ab9a5d78941eb879f7">ReadCMAPTableFormat4</a>(<span class="keyword">const</span> uint8_t *aBuf, uint32_t aLength, 
+<a name="l00772"></a>00772                          <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html">gfxSparseBitSet</a>&amp; aCharacterMap);
+<a name="l00773"></a>00773 
+<a name="l00774"></a>00774     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00775"></a>00775     <a class="code" href="../../df/de1/classgfx_font_utils.html#aeff1b15d9f93840502c80635e19e4a6e">ReadCMAPTableFormat14</a>(<span class="keyword">const</span> uint8_t *aBuf, uint32_t aLength, 
+<a name="l00776"></a>00776                           uint8_t*&amp; aTable);
+<a name="l00777"></a>00777 
+<a name="l00778"></a>00778     <span class="keyword">static</span> uint32_t
+<a name="l00779"></a>00779     <a class="code" href="../../df/de1/classgfx_font_utils.html#a349686d6a681a1c50eec2327a6fa8e55">FindPreferredSubtable</a>(<span class="keyword">const</span> uint8_t *aBuf, uint32_t aBufLength,
+<a name="l00780"></a>00780                           uint32_t *aTableOffset, uint32_t *aUVSTableOffset,
+<a name="l00781"></a>00781                           <span class="keywordtype">bool</span> *aSymbolEncoding);
+<a name="l00782"></a>00782 
+<a name="l00783"></a>00783     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00784"></a>00784     <a class="code" href="../../df/de1/classgfx_font_utils.html#a5c3e8d04ad3b7998e5e9df57b0b5699d">ReadCMAP</a>(<span class="keyword">const</span> uint8_t *aBuf, uint32_t aBufLength,
+<a name="l00785"></a>00785              <a class="code" href="../../de/dcb/classgfx_sparse_bit_set.html">gfxSparseBitSet</a>&amp; aCharacterMap,
+<a name="l00786"></a>00786              uint32_t&amp; aUVSOffset,
+<a name="l00787"></a>00787              <span class="keywordtype">bool</span>&amp; aUnicodeFont, <span class="keywordtype">bool</span>&amp; aSymbolFont);
+<a name="l00788"></a>00788 
+<a name="l00789"></a>00789     <span class="keyword">static</span> uint32_t
+<a name="l00790"></a>00790     <a class="code" href="../../df/de1/classgfx_font_utils.html#a3f2e74db0e6af7f74e6d8247d5397c6f">MapCharToGlyphFormat4</a>(<span class="keyword">const</span> uint8_t *aBuf, PRUnichar aCh);
+<a name="l00791"></a>00791 
+<a name="l00792"></a>00792     <span class="keyword">static</span> uint32_t
+<a name="l00793"></a>00793     <a class="code" href="../../df/de1/classgfx_font_utils.html#a213c2e21991d1d527169f3c2275b6253">MapCharToGlyphFormat12</a>(<span class="keyword">const</span> uint8_t *aBuf, uint32_t aCh);
+<a name="l00794"></a>00794 
+<a name="l00795"></a>00795     <span class="keyword">static</span> uint16_t
+<a name="l00796"></a>00796     <a class="code" href="../../df/de1/classgfx_font_utils.html#a47746cc045f34e23cc1ef2dafa9d683f">MapUVSToGlyphFormat14</a>(<span class="keyword">const</span> uint8_t *aBuf, uint32_t aCh, uint32_t aVS);
+<a name="l00797"></a>00797 
+<a name="l00798"></a>00798     <span class="keyword">static</span> uint32_t
+<a name="l00799"></a>00799     <a class="code" href="../../df/de1/classgfx_font_utils.html#aae93cd10d65dc73c85b120c53c797564">MapCharToGlyph</a>(<span class="keyword">const</span> uint8_t *aCmapBuf, uint32_t aBufLength,
+<a name="l00800"></a>00800                    uint32_t aUnicode, uint32_t aVarSelector = 0);
+<a name="l00801"></a>00801 
+<a name="l00802"></a>00802 <span class="preprocessor">#ifdef XP_WIN</span>
+<a name="l00803"></a>00803 <span class="preprocessor"></span>    <span class="comment">// determine whether a font (which has already been sanitized, so is known</span>
+<a name="l00804"></a>00804     <span class="comment">// to be a valid sfnt) is CFF format rather than TrueType</span>
+<a name="l00805"></a>00805     <span class="keyword">static</span> <span class="keywordtype">bool</span>
+<a name="l00806"></a>00806     IsCffFont(<span class="keyword">const</span> uint8_t* aFontData);
+<a name="l00807"></a>00807 <span class="preprocessor">#endif</span>
+<a name="l00808"></a>00808 <span class="preprocessor"></span>
+<a name="l00809"></a>00809     <span class="comment">// determine the format of font data</span>
+<a name="l00810"></a>00810     <span class="keyword">static</span> <a class="code" href="../../da/d2e/gfx_font_utils_8h.html#a4d8703ced3330b132fbd7949b67a44cf">gfxUserFontType</a>
+<a name="l00811"></a>00811     <a class="code" href="../../df/de1/classgfx_font_utils.html#ace473a4177dffbf6b4c2eef4455caa4a">DetermineFontDataType</a>(<span class="keyword">const</span> uint8_t *aFontData, uint32_t aFontDataLength);
+<a name="l00812"></a>00812 
+<a name="l00813"></a>00813     <span class="comment">// Read the fullname from the sfnt data (used to save the original name</span>
+<a name="l00814"></a>00814     <span class="comment">// prior to renaming the font for installation).</span>
+<a name="l00815"></a>00815     <span class="comment">// This is called with sfnt data that has already been validated,</span>
+<a name="l00816"></a>00816     <span class="comment">// so it should always succeed in finding the name table.</span>
+<a name="l00817"></a>00817     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00818"></a>00818     <a class="code" href="../../df/de1/classgfx_font_utils.html#acec228d275eb6fae9998bd22e61c578d">GetFullNameFromSFNT</a>(<span class="keyword">const</span> uint8_t* aFontData, uint32_t aLength,
+<a name="l00819"></a>00819                         nsAString&amp; aFullName);
+<a name="l00820"></a>00820 
+<a name="l00821"></a>00821     <span class="comment">// helper to get fullname from name table, constructing from family+style</span>
+<a name="l00822"></a>00822     <span class="comment">// if no explicit fullname is present</span>
+<a name="l00823"></a>00823     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00824"></a>00824     <a class="code" href="../../df/de1/classgfx_font_utils.html#ac358410007a271465bfbfca4617ee64c">GetFullNameFromTable</a>(<a class="code" href="../../da/d2e/gfx_font_utils_8h.html#ae8466762131f0380fe515390ead91d81">hb_blob_t</a> *aNameTable,
+<a name="l00825"></a>00825                          nsAString&amp; aFullName);
+<a name="l00826"></a>00826 
+<a name="l00827"></a>00827     <span class="comment">// helper to get family name from name table</span>
+<a name="l00828"></a>00828     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00829"></a>00829     <a class="code" href="../../df/de1/classgfx_font_utils.html#a57ebaa862ba9fcd66d5ea0906b37d179">GetFamilyNameFromTable</a>(<a class="code" href="../../da/d2e/gfx_font_utils_8h.html#ae8466762131f0380fe515390ead91d81">hb_blob_t</a> *aNameTable,
+<a name="l00830"></a>00830                            nsAString&amp; aFamilyName);
+<a name="l00831"></a>00831 
+<a name="l00832"></a>00832     <span class="comment">// create a new name table and build a new font with that name table</span>
+<a name="l00833"></a>00833     <span class="comment">// appended on the end, returns true on success</span>
+<a name="l00834"></a>00834     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00835"></a>00835     <a class="code" href="../../df/de1/classgfx_font_utils.html#a83d13f92e034fc49b0f75fd43b913dd6">RenameFont</a>(<span class="keyword">const</span> nsAString&amp; aName, <span class="keyword">const</span> uint8_t *aFontData, 
+<a name="l00836"></a>00836                uint32_t aFontDataLength, <a class="code" href="../../d3/d8f/class_fallible_t_array.html">FallibleTArray&lt;uint8_t&gt;</a> *aNewFont);
+<a name="l00837"></a>00837     
+<a name="l00838"></a>00838     <span class="comment">// read all names matching aNameID, returning in aNames array</span>
+<a name="l00839"></a>00839     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00840"></a>00840     <a class="code" href="../../df/de1/classgfx_font_utils.html#a307998affb59f16768faef6ffb854720">ReadNames</a>(<a class="code" href="../../da/d2e/gfx_font_utils_8h.html#ae8466762131f0380fe515390ead91d81">hb_blob_t</a> *aNameTable, uint32_t aNameID, 
+<a name="l00841"></a>00841               int32_t aPlatformID, <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsString&gt;</a>&amp; aNames);
+<a name="l00842"></a>00842       
+<a name="l00843"></a>00843     <span class="comment">// reads English or first name matching aNameID, returning in aName</span>
+<a name="l00844"></a>00844     <span class="comment">// platform based on OS</span>
+<a name="l00845"></a>00845     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00846"></a>00846     <a class="code" href="../../df/de1/classgfx_font_utils.html#a5a43983d114a782a536027a2526a6657">ReadCanonicalName</a>(<a class="code" href="../../da/d2e/gfx_font_utils_8h.html#ae8466762131f0380fe515390ead91d81">hb_blob_t</a> *aNameTable, uint32_t aNameID, 
+<a name="l00847"></a>00847                       nsString&amp; aName);
+<a name="l00848"></a>00848       
+<a name="l00849"></a>00849     <span class="comment">// convert a name from the raw name table data into an nsString,</span>
+<a name="l00850"></a>00850     <span class="comment">// provided we know how; return true if successful, or false</span>
+<a name="l00851"></a>00851     <span class="comment">// if we can&#39;t handle the encoding</span>
+<a name="l00852"></a>00852     <span class="keyword">static</span> <span class="keywordtype">bool</span>
+<a name="l00853"></a>00853     <a class="code" href="../../df/de1/classgfx_font_utils.html#a1422611b1b3dd2a60a46c2da18359229">DecodeFontName</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *aBuf, int32_t aLength, 
+<a name="l00854"></a>00854                    uint32_t aPlatformCode, uint32_t aScriptCode,
+<a name="l00855"></a>00855                    uint32_t aLangCode, nsAString&amp; dest);
+<a name="l00856"></a>00856 
+<a name="l00857"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#ad892edffc10fc36493ec12658137ed39">00857</a>     <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/de1/classgfx_font_utils.html#ad892edffc10fc36493ec12658137ed39">IsJoinCauser</a>(uint32_t ch) {
+<a name="l00858"></a>00858         <span class="keywordflow">return</span> (ch == 0x200D);
+<a name="l00859"></a>00859     }
+<a name="l00860"></a>00860 
+<a name="l00861"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#af01fdd79f23a2738965100f6b44654ee">00861</a>     <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/de1/classgfx_font_utils.html#af01fdd79f23a2738965100f6b44654ee">IsJoinControl</a>(uint32_t ch) {
+<a name="l00862"></a>00862         <span class="keywordflow">return</span> (ch == 0x200C || ch == 0x200D);
+<a name="l00863"></a>00863     }
+<a name="l00864"></a>00864 
+<a name="l00865"></a>00865     <span class="keyword">enum</span> {
+<a name="l00866"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675a38a284f0a876d434b34674dc68b986ad">00866</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675a38a284f0a876d434b34674dc68b986ad">kUnicodeVS1</a> = 0xFE00,
+<a name="l00867"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675ad757b4b0814b5c736363e0d0131dfa19">00867</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675ad757b4b0814b5c736363e0d0131dfa19">kUnicodeVS16</a> = 0xFE0F,
+<a name="l00868"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675a54252c69057a2bf76dea47b920bc949a">00868</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675a54252c69057a2bf76dea47b920bc949a">kUnicodeVS17</a> = 0xE0100,
+<a name="l00869"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675a947e74cbfafe8b23e8073207dfe1d482">00869</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675a947e74cbfafe8b23e8073207dfe1d482">kUnicodeVS256</a> = 0xE01EF
+<a name="l00870"></a>00870     };
+<a name="l00871"></a>00871 
+<a name="l00872"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#ab78c32d2495fa5dc2f562eb689b60512">00872</a>     <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/de1/classgfx_font_utils.html#ab78c32d2495fa5dc2f562eb689b60512">IsVarSelector</a>(uint32_t ch) {
+<a name="l00873"></a>00873         <span class="keywordflow">return</span> (ch &gt;= <a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675a38a284f0a876d434b34674dc68b986ad">kUnicodeVS1</a> &amp;&amp; ch &lt;= <a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675ad757b4b0814b5c736363e0d0131dfa19">kUnicodeVS16</a>) ||
+<a name="l00874"></a>00874                (ch &gt;= <a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675a54252c69057a2bf76dea47b920bc949a">kUnicodeVS17</a> &amp;&amp; ch &lt;= <a class="code" href="../../df/de1/classgfx_font_utils.html#ada5c19178c97bd73f483658cdc12d675a947e74cbfafe8b23e8073207dfe1d482">kUnicodeVS256</a>);
+<a name="l00875"></a>00875     }
+<a name="l00876"></a>00876 
+<a name="l00877"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a9c457432a6fa651d4bbf4fb1ea0b3a1b">00877</a>     <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/de1/classgfx_font_utils.html#a9c457432a6fa651d4bbf4fb1ea0b3a1b">IsInvalid</a>(uint32_t ch) {
+<a name="l00878"></a>00878         <span class="keywordflow">return</span> (ch == 0xFFFD);
+<a name="l00879"></a>00879     }
+<a name="l00880"></a>00880 
+<a name="l00881"></a>00881     <span class="comment">// Font code may want to know if there is the potential for bidi behavior</span>
+<a name="l00882"></a>00882     <span class="comment">// to be triggered by any of the characters in a text run; this can be</span>
+<a name="l00883"></a>00883     <span class="comment">// used to test that possibility.</span>
+<a name="l00884"></a>00884     <span class="keyword">enum</span> {
+<a name="l00885"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a0c2aa6d61f8507c07d3a25aaae2214aa">00885</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a0c2aa6d61f8507c07d3a25aaae2214aa">kUnicodeBidiScriptsStart</a> = 0x0590,
+<a name="l00886"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a5f7453056203e1435da22c5e0185e050">00886</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a5f7453056203e1435da22c5e0185e050">kUnicodeBidiScriptsEnd</a> = 0x08FF,
+<a name="l00887"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a0c6abc2bf3a015b9a00291b0b13d262a">00887</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a0c6abc2bf3a015b9a00291b0b13d262a">kUnicodeBidiPresentationStart</a> = 0xFB1D,
+<a name="l00888"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a8cfd4a02a25f988c2e878fff5c62bb99">00888</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a8cfd4a02a25f988c2e878fff5c62bb99">kUnicodeBidiPresentationEnd</a> = 0xFEFC,
+<a name="l00889"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67aac7a90b4a90668b5e5b246acc100da5b">00889</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67aac7a90b4a90668b5e5b246acc100da5b">kUnicodeFirstHighSurrogateBlock</a> = 0xD800,
+<a name="l00890"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a850fb84c6259ea28dda1514a512e6c97">00890</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a850fb84c6259ea28dda1514a512e6c97">kUnicodeRLM</a> = 0x200F,
+<a name="l00891"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a2bdce6057ee90d3fdc2b10cd505ca25d">00891</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a2bdce6057ee90d3fdc2b10cd505ca25d">kUnicodeRLE</a> = 0x202B,
+<a name="l00892"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a49752779e97cc4c1916f0b412bb26d96">00892</a>         <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a49752779e97cc4c1916f0b412bb26d96">kUnicodeRLO</a> = 0x202E
+<a name="l00893"></a>00893     };
+<a name="l00894"></a>00894 
+<a name="l00895"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a95885f3b4aab62cf989810a34677987e">00895</a>     <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/de1/classgfx_font_utils.html#a95885f3b4aab62cf989810a34677987e">PotentialRTLChar</a>(PRUnichar aCh) {
+<a name="l00896"></a>00896         <span class="keywordflow">if</span> (aCh &gt;= <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a0c2aa6d61f8507c07d3a25aaae2214aa">kUnicodeBidiScriptsStart</a> &amp;&amp; aCh &lt;= <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a5f7453056203e1435da22c5e0185e050">kUnicodeBidiScriptsEnd</a>)
+<a name="l00897"></a>00897             <span class="comment">// bidi scripts Hebrew, Arabic, Syriac, Thaana, N&#39;Ko are all encoded together</span>
+<a name="l00898"></a>00898             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00899"></a>00899 
+<a name="l00900"></a>00900         <span class="keywordflow">if</span> (aCh == <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a850fb84c6259ea28dda1514a512e6c97">kUnicodeRLM</a> || aCh == <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a2bdce6057ee90d3fdc2b10cd505ca25d">kUnicodeRLE</a> || aCh == <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a49752779e97cc4c1916f0b412bb26d96">kUnicodeRLO</a>)
+<a name="l00901"></a>00901             <span class="comment">// directional controls that trigger bidi layout</span>
+<a name="l00902"></a>00902             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00903"></a>00903 
+<a name="l00904"></a>00904         <span class="keywordflow">if</span> (aCh &gt;= <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a0c6abc2bf3a015b9a00291b0b13d262a">kUnicodeBidiPresentationStart</a> &amp;&amp;
+<a name="l00905"></a>00905             aCh &lt;= <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67a8cfd4a02a25f988c2e878fff5c62bb99">kUnicodeBidiPresentationEnd</a>)
+<a name="l00906"></a>00906             <span class="comment">// presentation forms of Arabic and Hebrew letters</span>
+<a name="l00907"></a>00907             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00908"></a>00908 
+<a name="l00909"></a>00909         <span class="keywordflow">if</span> ((aCh &amp; 0xFF00) == <a class="code" href="../../df/de1/classgfx_font_utils.html#a77a167c1a3630ec3c9a7ae793329eb67aac7a90b4a90668b5e5b246acc100da5b">kUnicodeFirstHighSurrogateBlock</a>)
+<a name="l00910"></a>00910             <span class="comment">// surrogate that could be part of a bidi supplementary char</span>
+<a name="l00911"></a>00911             <span class="comment">// (Cypriot, Aramaic, Phoenecian, etc)</span>
+<a name="l00912"></a>00912             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00913"></a>00913 
+<a name="l00914"></a>00914         <span class="comment">// otherwise we know this char cannot trigger bidi reordering</span>
+<a name="l00915"></a>00915         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00916"></a>00916     }
+<a name="l00917"></a>00917     
+<a name="l00918"></a>00918     <span class="comment">// for a given font list pref name, set up a list of font names</span>
+<a name="l00919"></a>00919     <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../df/de1/classgfx_font_utils.html#aaba1a3bff7e91aab1c65a7a95ef11caa">GetPrefsFontList</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *aPrefName, 
+<a name="l00920"></a>00920                                  <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsString&gt;</a>&amp; aFontList);
+<a name="l00921"></a>00921 
+<a name="l00922"></a>00922     <span class="comment">// generate a unique font name</span>
+<a name="l00923"></a>00923     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../df/de1/classgfx_font_utils.html#ac1093ae7dcbc40c1df8b12fe03d8efcb">MakeUniqueUserFontName</a>(nsAString&amp; aName);
+<a name="l00924"></a>00924 
+<a name="l00925"></a>00925 <span class="keyword">protected</span>:
+<a name="l00926"></a>00926     <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00927"></a>00927     <a class="code" href="../../df/de1/classgfx_font_utils.html#a307998affb59f16768faef6ffb854720">ReadNames</a>(<a class="code" href="../../da/d2e/gfx_font_utils_8h.html#ae8466762131f0380fe515390ead91d81">hb_blob_t</a> *aNameTable, uint32_t aNameID, 
+<a name="l00928"></a>00928               int32_t aLangID, int32_t aPlatformID, <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsString&gt;</a>&amp; aNames);
+<a name="l00929"></a>00929 
+<a name="l00930"></a>00930     <span class="comment">// convert opentype name-table platform/encoding/language values to a charset name</span>
+<a name="l00931"></a>00931     <span class="comment">// we can use to convert the name data to unicode, or &quot;&quot; if data is UTF16BE</span>
+<a name="l00932"></a>00932     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span>*
+<a name="l00933"></a>00933     <a class="code" href="../../df/de1/classgfx_font_utils.html#a73b5710a95fc86a4c81526b8133cdf66">GetCharsetForFontName</a>(uint16_t aPlatform, uint16_t aScript, uint16_t aLanguage);
+<a name="l00934"></a>00934 
+<a name="l00935"></a><a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html">00935</a>     <span class="keyword">struct </span><a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html">MacFontNameCharsetMapping</a> {
+<a name="l00936"></a><a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a7609a952399bbacb78f1d59122ff158f">00936</a>         uint16_t    <a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a7609a952399bbacb78f1d59122ff158f">mEncoding</a>;
+<a name="l00937"></a><a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a8f634a4bc254c70b00d03edf59b8b80d">00937</a>         uint16_t    <a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a8f634a4bc254c70b00d03edf59b8b80d">mLanguage</a>;
+<a name="l00938"></a><a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a4f0768bde684ddbcb3079145aeeb5d97">00938</a>         <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a4f0768bde684ddbcb3079145aeeb5d97">mCharsetName</a>;
+<a name="l00939"></a>00939 
+<a name="l00940"></a><a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a5c73519044fa822c32b7f0dfb60fd11b">00940</a>         <span class="keywordtype">bool</span> <a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a5c73519044fa822c32b7f0dfb60fd11b">operator&lt;</a>(<span class="keyword">const</span> <a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html">MacFontNameCharsetMapping</a>&amp; rhs)<span class="keyword"> const </span>{
+<a name="l00941"></a>00941             <span class="keywordflow">return</span> (<a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a7609a952399bbacb78f1d59122ff158f">mEncoding</a> &lt; rhs.<a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a7609a952399bbacb78f1d59122ff158f">mEncoding</a>) ||
+<a name="l00942"></a>00942                    ((<a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a7609a952399bbacb78f1d59122ff158f">mEncoding</a> == rhs.<a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a7609a952399bbacb78f1d59122ff158f">mEncoding</a>) &amp;&amp; (<a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a8f634a4bc254c70b00d03edf59b8b80d">mLanguage</a> &lt; rhs.<a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html#a8f634a4bc254c70b00d03edf59b8b80d">mLanguage</a>));
+<a name="l00943"></a>00943         }
+<a name="l00944"></a>00944     };
+<a name="l00945"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a828b6ffda70509fec808a43c98a4b318">00945</a>     <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="../../d3/da1/structgfx_font_utils_1_1_mac_font_name_charset_mapping.html">MacFontNameCharsetMapping</a> <a class="code" href="../../df/de1/classgfx_font_utils.html#a828b6ffda70509fec808a43c98a4b318">gMacFontNameCharsets</a>[];
+<a name="l00946"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a1b814f541e8f4b48a1b16e5a0300422c">00946</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../df/de1/classgfx_font_utils.html#a1b814f541e8f4b48a1b16e5a0300422c">gISOFontNameCharsets</a>[];
+<a name="l00947"></a><a class="code" href="../../df/de1/classgfx_font_utils.html#a9335a0825485bfec2bfd72cac3f4452a">00947</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../df/de1/classgfx_font_utils.html#a9335a0825485bfec2bfd72cac3f4452a">gMSFontNameCharsets</a>[];
+<a name="l00948"></a>00948 };
+<a name="l00949"></a>00949 
+<a name="l00950"></a>00950 <span class="comment">// helper class for loading in font info spaced out at regular intervals</span>
+<a name="l00951"></a>00951 
+<a name="l00952"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html">00952</a> <span class="keyword">class </span><a class="code" href="../../dd/df0/classgfx_font_info_loader.html">gfxFontInfoLoader</a> {
+<a name="l00953"></a>00953 <span class="keyword">public</span>:
+<a name="l00954"></a>00954 
+<a name="l00955"></a>00955     <span class="comment">// state transitions:</span>
+<a name="l00956"></a>00956     <span class="comment">//   initial ---StartLoader with delay---&gt; timer on delay</span>
+<a name="l00957"></a>00957     <span class="comment">//   initial ---StartLoader without delay---&gt; timer on interval</span>
+<a name="l00958"></a>00958     <span class="comment">//   timer on delay ---LoaderTimerFire---&gt; timer on interval</span>
+<a name="l00959"></a>00959     <span class="comment">//   timer on delay ---CancelLoader---&gt; timer off</span>
+<a name="l00960"></a>00960     <span class="comment">//   timer on interval ---CancelLoader---&gt; timer off</span>
+<a name="l00961"></a>00961     <span class="comment">//   timer off ---StartLoader with delay---&gt; timer on delay</span>
+<a name="l00962"></a>00962     <span class="comment">//   timer off ---StartLoader without delay---&gt; timer on interval</span>
+<a name="l00963"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8">00963</a>     <span class="keyword">typedef</span> <span class="keyword">enum</span> {
+<a name="l00964"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a8cb6fbe15589b6194ca2670868f34eec">00964</a>         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a8cb6fbe15589b6194ca2670868f34eec">stateInitial</a>,
+<a name="l00965"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a0c6ccef324ed4f4c9ea15e59649ea660">00965</a>         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a0c6ccef324ed4f4c9ea15e59649ea660">stateTimerOnDelay</a>,
+<a name="l00966"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a46691daed194188e22565c98721dc44c">00966</a>         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a46691daed194188e22565c98721dc44c">stateTimerOnInterval</a>,
+<a name="l00967"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a577caf6635ad4243886496b0ee28805b">00967</a>         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a577caf6635ad4243886496b0ee28805b">stateTimerOff</a>
+<a name="l00968"></a>00968     } <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8">TimerState</a>;
+<a name="l00969"></a>00969 
+<a name="l00970"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a378b990a84d32de79302ea2f85241243">00970</a>     <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a378b990a84d32de79302ea2f85241243">gfxFontInfoLoader</a>() :
+<a name="l00971"></a>00971         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#aef940cb49ee6d8a0572a750d5500c166">mInterval</a>(0), <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">mState</a>(<a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a8cb6fbe15589b6194ca2670868f34eec">stateInitial</a>)
+<a name="l00972"></a>00972     {
+<a name="l00973"></a>00973     }
+<a name="l00974"></a>00974 
+<a name="l00975"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a62e9ca424ab00d660a4009a6a9fdda39">00975</a>     <span class="keyword">virtual</span> <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a62e9ca424ab00d660a4009a6a9fdda39">~gfxFontInfoLoader</a>() {}
+<a name="l00976"></a>00976 
+<a name="l00977"></a>00977     <span class="comment">// start timer with an initial delay, then call Run method at regular intervals</span>
+<a name="l00978"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a8714df25284f4c9c5dcb8b532d861e85">00978</a>     <span class="keywordtype">void</span> <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a8714df25284f4c9c5dcb8b532d861e85">StartLoader</a>(uint32_t aDelay, uint32_t aInterval) {
+<a name="l00979"></a>00979         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#aef940cb49ee6d8a0572a750d5500c166">mInterval</a> = aInterval;
+<a name="l00980"></a>00980 
+<a name="l00981"></a>00981         <span class="comment">// sanity check</span>
+<a name="l00982"></a>00982         <span class="keywordflow">if</span> (<a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">mState</a> != <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a8cb6fbe15589b6194ca2670868f34eec">stateInitial</a> &amp;&amp; <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">mState</a> != <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a577caf6635ad4243886496b0ee28805b">stateTimerOff</a>)
+<a name="l00983"></a>00983             <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a059e5e76a473b0e480e6af9b2243e1d3">CancelLoader</a>();
+<a name="l00984"></a>00984 
+<a name="l00985"></a>00985         <span class="comment">// set up timer</span>
+<a name="l00986"></a>00986         <span class="keywordflow">if</span> (!<a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a42872436e926a86794392f04464ff389">mTimer</a>) {
+<a name="l00987"></a>00987             <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a42872436e926a86794392f04464ff389">mTimer</a> = <a class="code" href="../../dc/db2/ns_component_manager_utils_8h.html#ac0eafe69a33e24b71c373986f7c449a6">do_CreateInstance</a>(<span class="stringliteral">&quot;@mozilla.org/timer;1&quot;</span>);
+<a name="l00988"></a>00988             <span class="keywordflow">if</span> (!<a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a42872436e926a86794392f04464ff389">mTimer</a>) {
+<a name="l00989"></a>00989                 <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;Failure to create font info loader timer&quot;</span>);
+<a name="l00990"></a>00990                 <span class="keywordflow">return</span>;
+<a name="l00991"></a>00991             }
+<a name="l00992"></a>00992         }
+<a name="l00993"></a>00993 
+<a name="l00994"></a>00994         <span class="comment">// need an initial delay?</span>
+<a name="l00995"></a>00995         uint32_t timerInterval;
+<a name="l00996"></a>00996 
+<a name="l00997"></a>00997         <span class="keywordflow">if</span> (aDelay) {
+<a name="l00998"></a>00998             <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">mState</a> = <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a0c6ccef324ed4f4c9ea15e59649ea660">stateTimerOnDelay</a>;
+<a name="l00999"></a>00999             timerInterval = aDelay;
+<a name="l01000"></a>01000         } <span class="keywordflow">else</span> {
+<a name="l01001"></a>01001             <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">mState</a> = <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a46691daed194188e22565c98721dc44c">stateTimerOnInterval</a>;
+<a name="l01002"></a>01002             timerInterval = <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#aef940cb49ee6d8a0572a750d5500c166">mInterval</a>;
+<a name="l01003"></a>01003         }
+<a name="l01004"></a>01004 
+<a name="l01005"></a>01005         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#ab854a45713afdc683a543881c12345a7">InitLoader</a>();
+<a name="l01006"></a>01006 
+<a name="l01007"></a>01007         <span class="comment">// start timer</span>
+<a name="l01008"></a>01008         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a42872436e926a86794392f04464ff389">mTimer</a>-&gt;InitWithFuncCallback(<a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a469df14550ba8bf85bac70dc5a4bb10e">LoaderTimerCallback</a>, <span class="keyword">this</span>, timerInterval,
+<a name="l01009"></a>01009                                      <a class="code" href="../../de/da2/interfacens_i_timer.html#a5a44a8155216a8a35296fbfddd650c96">nsITimer::TYPE_REPEATING_SLACK</a>);
+<a name="l01010"></a>01010     }
+<a name="l01011"></a>01011 
+<a name="l01012"></a>01012     <span class="comment">// cancel the timer and cleanup</span>
+<a name="l01013"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a059e5e76a473b0e480e6af9b2243e1d3">01013</a>     <span class="keywordtype">void</span> <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a059e5e76a473b0e480e6af9b2243e1d3">CancelLoader</a>() {
+<a name="l01014"></a>01014         <span class="keywordflow">if</span> (<a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">mState</a> == <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a8cb6fbe15589b6194ca2670868f34eec">stateInitial</a>)
+<a name="l01015"></a>01015             <span class="keywordflow">return</span>;
+<a name="l01016"></a>01016         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">mState</a> = <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a577caf6635ad4243886496b0ee28805b">stateTimerOff</a>;
+<a name="l01017"></a>01017         <span class="keywordflow">if</span> (<a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a42872436e926a86794392f04464ff389">mTimer</a>) {
+<a name="l01018"></a>01018             <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a42872436e926a86794392f04464ff389">mTimer</a>-&gt;Cancel();
+<a name="l01019"></a>01019         }
+<a name="l01020"></a>01020         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#ae8c97f8abfed0ffc0054ae937e4dfda0">FinishLoader</a>();
+<a name="l01021"></a>01021     }
+<a name="l01022"></a>01022 
+<a name="l01023"></a>01023 <span class="keyword">protected</span>:
+<a name="l01024"></a>01024 
+<a name="l01025"></a>01025     <span class="comment">// Init - initialization at start time after initial delay</span>
+<a name="l01026"></a>01026     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#ab854a45713afdc683a543881c12345a7">InitLoader</a>() = 0;
+<a name="l01027"></a>01027 
+<a name="l01028"></a>01028     <span class="comment">// Run - called at intervals, return true to indicate done</span>
+<a name="l01029"></a>01029     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#aeb733f1fa08c9baf7dd205465ddc769d">RunLoader</a>() = 0;
+<a name="l01030"></a>01030 
+<a name="l01031"></a>01031     <span class="comment">// Finish - cleanup after done</span>
+<a name="l01032"></a>01032     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#ae8c97f8abfed0ffc0054ae937e4dfda0">FinishLoader</a>() = 0;
+<a name="l01033"></a>01033 
+<a name="l01034"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a469df14550ba8bf85bac70dc5a4bb10e">01034</a>     <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a469df14550ba8bf85bac70dc5a4bb10e">LoaderTimerCallback</a>(<a class="code" href="../../de/da2/interfacens_i_timer.html">nsITimer</a> *aTimer, <span class="keywordtype">void</span> *aThis) {
+<a name="l01035"></a>01035         <a class="code" href="../../dd/df0/classgfx_font_info_loader.html">gfxFontInfoLoader</a> *<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a78601e1f2fe929d6470d82a205ad2382">loader</a> = <span class="keyword">static_cast&lt;</span><a class="code" href="../../dd/df0/classgfx_font_info_loader.html">gfxFontInfoLoader</a>*<span class="keyword">&gt;</span>(aThis);
+<a name="l01036"></a>01036         loader-&gt;<a class="code" href="../../dd/df0/classgfx_font_info_loader.html#abc35ef1f5266ff3e9a29fa716d960e9d">LoaderTimerFire</a>();
+<a name="l01037"></a>01037     }
+<a name="l01038"></a>01038 
+<a name="l01039"></a>01039     <span class="comment">// start the timer, interval callbacks</span>
+<a name="l01040"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#abc35ef1f5266ff3e9a29fa716d960e9d">01040</a>     <span class="keywordtype">void</span> <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#abc35ef1f5266ff3e9a29fa716d960e9d">LoaderTimerFire</a>() {
+<a name="l01041"></a>01041         <span class="keywordflow">if</span> (<a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">mState</a> == <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a0c6ccef324ed4f4c9ea15e59649ea660">stateTimerOnDelay</a>) {
+<a name="l01042"></a>01042             <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">mState</a> = <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8a46691daed194188e22565c98721dc44c">stateTimerOnInterval</a>;
+<a name="l01043"></a>01043             <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a42872436e926a86794392f04464ff389">mTimer</a>-&gt;SetDelay(<a class="code" href="../../dd/df0/classgfx_font_info_loader.html#aef940cb49ee6d8a0572a750d5500c166">mInterval</a>);
+<a name="l01044"></a>01044         }
+<a name="l01045"></a>01045 
+<a name="l01046"></a>01046         <span class="keywordtype">bool</span> <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a> = <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#aeb733f1fa08c9baf7dd205465ddc769d">RunLoader</a>();
+<a name="l01047"></a>01047         <span class="keywordflow">if</span> (done) {
+<a name="l01048"></a>01048             <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a059e5e76a473b0e480e6af9b2243e1d3">CancelLoader</a>();
+<a name="l01049"></a>01049         }
+<a name="l01050"></a>01050     }
+<a name="l01051"></a>01051 
+<a name="l01052"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a42872436e926a86794392f04464ff389">01052</a>     nsCOMPtr&lt;nsITimer&gt; <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a42872436e926a86794392f04464ff389">mTimer</a>;
+<a name="l01053"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#aef940cb49ee6d8a0572a750d5500c166">01053</a>     uint32_t <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#aef940cb49ee6d8a0572a750d5500c166">mInterval</a>;
+<a name="l01054"></a><a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">01054</a>     <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a6ff197b7013d7d1df1a96ec0d717cbf8">TimerState</a> <a class="code" href="../../dd/df0/classgfx_font_info_loader.html#a2125f560026bbf602d378b8564e31e35">mState</a>;
+<a name="l01055"></a>01055 };
+<a name="l01056"></a>01056 
+<a name="l01057"></a>01057 <span class="preprocessor">#endif </span><span class="comment">/* GFX_FONT_UTILS_H */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/d2e/gfx_font_utils_8h.html">gfxFontUtils.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:05に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

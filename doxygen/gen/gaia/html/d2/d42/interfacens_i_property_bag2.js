@@ -1,0 +1,27 @@
+var interfacens_i_property_bag2 =
+[
+    [ "get", "d2/d42/interfacens_i_property_bag2.html#a445799b8aeec5f8067f788c452411ff2", null ],
+    [ "Get", "d2/d42/interfacens_i_property_bag2.html#a991cf8627c096a664195566e910270a6", null ],
+    [ "getPropertyAsACString", "d2/d42/interfacens_i_property_bag2.html#af8e0f0a4429dda50ca4db66b93eff652", null ],
+    [ "GetPropertyAsACString", "d2/d42/interfacens_i_property_bag2.html#af0401827e10b31cfdd59f095cdc2e03f", null ],
+    [ "getPropertyAsAString", "d2/d42/interfacens_i_property_bag2.html#aa4772c80494aabbd2143108826b17ad5", null ],
+    [ "GetPropertyAsAString", "d2/d42/interfacens_i_property_bag2.html#a011d84ddcf3f29f48f3d766f5d208068", null ],
+    [ "getPropertyAsAUTF8String", "d2/d42/interfacens_i_property_bag2.html#ad6b981d7c73149750c6dfa77a76d9c9d", null ],
+    [ "GetPropertyAsAUTF8String", "d2/d42/interfacens_i_property_bag2.html#ab4a8261aadb10ac7fcf243856c7dd4d8", null ],
+    [ "getPropertyAsBool", "d2/d42/interfacens_i_property_bag2.html#a2ac6c76d38c3574182eb0c6c82aa894c", null ],
+    [ "GetPropertyAsBool", "d2/d42/interfacens_i_property_bag2.html#a11582e6ec1f41bef57ea84ddc4d0c2f8", null ],
+    [ "getPropertyAsDouble", "d2/d42/interfacens_i_property_bag2.html#afa41981f2d7bdf8de0dd22733ecbbad9", null ],
+    [ "GetPropertyAsDouble", "d2/d42/interfacens_i_property_bag2.html#a6dddb217c69b6c58c7cd424ac1cbffb4", null ],
+    [ "getPropertyAsInt32", "d2/d42/interfacens_i_property_bag2.html#a75a89059d45ad734dc5b8fa4eb2eed34", null ],
+    [ "GetPropertyAsInt32", "d2/d42/interfacens_i_property_bag2.html#ae9390454b3b0919d6aa336d8e7aa49aa", null ],
+    [ "getPropertyAsInt64", "d2/d42/interfacens_i_property_bag2.html#a04e5778e59c45cb63496a71181aa8cec", null ],
+    [ "GetPropertyAsInt64", "d2/d42/interfacens_i_property_bag2.html#abcdaec3900ff6bc2b0441a8ef57dc8b1", null ],
+    [ "getPropertyAsInterface", "d2/d42/interfacens_i_property_bag2.html#ac4ebaa913d609b66d489e789e0fc1ceb", null ],
+    [ "GetPropertyAsInterface", "d2/d42/interfacens_i_property_bag2.html#aa6b6a2bebcdaca3a1c729d98ca697ab4", null ],
+    [ "getPropertyAsUint32", "d2/d42/interfacens_i_property_bag2.html#a2aac464178ae92d0ef62c523e1d89ff0", null ],
+    [ "GetPropertyAsUint32", "d2/d42/interfacens_i_property_bag2.html#aebee549d40c000226e37defad999abc1", null ],
+    [ "getPropertyAsUint64", "d2/d42/interfacens_i_property_bag2.html#a10834d59f674e541ae9dd1ad140f4756", null ],
+    [ "GetPropertyAsUint64", "d2/d42/interfacens_i_property_bag2.html#a6b901dfcb32398da58d0cc823b8a3bf4", null ],
+    [ "hasKey", "d2/d42/interfacens_i_property_bag2.html#ab42f75e91aafc22230356b3da216be75", null ],
+    [ "HasKey", "d2/d42/interfacens_i_property_bag2.html#a1667237ccdf23e29c4b1fa663d0b39b2", null ]
+];

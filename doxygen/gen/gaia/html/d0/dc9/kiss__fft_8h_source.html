@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: kiss_fft.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d0/dc9/kiss__fft_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">kiss_fft.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d0/dc9/kiss__fft_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef KISS_FFT_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define KISS_FFT_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &lt;math.h&gt;</span>
+<a name="l00007"></a>00007 <span class="preprocessor">#include &lt;string.h&gt;</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {
+<a name="l00011"></a>00011 <span class="preprocessor">#endif</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span>
+<a name="l00013"></a>00013 <span class="comment">/*</span>
+<a name="l00014"></a>00014 <span class="comment"> ATTENTION!</span>
+<a name="l00015"></a>00015 <span class="comment"> If you would like a :</span>
+<a name="l00016"></a>00016 <span class="comment"> -- a utility that will handle the caching of fft objects</span>
+<a name="l00017"></a>00017 <span class="comment"> -- real-only (no imaginary time component ) FFT</span>
+<a name="l00018"></a>00018 <span class="comment"> -- a multi-dimensional FFT</span>
+<a name="l00019"></a>00019 <span class="comment"> -- a command-line utility to perform ffts</span>
+<a name="l00020"></a>00020 <span class="comment"> -- a command-line utility to perform fast-convolution filtering</span>
+<a name="l00021"></a>00021 <span class="comment"></span>
+<a name="l00022"></a>00022 <span class="comment"> Then see kfc.h kiss_fftr.h kiss_fftnd.h fftutil.c kiss_fastfir.c</span>
+<a name="l00023"></a>00023 <span class="comment">  in the tools/ directory.</span>
+<a name="l00024"></a>00024 <span class="comment">*/</span>
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="preprocessor">#ifdef USE_SIMD</span>
+<a name="l00027"></a>00027 <span class="preprocessor"></span><span class="preprocessor"># include &lt;xmmintrin.h&gt;</span>
+<a name="l00028"></a>00028 <span class="preprocessor"># define kiss_fft_scalar __m128</span>
+<a name="l00029"></a>00029 <span class="preprocessor"></span><span class="preprocessor">#define KISS_FFT_MALLOC(nbytes) _mm_malloc(nbytes,16)</span>
+<a name="l00030"></a>00030 <span class="preprocessor"></span><span class="preprocessor">#define KISS_FFT_FREE _mm_free</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span><span class="preprocessor">#else   </span>
+<a name="l00032"></a><a class="code" href="../../d0/dc9/kiss__fft_8h.html#aa6e24524bfa0247ac606c950e43a9a4d">00032</a> <span class="preprocessor"></span><span class="preprocessor">#define KISS_FFT_MALLOC malloc</span>
+<a name="l00033"></a><a class="code" href="../../d0/dc9/kiss__fft_8h.html#a167bff53d1f15bc13289353390b7faae">00033</a> <span class="preprocessor"></span><span class="preprocessor">#define KISS_FFT_FREE free</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor">#endif  </span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span>
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 <span class="preprocessor">#ifdef FIXED_POINT</span>
+<a name="l00038"></a>00038 <span class="preprocessor"></span><span class="preprocessor">#include &lt;sys/types.h&gt;</span>  
+<a name="l00039"></a>00039 <span class="preprocessor"># if (FIXED_POINT == 32)</span>
+<a name="l00040"></a>00040 <span class="preprocessor"></span><span class="preprocessor">#  define kiss_fft_scalar int32_t</span>
+<a name="l00041"></a>00041 <span class="preprocessor"></span><span class="preprocessor"># else  </span>
+<a name="l00042"></a>00042 <span class="preprocessor"></span><span class="preprocessor">#  define kiss_fft_scalar int16_t</span>
+<a name="l00043"></a>00043 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00044"></a>00044 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span><span class="preprocessor"># ifndef kiss_fft_scalar</span>
+<a name="l00046"></a>00046 <span class="preprocessor"></span><span class="comment">/*  default is float */</span>
+<a name="l00047"></a><a class="code" href="../../d0/dc9/kiss__fft_8h.html#a4d9bf2d6a2ce1b061545a16faf77d337">00047</a> <span class="preprocessor">#   define kiss_fft_scalar float</span>
+<a name="l00048"></a>00048 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00049"></a>00049 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>
+<a name="l00051"></a><a class="code" href="../../d4/d47/structkiss__fft__cpx.html">00051</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
+<a name="l00052"></a><a class="code" href="../../d4/d47/structkiss__fft__cpx.html#a686b6187e3e885de316908319c71ea8f">00052</a>     <a class="code" href="../../d0/dc9/kiss__fft_8h.html#a4d9bf2d6a2ce1b061545a16faf77d337">kiss_fft_scalar</a> <a class="code" href="../../d4/d47/structkiss__fft__cpx.html#a686b6187e3e885de316908319c71ea8f">r</a>;
+<a name="l00053"></a><a class="code" href="../../d4/d47/structkiss__fft__cpx.html#ac1e17add2ae6b815da29d7d67b03fa70">00053</a>     <a class="code" href="../../d0/dc9/kiss__fft_8h.html#a4d9bf2d6a2ce1b061545a16faf77d337">kiss_fft_scalar</a> <a class="code" href="../../d4/d47/structkiss__fft__cpx.html#ac1e17add2ae6b815da29d7d67b03fa70">i</a>;
+<a name="l00054"></a>00054 }<a class="code" href="../../d4/d47/structkiss__fft__cpx.html">kiss_fft_cpx</a>;
+<a name="l00055"></a>00055 
+<a name="l00056"></a><a class="code" href="../../d0/dc9/kiss__fft_8h.html#ab8c364e12d4cbde47dca54eb4bc3ce79">00056</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>kiss_fft_state* <a class="code" href="../../d0/dc9/kiss__fft_8h.html#ab8c364e12d4cbde47dca54eb4bc3ce79">kiss_fft_cfg</a>;
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 <span class="comment">/* </span>
+<a name="l00059"></a>00059 <span class="comment"> *  kiss_fft_alloc</span>
+<a name="l00060"></a>00060 <span class="comment"> *  </span>
+<a name="l00061"></a>00061 <span class="comment"> *  Initialize a FFT (or IFFT) algorithm&#39;s cfg/state buffer.</span>
+<a name="l00062"></a>00062 <span class="comment"> *</span>
+<a name="l00063"></a>00063 <span class="comment"> *  typical usage:      kiss_fft_cfg mycfg=kiss_fft_alloc(1024,0,NULL,NULL);</span>
+<a name="l00064"></a>00064 <span class="comment"> *</span>
+<a name="l00065"></a>00065 <span class="comment"> *  The return value from fft_alloc is a cfg buffer used internally</span>
+<a name="l00066"></a>00066 <span class="comment"> *  by the fft routine or NULL.</span>
+<a name="l00067"></a>00067 <span class="comment"> *</span>
+<a name="l00068"></a>00068 <span class="comment"> *  If lenmem is NULL, then kiss_fft_alloc will allocate a cfg buffer using malloc.</span>
+<a name="l00069"></a>00069 <span class="comment"> *  The returned value should be free()d when done to avoid memory leaks.</span>
+<a name="l00070"></a>00070 <span class="comment"> *  </span>
+<a name="l00071"></a>00071 <span class="comment"> *  The state can be placed in a user supplied buffer &#39;mem&#39;:</span>
+<a name="l00072"></a>00072 <span class="comment"> *  If lenmem is not NULL and mem is not NULL and *lenmem is large enough,</span>
+<a name="l00073"></a>00073 <span class="comment"> *      then the function places the cfg in mem and the size used in *lenmem</span>
+<a name="l00074"></a>00074 <span class="comment"> *      and returns mem.</span>
+<a name="l00075"></a>00075 <span class="comment"> *  </span>
+<a name="l00076"></a>00076 <span class="comment"> *  If lenmem is not NULL and ( mem is NULL or *lenmem is not large enough),</span>
+<a name="l00077"></a>00077 <span class="comment"> *      then the function returns NULL and places the minimum cfg </span>
+<a name="l00078"></a>00078 <span class="comment"> *      buffer size in *lenmem.</span>
+<a name="l00079"></a>00079 <span class="comment"> * */</span>
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081 kiss_fft_cfg <a class="code" href="../../d0/dc9/kiss__fft_8h.html#ab5ad1560b58375ec071da45401911358">kiss_fft_alloc</a>(<span class="keywordtype">int</span> nfft,<span class="keywordtype">int</span> inverse_fft,<span class="keywordtype">void</span> * mem,<span class="keywordtype">size_t</span> * lenmem); 
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 <span class="comment">/*</span>
+<a name="l00084"></a>00084 <span class="comment"> * kiss_fft(cfg,in_out_buf)</span>
+<a name="l00085"></a>00085 <span class="comment"> *</span>
+<a name="l00086"></a>00086 <span class="comment"> * Perform an FFT on a complex input buffer.</span>
+<a name="l00087"></a>00087 <span class="comment"> * for a forward FFT,</span>
+<a name="l00088"></a>00088 <span class="comment"> * fin should be  f[0] , f[1] , ... ,f[nfft-1]</span>
+<a name="l00089"></a>00089 <span class="comment"> * fout will be   F[0] , F[1] , ... ,F[nfft-1]</span>
+<a name="l00090"></a>00090 <span class="comment"> * Note that each element is complex and can be accessed like</span>
+<a name="l00091"></a>00091 <span class="comment">    f[k].r and f[k].i</span>
+<a name="l00092"></a>00092 <span class="comment"> * */</span>
+<a name="l00093"></a>00093 <span class="keywordtype">void</span> <a class="code" href="../../d0/dc9/kiss__fft_8h.html#ab36e2bb33b74c1a7eabe3271d0916030">kiss_fft</a>(kiss_fft_cfg cfg,<span class="keyword">const</span> <a class="code" href="../../d4/d47/structkiss__fft__cpx.html">kiss_fft_cpx</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a3a03c3eed13ea3b0a2b4174976697061">fin</a>,<a class="code" href="../../d4/d47/structkiss__fft__cpx.html">kiss_fft_cpx</a> *fout);
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095 <span class="comment">/*</span>
+<a name="l00096"></a>00096 <span class="comment"> A more generic version of the above function. It reads its input from every Nth sample.</span>
+<a name="l00097"></a>00097 <span class="comment"> * */</span>
+<a name="l00098"></a>00098 <span class="keywordtype">void</span> <a class="code" href="../../d0/dc9/kiss__fft_8h.html#a240e0a77bb991890d609f498f9c75ec8">kiss_fft_stride</a>(kiss_fft_cfg cfg,<span class="keyword">const</span> <a class="code" href="../../d4/d47/structkiss__fft__cpx.html">kiss_fft_cpx</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a3a03c3eed13ea3b0a2b4174976697061">fin</a>,<a class="code" href="../../d4/d47/structkiss__fft__cpx.html">kiss_fft_cpx</a> *fout,<span class="keywordtype">int</span> fin_stride);
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="comment">/* If kiss_fft_alloc allocated a buffer, it is one contiguous </span>
+<a name="l00101"></a>00101 <span class="comment">   buffer and can be simply free()d when no longer needed*/</span>
+<a name="l00102"></a><a class="code" href="../../d0/dc9/kiss__fft_8h.html#a62e86236e852945b8e120d0228377d71">00102</a> <span class="preprocessor">#define kiss_fft_free free</span>
+<a name="l00103"></a>00103 <span class="preprocessor"></span>
+<a name="l00104"></a>00104 <span class="comment">/*</span>
+<a name="l00105"></a>00105 <span class="comment"> Cleans up some memory that gets managed internally. Not necessary to call, but it might clean up </span>
+<a name="l00106"></a>00106 <span class="comment"> your compiler output to call this before you exit.</span>
+<a name="l00107"></a>00107 <span class="comment">*/</span>
+<a name="l00108"></a>00108 <span class="keywordtype">void</span> <a class="code" href="../../d0/dc9/kiss__fft_8h.html#aab7972365fc8f30a13eed91fa29172ba">kiss_fft_cleanup</a>(<span class="keywordtype">void</span>);
+<a name="l00109"></a>00109     
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111 <span class="comment">/*</span>
+<a name="l00112"></a>00112 <span class="comment"> * Returns the smallest integer k, such that k&gt;=n and k has only &quot;fast&quot; factors (2,3,5)</span>
+<a name="l00113"></a>00113 <span class="comment"> */</span>
+<a name="l00114"></a>00114 <span class="keywordtype">int</span> <a class="code" href="../../d0/dc9/kiss__fft_8h.html#a26b8ac31a43a356943061318831508e9">kiss_fft_next_fast_size</a>(<span class="keywordtype">int</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>);
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116 <span class="comment">/* for real ffts, we need an even size */</span>
+<a name="l00117"></a><a class="code" href="../../d0/dc9/kiss__fft_8h.html#ad5d759d8e80434375e61c6a7de9aee79">00117</a> <span class="preprocessor">#define kiss_fftr_next_fast_size_real(n) \</span>
+<a name="l00118"></a>00118 <span class="preprocessor">        (kiss_fft_next_fast_size( ((n)+1)&gt;&gt;1)&lt;&lt;1)</span>
+<a name="l00119"></a>00119 <span class="preprocessor"></span>
+<a name="l00120"></a>00120 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l00121"></a>00121 <span class="preprocessor"></span>} 
+<a name="l00122"></a>00122 <span class="preprocessor">#endif</span>
+<a name="l00123"></a>00123 <span class="preprocessor"></span>
+<a name="l00124"></a>00124 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d0/dc9/kiss__fft_8h.html">kiss_fft.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:31に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

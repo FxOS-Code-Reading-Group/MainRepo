@@ -1,0 +1,27 @@
+var structns_rect =
+[
+    [ "Super", "da/d97/structns_rect.html#a37edd0544181007294077feefbe4b2ae", null ],
+    [ "nsRect", "da/d97/structns_rect.html#a952e2a1deb03cc4ad3712b4b4733b6b8", null ],
+    [ "nsRect", "da/d97/structns_rect.html#ae52e9a59b4c8a8b98294582337e7a409", null ],
+    [ "nsRect", "da/d97/structns_rect.html#a801cb851bf86da8f10a5b41ff9e8bbfb", null ],
+    [ "nsRect", "da/d97/structns_rect.html#aaee4a765650b3846e55a97bee73f1855", null ],
+    [ "ConvertAppUnitsRoundIn", "da/d97/structns_rect.html#a4e4b33101b9b84ce675fb69e1d434153", null ],
+    [ "ConvertAppUnitsRoundOut", "da/d97/structns_rect.html#ab32c0e087ac0b92d3c610c0e15858bd5", null ],
+    [ "operator==", "da/d97/structns_rect.html#a5432f674da3dfc1722b8b11d0947b7e8", null ],
+    [ "SaturatingInflate", "da/d97/structns_rect.html#ab1c4eb071d448fa37eb26b9fa9136819", null ],
+    [ "SaturatingUnion", "da/d97/structns_rect.html#af5bacdcf05c66e07e7a4e2e20ad2a0eb", null ],
+    [ "SaturatingUnionEdges", "da/d97/structns_rect.html#a4ed782c939595986c8160c20b9eea189", null ],
+    [ "SaturatingUnionRect", "da/d97/structns_rect.html#ade3f51a15c7f59d359b9521867f64f8c", null ],
+    [ "SaturatingUnionRectEdges", "da/d97/structns_rect.html#a9fcbda50d1e66b8739f54827c1c44d29", null ],
+    [ "ScaleToInsidePixels", "da/d97/structns_rect.html#ad42ab8ecb350b276dcedf71363449d3d", null ],
+    [ "ScaleToNearestPixels", "da/d97/structns_rect.html#aa461321269a3be865fbc5b2bc281778b", null ],
+    [ "ScaleToOutsidePixels", "da/d97/structns_rect.html#a9db56d163b419e70f958ba3904468ea5", null ],
+    [ "ToInsidePixels", "da/d97/structns_rect.html#af8ee33f748508d272da4088518f1ed95", null ],
+    [ "ToNearestPixels", "da/d97/structns_rect.html#afaacbbe95015cc8685db38d508eb5a34", null ],
+    [ "ToOutsidePixels", "da/d97/structns_rect.html#a85c1d2aea2cb9808e63f91b2c2cbbe76", null ],
+    [ "Union", "da/d97/structns_rect.html#afd7d6ed3cef466686fbe30e7580cfd32", null ],
+    [ "UnionEdges", "da/d97/structns_rect.html#ab1398ad375b2859a7856101e4b5113aa", null ],
+    [ "UnionRect", "da/d97/structns_rect.html#aa6852f679f143365b8a3c557add2c605", null ],
+    [ "UnionRectEdges", "da/d97/structns_rect.html#aa7d12a03e01e56dbbc0e6133fca6818f", null ],
+    [ "VERIFY_COORD", "da/d97/structns_rect.html#a86a9b1d10e3db6c454b786731fc32f4e", null ]
+];

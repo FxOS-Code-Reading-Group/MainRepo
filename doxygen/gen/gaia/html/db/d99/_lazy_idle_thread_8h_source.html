@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: LazyIdleThread.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('db/d99/_lazy_idle_thread_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">LazyIdleThread.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../db/d99/_lazy_idle_thread_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set ts=2 et sw=2 tw=80: */</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="preprocessor">#ifndef mozilla_lazyidlethread_h__</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor">#define mozilla_lazyidlethread_h__</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span>
+<a name="l00010"></a>00010 <span class="preprocessor">#ifndef MOZILLA_INTERNAL_API</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span><span class="preprocessor">#error &quot;This header is only usable from within libxul (MOZILLA_INTERNAL_API).&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00013"></a>00013 <span class="preprocessor"></span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d73/ns_i_observer_8h.html">nsIObserver.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/dbc/ns_i_thread_internal_8h.html">nsIThreadInternal.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d1c/ns_i_timer_8h.html">nsITimer.h</a>&quot;</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d78/_mutex_8h.html">mozilla/Mutex.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/db9/ns_t_array_8h.html">nsTArray.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/d37/ns_string_8h.html">nsString.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/da8/_attributes_8h.html">mozilla/Attributes.h</a>&quot;</span>
+<a name="l00023"></a>00023 
+<a name="l00024"></a><a class="code" href="../../db/d99/_lazy_idle_thread_8h.html#aa2bf284965d91d90dece533784365ac6">00024</a> <span class="preprocessor">#define IDLE_THREAD_TOPIC &quot;thread-shutting-down&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span>
+<a name="l00026"></a>00026 <span class="keyword">namespace </span>mozilla {
+<a name="l00027"></a>00027 
+<a name="l00035"></a>00035 <span class="keyword">class </span>LazyIdleThread MOZ_FINAL : <span class="keyword">public</span> <a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a>,
+<a name="l00036"></a>00036                                  <span class="keyword">public</span> <a class="code" href="../../de/dc8/interfacens_i_timer_callback.html">nsITimerCallback</a>,
+<a name="l00037"></a>00037                                  <span class="keyword">public</span> <a class="code" href="../../dd/d78/interfacens_i_thread_observer.html">nsIThreadObserver</a>,
+<a name="l00038"></a>00038                                  <span class="keyword">public</span> <a class="code" href="../../d5/d6a/interfacens_i_observer.html">nsIObserver</a>
+<a name="l00039"></a>00039 {
+<a name="l00040"></a>00040 <span class="keyword">public</span>:
+<a name="l00041"></a>00041   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#adc7f4e7f315cf8145f2c1312234d960b">NS_DECL_THREADSAFE_ISUPPORTS</a>
+<a name="l00042"></a>00042   <a class="code" href="../../dc/dc2/ns_i_event_target_8h.html#a4dd48ca2ce99d44b41ba53a8df41af46">NS_DECL_NSIEVENTTARGET</a>
+<a name="l00043"></a>00043   <a class="code" href="../../da/d24/ns_i_thread_8h.html#a367b1ba17216139ad1d12607f0ff1658">NS_DECL_NSITHREAD</a>
+<a name="l00044"></a>00044   <a class="code" href="../../d6/d1c/ns_i_timer_8h.html#ac446f38d8fcc5755e2c3f4a5bc198849">NS_DECL_NSITIMERCALLBACK</a>
+<a name="l00045"></a>00045   <a class="code" href="../../d3/dbc/ns_i_thread_internal_8h.html#a06475dad428350c0c0ddeed061ef52a7">NS_DECL_NSITHREADOBSERVER</a>
+<a name="l00046"></a>00046   <a class="code" href="../../de/d73/ns_i_observer_8h.html#a4f37c2b66a7d85e0ab2297b9d81301bb">NS_DECL_NSIOBSERVER</a>
+<a name="l00047"></a>00047 
+<a name="l00048"></a><a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html#ac2ea10d42e63922e0dfb16b34fc961f0">00048</a>   <span class="keyword">enum</span> <a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html#ac2ea10d42e63922e0dfb16b34fc961f0">ShutdownMethod</a> {
+<a name="l00049"></a><a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html#ac2ea10d42e63922e0dfb16b34fc961f0a02b903d3e3edab238c309d895d871170">00049</a>     AutomaticShutdown = 0,
+<a name="l00050"></a><a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html#ac2ea10d42e63922e0dfb16b34fc961f0a84ac057115b469e1090fe407758b1a93">00050</a>     ManualShutdown
+<a name="l00051"></a>00051   };
+<a name="l00052"></a>00052 
+<a name="l00057"></a>00057   LazyIdleThread(uint32_t aIdleTimeoutMS,
+<a name="l00058"></a>00058                  <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#abb5469e7f0d02218b74fec0947246158">nsCSubstring</a>&amp; aName,
+<a name="l00059"></a>00059                  ShutdownMethod aShutdownMethod = AutomaticShutdown,
+<a name="l00060"></a>00060                  <a class="code" href="../../d5/d6a/interfacens_i_observer.html">nsIObserver</a>* aIdleObserver = <span class="keyword">nullptr</span>);
+<a name="l00061"></a>00061 
+<a name="l00071"></a>00071   <span class="keywordtype">void</span> SetWeakIdleObserver(<a class="code" href="../../d5/d6a/interfacens_i_observer.html">nsIObserver</a>* aObserver);
+<a name="l00072"></a>00072 
+<a name="l00077"></a>00077   <span class="keywordtype">void</span> DisableIdleTimeout();
+<a name="l00078"></a>00078 
+<a name="l00082"></a>00082   <span class="keywordtype">void</span> EnableIdleTimeout();
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 <span class="keyword">private</span>:
+<a name="l00088"></a>00088   ~LazyIdleThread();
+<a name="l00089"></a>00089 
+<a name="l00093"></a>00093   <span class="keywordtype">void</span> PreDispatch();
+<a name="l00094"></a>00094 
+<a name="l00098"></a>00098   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> EnsureThread();
+<a name="l00099"></a>00099 
+<a name="l00103"></a>00103   <span class="keywordtype">void</span> InitThread();
+<a name="l00104"></a>00104 
+<a name="l00108"></a>00108   <span class="keywordtype">void</span> CleanupThread();
+<a name="l00109"></a>00109 
+<a name="l00114"></a>00114   <span class="keywordtype">void</span> ScheduleTimer();
+<a name="l00115"></a>00115 
+<a name="l00119"></a>00119   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> ShutdownThread();
+<a name="l00120"></a>00120 
+<a name="l00125"></a>00125   <span class="keywordtype">void</span> SelfDestruct();
+<a name="l00126"></a>00126 
+<a name="l00131"></a>00131   <span class="keywordtype">bool</span> UseRunnableQueue() {
+<a name="l00132"></a>00132     <span class="keywordflow">return</span> !!mQueuedRunnables;
+<a name="l00133"></a>00133   }
+<a name="l00134"></a>00134 
+<a name="l00138"></a>00138   <a class="code" href="../../d9/d12/classmozilla_1_1_mutex.html">mozilla::Mutex</a> mMutex;
+<a name="l00139"></a>00139 
+<a name="l00144"></a>00144   nsCOMPtr&lt;nsIThread&gt; mOwningThread;
+<a name="l00145"></a>00145 
+<a name="l00149"></a>00149   nsCOMPtr&lt;nsIThread&gt; mThread;
+<a name="l00150"></a>00150 
+<a name="l00156"></a>00156   nsCOMPtr&lt;nsITimer&gt; mIdleTimer;
+<a name="l00157"></a>00157 
+<a name="l00162"></a>00162   <a class="code" href="../../d5/d6a/interfacens_i_observer.html">nsIObserver</a>* mIdleObserver;
+<a name="l00163"></a>00163 
+<a name="l00168"></a>00168   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsCOMPtr&lt;nsIRunnable&gt;</a> &gt;* mQueuedRunnables;
+<a name="l00169"></a>00169 
+<a name="l00173"></a>00173   <span class="keyword">const</span> uint32_t mIdleTimeoutMS;
+<a name="l00174"></a>00174 
+<a name="l00179"></a>00179   uint32_t mPendingEventCount;
+<a name="l00180"></a>00180 
+<a name="l00186"></a>00186   uint32_t mIdleNotificationCount;
+<a name="l00187"></a>00187 
+<a name="l00193"></a>00193   ShutdownMethod mShutdownMethod;
+<a name="l00194"></a>00194 
+<a name="l00199"></a>00199   <span class="keywordtype">bool</span> mShutdown;
+<a name="l00200"></a>00200 
+<a name="l00205"></a>00205   <span class="keywordtype">bool</span> mThreadIsShuttingDown;
+<a name="l00206"></a>00206 
+<a name="l00210"></a>00210   <span class="keywordtype">bool</span> mIdleTimeoutEnabled;
+<a name="l00211"></a>00211 
+<a name="l00215"></a>00215   nsCString mName;
+<a name="l00216"></a>00216 };
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218 } <span class="comment">// namespace mozilla</span>
+<a name="l00219"></a>00219 
+<a name="l00220"></a>00220 <span class="preprocessor">#endif // mozilla_lazyidlethread_h__</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../db/d99/_lazy_idle_thread_8h.html">LazyIdleThread.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:32に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

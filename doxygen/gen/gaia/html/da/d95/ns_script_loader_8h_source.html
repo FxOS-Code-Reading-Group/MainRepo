@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsScriptLoader.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/d95/ns_script_loader_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsScriptLoader.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/d95/ns_script_loader_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment"> * A class that handles loading and evaluation of &lt;script&gt; elements.</span>
+<a name="l00008"></a>00008 <span class="comment"> */</span>
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="preprocessor">#ifndef __nsScriptLoader_h__</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span><span class="preprocessor">#define __nsScriptLoader_h__</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../d4/d49/ns_i_script_element_8h.html">nsIScriptElement.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/da8/ns_c_o_m_array_8h.html">nsCOMArray.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/db9/ns_t_array_8h.html">nsTArray.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d6f/ns_i_document_8h.html">nsIDocument.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d7e/ns_i_stream_loader_8h.html">nsIStreamLoader.h</a>&quot;</span>
+<a name="l00020"></a>00020 
+<a name="l00021"></a>00021 <span class="keyword">class </span>nsScriptLoadRequest;
+<a name="l00022"></a>00022 <span class="keyword">class </span><a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>;
+<a name="l00023"></a>00023 
+<a name="l00025"></a>00025 <span class="comment">// Script loader implementation</span>
+<a name="l00027"></a>00027 <span class="comment"></span>
+<a name="l00028"></a><a class="code" href="../../dc/df4/classns_script_loader.html">00028</a> <span class="keyword">class </span><a class="code" href="../../dc/df4/classns_script_loader.html">nsScriptLoader</a> : <span class="keyword">public</span> <a class="code" href="../../df/dc9/interfacens_i_stream_loader_observer.html">nsIStreamLoaderObserver</a>
+<a name="l00029"></a>00029 {
+<a name="l00030"></a><a class="code" href="../../dc/df4/classns_script_loader.html#ad504cce94e564cc0e33a6d0febf14d46">00030</a>   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../dc/df4/classns_script_loader.html#ad504cce94e564cc0e33a6d0febf14d46">nsScriptRequestProcessor</a>;
+<a name="l00031"></a>00031 <span class="keyword">public</span>:
+<a name="l00032"></a>00032   <a class="code" href="../../dc/df4/classns_script_loader.html#aa7958fbba63063db977e1bcc21535e9e">nsScriptLoader</a>(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument);
+<a name="l00033"></a>00033   <span class="keyword">virtual</span> <a class="code" href="../../dc/df4/classns_script_loader.html#adea0b3f88666447ff2bdca11345bc486">~nsScriptLoader</a>();
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#a5084fc0869a6c828efdca6b17f8b5374">NS_DECL_ISUPPORTS</a>
+<a name="l00036"></a>00036   <a class="code" href="../../d2/d7e/ns_i_stream_loader_8h.html#a90324e212de6f60cb292fa2594255253">NS_DECL_NSISTREAMLOADEROBSERVER</a>
+<a name="l00037"></a>00037 
+<a name="l00043"></a><a class="code" href="../../dc/df4/classns_script_loader.html#ae77f5120ec67335e2109a1794016d10b">00043</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/df4/classns_script_loader.html#ae77f5120ec67335e2109a1794016d10b">DropDocumentReference</a>()
+<a name="l00044"></a>00044   {
+<a name="l00045"></a>00045     mDocument = <span class="keyword">nullptr</span>;
+<a name="l00046"></a>00046   }
+<a name="l00047"></a>00047 
+<a name="l00053"></a><a class="code" href="../../dc/df4/classns_script_loader.html#a680e5d65f0624ba14230d41a01ee412e">00053</a>   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../dc/df4/classns_script_loader.html#a680e5d65f0624ba14230d41a01ee412e">AddObserver</a>(<a class="code" href="../../db/d5b/interfacens_i_script_loader_observer.html">nsIScriptLoaderObserver</a>* aObserver)
+<a name="l00054"></a>00054   {
+<a name="l00055"></a>00055     <span class="keywordflow">return</span> mObservers.<a class="code" href="../../d3/d4e/classns_c_o_m_array.html#a76139d3b985360259f5d883f463d7586">AppendObject</a>(aObserver) ? <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a> :
+<a name="l00056"></a>00056       <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a92ab988083ecf3206773169bf6b11d06">NS_ERROR_OUT_OF_MEMORY</a>;
+<a name="l00057"></a>00057   }
+<a name="l00058"></a>00058 
+<a name="l00064"></a><a class="code" href="../../dc/df4/classns_script_loader.html#a41f2e7333d5b2a220175bac3fd87652b">00064</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/df4/classns_script_loader.html#a41f2e7333d5b2a220175bac3fd87652b">RemoveObserver</a>(<a class="code" href="../../db/d5b/interfacens_i_script_loader_observer.html">nsIScriptLoaderObserver</a>* aObserver)
+<a name="l00065"></a>00065   {
+<a name="l00066"></a>00066     mObservers.<a class="code" href="../../d3/d4e/classns_c_o_m_array.html#a9354969733bfca439acfddeb3d017075">RemoveObject</a>(aObserver);
+<a name="l00067"></a>00067   }
+<a name="l00068"></a>00068   
+<a name="l00085"></a>00085   <span class="keywordtype">bool</span> <a class="code" href="../../dc/df4/classns_script_loader.html#a94142dfa1df038c360bcc65b37ad7bcb">ProcessScriptElement</a>(<a class="code" href="../../d5/da4/classns_i_script_element.html">nsIScriptElement</a>* aElement);
+<a name="l00086"></a>00086 
+<a name="l00091"></a><a class="code" href="../../dc/df4/classns_script_loader.html#a226c45c3972f278d9df2dbe70e62b344">00091</a>   <a class="code" href="../../d5/da4/classns_i_script_element.html">nsIScriptElement</a>* <a class="code" href="../../dc/df4/classns_script_loader.html#a226c45c3972f278d9df2dbe70e62b344">GetCurrentScript</a>()
+<a name="l00092"></a>00092   {
+<a name="l00093"></a>00093     <span class="keywordflow">return</span> mCurrentScript;
+<a name="l00094"></a>00094   }
+<a name="l00095"></a>00095 
+<a name="l00096"></a><a class="code" href="../../dc/df4/classns_script_loader.html#a85f55b19d4ce3777ad7b9a61560fea83">00096</a>   <a class="code" href="../../d5/da4/classns_i_script_element.html">nsIScriptElement</a>* <a class="code" href="../../dc/df4/classns_script_loader.html#a85f55b19d4ce3777ad7b9a61560fea83">GetCurrentParserInsertedScript</a>()
+<a name="l00097"></a>00097   {
+<a name="l00098"></a>00098     <span class="keywordflow">return</span> mCurrentParserInsertedScript;
+<a name="l00099"></a>00099   }
+<a name="l00100"></a>00100 
+<a name="l00107"></a><a class="code" href="../../dc/df4/classns_script_loader.html#a75b61763198ad48dbfaa9e20275a8af8">00107</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dc/df4/classns_script_loader.html#a75b61763198ad48dbfaa9e20275a8af8">GetEnabled</a>()
+<a name="l00108"></a>00108   {
+<a name="l00109"></a>00109     <span class="keywordflow">return</span> mEnabled;
+<a name="l00110"></a>00110   }
+<a name="l00111"></a><a class="code" href="../../dc/df4/classns_script_loader.html#aea544781c3ecb8477f158e787d19d3ae">00111</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/df4/classns_script_loader.html#aea544781c3ecb8477f158e787d19d3ae">SetEnabled</a>(<span class="keywordtype">bool</span> aEnabled)
+<a name="l00112"></a>00112   {
+<a name="l00113"></a>00113     <span class="keywordflow">if</span> (!mEnabled &amp;&amp; aEnabled) {
+<a name="l00114"></a>00114       ProcessPendingRequestsAsync();
+<a name="l00115"></a>00115     }
+<a name="l00116"></a>00116     mEnabled = aEnabled;
+<a name="l00117"></a>00117   }
+<a name="l00118"></a>00118 
+<a name="l00123"></a><a class="code" href="../../dc/df4/classns_script_loader.html#aae7ed937d4484fe5f4f560a572db267f">00123</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/df4/classns_script_loader.html#aae7ed937d4484fe5f4f560a572db267f">AddExecuteBlocker</a>()
+<a name="l00124"></a>00124   {
+<a name="l00125"></a>00125     ++mBlockerCount;
+<a name="l00126"></a>00126   }
+<a name="l00127"></a><a class="code" href="../../dc/df4/classns_script_loader.html#a21211c9107acfe99bcbc44d78e844ea1">00127</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/df4/classns_script_loader.html#a21211c9107acfe99bcbc44d78e844ea1">RemoveExecuteBlocker</a>()
+<a name="l00128"></a>00128   {
+<a name="l00129"></a>00129     <span class="keywordflow">if</span> (!--mBlockerCount) {
+<a name="l00130"></a>00130       ProcessPendingRequestsAsync();
+<a name="l00131"></a>00131     }
+<a name="l00132"></a>00132   }
+<a name="l00133"></a>00133 
+<a name="l00145"></a>00145   <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../dc/df4/classns_script_loader.html#abbce8b6292a5a030a63ec20e958efc45">ConvertToUTF16</a>(<a class="code" href="../../d1/d2d/interfacens_i_channel.html">nsIChannel</a>* aChannel, <span class="keyword">const</span> uint8_t* <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00146"></a>00146                                  uint32_t aLength,
+<a name="l00147"></a>00147                                  <span class="keyword">const</span> nsAString&amp; aHintCharset,
+<a name="l00148"></a>00148                                  <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument, nsString&amp; aString);
+<a name="l00149"></a>00149 
+<a name="l00153"></a>00153   <span class="keywordtype">void</span> <a class="code" href="../../dc/df4/classns_script_loader.html#ace2830b85aaa3e1d1f758e5e6a4f6a72">ProcessPendingRequests</a>();
+<a name="l00154"></a>00154 
+<a name="l00159"></a>00159   <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../dc/df4/classns_script_loader.html#a9833dea14ecfba47e4cd6a44b4878c0f">ShouldLoadScript</a>(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument,
+<a name="l00160"></a>00160                                    <a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a>* aContext,
+<a name="l00161"></a>00161                                    <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>* aURI,
+<a name="l00162"></a>00162                                    <span class="keyword">const</span> nsAString &amp;<a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>);
+<a name="l00163"></a>00163 
+<a name="l00168"></a><a class="code" href="../../dc/df4/classns_script_loader.html#ab1d832a7d268534ccc88eabeb2ff1d2b">00168</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/df4/classns_script_loader.html#ab1d832a7d268534ccc88eabeb2ff1d2b">BeginDeferringScripts</a>()
+<a name="l00169"></a>00169   {
+<a name="l00170"></a>00170     mDeferEnabled = <span class="keyword">true</span>;
+<a name="l00171"></a>00171     <span class="keywordflow">if</span> (mDocument) {
+<a name="l00172"></a>00172       mDocument-&gt;<a class="code" href="../../de/dd1/classns_i_document.html#a1c94e8985f3d7254c4fd60efad78781c">BlockOnload</a>();
+<a name="l00173"></a>00173     }
+<a name="l00174"></a>00174   }
+<a name="l00175"></a>00175 
+<a name="l00185"></a>00185   <span class="keywordtype">void</span> <a class="code" href="../../dc/df4/classns_script_loader.html#ae505446d09add76c6860ec0f39f0f86b">ParsingComplete</a>(<span class="keywordtype">bool</span> aTerminated);
+<a name="l00186"></a>00186 
+<a name="l00190"></a><a class="code" href="../../dc/df4/classns_script_loader.html#aa8bd49bb79fbd2672a4586f1737f8c40">00190</a>   uint32_t <a class="code" href="../../dc/df4/classns_script_loader.html#aa8bd49bb79fbd2672a4586f1737f8c40">HasPendingOrCurrentScripts</a>()
+<a name="l00191"></a>00191   {
+<a name="l00192"></a>00192     <span class="keywordflow">return</span> mCurrentScript || mParserBlockingRequest;
+<a name="l00193"></a>00193   }
+<a name="l00194"></a>00194 
+<a name="l00205"></a>00205   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/df4/classns_script_loader.html#a16a2398bfac420f1ab05462f75677f02">PreloadURI</a>(<a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a> *aURI, <span class="keyword">const</span> nsAString &amp;aCharset,
+<a name="l00206"></a>00206                           <span class="keyword">const</span> nsAString &amp;<a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00207"></a>00207                           <span class="keyword">const</span> nsAString &amp;aCrossOrigin,
+<a name="l00208"></a>00208                           <span class="keywordtype">bool</span> aScriptFromHead);
+<a name="l00209"></a>00209 
+<a name="l00210"></a>00210 <span class="keyword">private</span>:
+<a name="l00214"></a>00214   <span class="keywordtype">void</span> UnblockParser(nsScriptLoadRequest* aParserBlockingRequest);
+<a name="l00215"></a>00215 
+<a name="l00219"></a>00219   <span class="keywordtype">void</span> ContinueParserAsync(nsScriptLoadRequest* aParserBlockingRequest);
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221 
+<a name="l00225"></a>00225   <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> CheckContentPolicy(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument,
+<a name="l00226"></a>00226                                      <a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a> *aContext,
+<a name="l00227"></a>00227                                      <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a> *aURI,
+<a name="l00228"></a>00228                                      <span class="keyword">const</span> nsAString &amp;<a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>);
+<a name="l00229"></a>00229 
+<a name="l00233"></a>00233   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> StartLoad(nsScriptLoadRequest *aRequest, <span class="keyword">const</span> nsAString &amp;<a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00234"></a>00234                      <span class="keywordtype">bool</span> aScriptFromHead);
+<a name="l00235"></a>00235 
+<a name="l00243"></a>00243   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ProcessPendingRequestsAsync();
+<a name="l00244"></a>00244 
+<a name="l00251"></a>00251   <span class="keywordtype">bool</span> ReadyToExecuteScripts();
+<a name="l00252"></a>00252 
+<a name="l00256"></a>00256   <span class="keywordtype">bool</span> SelfReadyToExecuteScripts()
+<a name="l00257"></a>00257   {
+<a name="l00258"></a>00258     <span class="keywordflow">return</span> mEnabled &amp;&amp; !mBlockerCount;
+<a name="l00259"></a>00259   }
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261   <span class="keywordtype">bool</span> AddPendingChildLoader(<a class="code" href="../../dc/df4/classns_script_loader.html">nsScriptLoader</a>* aChild) {
+<a name="l00262"></a>00262     <span class="keywordflow">return</span> mPendingChildLoaders.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#aaa99ce990d80c69a2e82c4182bb54bd2">AppendElement</a>(aChild) != <span class="keyword">nullptr</span>;
+<a name="l00263"></a>00263   }
+<a name="l00264"></a>00264   
+<a name="l00265"></a>00265   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> ProcessRequest(nsScriptLoadRequest* aRequest);
+<a name="l00266"></a>00266   <span class="keywordtype">void</span> FireScriptAvailable(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d6a/ns_color_8h.html#a820357f645d7b0eaf62fd4994dda5a24">aResult</a>,
+<a name="l00267"></a>00267                            nsScriptLoadRequest* aRequest);
+<a name="l00268"></a>00268   <span class="keywordtype">void</span> FireScriptEvaluated(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d6a/ns_color_8h.html#a820357f645d7b0eaf62fd4994dda5a24">aResult</a>,
+<a name="l00269"></a>00269                            nsScriptLoadRequest* aRequest);
+<a name="l00270"></a>00270   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> EvaluateScript(nsScriptLoadRequest* aRequest,
+<a name="l00271"></a>00271                           <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#aa70c3979f35d7011bb34c3b9688f17db">nsAFlatString</a>&amp; aScript);
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> PrepareLoadedRequest(nsScriptLoadRequest* aRequest,
+<a name="l00274"></a>00274                                 <a class="code" href="../../d2/d79/interfacens_i_stream_loader.html">nsIStreamLoader</a>* aLoader,
+<a name="l00275"></a>00275                                 <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> aStatus,
+<a name="l00276"></a>00276                                 uint32_t aStringLen,
+<a name="l00277"></a>00277                                 <span class="keyword">const</span> uint8_t* aString);
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279   <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* mDocument;                   <span class="comment">// [WEAK]</span>
+<a name="l00280"></a>00280   <a class="code" href="../../d3/d4e/classns_c_o_m_array.html">nsCOMArray&lt;nsIScriptLoaderObserver&gt;</a> mObservers;
+<a name="l00281"></a>00281   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsRefPtr&lt;nsScriptLoadRequest&gt;</a> &gt; mNonAsyncExternalScriptInsertedRequests;
+<a name="l00282"></a>00282   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsRefPtr&lt;nsScriptLoadRequest&gt;</a> &gt; mAsyncRequests;
+<a name="l00283"></a>00283   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsRefPtr&lt;nsScriptLoadRequest&gt;</a> &gt; mDeferRequests;
+<a name="l00284"></a>00284   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsRefPtr&lt;nsScriptLoadRequest&gt;</a> &gt; mXSLTRequests;
+<a name="l00285"></a>00285   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsScriptLoadRequest&gt;</a> mParserBlockingRequest;
+<a name="l00286"></a>00286 
+<a name="l00287"></a>00287   <span class="comment">// In mRequests, the additional information here is stored by the element.</span>
+<a name="l00288"></a>00288   <span class="keyword">struct </span>PreloadInfo {
+<a name="l00289"></a>00289     <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsScriptLoadRequest&gt;</a> mRequest;
+<a name="l00290"></a>00290     nsString <a class="code" href="../../db/d02/ns_html5_meta_scanner_h_supplement_8h.html#a041fb2c4f1786b8fdfe8db0404ce2f2b">mCharset</a>;
+<a name="l00291"></a>00291   };
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293   <span class="keyword">struct </span>PreloadRequestComparator {
+<a name="l00294"></a>00294     <span class="keywordtype">bool</span> Equals(<span class="keyword">const</span> PreloadInfo &amp;aPi, nsScriptLoadRequest * <span class="keyword">const</span> &amp;aRequest)<span class="keyword"></span>
+<a name="l00295"></a>00295 <span class="keyword">        const</span>
+<a name="l00296"></a>00296 <span class="keyword">    </span>{
+<a name="l00297"></a>00297       <span class="keywordflow">return</span> aRequest == aPi.mRequest;
+<a name="l00298"></a>00298     }
+<a name="l00299"></a>00299   };
+<a name="l00300"></a>00300   <span class="keyword">struct </span>PreloadURIComparator {
+<a name="l00301"></a>00301     <span class="keywordtype">bool</span> Equals(<span class="keyword">const</span> PreloadInfo &amp;aPi, <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a> * <span class="keyword">const</span> &amp;aURI) <span class="keyword">const</span>;
+<a name="l00302"></a>00302   };
+<a name="l00303"></a>00303   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;PreloadInfo&gt;</a> mPreloads;
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305   nsCOMPtr&lt;nsIScriptElement&gt; mCurrentScript;
+<a name="l00306"></a>00306   nsCOMPtr&lt;nsIScriptElement&gt; mCurrentParserInsertedScript;
+<a name="l00307"></a>00307   <span class="comment">// XXXbz do we want to cycle-collect these or something?  Not sure.</span>
+<a name="l00308"></a>00308   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt; nsRefPtr&lt;nsScriptLoader&gt;</a> &gt; mPendingChildLoaders;
+<a name="l00309"></a>00309   uint32_t mBlockerCount;
+<a name="l00310"></a>00310   <span class="keywordtype">bool</span> mEnabled;
+<a name="l00311"></a>00311   <span class="keywordtype">bool</span> mDeferEnabled;
+<a name="l00312"></a>00312   <span class="keywordtype">bool</span> mDocumentParsingDone;
+<a name="l00313"></a>00313 };
+<a name="l00314"></a>00314 
+<a name="l00315"></a><a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html">00315</a> <span class="keyword">class </span><a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html">nsAutoScriptLoaderDisabler</a>
+<a name="l00316"></a>00316 {
+<a name="l00317"></a>00317 <span class="keyword">public</span>:
+<a name="l00318"></a><a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#a9ae55323f61e7cf745031db881f74d7a">00318</a>   <a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#a9ae55323f61e7cf745031db881f74d7a">nsAutoScriptLoaderDisabler</a>(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDoc)
+<a name="l00319"></a>00319   {
+<a name="l00320"></a>00320     <a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#ae5d2c81be4e5ee0370a05fa9081dfc3b">mLoader</a> = aDoc-&gt;<a class="code" href="../../de/dd1/classns_i_document.html#a22fa25a748abb81e52807bd4c31c69cf">ScriptLoader</a>();
+<a name="l00321"></a>00321     <a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#aa00d5dc4a1104299596ea4a8a80d4847">mWasEnabled</a> = <a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#ae5d2c81be4e5ee0370a05fa9081dfc3b">mLoader</a>-&gt;<a class="code" href="../../dc/df4/classns_script_loader.html#a75b61763198ad48dbfaa9e20275a8af8">GetEnabled</a>();
+<a name="l00322"></a>00322     <span class="keywordflow">if</span> (<a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#aa00d5dc4a1104299596ea4a8a80d4847">mWasEnabled</a>) {
+<a name="l00323"></a>00323       <a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#ae5d2c81be4e5ee0370a05fa9081dfc3b">mLoader</a>-&gt;<a class="code" href="../../dc/df4/classns_script_loader.html#aea544781c3ecb8477f158e787d19d3ae">SetEnabled</a>(<span class="keyword">false</span>);
+<a name="l00324"></a>00324     }
+<a name="l00325"></a>00325   }
+<a name="l00326"></a>00326   
+<a name="l00327"></a><a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#a93b3bab9479e27dc5759fb7135c0ed05">00327</a>   <a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#a93b3bab9479e27dc5759fb7135c0ed05">~nsAutoScriptLoaderDisabler</a>()
+<a name="l00328"></a>00328   {
+<a name="l00329"></a>00329     <span class="keywordflow">if</span> (<a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#aa00d5dc4a1104299596ea4a8a80d4847">mWasEnabled</a>) {
+<a name="l00330"></a>00330       <a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#ae5d2c81be4e5ee0370a05fa9081dfc3b">mLoader</a>-&gt;<a class="code" href="../../dc/df4/classns_script_loader.html#aea544781c3ecb8477f158e787d19d3ae">SetEnabled</a>(<span class="keyword">true</span>);
+<a name="l00331"></a>00331     }
+<a name="l00332"></a>00332   }
+<a name="l00333"></a>00333   
+<a name="l00334"></a><a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#aa00d5dc4a1104299596ea4a8a80d4847">00334</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#aa00d5dc4a1104299596ea4a8a80d4847">mWasEnabled</a>;
+<a name="l00335"></a><a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#ae5d2c81be4e5ee0370a05fa9081dfc3b">00335</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsScriptLoader&gt;</a> <a class="code" href="../../d7/d02/classns_auto_script_loader_disabler.html#ae5d2c81be4e5ee0370a05fa9081dfc3b">mLoader</a>;
+<a name="l00336"></a>00336 };
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338 <span class="preprocessor">#endif //__nsScriptLoader_h__</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/d95/ns_script_loader_8h.html">nsScriptLoader.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:43に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

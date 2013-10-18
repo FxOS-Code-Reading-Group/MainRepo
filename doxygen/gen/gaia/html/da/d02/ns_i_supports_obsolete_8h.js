@@ -1,0 +1,25 @@
+var ns_i_supports_obsolete_8h =
+[
+    [ "NS_FREE_XPCOM_ISUPPORTS_POINTER_ARRAY", "da/d02/ns_i_supports_obsolete_8h.html#a7c343b6b8cafa17b8718286e0faaee79", null ],
+    [ "NS_IMPL_CLASS_GETSET", "da/d02/ns_i_supports_obsolete_8h.html#ad6ce5a51c8e515f9b78a31c9bc0f7057", null ],
+    [ "NS_IMPL_CLASS_GETSET_STR", "da/d02/ns_i_supports_obsolete_8h.html#a2895de791aef5e7150857d732f472ac4", null ],
+    [ "NS_IMPL_CLASS_GETTER", "da/d02/ns_i_supports_obsolete_8h.html#a805f3a0d805f91b04177a07dd51bf7cf", null ],
+    [ "NS_IMPL_CLASS_GETTER_STR", "da/d02/ns_i_supports_obsolete_8h.html#a029e8fd59832a9299baf08f67c6b5d4a", null ],
+    [ "NS_IMPL_CLASS_SETTER", "da/d02/ns_i_supports_obsolete_8h.html#a0d6ba94db44db5ea8a06da42ee5fe25b", null ],
+    [ "NS_IMPL_CLASS_SETTER_STR", "da/d02/ns_i_supports_obsolete_8h.html#ad966dd10db5fdaabc91ec3fc068adcd5", null ],
+    [ "NS_IMPL_GETSET", "da/d02/ns_i_supports_obsolete_8h.html#a40777a946b4ea5eeb0d59ede7d81b18c", null ],
+    [ "NS_IMPL_GETSET_STR", "da/d02/ns_i_supports_obsolete_8h.html#a7cf0bc7ea5e86f5726e1a6c6a107d2be", null ],
+    [ "NS_IMPL_GETTER", "da/d02/ns_i_supports_obsolete_8h.html#a0f83a291d17914e77f521b6514edd475", null ],
+    [ "NS_IMPL_GETTER_STR", "da/d02/ns_i_supports_obsolete_8h.html#a06fa3a34557ee37bca01c7fad2dd4687", null ],
+    [ "NS_IMPL_SETTER", "da/d02/ns_i_supports_obsolete_8h.html#aa17e479f9c6ba896a5a05837cd0800d2", null ],
+    [ "NS_IMPL_SETTER_STR", "da/d02/ns_i_supports_obsolete_8h.html#a197a53b67c7e66a119657198a1435870", null ],
+    [ "NS_INIT_REFCNT", "da/d02/ns_i_supports_obsolete_8h.html#ae41c32907aac0e5640fd71131848feee", null ],
+    [ "NS_ISTHREADSAFE_IID", "da/d02/ns_i_supports_obsolete_8h.html#a3656f20db394548155900c963662c868", null ],
+    [ "NS_LOCK_INSTANCE", "da/d02/ns_i_supports_obsolete_8h.html#a29c1c89516a8f8c0c7a7e61a69c309ad", null ],
+    [ "NS_METHOD_GETTER", "da/d02/ns_i_supports_obsolete_8h.html#ae393d86500445a6037746fc6bd4fec16", null ],
+    [ "NS_METHOD_GETTER_STR", "da/d02/ns_i_supports_obsolete_8h.html#ad305583584c763d6baad321cb7f60071", null ],
+    [ "NS_METHOD_SETTER", "da/d02/ns_i_supports_obsolete_8h.html#ad58bbe711a3184e0d1ed6bd77d18a6cc", null ],
+    [ "NS_METHOD_SETTER_STR", "da/d02/ns_i_supports_obsolete_8h.html#a64c3bf5f017c6351ba65b2ee2790f221", null ],
+    [ "NS_UNLOCK_INSTANCE", "da/d02/ns_i_supports_obsolete_8h.html#ad0c62bf4e55fd034006c3d57fb28ad6e", null ],
+    [ "NS_VERIFY_THREADSAFE_INTERFACE", "da/d02/ns_i_supports_obsolete_8h.html#a5739178029e2956f6ebdd5c07de53003", null ]
+];

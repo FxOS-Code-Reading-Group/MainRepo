@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_style_sheet_applicable_state_change_event_init_initializer =
+[
+    [ "StyleSheetApplicableStateChangeEventInitInitializer", "da/d58/structmozilla_1_1dom_1_1_style_sheet_applicable_state_change_event_init_initializer.html#abaf4febf942bdc25722f6c3d06a7909f", null ]
+];

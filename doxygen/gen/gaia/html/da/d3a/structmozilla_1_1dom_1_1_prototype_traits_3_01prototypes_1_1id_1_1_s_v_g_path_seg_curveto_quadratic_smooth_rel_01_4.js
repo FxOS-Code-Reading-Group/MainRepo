@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_s_v_g_path_seg_curveto_quadratic_smooth_rel_01_4 =
+[
+    [ "NativeType", "da/d3a/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_s_v_g_path_seg_curveto_quadratic_smooth_rel_01_4.html#a36c28f479618a6483d2b9a276e8a302e", null ]
+];

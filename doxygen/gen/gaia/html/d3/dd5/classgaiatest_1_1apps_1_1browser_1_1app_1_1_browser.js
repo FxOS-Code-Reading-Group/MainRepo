@@ -1,0 +1,25 @@
+var classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser =
+[
+    [ "displayed_tabs_number", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a9ff46f6e24db9bfb5a7fff3dce7289ba", null ],
+    [ "go_to_url", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a9ed3394516d906df0acc8c18a87a3642", null ],
+    [ "is_awesome_bar_visible", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a9552e726bde31809c64740e94c9f66e9", null ],
+    [ "is_throbber_visible", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#aa27013d38d92c296a231b8f2a8aab6d4", null ],
+    [ "launch", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a35782544a3726cc8583a49a04175ed3a", null ],
+    [ "switch_to_chrome", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a2eba60832d8460b40e6e4f5833a31655", null ],
+    [ "switch_to_content", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a6bffe61683a897d6f3e574ce07d4eab1", null ],
+    [ "tabs", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a854bda18247f414b43d48fe8784114eb", null ],
+    [ "tabs_count", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a5ff0d3c9b079af746420a62ae544b0f9", null ],
+    [ "tap_add_bookmark_to_home_screen_choice_button", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#abf8b5e5810d0539401d6c82489bdb644", null ],
+    [ "tap_add_bookmark_to_home_screen_dialog_button", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a04cca4f927c45f54a772c0ea9b2ac7f3", null ],
+    [ "tap_add_new_tab_button", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#ab040b8411843a6c10d818f1aa88f6f28", null ],
+    [ "tap_back_button", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a1c7640c09043815416a4f66d239a4e4a", null ],
+    [ "tap_bookmark_button", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a6f8bd130642ef74b8f4e90220794ea67", null ],
+    [ "tap_forward_button", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a633cff17fd02d0ae0d113a8b4aada1fb", null ],
+    [ "tap_go_button", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a767ed2cefa4eab8a80dd1bd4eadf975c", null ],
+    [ "tap_tab_badge_button", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a36d6fff5e85fbdf0dd1c1010186986a7", null ],
+    [ "type_bookmark_title", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a6740909e2284275c9e8674ab1dc91b08", null ],
+    [ "url", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a07b4cf5770d0d4f2a774e682c8424077", null ],
+    [ "wait_for_throbber_not_visible", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#afe8fd49ec527e8da3709efcbdff7afb0", null ],
+    [ "frame", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a9adafcdb58e34e2722c3d00ced3c2de6", null ],
+    [ "name", "d3/dd5/classgaiatest_1_1apps_1_1browser_1_1app_1_1_browser.html#a21e780f7da781531137fba1371a9538a", null ]
+];

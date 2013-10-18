@@ -1,0 +1,28 @@
+var classns_s_v_g_foreign_object_frame =
+[
+    [ "nsSVGForeignObjectFrame", "d9/d70/classns_s_v_g_foreign_object_frame.html#a5425d2f4ca1f088e70b55b8d7f8abd4d", null ],
+    [ "AttributeChanged", "d9/d70/classns_s_v_g_foreign_object_frame.html#afadf3841bb41db245dc15db773104a47", null ],
+    [ "BuildDisplayList", "d9/d70/classns_s_v_g_foreign_object_frame.html#a3fa97118e16120b044735d47518cea65", null ],
+    [ "DestroyFrom", "d9/d70/classns_s_v_g_foreign_object_frame.html#a06fa2312d80858c129583a97fa595f01", null ],
+    [ "DoReflow", "d9/d70/classns_s_v_g_foreign_object_frame.html#a86201e12ad53a9ea4292053e0a71c526", null ],
+    [ "GetBBoxContribution", "d9/d70/classns_s_v_g_foreign_object_frame.html#adc6c0f834e94a4ee6d70cf10e8417a6b", null ],
+    [ "GetCanvasTM", "d9/d70/classns_s_v_g_foreign_object_frame.html#a29a98a1df75a44463d57f3565c7725bc", null ],
+    [ "GetContentInsertionFrame", "d9/d70/classns_s_v_g_foreign_object_frame.html#a8a92e19ac5123023ca3ad18945affaac", null ],
+    [ "GetInvalidRegion", "d9/d70/classns_s_v_g_foreign_object_frame.html#a31982e6b5bf6c779030bfc255ba3054f", null ],
+    [ "GetType", "d9/d70/classns_s_v_g_foreign_object_frame.html#ac6873fa5abb189676cc1579f89651ed7", null ],
+    [ "Init", "d9/d70/classns_s_v_g_foreign_object_frame.html#a0d16d6bf2058d1f9edf67364f09cd8be", null ],
+    [ "IsDisabled", "d9/d70/classns_s_v_g_foreign_object_frame.html#acae44877c7474a1e3b0b27dc167bb9b7", null ],
+    [ "IsFrameOfType", "d9/d70/classns_s_v_g_foreign_object_frame.html#ade07c6247d3c3d0b33121fbffe6918dc", null ],
+    [ "IsSVGTransformed", "d9/d70/classns_s_v_g_foreign_object_frame.html#a6f7312d324c84ca1049fdd22cbf6286f", null ],
+    [ "NotifySVGChanged", "d9/d70/classns_s_v_g_foreign_object_frame.html#a993d6e2b411ba15b96db254a831c529d", null ],
+    [ "NS_IMETHOD_", "d9/d70/classns_s_v_g_foreign_object_frame.html#a055b54d15a915b1e37d3ed7fc8f70489", null ],
+    [ "NS_IMETHOD_", "d9/d70/classns_s_v_g_foreign_object_frame.html#a63393a0ed0e9e71d49d8eb2761e58859", null ],
+    [ "NS_IMETHOD_", "d9/d70/classns_s_v_g_foreign_object_frame.html#a8cab8187ba58c60102375d6d4f02ebc8", null ],
+    [ "PaintSVG", "d9/d70/classns_s_v_g_foreign_object_frame.html#a6e0eeafa57c26bce8a97a34aeba787a5", null ],
+    [ "Reflow", "d9/d70/classns_s_v_g_foreign_object_frame.html#ae46bba006096e5c36c82a566a88f4678", null ],
+    [ "ReflowSVG", "d9/d70/classns_s_v_g_foreign_object_frame.html#a45fcbd98fe8a924a7f2416ce16cd3f77", null ],
+    [ "RequestReflow", "d9/d70/classns_s_v_g_foreign_object_frame.html#a0b7c6a8ae962282516a29b045f13796d", null ],
+    [ "NS_NewSVGForeignObjectFrame", "d9/d70/classns_s_v_g_foreign_object_frame.html#a69364f9c97026cc0df46d085a89dfc61", null ],
+    [ "mCanvasTM", "d9/d70/classns_s_v_g_foreign_object_frame.html#aef2752ed29061c8e66319044b90f33b2", null ],
+    [ "mInReflow", "d9/d70/classns_s_v_g_foreign_object_frame.html#aecc3757899abdc8ae7cc1f3e2bfe2ae8", null ]
+];

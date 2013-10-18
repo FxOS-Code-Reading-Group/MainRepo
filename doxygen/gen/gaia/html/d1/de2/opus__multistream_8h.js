@@ -1,0 +1,25 @@
+var opus__multistream_8h =
+[
+    [ "__opus_check_decstate_ptr", "d1/de2/opus__multistream_8h.html#afa5a8e09ef3853e1d0a249868e92e730", null ],
+    [ "__opus_check_encstate_ptr", "d1/de2/opus__multistream_8h.html#afabd641a2bc6c09c9517294be87351c2", null ],
+    [ "OPUS_MULTISTREAM_GET_DECODER_STATE", "d1/de2/opus__multistream_8h.html#af0843831519b4d9b9d73391afef04a53", null ],
+    [ "OPUS_MULTISTREAM_GET_DECODER_STATE_REQUEST", "d1/de2/opus__multistream_8h.html#a8791c1bedf0f6d1dcbd2ac91f33fc22a", null ],
+    [ "OPUS_MULTISTREAM_GET_ENCODER_STATE", "d1/de2/opus__multistream_8h.html#a4e67607eb691c4314a5de90d8c58aff0", null ],
+    [ "OPUS_MULTISTREAM_GET_ENCODER_STATE_REQUEST", "d1/de2/opus__multistream_8h.html#abf2878d085bb245eb1ae8deb4dc93d3d", null ],
+    [ "OpusMSDecoder", "d1/de2/opus__multistream_8h.html#ad3497495deb9a8ace82e76cd4f93e0e4", null ],
+    [ "OpusMSEncoder", "d1/de2/opus__multistream_8h.html#ae5826674d142fc873ebc1d781c507dd7", null ],
+    [ "opus_multistream_decode", "d1/de2/opus__multistream_8h.html#a6bc87c681435433c599051ee4bb82dd9", null ],
+    [ "opus_multistream_decode_float", "d1/de2/opus__multistream_8h.html#abdb9271b5185ecde7524c1a6ab070ed7", null ],
+    [ "opus_multistream_decoder_create", "d1/de2/opus__multistream_8h.html#acbaa760237d9906c7256f236eb101f10", null ],
+    [ "opus_multistream_decoder_ctl", "d1/de2/opus__multistream_8h.html#a9631895a63105503f18e03e90c205284", null ],
+    [ "opus_multistream_decoder_destroy", "d1/de2/opus__multistream_8h.html#a314b439b06efd9463caa5039c1198f6c", null ],
+    [ "opus_multistream_decoder_get_size", "d1/de2/opus__multistream_8h.html#a60f65b6a79e69c92781d8996d511cbca", null ],
+    [ "opus_multistream_decoder_init", "d1/de2/opus__multistream_8h.html#a6c9a9b20c8670a084964191d6a9f5ee5", null ],
+    [ "opus_multistream_encode", "d1/de2/opus__multistream_8h.html#a24ee812ef2b958920e5990d6eadd4561", null ],
+    [ "opus_multistream_encode_float", "d1/de2/opus__multistream_8h.html#a948bd79f64290c60b40b5727ce4d4643", null ],
+    [ "opus_multistream_encoder_create", "d1/de2/opus__multistream_8h.html#aae1647ba619d01cd3504ea79d8383975", null ],
+    [ "opus_multistream_encoder_ctl", "d1/de2/opus__multistream_8h.html#afa05e449e540032d2f26dd2777897844", null ],
+    [ "opus_multistream_encoder_destroy", "d1/de2/opus__multistream_8h.html#a24b8a4ceb20a142069084cb1edd28a30", null ],
+    [ "opus_multistream_encoder_get_size", "d1/de2/opus__multistream_8h.html#a8d8d506d7a1743fa63b9adc14e790ab7", null ],
+    [ "opus_multistream_encoder_init", "d1/de2/opus__multistream_8h.html#ab21da2ca6014096a7b27254f4dd44172", null ]
+];

@@ -1,0 +1,1144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nssckfwc.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d1/d28/nssckfwc_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nssckfwc.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d1/d28/nssckfwc_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00002"></a>00002 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00003"></a>00003 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="preprocessor">#ifndef NSSCKFWC_H</span>
+<a name="l00006"></a>00006 <span class="preprocessor"></span><span class="preprocessor">#define NSSCKFWC_H</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span>
+<a name="l00008"></a>00008 <span class="comment">/*</span>
+<a name="l00009"></a>00009 <span class="comment"> * nssckfwc.h</span>
+<a name="l00010"></a>00010 <span class="comment"> *</span>
+<a name="l00011"></a>00011 <span class="comment"> * This file prototypes all of the NSS Cryptoki Framework &quot;wrapper&quot; </span>
+<a name="l00012"></a>00012 <span class="comment"> * which implement the PKCS#11 API.  Technically, these are public</span>
+<a name="l00013"></a>00013 <span class="comment"> * routines (with capital &quot;NSS&quot; prefixes), since they are called</span>
+<a name="l00014"></a>00014 <span class="comment"> * from (generated) code within a Module using the Framework.</span>
+<a name="l00015"></a>00015 <span class="comment"> * However, they should not be called except from those generated</span>
+<a name="l00016"></a>00016 <span class="comment"> * calls.  Hence, the prototypes have been split out into this file.</span>
+<a name="l00017"></a>00017 <span class="comment"> */</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="preprocessor">#ifndef NSSCKT_H</span>
+<a name="l00020"></a>00020 <span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="../../de/da7/nssckt_8h.html">nssckt.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#endif </span><span class="comment">/* NSSCKT_H */</span>
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 <span class="preprocessor">#ifndef NSSCKFWT_H</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="../../d6/dd0/nssckfwt_8h.html">nssckfwt.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#endif </span><span class="comment">/* NSSCKFWT_H */</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="preprocessor">#ifndef NSSCKMDT_H</span>
+<a name="l00028"></a>00028 <span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="../../d0/dde/nssckmdt_8h.html">nssckmdt.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#endif </span><span class="comment">/* NSSCKMDT_H */</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="comment">/*</span>
+<a name="l00032"></a>00032 <span class="comment"> * NSSCKFWC_Initialize</span>
+<a name="l00033"></a>00033 <span class="comment"> * NSSCKFWC_Finalize</span>
+<a name="l00034"></a>00034 <span class="comment"> * NSSCKFWC_GetInfo</span>
+<a name="l00035"></a>00035 <span class="comment"> * -- NSSCKFWC_GetFunctionList -- see the API insert file</span>
+<a name="l00036"></a>00036 <span class="comment"> * NSSCKFWC_GetSlotList</span>
+<a name="l00037"></a>00037 <span class="comment"> * NSSCKFWC_GetSlotInfo</span>
+<a name="l00038"></a>00038 <span class="comment"> * NSSCKFWC_GetTokenInfo</span>
+<a name="l00039"></a>00039 <span class="comment"> * NSSCKFWC_WaitForSlotEvent</span>
+<a name="l00040"></a>00040 <span class="comment"> * NSSCKFWC_GetMechanismList</span>
+<a name="l00041"></a>00041 <span class="comment"> * NSSCKFWC_GetMechanismInfo</span>
+<a name="l00042"></a>00042 <span class="comment"> * NSSCKFWC_InitToken</span>
+<a name="l00043"></a>00043 <span class="comment"> * NSSCKFWC_InitPIN</span>
+<a name="l00044"></a>00044 <span class="comment"> * NSSCKFWC_SetPIN</span>
+<a name="l00045"></a>00045 <span class="comment"> * NSSCKFWC_OpenSession</span>
+<a name="l00046"></a>00046 <span class="comment"> * NSSCKFWC_CloseSession</span>
+<a name="l00047"></a>00047 <span class="comment"> * NSSCKFWC_CloseAllSessions</span>
+<a name="l00048"></a>00048 <span class="comment"> * NSSCKFWC_GetSessionInfo</span>
+<a name="l00049"></a>00049 <span class="comment"> * NSSCKFWC_GetOperationState</span>
+<a name="l00050"></a>00050 <span class="comment"> * NSSCKFWC_SetOperationState</span>
+<a name="l00051"></a>00051 <span class="comment"> * NSSCKFWC_Login</span>
+<a name="l00052"></a>00052 <span class="comment"> * NSSCKFWC_Logout</span>
+<a name="l00053"></a>00053 <span class="comment"> * NSSCKFWC_CreateObject</span>
+<a name="l00054"></a>00054 <span class="comment"> * NSSCKFWC_CopyObject</span>
+<a name="l00055"></a>00055 <span class="comment"> * NSSCKFWC_DestroyObject</span>
+<a name="l00056"></a>00056 <span class="comment"> * NSSCKFWC_GetObjectSize</span>
+<a name="l00057"></a>00057 <span class="comment"> * NSSCKFWC_GetAttributeValue</span>
+<a name="l00058"></a>00058 <span class="comment"> * NSSCKFWC_SetAttributeValue</span>
+<a name="l00059"></a>00059 <span class="comment"> * NSSCKFWC_FindObjectsInit</span>
+<a name="l00060"></a>00060 <span class="comment"> * NSSCKFWC_FindObjects</span>
+<a name="l00061"></a>00061 <span class="comment"> * NSSCKFWC_FindObjectsFinal</span>
+<a name="l00062"></a>00062 <span class="comment"> * NSSCKFWC_EncryptInit</span>
+<a name="l00063"></a>00063 <span class="comment"> * NSSCKFWC_Encrypt</span>
+<a name="l00064"></a>00064 <span class="comment"> * NSSCKFWC_EncryptUpdate</span>
+<a name="l00065"></a>00065 <span class="comment"> * NSSCKFWC_EncryptFinal</span>
+<a name="l00066"></a>00066 <span class="comment"> * NSSCKFWC_DecryptInit</span>
+<a name="l00067"></a>00067 <span class="comment"> * NSSCKFWC_Decrypt</span>
+<a name="l00068"></a>00068 <span class="comment"> * NSSCKFWC_DecryptUpdate</span>
+<a name="l00069"></a>00069 <span class="comment"> * NSSCKFWC_DecryptFinal</span>
+<a name="l00070"></a>00070 <span class="comment"> * NSSCKFWC_DigestInit</span>
+<a name="l00071"></a>00071 <span class="comment"> * NSSCKFWC_Digest</span>
+<a name="l00072"></a>00072 <span class="comment"> * NSSCKFWC_DigestUpdate</span>
+<a name="l00073"></a>00073 <span class="comment"> * NSSCKFWC_DigestKey</span>
+<a name="l00074"></a>00074 <span class="comment"> * NSSCKFWC_DigestFinal</span>
+<a name="l00075"></a>00075 <span class="comment"> * NSSCKFWC_SignInit</span>
+<a name="l00076"></a>00076 <span class="comment"> * NSSCKFWC_Sign</span>
+<a name="l00077"></a>00077 <span class="comment"> * NSSCKFWC_SignUpdate</span>
+<a name="l00078"></a>00078 <span class="comment"> * NSSCKFWC_SignFinal</span>
+<a name="l00079"></a>00079 <span class="comment"> * NSSCKFWC_SignRecoverInit</span>
+<a name="l00080"></a>00080 <span class="comment"> * NSSCKFWC_SignRecover</span>
+<a name="l00081"></a>00081 <span class="comment"> * NSSCKFWC_VerifyInit</span>
+<a name="l00082"></a>00082 <span class="comment"> * NSSCKFWC_Verify</span>
+<a name="l00083"></a>00083 <span class="comment"> * NSSCKFWC_VerifyUpdate</span>
+<a name="l00084"></a>00084 <span class="comment"> * NSSCKFWC_VerifyFinal</span>
+<a name="l00085"></a>00085 <span class="comment"> * NSSCKFWC_VerifyRecoverInit</span>
+<a name="l00086"></a>00086 <span class="comment"> * NSSCKFWC_VerifyRecover</span>
+<a name="l00087"></a>00087 <span class="comment"> * NSSCKFWC_DigestEncryptUpdate</span>
+<a name="l00088"></a>00088 <span class="comment"> * NSSCKFWC_DecryptDigestUpdate</span>
+<a name="l00089"></a>00089 <span class="comment"> * NSSCKFWC_SignEncryptUpdate</span>
+<a name="l00090"></a>00090 <span class="comment"> * NSSCKFWC_DecryptVerifyUpdate</span>
+<a name="l00091"></a>00091 <span class="comment"> * NSSCKFWC_GenerateKey</span>
+<a name="l00092"></a>00092 <span class="comment"> * NSSCKFWC_GenerateKeyPair</span>
+<a name="l00093"></a>00093 <span class="comment"> * NSSCKFWC_WrapKey</span>
+<a name="l00094"></a>00094 <span class="comment"> * NSSCKFWC_UnwrapKey</span>
+<a name="l00095"></a>00095 <span class="comment"> * NSSCKFWC_DeriveKey</span>
+<a name="l00096"></a>00096 <span class="comment"> * NSSCKFWC_SeedRandom</span>
+<a name="l00097"></a>00097 <span class="comment"> * NSSCKFWC_GenerateRandom</span>
+<a name="l00098"></a>00098 <span class="comment"> * NSSCKFWC_GetFunctionStatus</span>
+<a name="l00099"></a>00099 <span class="comment"> * NSSCKFWC_CancelFunction</span>
+<a name="l00100"></a>00100 <span class="comment"> */</span>
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102 <span class="comment">/*</span>
+<a name="l00103"></a>00103 <span class="comment"> * NSSCKFWC_Initialize</span>
+<a name="l00104"></a>00104 <span class="comment"> *</span>
+<a name="l00105"></a>00105 <span class="comment"> */</span>
+<a name="l00106"></a>00106 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00107"></a>00107 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a640f830d08a6d849b738913c42f63ecc">NSSCKFWC_Initialize</a>
+<a name="l00108"></a>00108 (
+<a name="l00109"></a>00109   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> **pFwInstance,
+<a name="l00110"></a>00110   <a class="code" href="../../db/dad/struct_n_s_s_c_k_m_d_instance_str.html">NSSCKMDInstance</a> *mdInstance,
+<a name="l00111"></a>00111   <a class="code" href="../../df/dea/pkcs11t_8h.html#ace49359127edfc5665608140005b9a96">CK_VOID_PTR</a> pInitArgs
+<a name="l00112"></a>00112 );
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 <span class="comment">/*</span>
+<a name="l00115"></a>00115 <span class="comment"> * NSSCKFWC_Finalize</span>
+<a name="l00116"></a>00116 <span class="comment"> *</span>
+<a name="l00117"></a>00117 <span class="comment"> */</span>
+<a name="l00118"></a>00118 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00119"></a>00119 <a class="code" href="../../d1/d28/nssckfwc_8h.html#af3fc0cf2b5dde0aac2ccc92dbca2f883">NSSCKFWC_Finalize</a>
+<a name="l00120"></a>00120 (
+<a name="l00121"></a>00121   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> **pFwInstance
+<a name="l00122"></a>00122 );
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124 <span class="comment">/*</span>
+<a name="l00125"></a>00125 <span class="comment"> * NSSCKFWC_GetInfo</span>
+<a name="l00126"></a>00126 <span class="comment"> *</span>
+<a name="l00127"></a>00127 <span class="comment"> */</span>
+<a name="l00128"></a>00128 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00129"></a>00129 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a13abd2989b0f41474577ead32f994179">NSSCKFWC_GetInfo</a>
+<a name="l00130"></a>00130 (
+<a name="l00131"></a>00131   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00132"></a>00132   <a class="code" href="../../df/dea/pkcs11t_8h.html#a2d8a8dcb105d17ae3a86aced319789fd">CK_INFO_PTR</a> pInfo
+<a name="l00133"></a>00133 );
+<a name="l00134"></a>00134   
+<a name="l00135"></a>00135 <span class="comment">/*</span>
+<a name="l00136"></a>00136 <span class="comment"> * C_GetFunctionList is implemented entirely in the Module&#39;s file which</span>
+<a name="l00137"></a>00137 <span class="comment"> * includes the Framework API insert file.  It requires no &quot;actual&quot;</span>
+<a name="l00138"></a>00138 <span class="comment"> * NSSCKFW routine.</span>
+<a name="l00139"></a>00139 <span class="comment"> */</span>
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141 <span class="comment">/*</span>
+<a name="l00142"></a>00142 <span class="comment"> * NSSCKFWC_GetSlotList</span>
+<a name="l00143"></a>00143 <span class="comment"> *</span>
+<a name="l00144"></a>00144 <span class="comment"> */</span>
+<a name="l00145"></a>00145 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00146"></a>00146 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a53b3c286b1f6ed9fb5b92c2086ce9236">NSSCKFWC_GetSlotList</a>
+<a name="l00147"></a>00147 (
+<a name="l00148"></a>00148   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00149"></a>00149   <a class="code" href="../../df/dea/pkcs11t_8h.html#abd07a1bba363f8083080b9328e67b491">CK_BBOOL</a> tokenPresent,
+<a name="l00150"></a>00150   <a class="code" href="../../df/dea/pkcs11t_8h.html#acfc64439d8d8e40db6e3be1ebbbc78bc">CK_SLOT_ID_PTR</a> pSlotList,
+<a name="l00151"></a>00151   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulCount
+<a name="l00152"></a>00152 );
+<a name="l00153"></a>00153  
+<a name="l00154"></a>00154 <span class="comment">/*</span>
+<a name="l00155"></a>00155 <span class="comment"> * NSSCKFWC_GetSlotInfo</span>
+<a name="l00156"></a>00156 <span class="comment"> *</span>
+<a name="l00157"></a>00157 <span class="comment"> */</span>
+<a name="l00158"></a>00158 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00159"></a>00159 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a264872f6542380174e5440b7c2e2bbb2">NSSCKFWC_GetSlotInfo</a>
+<a name="l00160"></a>00160 (
+<a name="l00161"></a>00161   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00162"></a>00162   <a class="code" href="../../df/dea/pkcs11t_8h.html#a53398953158f3b452e0513a0b78a0c5a">CK_SLOT_ID</a> slotID,
+<a name="l00163"></a>00163   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35c78d4deb2c2c75cd2d9ea40de6c57e">CK_SLOT_INFO_PTR</a> pInfo
+<a name="l00164"></a>00164 );
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166 <span class="comment">/*</span>
+<a name="l00167"></a>00167 <span class="comment"> * NSSCKFWC_GetTokenInfo</span>
+<a name="l00168"></a>00168 <span class="comment"> *</span>
+<a name="l00169"></a>00169 <span class="comment"> */</span>
+<a name="l00170"></a>00170 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00171"></a>00171 <a class="code" href="../../d1/d28/nssckfwc_8h.html#ad026de1b1c7ce3da19d870cd042b4634">NSSCKFWC_GetTokenInfo</a>
+<a name="l00172"></a>00172 (
+<a name="l00173"></a>00173   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00174"></a>00174   <a class="code" href="../../df/dea/pkcs11t_8h.html#a53398953158f3b452e0513a0b78a0c5a">CK_SLOT_ID</a> slotID,
+<a name="l00175"></a>00175   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3fc3ab2029b24a1f5dfc59f7bad056b4">CK_TOKEN_INFO_PTR</a> pInfo
+<a name="l00176"></a>00176 );
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178 <span class="comment">/*</span>
+<a name="l00179"></a>00179 <span class="comment"> * NSSCKFWC_WaitForSlotEvent</span>
+<a name="l00180"></a>00180 <span class="comment"> *</span>
+<a name="l00181"></a>00181 <span class="comment"> */</span>
+<a name="l00182"></a>00182 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00183"></a>00183 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a6b90bd2ddc94e9109027bb010bf02473">NSSCKFWC_WaitForSlotEvent</a>
+<a name="l00184"></a>00184 (
+<a name="l00185"></a>00185   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00186"></a>00186   <a class="code" href="../../df/dea/pkcs11t_8h.html#a53850492c1ba57aca4332be791a3c6a3">CK_FLAGS</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>,
+<a name="l00187"></a>00187   <a class="code" href="../../df/dea/pkcs11t_8h.html#acfc64439d8d8e40db6e3be1ebbbc78bc">CK_SLOT_ID_PTR</a> pSlot,
+<a name="l00188"></a>00188   <a class="code" href="../../df/dea/pkcs11t_8h.html#ace49359127edfc5665608140005b9a96">CK_VOID_PTR</a> pReserved
+<a name="l00189"></a>00189 );
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191 <span class="comment">/*</span>
+<a name="l00192"></a>00192 <span class="comment"> * NSSCKFWC_GetMechanismList</span>
+<a name="l00193"></a>00193 <span class="comment"> *</span>
+<a name="l00194"></a>00194 <span class="comment"> */</span>
+<a name="l00195"></a>00195 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00196"></a>00196 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a8fd9f4fdd54bcc0a5826ca0ceac171ba">NSSCKFWC_GetMechanismList</a>
+<a name="l00197"></a>00197 (
+<a name="l00198"></a>00198   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00199"></a>00199   <a class="code" href="../../df/dea/pkcs11t_8h.html#a53398953158f3b452e0513a0b78a0c5a">CK_SLOT_ID</a> slotID,
+<a name="l00200"></a>00200   <a class="code" href="../../df/dea/pkcs11t_8h.html#a653265da2fe1c5336cadced022575156">CK_MECHANISM_TYPE_PTR</a> pMechanismList,
+<a name="l00201"></a>00201   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulCount
+<a name="l00202"></a>00202 );
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204 <span class="comment">/*</span>
+<a name="l00205"></a>00205 <span class="comment"> * NSSCKFWC_GetMechanismInfo</span>
+<a name="l00206"></a>00206 <span class="comment"> *</span>
+<a name="l00207"></a>00207 <span class="comment"> */</span>
+<a name="l00208"></a>00208 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00209"></a>00209 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a663056cd7cf7c41e68bd72202c5a12af">NSSCKFWC_GetMechanismInfo</a>
+<a name="l00210"></a>00210 (
+<a name="l00211"></a>00211   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00212"></a>00212   <a class="code" href="../../df/dea/pkcs11t_8h.html#a53398953158f3b452e0513a0b78a0c5a">CK_SLOT_ID</a> slotID,
+<a name="l00213"></a>00213   <a class="code" href="../../df/dea/pkcs11t_8h.html#aaf1084907f5cc09a3e0b85ab022a240d">CK_MECHANISM_TYPE</a> <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00214"></a>00214   <a class="code" href="../../df/dea/pkcs11t_8h.html#a81131602c4689b717951c9c59f827661">CK_MECHANISM_INFO_PTR</a> pInfo
+<a name="l00215"></a>00215 );
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217 <span class="comment">/*</span>
+<a name="l00218"></a>00218 <span class="comment"> * NSSCKFWC_InitToken</span>
+<a name="l00219"></a>00219 <span class="comment"> *</span>
+<a name="l00220"></a>00220 <span class="comment"> */</span>
+<a name="l00221"></a>00221 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00222"></a>00222 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a62321c55537fa40234871d9dc5ec7b11">NSSCKFWC_InitToken</a>
+<a name="l00223"></a>00223 (
+<a name="l00224"></a>00224   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00225"></a>00225   <a class="code" href="../../df/dea/pkcs11t_8h.html#a53398953158f3b452e0513a0b78a0c5a">CK_SLOT_ID</a> slotID,
+<a name="l00226"></a>00226   <a class="code" href="../../df/dea/pkcs11t_8h.html#aadba328e5d4c5fbfac397beb7211d8bd">CK_CHAR_PTR</a> pPin,
+<a name="l00227"></a>00227   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulPinLen,
+<a name="l00228"></a>00228   <a class="code" href="../../df/dea/pkcs11t_8h.html#aadba328e5d4c5fbfac397beb7211d8bd">CK_CHAR_PTR</a> pLabel
+<a name="l00229"></a>00229 );
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231 <span class="comment">/*</span>
+<a name="l00232"></a>00232 <span class="comment"> * NSSCKFWC_InitPIN</span>
+<a name="l00233"></a>00233 <span class="comment"> *</span>
+<a name="l00234"></a>00234 <span class="comment"> */</span>
+<a name="l00235"></a>00235 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00236"></a>00236 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a9e3e6e5a04feb5ebda09853cbaf91a0b">NSSCKFWC_InitPIN</a>
+<a name="l00237"></a>00237 (
+<a name="l00238"></a>00238   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00239"></a>00239   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00240"></a>00240   <a class="code" href="../../df/dea/pkcs11t_8h.html#aadba328e5d4c5fbfac397beb7211d8bd">CK_CHAR_PTR</a> pPin,
+<a name="l00241"></a>00241   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulPinLen
+<a name="l00242"></a>00242 );
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244 <span class="comment">/*</span>
+<a name="l00245"></a>00245 <span class="comment"> * NSSCKFWC_SetPIN</span>
+<a name="l00246"></a>00246 <span class="comment"> *</span>
+<a name="l00247"></a>00247 <span class="comment"> */</span>
+<a name="l00248"></a>00248 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00249"></a>00249 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a25b188060812b3108b33800fd7f5984a">NSSCKFWC_SetPIN</a>
+<a name="l00250"></a>00250 (
+<a name="l00251"></a>00251   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00252"></a>00252   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00253"></a>00253   <a class="code" href="../../df/dea/pkcs11t_8h.html#aadba328e5d4c5fbfac397beb7211d8bd">CK_CHAR_PTR</a> pOldPin,
+<a name="l00254"></a>00254   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulOldLen,
+<a name="l00255"></a>00255   <a class="code" href="../../df/dea/pkcs11t_8h.html#aadba328e5d4c5fbfac397beb7211d8bd">CK_CHAR_PTR</a> pNewPin,
+<a name="l00256"></a>00256   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulNewLen
+<a name="l00257"></a>00257 );
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259 <span class="comment">/*</span>
+<a name="l00260"></a>00260 <span class="comment"> * NSSCKFWC_OpenSession</span>
+<a name="l00261"></a>00261 <span class="comment"> *</span>
+<a name="l00262"></a>00262 <span class="comment"> */</span>
+<a name="l00263"></a>00263 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00264"></a>00264 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a45c241f997181eba981f16f179b6d63b">NSSCKFWC_OpenSession</a>
+<a name="l00265"></a>00265 (
+<a name="l00266"></a>00266   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00267"></a>00267   <a class="code" href="../../df/dea/pkcs11t_8h.html#a53398953158f3b452e0513a0b78a0c5a">CK_SLOT_ID</a> slotID,
+<a name="l00268"></a>00268   <a class="code" href="../../df/dea/pkcs11t_8h.html#a53850492c1ba57aca4332be791a3c6a3">CK_FLAGS</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>,
+<a name="l00269"></a>00269   <a class="code" href="../../df/dea/pkcs11t_8h.html#ace49359127edfc5665608140005b9a96">CK_VOID_PTR</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a14c9a8a037989273976dbb18424f6f66">pApplication</a>,
+<a name="l00270"></a>00270   CK_NOTIFY Notify,
+<a name="l00271"></a>00271   <a class="code" href="../../df/dea/pkcs11t_8h.html#aef4990311e533d6c22fad877d4c42c03">CK_SESSION_HANDLE_PTR</a> phSession
+<a name="l00272"></a>00272 );
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274 <span class="comment">/*</span>
+<a name="l00275"></a>00275 <span class="comment"> * NSSCKFWC_CloseSession</span>
+<a name="l00276"></a>00276 <span class="comment"> *</span>
+<a name="l00277"></a>00277 <span class="comment"> */</span>
+<a name="l00278"></a>00278 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00279"></a>00279 <a class="code" href="../../d1/d28/nssckfwc_8h.html#af330f5bc04d4d157590ef300b74780e4">NSSCKFWC_CloseSession</a>
+<a name="l00280"></a>00280 (
+<a name="l00281"></a>00281   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00282"></a>00282   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession
+<a name="l00283"></a>00283 );
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285 <span class="comment">/*</span>
+<a name="l00286"></a>00286 <span class="comment"> * NSSCKFWC_CloseAllSessions</span>
+<a name="l00287"></a>00287 <span class="comment"> *</span>
+<a name="l00288"></a>00288 <span class="comment"> */</span>
+<a name="l00289"></a>00289 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00290"></a>00290 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a9f6632f4287b1b9eaf2b278662f4bc4e">NSSCKFWC_CloseAllSessions</a>
+<a name="l00291"></a>00291 (
+<a name="l00292"></a>00292   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00293"></a>00293   <a class="code" href="../../df/dea/pkcs11t_8h.html#a53398953158f3b452e0513a0b78a0c5a">CK_SLOT_ID</a> slotID
+<a name="l00294"></a>00294 );
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296 <span class="comment">/*</span>
+<a name="l00297"></a>00297 <span class="comment"> * NSSCKFWC_GetSessionInfo</span>
+<a name="l00298"></a>00298 <span class="comment"> *</span>
+<a name="l00299"></a>00299 <span class="comment"> */</span>
+<a name="l00300"></a>00300 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00301"></a>00301 <a class="code" href="../../d1/d28/nssckfwc_8h.html#aa03c0e93391f4acdca9965bcbaaae9e3">NSSCKFWC_GetSessionInfo</a>
+<a name="l00302"></a>00302 (
+<a name="l00303"></a>00303   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00304"></a>00304   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00305"></a>00305   <a class="code" href="../../df/dea/pkcs11t_8h.html#a1e6e862fe5939066510cdf361fb59f8c">CK_SESSION_INFO_PTR</a> pInfo
+<a name="l00306"></a>00306 );
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308 <span class="comment">/*</span>
+<a name="l00309"></a>00309 <span class="comment"> * NSSCKFWC_GetOperationState</span>
+<a name="l00310"></a>00310 <span class="comment"> *</span>
+<a name="l00311"></a>00311 <span class="comment"> */</span>
+<a name="l00312"></a>00312 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00313"></a>00313 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a145361981e6a198e5edb60c6f3830465">NSSCKFWC_GetOperationState</a>
+<a name="l00314"></a>00314 (
+<a name="l00315"></a>00315   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00316"></a>00316   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00317"></a>00317   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pOperationState,
+<a name="l00318"></a>00318   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulOperationStateLen
+<a name="l00319"></a>00319 );
+<a name="l00320"></a>00320 
+<a name="l00321"></a>00321 <span class="comment">/*</span>
+<a name="l00322"></a>00322 <span class="comment"> * NSSCKFWC_SetOperationState</span>
+<a name="l00323"></a>00323 <span class="comment"> *</span>
+<a name="l00324"></a>00324 <span class="comment"> */</span>
+<a name="l00325"></a>00325 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00326"></a>00326 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a1d4c32c0a111eeecb923c8d6ac563d30">NSSCKFWC_SetOperationState</a>
+<a name="l00327"></a>00327 (
+<a name="l00328"></a>00328   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00329"></a>00329   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00330"></a>00330   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pOperationState,
+<a name="l00331"></a>00331   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulOperationStateLen,
+<a name="l00332"></a>00332   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hEncryptionKey,
+<a name="l00333"></a>00333   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hAuthenticationKey
+<a name="l00334"></a>00334 );
+<a name="l00335"></a>00335 
+<a name="l00336"></a>00336 <span class="comment">/*</span>
+<a name="l00337"></a>00337 <span class="comment"> * NSSCKFWC_Login</span>
+<a name="l00338"></a>00338 <span class="comment"> *</span>
+<a name="l00339"></a>00339 <span class="comment"> */</span>
+<a name="l00340"></a>00340 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00341"></a>00341 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a04a597624655673c137a427869286dc4">NSSCKFWC_Login</a>
+<a name="l00342"></a>00342 (
+<a name="l00343"></a>00343   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00344"></a>00344   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00345"></a>00345   <a class="code" href="../../df/dea/pkcs11t_8h.html#a727c371da3a59aba32fc006d408f80d3">CK_USER_TYPE</a> userType,
+<a name="l00346"></a>00346   <a class="code" href="../../df/dea/pkcs11t_8h.html#aadba328e5d4c5fbfac397beb7211d8bd">CK_CHAR_PTR</a> pPin,
+<a name="l00347"></a>00347   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulPinLen
+<a name="l00348"></a>00348 );
+<a name="l00349"></a>00349 
+<a name="l00350"></a>00350 <span class="comment">/*</span>
+<a name="l00351"></a>00351 <span class="comment"> * NSSCKFWC_Logout</span>
+<a name="l00352"></a>00352 <span class="comment"> *</span>
+<a name="l00353"></a>00353 <span class="comment"> */</span>
+<a name="l00354"></a>00354 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00355"></a>00355 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a49e3439319e001b827f0a0a4892697e3">NSSCKFWC_Logout</a>
+<a name="l00356"></a>00356 (
+<a name="l00357"></a>00357   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00358"></a>00358   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession
+<a name="l00359"></a>00359 );
+<a name="l00360"></a>00360 
+<a name="l00361"></a>00361 <span class="comment">/*</span>
+<a name="l00362"></a>00362 <span class="comment"> * NSSCKFWC_CreateObject</span>
+<a name="l00363"></a>00363 <span class="comment"> *</span>
+<a name="l00364"></a>00364 <span class="comment"> */</span>
+<a name="l00365"></a>00365 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00366"></a>00366 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a092781e8e4bacd73482503d0fe25a6c9">NSSCKFWC_CreateObject</a>
+<a name="l00367"></a>00367 (
+<a name="l00368"></a>00368   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00369"></a>00369   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00370"></a>00370   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5e825285ada96a9920d361d33698ce04">CK_ATTRIBUTE_PTR</a> pTemplate,
+<a name="l00371"></a>00371   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulCount,
+<a name="l00372"></a>00372   <a class="code" href="../../df/dea/pkcs11t_8h.html#a42a298b2f343261d27b87140090106d4">CK_OBJECT_HANDLE_PTR</a> phObject
+<a name="l00373"></a>00373 );
+<a name="l00374"></a>00374 
+<a name="l00375"></a>00375 <span class="comment">/*</span>
+<a name="l00376"></a>00376 <span class="comment"> * NSSCKFWC_CopyObject</span>
+<a name="l00377"></a>00377 <span class="comment"> *</span>
+<a name="l00378"></a>00378 <span class="comment"> */</span>
+<a name="l00379"></a>00379 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00380"></a>00380 <a class="code" href="../../d1/d28/nssckfwc_8h.html#aa1fa934667f4c7fc9a4d517ac7a7b0bc">NSSCKFWC_CopyObject</a>
+<a name="l00381"></a>00381 (
+<a name="l00382"></a>00382   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00383"></a>00383   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00384"></a>00384   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hObject,
+<a name="l00385"></a>00385   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5e825285ada96a9920d361d33698ce04">CK_ATTRIBUTE_PTR</a> pTemplate,
+<a name="l00386"></a>00386   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulCount,
+<a name="l00387"></a>00387   <a class="code" href="../../df/dea/pkcs11t_8h.html#a42a298b2f343261d27b87140090106d4">CK_OBJECT_HANDLE_PTR</a> phNewObject
+<a name="l00388"></a>00388 );
+<a name="l00389"></a>00389 
+<a name="l00390"></a>00390 <span class="comment">/*</span>
+<a name="l00391"></a>00391 <span class="comment"> * NSSCKFWC_DestroyObject</span>
+<a name="l00392"></a>00392 <span class="comment"> *</span>
+<a name="l00393"></a>00393 <span class="comment"> */</span>
+<a name="l00394"></a>00394 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00395"></a>00395 <a class="code" href="../../d1/d28/nssckfwc_8h.html#aac6955fc2e81a0ce545d2ff5aa5fd04b">NSSCKFWC_DestroyObject</a>
+<a name="l00396"></a>00396 (
+<a name="l00397"></a>00397   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00398"></a>00398   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00399"></a>00399   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hObject
+<a name="l00400"></a>00400 );
+<a name="l00401"></a>00401 
+<a name="l00402"></a>00402 <span class="comment">/*</span>
+<a name="l00403"></a>00403 <span class="comment"> * NSSCKFWC_GetObjectSize</span>
+<a name="l00404"></a>00404 <span class="comment"> *</span>
+<a name="l00405"></a>00405 <span class="comment"> */</span>
+<a name="l00406"></a>00406 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00407"></a>00407 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a196ef192c709beaef2d0d4c3716af078">NSSCKFWC_GetObjectSize</a>
+<a name="l00408"></a>00408 (
+<a name="l00409"></a>00409   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00410"></a>00410   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00411"></a>00411   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hObject,
+<a name="l00412"></a>00412   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulSize
+<a name="l00413"></a>00413 );
+<a name="l00414"></a>00414 
+<a name="l00415"></a>00415 <span class="comment">/*</span>
+<a name="l00416"></a>00416 <span class="comment"> * NSSCKFWC_GetAttributeValue</span>
+<a name="l00417"></a>00417 <span class="comment"> *</span>
+<a name="l00418"></a>00418 <span class="comment"> */</span>
+<a name="l00419"></a>00419 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00420"></a>00420 <a class="code" href="../../d1/d28/nssckfwc_8h.html#acd799a2deb7fd04be010c6aa464c551a">NSSCKFWC_GetAttributeValue</a>
+<a name="l00421"></a>00421 (
+<a name="l00422"></a>00422   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00423"></a>00423   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00424"></a>00424   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hObject,
+<a name="l00425"></a>00425   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5e825285ada96a9920d361d33698ce04">CK_ATTRIBUTE_PTR</a> pTemplate,
+<a name="l00426"></a>00426   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulCount
+<a name="l00427"></a>00427 );
+<a name="l00428"></a>00428   
+<a name="l00429"></a>00429 <span class="comment">/*</span>
+<a name="l00430"></a>00430 <span class="comment"> * NSSCKFWC_SetAttributeValue</span>
+<a name="l00431"></a>00431 <span class="comment"> *</span>
+<a name="l00432"></a>00432 <span class="comment"> */</span>
+<a name="l00433"></a>00433 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00434"></a>00434 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a3c17d689195401191ef4b815e12e84cf">NSSCKFWC_SetAttributeValue</a>
+<a name="l00435"></a>00435 (
+<a name="l00436"></a>00436   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00437"></a>00437   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00438"></a>00438   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hObject,
+<a name="l00439"></a>00439   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5e825285ada96a9920d361d33698ce04">CK_ATTRIBUTE_PTR</a> pTemplate,
+<a name="l00440"></a>00440   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulCount
+<a name="l00441"></a>00441 );
+<a name="l00442"></a>00442 
+<a name="l00443"></a>00443 <span class="comment">/*</span>
+<a name="l00444"></a>00444 <span class="comment"> * NSSCKFWC_FindObjectsInit</span>
+<a name="l00445"></a>00445 <span class="comment"> *</span>
+<a name="l00446"></a>00446 <span class="comment"> */</span>
+<a name="l00447"></a>00447 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00448"></a>00448 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a04a58bd3045d9260fd76ec3d640f7126">NSSCKFWC_FindObjectsInit</a>
+<a name="l00449"></a>00449 (
+<a name="l00450"></a>00450   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00451"></a>00451   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00452"></a>00452   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5e825285ada96a9920d361d33698ce04">CK_ATTRIBUTE_PTR</a> pTemplate,
+<a name="l00453"></a>00453   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulCount
+<a name="l00454"></a>00454 );
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456 <span class="comment">/*</span>
+<a name="l00457"></a>00457 <span class="comment"> * NSSCKFWC_FindObjects</span>
+<a name="l00458"></a>00458 <span class="comment"> *</span>
+<a name="l00459"></a>00459 <span class="comment"> */</span>
+<a name="l00460"></a>00460 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00461"></a>00461 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a34038e68877d466655d80027b80e20bd">NSSCKFWC_FindObjects</a>
+<a name="l00462"></a>00462 (
+<a name="l00463"></a>00463   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00464"></a>00464   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00465"></a>00465   <a class="code" href="../../df/dea/pkcs11t_8h.html#a42a298b2f343261d27b87140090106d4">CK_OBJECT_HANDLE_PTR</a> phObject,
+<a name="l00466"></a>00466   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulMaxObjectCount,
+<a name="l00467"></a>00467   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulObjectCount
+<a name="l00468"></a>00468 );
+<a name="l00469"></a>00469 
+<a name="l00470"></a>00470 <span class="comment">/*</span>
+<a name="l00471"></a>00471 <span class="comment"> * NSSCKFWC_FindObjectsFinal</span>
+<a name="l00472"></a>00472 <span class="comment"> *</span>
+<a name="l00473"></a>00473 <span class="comment"> */</span>
+<a name="l00474"></a>00474 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00475"></a>00475 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a41d5367f711347a896a1eac30c5a15ca">NSSCKFWC_FindObjectsFinal</a>
+<a name="l00476"></a>00476 (
+<a name="l00477"></a>00477   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00478"></a>00478   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession
+<a name="l00479"></a>00479 );
+<a name="l00480"></a>00480 
+<a name="l00481"></a>00481 <span class="comment">/*</span>
+<a name="l00482"></a>00482 <span class="comment"> * NSSCKFWC_EncryptInit</span>
+<a name="l00483"></a>00483 <span class="comment"> *</span>
+<a name="l00484"></a>00484 <span class="comment"> */</span>
+<a name="l00485"></a>00485 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00486"></a>00486 <a class="code" href="../../d1/d28/nssckfwc_8h.html#aa658827b634242a7f2dd482a31026a52">NSSCKFWC_EncryptInit</a>
+<a name="l00487"></a>00487 (
+<a name="l00488"></a>00488   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00489"></a>00489   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00490"></a>00490   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00491"></a>00491   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hKey
+<a name="l00492"></a>00492 );
+<a name="l00493"></a>00493 
+<a name="l00494"></a>00494 <span class="comment">/*</span>
+<a name="l00495"></a>00495 <span class="comment"> * NSSCKFWC_Encrypt</span>
+<a name="l00496"></a>00496 <span class="comment"> *</span>
+<a name="l00497"></a>00497 <span class="comment"> */</span>
+<a name="l00498"></a>00498 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00499"></a>00499 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a742c96d7e0e237280d45ec89005cfc92">NSSCKFWC_Encrypt</a>
+<a name="l00500"></a>00500 (
+<a name="l00501"></a>00501   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00502"></a>00502   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00503"></a>00503   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pData,
+<a name="l00504"></a>00504   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulDataLen,
+<a name="l00505"></a>00505   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pEncryptedData,
+<a name="l00506"></a>00506   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulEncryptedDataLen
+<a name="l00507"></a>00507 );
+<a name="l00508"></a>00508 
+<a name="l00509"></a>00509 <span class="comment">/*</span>
+<a name="l00510"></a>00510 <span class="comment"> * NSSCKFWC_EncryptUpdate</span>
+<a name="l00511"></a>00511 <span class="comment"> *</span>
+<a name="l00512"></a>00512 <span class="comment"> */</span>
+<a name="l00513"></a>00513 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00514"></a>00514 <a class="code" href="../../d1/d28/nssckfwc_8h.html#aaad2e743c8567ae893008ef300407c37">NSSCKFWC_EncryptUpdate</a>
+<a name="l00515"></a>00515 (
+<a name="l00516"></a>00516   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00517"></a>00517   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00518"></a>00518   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pPart,
+<a name="l00519"></a>00519   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulPartLen,
+<a name="l00520"></a>00520   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pEncryptedPart,
+<a name="l00521"></a>00521   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulEncryptedPartLen
+<a name="l00522"></a>00522 );
+<a name="l00523"></a>00523 
+<a name="l00524"></a>00524 <span class="comment">/*</span>
+<a name="l00525"></a>00525 <span class="comment"> * NSSCKFWC_EncryptFinal</span>
+<a name="l00526"></a>00526 <span class="comment"> *</span>
+<a name="l00527"></a>00527 <span class="comment"> */</span>
+<a name="l00528"></a>00528 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00529"></a>00529 <a class="code" href="../../d1/d28/nssckfwc_8h.html#aa480f9d3245ddbc5e1e5036906c721c1">NSSCKFWC_EncryptFinal</a>
+<a name="l00530"></a>00530 (
+<a name="l00531"></a>00531   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00532"></a>00532   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00533"></a>00533   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pLastEncryptedPart,
+<a name="l00534"></a>00534   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulLastEncryptedPartLen
+<a name="l00535"></a>00535 );
+<a name="l00536"></a>00536 
+<a name="l00537"></a>00537 <span class="comment">/*</span>
+<a name="l00538"></a>00538 <span class="comment"> * NSSCKFWC_DecryptInit</span>
+<a name="l00539"></a>00539 <span class="comment"> *</span>
+<a name="l00540"></a>00540 <span class="comment"> */</span>
+<a name="l00541"></a>00541 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00542"></a>00542 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a20bd00c78d0ae6c0dbb5b47d3e136141">NSSCKFWC_DecryptInit</a>
+<a name="l00543"></a>00543 (
+<a name="l00544"></a>00544   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00545"></a>00545   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00546"></a>00546   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00547"></a>00547   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hKey
+<a name="l00548"></a>00548 );
+<a name="l00549"></a>00549 
+<a name="l00550"></a>00550 <span class="comment">/*</span>
+<a name="l00551"></a>00551 <span class="comment"> * NSSCKFWC_Decrypt</span>
+<a name="l00552"></a>00552 <span class="comment"> *</span>
+<a name="l00553"></a>00553 <span class="comment"> */</span>
+<a name="l00554"></a>00554 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00555"></a>00555 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a037cd7feef86a99a82b8a0daeea0149d">NSSCKFWC_Decrypt</a>
+<a name="l00556"></a>00556 (
+<a name="l00557"></a>00557   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00558"></a>00558   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00559"></a>00559   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pEncryptedData,
+<a name="l00560"></a>00560   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulEncryptedDataLen,
+<a name="l00561"></a>00561   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pData,
+<a name="l00562"></a>00562   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulDataLen
+<a name="l00563"></a>00563 );
+<a name="l00564"></a>00564 
+<a name="l00565"></a>00565 <span class="comment">/*</span>
+<a name="l00566"></a>00566 <span class="comment"> * NSSCKFWC_DecryptUpdate</span>
+<a name="l00567"></a>00567 <span class="comment"> *</span>
+<a name="l00568"></a>00568 <span class="comment"> */</span>
+<a name="l00569"></a>00569 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00570"></a>00570 <a class="code" href="../../d1/d28/nssckfwc_8h.html#abe3580c26ab4d365a01c1f0e4f9b034a">NSSCKFWC_DecryptUpdate</a>
+<a name="l00571"></a>00571 (
+<a name="l00572"></a>00572   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00573"></a>00573   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00574"></a>00574   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pEncryptedPart,
+<a name="l00575"></a>00575   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulEncryptedPartLen,
+<a name="l00576"></a>00576   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pPart,
+<a name="l00577"></a>00577   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulPartLen
+<a name="l00578"></a>00578 );
+<a name="l00579"></a>00579 
+<a name="l00580"></a>00580 <span class="comment">/*</span>
+<a name="l00581"></a>00581 <span class="comment"> * NSSCKFWC_DecryptFinal</span>
+<a name="l00582"></a>00582 <span class="comment"> *</span>
+<a name="l00583"></a>00583 <span class="comment"> */</span>
+<a name="l00584"></a>00584 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00585"></a>00585 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a6f3a5ea748c9bf9ae18aad60343c7162">NSSCKFWC_DecryptFinal</a>
+<a name="l00586"></a>00586 (
+<a name="l00587"></a>00587   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00588"></a>00588   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00589"></a>00589   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pLastPart,
+<a name="l00590"></a>00590   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulLastPartLen
+<a name="l00591"></a>00591 );
+<a name="l00592"></a>00592 
+<a name="l00593"></a>00593 <span class="comment">/*</span>
+<a name="l00594"></a>00594 <span class="comment"> * NSSCKFWC_DigestInit</span>
+<a name="l00595"></a>00595 <span class="comment"> *</span>
+<a name="l00596"></a>00596 <span class="comment"> */</span>
+<a name="l00597"></a>00597 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00598"></a>00598 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a7a1ff3b0c2714899cd011082b06ef73a">NSSCKFWC_DigestInit</a>
+<a name="l00599"></a>00599 (
+<a name="l00600"></a>00600   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00601"></a>00601   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00602"></a>00602   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism
+<a name="l00603"></a>00603 );
+<a name="l00604"></a>00604 
+<a name="l00605"></a>00605 <span class="comment">/*</span>
+<a name="l00606"></a>00606 <span class="comment"> * NSSCKFWC_Digest</span>
+<a name="l00607"></a>00607 <span class="comment"> *</span>
+<a name="l00608"></a>00608 <span class="comment"> */</span>
+<a name="l00609"></a>00609 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00610"></a>00610 <a class="code" href="../../d1/d28/nssckfwc_8h.html#aa4d4bf3740b3c3d9ad80bfefbf5755d3">NSSCKFWC_Digest</a>
+<a name="l00611"></a>00611 (
+<a name="l00612"></a>00612   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00613"></a>00613   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00614"></a>00614   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pData,
+<a name="l00615"></a>00615   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulDataLen,
+<a name="l00616"></a>00616   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pDigest,
+<a name="l00617"></a>00617   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulDigestLen
+<a name="l00618"></a>00618 );
+<a name="l00619"></a>00619 
+<a name="l00620"></a>00620 <span class="comment">/*</span>
+<a name="l00621"></a>00621 <span class="comment"> * NSSCKFWC_DigestUpdate</span>
+<a name="l00622"></a>00622 <span class="comment"> *</span>
+<a name="l00623"></a>00623 <span class="comment"> */</span>
+<a name="l00624"></a>00624 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00625"></a>00625 <a class="code" href="../../d1/d28/nssckfwc_8h.html#afe3463accd05b49ceed5b1a7d9b20279">NSSCKFWC_DigestUpdate</a>
+<a name="l00626"></a>00626 (
+<a name="l00627"></a>00627   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00628"></a>00628   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00629"></a>00629   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pData,
+<a name="l00630"></a>00630   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulDataLen
+<a name="l00631"></a>00631 );
+<a name="l00632"></a>00632 
+<a name="l00633"></a>00633 <span class="comment">/*</span>
+<a name="l00634"></a>00634 <span class="comment"> * NSSCKFWC_DigestKey</span>
+<a name="l00635"></a>00635 <span class="comment"> *</span>
+<a name="l00636"></a>00636 <span class="comment"> */</span>
+<a name="l00637"></a>00637 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00638"></a>00638 <a class="code" href="../../d1/d28/nssckfwc_8h.html#acb373a1826758a16915caeb350f28902">NSSCKFWC_DigestKey</a>
+<a name="l00639"></a>00639 (
+<a name="l00640"></a>00640   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00641"></a>00641   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00642"></a>00642   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hKey
+<a name="l00643"></a>00643 );
+<a name="l00644"></a>00644 
+<a name="l00645"></a>00645 <span class="comment">/*</span>
+<a name="l00646"></a>00646 <span class="comment"> * NSSCKFWC_DigestFinal</span>
+<a name="l00647"></a>00647 <span class="comment"> *</span>
+<a name="l00648"></a>00648 <span class="comment"> */</span>
+<a name="l00649"></a>00649 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00650"></a>00650 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a8bbc782ac90ccee098b35b7a5de60bbc">NSSCKFWC_DigestFinal</a>
+<a name="l00651"></a>00651 (
+<a name="l00652"></a>00652   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00653"></a>00653   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00654"></a>00654   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pDigest,
+<a name="l00655"></a>00655   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulDigestLen
+<a name="l00656"></a>00656 );
+<a name="l00657"></a>00657 
+<a name="l00658"></a>00658 <span class="comment">/*</span>
+<a name="l00659"></a>00659 <span class="comment"> * NSSCKFWC_SignInit</span>
+<a name="l00660"></a>00660 <span class="comment"> *</span>
+<a name="l00661"></a>00661 <span class="comment"> */</span>
+<a name="l00662"></a>00662 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00663"></a>00663 <a class="code" href="../../d1/d28/nssckfwc_8h.html#ae6ceca1422c083ced517d06bd423829d">NSSCKFWC_SignInit</a>
+<a name="l00664"></a>00664 (
+<a name="l00665"></a>00665   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00666"></a>00666   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00667"></a>00667   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00668"></a>00668   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hKey
+<a name="l00669"></a>00669 );
+<a name="l00670"></a>00670 
+<a name="l00671"></a>00671 <span class="comment">/*</span>
+<a name="l00672"></a>00672 <span class="comment"> * NSSCKFWC_Sign</span>
+<a name="l00673"></a>00673 <span class="comment"> *</span>
+<a name="l00674"></a>00674 <span class="comment"> */</span>
+<a name="l00675"></a>00675 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00676"></a>00676 <a class="code" href="../../d1/d28/nssckfwc_8h.html#af53cc9a4df2905ade1ce1990287186b5">NSSCKFWC_Sign</a>
+<a name="l00677"></a>00677 (
+<a name="l00678"></a>00678   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00679"></a>00679   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00680"></a>00680   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pData,
+<a name="l00681"></a>00681   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulDataLen,
+<a name="l00682"></a>00682   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pSignature,
+<a name="l00683"></a>00683   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulSignatureLen
+<a name="l00684"></a>00684 );
+<a name="l00685"></a>00685 
+<a name="l00686"></a>00686 <span class="comment">/*</span>
+<a name="l00687"></a>00687 <span class="comment"> * NSSCKFWC_SignUpdate</span>
+<a name="l00688"></a>00688 <span class="comment"> *</span>
+<a name="l00689"></a>00689 <span class="comment"> */</span>
+<a name="l00690"></a>00690 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00691"></a>00691 <a class="code" href="../../d1/d28/nssckfwc_8h.html#add083e1c555fb98fb1d96c8e1ebce40f">NSSCKFWC_SignUpdate</a>
+<a name="l00692"></a>00692 (
+<a name="l00693"></a>00693   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00694"></a>00694   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00695"></a>00695   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pPart,
+<a name="l00696"></a>00696   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulPartLen
+<a name="l00697"></a>00697 );
+<a name="l00698"></a>00698 
+<a name="l00699"></a>00699 <span class="comment">/*</span>
+<a name="l00700"></a>00700 <span class="comment"> * NSSCKFWC_SignFinal</span>
+<a name="l00701"></a>00701 <span class="comment"> *</span>
+<a name="l00702"></a>00702 <span class="comment"> */</span>
+<a name="l00703"></a>00703 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00704"></a>00704 <a class="code" href="../../d1/d28/nssckfwc_8h.html#adad1ab9222803029404d06b08dd0af89">NSSCKFWC_SignFinal</a>
+<a name="l00705"></a>00705 (
+<a name="l00706"></a>00706   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00707"></a>00707   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00708"></a>00708   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pSignature,
+<a name="l00709"></a>00709   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulSignatureLen
+<a name="l00710"></a>00710 );
+<a name="l00711"></a>00711 
+<a name="l00712"></a>00712 <span class="comment">/*</span>
+<a name="l00713"></a>00713 <span class="comment"> * NSSCKFWC_SignRecoverInit</span>
+<a name="l00714"></a>00714 <span class="comment"> *</span>
+<a name="l00715"></a>00715 <span class="comment"> */</span>
+<a name="l00716"></a>00716 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00717"></a>00717 <a class="code" href="../../d1/d28/nssckfwc_8h.html#ab4a55f05f5bab0c4270a493f40cea2e4">NSSCKFWC_SignRecoverInit</a>
+<a name="l00718"></a>00718 (
+<a name="l00719"></a>00719   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00720"></a>00720   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00721"></a>00721   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00722"></a>00722   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hKey
+<a name="l00723"></a>00723 );
+<a name="l00724"></a>00724 
+<a name="l00725"></a>00725 <span class="comment">/*</span>
+<a name="l00726"></a>00726 <span class="comment"> * NSSCKFWC_SignRecover</span>
+<a name="l00727"></a>00727 <span class="comment"> *</span>
+<a name="l00728"></a>00728 <span class="comment"> */</span>
+<a name="l00729"></a>00729 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00730"></a>00730 <a class="code" href="../../d1/d28/nssckfwc_8h.html#ad9cd96d47804252e1d76617d85b1d89c">NSSCKFWC_SignRecover</a>
+<a name="l00731"></a>00731 (
+<a name="l00732"></a>00732   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00733"></a>00733   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00734"></a>00734   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pData,
+<a name="l00735"></a>00735   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulDataLen,
+<a name="l00736"></a>00736   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pSignature,
+<a name="l00737"></a>00737   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulSignatureLen
+<a name="l00738"></a>00738 );
+<a name="l00739"></a>00739 
+<a name="l00740"></a>00740 <span class="comment">/*</span>
+<a name="l00741"></a>00741 <span class="comment"> * NSSCKFWC_VerifyInit</span>
+<a name="l00742"></a>00742 <span class="comment"> *</span>
+<a name="l00743"></a>00743 <span class="comment"> */</span>
+<a name="l00744"></a>00744 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00745"></a>00745 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a88cea415713f5625b0bacdbab554f3cc">NSSCKFWC_VerifyInit</a>
+<a name="l00746"></a>00746 (
+<a name="l00747"></a>00747   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00748"></a>00748   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00749"></a>00749   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00750"></a>00750   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hKey
+<a name="l00751"></a>00751 );
+<a name="l00752"></a>00752 
+<a name="l00753"></a>00753 <span class="comment">/*</span>
+<a name="l00754"></a>00754 <span class="comment"> * NSSCKFWC_Verify</span>
+<a name="l00755"></a>00755 <span class="comment"> *</span>
+<a name="l00756"></a>00756 <span class="comment"> */</span>
+<a name="l00757"></a>00757 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00758"></a>00758 <a class="code" href="../../d1/d28/nssckfwc_8h.html#ae49c2be88d1b90e00c9f6f6543472e8d">NSSCKFWC_Verify</a>
+<a name="l00759"></a>00759 (
+<a name="l00760"></a>00760   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00761"></a>00761   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00762"></a>00762   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pData,
+<a name="l00763"></a>00763   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulDataLen,
+<a name="l00764"></a>00764   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pSignature,
+<a name="l00765"></a>00765   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulSignatureLen
+<a name="l00766"></a>00766 );
+<a name="l00767"></a>00767 
+<a name="l00768"></a>00768 <span class="comment">/*</span>
+<a name="l00769"></a>00769 <span class="comment"> * NSSCKFWC_VerifyUpdate</span>
+<a name="l00770"></a>00770 <span class="comment"> *</span>
+<a name="l00771"></a>00771 <span class="comment"> */</span>
+<a name="l00772"></a>00772 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00773"></a>00773 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a677da62fc79a85664439ba8badec9e30">NSSCKFWC_VerifyUpdate</a>
+<a name="l00774"></a>00774 (
+<a name="l00775"></a>00775   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00776"></a>00776   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00777"></a>00777   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pPart,
+<a name="l00778"></a>00778   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulPartLen
+<a name="l00779"></a>00779 );
+<a name="l00780"></a>00780 
+<a name="l00781"></a>00781 <span class="comment">/*</span>
+<a name="l00782"></a>00782 <span class="comment"> * NSSCKFWC_VerifyFinal</span>
+<a name="l00783"></a>00783 <span class="comment"> *</span>
+<a name="l00784"></a>00784 <span class="comment"> */</span>
+<a name="l00785"></a>00785 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00786"></a>00786 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a82319ab887a9ea3183aaead588de7002">NSSCKFWC_VerifyFinal</a>
+<a name="l00787"></a>00787 (
+<a name="l00788"></a>00788   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00789"></a>00789   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00790"></a>00790   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pSignature,
+<a name="l00791"></a>00791   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulSignatureLen
+<a name="l00792"></a>00792 );
+<a name="l00793"></a>00793 
+<a name="l00794"></a>00794 <span class="comment">/*</span>
+<a name="l00795"></a>00795 <span class="comment"> * NSSCKFWC_VerifyRecoverInit</span>
+<a name="l00796"></a>00796 <span class="comment"> *</span>
+<a name="l00797"></a>00797 <span class="comment"> */</span>
+<a name="l00798"></a>00798 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00799"></a>00799 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a4e06fb078283618bfb05a4980b622485">NSSCKFWC_VerifyRecoverInit</a>
+<a name="l00800"></a>00800 (
+<a name="l00801"></a>00801   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00802"></a>00802   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00803"></a>00803   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00804"></a>00804   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hKey
+<a name="l00805"></a>00805 );
+<a name="l00806"></a>00806 
+<a name="l00807"></a>00807 <span class="comment">/*</span>
+<a name="l00808"></a>00808 <span class="comment"> * NSSCKFWC_VerifyRecover</span>
+<a name="l00809"></a>00809 <span class="comment"> *</span>
+<a name="l00810"></a>00810 <span class="comment"> */</span>
+<a name="l00811"></a>00811 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00812"></a>00812 <a class="code" href="../../d1/d28/nssckfwc_8h.html#aaf82917a62b5a53b07f3d9c0f4d22c5d">NSSCKFWC_VerifyRecover</a>
+<a name="l00813"></a>00813 (
+<a name="l00814"></a>00814   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00815"></a>00815   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00816"></a>00816   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pSignature,
+<a name="l00817"></a>00817   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulSignatureLen,
+<a name="l00818"></a>00818   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pData,
+<a name="l00819"></a>00819   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulDataLen
+<a name="l00820"></a>00820 );
+<a name="l00821"></a>00821 
+<a name="l00822"></a>00822 <span class="comment">/*</span>
+<a name="l00823"></a>00823 <span class="comment"> * NSSCKFWC_DigestEncryptUpdate</span>
+<a name="l00824"></a>00824 <span class="comment"> *</span>
+<a name="l00825"></a>00825 <span class="comment"> */</span>
+<a name="l00826"></a>00826 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00827"></a>00827 <a class="code" href="../../d1/d28/nssckfwc_8h.html#ae8bb10b65f8959f34e52395aa95126be">NSSCKFWC_DigestEncryptUpdate</a>
+<a name="l00828"></a>00828 (
+<a name="l00829"></a>00829   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00830"></a>00830   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00831"></a>00831   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pPart,
+<a name="l00832"></a>00832   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulPartLen,
+<a name="l00833"></a>00833   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pEncryptedPart,
+<a name="l00834"></a>00834   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulEncryptedPartLen
+<a name="l00835"></a>00835 );
+<a name="l00836"></a>00836 
+<a name="l00837"></a>00837 <span class="comment">/*</span>
+<a name="l00838"></a>00838 <span class="comment"> * NSSCKFWC_DecryptDigestUpdate</span>
+<a name="l00839"></a>00839 <span class="comment"> *</span>
+<a name="l00840"></a>00840 <span class="comment"> */</span>
+<a name="l00841"></a>00841 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00842"></a>00842 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a317705fdd713c241b8fbf0ee29c65b45">NSSCKFWC_DecryptDigestUpdate</a>
+<a name="l00843"></a>00843 (
+<a name="l00844"></a>00844   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00845"></a>00845   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00846"></a>00846   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pEncryptedPart,
+<a name="l00847"></a>00847   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulEncryptedPartLen,
+<a name="l00848"></a>00848   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pPart,
+<a name="l00849"></a>00849   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulPartLen
+<a name="l00850"></a>00850 );
+<a name="l00851"></a>00851 
+<a name="l00852"></a>00852 <span class="comment">/*</span>
+<a name="l00853"></a>00853 <span class="comment"> * NSSCKFWC_SignEncryptUpdate</span>
+<a name="l00854"></a>00854 <span class="comment"> *</span>
+<a name="l00855"></a>00855 <span class="comment"> */</span>
+<a name="l00856"></a>00856 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00857"></a>00857 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a50c102679e71ca893d965cc48b170405">NSSCKFWC_SignEncryptUpdate</a>
+<a name="l00858"></a>00858 (
+<a name="l00859"></a>00859   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00860"></a>00860   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00861"></a>00861   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pPart,
+<a name="l00862"></a>00862   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulPartLen,
+<a name="l00863"></a>00863   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pEncryptedPart,
+<a name="l00864"></a>00864   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulEncryptedPartLen
+<a name="l00865"></a>00865 );
+<a name="l00866"></a>00866 
+<a name="l00867"></a>00867 <span class="comment">/*</span>
+<a name="l00868"></a>00868 <span class="comment"> * NSSCKFWC_DecryptVerifyUpdate</span>
+<a name="l00869"></a>00869 <span class="comment"> *</span>
+<a name="l00870"></a>00870 <span class="comment"> */</span>
+<a name="l00871"></a>00871 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00872"></a>00872 <a class="code" href="../../d1/d28/nssckfwc_8h.html#af66636cbcea8e319eb7628c9665f16af">NSSCKFWC_DecryptVerifyUpdate</a>
+<a name="l00873"></a>00873 (
+<a name="l00874"></a>00874   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00875"></a>00875   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00876"></a>00876   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pEncryptedPart,
+<a name="l00877"></a>00877   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulEncryptedPartLen,
+<a name="l00878"></a>00878   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pPart,
+<a name="l00879"></a>00879   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulPartLen
+<a name="l00880"></a>00880 );
+<a name="l00881"></a>00881 
+<a name="l00882"></a>00882 <span class="comment">/*</span>
+<a name="l00883"></a>00883 <span class="comment"> * NSSCKFWC_GenerateKey</span>
+<a name="l00884"></a>00884 <span class="comment"> *</span>
+<a name="l00885"></a>00885 <span class="comment"> */</span>
+<a name="l00886"></a>00886 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00887"></a>00887 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a6c2d07923d18918c806d9dedb611f6a3">NSSCKFWC_GenerateKey</a>
+<a name="l00888"></a>00888 (
+<a name="l00889"></a>00889   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00890"></a>00890   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00891"></a>00891   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00892"></a>00892   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5e825285ada96a9920d361d33698ce04">CK_ATTRIBUTE_PTR</a> pTemplate,
+<a name="l00893"></a>00893   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulCount,
+<a name="l00894"></a>00894   <a class="code" href="../../df/dea/pkcs11t_8h.html#a42a298b2f343261d27b87140090106d4">CK_OBJECT_HANDLE_PTR</a> phKey
+<a name="l00895"></a>00895 );
+<a name="l00896"></a>00896 
+<a name="l00897"></a>00897 <span class="comment">/*</span>
+<a name="l00898"></a>00898 <span class="comment"> * NSSCKFWC_GenerateKeyPair</span>
+<a name="l00899"></a>00899 <span class="comment"> *</span>
+<a name="l00900"></a>00900 <span class="comment"> */</span>
+<a name="l00901"></a>00901 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00902"></a>00902 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a110c0304caacc17a57333202ef431064">NSSCKFWC_GenerateKeyPair</a>
+<a name="l00903"></a>00903 (
+<a name="l00904"></a>00904   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00905"></a>00905   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00906"></a>00906   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00907"></a>00907   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5e825285ada96a9920d361d33698ce04">CK_ATTRIBUTE_PTR</a> pPublicKeyTemplate,
+<a name="l00908"></a>00908   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulPublicKeyAttributeCount,
+<a name="l00909"></a>00909   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5e825285ada96a9920d361d33698ce04">CK_ATTRIBUTE_PTR</a> pPrivateKeyTemplate,
+<a name="l00910"></a>00910   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulPrivateKeyAttributeCount,
+<a name="l00911"></a>00911   <a class="code" href="../../df/dea/pkcs11t_8h.html#a42a298b2f343261d27b87140090106d4">CK_OBJECT_HANDLE_PTR</a> phPublicKey,
+<a name="l00912"></a>00912   <a class="code" href="../../df/dea/pkcs11t_8h.html#a42a298b2f343261d27b87140090106d4">CK_OBJECT_HANDLE_PTR</a> phPrivateKey
+<a name="l00913"></a>00913 );
+<a name="l00914"></a>00914 
+<a name="l00915"></a>00915 <span class="comment">/*</span>
+<a name="l00916"></a>00916 <span class="comment"> * NSSCKFWC_WrapKey</span>
+<a name="l00917"></a>00917 <span class="comment"> *</span>
+<a name="l00918"></a>00918 <span class="comment"> */</span>
+<a name="l00919"></a>00919 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00920"></a>00920 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a1aeee313b0802131c8ff82fb61c54269">NSSCKFWC_WrapKey</a>
+<a name="l00921"></a>00921 (
+<a name="l00922"></a>00922   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00923"></a>00923   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00924"></a>00924   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00925"></a>00925   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hWrappingKey,
+<a name="l00926"></a>00926   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hKey,
+<a name="l00927"></a>00927   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pWrappedKey,
+<a name="l00928"></a>00928   <a class="code" href="../../df/dea/pkcs11t_8h.html#af18ced3aa6adcd9f76ae8c132ed2eeb9">CK_ULONG_PTR</a> pulWrappedKeyLen
+<a name="l00929"></a>00929 );
+<a name="l00930"></a>00930 
+<a name="l00931"></a>00931 <span class="comment">/*</span>
+<a name="l00932"></a>00932 <span class="comment"> * NSSCKFWC_UnwrapKey</span>
+<a name="l00933"></a>00933 <span class="comment"> *</span>
+<a name="l00934"></a>00934 <span class="comment"> */</span>
+<a name="l00935"></a>00935 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00936"></a>00936 <a class="code" href="../../d1/d28/nssckfwc_8h.html#adecaa9300288b0ed72c79d9faf807a4f">NSSCKFWC_UnwrapKey</a>
+<a name="l00937"></a>00937 (
+<a name="l00938"></a>00938   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00939"></a>00939   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00940"></a>00940   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00941"></a>00941   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hUnwrappingKey,
+<a name="l00942"></a>00942   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pWrappedKey,
+<a name="l00943"></a>00943   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulWrappedKeyLen,
+<a name="l00944"></a>00944   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5e825285ada96a9920d361d33698ce04">CK_ATTRIBUTE_PTR</a> pTemplate,
+<a name="l00945"></a>00945   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulAttributeCount,
+<a name="l00946"></a>00946   <a class="code" href="../../df/dea/pkcs11t_8h.html#a42a298b2f343261d27b87140090106d4">CK_OBJECT_HANDLE_PTR</a> phKey
+<a name="l00947"></a>00947 );
+<a name="l00948"></a>00948 
+<a name="l00949"></a>00949 <span class="comment">/*</span>
+<a name="l00950"></a>00950 <span class="comment"> * NSSCKFWC_DeriveKey</span>
+<a name="l00951"></a>00951 <span class="comment"> *</span>
+<a name="l00952"></a>00952 <span class="comment"> */</span>
+<a name="l00953"></a>00953 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00954"></a>00954 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a77db659686ad00880613a1e0cc20390f">NSSCKFWC_DeriveKey</a>
+<a name="l00955"></a>00955 (
+<a name="l00956"></a>00956   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00957"></a>00957   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00958"></a>00958   <a class="code" href="../../df/dea/pkcs11t_8h.html#afa4c48ba8a588833ea04f0910583592e">CK_MECHANISM_PTR</a> pMechanism,
+<a name="l00959"></a>00959   <a class="code" href="../../df/dea/pkcs11t_8h.html#ad1cdd703196214cd34e6f9f52bc67683">CK_OBJECT_HANDLE</a> hBaseKey,
+<a name="l00960"></a>00960   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5e825285ada96a9920d361d33698ce04">CK_ATTRIBUTE_PTR</a> pTemplate,
+<a name="l00961"></a>00961   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulAttributeCount,
+<a name="l00962"></a>00962   <a class="code" href="../../df/dea/pkcs11t_8h.html#a42a298b2f343261d27b87140090106d4">CK_OBJECT_HANDLE_PTR</a> phKey
+<a name="l00963"></a>00963 );
+<a name="l00964"></a>00964 
+<a name="l00965"></a>00965 <span class="comment">/*</span>
+<a name="l00966"></a>00966 <span class="comment"> * NSSCKFWC_SeedRandom</span>
+<a name="l00967"></a>00967 <span class="comment"> *</span>
+<a name="l00968"></a>00968 <span class="comment"> */</span>
+<a name="l00969"></a>00969 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00970"></a>00970 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a42d07ef65c246046015ef57877a41bac">NSSCKFWC_SeedRandom</a>
+<a name="l00971"></a>00971 (
+<a name="l00972"></a>00972   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00973"></a>00973   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00974"></a>00974   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pSeed,
+<a name="l00975"></a>00975   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulSeedLen
+<a name="l00976"></a>00976 );
+<a name="l00977"></a>00977 
+<a name="l00978"></a>00978 <span class="comment">/*</span>
+<a name="l00979"></a>00979 <span class="comment"> * NSSCKFWC_GenerateRandom</span>
+<a name="l00980"></a>00980 <span class="comment"> *</span>
+<a name="l00981"></a>00981 <span class="comment"> */</span>
+<a name="l00982"></a>00982 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00983"></a>00983 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a6a67e58d0228e8ce3f6b6f0881365b37">NSSCKFWC_GenerateRandom</a>
+<a name="l00984"></a>00984 (
+<a name="l00985"></a>00985   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00986"></a>00986   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession,
+<a name="l00987"></a>00987   <a class="code" href="../../df/dea/pkcs11t_8h.html#a3d7233a4077fbaf7ae76b64da0a62a21">CK_BYTE_PTR</a> pRandomData,
+<a name="l00988"></a>00988   <a class="code" href="../../df/dea/pkcs11t_8h.html#a35181858a3b7a0a81f49d180d8f446ef">CK_ULONG</a> ulRandomLen
+<a name="l00989"></a>00989 );
+<a name="l00990"></a>00990 
+<a name="l00991"></a>00991 <span class="comment">/*</span>
+<a name="l00992"></a>00992 <span class="comment"> * NSSCKFWC_GetFunctionStatus</span>
+<a name="l00993"></a>00993 <span class="comment"> *</span>
+<a name="l00994"></a>00994 <span class="comment"> */</span>
+<a name="l00995"></a>00995 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l00996"></a>00996 <a class="code" href="../../d1/d28/nssckfwc_8h.html#ac9d54c8676bbfe9d179bd7146c9b0112">NSSCKFWC_GetFunctionStatus</a>
+<a name="l00997"></a>00997 (
+<a name="l00998"></a>00998   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l00999"></a>00999   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession
+<a name="l01000"></a>01000 );
+<a name="l01001"></a>01001 
+<a name="l01002"></a>01002 <span class="comment">/*</span>
+<a name="l01003"></a>01003 <span class="comment"> * NSSCKFWC_CancelFunction</span>
+<a name="l01004"></a>01004 <span class="comment"> *</span>
+<a name="l01005"></a>01005 <span class="comment"> */</span>
+<a name="l01006"></a>01006 <a class="code" href="../../de/d78/nssbaset_8h.html#a59ffeec3041a64994ddbd98a236c7c54">NSS_EXTERN</a> <a class="code" href="../../df/dea/pkcs11t_8h.html#a33839c131011ca3849dc35c11f69c39d">CK_RV</a>
+<a name="l01007"></a>01007 <a class="code" href="../../d1/d28/nssckfwc_8h.html#a4244c226072debf30e6e0eb5f8dd0fbc">NSSCKFWC_CancelFunction</a>
+<a name="l01008"></a>01008 (
+<a name="l01009"></a>01009   <a class="code" href="../../d6/dd0/nssckfwt_8h.html#ae097c08220c4da7be08891f224ea664f">NSSCKFWInstance</a> *fwInstance,
+<a name="l01010"></a>01010   <a class="code" href="../../df/dea/pkcs11t_8h.html#a5a263e303e42c8b2f3bc08315e34fc4f">CK_SESSION_HANDLE</a> hSession
+<a name="l01011"></a>01011 );
+<a name="l01012"></a>01012 
+<a name="l01013"></a>01013 <span class="preprocessor">#endif </span><span class="comment">/* NSSCKFWC_H */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d1/d28/nssckfwc_8h.html">nssckfwc.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:43に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: SkThread_platform.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d9/d82/_sk_thread__platform_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">SkThread_platform.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d9/d82/_sk_thread__platform_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00002"></a>00002 <span class="comment">/*</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright 2006 The Android Open Source Project</span>
+<a name="l00004"></a>00004 <span class="comment"> *</span>
+<a name="l00005"></a>00005 <span class="comment"> * Use of this source code is governed by a BSD-style license that can be</span>
+<a name="l00006"></a>00006 <span class="comment"> * found in the LICENSE file.</span>
+<a name="l00007"></a>00007 <span class="comment"> */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="preprocessor">#ifndef SkThread_platform_DEFINED</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span><span class="preprocessor">#define SkThread_platform_DEFINED</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span>
+<a name="l00013"></a>00013 <span class="preprocessor">#if defined(SK_BUILD_FOR_ANDROID)</span>
+<a name="l00014"></a>00014 <span class="preprocessor"></span>
+<a name="l00015"></a>00015 <span class="preprocessor">#if !defined(SK_BUILD_FOR_ANDROID_FRAMEWORK)</span>
+<a name="l00016"></a>00016 <span class="preprocessor"></span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &lt;stdint.h&gt;</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="comment">/* Just use the GCC atomic intrinsics. They&#39;re supported by the NDK toolchain,</span>
+<a name="l00020"></a>00020 <span class="comment"> * have reasonable performance, and provide full memory barriers</span>
+<a name="l00021"></a>00021 <span class="comment"> */</span>
+<a name="l00022"></a>00022 <span class="keyword">static</span> <span class="keyword">inline</span> <a class="code" href="../../d5/d15/ns_obj_c_exceptions_8h.html#a2549a178226b79d36766691780eff55b">__attribute__</a>((always_inline)) int32_t <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a719144fc1c3dcde6ac3f9c3012bd98fd">sk_atomic_inc</a>(int32_t *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>) {
+<a name="l00023"></a>00023     <span class="keywordflow">return</span> __sync_fetch_and_add(addr, 1);
+<a name="l00024"></a>00024 }
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="keyword">static</span> <span class="keyword">inline</span> <a class="code" href="../../d5/d15/ns_obj_c_exceptions_8h.html#a2549a178226b79d36766691780eff55b">__attribute__</a>((always_inline)) int32_t <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#ad1f558d8fab63ea3449d9ec3baccd0d3">sk_atomic_add</a>(int32_t *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>, int32_t inc) {
+<a name="l00027"></a>00027     <span class="keywordflow">return</span> __sync_fetch_and_add(addr, inc);
+<a name="l00028"></a>00028 }
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="keyword">static</span> <span class="keyword">inline</span> <a class="code" href="../../d5/d15/ns_obj_c_exceptions_8h.html#a2549a178226b79d36766691780eff55b">__attribute__</a>((always_inline)) int32_t <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a618bb47780ba83644ad637aeaf789950">sk_atomic_dec</a>(int32_t *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>) {
+<a name="l00031"></a>00031     <span class="keywordflow">return</span> __sync_fetch_and_add(addr, -1);
+<a name="l00032"></a>00032 }
+<a name="l00033"></a>00033 <span class="keyword">static</span> <span class="keyword">inline</span> <a class="code" href="../../d5/d15/ns_obj_c_exceptions_8h.html#a2549a178226b79d36766691780eff55b">__attribute__</a>((always_inline)) <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a> <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a2b80af161b1e75b1de8cbe4134ced002">sk_membar_aquire__after_atomic_dec</a>() { }
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 <span class="keyword">static</span> <span class="keyword">inline</span> <a class="code" href="../../d5/d15/ns_obj_c_exceptions_8h.html#a2549a178226b79d36766691780eff55b">__attribute__</a>((always_inline)) int32_t <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a664038b828e7693c3c1fd3f964014829">sk_atomic_conditional_inc</a>(int32_t* <a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>) {
+<a name="l00036"></a>00036     int32_t <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>;
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038     <span class="keywordflow">while</span> (<span class="keyword">true</span>) {
+<a name="l00039"></a>00039         <span class="keywordflow">if</span> (value == 0) {
+<a name="l00040"></a>00040             <span class="keywordflow">return</span> 0;
+<a name="l00041"></a>00041         }
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043         int32_t before = __sync_val_compare_and_swap(addr, value, value + 1);
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045         <span class="keywordflow">if</span> (before == value) {
+<a name="l00046"></a>00046             <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00047"></a>00047         } <span class="keywordflow">else</span> {
+<a name="l00048"></a>00048             value = before;
+<a name="l00049"></a>00049         }
+<a name="l00050"></a>00050     }
+<a name="l00051"></a>00051 }
+<a name="l00052"></a>00052 <span class="keyword">static</span> <span class="keyword">inline</span> <a class="code" href="../../d5/d15/ns_obj_c_exceptions_8h.html#a2549a178226b79d36766691780eff55b">__attribute__</a>((always_inline)) <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a> <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#aebb2f4ead6a9298439feb194b35cde40">sk_membar_aquire__after_atomic_conditional_inc</a>() { }
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054 <span class="preprocessor">#else // SK_BUILD_FOR_ANDROID_FRAMEWORK</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span>
+<a name="l00056"></a>00056 <span class="comment">/* The platform atomics operations are slightly more efficient than the</span>
+<a name="l00057"></a>00057 <span class="comment"> * GCC built-ins, so use them.</span>
+<a name="l00058"></a>00058 <span class="comment"> */</span>
+<a name="l00059"></a>00059 <span class="preprocessor">#include &lt;utils/Atomic.h&gt;</span>
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061 <span class="preprocessor">#define sk_atomic_inc(addr)         android_atomic_inc(addr)</span>
+<a name="l00062"></a>00062 <span class="preprocessor"></span><span class="preprocessor">#define sk_atomic_add(addr, inc)    android_atomic_add(inc, addr)</span>
+<a name="l00063"></a>00063 <span class="preprocessor"></span><span class="preprocessor">#define sk_atomic_dec(addr)         android_atomic_dec(addr)</span>
+<a name="l00064"></a>00064 <span class="preprocessor"></span>
+<a name="l00065"></a>00065 <span class="keyword">static</span> <span class="keyword">inline</span> <a class="code" href="../../d5/d15/ns_obj_c_exceptions_8h.html#a2549a178226b79d36766691780eff55b">__attribute__</a>((always_inline)) <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a> <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a2b80af161b1e75b1de8cbe4134ced002">sk_membar_aquire__after_atomic_dec</a>() {
+<a name="l00066"></a>00066     <span class="comment">//HACK: Android is actually using full memory barriers.</span>
+<a name="l00067"></a>00067     <span class="comment">//      Should this change, uncomment below.</span>
+<a name="l00068"></a>00068     <span class="comment">//int dummy;</span>
+<a name="l00069"></a>00069     <span class="comment">//android_atomic_aquire_store(0, &amp;dummy);</span>
+<a name="l00070"></a>00070 }
+<a name="l00071"></a>00071 <span class="keyword">static</span> <span class="keyword">inline</span> <a class="code" href="../../d5/d15/ns_obj_c_exceptions_8h.html#a2549a178226b79d36766691780eff55b">__attribute__</a>((always_inline)) int32_t <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a664038b828e7693c3c1fd3f964014829">sk_atomic_conditional_inc</a>(int32_t* addr) {
+<a name="l00072"></a>00072     <span class="keywordflow">while</span> (<span class="keyword">true</span>) {
+<a name="l00073"></a>00073         int32_t value = *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>;
+<a name="l00074"></a>00074         <span class="keywordflow">if</span> (value == 0) {
+<a name="l00075"></a>00075             <span class="keywordflow">return</span> 0;
+<a name="l00076"></a>00076         }
+<a name="l00077"></a>00077         <span class="keywordflow">if</span> (0 == android_atomic_release_cas(value, value + 1, addr)) {
+<a name="l00078"></a>00078             <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00079"></a>00079         }
+<a name="l00080"></a>00080     }
+<a name="l00081"></a>00081 }
+<a name="l00082"></a>00082 <span class="keyword">static</span> <span class="keyword">inline</span> <a class="code" href="../../d5/d15/ns_obj_c_exceptions_8h.html#a2549a178226b79d36766691780eff55b">__attribute__</a>((always_inline)) <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a> <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#aebb2f4ead6a9298439feb194b35cde40">sk_membar_aquire__after_atomic_conditional_inc</a>() {
+<a name="l00083"></a>00083     <span class="comment">//HACK: Android is actually using full memory barriers.</span>
+<a name="l00084"></a>00084     <span class="comment">//      Should this change, uncomment below.</span>
+<a name="l00085"></a>00085     <span class="comment">//int dummy;</span>
+<a name="l00086"></a>00086     <span class="comment">//android_atomic_aquire_store(0, &amp;dummy);</span>
+<a name="l00087"></a>00087 }
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 <span class="preprocessor">#endif // SK_BUILD_FOR_ANDROID_FRAMEWORK</span>
+<a name="l00090"></a>00090 <span class="preprocessor"></span>
+<a name="l00091"></a>00091 <span class="preprocessor">#else  // !SK_BUILD_FOR_ANDROID</span>
+<a name="l00092"></a>00092 <span class="preprocessor"></span>
+<a name="l00099"></a>00099 <a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> int32_t <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a719144fc1c3dcde6ac3f9c3012bd98fd">sk_atomic_inc</a>(int32_t* addr);
+<a name="l00100"></a>00100 
+<a name="l00107"></a>00107 <a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> int32_t <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#ad1f558d8fab63ea3449d9ec3baccd0d3">sk_atomic_add</a>(int32_t* addr, int32_t inc);
+<a name="l00108"></a>00108 
+<a name="l00114"></a>00114 <a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> int32_t <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a618bb47780ba83644ad637aeaf789950">sk_atomic_dec</a>(int32_t* addr);
+<a name="l00118"></a>00118 <a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <span class="keywordtype">void</span> <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a2b80af161b1e75b1de8cbe4134ced002">sk_membar_aquire__after_atomic_dec</a>();
+<a name="l00119"></a>00119 
+<a name="l00126"></a>00126 <a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> int32_t <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a664038b828e7693c3c1fd3f964014829">sk_atomic_conditional_inc</a>(int32_t*);
+<a name="l00131"></a>00131 <a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <span class="keywordtype">void</span> <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#aebb2f4ead6a9298439feb194b35cde40">sk_membar_aquire__after_atomic_conditional_inc</a>();
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133 <span class="preprocessor">#endif // !SK_BUILD_FOR_ANDROID</span>
+<a name="l00134"></a>00134 <span class="preprocessor"></span>
+<a name="l00135"></a>00135 <span class="preprocessor">#ifdef SK_USE_POSIX_THREADS</span>
+<a name="l00136"></a>00136 <span class="preprocessor"></span>
+<a name="l00137"></a>00137 <span class="preprocessor">#include &lt;pthread.h&gt;</span>
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 <span class="comment">// A SkBaseMutex is a POD structure that can be directly initialized</span>
+<a name="l00140"></a>00140 <span class="comment">// at declaration time with SK_DECLARE_STATIC/GLOBAL_MUTEX. This avoids the</span>
+<a name="l00141"></a>00141 <span class="comment">// generation of a static initializer in the final machine code (and</span>
+<a name="l00142"></a>00142 <span class="comment">// a corresponding static finalizer).</span>
+<a name="l00143"></a>00143 <span class="comment">//</span>
+<a name="l00144"></a>00144 <span class="keyword">struct </span><a class="code" href="../../d5/de1/class_sk_mutex.html">SkBaseMutex</a> {
+<a name="l00145"></a>00145     <span class="keywordtype">void</span>    <a class="code" href="../../d5/de1/class_sk_mutex.html#a5cffbf950921e557fd6601460f1579e0">acquire</a>() { pthread_mutex_lock(&amp;fMutex); }
+<a name="l00146"></a>00146     <span class="keywordtype">void</span>    <a class="code" href="../../d5/de1/class_sk_mutex.html#afe7b1f69d9cff07632ddfb32eea8c3b8">release</a>() { pthread_mutex_unlock(&amp;fMutex); }
+<a name="l00147"></a>00147     pthread_mutex_t  fMutex;
+<a name="l00148"></a>00148 };
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150 <span class="comment">// Using POD-style initialization prevents the generation of a static initializer</span>
+<a name="l00151"></a>00151 <span class="comment">// and keeps the acquire() implementation small and fast.</span>
+<a name="l00152"></a>00152 <span class="preprocessor">#define SK_DECLARE_STATIC_MUTEX(name)   static SkBaseMutex  name = { PTHREAD_MUTEX_INITIALIZER }</span>
+<a name="l00153"></a>00153 <span class="preprocessor"></span>
+<a name="l00154"></a>00154 <span class="comment">// Special case used when the static mutex must be available globally.</span>
+<a name="l00155"></a>00155 <span class="preprocessor">#define SK_DECLARE_GLOBAL_MUTEX(name)   SkBaseMutex  name = { PTHREAD_MUTEX_INITIALIZER }</span>
+<a name="l00156"></a>00156 <span class="preprocessor"></span>
+<a name="l00157"></a>00157 <span class="preprocessor">#define SK_DECLARE_MUTEX_ARRAY(name, count)    SkBaseMutex name[count] = { { PTHREAD_MUTEX_INITIALIZER } }</span>
+<a name="l00158"></a>00158 <span class="preprocessor"></span>
+<a name="l00159"></a>00159 <span class="comment">// A normal mutex that requires to be initialized through normal C++ construction,</span>
+<a name="l00160"></a>00160 <span class="comment">// i.e. when it&#39;s a member of another class, or allocated on the heap.</span>
+<a name="l00161"></a>00161 <span class="keyword">class </span><a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <a class="code" href="../../d5/de1/class_sk_mutex.html">SkMutex</a> : <span class="keyword">public</span> <a class="code" href="../../d5/de1/class_sk_mutex.html">SkBaseMutex</a>, <a class="code" href="../../d2/ddd/class_sk_noncopyable.html">SkNoncopyable</a> {
+<a name="l00162"></a>00162 <span class="keyword">public</span>:
+<a name="l00163"></a>00163     <a class="code" href="../../d5/de1/class_sk_mutex.html#a96a4a9f8cf2f1a67ce6fdc6c2778d09d">SkMutex</a>();
+<a name="l00164"></a>00164     <a class="code" href="../../d5/de1/class_sk_mutex.html#a0873a4ece2cdca13600c51754b578f5f">~SkMutex</a>();
+<a name="l00165"></a>00165 };
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167 <span class="preprocessor">#else // !SK_USE_POSIX_THREADS</span>
+<a name="l00168"></a>00168 <span class="preprocessor"></span>
+<a name="l00169"></a>00169 <span class="comment">// In the generic case, SkBaseMutex and SkMutex are the same thing, and we</span>
+<a name="l00170"></a>00170 <span class="comment">// can&#39;t easily get rid of static initializers.</span>
+<a name="l00171"></a>00171 <span class="comment">//</span>
+<a name="l00172"></a><a class="code" href="../../d5/de1/class_sk_mutex.html">00172</a> <span class="keyword">class </span><a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <a class="code" href="../../d5/de1/class_sk_mutex.html">SkMutex</a> : <a class="code" href="../../d2/ddd/class_sk_noncopyable.html">SkNoncopyable</a> {
+<a name="l00173"></a>00173 <span class="keyword">public</span>:
+<a name="l00174"></a>00174     <a class="code" href="../../d5/de1/class_sk_mutex.html">SkMutex</a>();
+<a name="l00175"></a>00175     ~<a class="code" href="../../d5/de1/class_sk_mutex.html">SkMutex</a>();
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177     <span class="keywordtype">void</span>    acquire();
+<a name="l00178"></a>00178     <span class="keywordtype">void</span>    <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a170fe99e732335290145d391f9ca24dd">release</a>();
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180 <span class="keyword">private</span>:
+<a name="l00181"></a>00181     <span class="keywordtype">bool</span> fIsGlobal;
+<a name="l00182"></a>00182     <span class="keyword">enum</span> {
+<a name="l00183"></a>00183         kStorageIntCount = 64
+<a name="l00184"></a>00184     };
+<a name="l00185"></a>00185     uint32_t    fStorage[kStorageIntCount];
+<a name="l00186"></a>00186 };
+<a name="l00187"></a>00187 
+<a name="l00188"></a><a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a99e6d599ad3bb96e4c081526eadf2d6d">00188</a> <span class="keyword">typedef</span> <a class="code" href="../../d5/de1/class_sk_mutex.html">SkMutex</a> <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a99e6d599ad3bb96e4c081526eadf2d6d">SkBaseMutex</a>;
+<a name="l00189"></a>00189 
+<a name="l00190"></a><a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#aefcf4501ea72a59be33489a7a9e52e0d">00190</a> <span class="preprocessor">#define SK_DECLARE_STATIC_MUTEX(name)           static SkBaseMutex  name</span>
+<a name="l00191"></a><a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#aa261f7e53d6160ca7e9e8340b2589a50">00191</a> <span class="preprocessor"></span><span class="preprocessor">#define SK_DECLARE_GLOBAL_MUTEX(name)           SkBaseMutex  name</span>
+<a name="l00192"></a><a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#af9b5bdbcb4c3e60126ee1ff44dbe0241">00192</a> <span class="preprocessor"></span><span class="preprocessor">#define SK_DECLARE_MUTEX_ARRAY(name, count)     SkBaseMutex name[count]</span>
+<a name="l00193"></a>00193 <span class="preprocessor"></span>
+<a name="l00194"></a>00194 <span class="preprocessor">#endif // !SK_USE_POSIX_THREADS</span>
+<a name="l00195"></a>00195 <span class="preprocessor"></span>
+<a name="l00196"></a>00196 
+<a name="l00197"></a>00197 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d9/d82/_sk_thread__platform_8h.html">SkThread_platform.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:13に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

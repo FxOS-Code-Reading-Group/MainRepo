@@ -1,0 +1,27 @@
+var interfacens_i_transaction_listener =
+[
+    [ "DidBeginBatch", "dd/d5b/interfacens_i_transaction_listener.html#a8356309ea0e99be72e8a828e00524fc8", null ],
+    [ "didBeginBatch", "dd/d5b/interfacens_i_transaction_listener.html#a4c3d50014e31b9397632014768315036", null ],
+    [ "DidDo", "dd/d5b/interfacens_i_transaction_listener.html#a8f002be71bdd7326a8f743080719cc55", null ],
+    [ "didDo", "dd/d5b/interfacens_i_transaction_listener.html#a3283b12eaba1355f02bfc6112b9d68b7", null ],
+    [ "DidEndBatch", "dd/d5b/interfacens_i_transaction_listener.html#a9afab86494f7cbf9a25f0c06f4d80091", null ],
+    [ "didEndBatch", "dd/d5b/interfacens_i_transaction_listener.html#a98b03164d95e076c37d1690c423fa8d2", null ],
+    [ "DidMerge", "dd/d5b/interfacens_i_transaction_listener.html#a62e08db17dcc12e59dbd6d5d56ae005b", null ],
+    [ "didMerge", "dd/d5b/interfacens_i_transaction_listener.html#aa8a5ddfdd9a0924fcc7f0d107c88e0a5", null ],
+    [ "DidRedo", "dd/d5b/interfacens_i_transaction_listener.html#afc72420857fa51ac6d1bd326c099d531", null ],
+    [ "didRedo", "dd/d5b/interfacens_i_transaction_listener.html#ae2cde6a901e2672fdaf88c1447cb925b", null ],
+    [ "DidUndo", "dd/d5b/interfacens_i_transaction_listener.html#a4758dcc29c2a658fb58b45a6b76554d7", null ],
+    [ "didUndo", "dd/d5b/interfacens_i_transaction_listener.html#a96e2ddd4951bfacbed5a9c85f856ee71", null ],
+    [ "WillBeginBatch", "dd/d5b/interfacens_i_transaction_listener.html#a8c0a00a29e11e16ac6899a69b99f032d", null ],
+    [ "willBeginBatch", "dd/d5b/interfacens_i_transaction_listener.html#a94db439b156ba86babf3d28d492bb27d", null ],
+    [ "willDo", "dd/d5b/interfacens_i_transaction_listener.html#a8be54e78c8942a130026f7f6604ba7f1", null ],
+    [ "WillDo", "dd/d5b/interfacens_i_transaction_listener.html#a091f54ad7b2cbf1f4059e0881fce4c74", null ],
+    [ "WillEndBatch", "dd/d5b/interfacens_i_transaction_listener.html#a5af6267801b97afc6f3a07631419e529", null ],
+    [ "willEndBatch", "dd/d5b/interfacens_i_transaction_listener.html#a62e628bbbf2bbfc781c85127fb0e7801", null ],
+    [ "WillMerge", "dd/d5b/interfacens_i_transaction_listener.html#afc86bdebe27b76e5d5d44cb99143f167", null ],
+    [ "willMerge", "dd/d5b/interfacens_i_transaction_listener.html#aa8000b1d85ad12fa8600a6867280ff27", null ],
+    [ "WillRedo", "dd/d5b/interfacens_i_transaction_listener.html#ac3c09c4923cee70259ac2d10361cac79", null ],
+    [ "willRedo", "dd/d5b/interfacens_i_transaction_listener.html#abafcb7d908c4a94102fc2cbf6c575646", null ],
+    [ "WillUndo", "dd/d5b/interfacens_i_transaction_listener.html#a0eee5fab93ce5b7a6b7c95f349b7a34e", null ],
+    [ "willUndo", "dd/d5b/interfacens_i_transaction_listener.html#a655a3704b6419f32ee43b9fbc6a44268", null ]
+];

@@ -1,0 +1,608 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: SkPath.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d4/d49/_sk_path_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">SkPath.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d4/d49/_sk_path_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00002"></a>00002 <span class="comment">/*</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright 2006 The Android Open Source Project</span>
+<a name="l00004"></a>00004 <span class="comment"> *</span>
+<a name="l00005"></a>00005 <span class="comment"> * Use of this source code is governed by a BSD-style license that can be</span>
+<a name="l00006"></a>00006 <span class="comment"> * found in the LICENSE file.</span>
+<a name="l00007"></a>00007 <span class="comment"> */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="preprocessor">#ifndef SkPath_DEFINED</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span><span class="preprocessor">#define SkPath_DEFINED</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/dac/_sk_inst_cnt_8h.html">SkInstCnt.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d71/_sk_matrix_8h.html">SkMatrix.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d4/d78/_sk_t_d_array_8h.html">SkTDArray.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d2b/_sk_ref_cnt_8h.html">SkRefCnt.h</a>&quot;</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 <span class="preprocessor">#ifdef SK_BUILD_FOR_ANDROID</span>
+<a name="l00019"></a>00019 <span class="preprocessor"></span><span class="preprocessor">#define GEN_ID_INC              fGenerationID++</span>
+<a name="l00020"></a>00020 <span class="preprocessor"></span><span class="preprocessor">#define GEN_ID_PTR_INC(ptr)     ptr-&gt;fGenerationID++</span>
+<a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00022"></a><a class="code" href="../../d4/d49/_sk_path_8h.html#a3891508dc2d722a74fc7e0f46fb07e6d">00022</a> <span class="preprocessor"></span><span class="preprocessor">#define GEN_ID_INC</span>
+<a name="l00023"></a><a class="code" href="../../d4/d49/_sk_path_8h.html#ab4f34b7b556f580d3f97661c8cb8922f">00023</a> <span class="preprocessor"></span><span class="preprocessor">#define GEN_ID_PTR_INC(ptr)</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span>
+<a name="l00026"></a>00026 <span class="keyword">class </span><a class="code" href="../../d7/da6/class_sk_reader32.html">SkReader32</a>;
+<a name="l00027"></a>00027 <span class="keyword">class </span><a class="code" href="../../d0/d4e/class_sk_writer32.html">SkWriter32</a>;
+<a name="l00028"></a>00028 <span class="keyword">class </span>SkAutoPathBoundsUpdate;
+<a name="l00029"></a>00029 <span class="keyword">class </span><a class="code" href="../../d1/d9c/class_sk_string.html">SkString</a>;
+<a name="l00030"></a>00030 <span class="keyword">class </span>SkPathRef;
+<a name="l00031"></a>00031 <span class="keyword">class </span>SkRRect;
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="preprocessor">#ifndef SK_DEBUG_PATH_REF</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span><span class="preprocessor">    #define SK_DEBUG_PATH_REF 0</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span>
+<a name="l00042"></a><a class="code" href="../../de/d98/class_sk_path.html">00042</a> <span class="keyword">class </span><a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a> {
+<a name="l00043"></a>00043 <span class="keyword">public</span>:
+<a name="l00044"></a>00044     <a class="code" href="../../dd/dac/_sk_inst_cnt_8h.html#a7136b485930f42507d7a697522f02d11">SK_DECLARE_INST_COUNT_ROOT</a>(<a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>);
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>();
+<a name="l00047"></a>00047     <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp;);
+<a name="l00048"></a>00048     ~<a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>();
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050     <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp;);
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052     <span class="keyword">friend</span>  <a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <span class="keywordtype">bool</span> <a class="code" href="../../dd/dc3/gfx_font_features_8h.html#a33768cf980b69a442792490564d1c763">operator==</a>(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp;, <span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp;);
+<a name="l00053"></a><a class="code" href="../../de/d98/class_sk_path.html#a4f95dae0ce68ac158edb5bf7a5a19260">00053</a>     <span class="keyword">friend</span> <span class="keywordtype">bool</span> <a class="code" href="../../de/d98/class_sk_path.html#a4f95dae0ce68ac158edb5bf7a5a19260">operator!=</a>(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; <a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>, <span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>) {
+<a name="l00054"></a>00054         <span class="keywordflow">return</span> !(a == <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>);
+<a name="l00055"></a>00055     }
+<a name="l00056"></a>00056 
+<a name="l00057"></a><a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860">00057</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860">FillType</a> {
+<a name="l00061"></a><a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860a2bd7a1f8953567ab92460abdd0d5a3f7">00061</a>         <a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860a2bd7a1f8953567ab92460abdd0d5a3f7">kWinding_FillType</a>,
+<a name="l00065"></a><a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860a228d5a94d3e580d89c0d270c48f55806">00065</a>         <a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860a228d5a94d3e580d89c0d270c48f55806">kEvenOdd_FillType</a>,
+<a name="l00068"></a><a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860ad52e082a33fb2c4f2b9b4ca4668ba1a9">00068</a>         <a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860ad52e082a33fb2c4f2b9b4ca4668ba1a9">kInverseWinding_FillType</a>,
+<a name="l00071"></a><a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860af6222c9ea17fe900c9399771030a3d71">00071</a>         kInverseEvenOdd_FillType
+<a name="l00072"></a>00072     };
+<a name="l00073"></a>00073 
+<a name="l00079"></a><a class="code" href="../../de/d98/class_sk_path.html#a11445e27897462723702862418a84421">00079</a>     <a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860">FillType</a> <a class="code" href="../../de/d98/class_sk_path.html#a11445e27897462723702862418a84421">getFillType</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> (<a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860">FillType</a>)fFillType; }
+<a name="l00080"></a>00080 
+<a name="l00086"></a><a class="code" href="../../de/d98/class_sk_path.html#a96ba92aa41a39a1033a5271f827962c6">00086</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#a96ba92aa41a39a1033a5271f827962c6">setFillType</a>(<a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860">FillType</a> ft) {
+<a name="l00087"></a>00087         fFillType = <a class="code" href="../../d3/d36/_sk_types_8h.html#a92b46923ca4f2f17bd7dd19ba9c3d24f">SkToU8</a>(ft);
+<a name="l00088"></a>00088         <a class="code" href="../../d4/d49/_sk_path_8h.html#a3891508dc2d722a74fc7e0f46fb07e6d">GEN_ID_INC</a>;
+<a name="l00089"></a>00089     }
+<a name="l00090"></a>00090 
+<a name="l00092"></a><a class="code" href="../../de/d98/class_sk_path.html#ab06be58a4ae5af15c4e8aad47805d281">00092</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/d98/class_sk_path.html#ab06be58a4ae5af15c4e8aad47805d281">isInverseFillType</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> IsInverseFillType((<a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860">FillType</a>)fFillType); }
+<a name="l00093"></a>00093 
+<a name="l00098"></a><a class="code" href="../../de/d98/class_sk_path.html#a557a2b002743e15d9bd4f14b0aee3ea6">00098</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#a557a2b002743e15d9bd4f14b0aee3ea6">toggleInverseFillType</a>() {
+<a name="l00099"></a>00099         fFillType ^= 2;
+<a name="l00100"></a>00100         <a class="code" href="../../d4/d49/_sk_path_8h.html#a3891508dc2d722a74fc7e0f46fb07e6d">GEN_ID_INC</a>;
+<a name="l00101"></a>00101      }
+<a name="l00102"></a>00102 
+<a name="l00103"></a><a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8d">00103</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8d">Convexity</a> {
+<a name="l00104"></a><a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8da916891456b7ec89dc7aee4b7f39ad65a">00104</a>         <a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8da916891456b7ec89dc7aee4b7f39ad65a">kUnknown_Convexity</a>,
+<a name="l00105"></a><a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8da3c8b5af1e6e7779ccf7299e17546a9c4">00105</a>         <a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8da3c8b5af1e6e7779ccf7299e17546a9c4">kConvex_Convexity</a>,
+<a name="l00106"></a><a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8da94674c4a93bd53e441ce69be69444625">00106</a>         kConcave_Convexity
+<a name="l00107"></a>00107     };
+<a name="l00108"></a>00108 
+<a name="l00113"></a><a class="code" href="../../de/d98/class_sk_path.html#ab2d9ef202f22d5b32b312602516afc71">00113</a>     <a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8d">Convexity</a> <a class="code" href="../../de/d98/class_sk_path.html#ab2d9ef202f22d5b32b312602516afc71">getConvexity</a>()<span class="keyword"> const </span>{
+<a name="l00114"></a>00114         <span class="keywordflow">if</span> (kUnknown_Convexity != fConvexity) {
+<a name="l00115"></a>00115             <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8d">Convexity</a><span class="keyword">&gt;</span>(fConvexity);
+<a name="l00116"></a>00116         } <span class="keywordflow">else</span> {
+<a name="l00117"></a>00117             <span class="keywordflow">return</span> this-&gt;internalGetConvexity();
+<a name="l00118"></a>00118         }
+<a name="l00119"></a>00119     }
+<a name="l00120"></a>00120 
+<a name="l00127"></a><a class="code" href="../../de/d98/class_sk_path.html#a0f4897fa8bebd40125ec467e5ee0d6ad">00127</a>     <a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8d">Convexity</a> <a class="code" href="../../de/d98/class_sk_path.html#a0f4897fa8bebd40125ec467e5ee0d6ad">getConvexityOrUnknown</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> (<a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8d">Convexity</a>)fConvexity; }
+<a name="l00128"></a>00128 
+<a name="l00138"></a>00138     <span class="keywordtype">void</span> setConvexity(Convexity);
+<a name="l00139"></a>00139 
+<a name="l00145"></a><a class="code" href="../../de/d98/class_sk_path.html#ab57a7e703ec5330999a573fcf3142448">00145</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/d98/class_sk_path.html#ab57a7e703ec5330999a573fcf3142448">isConvex</a>()<span class="keyword"> const </span>{
+<a name="l00146"></a>00146         <span class="keywordflow">return</span> kConvex_Convexity == this-&gt;getConvexity();
+<a name="l00147"></a>00147     }
+<a name="l00148"></a>00148 
+<a name="l00156"></a><a class="code" href="../../de/d98/class_sk_path.html#a20736530d85eb5b589b39854cf5b456b">00156</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#a20736530d85eb5b589b39854cf5b456b">setIsConvex</a>(<span class="keywordtype">bool</span> isConvex) {
+<a name="l00157"></a>00157         this-&gt;setConvexity(isConvex ? kConvex_Convexity : kConcave_Convexity);
+<a name="l00158"></a>00158     }
+<a name="l00159"></a>00159 
+<a name="l00170"></a>00170     <span class="keywordtype">bool</span> isOval(<a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>* rect) <span class="keyword">const</span>;
+<a name="l00171"></a>00171 
+<a name="l00176"></a>00176     <span class="keywordtype">void</span> <a class="code" href="../../db/dac/mock__picker_8js.html#aed26045338f591d889d2a8bf699451ef">reset</a>();
+<a name="l00177"></a>00177 
+<a name="l00183"></a>00183     <span class="keywordtype">void</span> rewind();
+<a name="l00184"></a>00184 
+<a name="l00189"></a>00189     <span class="keywordtype">bool</span> isEmpty() <span class="keyword">const</span>;
+<a name="l00190"></a>00190 
+<a name="l00195"></a><a class="code" href="../../de/d98/class_sk_path.html#ae32c043f7dccdd41b6d9b736a3d2aa31">00195</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/d98/class_sk_path.html#ae32c043f7dccdd41b6d9b736a3d2aa31">isFinite</a>()<span class="keyword"> const </span>{
+<a name="l00196"></a>00196         <span class="keywordflow">if</span> (fBoundsIsDirty) {
+<a name="l00197"></a>00197             this-&gt;computeBounds();
+<a name="l00198"></a>00198         }
+<a name="l00199"></a>00199         <span class="keywordflow">return</span> <a class="code" href="../../d3/d36/_sk_types_8h.html#a103878b742d19374f6e93f301ad6d45c">SkToBool</a>(fIsFinite);
+<a name="l00200"></a>00200     }
+<a name="l00201"></a>00201 
+<a name="l00206"></a><a class="code" href="../../de/d98/class_sk_path.html#af6a92b4ecbad66806b09ee72d6ca3fc3">00206</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../de/d98/class_sk_path.html#af6a92b4ecbad66806b09ee72d6ca3fc3">IsLineDegenerate</a>(<span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p1, <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p2) {
+<a name="l00207"></a>00207         <span class="keywordflow">return</span> p1.<a class="code" href="../../d3/d20/struct_sk_point.html#aae2ab381baba4a9509aeb0482cc2f1b3">equalsWithinTolerance</a>(p2);
+<a name="l00208"></a>00208     }
+<a name="l00209"></a>00209 
+<a name="l00214"></a><a class="code" href="../../de/d98/class_sk_path.html#ae4c7d4d7802fd388655678a596f75882">00214</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> IsQuadDegenerate(<span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p1, <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p2,
+<a name="l00215"></a>00215                                  <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p3) {
+<a name="l00216"></a>00216         <span class="keywordflow">return</span> p1.<a class="code" href="../../d3/d20/struct_sk_point.html#aae2ab381baba4a9509aeb0482cc2f1b3">equalsWithinTolerance</a>(p2) &amp;&amp;
+<a name="l00217"></a>00217                p2.<a class="code" href="../../d3/d20/struct_sk_point.html#aae2ab381baba4a9509aeb0482cc2f1b3">equalsWithinTolerance</a>(p3);
+<a name="l00218"></a>00218     }
+<a name="l00219"></a>00219 
+<a name="l00224"></a><a class="code" href="../../de/d98/class_sk_path.html#a1bf7ec8959d3b7f34c14e90de4052b15">00224</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> IsCubicDegenerate(<span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p1, <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p2,
+<a name="l00225"></a>00225                                   <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p3, <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p4) {
+<a name="l00226"></a>00226         <span class="keywordflow">return</span> p1.<a class="code" href="../../d3/d20/struct_sk_point.html#aae2ab381baba4a9509aeb0482cc2f1b3">equalsWithinTolerance</a>(p2) &amp;&amp;
+<a name="l00227"></a>00227                p2.<a class="code" href="../../d3/d20/struct_sk_point.html#aae2ab381baba4a9509aeb0482cc2f1b3">equalsWithinTolerance</a>(p3) &amp;&amp;
+<a name="l00228"></a>00228                p3.<a class="code" href="../../d3/d20/struct_sk_point.html#aae2ab381baba4a9509aeb0482cc2f1b3">equalsWithinTolerance</a>(p4);
+<a name="l00229"></a>00229     }
+<a name="l00230"></a>00230 
+<a name="l00237"></a>00237     <span class="keywordtype">bool</span> isLine(<a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> <a class="code" href="../../da/d7d/cook_8js.html#ae379b8c31475b8ad7712b7ead5ce1173">line</a>[2]) <span class="keyword">const</span>;
+<a name="l00238"></a>00238 
+<a name="l00247"></a>00247     <span class="keywordtype">bool</span> isRect(<a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>* rect) <span class="keyword">const</span>;
+<a name="l00248"></a>00248 
+<a name="l00257"></a>00257     <span class="keywordtype">bool</span> isNestedRects(<a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a> rect[2]) <span class="keyword">const</span>;
+<a name="l00258"></a>00258 
+<a name="l00261"></a>00261     <span class="keywordtype">int</span> countPoints() <span class="keyword">const</span>;
+<a name="l00262"></a>00262 
+<a name="l00267"></a>00267     <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> getPoint(<span class="keywordtype">int</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>) <span class="keyword">const</span>;
+<a name="l00268"></a>00268 
+<a name="l00275"></a>00275     <span class="keywordtype">int</span> getPoints(<a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> points[], <span class="keywordtype">int</span> <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>) <span class="keyword">const</span>;
+<a name="l00276"></a>00276 
+<a name="l00279"></a>00279     <span class="keywordtype">int</span> countVerbs() <span class="keyword">const</span>;
+<a name="l00280"></a>00280 
+<a name="l00288"></a>00288     <span class="keywordtype">int</span> getVerbs(uint8_t verbs[], <span class="keywordtype">int</span> <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>) <span class="keyword">const</span>;
+<a name="l00289"></a>00289 
+<a name="l00291"></a>00291     <span class="keywordtype">void</span> swap(<a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; other);
+<a name="l00292"></a>00292 
+<a name="l00298"></a><a class="code" href="../../de/d98/class_sk_path.html#af012f9f7f174a54d627ab336af5a5d8d">00298</a>     <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; <a class="code" href="../../de/d98/class_sk_path.html#af012f9f7f174a54d627ab336af5a5d8d">getBounds</a>()<span class="keyword"> const </span>{
+<a name="l00299"></a>00299         <span class="keywordflow">if</span> (fBoundsIsDirty) {
+<a name="l00300"></a>00300             this-&gt;computeBounds();
+<a name="l00301"></a>00301         }
+<a name="l00302"></a>00302         <span class="keywordflow">return</span> fBounds;
+<a name="l00303"></a>00303     }
+<a name="l00304"></a>00304 
+<a name="l00310"></a><a class="code" href="../../de/d98/class_sk_path.html#a2a2d08fa226258418ebcdeabc4652ae6">00310</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#a2a2d08fa226258418ebcdeabc4652ae6">updateBoundsCache</a>()<span class="keyword"> const </span>{
+<a name="l00311"></a>00311         <span class="comment">// for now, just calling getBounds() is sufficient</span>
+<a name="l00312"></a>00312         this-&gt;getBounds();
+<a name="l00313"></a>00313     }
+<a name="l00314"></a>00314 
+<a name="l00321"></a>00321     <span class="keywordtype">bool</span> conservativelyContainsRect(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; rect) <span class="keyword">const</span>;
+<a name="l00322"></a>00322 
+<a name="l00323"></a>00323     <span class="comment">//  Construction methods</span>
+<a name="l00324"></a>00324 
+<a name="l00331"></a>00331     <span class="keywordtype">void</span> incReserve(<span class="keywordtype">unsigned</span> extraPtCount);
+<a name="l00332"></a>00332 
+<a name="l00338"></a>00338     <span class="keywordtype">void</span> moveTo(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y);
+<a name="l00339"></a>00339 
+<a name="l00344"></a><a class="code" href="../../de/d98/class_sk_path.html#a6871d2e9b0d91f4ddffcc02bf9bce71c">00344</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#a6871d2e9b0d91f4ddffcc02bf9bce71c">moveTo</a>(<span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>) {
+<a name="l00345"></a>00345         this-&gt;moveTo(p.<a class="code" href="../../d3/d20/struct_sk_point.html#a6f9d1589115b5d830a0fc4e8ba807588">fX</a>, p.<a class="code" href="../../d3/d20/struct_sk_point.html#aa4a1cf22654bc989cde09430b431b1e5">fY</a>);
+<a name="l00346"></a>00346     }
+<a name="l00347"></a>00347 
+<a name="l00357"></a>00357     <span class="keywordtype">void</span> rMoveTo(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dx, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dy);
+<a name="l00358"></a>00358 
+<a name="l00366"></a>00366     <span class="keywordtype">void</span> lineTo(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y);
+<a name="l00367"></a>00367 
+<a name="l00374"></a><a class="code" href="../../de/d98/class_sk_path.html#afd2d1bf6e797f7421168cfaf98a5e5ee">00374</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#afd2d1bf6e797f7421168cfaf98a5e5ee">lineTo</a>(<span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>) {
+<a name="l00375"></a>00375         this-&gt;lineTo(p.<a class="code" href="../../d3/d20/struct_sk_point.html#a6f9d1589115b5d830a0fc4e8ba807588">fX</a>, p.<a class="code" href="../../d3/d20/struct_sk_point.html#aa4a1cf22654bc989cde09430b431b1e5">fY</a>);
+<a name="l00376"></a>00376     }
+<a name="l00377"></a>00377 
+<a name="l00387"></a>00387     <span class="keywordtype">void</span> rLineTo(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dx, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dy);
+<a name="l00388"></a>00388 
+<a name="l00398"></a>00398     <span class="keywordtype">void</span> quadTo(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x2, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y2);
+<a name="l00399"></a>00399 
+<a name="l00407"></a><a class="code" href="../../de/d98/class_sk_path.html#aaa8d57ef78caeac2c36c0a9bcf5373a4">00407</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#aaa8d57ef78caeac2c36c0a9bcf5373a4">quadTo</a>(<span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p1, <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p2) {
+<a name="l00408"></a>00408         this-&gt;quadTo(p1.<a class="code" href="../../d3/d20/struct_sk_point.html#a6f9d1589115b5d830a0fc4e8ba807588">fX</a>, p1.<a class="code" href="../../d3/d20/struct_sk_point.html#aa4a1cf22654bc989cde09430b431b1e5">fY</a>, p2.<a class="code" href="../../d3/d20/struct_sk_point.html#a6f9d1589115b5d830a0fc4e8ba807588">fX</a>, p2.<a class="code" href="../../d3/d20/struct_sk_point.html#aa4a1cf22654bc989cde09430b431b1e5">fY</a>);
+<a name="l00409"></a>00409     }
+<a name="l00410"></a>00410 
+<a name="l00424"></a>00424     <span class="keywordtype">void</span> rQuadTo(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dx1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dy1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dx2, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dy2);
+<a name="l00425"></a>00425 
+<a name="l00437"></a>00437     <span class="keywordtype">void</span> cubicTo(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x2, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y2,
+<a name="l00438"></a>00438                  <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x3, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y3);
+<a name="l00439"></a>00439 
+<a name="l00448"></a><a class="code" href="../../de/d98/class_sk_path.html#a81203ab9455c027daa656a5740e2c4b4">00448</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#a81203ab9455c027daa656a5740e2c4b4">cubicTo</a>(<span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p1, <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p2, <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; p3) {
+<a name="l00449"></a>00449         this-&gt;cubicTo(p1.<a class="code" href="../../d3/d20/struct_sk_point.html#a6f9d1589115b5d830a0fc4e8ba807588">fX</a>, p1.<a class="code" href="../../d3/d20/struct_sk_point.html#aa4a1cf22654bc989cde09430b431b1e5">fY</a>, p2.<a class="code" href="../../d3/d20/struct_sk_point.html#a6f9d1589115b5d830a0fc4e8ba807588">fX</a>, p2.<a class="code" href="../../d3/d20/struct_sk_point.html#aa4a1cf22654bc989cde09430b431b1e5">fY</a>, p3.<a class="code" href="../../d3/d20/struct_sk_point.html#a6f9d1589115b5d830a0fc4e8ba807588">fX</a>, p3.<a class="code" href="../../d3/d20/struct_sk_point.html#aa4a1cf22654bc989cde09430b431b1e5">fY</a>);
+<a name="l00450"></a>00450     }
+<a name="l00451"></a>00451 
+<a name="l00469"></a>00469     <span class="keywordtype">void</span>    rCubicTo(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x2, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y2,
+<a name="l00470"></a>00470                      <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x3, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y3);
+<a name="l00471"></a>00471 
+<a name="l00484"></a>00484     <span class="keywordtype">void</span>    arcTo(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; oval, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> startAngle, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> sweepAngle,
+<a name="l00485"></a>00485                   <span class="keywordtype">bool</span> forceMoveTo);
+<a name="l00486"></a>00486 
+<a name="l00490"></a>00490     <span class="keywordtype">void</span> arcTo(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x2, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y2,
+<a name="l00491"></a>00491                <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> radius);
+<a name="l00492"></a>00492 
+<a name="l00496"></a><a class="code" href="../../de/d98/class_sk_path.html#ab7d09c593adfbeab3c8af67ce3a57a43">00496</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#ab7d09c593adfbeab3c8af67ce3a57a43">arcTo</a>(<span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> p1, <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> p2, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> radius) {
+<a name="l00497"></a>00497         this-&gt;arcTo(p1.<a class="code" href="../../d3/d20/struct_sk_point.html#a6f9d1589115b5d830a0fc4e8ba807588">fX</a>, p1.<a class="code" href="../../d3/d20/struct_sk_point.html#aa4a1cf22654bc989cde09430b431b1e5">fY</a>, p2.<a class="code" href="../../d3/d20/struct_sk_point.html#a6f9d1589115b5d830a0fc4e8ba807588">fX</a>, p2.<a class="code" href="../../d3/d20/struct_sk_point.html#aa4a1cf22654bc989cde09430b431b1e5">fY</a>, radius);
+<a name="l00498"></a>00498     }
+<a name="l00499"></a>00499 
+<a name="l00503"></a>00503     <span class="keywordtype">void</span> <a class="code" href="../../dd/df0/dialogs__end__init_8js.html#acdb1449d11a5550a30ee4a18b9c7f133">close</a>();
+<a name="l00504"></a>00504 
+<a name="l00505"></a><a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1">00505</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1">Direction</a> {
+<a name="l00507"></a><a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1a43ef75b8f6193f9aeea3e0e40556aee8">00507</a>         <a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1a43ef75b8f6193f9aeea3e0e40556aee8">kUnknown_Direction</a>,
+<a name="l00509"></a><a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1a497f86fc57c72dd344d7fed5a86ca1ae">00509</a>         <a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1a497f86fc57c72dd344d7fed5a86ca1ae">kCW_Direction</a>,
+<a name="l00511"></a><a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1a9b700fa34bc9d161c6c279e9618add96">00511</a>         <a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1a9b700fa34bc9d161c6c279e9618add96">kCCW_Direction</a>,
+<a name="l00512"></a>00512     };
+<a name="l00513"></a>00513 
+<a name="l00518"></a><a class="code" href="../../de/d98/class_sk_path.html#acc1df46f1b58cc555b9022b885e719b4">00518</a>     <span class="keyword">static</span> <a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1">Direction</a> <a class="code" href="../../de/d98/class_sk_path.html#acc1df46f1b58cc555b9022b885e719b4">OppositeDirection</a>(<a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1">Direction</a> <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a>) {
+<a name="l00519"></a>00519         <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1">Direction</a> gOppositeDir[] = {
+<a name="l00520"></a>00520             kUnknown_Direction, kCCW_Direction, kCW_Direction
+<a name="l00521"></a>00521         };
+<a name="l00522"></a>00522         <span class="keywordflow">return</span> gOppositeDir[<a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a>];
+<a name="l00523"></a>00523     }
+<a name="l00524"></a>00524 
+<a name="l00533"></a><a class="code" href="../../de/d98/class_sk_path.html#a6f7a80aef87307507f13b44812499a24">00533</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../de/d98/class_sk_path.html#a6f7a80aef87307507f13b44812499a24">IsInverseFillType</a>(<a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860">FillType</a> fill) {
+<a name="l00534"></a>00534         <a class="code" href="../../d3/d36/_sk_types_8h.html#a2323dfec288bc7fd98e1dcde556a64c9">SK_COMPILE_ASSERT</a>(0 == kWinding_FillType, fill_type_mismatch);
+<a name="l00535"></a>00535         <a class="code" href="../../d3/d36/_sk_types_8h.html#a2323dfec288bc7fd98e1dcde556a64c9">SK_COMPILE_ASSERT</a>(1 == kEvenOdd_FillType, fill_type_mismatch);
+<a name="l00536"></a>00536         <a class="code" href="../../d3/d36/_sk_types_8h.html#a2323dfec288bc7fd98e1dcde556a64c9">SK_COMPILE_ASSERT</a>(2 == kInverseWinding_FillType, fill_type_mismatch);
+<a name="l00537"></a>00537         <a class="code" href="../../d3/d36/_sk_types_8h.html#a2323dfec288bc7fd98e1dcde556a64c9">SK_COMPILE_ASSERT</a>(3 == kInverseEvenOdd_FillType, fill_type_mismatch);
+<a name="l00538"></a>00538         <span class="keywordflow">return</span> (fill &amp; 2) != 0;
+<a name="l00539"></a>00539     }
+<a name="l00540"></a>00540 
+<a name="l00549"></a><a class="code" href="../../de/d98/class_sk_path.html#a587e68ee5dced56807e2e162db51e8ed">00549</a>     <span class="keyword">static</span> <a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860">FillType</a> <a class="code" href="../../de/d98/class_sk_path.html#a587e68ee5dced56807e2e162db51e8ed">ConvertToNonInverseFillType</a>(<a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860">FillType</a> fill) {
+<a name="l00550"></a>00550         <a class="code" href="../../d3/d36/_sk_types_8h.html#a2323dfec288bc7fd98e1dcde556a64c9">SK_COMPILE_ASSERT</a>(0 == kWinding_FillType, fill_type_mismatch);
+<a name="l00551"></a>00551         <a class="code" href="../../d3/d36/_sk_types_8h.html#a2323dfec288bc7fd98e1dcde556a64c9">SK_COMPILE_ASSERT</a>(1 == kEvenOdd_FillType, fill_type_mismatch);
+<a name="l00552"></a>00552         <a class="code" href="../../d3/d36/_sk_types_8h.html#a2323dfec288bc7fd98e1dcde556a64c9">SK_COMPILE_ASSERT</a>(2 == kInverseWinding_FillType, fill_type_mismatch);
+<a name="l00553"></a>00553         <a class="code" href="../../d3/d36/_sk_types_8h.html#a2323dfec288bc7fd98e1dcde556a64c9">SK_COMPILE_ASSERT</a>(3 == kInverseEvenOdd_FillType, fill_type_mismatch);
+<a name="l00554"></a>00554         <span class="keywordflow">return</span> (<a class="code" href="../../de/d98/class_sk_path.html#a6b53bab79d38b6843e1e4cc8920a1860">FillType</a>)(fill &amp; 1);
+<a name="l00555"></a>00555     }
+<a name="l00556"></a>00556 
+<a name="l00564"></a>00564     <span class="keywordtype">bool</span> cheapComputeDirection(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2a9ece2a66508b59ec01d27c6abc72a8">Direction</a>* <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a>) <span class="keyword">const</span>;
+<a name="l00565"></a>00565 
+<a name="l00572"></a><a class="code" href="../../de/d98/class_sk_path.html#a9d7791f752c3ffa9d250e80c4e3770b0">00572</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/d98/class_sk_path.html#a9d7791f752c3ffa9d250e80c4e3770b0">cheapIsDirection</a>(<a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1">Direction</a> <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a>)<span class="keyword"> const </span>{
+<a name="l00573"></a>00573         <a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1">Direction</a> computedDir = kUnknown_Direction;
+<a name="l00574"></a>00574         (<a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a>)this-&gt;cheapComputeDirection(&amp;computedDir);
+<a name="l00575"></a>00575         <span class="keywordflow">return</span> computedDir == <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a>;
+<a name="l00576"></a>00576     }
+<a name="l00577"></a>00577 
+<a name="l00587"></a>00587     <span class="keywordtype">bool</span> isRect(<span class="keywordtype">bool</span>* isClosed, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2a9ece2a66508b59ec01d27c6abc72a8">Direction</a>* <a class="code" href="../../d3/d91/j3d_8js.html#ad0dea711cdf3eaf35d6e1dfde0f163b3">direction</a>) <span class="keyword">const</span>;
+<a name="l00588"></a>00588 
+<a name="l00595"></a>00595     <span class="keywordtype">void</span>    addRect(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; rect, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2a9ece2a66508b59ec01d27c6abc72a8">Direction</a> <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a> = kCW_Direction);
+<a name="l00596"></a>00596 
+<a name="l00611"></a>00611     <span class="keywordtype">void</span> addRect(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d3/d91/j3d_8js.html#a47b6aed05bc344861b52fe3ffb7a1edd">left</a>, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2d367ff48e26f53b84f9b2fe7d6065d6">top</a>, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#a06a61119547d88fbcdf5e877c6c9057e">right</a>, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a1386b7cb1f9c56a6b37af9a4a37c5209">bottom</a>,
+<a name="l00612"></a>00612                  <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2a9ece2a66508b59ec01d27c6abc72a8">Direction</a> <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a> = kCW_Direction);
+<a name="l00613"></a>00613 
+<a name="l00621"></a>00621     <span class="keywordtype">void</span> addOval(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; oval, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2a9ece2a66508b59ec01d27c6abc72a8">Direction</a> <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a> = kCW_Direction);
+<a name="l00622"></a>00622 
+<a name="l00635"></a>00635     <span class="keywordtype">void</span> addCircle(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> radius,
+<a name="l00636"></a>00636                    <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2a9ece2a66508b59ec01d27c6abc72a8">Direction</a> <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a> = kCW_Direction);
+<a name="l00637"></a>00637 
+<a name="l00644"></a>00644     <span class="keywordtype">void</span> addArc(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; oval, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> startAngle, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> sweepAngle);
+<a name="l00645"></a>00645 
+<a name="l00654"></a>00654     <span class="keywordtype">void</span>    addRoundRect(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; rect, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> rx, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> ry,
+<a name="l00655"></a>00655                          <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2a9ece2a66508b59ec01d27c6abc72a8">Direction</a> <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a> = kCW_Direction);
+<a name="l00656"></a>00656 
+<a name="l00669"></a>00669     <span class="keywordtype">void</span> addRoundRect(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; rect, <span class="keyword">const</span> <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> radii[],
+<a name="l00670"></a>00670                       <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2a9ece2a66508b59ec01d27c6abc72a8">Direction</a> <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a> = kCW_Direction);
+<a name="l00671"></a>00671 
+<a name="l00678"></a>00678     <span class="keywordtype">void</span> addRRect(<span class="keyword">const</span> SkRRect&amp; rrect, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2a9ece2a66508b59ec01d27c6abc72a8">Direction</a> <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a> = kCW_Direction);
+<a name="l00679"></a>00679 
+<a name="l00691"></a>00691     <span class="keywordtype">void</span> addPoly(<span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> pts[], <span class="keywordtype">int</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>, <span class="keywordtype">bool</span> <a class="code" href="../../dd/df0/dialogs__end__init_8js.html#acdb1449d11a5550a30ee4a18b9c7f133">close</a>);
+<a name="l00692"></a>00692 
+<a name="l00698"></a>00698     <span class="keywordtype">void</span> addPath(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; src, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dx, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dy);
+<a name="l00699"></a>00699 
+<a name="l00702"></a><a class="code" href="../../de/d98/class_sk_path.html#a080b2d243eedc10a6c6224b028770652">00702</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#a080b2d243eedc10a6c6224b028770652">addPath</a>(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; src) {
+<a name="l00703"></a>00703         <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a> m;
+<a name="l00704"></a>00704         m.<a class="code" href="../../db/dd6/class_sk_matrix.html#ab486b5da14ff3451bb4e6e5b28e999eb">reset</a>();
+<a name="l00705"></a>00705         this-&gt;addPath(src, m);
+<a name="l00706"></a>00706     }
+<a name="l00707"></a>00707 
+<a name="l00711"></a>00711     <span class="keywordtype">void</span> addPath(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; src, <span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>&amp; matrix);
+<a name="l00712"></a>00712 
+<a name="l00716"></a>00716     <span class="keywordtype">void</span> reverseAddPath(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; src);
+<a name="l00717"></a>00717 
+<a name="l00724"></a>00724     <span class="keywordtype">void</span> <a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dx, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dy, <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>* dst) <span class="keyword">const</span>;
+<a name="l00725"></a>00725 
+<a name="l00731"></a><a class="code" href="../../de/d98/class_sk_path.html#a62a6ccd0f6608a0decb3af050d81da21">00731</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#a62a6ccd0f6608a0decb3af050d81da21">offset</a>(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dx, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dy) {
+<a name="l00732"></a>00732         this-&gt;<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>(dx, dy, <span class="keyword">this</span>);
+<a name="l00733"></a>00733     }
+<a name="l00734"></a>00734 
+<a name="l00741"></a>00741     <span class="keywordtype">void</span> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a16f1a2d59c558394e62fa83237fbd076">transform</a>(<span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>&amp; matrix, <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>* dst) <span class="keyword">const</span>;
+<a name="l00742"></a>00742 
+<a name="l00747"></a><a class="code" href="../../de/d98/class_sk_path.html#aba71c894ce50fdabdcb67760ffa334ce">00747</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#aba71c894ce50fdabdcb67760ffa334ce">transform</a>(<span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>&amp; matrix) {
+<a name="l00748"></a>00748         this-&gt;<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a16f1a2d59c558394e62fa83237fbd076">transform</a>(matrix, <span class="keyword">this</span>);
+<a name="l00749"></a>00749     }
+<a name="l00750"></a>00750 
+<a name="l00757"></a>00757     <span class="keywordtype">bool</span> getLastPt(<a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>* lastPt) <span class="keyword">const</span>;
+<a name="l00758"></a>00758 
+<a name="l00765"></a>00765     <span class="keywordtype">void</span> setLastPt(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y);
+<a name="l00766"></a>00766 
+<a name="l00772"></a><a class="code" href="../../de/d98/class_sk_path.html#a829354d382186c11a95b2214b40d1685">00772</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d98/class_sk_path.html#a829354d382186c11a95b2214b40d1685">setLastPt</a>(<span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>) {
+<a name="l00773"></a>00773         this-&gt;setLastPt(p.<a class="code" href="../../d3/d20/struct_sk_point.html#a6f9d1589115b5d830a0fc4e8ba807588">fX</a>, p.<a class="code" href="../../d3/d20/struct_sk_point.html#aa4a1cf22654bc989cde09430b431b1e5">fY</a>);
+<a name="l00774"></a>00774     }
+<a name="l00775"></a>00775 
+<a name="l00776"></a><a class="code" href="../../de/d98/class_sk_path.html#a01e9993d5bbded1779493179ffc143a7">00776</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d98/class_sk_path.html#a01e9993d5bbded1779493179ffc143a7">SegmentMask</a> {
+<a name="l00777"></a><a class="code" href="../../de/d98/class_sk_path.html#a01e9993d5bbded1779493179ffc143a7a2e8001dfacb5c9351cc62249a36b194f">00777</a>         kLine_SegmentMask   = 1 &lt;&lt; 0,
+<a name="l00778"></a><a class="code" href="../../de/d98/class_sk_path.html#a01e9993d5bbded1779493179ffc143a7a38891fd343ebf2818522415970489539">00778</a>         kQuad_SegmentMask   = 1 &lt;&lt; 1,
+<a name="l00779"></a><a class="code" href="../../de/d98/class_sk_path.html#a01e9993d5bbded1779493179ffc143a7a853da2894ed05081ae73330d71f990c4">00779</a>         kCubic_SegmentMask  = 1 &lt;&lt; 2
+<a name="l00780"></a>00780     };
+<a name="l00781"></a>00781 
+<a name="l00787"></a><a class="code" href="../../de/d98/class_sk_path.html#a1f95131525a7e89df5c80c96f8724a2e">00787</a>     uint32_t <a class="code" href="../../de/d98/class_sk_path.html#a1f95131525a7e89df5c80c96f8724a2e">getSegmentMasks</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> fSegmentMask; }
+<a name="l00788"></a>00788 
+<a name="l00789"></a><a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0">00789</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0">Verb</a> {
+<a name="l00790"></a><a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0a5f5b4f8d6b393705711d64db6528372f">00790</a>         <a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0a5f5b4f8d6b393705711d64db6528372f" title="iter.next returns 1 point">kMove_Verb</a>,     
+<a name="l00791"></a><a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0af551e324e26a662a5826fc5d19de8e46">00791</a>         <a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0af551e324e26a662a5826fc5d19de8e46" title="iter.next returns 2 points">kLine_Verb</a>,     
+<a name="l00792"></a><a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0ab2c02031eada4693dcf0f0724aec22a6">00792</a>         <a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0ab2c02031eada4693dcf0f0724aec22a6" title="iter.next returns 3 points">kQuad_Verb</a>,     
+<a name="l00793"></a><a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0a81c72908b490a45dccf8e762b35aca57">00793</a>         <a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0a81c72908b490a45dccf8e762b35aca57" title="iter.next returns 4 points">kCubic_Verb</a>,    
+<a name="l00794"></a><a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0a2fce826afa524a9b8c0d84e1ac1b0974">00794</a>         <a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0a2fce826afa524a9b8c0d84e1ac1b0974" title="iter.next returns 1 point (contour&#39;s moveTo pt)">kClose_Verb</a>,    
+<a name="l00795"></a><a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0a6feca1757317b2fbbce2184f5b51cc01">00795</a>         kDone_Verb      
+<a name="l00796"></a>00796     };
+<a name="l00797"></a>00797 
+<a name="l00807"></a><a class="code" href="../../d0/d7a/class_sk_path_1_1_iter.html">00807</a>     <span class="keyword">class </span><a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <a class="code" href="../../d0/d7a/class_sk_path_1_1_iter.html">Iter</a> {
+<a name="l00808"></a>00808     <span class="keyword">public</span>:
+<a name="l00809"></a>00809         <a class="code" href="../../d0/d7a/class_sk_path_1_1_iter.html">Iter</a>();
+<a name="l00810"></a>00810         <a class="code" href="../../d0/d7a/class_sk_path_1_1_iter.html">Iter</a>(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp;, <span class="keywordtype">bool</span> forceClose);
+<a name="l00811"></a>00811 
+<a name="l00812"></a>00812         <span class="keywordtype">void</span> setPath(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp;, <span class="keywordtype">bool</span> forceClose);
+<a name="l00813"></a>00813 
+<a name="l00822"></a><a class="code" href="../../d0/d7a/class_sk_path_1_1_iter.html#adc164963e5b2dfe0ee1a0b0ee7c0269c">00822</a>         <a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0">Verb</a> <a class="code" href="../../d0/d7a/class_sk_path_1_1_iter.html#adc164963e5b2dfe0ee1a0b0ee7c0269c">next</a>(<a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> pts[4], <span class="keywordtype">bool</span> doConsumeDegerates = <span class="keyword">true</span>) {
+<a name="l00823"></a>00823             <span class="keywordflow">if</span> (doConsumeDegerates) {
+<a name="l00824"></a>00824                 this-&gt;consumeDegenerateSegments();
+<a name="l00825"></a>00825             }
+<a name="l00826"></a>00826             <span class="keywordflow">return</span> this-&gt;doNext(pts);
+<a name="l00827"></a>00827         }
+<a name="l00828"></a>00828 
+<a name="l00837"></a><a class="code" href="../../d0/d7a/class_sk_path_1_1_iter.html#a7cdfda426239d0eed48d4b1c80d07246">00837</a>         <span class="keywordtype">bool</span> <a class="code" href="../../d0/d7a/class_sk_path_1_1_iter.html#a7cdfda426239d0eed48d4b1c80d07246">isCloseLine</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../d3/d36/_sk_types_8h.html#a103878b742d19374f6e93f301ad6d45c">SkToBool</a>(fCloseLine); }
+<a name="l00838"></a>00838 
+<a name="l00842"></a>00842         <span class="keywordtype">bool</span> isClosedContour() <span class="keyword">const</span>;
+<a name="l00843"></a>00843 
+<a name="l00844"></a>00844     <span class="keyword">private</span>:
+<a name="l00845"></a>00845         <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>*  fPts;
+<a name="l00846"></a>00846         <span class="keyword">const</span> uint8_t*  fVerbs;
+<a name="l00847"></a>00847         <span class="keyword">const</span> uint8_t*  fVerbStop;
+<a name="l00848"></a>00848         <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>         fMoveTo;
+<a name="l00849"></a>00849         <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>         fLastPt;
+<a name="l00850"></a>00850         <a class="code" href="../../d3/d36/_sk_types_8h.html#a6c7dec5c0a40866075ef185dd7a3eb42">SkBool8</a>         fForceClose;
+<a name="l00851"></a>00851         <a class="code" href="../../d3/d36/_sk_types_8h.html#a6c7dec5c0a40866075ef185dd7a3eb42">SkBool8</a>         fNeedClose;
+<a name="l00852"></a>00852         <a class="code" href="../../d3/d36/_sk_types_8h.html#a6c7dec5c0a40866075ef185dd7a3eb42">SkBool8</a>         fCloseLine;
+<a name="l00853"></a>00853         <a class="code" href="../../d3/d36/_sk_types_8h.html#a6c7dec5c0a40866075ef185dd7a3eb42">SkBool8</a>         fSegmentState;
+<a name="l00854"></a>00854 
+<a name="l00855"></a>00855         <span class="keyword">inline</span> <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>&amp; cons_moveTo();
+<a name="l00856"></a>00856         <a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0">Verb</a> autoClose(<a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> pts[2]);
+<a name="l00857"></a>00857         <span class="keywordtype">void</span> consumeDegenerateSegments();
+<a name="l00858"></a>00858         <a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0">Verb</a> doNext(<a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> pts[4]);
+<a name="l00859"></a>00859     };
+<a name="l00860"></a>00860 
+<a name="l00863"></a><a class="code" href="../../db/d94/class_sk_path_1_1_raw_iter.html">00863</a>     <span class="keyword">class </span><a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <a class="code" href="../../db/d94/class_sk_path_1_1_raw_iter.html">RawIter</a> {
+<a name="l00864"></a>00864     <span class="keyword">public</span>:
+<a name="l00865"></a>00865         <a class="code" href="../../db/d94/class_sk_path_1_1_raw_iter.html">RawIter</a>();
+<a name="l00866"></a>00866         <a class="code" href="../../db/d94/class_sk_path_1_1_raw_iter.html">RawIter</a>(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp;);
+<a name="l00867"></a>00867 
+<a name="l00868"></a>00868         <span class="keywordtype">void</span> setPath(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp;);
+<a name="l00869"></a>00869 
+<a name="l00877"></a>00877         <a class="code" href="../../de/d98/class_sk_path.html#ac36f638ac96f3428626e993eacf84ff0">Verb</a> next(<a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> pts[4]);
+<a name="l00878"></a>00878 
+<a name="l00879"></a>00879     <span class="keyword">private</span>:
+<a name="l00880"></a>00880         <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>*  fPts;
+<a name="l00881"></a>00881         <span class="keyword">const</span> uint8_t*  fVerbs;
+<a name="l00882"></a>00882         <span class="keyword">const</span> uint8_t*  fVerbStop;
+<a name="l00883"></a>00883         <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>         fMoveTo;
+<a name="l00884"></a>00884         <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>         fLastPt;
+<a name="l00885"></a>00885     };
+<a name="l00886"></a>00886 
+<a name="l00891"></a>00891     <span class="keywordtype">bool</span> contains(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y) <span class="keyword">const</span>;
+<a name="l00892"></a>00892 
+<a name="l00893"></a>00893     <span class="keywordtype">void</span> <a class="code" href="../../d6/d1b/pprthred_8h.html#a49e6921d95ff0b994cd312b3f856a8a6">dump</a>(<span class="keywordtype">bool</span> forceClose, <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a>[] = <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) <span class="keyword">const</span>;
+<a name="l00894"></a>00894     <span class="keywordtype">void</span> <a class="code" href="../../d6/d1b/pprthred_8h.html#a49e6921d95ff0b994cd312b3f856a8a6">dump</a>() <span class="keyword">const</span>;
+<a name="l00895"></a>00895 
+<a name="l00900"></a>00900     uint32_t writeToMemory(<span class="keywordtype">void</span>* <a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>) <span class="keyword">const</span>;
+<a name="l00905"></a>00905     uint32_t readFromMemory(<span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00906"></a>00906 
+<a name="l00907"></a>00907 <span class="preprocessor">#ifdef SK_BUILD_FOR_ANDROID</span>
+<a name="l00908"></a>00908 <span class="preprocessor"></span>    uint32_t getGenerationID() <span class="keyword">const</span>;
+<a name="l00909"></a>00909     <span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>* getSourcePath() <span class="keyword">const</span>;
+<a name="l00910"></a>00910     <span class="keywordtype">void</span> setSourcePath(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>* <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a>);
+<a name="l00911"></a>00911 <span class="preprocessor">#endif</span>
+<a name="l00912"></a>00912 <span class="preprocessor"></span>
+<a name="l00913"></a><a class="code" href="../../de/d98/class_sk_path.html#a582e38a39b9b0d5b54784b3d4d0f01fc">00913</a>     <a class="code" href="../../d3/d36/_sk_types_8h.html#ac13529d56d68425158ae36e3be60108a">SkDEBUGCODE</a>(<span class="keywordtype">void</span> <a class="code" href="../../d7/dee/_balance_low_limit_view_8js.html#ad3459b9c5b77e9560ef081306f863016">validate</a>() <span class="keyword">const</span>;)
+<a name="l00914"></a>00914 
+<a name="l00915"></a>00915 <span class="keyword">private</span>:
+<a name="l00916"></a>00916     <span class="keyword">enum</span> SerializationOffsets {
+<a name="l00917"></a>00917         kDirection_SerializationShift = 26, <span class="comment">// requires 2 bits</span>
+<a name="l00918"></a>00918         kIsFinite_SerializationShift = 25,  <span class="comment">// requires 1 bit</span>
+<a name="l00919"></a>00919         kIsOval_SerializationShift = 24,    <span class="comment">// requires 1 bit</span>
+<a name="l00920"></a>00920         kConvexity_SerializationShift = 16, <span class="comment">// requires 2 bits</span>
+<a name="l00921"></a>00921         kFillType_SerializationShift = 8,   <span class="comment">// requires 2 bits</span>
+<a name="l00922"></a>00922         kSegmentMask_SerializationShift = 0 <span class="comment">// requires 3 bits</span>
+<a name="l00923"></a><a class="code" href="../../de/d98/class_sk_path.html#a9d0a988877ec6e7cdab1a20ac2cd7082">00923</a>     };
+<a name="l00924"></a>00924 
+<a name="l00925"></a>00925 <span class="preprocessor">#if SK_DEBUG_PATH_REF</span>
+<a name="l00926"></a>00926 <span class="preprocessor"></span><span class="keyword">public</span>:
+<a name="l00929"></a>00929     <span class="keyword">class </span>PathRefDebugRef {
+<a name="l00930"></a>00930     <span class="keyword">public</span>:
+<a name="l00931"></a>00931         PathRefDebugRef(<a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>* owner);
+<a name="l00932"></a>00932         PathRefDebugRef(SkPathRef* pr, <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>* owner);
+<a name="l00933"></a>00933         ~PathRefDebugRef();
+<a name="l00934"></a>00934         <span class="keywordtype">void</span> <a class="code" href="../../db/dac/mock__picker_8js.html#aed26045338f591d889d2a8bf699451ef">reset</a>(SkPathRef* ref);
+<a name="l00935"></a>00935         <span class="keywordtype">void</span> swap(PathRefDebugRef* other);
+<a name="l00936"></a>00936         SkPathRef* <span class="keyword">get</span>() <span class="keyword">const</span>;
+<a name="l00937"></a>00937         <a class="code" href="../../da/d24/class_sk_auto_t_unref.html">SkAutoTUnref&lt;SkPathRef&gt;::BlockRefType</a> *operator-&gt;() <span class="keyword">const</span>;
+<a name="l00938"></a>00938         operator SkPathRef*();
+<a name="l00939"></a>00939     <span class="keyword">private</span>:
+<a name="l00940"></a>00940         <a class="code" href="../../da/d24/class_sk_auto_t_unref.html">SkAutoTUnref&lt;SkPathRef&gt;</a>   fPathRef;
+<a name="l00941"></a>00941         <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>*                   fOwner;
+<a name="l00942"></a>00942     };
+<a name="l00943"></a>00943 
+<a name="l00944"></a>00944 <span class="keyword">private</span>:
+<a name="l00945"></a>00945     PathRefDebugRef     fPathRef;
+<a name="l00946"></a>00946 <span class="preprocessor">#else</span>
+<a name="l00947"></a>00947 <span class="preprocessor"></span>    <a class="code" href="../../da/d24/class_sk_auto_t_unref.html">SkAutoTUnref&lt;SkPathRef&gt;</a> fPathRef;
+<a name="l00948"></a>00948 <span class="preprocessor">#endif</span>
+<a name="l00949"></a>00949 <span class="preprocessor"></span>
+<a name="l00950"></a><a class="code" href="../../de/d98/class_sk_path.html#ae9cf16198f412e6f3f8bcaf284de5a59">00950</a>     <span class="keyword">mutable</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>      <a class="code" href="../../de/d98/class_sk_path.html#ae9cf16198f412e6f3f8bcaf284de5a59">fBounds</a>;
+<a name="l00951"></a><a class="code" href="../../de/d98/class_sk_path.html#ae472096a2329737e2523d5f4970f89c0">00951</a>     <span class="keywordtype">int</span>                 <a class="code" href="../../de/d98/class_sk_path.html#ae472096a2329737e2523d5f4970f89c0">fLastMoveToIndex</a>;
+<a name="l00952"></a><a class="code" href="../../de/d98/class_sk_path.html#aa3bb25a81a39a81338059c7b964e95ca">00952</a>     uint8_t             <a class="code" href="../../de/d98/class_sk_path.html#aa3bb25a81a39a81338059c7b964e95ca">fFillType</a>;
+<a name="l00953"></a><a class="code" href="../../de/d98/class_sk_path.html#a3653fda2ac73b7a27175cad85036c2fa">00953</a>     uint8_t             <a class="code" href="../../de/d98/class_sk_path.html#a3653fda2ac73b7a27175cad85036c2fa">fSegmentMask</a>;
+<a name="l00954"></a><a class="code" href="../../de/d98/class_sk_path.html#a5700455db2ad475479650c8779246c1e">00954</a>     <span class="keyword">mutable</span> uint8_t     <a class="code" href="../../de/d98/class_sk_path.html#a5700455db2ad475479650c8779246c1e">fBoundsIsDirty</a>;
+<a name="l00955"></a><a class="code" href="../../de/d98/class_sk_path.html#a4d718b07412294eab4196c9b8f90aafa">00955</a>     <span class="keyword">mutable</span> uint8_t     <a class="code" href="../../de/d98/class_sk_path.html#a4d718b07412294eab4196c9b8f90aafa">fConvexity</a>;
+<a name="l00956"></a><a class="code" href="../../de/d98/class_sk_path.html#afa32aa2e1eae0622148593ff9d513ae7">00956</a>     <span class="keyword">mutable</span> uint8_t     <a class="code" href="../../de/d98/class_sk_path.html#afa32aa2e1eae0622148593ff9d513ae7">fDirection</a>;
+<a name="l00957"></a><a class="code" href="../../de/d98/class_sk_path.html#ae49dc4963479feedccf0ea2356b2816e">00957</a>     <span class="keyword">mutable</span> <a class="code" href="../../d3/d36/_sk_types_8h.html#a6c7dec5c0a40866075ef185dd7a3eb42">SkBool8</a>     <a class="code" href="../../de/d98/class_sk_path.html#ae49dc4963479feedccf0ea2356b2816e">fIsFinite</a>;    <span class="comment">// only meaningful if bounds are valid</span>
+<a name="l00958"></a><a class="code" href="../../de/d98/class_sk_path.html#afa4f65b61e445b52f618b3d5767d9b29">00958</a>     <span class="keyword">mutable</span> <a class="code" href="../../d3/d36/_sk_types_8h.html#a6c7dec5c0a40866075ef185dd7a3eb42">SkBool8</a>     <a class="code" href="../../de/d98/class_sk_path.html#afa4f65b61e445b52f618b3d5767d9b29">fIsOval</a>;
+<a name="l00959"></a>00959 <span class="preprocessor">#ifdef SK_BUILD_FOR_ANDROID</span>
+<a name="l00960"></a>00960 <span class="preprocessor"></span>    uint32_t            fGenerationID;
+<a name="l00961"></a>00961     <span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>*       fSourcePath;
+<a name="l00962"></a>00962 <span class="preprocessor">#endif</span>
+<a name="l00963"></a>00963 <span class="preprocessor"></span>
+<a name="l00964"></a>00964     <span class="comment">// called, if dirty, by getBounds()</span>
+<a name="l00965"></a>00965     <span class="keywordtype">void</span> computeBounds() <span class="keyword">const</span>;
+<a name="l00966"></a>00966 
+<a name="l00967"></a><a class="code" href="../../de/d98/class_sk_path.html#a1aa9543a703214f24b87e027ccd38be5">00967</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d0/d7a/class_sk_path_1_1_iter.html">Iter</a>;
+<a name="l00968"></a>00968 
+<a name="l00969"></a><a class="code" href="../../de/d98/class_sk_path.html#a4cb9cd113ecfc0af1df09076d0b14d2a">00969</a>     <span class="keyword">friend</span> <span class="keyword">class </span>SkPathStroker;
+<a name="l00970"></a>00970     <span class="comment">/*  Append the first contour of path, ignoring path&#39;s initial point. If no</span>
+<a name="l00971"></a>00971 <span class="comment">        moveTo() call has been made for this contour, the first point is</span>
+<a name="l00972"></a>00972 <span class="comment">        automatically set to (0,0).</span>
+<a name="l00973"></a>00973 <span class="comment">    */</span>
+<a name="l00974"></a>00974     <span class="keywordtype">void</span> pathTo(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a>);
+<a name="l00975"></a>00975 
+<a name="l00976"></a>00976     <span class="comment">/*  Append, in reverse order, the first contour of path, ignoring path&#39;s</span>
+<a name="l00977"></a>00977 <span class="comment">        last point. If no moveTo() call has been made for this contour, the</span>
+<a name="l00978"></a>00978 <span class="comment">        first point is automatically set to (0,0).</span>
+<a name="l00979"></a>00979 <span class="comment">    */</span>
+<a name="l00980"></a>00980     <span class="keywordtype">void</span> reversePathTo(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp;);
+<a name="l00981"></a>00981 
+<a name="l00982"></a>00982     <span class="comment">// called before we add points for lineTo, quadTo, cubicTo, checking to see</span>
+<a name="l00983"></a>00983     <span class="comment">// if we need to inject a leading moveTo first</span>
+<a name="l00984"></a>00984     <span class="comment">//</span>
+<a name="l00985"></a>00985     <span class="comment">//  SkPath path; path.lineTo(...);   &lt;--- need a leading moveTo(0, 0)</span>
+<a name="l00986"></a>00986     <span class="comment">// SkPath path; ... path.close(); path.lineTo(...) &lt;-- need a moveTo(previous moveTo)</span>
+<a name="l00987"></a>00987     <span class="comment">//</span>
+<a name="l00988"></a>00988     <span class="keyword">inline</span> <span class="keywordtype">void</span> injectMoveToIfNeeded();
+<a name="l00989"></a>00989 
+<a name="l00990"></a>00990     <span class="keyword">inline</span> <span class="keywordtype">bool</span> hasOnlyMoveTos() <span class="keyword">const</span>;
+<a name="l00991"></a>00991 
+<a name="l00992"></a>00992     <a class="code" href="../../de/d98/class_sk_path.html#a70fea81281ba906eb245c8d2bec30b8d">Convexity</a> internalGetConvexity() <span class="keyword">const</span>;
+<a name="l00993"></a>00993 
+<a name="l00994"></a>00994     <span class="keywordtype">bool</span> isRectContour(<span class="keywordtype">bool</span> allowPartial, <span class="keywordtype">int</span>* currVerb, <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a>** pts,
+<a name="l00995"></a>00995                        <span class="keywordtype">bool</span>* isClosed, <a class="code" href="../../de/d98/class_sk_path.html#a6fb0d9cd587a87713a03b4b7efdcd0b1">Direction</a>* <a class="code" href="../../d3/d91/j3d_8js.html#ad0dea711cdf3eaf35d6e1dfde0f163b3">direction</a>) <span class="keyword">const</span>;
+<a name="l00996"></a>00996 
+<a name="l00997"></a><a class="code" href="../../de/d98/class_sk_path.html#a94cde5f7b4b0d4068a6575b0bcdf8d21">00997</a>     <span class="keyword">friend</span> <span class="keyword">class </span>SkAutoPathBoundsUpdate;
+<a name="l00998"></a><a class="code" href="../../de/d98/class_sk_path.html#aeea1010ec7b78381b906629988ac65a5">00998</a>     <span class="keyword">friend</span> <span class="keyword">class </span>SkAutoDisableOvalCheck;
+<a name="l00999"></a><a class="code" href="../../de/d98/class_sk_path.html#a75d0fe5caf2638b5ac36051b5d26de90">00999</a>     <span class="keyword">friend</span> <span class="keyword">class </span>SkAutoDisableDirectionCheck;
+<a name="l01000"></a><a class="code" href="../../de/d98/class_sk_path.html#a186bc5b5e25c0d824d79dd7adab49506">01000</a>     <span class="keyword">friend</span> <span class="keyword">class </span>SkBench_AddPathTest; <span class="comment">// perf test pathTo/reversePathTo</span>
+<a name="l01001"></a>01001 };
+<a name="l01002"></a>01002 
+<a name="l01003"></a>01003 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d4/d49/_sk_path_8h.html">SkPath.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:12に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

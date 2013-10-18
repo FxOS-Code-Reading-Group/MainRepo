@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_s_v_g_f_e_specular_lighting_element_01_4 =
+[
+    [ "NativeType", "d4/dab/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_s_v_g_f_e_specular_lighting_element_01_4.html#ad50957cbd3c82ec36ac9c55e8b1ac0e3", null ]
+];

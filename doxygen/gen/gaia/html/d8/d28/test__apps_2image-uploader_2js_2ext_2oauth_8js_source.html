@@ -1,0 +1,654 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: oauth.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d8/d28/test__apps_2image-uploader_2js_2ext_2oauth_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">oauth.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d8/d28/test__apps_2image-uploader_2js_2ext_2oauth_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * Copyright 2008 Netflix, Inc.</span>
+<a name="l00003"></a>00003 <span class="comment"> *</span>
+<a name="l00004"></a>00004 <span class="comment"> * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<a name="l00005"></a>00005 <span class="comment"> * you may not use this file except in compliance with the License.</span>
+<a name="l00006"></a>00006 <span class="comment"> * You may obtain a copy of the License at</span>
+<a name="l00007"></a>00007 <span class="comment"> *</span>
+<a name="l00008"></a>00008 <span class="comment"> *     http://www.apache.org/licenses/LICENSE-2.0</span>
+<a name="l00009"></a>00009 <span class="comment"> *</span>
+<a name="l00010"></a>00010 <span class="comment"> * Unless required by applicable law or agreed to in writing, software</span>
+<a name="l00011"></a>00011 <span class="comment"> * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<a name="l00012"></a>00012 <span class="comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<a name="l00013"></a>00013 <span class="comment"> * See the License for the specific language governing permissions and</span>
+<a name="l00014"></a>00014 <span class="comment"> * limitations under the License.</span>
+<a name="l00015"></a>00015 <span class="comment"> */</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 <span class="comment">/* Here&#39;s some JavaScript software for implementing OAuth.</span>
+<a name="l00018"></a>00018 <span class="comment"></span>
+<a name="l00019"></a>00019 <span class="comment">   This isn&#39;t as useful as you might hope.  OAuth is based around</span>
+<a name="l00020"></a>00020 <span class="comment">   allowing tools and websites to talk to each other.  However,</span>
+<a name="l00021"></a>00021 <span class="comment">   JavaScript running in web browsers is hampered by security</span>
+<a name="l00022"></a>00022 <span class="comment">   restrictions that prevent code running on one website from</span>
+<a name="l00023"></a>00023 <span class="comment">   accessing data stored or served on another.</span>
+<a name="l00024"></a>00024 <span class="comment"></span>
+<a name="l00025"></a>00025 <span class="comment">   Before you start hacking, make sure you understand the limitations</span>
+<a name="l00026"></a>00026 <span class="comment">   posed by cross-domain XMLHttpRequest.</span>
+<a name="l00027"></a>00027 <span class="comment"></span>
+<a name="l00028"></a>00028 <span class="comment">   On the bright side, some platforms use JavaScript as their</span>
+<a name="l00029"></a>00029 <span class="comment">   language, but enable the programmer to access other web sites.</span>
+<a name="l00030"></a>00030 <span class="comment">   Examples include Google Gadgets, and Microsoft Vista Sidebar.</span>
+<a name="l00031"></a>00031 <span class="comment">   For those platforms, this library should come in handy.</span>
+<a name="l00032"></a>00032 <span class="comment">*/</span>
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034 <span class="comment">// The HMAC-SHA1 signature method calls b64_hmac_sha1, defined by</span>
+<a name="l00035"></a>00035 <span class="comment">// http://pajhome.org.uk/crypt/md5/sha1.js</span>
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 <span class="comment">/* An OAuth message is represented as an object like this:</span>
+<a name="l00038"></a>00038 <span class="comment">   {method: &quot;GET&quot;, action: &quot;http://server.com/path&quot;, parameters: ...}</span>
+<a name="l00039"></a>00039 <span class="comment"></span>
+<a name="l00040"></a>00040 <span class="comment">   The parameters may be either a map {name: value, name2: value2}</span>
+<a name="l00041"></a>00041 <span class="comment">   or an Array of name-value pairs [[name, value], [name2, value2]].</span>
+<a name="l00042"></a>00042 <span class="comment">   The latter representation is more powerful: it supports parameters</span>
+<a name="l00043"></a>00043 <span class="comment">   in a specific sequence, or several parameters with the same name;</span>
+<a name="l00044"></a>00044 <span class="comment">   for example [[&quot;a&quot;, 1], [&quot;b&quot;, 2], [&quot;a&quot;, 3]].</span>
+<a name="l00045"></a>00045 <span class="comment"></span>
+<a name="l00046"></a>00046 <span class="comment">   Parameter names and values are NOT percent-encoded in an object.</span>
+<a name="l00047"></a>00047 <span class="comment">   They must be encoded before transmission and decoded after reception.</span>
+<a name="l00048"></a>00048 <span class="comment">   For example, this message object:</span>
+<a name="l00049"></a>00049 <span class="comment">   {method: &quot;GET&quot;, action: &quot;http://server/path&quot;, parameters: {p: &quot;x y&quot;}}</span>
+<a name="l00050"></a>00050 <span class="comment">   ... can be transmitted as an HTTP request that begins:</span>
+<a name="l00051"></a>00051 <span class="comment">   GET /path?p=x%20y HTTP/1.0</span>
+<a name="l00052"></a>00052 <span class="comment">   (This isn&#39;t a valid OAuth request, since it lacks a signature etc.)</span>
+<a name="l00053"></a>00053 <span class="comment">   Note that the object &quot;x y&quot; is transmitted as x%20y.  To encode</span>
+<a name="l00054"></a>00054 <span class="comment">   parameters, you can call OAuth.addToURL, OAuth.formEncode or</span>
+<a name="l00055"></a>00055 <span class="comment">   OAuth.getAuthorization.</span>
+<a name="l00056"></a>00056 <span class="comment"></span>
+<a name="l00057"></a>00057 <span class="comment">   This message object model harmonizes with the browser object model for</span>
+<a name="l00058"></a>00058 <span class="comment">   input elements of an form, whose value property isn&#39;t percent encoded.</span>
+<a name="l00059"></a>00059 <span class="comment">   The browser encodes each value before transmitting it. For example,</span>
+<a name="l00060"></a>00060 <span class="comment">   see consumer.setInputs in example/consumer.js.</span>
+<a name="l00061"></a>00061 <span class="comment"> */</span>
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 <span class="comment">/* This script needs to know what time it is. By default, it uses the local</span>
+<a name="l00064"></a>00064 <span class="comment">   clock (new Date), which is apt to be inaccurate in browsers. To do</span>
+<a name="l00065"></a>00065 <span class="comment">   better, you can load this script from a URL whose query string contains</span>
+<a name="l00066"></a>00066 <span class="comment">   an oauth_timestamp parameter, whose value is a current Unix timestamp.</span>
+<a name="l00067"></a>00067 <span class="comment">   For example, when generating the enclosing document using PHP:</span>
+<a name="l00068"></a>00068 <span class="comment"></span>
+<a name="l00069"></a>00069 <span class="comment">   &lt;script src=&quot;oauth.js?oauth_timestamp=&lt;?=time()?&gt;&quot; ...</span>
+<a name="l00070"></a>00070 <span class="comment"></span>
+<a name="l00071"></a>00071 <span class="comment">   Another option is to call OAuth.correctTimestamp with a Unix timestamp.</span>
+<a name="l00072"></a>00072 <span class="comment"> */</span>
+<a name="l00073"></a>00073 
+<a name="l00074"></a><a class="code" href="../../d8/d28/test__apps_2image-uploader_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">00074</a> var <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>; <span class="keywordflow">if</span> (<a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a> == <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a> = {};
+<a name="l00075"></a>00075 
+<a name="l00076"></a><a class="code" href="../../d8/d28/test__apps_2image-uploader_2js_2ext_2oauth_8js.html#ae976512bbe1241b058af4049b7ed7a2d">00076</a> <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.setProperties = <span class="keyword">function</span> <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#ae976512bbe1241b058af4049b7ed7a2d">setProperties</a>(into, from) {
+<a name="l00077"></a>00077     <span class="keywordflow">if</span> (into != <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a> &amp;&amp; from != <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00078"></a>00078         <span class="keywordflow">for</span> (var <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> in from) {
+<a name="l00079"></a>00079             into[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>] = from[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>];
+<a name="l00080"></a>00080         }
+<a name="l00081"></a>00081     }
+<a name="l00082"></a>00082     <span class="keywordflow">return</span> into;
+<a name="l00083"></a>00083 }
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085 <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.setProperties(<a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>, <span class="comment">// utility functions</span>
+<a name="l00086"></a>00086 {
+<a name="l00087"></a>00087     percentEncode: <span class="keyword">function</span> percentEncode(<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>) {
+<a name="l00088"></a>00088         <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> == <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00089"></a>00089             <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00090"></a>00090         }
+<a name="l00091"></a>00091         <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> instanceof Array) {
+<a name="l00092"></a>00092             var <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a> = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00093"></a>00093             <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>.length; ++<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>) {
+<a name="l00094"></a>00094                 <span class="keywordflow">if</span> (e != <span class="stringliteral">&quot;&quot;</span>) e += <span class="charliteral">&#39;&amp;&#39;</span>;
+<a name="l00095"></a>00095                 e += <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.percentEncode(<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]);
+<a name="l00096"></a>00096             }
+<a name="l00097"></a>00097             <span class="keywordflow">return</span> <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>;
+<a name="l00098"></a>00098         }
+<a name="l00099"></a>00099         <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> = encodeURIComponent(<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>);
+<a name="l00100"></a>00100         <span class="comment">// Now replace the values which encodeURIComponent doesn&#39;t do</span>
+<a name="l00101"></a>00101         <span class="comment">// encodeURIComponent ignores: - _ . ! ~ * &#39; ( )</span>
+<a name="l00102"></a>00102         <span class="comment">// OAuth dictates the only ones you can ignore are: - _ . ~</span>
+<a name="l00103"></a>00103         <span class="comment">// Source: http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Functions:encodeURIComponent</span>
+<a name="l00104"></a>00104         <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> = <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>.replace(/\!/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&quot;%21&quot;</span>);
+<a name="l00105"></a>00105         <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> = <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>.replace(/\*/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&quot;%2A&quot;</span>);
+<a name="l00106"></a>00106         <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> = <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>.replace(/\<span class="stringliteral">&#39;/g, &quot;%27&quot;);</span>
+<a name="l00107"></a>00107 <span class="stringliteral">        s = s.replace(/\(/g, &quot;%28&quot;);</span>
+<a name="l00108"></a>00108 <span class="stringliteral">        s = s.replace(/\)/g, &quot;%29&quot;);</span>
+<a name="l00109"></a>00109 <span class="stringliteral">        return s;</span>
+<a name="l00110"></a>00110 <span class="stringliteral">    }</span>
+<a name="l00111"></a>00111 <span class="stringliteral">,</span>
+<a name="l00112"></a>00112 <span class="stringliteral">    decodePercent: function decodePercent(s) {</span>
+<a name="l00113"></a>00113 <span class="stringliteral">        if (s != null) {</span>
+<a name="l00114"></a>00114 <span class="stringliteral">            // Handle application/x-www-form-urlencoded, which is defined by</span>
+<a name="l00115"></a>00115 <span class="stringliteral">            // http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.1</span>
+<a name="l00116"></a>00116 <span class="stringliteral">            s = s.replace(/\+/g, &quot; &quot;);</span>
+<a name="l00117"></a>00117 <span class="stringliteral">        }</span>
+<a name="l00118"></a>00118 <span class="stringliteral">        return decodeURIComponent(s);</span>
+<a name="l00119"></a>00119 <span class="stringliteral">    }</span>
+<a name="l00120"></a>00120 <span class="stringliteral">,</span>
+<a name="l00122"></a>00122 <span class="stringliteral">    getParameterList: function getParameterList(parameters) {</span>
+<a name="l00123"></a>00123 <span class="stringliteral">        if (parameters == null) {</span>
+<a name="l00124"></a>00124 <span class="stringliteral">            return [];</span>
+<a name="l00125"></a>00125 <span class="stringliteral">        }</span>
+<a name="l00126"></a>00126 <span class="stringliteral">        if (typeof parameters != &quot;object&quot;) {</span>
+<a name="l00127"></a>00127 <span class="stringliteral">            return OAuth.decodeForm(parameters + &quot;&quot;);</span>
+<a name="l00128"></a>00128 <span class="stringliteral">        }</span>
+<a name="l00129"></a>00129 <span class="stringliteral">        if (parameters instanceof Array) {</span>
+<a name="l00130"></a>00130 <span class="stringliteral">            return parameters;</span>
+<a name="l00131"></a>00131 <span class="stringliteral">        }</span>
+<a name="l00132"></a>00132 <span class="stringliteral">        var list = [];</span>
+<a name="l00133"></a>00133 <span class="stringliteral">        for (var p in parameters) {</span>
+<a name="l00134"></a>00134 <span class="stringliteral">            list.push([p, parameters[p]]);</span>
+<a name="l00135"></a>00135 <span class="stringliteral">        }</span>
+<a name="l00136"></a>00136 <span class="stringliteral">        return list;</span>
+<a name="l00137"></a>00137 <span class="stringliteral">    }</span>
+<a name="l00138"></a>00138 <span class="stringliteral">,</span>
+<a name="l00140"></a>00140 <span class="stringliteral">    getParameterMap: function getParameterMap(parameters) {</span>
+<a name="l00141"></a>00141 <span class="stringliteral">        if (parameters == null) {</span>
+<a name="l00142"></a>00142 <span class="stringliteral">            return {};</span>
+<a name="l00143"></a>00143 <span class="stringliteral">        }</span>
+<a name="l00144"></a>00144 <span class="stringliteral">        if (typeof parameters != &quot;object&quot;) {</span>
+<a name="l00145"></a>00145 <span class="stringliteral">            return OAuth.getParameterMap(OAuth.decodeForm(parameters + &quot;&quot;));</span>
+<a name="l00146"></a>00146 <span class="stringliteral">        }</span>
+<a name="l00147"></a>00147 <span class="stringliteral">        if (parameters instanceof Array) {</span>
+<a name="l00148"></a>00148 <span class="stringliteral">            var map = {};</span>
+<a name="l00149"></a>00149 <span class="stringliteral">            for (var p = 0; p &lt; parameters.length; ++p) {</span>
+<a name="l00150"></a>00150 <span class="stringliteral">                var key = parameters[p][0];</span>
+<a name="l00151"></a>00151 <span class="stringliteral">                if (map[key] === undefined) { // first value wins</span>
+<a name="l00152"></a>00152 <span class="stringliteral">                    map[key] = parameters[p][1];</span>
+<a name="l00153"></a>00153 <span class="stringliteral">                }</span>
+<a name="l00154"></a>00154 <span class="stringliteral">            }</span>
+<a name="l00155"></a>00155 <span class="stringliteral">            return map;</span>
+<a name="l00156"></a>00156 <span class="stringliteral">        }</span>
+<a name="l00157"></a>00157 <span class="stringliteral">        return parameters;</span>
+<a name="l00158"></a>00158 <span class="stringliteral">    }</span>
+<a name="l00159"></a>00159 <span class="stringliteral">,</span>
+<a name="l00160"></a>00160 <span class="stringliteral">    getParameter: function getParameter(parameters, name) {</span>
+<a name="l00161"></a>00161 <span class="stringliteral">        if (parameters instanceof Array) {</span>
+<a name="l00162"></a>00162 <span class="stringliteral">            for (var p = 0; p &lt; parameters.length; ++p) {</span>
+<a name="l00163"></a>00163 <span class="stringliteral">                if (parameters[p][0] == name) {</span>
+<a name="l00164"></a>00164 <span class="stringliteral">                    return parameters[p][1]; // first value wins</span>
+<a name="l00165"></a>00165 <span class="stringliteral">                }</span>
+<a name="l00166"></a>00166 <span class="stringliteral">            }</span>
+<a name="l00167"></a>00167 <span class="stringliteral">        } else {</span>
+<a name="l00168"></a>00168 <span class="stringliteral">            return OAuth.getParameterMap(parameters)[name];</span>
+<a name="l00169"></a>00169 <span class="stringliteral">        }</span>
+<a name="l00170"></a>00170 <span class="stringliteral">        return null;</span>
+<a name="l00171"></a>00171 <span class="stringliteral">    }</span>
+<a name="l00172"></a>00172 <span class="stringliteral">,</span>
+<a name="l00173"></a>00173 <span class="stringliteral">    formEncode: function formEncode(parameters) {</span>
+<a name="l00174"></a>00174 <span class="stringliteral">        var form = &quot;&quot;;</span>
+<a name="l00175"></a>00175 <span class="stringliteral">        var list = OAuth.getParameterList(parameters);</span>
+<a name="l00176"></a>00176 <span class="stringliteral">        for (var p = 0; p &lt; list.length; ++p) {</span>
+<a name="l00177"></a>00177 <span class="stringliteral">            var value = list[p][1];</span>
+<a name="l00178"></a>00178 <span class="stringliteral">            if (value == null) value = &quot;&quot;;</span>
+<a name="l00179"></a>00179 <span class="stringliteral">            if (form != &quot;&quot;) form += &#39;</span>&amp;<span class="stringliteral">&#39;;</span>
+<a name="l00180"></a>00180 <span class="stringliteral">            form += OAuth.percentEncode(list[p][0])</span>
+<a name="l00181"></a>00181 <span class="stringliteral">              +&#39;</span>=<span class="stringliteral">&#39;+ OAuth.percentEncode(value);</span>
+<a name="l00182"></a>00182 <span class="stringliteral">        }</span>
+<a name="l00183"></a>00183 <span class="stringliteral">        return form;</span>
+<a name="l00184"></a>00184 <span class="stringliteral">    }</span>
+<a name="l00185"></a>00185 <span class="stringliteral">,</span>
+<a name="l00186"></a>00186 <span class="stringliteral">    decodeForm: function decodeForm(form) {</span>
+<a name="l00187"></a>00187 <span class="stringliteral">        var list = [];</span>
+<a name="l00188"></a>00188 <span class="stringliteral">        var nvps = form.split(&#39;</span>&amp;<span class="stringliteral">&#39;);</span>
+<a name="l00189"></a>00189 <span class="stringliteral">        for (var n = 0; n &lt; nvps.length; ++n) {</span>
+<a name="l00190"></a>00190 <span class="stringliteral">            var nvp = nvps[n];</span>
+<a name="l00191"></a>00191 <span class="stringliteral">            if (nvp == &quot;&quot;) {</span>
+<a name="l00192"></a>00192 <span class="stringliteral">                continue;</span>
+<a name="l00193"></a>00193 <span class="stringliteral">            }</span>
+<a name="l00194"></a>00194 <span class="stringliteral">            var equals = nvp.indexOf(&#39;</span>=<span class="stringliteral">&#39;);</span>
+<a name="l00195"></a>00195 <span class="stringliteral">            var name;</span>
+<a name="l00196"></a>00196 <span class="stringliteral">            var value;</span>
+<a name="l00197"></a>00197 <span class="stringliteral">            if (equals &lt; 0) {</span>
+<a name="l00198"></a>00198 <span class="stringliteral">                name = OAuth.decodePercent(nvp);</span>
+<a name="l00199"></a>00199 <span class="stringliteral">                value = null;</span>
+<a name="l00200"></a>00200 <span class="stringliteral">            } else {</span>
+<a name="l00201"></a>00201 <span class="stringliteral">                name = OAuth.decodePercent(nvp.substring(0, equals));</span>
+<a name="l00202"></a>00202 <span class="stringliteral">                value = OAuth.decodePercent(nvp.substring(equals + 1));</span>
+<a name="l00203"></a>00203 <span class="stringliteral">            }</span>
+<a name="l00204"></a>00204 <span class="stringliteral">            list.push([name, value]);</span>
+<a name="l00205"></a>00205 <span class="stringliteral">        }</span>
+<a name="l00206"></a>00206 <span class="stringliteral">        return list;</span>
+<a name="l00207"></a>00207 <span class="stringliteral">    }</span>
+<a name="l00208"></a>00208 <span class="stringliteral">,</span>
+<a name="l00209"></a>00209 <span class="stringliteral">    setParameter: function setParameter(message, name, value) {</span>
+<a name="l00210"></a>00210 <span class="stringliteral">        var parameters = message.parameters;</span>
+<a name="l00211"></a>00211 <span class="stringliteral">        if (parameters instanceof Array) {</span>
+<a name="l00212"></a>00212 <span class="stringliteral">            for (var p = 0; p &lt; parameters.length; ++p) {</span>
+<a name="l00213"></a>00213 <span class="stringliteral">                if (parameters[p][0] == name) {</span>
+<a name="l00214"></a>00214 <span class="stringliteral">                    if (value === undefined) {</span>
+<a name="l00215"></a>00215 <span class="stringliteral">                        parameters.splice(p, 1);</span>
+<a name="l00216"></a>00216 <span class="stringliteral">                    } else {</span>
+<a name="l00217"></a>00217 <span class="stringliteral">                        parameters[p][1] = value;</span>
+<a name="l00218"></a>00218 <span class="stringliteral">                        value = undefined;</span>
+<a name="l00219"></a>00219 <span class="stringliteral">                    }</span>
+<a name="l00220"></a>00220 <span class="stringliteral">                }</span>
+<a name="l00221"></a>00221 <span class="stringliteral">            }</span>
+<a name="l00222"></a>00222 <span class="stringliteral">            if (value !== undefined) {</span>
+<a name="l00223"></a>00223 <span class="stringliteral">                parameters.push([name, value]);</span>
+<a name="l00224"></a>00224 <span class="stringliteral">            }</span>
+<a name="l00225"></a>00225 <span class="stringliteral">        } else {</span>
+<a name="l00226"></a>00226 <span class="stringliteral">            parameters = OAuth.getParameterMap(parameters);</span>
+<a name="l00227"></a>00227 <span class="stringliteral">            parameters[name] = value;</span>
+<a name="l00228"></a>00228 <span class="stringliteral">            message.parameters = parameters;</span>
+<a name="l00229"></a>00229 <span class="stringliteral">        }</span>
+<a name="l00230"></a>00230 <span class="stringliteral">    }</span>
+<a name="l00231"></a>00231 <span class="stringliteral">,</span>
+<a name="l00232"></a>00232 <span class="stringliteral">    setParameters: function setParameters(message, parameters) {</span>
+<a name="l00233"></a>00233 <span class="stringliteral">        var list = OAuth.getParameterList(parameters);</span>
+<a name="l00234"></a>00234 <span class="stringliteral">        for (var i = 0; i &lt; list.length; ++i) {</span>
+<a name="l00235"></a>00235 <span class="stringliteral">            OAuth.setParameter(message, list[i][0], list[i][1]);</span>
+<a name="l00236"></a>00236 <span class="stringliteral">        }</span>
+<a name="l00237"></a>00237 <span class="stringliteral">    }</span>
+<a name="l00238"></a>00238 <span class="stringliteral">,</span>
+<a name="l00245"></a>00245 <span class="stringliteral">    completeRequest: function completeRequest(message, accessor) {</span>
+<a name="l00246"></a>00246 <span class="stringliteral">        if (message.method == null) {</span>
+<a name="l00247"></a>00247 <span class="stringliteral">            message.method = &quot;GET&quot;;</span>
+<a name="l00248"></a>00248 <span class="stringliteral">        }</span>
+<a name="l00249"></a>00249 <span class="stringliteral">        var map = OAuth.getParameterMap(message.parameters);</span>
+<a name="l00250"></a>00250 <span class="stringliteral">        if (map.oauth_consumer_key == null) {</span>
+<a name="l00251"></a>00251 <span class="stringliteral">            OAuth.setParameter(message, &quot;oauth_consumer_key&quot;, accessor.consumerKey || &quot;&quot;);</span>
+<a name="l00252"></a>00252 <span class="stringliteral">        }</span>
+<a name="l00253"></a>00253 <span class="stringliteral">        if (map.oauth_token == null &amp;&amp; accessor.token != null) {</span>
+<a name="l00254"></a>00254 <span class="stringliteral">            OAuth.setParameter(message, &quot;oauth_token&quot;, accessor.token);</span>
+<a name="l00255"></a>00255 <span class="stringliteral">        }</span>
+<a name="l00256"></a>00256 <span class="stringliteral">        if (map.oauth_version == null) {</span>
+<a name="l00257"></a>00257 <span class="stringliteral">            OAuth.setParameter(message, &quot;oauth_version&quot;, &quot;1.0&quot;);</span>
+<a name="l00258"></a>00258 <span class="stringliteral">        }</span>
+<a name="l00259"></a>00259 <span class="stringliteral">        if (map.oauth_timestamp == null) {</span>
+<a name="l00260"></a>00260 <span class="stringliteral">            OAuth.setParameter(message, &quot;oauth_timestamp&quot;, OAuth.timestamp());</span>
+<a name="l00261"></a>00261 <span class="stringliteral">        }</span>
+<a name="l00262"></a>00262 <span class="stringliteral">        if (map.oauth_nonce == null) {</span>
+<a name="l00263"></a>00263 <span class="stringliteral">            OAuth.setParameter(message, &quot;oauth_nonce&quot;, OAuth.nonce(6));</span>
+<a name="l00264"></a>00264 <span class="stringliteral">        }</span>
+<a name="l00265"></a>00265 <span class="stringliteral">        OAuth.SignatureMethod.sign(message, accessor);</span>
+<a name="l00266"></a>00266 <span class="stringliteral">    }</span>
+<a name="l00267"></a>00267 <span class="stringliteral">,</span>
+<a name="l00268"></a>00268 <span class="stringliteral">    setTimestampAndNonce: function setTimestampAndNonce(message) {</span>
+<a name="l00269"></a>00269 <span class="stringliteral">        OAuth.setParameter(message, &quot;oauth_timestamp&quot;, OAuth.timestamp());</span>
+<a name="l00270"></a>00270 <span class="stringliteral">        OAuth.setParameter(message, &quot;oauth_nonce&quot;, OAuth.nonce(6));</span>
+<a name="l00271"></a>00271 <span class="stringliteral">    }</span>
+<a name="l00272"></a>00272 <span class="stringliteral">,</span>
+<a name="l00273"></a>00273 <span class="stringliteral">    addToURL: function addToURL(url, parameters) {</span>
+<a name="l00274"></a>00274 <span class="stringliteral">        newURL = url;</span>
+<a name="l00275"></a>00275 <span class="stringliteral">        if (parameters != null) {</span>
+<a name="l00276"></a>00276 <span class="stringliteral">            var toAdd = OAuth.formEncode(parameters);</span>
+<a name="l00277"></a>00277 <span class="stringliteral">            if (toAdd.length &gt; 0) {</span>
+<a name="l00278"></a>00278 <span class="stringliteral">                var q = url.indexOf(&#39;</span>?<span class="stringliteral">&#39;);</span>
+<a name="l00279"></a>00279 <span class="stringliteral">                if (q &lt; 0) newURL += &#39;</span>?<span class="stringliteral">&#39;;</span>
+<a name="l00280"></a>00280 <span class="stringliteral">                else       newURL += &#39;</span>&amp;<span class="stringliteral">&#39;;</span>
+<a name="l00281"></a>00281 <span class="stringliteral">                newURL += toAdd;</span>
+<a name="l00282"></a>00282 <span class="stringliteral">            }</span>
+<a name="l00283"></a>00283 <span class="stringliteral">        }</span>
+<a name="l00284"></a>00284 <span class="stringliteral">        return newURL;</span>
+<a name="l00285"></a>00285 <span class="stringliteral">    }</span>
+<a name="l00286"></a>00286 <span class="stringliteral">,</span>
+<a name="l00288"></a>00288 <span class="stringliteral">    getAuthorizationHeader: function getAuthorizationHeader(realm, parameters) {</span>
+<a name="l00289"></a>00289 <span class="stringliteral">        var header = &#39;</span><a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a> realm=<span class="stringliteral">&quot;&#39; + OAuth.percentEncode(realm) + &#39;&quot;</span><span class="stringliteral">&#39;;</span>
+<a name="l00290"></a>00290 <span class="stringliteral">        var list = OAuth.getParameterList(parameters);</span>
+<a name="l00291"></a>00291 <span class="stringliteral">        for (var p = 0; p &lt; list.length; ++p) {</span>
+<a name="l00292"></a>00292 <span class="stringliteral">            var parameter = list[p];</span>
+<a name="l00293"></a>00293 <span class="stringliteral">            var name = parameter[0];</span>
+<a name="l00294"></a>00294 <span class="stringliteral">            if (name.indexOf(&quot;oauth_&quot;) == 0) {</span>
+<a name="l00295"></a>00295 <span class="stringliteral">                header += &#39;</span>,<span class="stringliteral">&#39; + OAuth.percentEncode(name) + &#39;</span>=<span class="stringliteral">&quot;&#39; + OAuth.percentEncode(parameter[1]) + &#39;&quot;</span><span class="stringliteral">&#39;;</span>
+<a name="l00296"></a>00296 <span class="stringliteral">            }</span>
+<a name="l00297"></a>00297 <span class="stringliteral">        }</span>
+<a name="l00298"></a>00298 <span class="stringliteral">        return header;</span>
+<a name="l00299"></a>00299 <span class="stringliteral">    }</span>
+<a name="l00300"></a>00300 <span class="stringliteral">,</span>
+<a name="l00302"></a>00302 <span class="stringliteral">    correctTimestampFromSrc: function correctTimestampFromSrc(parameterName) {</span>
+<a name="l00303"></a>00303 <span class="stringliteral">        parameterName = parameterName || &quot;oauth_timestamp&quot;;</span>
+<a name="l00304"></a>00304 <span class="stringliteral">        var scripts = document.getElementsByTagName(&#39;</span><a class="code" href="../../d2/d7d/jsapi_8h.html#a31bd60a30b08f545ac3bb2e4c17c4d97">script</a><span class="stringliteral">&#39;);</span>
+<a name="l00305"></a>00305 <span class="stringliteral">        if (scripts == null || !scripts.length) return;</span>
+<a name="l00306"></a>00306 <span class="stringliteral">        var src = scripts[scripts.length-1].src;</span>
+<a name="l00307"></a>00307 <span class="stringliteral">        if (!src) return;</span>
+<a name="l00308"></a>00308 <span class="stringliteral">        var q = src.indexOf(&quot;?&quot;);</span>
+<a name="l00309"></a>00309 <span class="stringliteral">        if (q &lt; 0) return;</span>
+<a name="l00310"></a>00310 <span class="stringliteral">        parameters = OAuth.getParameterMap(OAuth.decodeForm(src.substring(q+1)));</span>
+<a name="l00311"></a>00311 <span class="stringliteral">        var t = parameters[parameterName];</span>
+<a name="l00312"></a>00312 <span class="stringliteral">        if (t == null) return;</span>
+<a name="l00313"></a>00313 <span class="stringliteral">        OAuth.correctTimestamp(t);</span>
+<a name="l00314"></a>00314 <span class="stringliteral">    }</span>
+<a name="l00315"></a>00315 <span class="stringliteral">,</span>
+<a name="l00317"></a>00317 <span class="stringliteral">    correctTimestamp: function correctTimestamp(timestamp) {</span>
+<a name="l00318"></a>00318 <span class="stringliteral">        OAuth.timeCorrectionMsec = (timestamp * 1000) - (new Date()).getTime();</span>
+<a name="l00319"></a>00319 <span class="stringliteral">    }</span>
+<a name="l00320"></a>00320 <span class="stringliteral">,</span>
+<a name="l00322"></a>00322 <span class="stringliteral">    timeCorrectionMsec: 0</span>
+<a name="l00323"></a>00323 <span class="stringliteral">,</span>
+<a name="l00324"></a>00324 <span class="stringliteral">    timestamp: function timestamp() {</span>
+<a name="l00325"></a>00325 <span class="stringliteral">        var t = (new Date()).getTime() + OAuth.timeCorrectionMsec;</span>
+<a name="l00326"></a>00326 <span class="stringliteral">        return Math.floor(t / 1000);</span>
+<a name="l00327"></a>00327 <span class="stringliteral">    }</span>
+<a name="l00328"></a>00328 <span class="stringliteral">,</span>
+<a name="l00329"></a>00329 <span class="stringliteral">    nonce: function nonce(length) {</span>
+<a name="l00330"></a>00330 <span class="stringliteral">        var chars = OAuth.nonce.CHARS;</span>
+<a name="l00331"></a>00331 <span class="stringliteral">        var result = &quot;&quot;;</span>
+<a name="l00332"></a>00332 <span class="stringliteral">        for (var i = 0; i &lt; length; ++i) {</span>
+<a name="l00333"></a>00333 <span class="stringliteral">            var rnum = Math.floor(Math.random() * chars.length);</span>
+<a name="l00334"></a>00334 <span class="stringliteral">            result += chars.substring(rnum, rnum+1);</span>
+<a name="l00335"></a>00335 <span class="stringliteral">        }</span>
+<a name="l00336"></a>00336 <span class="stringliteral">        return result;</span>
+<a name="l00337"></a>00337 <span class="stringliteral">    }</span>
+<a name="l00338"></a>00338 <span class="stringliteral">});</span>
+<a name="l00339"></a>00339 <span class="stringliteral"></span>
+<a name="l00340"></a><a class="code" href="../../d8/d28/test__apps_2image-uploader_2js_2ext_2oauth_8js.html#add98ca6c6237920a13ad61b9953e3b27">00340</a> <span class="stringliteral">OAuth.nonce.CHARS = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz&quot;;</span>
+<a name="l00341"></a>00341 <span class="stringliteral"></span>
+<a name="l00347"></a><a class="code" href="../../d8/d28/test__apps_2image-uploader_2js_2ext_2oauth_8js.html#a79b207c50f4e7e270d57342feef40bee">00347</a> <span class="stringliteral">OAuth.declareClass = function declareClass(parent, name, newConstructor) {</span>
+<a name="l00348"></a>00348 <span class="stringliteral">    var previous = parent[name];</span>
+<a name="l00349"></a>00349 <span class="stringliteral">    parent[name] = newConstructor;</span>
+<a name="l00350"></a>00350 <span class="stringliteral">    if (newConstructor != null &amp;&amp; previous != null) {</span>
+<a name="l00351"></a>00351 <span class="stringliteral">        for (var key in previous) {</span>
+<a name="l00352"></a>00352 <span class="stringliteral">            if (key != &quot;prototype&quot;) {</span>
+<a name="l00353"></a>00353 <span class="stringliteral">                newConstructor[key] = previous[key];</span>
+<a name="l00354"></a>00354 <span class="stringliteral">            }</span>
+<a name="l00355"></a>00355 <span class="stringliteral">        }</span>
+<a name="l00356"></a>00356 <span class="stringliteral">    }</span>
+<a name="l00357"></a>00357 <span class="stringliteral">    return newConstructor;</span>
+<a name="l00358"></a>00358 <span class="stringliteral">}</span>
+<a name="l00359"></a>00359 <span class="stringliteral"></span>
+<a name="l00361"></a>00361 <span class="stringliteral">OAuth.declareClass(OAuth, &quot;SignatureMethod&quot;, function OAuthSignatureMethod(){});</span>
+<a name="l00362"></a>00362 <span class="stringliteral"></span>
+<a name="l00363"></a>00363 <span class="stringliteral">OAuth.setProperties(OAuth.SignatureMethod.prototype, // instance members</span>
+<a name="l00364"></a>00364 <span class="stringliteral">{</span>
+<a name="l00366"></a>00366 <span class="stringliteral">    sign: function sign(message) {</span>
+<a name="l00367"></a>00367 <span class="stringliteral">        var baseString = OAuth.SignatureMethod.getBaseString(message);</span>
+<a name="l00368"></a>00368 <span class="stringliteral">        var signature = this.getSignature(baseString);</span>
+<a name="l00369"></a>00369 <span class="stringliteral">        OAuth.setParameter(message, &quot;oauth_signature&quot;, signature);</span>
+<a name="l00370"></a>00370 <span class="stringliteral">        return signature; // just in case someone&#39;</span><a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> interested
+<a name="l00371"></a>00371     }
+<a name="l00372"></a>00372 ,
+<a name="l00374"></a>00374     <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#aff8fa5e56908241f8b5fc6c10ad69c5b">initialize</a>: <span class="keyword">function</span> <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#aff8fa5e56908241f8b5fc6c10ad69c5b">initialize</a>(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, accessor) {
+<a name="l00375"></a>00375         var consumerSecret;
+<a name="l00376"></a>00376         <span class="keywordflow">if</span> (accessor.accessorSecret != <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>
+<a name="l00377"></a>00377             &amp;&amp; <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>.length &gt; 9
+<a name="l00378"></a>00378             &amp;&amp; <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>.substring(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>.length-9) == <span class="stringliteral">&quot;-Accessor&quot;</span>)
+<a name="l00379"></a>00379         {
+<a name="l00380"></a>00380             consumerSecret = accessor.accessorSecret;
+<a name="l00381"></a>00381         } <span class="keywordflow">else</span> {
+<a name="l00382"></a>00382             consumerSecret = accessor.consumerSecret;
+<a name="l00383"></a>00383         }
+<a name="l00384"></a>00384         this.<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> = <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.percentEncode(consumerSecret)
+<a name="l00385"></a>00385              +<span class="stringliteral">&quot;&amp;&quot;</span>+ <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.percentEncode(accessor.tokenSecret);
+<a name="l00386"></a>00386     }
+<a name="l00387"></a>00387 });
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389 <span class="comment">/* SignatureMethod expects an accessor object to be like this:</span>
+<a name="l00390"></a>00390 <span class="comment">   {tokenSecret: &quot;lakjsdflkj...&quot;, consumerSecret: &quot;QOUEWRI..&quot;, accessorSecret: &quot;xcmvzc...&quot;}</span>
+<a name="l00391"></a>00391 <span class="comment">   The accessorSecret property is optional.</span>
+<a name="l00392"></a>00392 <span class="comment"> */</span>
+<a name="l00393"></a>00393 <span class="comment">// Class members:</span>
+<a name="l00394"></a>00394 <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.setProperties(<a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod, <span class="comment">// class members</span>
+<a name="l00395"></a>00395 {
+<a name="l00396"></a>00396     <a class="code" href="../../da/da2/prdtoa_8h.html#a7f9be463b6eda6ae3632dad13fc05958">sign</a>: <span class="keyword">function</span> <a class="code" href="../../da/da2/prdtoa_8h.html#a7f9be463b6eda6ae3632dad13fc05958">sign</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>, accessor) {
+<a name="l00397"></a>00397         var <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> = <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.getParameterMap(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.parameters).oauth_signature_method;
+<a name="l00398"></a>00398         <span class="keywordflow">if</span> (name == <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a> || name == <span class="stringliteral">&quot;&quot;</span>) {
+<a name="l00399"></a>00399             name = <span class="stringliteral">&quot;HMAC-SHA1&quot;</span>;
+<a name="l00400"></a>00400             <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.setParameter(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>, <span class="stringliteral">&quot;oauth_signature_method&quot;</span>, name);
+<a name="l00401"></a>00401         }
+<a name="l00402"></a>00402         <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.newMethod(name, accessor).sign(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>);
+<a name="l00403"></a>00403     }
+<a name="l00404"></a>00404 ,
+<a name="l00406"></a>00406     newMethod: <span class="keyword">function</span> newMethod(name, accessor) {
+<a name="l00407"></a>00407         var <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a7d0f1de6f8101fa5b723f403effd4396">impl</a> = <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.REGISTERED[<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>];
+<a name="l00408"></a>00408         <span class="keywordflow">if</span> (impl != <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00409"></a>00409             var method = <span class="keyword">new</span> <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a7d0f1de6f8101fa5b723f403effd4396">impl</a>();
+<a name="l00410"></a>00410             method.initialize(name, accessor);
+<a name="l00411"></a>00411             <span class="keywordflow">return</span> method;
+<a name="l00412"></a>00412         }
+<a name="l00413"></a>00413         var err = <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&quot;signature_method_rejected&quot;</span>);
+<a name="l00414"></a>00414         var acceptable = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00415"></a>00415         <span class="keywordflow">for</span> (var r in <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.REGISTERED) {
+<a name="l00416"></a>00416             <span class="keywordflow">if</span> (acceptable != <span class="stringliteral">&quot;&quot;</span>) acceptable += <span class="charliteral">&#39;&amp;&#39;</span>;
+<a name="l00417"></a>00417             acceptable += <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.percentEncode(r);
+<a name="l00418"></a>00418         }
+<a name="l00419"></a>00419         err.oauth_acceptable_signature_methods = acceptable;
+<a name="l00420"></a>00420         <span class="keywordflow">throw</span> err;
+<a name="l00421"></a>00421     }
+<a name="l00422"></a>00422 ,
+<a name="l00424"></a>00424     REGISTERED : {}
+<a name="l00425"></a>00425 ,
+<a name="l00431"></a>00431     <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a06cb38772966d1152dfc3cfb37a05b55">registerMethodClass</a>: <span class="keyword">function</span> <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a06cb38772966d1152dfc3cfb37a05b55">registerMethodClass</a>(<a class="code" href="../../d4/d00/tools_2xpcwindow_2lib_2modules_2debug_8js.html#ae76808cc87130a0f45031b8fdc26ea2b">names</a>, classConstructor) {
+<a name="l00432"></a>00432         <span class="keywordflow">for</span> (var <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a> = 0; <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a> &lt; <a class="code" href="../../d4/d00/tools_2xpcwindow_2lib_2modules_2debug_8js.html#ae76808cc87130a0f45031b8fdc26ea2b">names</a>.length; ++<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>) {
+<a name="l00433"></a>00433             <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.REGISTERED[<a class="code" href="../../d4/d00/tools_2xpcwindow_2lib_2modules_2debug_8js.html#ae76808cc87130a0f45031b8fdc26ea2b">names</a>[<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>]] = classConstructor;
+<a name="l00434"></a>00434         }
+<a name="l00435"></a>00435     }
+<a name="l00436"></a>00436 ,
+<a name="l00438"></a>00438     makeSubclass: <span class="keyword">function</span> makeSubclass(getSignatureFunction) {
+<a name="l00439"></a>00439         var superClass = <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod;
+<a name="l00440"></a>00440         var subClass = <span class="keyword">function</span>() {
+<a name="l00441"></a>00441             superClass.call(<span class="keyword">this</span>);
+<a name="l00442"></a>00442         };
+<a name="l00443"></a>00443         subClass.prototype = <span class="keyword">new</span> superClass();
+<a name="l00444"></a>00444         <span class="comment">// Delete instance variables from prototype:</span>
+<a name="l00445"></a>00445         <span class="comment">// delete subclass.prototype... There aren&#39;t any.</span>
+<a name="l00446"></a>00446         subClass.prototype.getSignature = getSignatureFunction;
+<a name="l00447"></a>00447         subClass.prototype.constructor = subClass;
+<a name="l00448"></a>00448         <span class="keywordflow">return</span> subClass;
+<a name="l00449"></a>00449     }
+<a name="l00450"></a>00450 ,
+<a name="l00451"></a>00451     getBaseString: <span class="keyword">function</span> getBaseString(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>) {
+<a name="l00452"></a>00452         var <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.action;
+<a name="l00453"></a>00453         var q = URL.indexOf(<span class="charliteral">&#39;?&#39;</span>);
+<a name="l00454"></a>00454         var parameters;
+<a name="l00455"></a>00455         <span class="keywordflow">if</span> (q &lt; 0) {
+<a name="l00456"></a>00456             parameters = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.parameters;
+<a name="l00457"></a>00457         } <span class="keywordflow">else</span> {
+<a name="l00458"></a>00458             <span class="comment">// Combine the URL query string with the other parameters:</span>
+<a name="l00459"></a>00459             parameters = <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.decodeForm(URL.substring(q + 1));
+<a name="l00460"></a>00460             var toAdd = <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.getParameterList(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.parameters);
+<a name="l00461"></a>00461             <span class="keywordflow">for</span> (var <a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a> = 0; <a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a> &lt; toAdd.length; ++<a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>) {
+<a name="l00462"></a>00462                 parameters.push(toAdd[<a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>]);
+<a name="l00463"></a>00463             }
+<a name="l00464"></a>00464         }
+<a name="l00465"></a>00465         <span class="keywordflow">return</span> <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.percentEncode(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.method.toUpperCase())
+<a name="l00466"></a>00466          +<span class="charliteral">&#39;&amp;&#39;</span>+ <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.percentEncode(<a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.normalizeUrl(URL))
+<a name="l00467"></a>00467          +<span class="charliteral">&#39;&amp;&#39;</span>+ <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.percentEncode(<a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.normalizeParameters(parameters));
+<a name="l00468"></a>00468     }
+<a name="l00469"></a>00469 ,
+<a name="l00470"></a>00470     normalizeUrl: <span class="keyword">function</span> normalizeUrl(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>) {
+<a name="l00471"></a>00471         var <a class="code" href="../../d9/d04/expat_8h.html#a5a9fdd6c2606370ad12f24c078ac6585">uri</a> = <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.parseUri(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>);
+<a name="l00472"></a>00472         var <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#a53a9d930408d37f30165c41cd723f581">scheme</a> = uri.protocol.toLowerCase();
+<a name="l00473"></a>00473         var authority = uri.authority.toLowerCase();
+<a name="l00474"></a>00474         var dropPort = (scheme == <span class="stringliteral">&quot;http&quot;</span> &amp;&amp; uri.port == 80)
+<a name="l00475"></a>00475                     || (scheme == <span class="stringliteral">&quot;https&quot;</span> &amp;&amp; uri.port == 443);
+<a name="l00476"></a>00476         <span class="keywordflow">if</span> (dropPort) {
+<a name="l00477"></a>00477             <span class="comment">// find the last : in the authority</span>
+<a name="l00478"></a>00478             var <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> = authority.lastIndexOf(<span class="stringliteral">&quot;:&quot;</span>);
+<a name="l00479"></a>00479             <span class="keywordflow">if</span> (index &gt;= 0) {
+<a name="l00480"></a>00480                 authority = authority.substring(0, index);
+<a name="l00481"></a>00481             }
+<a name="l00482"></a>00482         }
+<a name="l00483"></a>00483         var <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a> = uri.path;
+<a name="l00484"></a>00484         <span class="keywordflow">if</span> (!path) {
+<a name="l00485"></a>00485             path = <span class="stringliteral">&quot;/&quot;</span>; <span class="comment">// conforms to RFC 2616 section 3.2.2</span>
+<a name="l00486"></a>00486         }
+<a name="l00487"></a>00487         <span class="comment">// we know that there is no query and no fragment here.</span>
+<a name="l00488"></a>00488         <span class="keywordflow">return</span> scheme + <span class="stringliteral">&quot;://&quot;</span> + authority + <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a>;
+<a name="l00489"></a>00489     }
+<a name="l00490"></a>00490 ,
+<a name="l00491"></a>00491     parseUri: <span class="keyword">function</span> parseUri (<a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>) {
+<a name="l00492"></a>00492         <span class="comment">/* This function was adapted from parseUri 1.2.1</span>
+<a name="l00493"></a>00493 <span class="comment">           http://stevenlevithan.com/demo/parseuri/js/assets/parseuri.js</span>
+<a name="l00494"></a>00494 <span class="comment">         */</span>
+<a name="l00495"></a>00495         var <a class="code" href="../../d8/dbd/namespaceheader.html#a1f19773439587cecdc1d5ef61c705086">o</a> = {<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>: [<span class="stringliteral">&quot;source&quot;</span>,<span class="stringliteral">&quot;protocol&quot;</span>,<span class="stringliteral">&quot;authority&quot;</span>,<span class="stringliteral">&quot;userInfo&quot;</span>,<span class="stringliteral">&quot;user&quot;</span>,<span class="stringliteral">&quot;password&quot;</span>,<span class="stringliteral">&quot;host&quot;</span>,<span class="stringliteral">&quot;port&quot;</span>,<span class="stringliteral">&quot;relative&quot;</span>,<span class="stringliteral">&quot;path&quot;</span>,<span class="stringliteral">&quot;directory&quot;</span>,<span class="stringliteral">&quot;file&quot;</span>,<span class="stringliteral">&quot;query&quot;</span>,<span class="stringliteral">&quot;anchor&quot;</span>],
+<a name="l00496"></a>00496                  <a class="code" href="../../d1/d3e/namespaceadditional-extensions.html#a31dc95d3bc13df39986d40a96bc88a9e">parser</a>: {<a class="code" href="../../dc/d42/device_list_8js.html#ae2475e10618961c050dcba04e8c42331">strict</a>: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@\/]*):?([^:@\/]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/ }};
+<a name="l00497"></a>00497         var m = o.parser.strict.exec(<a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>);
+<a name="l00498"></a>00498         var uri = {};
+<a name="l00499"></a>00499         var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 14;
+<a name="l00500"></a>00500         <span class="keywordflow">while</span> (i--) uri[o.key[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]] = m[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>] || <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00501"></a>00501         <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#a5a9fdd6c2606370ad12f24c078ac6585">uri</a>;
+<a name="l00502"></a>00502     }
+<a name="l00503"></a>00503 ,
+<a name="l00504"></a>00504     normalizeParameters: <span class="keyword">function</span> normalizeParameters(parameters) {
+<a name="l00505"></a>00505         <span class="keywordflow">if</span> (parameters == <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00506"></a>00506             <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00507"></a>00507         }
+<a name="l00508"></a>00508         var <a class="code" href="../../d3/d87/mock__contact_8js.html#ad08d759db77b6861afcb4729fc620b95">list</a> = <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.getParameterList(parameters);
+<a name="l00509"></a>00509         var sortable = [];
+<a name="l00510"></a>00510         <span class="keywordflow">for</span> (var <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> = 0; <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> &lt; list.length; ++<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>) {
+<a name="l00511"></a>00511             var nvp = list[<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>];
+<a name="l00512"></a>00512             <span class="keywordflow">if</span> (nvp[0] != <span class="stringliteral">&quot;oauth_signature&quot;</span>) {
+<a name="l00513"></a>00513                 sortable.push([ <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.percentEncode(nvp[0])
+<a name="l00514"></a>00514                               + <span class="stringliteral">&quot; &quot;</span> <span class="comment">// because it comes before any character that can appear in a percentEncoded string.</span>
+<a name="l00515"></a>00515                               + <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.percentEncode(nvp[1])
+<a name="l00516"></a>00516                               , nvp]);
+<a name="l00517"></a>00517             }
+<a name="l00518"></a>00518         }
+<a name="l00519"></a>00519         sortable.sort(<span class="keyword">function</span>(<a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>,<a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>) {
+<a name="l00520"></a>00520                           <span class="keywordflow">if</span> (<a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>[0] &lt; <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>[0]) <span class="keywordflow">return</span>  -1;
+<a name="l00521"></a>00521                           <span class="keywordflow">if</span> (<a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>[0] &gt; <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>[0]) <span class="keywordflow">return</span> 1;
+<a name="l00522"></a>00522                           <span class="keywordflow">return</span> 0;
+<a name="l00523"></a>00523                       });
+<a name="l00524"></a>00524         var sorted = [];
+<a name="l00525"></a>00525         <span class="keywordflow">for</span> (var <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> = 0; <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> &lt; sortable.length; ++<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>) {
+<a name="l00526"></a>00526             sorted.push(sortable[<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>][1]);
+<a name="l00527"></a>00527         }
+<a name="l00528"></a>00528         <span class="keywordflow">return</span> <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.formEncode(sorted);
+<a name="l00529"></a>00529     }
+<a name="l00530"></a>00530 });
+<a name="l00531"></a>00531 
+<a name="l00532"></a>00532 <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.registerMethodClass([<span class="stringliteral">&quot;PLAINTEXT&quot;</span>, <span class="stringliteral">&quot;PLAINTEXT-Accessor&quot;</span>],
+<a name="l00533"></a>00533     <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.makeSubclass(
+<a name="l00534"></a>00534         <span class="keyword">function</span> getSignature(baseString) {
+<a name="l00535"></a>00535             <span class="keywordflow">return</span> this.<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>;
+<a name="l00536"></a>00536         }
+<a name="l00537"></a>00537     ));
+<a name="l00538"></a>00538 
+<a name="l00539"></a>00539 <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.registerMethodClass([<span class="stringliteral">&quot;HMAC-SHA1&quot;</span>, <span class="stringliteral">&quot;HMAC-SHA1-Accessor&quot;</span>],
+<a name="l00540"></a>00540     <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.SignatureMethod.makeSubclass(
+<a name="l00541"></a>00541         <span class="keyword">function</span> getSignature(baseString) {
+<a name="l00542"></a>00542             <a class="code" href="../../da/d5b/showcase__apps_2twittershare_2js_2ext_2sha1_8js.html#a1b3c9c1f22b5fa4d7bc3678a90e89769">b64pad</a> = <span class="charliteral">&#39;=&#39;</span>;
+<a name="l00543"></a>00543             var signature = <a class="code" href="../../da/d5b/showcase__apps_2twittershare_2js_2ext_2sha1_8js.html#a972cfe306fdb10e2434cd03464e059bc">b64_hmac_sha1</a>(this.<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>, baseString);
+<a name="l00544"></a>00544             <span class="keywordflow">return</span> signature;
+<a name="l00545"></a>00545         }
+<a name="l00546"></a>00546     ));
+<a name="l00547"></a>00547 
+<a name="l00548"></a>00548 <span class="keywordflow">try</span> {
+<a name="l00549"></a>00549     <a class="code" href="../../db/d0b/showcase__apps_2twittershare_2js_2ext_2oauth_8js.html#a2b39e97b7403b3ed1a91dc547c12525c">OAuth</a>.correctTimestampFromSrc();
+<a name="l00550"></a>00550 } <span class="keywordflow">catch</span>(e) {
+<a name="l00551"></a>00551 }
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d8/d28/test__apps_2image-uploader_2js_2ext_2oauth_8js.html">oauth.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:54:29に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

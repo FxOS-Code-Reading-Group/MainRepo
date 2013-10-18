@@ -1,0 +1,1017 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: metadata.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d9/da7/test__apps_2music2_2js_2metadata_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">metadata.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d9/da7/test__apps_2music2_2js_2metadata_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../d9/da7/test__apps_2music2_2js_2metadata_8js.html#ae2475e10618961c050dcba04e8c42331">00001</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="comment">// Parse the specified blob and pass an object of metadata to the</span>
+<a name="l00004"></a>00004 <span class="comment">// metadataCallback, or invoke the errorCallback with an error message.</span>
+<a name="l00005"></a><a class="code" href="../../d9/da7/test__apps_2music2_2js_2metadata_8js.html#a25df41c176aa5771394f5b5567836dd8">00005</a> <span class="keyword">function</span> <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#a25df41c176aa5771394f5b5567836dd8">parseAudioMetadata</a>(blob, metadataCallback, <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>) {
+<a name="l00006"></a>00006   var <a class="code" href="../../d2/d7d/jsapi_8h.html#a9b61fad0b15688b43345d3f5c3a3d44b">filename</a> = blob.name;
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008   <span class="comment">// If blob.name exists, it should be an audio file from system</span>
+<a name="l00009"></a>00009   <span class="comment">// otherwise it should be an audio blob that probably from network/process</span>
+<a name="l00010"></a>00010   <span class="comment">// we can still parse it but we don&#39;t need to care about the filename</span>
+<a name="l00011"></a>00011   <span class="keywordflow">if</span> (filename) {
+<a name="l00012"></a>00012     <span class="comment">// If the file is in the DCIM/ directory and has a .3gp extension</span>
+<a name="l00013"></a>00013     <span class="comment">// then it is a video, not a music file and we ignore it</span>
+<a name="l00014"></a>00014     <span class="keywordflow">if</span> (filename.slice(0, 5) === <span class="stringliteral">&#39;DCIM/&#39;</span> &amp;&amp;
+<a name="l00015"></a>00015         filename.slice(-4).toLowerCase() === <span class="stringliteral">&#39;.3gp&#39;</span>) {
+<a name="l00016"></a>00016       <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<span class="stringliteral">&#39;skipping 3gp video file&#39;</span>);
+<a name="l00017"></a>00017       <span class="keywordflow">return</span>;
+<a name="l00018"></a>00018     }
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020     <span class="comment">// If the file has a .m4v extension then it is almost certainly a video.</span>
+<a name="l00021"></a>00021     <span class="comment">// Device Storage should not even return these files to us:</span>
+<a name="l00022"></a>00022     <span class="comment">// see https://bugzilla.mozilla.org/show_bug.cgi?id=826024</span>
+<a name="l00023"></a>00023     <span class="keywordflow">if</span> (filename.slice(-4).toLowerCase() === <span class="stringliteral">&#39;.m4v&#39;</span>) {
+<a name="l00024"></a>00024       <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<span class="stringliteral">&#39;skipping m4v video file&#39;</span>);
+<a name="l00025"></a>00025       <span class="keywordflow">return</span>;
+<a name="l00026"></a>00026     }
+<a name="l00027"></a>00027   }
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029   <span class="comment">// If the file is too small to be a music file then ignore it</span>
+<a name="l00030"></a>00030   <span class="keywordflow">if</span> (blob.size &lt; 128) {
+<a name="l00031"></a>00031     <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<span class="stringliteral">&#39;file is empty or too small&#39;</span>);
+<a name="l00032"></a>00032     <span class="keywordflow">return</span>;
+<a name="l00033"></a>00033   }
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035   <span class="comment">// These are the property names we use in the returned metadata object</span>
+<a name="l00036"></a>00036   var <a class="code" href="../../d4/d7c/namespacetest__homescreen__launch__app.html#a09ca2e1b25f72d221524e862cd04e74f">TITLE</a> = <span class="stringliteral">&#39;title&#39;</span>;
+<a name="l00037"></a>00037   var ARTIST = <span class="stringliteral">&#39;artist&#39;</span>;
+<a name="l00038"></a>00038   var ALBUM = <span class="stringliteral">&#39;album&#39;</span>;
+<a name="l00039"></a>00039   var TRACKNUM = <span class="stringliteral">&#39;tracknum&#39;</span>;
+<a name="l00040"></a>00040   var GENRE = <span class="stringliteral">&#39;genre&#39;</span>;
+<a name="l00041"></a>00041   var IMAGE = <span class="stringliteral">&#39;picture&#39;</span>;
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043   <span class="comment">// These two properties are for playlist functionalities</span>
+<a name="l00044"></a>00044   <span class="comment">// not originally metadata from the files</span>
+<a name="l00045"></a>00045   var RATED = <span class="stringliteral">&#39;rated&#39;</span>;
+<a name="l00046"></a>00046   var PLAYED = <span class="stringliteral">&#39;played&#39;</span>;
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048   <span class="comment">// Map id3v2 tag ids to metadata property names</span>
+<a name="l00049"></a>00049   var ID3V2TAGS = {
+<a name="l00050"></a>00050     TIT2: <a class="code" href="../../d4/d7c/namespacetest__homescreen__launch__app.html#a09ca2e1b25f72d221524e862cd04e74f">TITLE</a>,
+<a name="l00051"></a>00051     TT2: <a class="code" href="../../d4/d7c/namespacetest__homescreen__launch__app.html#a09ca2e1b25f72d221524e862cd04e74f">TITLE</a>,
+<a name="l00052"></a>00052     TPE1: ARTIST,
+<a name="l00053"></a>00053     TP1: ARTIST,
+<a name="l00054"></a>00054     TALB: ALBUM,
+<a name="l00055"></a>00055     TAL: ALBUM,
+<a name="l00056"></a>00056     TRCK: TRACKNUM,
+<a name="l00057"></a>00057     TRK: TRACKNUM,
+<a name="l00058"></a>00058     TCON: GENRE,
+<a name="l00059"></a>00059     APIC: IMAGE,
+<a name="l00060"></a>00060     PIC: IMAGE
+<a name="l00061"></a>00061   };
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063   <span class="comment">// Map ogg tagnames to metadata property names</span>
+<a name="l00064"></a>00064   var OGGTAGS = {
+<a name="l00065"></a>00065     <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a>: <a class="code" href="../../d4/d7c/namespacetest__homescreen__launch__app.html#a09ca2e1b25f72d221524e862cd04e74f">TITLE</a>,
+<a name="l00066"></a>00066     artist: ARTIST,
+<a name="l00067"></a>00067     album: ALBUM,
+<a name="l00068"></a>00068     tracknumber: TRACKNUM,
+<a name="l00069"></a>00069     genre: GENRE
+<a name="l00070"></a>00070   };
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072   <span class="comment">// Map MP4 atom names to metadata property names</span>
+<a name="l00073"></a>00073   var MP4TAGS = {
+<a name="l00074"></a>00074     <span class="stringliteral">&#39;\xa9alb&#39;</span>: ALBUM,
+<a name="l00075"></a>00075     <span class="stringliteral">&#39;\xa9art&#39;</span>: ARTIST,
+<a name="l00076"></a>00076     <span class="stringliteral">&#39;\xa9ART&#39;</span>: ARTIST,
+<a name="l00077"></a>00077     <span class="stringliteral">&#39;aART&#39;</span>: ARTIST,
+<a name="l00078"></a>00078     <span class="stringliteral">&#39;\xa9nam&#39;</span>: <a class="code" href="../../d4/d7c/namespacetest__homescreen__launch__app.html#a09ca2e1b25f72d221524e862cd04e74f">TITLE</a>,
+<a name="l00079"></a>00079     <span class="stringliteral">&#39;trkn&#39;</span>: TRACKNUM,
+<a name="l00080"></a>00080     <span class="stringliteral">&#39;\xa9gen&#39;</span>: GENRE,
+<a name="l00081"></a>00081     <span class="stringliteral">&#39;gnre&#39;</span>: GENRE,
+<a name="l00082"></a>00082     <span class="stringliteral">&#39;covr&#39;</span>: IMAGE
+<a name="l00083"></a>00083   };
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085   <span class="comment">// These are &#39;ftyp&#39; values that we recognize</span>
+<a name="l00086"></a>00086   <span class="comment">// See http://www.mp4ra.org/filetype.html</span>
+<a name="l00087"></a>00087   var MP4Types = {
+<a name="l00088"></a>00088     <span class="stringliteral">&#39;M4A &#39;</span> : <span class="keyword">true</span>,  <span class="comment">// iTunes audio.  Note space in property name.</span>
+<a name="l00089"></a>00089     <span class="stringliteral">&#39;M4B &#39;</span> : <span class="keyword">true</span>,  <span class="comment">// iTunes audio book. Note space.</span>
+<a name="l00090"></a>00090     <span class="stringliteral">&#39;mp42&#39;</span> : <span class="keyword">true</span>   <span class="comment">// MP4 version 2</span>
+<a name="l00091"></a>00091   };
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093   <span class="comment">// Start off with some default metadata</span>
+<a name="l00094"></a>00094   var metadata = {};
+<a name="l00095"></a>00095   metadata[ARTIST] = metadata[ALBUM] = metadata[<a class="code" href="../../d4/d7c/namespacetest__homescreen__launch__app.html#a09ca2e1b25f72d221524e862cd04e74f">TITLE</a>] = metadata[GENRE] = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00096"></a>00096   metadata[RATED] = metadata[PLAYED] = 0;
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098   <span class="comment">// If the blob has a name, use that as a default title in case</span>
+<a name="l00099"></a>00099   <span class="comment">// we can&#39;t find one in the file</span>
+<a name="l00100"></a>00100   <span class="keywordflow">if</span> (filename) {
+<a name="l00101"></a>00101     var p1 = filename.lastIndexOf(<span class="charliteral">&#39;/&#39;</span>);
+<a name="l00102"></a>00102     var p2 = filename.lastIndexOf(<span class="charliteral">&#39;.&#39;</span>);
+<a name="l00103"></a>00103     <span class="keywordflow">if</span> (p2 === -1)
+<a name="l00104"></a>00104       p2 = filename.length;
+<a name="l00105"></a>00105     metadata[<a class="code" href="../../d4/d7c/namespacetest__homescreen__launch__app.html#a09ca2e1b25f72d221524e862cd04e74f">TITLE</a>] = filename.substring(p1 + 1, p2);
+<a name="l00106"></a>00106   }
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108   <span class="comment">// Read the start of the file, figure out what kind it is, and call</span>
+<a name="l00109"></a>00109   <span class="comment">// the appropriate parser.  Start off with an 64kb chunk of data.</span>
+<a name="l00110"></a>00110   <span class="comment">// If the metadata is in that initial chunk we won&#39;t have to read again.</span>
+<a name="l00111"></a>00111   var headersize = Math.min(64 * 1024, blob.size);
+<a name="l00112"></a>00112   <a class="code" href="../../df/dcd/apps_2gallery_2js_2metadata__scripts_8js.html#a2406e02040a596ecb02b16dd1daf98c6">BlobView</a>.get(blob, 0, headersize, <span class="keyword">function</span>(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>, <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>) {
+<a name="l00113"></a>00113     <span class="keywordflow">if</span> (<a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>) {
+<a name="l00114"></a>00114       <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>);
+<a name="l00115"></a>00115       <span class="keywordflow">return</span>;
+<a name="l00116"></a>00116     }
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118     <span class="keywordflow">try</span> {
+<a name="l00119"></a>00119       var magic = <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.getASCIIText(0, 12);
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121       <span class="keywordflow">if</span> (magic.substring(0, 3) === <span class="stringliteral">&#39;ID3&#39;</span>) {
+<a name="l00122"></a>00122         <span class="comment">// parse ID3v2 tags in an MP3 file</span>
+<a name="l00123"></a>00123         parseID3v2Metadata(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>);
+<a name="l00124"></a>00124       }
+<a name="l00125"></a>00125       <span class="keywordflow">else</span> <span class="keywordflow">if</span> (magic.substring(0, 4) === <span class="stringliteral">&#39;OggS&#39;</span>) {
+<a name="l00126"></a>00126         <span class="comment">// parse metadata from an Ogg Vorbis file</span>
+<a name="l00127"></a>00127         parseOggMetadata(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>);
+<a name="l00128"></a>00128       }
+<a name="l00129"></a>00129       <span class="keywordflow">else</span> <span class="keywordflow">if</span> (magic.substring(4, 8) === <span class="stringliteral">&#39;ftyp&#39;</span>) {
+<a name="l00130"></a>00130         <span class="comment">// This is an MP4 file</span>
+<a name="l00131"></a>00131         <span class="keywordflow">if</span> (magic.substring(8, 12) in MP4Types) {
+<a name="l00132"></a>00132           <span class="comment">// It is a type of MP4 file that we support</span>
+<a name="l00133"></a>00133           parseMP4Metadata(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>);
+<a name="l00134"></a>00134         }
+<a name="l00135"></a>00135         <span class="keywordflow">else</span> {
+<a name="l00136"></a>00136           <span class="comment">// The MP4 file might be a video or it might be some</span>
+<a name="l00137"></a>00137           <span class="comment">// kind of audio that we don&#39;t support. We used to treat</span>
+<a name="l00138"></a>00138           <span class="comment">// files like these as unknown files and see (in the code below)</span>
+<a name="l00139"></a>00139           <span class="comment">// whether the &lt;audio&gt; tag could play them. But we never parsed</span>
+<a name="l00140"></a>00140           <span class="comment">// metadata from them, so even if playable, we didn&#39;t have a title.</span>
+<a name="l00141"></a>00141           <span class="comment">// And, the &lt;audio&gt; tag was treating videos as playable.</span>
+<a name="l00142"></a>00142           <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<span class="stringliteral">&#39;Unknown MP4 file type&#39;</span>);
+<a name="l00143"></a>00143         }
+<a name="l00144"></a>00144       }
+<a name="l00145"></a>00145       <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.getUint16(0, <span class="keyword">false</span>) &amp; 0xFFFE) === 0xFFFA) {
+<a name="l00146"></a>00146         <span class="comment">// If this looks like an MP3 file, then look for ID3v1 metadata</span>
+<a name="l00147"></a>00147         <span class="comment">// tags at the end of the file. But even if there is no metadata</span>
+<a name="l00148"></a>00148         <span class="comment">// treat this as a playable file.</span>
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150         <a class="code" href="../../df/dcd/apps_2gallery_2js_2metadata__scripts_8js.html#a2406e02040a596ecb02b16dd1daf98c6">BlobView</a>.get(blob, blob.size - 128, 128, <span class="keyword">function</span>(<a class="code" href="../../de/dd3/form__test_8js.html#a87728fbcad5f3090ecaa69a5db1cc729">footer</a>, <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>) {
+<a name="l00151"></a>00151           <a class="code" href="../../d6/d52/js_2browser_8js.html#a7321fd84345f4f9455f25996b932b8fd">if</a> (<a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>) {
+<a name="l00152"></a>00152             <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>);
+<a name="l00153"></a>00153             <span class="keywordflow">return</span>;
+<a name="l00154"></a>00154           }
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156           <span class="keywordflow">try</span> {
+<a name="l00157"></a>00157             var magic = <a class="code" href="../../de/dd3/form__test_8js.html#a87728fbcad5f3090ecaa69a5db1cc729">footer</a>.getASCIIText(0, 3);
+<a name="l00158"></a>00158             <span class="keywordflow">if</span> (magic === <span class="stringliteral">&#39;TAG&#39;</span>) {
+<a name="l00159"></a>00159               <span class="comment">// It is an MP3 file with ID3v1 tags</span>
+<a name="l00160"></a>00160               parseID3v1Metadata(<a class="code" href="../../de/dd3/form__test_8js.html#a87728fbcad5f3090ecaa69a5db1cc729">footer</a>);
+<a name="l00161"></a>00161             }
+<a name="l00162"></a>00162             <span class="keywordflow">else</span> {
+<a name="l00163"></a>00163               <span class="comment">// It is an MP3 file with no metadata. We return the default</span>
+<a name="l00164"></a>00164               <span class="comment">// metadata object that just contains the filename as the title</span>
+<a name="l00165"></a>00165               metadataCallback(metadata);
+<a name="l00166"></a>00166             }
+<a name="l00167"></a>00167           }
+<a name="l00168"></a>00168           <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00169"></a>00169             <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00170"></a>00170           }
+<a name="l00171"></a>00171         });
+<a name="l00172"></a>00172       }
+<a name="l00173"></a>00173       <span class="keywordflow">else</span> {
+<a name="l00174"></a>00174         <span class="comment">// This is some kind of file that we don&#39;t know about.</span>
+<a name="l00175"></a>00175         <span class="comment">// Let&#39;s see if we can play it.</span>
+<a name="l00176"></a>00176         var player = <span class="keyword">new</span> Audio();
+<a name="l00177"></a>00177         player.mozAudioChannelType = <span class="stringliteral">&#39;content&#39;</span>;
+<a name="l00178"></a>00178         var canplay = blob.type &amp;&amp; player.canPlayType(blob.type);
+<a name="l00179"></a>00179         <span class="keywordflow">if</span> (canplay === <span class="stringliteral">&#39;probably&#39;</span>) {
+<a name="l00180"></a>00180           metadataCallback(metadata);
+<a name="l00181"></a>00181         }
+<a name="l00182"></a>00182         <span class="keywordflow">else</span> {
+<a name="l00183"></a>00183           var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> = <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.createObjectURL(blob);
+<a name="l00184"></a>00184           player.src = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>;
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186           player.onerror = <span class="keyword">function</span>() {
+<a name="l00187"></a>00187             <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.revokeObjectURL(url);
+<a name="l00188"></a>00188             player.removeAttribute(<span class="stringliteral">&#39;src&#39;</span>);
+<a name="l00189"></a>00189             player.load();
+<a name="l00190"></a>00190             <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<span class="stringliteral">&#39;Unplayable music file&#39;</span>);
+<a name="l00191"></a>00191           };
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193           player.oncanplay = <span class="keyword">function</span>() {
+<a name="l00194"></a>00194             <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.revokeObjectURL(url);
+<a name="l00195"></a>00195             player.removeAttribute(<span class="stringliteral">&#39;src&#39;</span>);
+<a name="l00196"></a>00196             player.load();
+<a name="l00197"></a>00197             metadataCallback(metadata);
+<a name="l00198"></a>00198           };
+<a name="l00199"></a>00199         }
+<a name="l00200"></a>00200       }
+<a name="l00201"></a>00201     }
+<a name="l00202"></a>00202     <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00203"></a>00203       <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.error(<span class="stringliteral">&#39;parseAudioMetadata:&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.stack);
+<a name="l00204"></a>00204       <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00205"></a>00205     }
+<a name="l00206"></a>00206   });
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208   <span class="comment">//</span>
+<a name="l00209"></a>00209   <span class="comment">// Parse ID3v1 metadata from the 128 bytes footer at the end of a file.</span>
+<a name="l00210"></a>00210   <span class="comment">// Metadata includes title, artist, album and possibly the track number.</span>
+<a name="l00211"></a>00211   <span class="comment">// Year, comment and genre are ignored.</span>
+<a name="l00212"></a>00212   <span class="comment">//</span>
+<a name="l00213"></a>00213   <span class="comment">// Format information:</span>
+<a name="l00214"></a>00214   <span class="comment">//   http://www.id3.org/ID3v1</span>
+<a name="l00215"></a>00215   <span class="comment">//   http://en.wikipedia.org/wiki/ID3</span>
+<a name="l00216"></a>00216   <span class="comment">//</span>
+<a name="l00217"></a>00217   <span class="keyword">function</span> parseID3v1Metadata(<a class="code" href="../../de/dd3/form__test_8js.html#a87728fbcad5f3090ecaa69a5db1cc729">footer</a>) {
+<a name="l00218"></a>00218     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a> = <a class="code" href="../../de/dd3/form__test_8js.html#a87728fbcad5f3090ecaa69a5db1cc729">footer</a>.getASCIIText(3, 30);
+<a name="l00219"></a>00219     var artist = <a class="code" href="../../de/dd3/form__test_8js.html#a87728fbcad5f3090ecaa69a5db1cc729">footer</a>.getASCIIText(33, 30);
+<a name="l00220"></a>00220     var album = <a class="code" href="../../de/dd3/form__test_8js.html#a87728fbcad5f3090ecaa69a5db1cc729">footer</a>.getASCIIText(63, 30);
+<a name="l00221"></a>00221     var <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> = title.indexOf(<span class="charliteral">&#39;\0&#39;</span>);
+<a name="l00222"></a>00222     <span class="keywordflow">if</span> (p !== -1)
+<a name="l00223"></a>00223       title = title.substring(0, p);
+<a name="l00224"></a>00224     p = artist.indexOf(<span class="charliteral">&#39;\0&#39;</span>);
+<a name="l00225"></a>00225     <span class="keywordflow">if</span> (p !== -1)
+<a name="l00226"></a>00226       artist = artist.substring(0, p);
+<a name="l00227"></a>00227     p = album.indexOf(<span class="charliteral">&#39;\0&#39;</span>);
+<a name="l00228"></a>00228     <span class="keywordflow">if</span> (p !== -1)
+<a name="l00229"></a>00229       album = album.substring(0, p);
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231     metadata[<a class="code" href="../../d4/d7c/namespacetest__homescreen__launch__app.html#a09ca2e1b25f72d221524e862cd04e74f">TITLE</a>] = title || undefined;
+<a name="l00232"></a>00232     metadata[ARTIST] = artist || undefined;
+<a name="l00233"></a>00233     metadata[ALBUM] = album || undefined;
+<a name="l00234"></a>00234     var b1 = <a class="code" href="../../de/dd3/form__test_8js.html#a87728fbcad5f3090ecaa69a5db1cc729">footer</a>.getUint8(125);
+<a name="l00235"></a>00235     var b2 = <a class="code" href="../../de/dd3/form__test_8js.html#a87728fbcad5f3090ecaa69a5db1cc729">footer</a>.getUint8(126);
+<a name="l00236"></a>00236     <span class="keywordflow">if</span> (b1 === 0 &amp;&amp; b2 !== 0)
+<a name="l00237"></a>00237       metadata[TRACKNUM] = b2;
+<a name="l00238"></a>00238     var genre = <a class="code" href="../../de/dd3/form__test_8js.html#a87728fbcad5f3090ecaa69a5db1cc729">footer</a>.getUint8(127);
+<a name="l00239"></a>00239     metadata[GENRE] = genre || undefined;
+<a name="l00240"></a>00240     metadataCallback(metadata);
+<a name="l00241"></a>00241   }
+<a name="l00242"></a>00242 
+<a name="l00243"></a>00243   <span class="comment">//</span>
+<a name="l00244"></a>00244   <span class="comment">// Format information:</span>
+<a name="l00245"></a>00245   <span class="comment">//   http://www.id3.org/id3v2.3.0</span>
+<a name="l00246"></a>00246   <span class="comment">//   http://phoxis.org/2010/05/08/what-are-id3-tags-all-about/</span>
+<a name="l00247"></a>00247   <span class="comment">//   https://github.com/aadsm/JavaScript-ID3-Reader/</span>
+<a name="l00248"></a>00248   <span class="comment">//</span>
+<a name="l00249"></a>00249   <span class="keyword">function</span> parseID3v2Metadata(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>) {
+<a name="l00250"></a>00250 
+<a name="l00251"></a>00251     <span class="comment">// First three bytes are &quot;ID3&quot; or we wouldn&#39;t be here</span>
+<a name="l00252"></a>00252     <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.index = 3;
+<a name="l00253"></a>00253     var id3version = <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.readUnsignedByte();
+<a name="l00254"></a>00254 
+<a name="l00255"></a>00255     <span class="keywordflow">if</span> (id3version &gt; 4) {
+<a name="l00256"></a>00256       <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;mp3 file with unknown metadata version&#39;</span>);
+<a name="l00257"></a>00257       metadataCallback(metadata);
+<a name="l00258"></a>00258       <span class="keywordflow">return</span>;
+<a name="l00259"></a>00259     }
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261     var id3revision = <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.readUnsignedByte();
+<a name="l00262"></a>00262     var id3flags = <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.readUnsignedByte();
+<a name="l00263"></a>00263     var needs_unsynchronization = ((id3flags &amp; 0x80) !== 0);
+<a name="l00264"></a>00264     var has_extended_header = ((id3flags &amp; 0x40) !== 0);
+<a name="l00265"></a>00265     var <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a> = <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.readID3Uint28BE();
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267     <span class="comment">// XXX</span>
+<a name="l00268"></a>00268     <span class="comment">// For now, we just punt if unsynchronization is required.</span>
+<a name="l00269"></a>00269     <span class="comment">// That&#39;s what the old metadata parser did, too.</span>
+<a name="l00270"></a>00270     <span class="comment">// I don&#39;t think it is very common in mp3 files today.</span>
+<a name="l00271"></a>00271     <span class="keywordflow">if</span> (needs_unsynchronization) {
+<a name="l00272"></a>00272       <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;mp3 file uses unsynchronization. Can\&#39;t read metadata&#39;</span>);
+<a name="l00273"></a>00273       metadataCallback(metadata);
+<a name="l00274"></a>00274       <span class="keywordflow">return</span>;
+<a name="l00275"></a>00275     }
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277     <span class="comment">// Get the entire ID3 data block and pass it to parseID3()</span>
+<a name="l00278"></a>00278     <span class="comment">// May be async, or sync, depending on whether we read enough</span>
+<a name="l00279"></a>00279     <span class="comment">// bytes when we read the header</span>
+<a name="l00280"></a>00280     <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.getMore(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.index, length, parseID3);
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282     <span class="keyword">function</span> parseID3(id3) {
+<a name="l00283"></a>00283       <span class="comment">// skip the extended header, if there is one</span>
+<a name="l00284"></a>00284       <span class="keywordflow">if</span> (has_extended_header) {
+<a name="l00285"></a>00285         id3.advance(id3.readUnsignedInt());
+<a name="l00286"></a>00286       }
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288       <span class="comment">// Now we have a series of frames, each of which is one ID3 tag</span>
+<a name="l00289"></a>00289       <span class="keywordflow">while</span> (id3.index &lt; id3.byteLength) {
+<a name="l00290"></a>00290         var tagid, tagsize, tagflags;
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292         <span class="comment">// If there is a null byte here, then we&#39;ve found padding</span>
+<a name="l00293"></a>00293         <span class="comment">// and we&#39;re done</span>
+<a name="l00294"></a>00294         <span class="keywordflow">if</span> (id3.getUint8(id3.index) === 0)
+<a name="l00295"></a>00295           <span class="keywordflow">break</span>;
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297         <span class="keywordflow">switch</span> (id3version) {
+<a name="l00298"></a>00298         <span class="keywordflow">case</span> 2:
+<a name="l00299"></a>00299           tagid = id3.readASCIIText(3);
+<a name="l00300"></a>00300           tagsize = id3.readUint24();
+<a name="l00301"></a>00301           tagflags = 0;
+<a name="l00302"></a>00302           <span class="keywordflow">break</span>;
+<a name="l00303"></a>00303         <span class="keywordflow">case</span> 3:
+<a name="l00304"></a>00304           tagid = id3.readASCIIText(4);
+<a name="l00305"></a>00305           tagsize = id3.readUnsignedInt();
+<a name="l00306"></a>00306           tagflags = id3.readUnsignedShort();
+<a name="l00307"></a>00307           <span class="keywordflow">break</span>;
+<a name="l00308"></a>00308         <span class="keywordflow">case</span> 4:
+<a name="l00309"></a>00309           tagid = id3.readASCIIText(4);
+<a name="l00310"></a>00310           tagsize = id3.readID3Uint28BE();
+<a name="l00311"></a>00311           tagflags = id3.readUnsignedShort();
+<a name="l00312"></a>00312           <span class="keywordflow">break</span>;
+<a name="l00313"></a>00313         }
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315         var nexttag = id3.index + tagsize;
+<a name="l00316"></a>00316         var tagname = ID3V2TAGS[tagid];
+<a name="l00317"></a>00317 
+<a name="l00318"></a>00318         <span class="comment">// Skip tags we don&#39;t care about</span>
+<a name="l00319"></a>00319         <span class="keywordflow">if</span> (!tagname) {
+<a name="l00320"></a>00320           id3.index = nexttag;
+<a name="l00321"></a>00321           <span class="keywordflow">continue</span>;
+<a name="l00322"></a>00322         }
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324         <span class="comment">// Skip compressed, encrypted, grouped, or synchronized tags that</span>
+<a name="l00325"></a>00325         <span class="comment">// we can&#39;t decode</span>
+<a name="l00326"></a>00326         <span class="keywordflow">if</span> ((tagflags &amp; 0xFF) !== 0) {
+<a name="l00327"></a>00327           <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;Skipping&#39;</span>, tagid, <span class="stringliteral">&#39;tag with flags&#39;</span>, tagflags);
+<a name="l00328"></a>00328           id3.index = nexttag;
+<a name="l00329"></a>00329           <span class="keywordflow">continue</span>;
+<a name="l00330"></a>00330         }
+<a name="l00331"></a>00331 
+<a name="l00332"></a>00332         <span class="comment">// Wrap it in try so we don&#39;t crash the whole thing on one bad tag</span>
+<a name="l00333"></a>00333         <span class="keywordflow">try</span> {
+<a name="l00334"></a>00334           <span class="comment">// Now get the tag value</span>
+<a name="l00335"></a>00335           var tagvalue = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337           <span class="keywordflow">switch</span> (tagid) {
+<a name="l00338"></a>00338           <span class="keywordflow">case</span> <span class="stringliteral">&#39;TIT2&#39;</span>:
+<a name="l00339"></a>00339           <span class="keywordflow">case</span> <span class="stringliteral">&#39;TT2&#39;</span>:
+<a name="l00340"></a>00340           <span class="keywordflow">case</span> <span class="stringliteral">&#39;TPE1&#39;</span>:
+<a name="l00341"></a>00341           <span class="keywordflow">case</span> <span class="stringliteral">&#39;TP1&#39;</span>:
+<a name="l00342"></a>00342           <span class="keywordflow">case</span> <span class="stringliteral">&#39;TALB&#39;</span>:
+<a name="l00343"></a>00343           <span class="keywordflow">case</span> <span class="stringliteral">&#39;TCON&#39;</span>:
+<a name="l00344"></a>00344           <span class="keywordflow">case</span> <span class="stringliteral">&#39;TAL&#39;</span>:
+<a name="l00345"></a>00345             tagvalue = readText(id3, tagsize);
+<a name="l00346"></a>00346             <span class="keywordflow">break</span>;
+<a name="l00347"></a>00347           <span class="keywordflow">case</span> <span class="stringliteral">&#39;TRCK&#39;</span>:
+<a name="l00348"></a>00348           <span class="keywordflow">case</span> <span class="stringliteral">&#39;TRK&#39;</span>:
+<a name="l00349"></a>00349             tagvalue = parseInt(readText(id3, tagsize));
+<a name="l00350"></a>00350             <span class="keywordflow">break</span>;
+<a name="l00351"></a>00351           <span class="keywordflow">case</span> <span class="stringliteral">&#39;APIC&#39;</span>:
+<a name="l00352"></a>00352           <span class="keywordflow">case</span> <span class="stringliteral">&#39;PIC&#39;</span>:
+<a name="l00353"></a>00353             tagvalue = readPic(id3, tagsize, tagid);
+<a name="l00354"></a>00354             <span class="keywordflow">break</span>;
+<a name="l00355"></a>00355           }
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357           <span class="keywordflow">if</span> (tagvalue !== <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>)
+<a name="l00358"></a>00358             metadata[tagname] = tagvalue;
+<a name="l00359"></a>00359         }
+<a name="l00360"></a>00360         <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00361"></a>00361           <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;Error parsing mp3 metadata tag&#39;</span>, tagid, <span class="charliteral">&#39;:&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00362"></a>00362         }
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364         <span class="comment">// Make sure we&#39;re at the start of the next tag before continuing</span>
+<a name="l00365"></a>00365         id3.index = nexttag;
+<a name="l00366"></a>00366       }
+<a name="l00367"></a>00367 
+<a name="l00368"></a>00368       handleCoverArt(metadata);
+<a name="l00369"></a>00369     }
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371     <span class="keyword">function</span> readPic(<a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>, <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>, <span class="keywordtype">id</span>) {
+<a name="l00372"></a>00372       var <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> = <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.index;
+<a name="l00373"></a>00373       var <a class="code" href="../../d9/d04/expat_8h.html#a4dfeb87c47b4dde2571b24c1a6798056">encoding</a> = <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.readUnsignedByte();
+<a name="l00374"></a>00374       var mimetype;
+<a name="l00375"></a>00375       <span class="comment">// mimetype is different for old PIC tags and new APIC tags</span>
+<a name="l00376"></a>00376       <span class="keywordflow">if</span> (<span class="keywordtype">id</span> === <span class="stringliteral">&#39;PIC&#39;</span>) {
+<a name="l00377"></a>00377         mimetype = <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.readASCIIText(3);
+<a name="l00378"></a>00378         <span class="keywordflow">if</span> (mimetype === <span class="stringliteral">&#39;JPG&#39;</span>)
+<a name="l00379"></a>00379           mimetype = <span class="stringliteral">&#39;image/jpeg&#39;</span>;
+<a name="l00380"></a>00380         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (mimetype === <span class="stringliteral">&#39;PNG&#39;</span>)
+<a name="l00381"></a>00381           mimetype = <span class="stringliteral">&#39;image/png&#39;</span>;
+<a name="l00382"></a>00382       }
+<a name="l00383"></a>00383       <span class="keywordflow">else</span> {
+<a name="l00384"></a>00384         mimetype = <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.readNullTerminatedLatin1Text(<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a> - 1);
+<a name="l00385"></a>00385       }
+<a name="l00386"></a>00386 
+<a name="l00387"></a>00387       <span class="comment">// We ignore these next two fields</span>
+<a name="l00388"></a>00388       var <a class="code" href="../../d2/d7d/jsapi_8h.html#a21b86a570102717f58e91d7c7ddce179">kind</a> = <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.readUnsignedByte();
+<a name="l00389"></a>00389       var <a class="code" href="../../d8/dd0/extension__set_8h.html#a348efe6592512f937a672d5f5ec7d76a">desc</a> = readText(<a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>, <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a> - (<a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.index - start), encoding);
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391       var picstart = <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.sliceOffset + <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.viewOffset + <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.index;
+<a name="l00392"></a>00392       var piclength = <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a> - (<a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.index - <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>);
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394       <span class="comment">// Now return an object that specifies where to pull the image from</span>
+<a name="l00395"></a>00395       <span class="comment">// The properties of this object can be passed to blob.slice()</span>
+<a name="l00396"></a>00396       <span class="keywordflow">return</span> {
+<a name="l00397"></a>00397         start: picstart,
+<a name="l00398"></a>00398         <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>: picstart + piclength,
+<a name="l00399"></a>00399         <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: mimetype
+<a name="l00400"></a>00400       };
+<a name="l00401"></a>00401     }
+<a name="l00402"></a>00402 
+<a name="l00403"></a>00403     <span class="keyword">function</span> readText(<a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>, <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>, encoding) {
+<a name="l00404"></a>00404       <span class="keywordflow">if</span> (encoding === undefined) {
+<a name="l00405"></a>00405         encoding = <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.readUnsignedByte();
+<a name="l00406"></a>00406         <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a> = <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a> - 1;
+<a name="l00407"></a>00407       }
+<a name="l00408"></a>00408       <span class="keywordflow">switch</span> (encoding) {
+<a name="l00409"></a>00409       <span class="keywordflow">case</span> 0:
+<a name="l00410"></a>00410         <span class="keywordflow">return</span> <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.readNullTerminatedLatin1Text(<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>);
+<a name="l00411"></a>00411       <span class="keywordflow">case</span> 1:
+<a name="l00412"></a>00412         <span class="keywordflow">return</span> <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.readNullTerminatedUTF16Text(<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>, undefined);
+<a name="l00413"></a>00413       <span class="keywordflow">case</span> 2:
+<a name="l00414"></a>00414         <span class="keywordflow">return</span> <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.readNullTerminatedUTF16Text(<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>, <span class="keyword">false</span>);
+<a name="l00415"></a>00415       <span class="keywordflow">case</span> 3:
+<a name="l00416"></a>00416         <span class="keywordflow">return</span> <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a>.readNullTerminatedUTF8Text(<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>);
+<a name="l00417"></a>00417       <span class="keywordflow">default</span>:
+<a name="l00418"></a>00418         <span class="keywordflow">throw</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;unknown text encoding&#39;</span>);
+<a name="l00419"></a>00419       }
+<a name="l00420"></a>00420     }
+<a name="l00421"></a>00421   }
+<a name="l00422"></a>00422 
+<a name="l00423"></a>00423   <span class="comment">//</span>
+<a name="l00424"></a>00424   <span class="comment">// Format information:</span>
+<a name="l00425"></a>00425   <span class="comment">//   http://en.wikipedia.org/wiki/Ogg</span>
+<a name="l00426"></a>00426   <span class="comment">//   http://xiph.org/vorbis/doc/Vorbis_I_spec.html</span>
+<a name="l00427"></a>00427   <span class="comment">//   http://www.xiph.org/vorbis/doc/v-comment.html</span>
+<a name="l00428"></a>00428   <span class="comment">//   http://wiki.xiph.org/VorbisComment</span>
+<a name="l00429"></a>00429   <span class="comment">//   http://tools.ietf.org/html/draft-ietf-codec-oggopus-00</span>
+<a name="l00430"></a>00430   <span class="comment">//</span>
+<a name="l00431"></a>00431   <span class="keyword">function</span> parseOggMetadata(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>) {
+<a name="l00432"></a>00432     <span class="keyword">function</span> sum(x, y) { <span class="keywordflow">return</span> x + y; } <span class="comment">// for Array.reduce() below</span>
+<a name="l00433"></a>00433 
+<a name="l00434"></a>00434     <span class="comment">// Ogg metadata is in the second header packet.  We need to read</span>
+<a name="l00435"></a>00435     <span class="comment">// the first packet to find the start of the second.</span>
+<a name="l00436"></a>00436     var p1_num_segments = <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.getUint8(26);
+<a name="l00437"></a>00437     var p1_segment_lengths = <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.getUnsignedByteArray(27, p1_num_segments);
+<a name="l00438"></a>00438     var p1_length = Array.reduce(p1_segment_lengths, sum, 0);
+<a name="l00439"></a>00439 
+<a name="l00440"></a>00440     var p2_header = 27 + p1_num_segments + p1_length;
+<a name="l00441"></a>00441     var p2_num_segments = <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.getUint8(p2_header + 26);
+<a name="l00442"></a>00442     var p2_segment_lengths = <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.getUnsignedByteArray(p2_header + 27,
+<a name="l00443"></a>00443                                                          p2_num_segments);
+<a name="l00444"></a>00444     var p2_length = Array.reduce(p2_segment_lengths, sum, 0);
+<a name="l00445"></a>00445     var p2_offset = p2_header + 27 + p2_num_segments;
+<a name="l00446"></a>00446 
+<a name="l00447"></a>00447     <span class="comment">// Now go fetch page 2</span>
+<a name="l00448"></a>00448     <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.getMore(p2_offset, p2_length, <span class="keyword">function</span>(<a class="code" href="../../d7/d9d/time__test_8js.html#a9b03e8a9f4440c3c0c605b05ef1b0885">page</a>, <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>) {
+<a name="l00449"></a>00449       <span class="keywordflow">if</span> (<a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>) {
+<a name="l00450"></a>00450         <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>);
+<a name="l00451"></a>00451         <span class="keywordflow">return</span>;
+<a name="l00452"></a>00452       }
+<a name="l00453"></a>00453 
+<a name="l00454"></a>00454       <span class="comment">// Look for a comment packet from a supported codec</span>
+<a name="l00455"></a>00455       var first_byte = <a class="code" href="../../d7/d9d/time__test_8js.html#a9b03e8a9f4440c3c0c605b05ef1b0885">page</a>.readByte();
+<a name="l00456"></a>00456       var valid = <span class="keyword">false</span>;
+<a name="l00457"></a>00457       <span class="keywordflow">switch</span> (first_byte) {
+<a name="l00458"></a>00458         <span class="keywordflow">case</span> 3:
+<a name="l00459"></a>00459           valid = <a class="code" href="../../d7/d9d/time__test_8js.html#a9b03e8a9f4440c3c0c605b05ef1b0885">page</a>.readASCIIText(6) === <span class="stringliteral">&#39;vorbis&#39;</span>;
+<a name="l00460"></a>00460           <span class="keywordflow">break</span>;
+<a name="l00461"></a>00461         <span class="keywordflow">case</span> 79:
+<a name="l00462"></a>00462           valid = <a class="code" href="../../d7/d9d/time__test_8js.html#a9b03e8a9f4440c3c0c605b05ef1b0885">page</a>.readASCIIText(7) === <span class="stringliteral">&#39;pusTags&#39;</span>;
+<a name="l00463"></a>00463           <span class="keywordflow">break</span>;
+<a name="l00464"></a>00464       }
+<a name="l00465"></a>00465       <span class="keywordflow">if</span> (!valid) {
+<a name="l00466"></a>00466         <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<span class="stringliteral">&#39;malformed ogg comment packet&#39;</span>);
+<a name="l00467"></a>00467       }
+<a name="l00468"></a>00468 
+<a name="l00469"></a>00469       var vendor_string_length = <a class="code" href="../../d7/d9d/time__test_8js.html#a9b03e8a9f4440c3c0c605b05ef1b0885">page</a>.readUnsignedInt(<span class="keyword">true</span>);
+<a name="l00470"></a>00470       <a class="code" href="../../d7/d9d/time__test_8js.html#a9b03e8a9f4440c3c0c605b05ef1b0885">page</a>.advance(vendor_string_length); <span class="comment">// skip libvorbis vendor string</span>
+<a name="l00471"></a>00471 
+<a name="l00472"></a>00472       var num_comments = <a class="code" href="../../d7/d9d/time__test_8js.html#a9b03e8a9f4440c3c0c605b05ef1b0885">page</a>.readUnsignedInt(<span class="keyword">true</span>);
+<a name="l00473"></a>00473       <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; num_comments; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00474"></a>00474         var comment_length = <a class="code" href="../../d7/d9d/time__test_8js.html#a9b03e8a9f4440c3c0c605b05ef1b0885">page</a>.readUnsignedInt(<span class="keyword">true</span>);
+<a name="l00475"></a>00475         var comment = <a class="code" href="../../d7/d9d/time__test_8js.html#a9b03e8a9f4440c3c0c605b05ef1b0885">page</a>.readUTF8Text(comment_length);
+<a name="l00476"></a>00476         var <a class="code" href="../../d2/d7d/jsapi_8h.html#ad9aea280787a5b610e58f0e1d583d430">equal</a> = comment.indexOf(<span class="charliteral">&#39;=&#39;</span>);
+<a name="l00477"></a>00477         <span class="keywordflow">if</span> (equal !== -1) {
+<a name="l00478"></a>00478           var tag = comment.substring(0, equal).toLowerCase().replace(<span class="charliteral">&#39; &#39;</span>, <span class="stringliteral">&#39;&#39;</span>);
+<a name="l00479"></a>00479           var <a class="code" href="../../db/da2/namespacejs.html#ab9360ac648d41fbabc303b3e6f129e6b">propname</a> = OGGTAGS[tag];
+<a name="l00480"></a>00480           <span class="keywordflow">if</span> (propname) { <span class="comment">// Do we care about this tag?</span>
+<a name="l00481"></a>00481             var <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = comment.substring(equal + 1);
+<a name="l00482"></a>00482             <span class="keywordflow">if</span> (propname in metadata) {          <span class="comment">// Do we already have a value?</span>
+<a name="l00483"></a>00483               metadata[<a class="code" href="../../db/da2/namespacejs.html#ab9360ac648d41fbabc303b3e6f129e6b">propname</a>] += <span class="charliteral">&#39; &#39;</span> + <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>; <span class="comment">// Then append this new one.</span>
+<a name="l00484"></a>00484             }
+<a name="l00485"></a>00485             <span class="keywordflow">else</span> {                               <span class="comment">// Otherwise</span>
+<a name="l00486"></a>00486               metadata[<a class="code" href="../../db/da2/namespacejs.html#ab9360ac648d41fbabc303b3e6f129e6b">propname</a>] = <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;        <span class="comment">// just save the single value.</span>
+<a name="l00487"></a>00487             }
+<a name="l00488"></a>00488           }
+<a name="l00489"></a>00489           <span class="comment">// XXX</span>
+<a name="l00490"></a>00490           <span class="comment">// How do we do album art in ogg?</span>
+<a name="l00491"></a>00491           <span class="comment">// http://wiki.xiph.org/VorbisComment</span>
+<a name="l00492"></a>00492           <span class="comment">// http://flac.sourceforge.net/format.html#metadata_block_picture</span>
+<a name="l00493"></a>00493         }
+<a name="l00494"></a>00494       }
+<a name="l00495"></a>00495 
+<a name="l00496"></a>00496       <span class="comment">// We&#39;ve read all the comments, so call the callback</span>
+<a name="l00497"></a>00497       handleCoverArt(metadata);
+<a name="l00498"></a>00498     });
+<a name="l00499"></a>00499   }
+<a name="l00500"></a>00500 
+<a name="l00501"></a>00501   <span class="comment">//</span>
+<a name="l00502"></a>00502   <span class="comment">// XXX: Need a special case for the track number atom?</span>
+<a name="l00503"></a>00503   <span class="comment">//</span>
+<a name="l00504"></a>00504   <span class="comment">// https://developer.apple.com/library/mac/#documentation/QuickTime/QTFF/QTFFChap1/qtff1.html</span>
+<a name="l00505"></a>00505   <span class="comment">// http://en.wikipedia.org/wiki/MPEG-4_Part_14</span>
+<a name="l00506"></a>00506   <span class="comment">// http://atomicparsley.sourceforge.net/mpeg-4files.html</span>
+<a name="l00507"></a>00507   <span class="comment">//</span>
+<a name="l00508"></a>00508   <span class="keyword">function</span> parseMP4Metadata(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>) {
+<a name="l00509"></a>00509     <span class="comment">//</span>
+<a name="l00510"></a>00510     <span class="comment">// XXX</span>
+<a name="l00511"></a>00511     <span class="comment">// I think I could probably restructure this somehow. The atoms or &quot;boxes&quot;</span>
+<a name="l00512"></a>00512     <span class="comment">// we&#39;re reading and parsing here for a tree that I need to traverse.</span>
+<a name="l00513"></a>00513     <span class="comment">// Maybe nextBox() and firstChildBox() functions would be helpful.</span>
+<a name="l00514"></a>00514     <span class="comment">// Or even make these methods of BlobView?  Not sure if it is worth</span>
+<a name="l00515"></a>00515     <span class="comment">// the time to refactor, though... See also the approach in</span>
+<a name="l00516"></a>00516     <span class="comment">// shared/js/get_video_rotation.js</span>
+<a name="l00517"></a>00517     <span class="comment">//</span>
+<a name="l00518"></a>00518 
+<a name="l00519"></a>00519     findMoovAtom(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>);
+<a name="l00520"></a>00520 
+<a name="l00521"></a>00521     <span class="keyword">function</span> findMoovAtom(atom) {
+<a name="l00522"></a>00522       <span class="keywordflow">try</span> {
+<a name="l00523"></a>00523         var <a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a> = atom.sliceOffset + atom.viewOffset; <span class="comment">// position in blob</span>
+<a name="l00524"></a>00524         var <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a> = atom.readUnsignedInt();
+<a name="l00525"></a>00525         var <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> = atom.readASCIIText(4);
+<a name="l00526"></a>00526 
+<a name="l00527"></a>00527         <span class="keywordflow">if</span> (size === 0) {
+<a name="l00528"></a>00528           <span class="comment">// A size of 0 means the rest of the file</span>
+<a name="l00529"></a>00529           size = atom.blob.size - <a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>;
+<a name="l00530"></a>00530         }
+<a name="l00531"></a>00531         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (size === 1) {
+<a name="l00532"></a>00532           <span class="comment">// A size of 1 means the size is in bytes 8-15</span>
+<a name="l00533"></a>00533           size = atom.readUnsignedInt() * 4294967296 + atom.readUnsignedInt();
+<a name="l00534"></a>00534         }
+<a name="l00535"></a>00535 
+<a name="l00536"></a>00536         <span class="keywordflow">if</span> (type === <span class="stringliteral">&#39;moov&#39;</span>) {
+<a name="l00537"></a>00537           <span class="comment">// Get the full contents of this atom</span>
+<a name="l00538"></a>00538           atom.getMore(offset, size, <span class="keyword">function</span>(moov) {
+<a name="l00539"></a>00539             <span class="keywordflow">try</span> {
+<a name="l00540"></a>00540               parseMoovAtom(moov, size);
+<a name="l00541"></a>00541               handleCoverArt(metadata);
+<a name="l00542"></a>00542               <span class="keywordflow">return</span>;
+<a name="l00543"></a>00543             }
+<a name="l00544"></a>00544             <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00545"></a>00545               <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00546"></a>00546             }
+<a name="l00547"></a>00547           });
+<a name="l00548"></a>00548         }
+<a name="l00549"></a>00549         <span class="keywordflow">else</span> {
+<a name="l00550"></a>00550           <span class="comment">// Otherwise, get the start of the next atom and recurse</span>
+<a name="l00551"></a>00551           <span class="comment">// to continue the search for the moov atom.</span>
+<a name="l00552"></a>00552           <span class="comment">// If we&#39;re reached the end of the blob without finding</span>
+<a name="l00553"></a>00553           <span class="comment">// anything, just call the metadata callback with no metadata</span>
+<a name="l00554"></a>00554           <span class="keywordflow">if</span> (offset + size + 16 &lt;= atom.blob.size) {
+<a name="l00555"></a>00555             atom.getMore(offset + size, 16, findMoovAtom);
+<a name="l00556"></a>00556           }
+<a name="l00557"></a>00557           <span class="keywordflow">else</span> {
+<a name="l00558"></a>00558             metadataCallback(metadata);
+<a name="l00559"></a>00559           }
+<a name="l00560"></a>00560         }
+<a name="l00561"></a>00561       }
+<a name="l00562"></a>00562       <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00563"></a>00563         <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00564"></a>00564       }
+<a name="l00565"></a>00565     }
+<a name="l00566"></a>00566 
+<a name="l00567"></a>00567     <span class="comment">// Once we&#39;ve found the moov atom, here&#39;s what we do with it.</span>
+<a name="l00568"></a>00568     <span class="comment">// This function, and the ones that follow are all synchronous.</span>
+<a name="l00569"></a>00569     <span class="comment">// We&#39;ve read the entire moov atom, so we&#39;ve got all the bytes</span>
+<a name="l00570"></a>00570     <span class="comment">// we need and don&#39;t have to do an async read again.</span>
+<a name="l00571"></a>00571     <span class="keyword">function</span> parseMoovAtom(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) {
+<a name="l00572"></a>00572       <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(8); <span class="comment">// skip the size and type of this atom</span>
+<a name="l00573"></a>00573 
+<a name="l00574"></a>00574       <span class="comment">// Find the udta and trak atoms within the moov atom</span>
+<a name="l00575"></a>00575       <span class="comment">// There will only be one udta atom, but there may be multiple trak</span>
+<a name="l00576"></a>00576       <span class="comment">// atoms. In that case, this is probably a movie file and we&#39;ll reject</span>
+<a name="l00577"></a>00577       <span class="comment">// it when we find a track that is not an mp4 audio codec.</span>
+<a name="l00578"></a>00578       <span class="keywordflow">while</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index &lt; <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) {
+<a name="l00579"></a>00579         var size = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readUnsignedInt();
+<a name="l00580"></a>00580         var type = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readASCIIText(4);
+<a name="l00581"></a>00581         var nextindex = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index + size - 8;
+<a name="l00582"></a>00582         <span class="keywordflow">if</span> (type === <span class="stringliteral">&#39;udta&#39;</span>) {       <span class="comment">// Metadata is inside here</span>
+<a name="l00583"></a>00583           parseUdtaAtom(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>);
+<a name="l00584"></a>00584           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index = nextindex;
+<a name="l00585"></a>00585         }
+<a name="l00586"></a>00586         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (type === <span class="stringliteral">&#39;trak&#39;</span>) {  <span class="comment">// We find the audio format inside here</span>
+<a name="l00587"></a>00587           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(-8); <span class="comment">// skip back to beginning</span>
+<a name="l00588"></a>00588           var mdia = findChildAtom(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <span class="stringliteral">&#39;mdia&#39;</span>);
+<a name="l00589"></a>00589           <span class="keywordflow">if</span> (mdia) {
+<a name="l00590"></a>00590             var minf = findChildAtom(mdia, <span class="stringliteral">&#39;minf&#39;</span>);
+<a name="l00591"></a>00591             <span class="keywordflow">if</span> (minf) {
+<a name="l00592"></a>00592               var stbl = findChildAtom(minf, <span class="stringliteral">&#39;stbl&#39;</span>);
+<a name="l00593"></a>00593               <span class="keywordflow">if</span> (stbl) {
+<a name="l00594"></a>00594                 var stsd = findChildAtom(stbl, <span class="stringliteral">&#39;stsd&#39;</span>);
+<a name="l00595"></a>00595                 <span class="keywordflow">if</span> (stsd) {
+<a name="l00596"></a>00596                   stsd.advance(20);
+<a name="l00597"></a>00597                   var codec = stsd.readASCIIText(4);
+<a name="l00598"></a>00598                   <span class="keywordflow">if</span> (codec !== <span class="stringliteral">&#39;mp4a&#39;</span>) {
+<a name="l00599"></a>00599                     <span class="keywordflow">throw</span> <span class="stringliteral">&#39;Unsupported format in MP4 container: &#39;</span> + codec;
+<a name="l00600"></a>00600                   }
+<a name="l00601"></a>00601                 }
+<a name="l00602"></a>00602               }
+<a name="l00603"></a>00603             }
+<a name="l00604"></a>00604           }
+<a name="l00605"></a>00605           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index = nextindex;
+<a name="l00606"></a>00606         }
+<a name="l00607"></a>00607         <span class="keywordflow">else</span> {
+<a name="l00608"></a>00608           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(size - 8);
+<a name="l00609"></a>00609         }
+<a name="l00610"></a>00610       }
+<a name="l00611"></a>00611     }
+<a name="l00612"></a>00612 
+<a name="l00613"></a>00613     <span class="keyword">function</span> findChildAtom(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, atom) {
+<a name="l00614"></a>00614       var start = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index;
+<a name="l00615"></a>00615       var length = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readUnsignedInt();
+<a name="l00616"></a>00616       <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(4);
+<a name="l00617"></a>00617 
+<a name="l00618"></a>00618       <span class="keywordflow">while</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index &lt; start + length) {
+<a name="l00619"></a>00619         var size = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readUnsignedInt();
+<a name="l00620"></a>00620         var type = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readASCIIText(4);
+<a name="l00621"></a>00621         <span class="keywordflow">if</span> (type === atom) {
+<a name="l00622"></a>00622           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(-8);
+<a name="l00623"></a>00623           <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>;
+<a name="l00624"></a>00624         }
+<a name="l00625"></a>00625         <span class="keywordflow">else</span> {
+<a name="l00626"></a>00626           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(size - 8);
+<a name="l00627"></a>00627         }
+<a name="l00628"></a>00628       }
+<a name="l00629"></a>00629 
+<a name="l00630"></a>00630       <span class="keywordflow">return</span> <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;  <span class="comment">// not found</span>
+<a name="l00631"></a>00631     }
+<a name="l00632"></a>00632 
+<a name="l00633"></a>00633     <span class="keyword">function</span> parseUdtaAtom(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) {
+<a name="l00634"></a>00634       <span class="comment">// Find the meta atom within the udta atom</span>
+<a name="l00635"></a>00635       <span class="keywordflow">while</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index &lt; <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) {
+<a name="l00636"></a>00636         var size = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readUnsignedInt();
+<a name="l00637"></a>00637         var type = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readASCIIText(4);
+<a name="l00638"></a>00638         <span class="keywordflow">if</span> (type === <span class="stringliteral">&#39;meta&#39;</span>) {
+<a name="l00639"></a>00639           parseMetaAtom(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index + size - 8);
+<a name="l00640"></a>00640           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index = <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>;
+<a name="l00641"></a>00641           <span class="keywordflow">return</span>;
+<a name="l00642"></a>00642         }
+<a name="l00643"></a>00643         <span class="keywordflow">else</span> {
+<a name="l00644"></a>00644           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(size - 8);
+<a name="l00645"></a>00645         }
+<a name="l00646"></a>00646       }
+<a name="l00647"></a>00647     }
+<a name="l00648"></a>00648 
+<a name="l00649"></a>00649     <span class="keyword">function</span> parseMetaAtom(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) {
+<a name="l00650"></a>00650       <span class="comment">// The meta atom apparently has a slightly different structure.</span>
+<a name="l00651"></a>00651       <span class="comment">// Have to skip flag bytes before reading children atoms</span>
+<a name="l00652"></a>00652       <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(4);
+<a name="l00653"></a>00653 
+<a name="l00654"></a>00654       <span class="comment">// Find the ilst atom within the meta atom</span>
+<a name="l00655"></a>00655       <span class="keywordflow">while</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index &lt; <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) {
+<a name="l00656"></a>00656         var size = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readUnsignedInt();
+<a name="l00657"></a>00657         var type = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readASCIIText(4);
+<a name="l00658"></a>00658         <span class="keywordflow">if</span> (type === <span class="stringliteral">&#39;ilst&#39;</span>) {
+<a name="l00659"></a>00659           parseIlstAtom(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index + size - 8);
+<a name="l00660"></a>00660           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index = <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>;
+<a name="l00661"></a>00661           <span class="keywordflow">return</span>;
+<a name="l00662"></a>00662         }
+<a name="l00663"></a>00663         <span class="keywordflow">else</span> {
+<a name="l00664"></a>00664           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(size - 8);
+<a name="l00665"></a>00665         }
+<a name="l00666"></a>00666       }
+<a name="l00667"></a>00667     }
+<a name="l00668"></a>00668 
+<a name="l00669"></a>00669     <span class="keyword">function</span> parseIlstAtom(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) {
+<a name="l00670"></a>00670       <span class="comment">// Now read all child atoms of ilst, looking for metadata</span>
+<a name="l00671"></a>00671       <span class="comment">// we care about</span>
+<a name="l00672"></a>00672       <span class="keywordflow">while</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index &lt; <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) {
+<a name="l00673"></a>00673         var size = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readUnsignedInt();
+<a name="l00674"></a>00674         var type = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readASCIIText(4);
+<a name="l00675"></a>00675         var next = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index + size - 8;
+<a name="l00676"></a>00676         var tagname = MP4TAGS[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>];
+<a name="l00677"></a>00677         <span class="keywordflow">if</span> (tagname) {
+<a name="l00678"></a>00678           <span class="keywordflow">try</span> {
+<a name="l00679"></a>00679             var <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = getMetadataValue(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, next, type);
+<a name="l00680"></a>00680             metadata[tagname] = <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00681"></a>00681           }
+<a name="l00682"></a>00682           <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00683"></a>00683             <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;skipping&#39;</span>, type, <span class="charliteral">&#39;:&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00684"></a>00684           }
+<a name="l00685"></a>00685         }
+<a name="l00686"></a>00686         <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index = next;
+<a name="l00687"></a>00687       }
+<a name="l00688"></a>00688     }
+<a name="l00689"></a>00689 
+<a name="l00690"></a>00690     <span class="comment">// Find the data atom and return its value or throw an error</span>
+<a name="l00691"></a>00691     <span class="comment">// We handle UTF-8 strings, numbers, and blobs</span>
+<a name="l00692"></a>00692     <span class="keyword">function</span> getMetadataValue(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>, tagtype) {
+<a name="l00693"></a>00693       <span class="comment">// Loop until we find a data atom</span>
+<a name="l00694"></a>00694       <span class="keywordflow">while</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index &lt; <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) {
+<a name="l00695"></a>00695         var size = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readUnsignedInt();
+<a name="l00696"></a>00696         var type = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readASCIIText(4);
+<a name="l00697"></a>00697         <span class="keywordflow">if</span> (type !== <span class="stringliteral">&#39;data&#39;</span>) {
+<a name="l00698"></a>00698           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(size - 8);
+<a name="l00699"></a>00699           <span class="keywordflow">continue</span>;
+<a name="l00700"></a>00700         }
+<a name="l00701"></a>00701 
+<a name="l00702"></a>00702         <span class="comment">// We&#39;ve found the data atom.</span>
+<a name="l00703"></a>00703         <span class="comment">// Return its (first) value or throw an error.</span>
+<a name="l00704"></a>00704         var datatype = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readUnsignedInt() &amp; 0xFFFFFF;
+<a name="l00705"></a>00705         <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(4); <span class="comment">// Ignore locale</span>
+<a name="l00706"></a>00706 
+<a name="l00707"></a>00707         var datasize = size - 16; <span class="comment">// the rest of the atom is the value</span>
+<a name="l00708"></a>00708 
+<a name="l00709"></a>00709         <span class="comment">// Special case for track number</span>
+<a name="l00710"></a>00710         <span class="keywordflow">if</span> (tagtype === <span class="stringliteral">&#39;trkn&#39;</span>) {
+<a name="l00711"></a>00711           <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.advance(2);
+<a name="l00712"></a>00712           <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readUnsignedShort();
+<a name="l00713"></a>00713         }
+<a name="l00714"></a>00714 
+<a name="l00715"></a>00715         <span class="keywordflow">switch</span> (datatype) {
+<a name="l00716"></a>00716         <span class="keywordflow">case</span> 1: <span class="comment">// utf8 text</span>
+<a name="l00717"></a>00717           <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.readUTF8Text(datasize);
+<a name="l00718"></a>00718         <span class="keywordflow">case</span> 13: <span class="comment">// jpeg</span>
+<a name="l00719"></a>00719           <span class="keywordflow">return</span> {
+<a name="l00720"></a>00720             start: <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.sliceOffset + <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.viewOffset + <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index,
+<a name="l00721"></a>00721             <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>: <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.sliceOffset + <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.viewOffset + <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index + datasize,
+<a name="l00722"></a>00722             type: <span class="stringliteral">&#39;image/jpeg&#39;</span>
+<a name="l00723"></a>00723           };
+<a name="l00724"></a>00724         <span class="keywordflow">case</span> 14: <span class="comment">// png</span>
+<a name="l00725"></a>00725           <span class="keywordflow">return</span> {
+<a name="l00726"></a>00726             start: <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.sliceOffset + <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.viewOffset + <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index,
+<a name="l00727"></a>00727             <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>: <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.sliceOffset + <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.viewOffset + <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.index + datasize,
+<a name="l00728"></a>00728             type: <span class="stringliteral">&#39;image/png&#39;</span>
+<a name="l00729"></a>00729           };
+<a name="l00730"></a>00730         <span class="keywordflow">default</span>:
+<a name="l00731"></a>00731           <span class="keywordflow">throw</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;unexpected type in data atom&#39;</span>);
+<a name="l00732"></a>00732         }
+<a name="l00733"></a>00733       }
+<a name="l00734"></a>00734       <span class="keywordflow">throw</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;no data atom found&#39;</span>);
+<a name="l00735"></a>00735     }
+<a name="l00736"></a>00736   }
+<a name="l00737"></a>00737 
+<a name="l00738"></a>00738   <span class="comment">// Before we call the metadataCallback, we create a thumbnail</span>
+<a name="l00739"></a>00739   <span class="comment">// for the song, if there is not already one cached.  In the normal</span>
+<a name="l00740"></a>00740   <span class="comment">// (cache hit) case, this happens synchronously.</span>
+<a name="l00741"></a>00741   <span class="keyword">function</span> handleCoverArt(metadata) {
+<a name="l00742"></a>00742     var fileinfo = {
+<a name="l00743"></a>00743       <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>: blob.name,
+<a name="l00744"></a>00744       blob: blob,
+<a name="l00745"></a>00745       metadata: metadata
+<a name="l00746"></a>00746     };
+<a name="l00747"></a>00747     <span class="comment">// We call getThumbnailURL here even though we don&#39;t need the url yet.</span>
+<a name="l00748"></a>00748     <span class="comment">// We do it here to force the thumbnail to be cached now while</span>
+<a name="l00749"></a>00749     <span class="comment">// we know there is just going to be one file at a time.</span>
+<a name="l00750"></a>00750     <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#ad60829c13d36b684a59d797b34fa3049">getThumbnailURL</a>(fileinfo, <span class="keyword">function</span>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>) {
+<a name="l00751"></a>00751       metadataCallback(metadata);
+<a name="l00752"></a>00752     });
+<a name="l00753"></a>00753   }
+<a name="l00754"></a>00754 }
+<a name="l00755"></a>00755 
+<a name="l00756"></a>00756 <span class="comment">// When we generate our own thumbnails, aim for this size</span>
+<a name="l00757"></a><a class="code" href="../../d9/da7/test__apps_2music2_2js_2metadata_8js.html#aaa5a321897cf10ccfb44fa858a9dae18">00757</a> var <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#aaa5a321897cf10ccfb44fa858a9dae18">THUMBNAIL_WIDTH</a> = 300;
+<a name="l00758"></a><a class="code" href="../../d9/da7/test__apps_2music2_2js_2metadata_8js.html#ac5689d06614178ec1e1a4875d41bfb7d">00758</a> var <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#ac5689d06614178ec1e1a4875d41bfb7d">THUMBNAIL_HEIGHT</a> = 300;
+<a name="l00759"></a><a class="code" href="../../d9/da7/test__apps_2music2_2js_2metadata_8js.html#a3a3c28a468a6b4fb22612d9afcd067b0">00759</a> var <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#a3a3c28a468a6b4fb22612d9afcd067b0">offscreenImage</a> = <span class="keyword">new</span> Image();
+<a name="l00760"></a><a class="code" href="../../d9/da7/test__apps_2music2_2js_2metadata_8js.html#a2f03a8b1322b4428befb79d7a730b27c">00760</a> var <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#a2f03a8b1322b4428befb79d7a730b27c">thumbnailCache</a> = {};  <span class="comment">// maps keys to blob urls</span>
+<a name="l00761"></a>00761 
+<a name="l00762"></a>00762 <span class="comment">// Get a thumbnail image for the specified song (reading from the</span>
+<a name="l00763"></a>00763 <span class="comment">// cache if possible and storing to the cache if necessary) and pass a</span>
+<a name="l00764"></a>00764 <span class="comment">// blob URL for it it to the specified callback. fileinfo is an object</span>
+<a name="l00765"></a>00765 <span class="comment">// with metadata from the MediaDB.</span>
+<a name="l00766"></a><a class="code" href="../../d9/da7/test__apps_2music2_2js_2metadata_8js.html#ad60829c13d36b684a59d797b34fa3049">00766</a> <span class="keyword">function</span> <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#ad60829c13d36b684a59d797b34fa3049">getThumbnailURL</a>(fileinfo, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00767"></a>00767   <span class="keyword">function</span> cacheThumbnail(<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>, blob, <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>) {
+<a name="l00768"></a>00768     <a class="code" href="../../d1/de6/build__stage_2email_2shared_2js_2async__storage_8js.html#a4107f01ea365b45d43bc83776b837ffa">asyncStorage</a>.setItem(<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>, blob);
+<a name="l00769"></a>00769     thumbnailCache[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>] = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>;
+<a name="l00770"></a>00770   }
+<a name="l00771"></a>00771 
+<a name="l00772"></a>00772   var metadata = fileinfo.metadata;
+<a name="l00773"></a>00773 
+<a name="l00774"></a>00774   <span class="comment">// If the file doesn&#39;t have an embedded image, just pass null</span>
+<a name="l00775"></a>00775   <span class="keywordflow">if</span> (!metadata.picture) {
+<a name="l00776"></a>00776     <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00777"></a>00777     <span class="keywordflow">return</span>;
+<a name="l00778"></a>00778   }
+<a name="l00779"></a>00779 
+<a name="l00780"></a>00780   <span class="comment">// We cache thumbnails based on the song artist, album, and image size.</span>
+<a name="l00781"></a>00781   <span class="comment">// If there is no album name, we use the directory name instead.</span>
+<a name="l00782"></a>00782   var <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> = <span class="stringliteral">&#39;thumbnail&#39;</span>;
+<a name="l00783"></a>00783   var album = metadata.album;
+<a name="l00784"></a>00784   var artist = metadata.artist;
+<a name="l00785"></a>00785   var size = metadata.picture.end - metadata.picture.start;
+<a name="l00786"></a>00786 
+<a name="l00787"></a>00787   <span class="keywordflow">if</span> (album || artist) {
+<a name="l00788"></a>00788     key = <span class="stringliteral">&#39;thumbnail.&#39;</span> + album + <span class="charliteral">&#39;.&#39;</span> + artist + <span class="charliteral">&#39;.&#39;</span> + <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>;
+<a name="l00789"></a>00789   }
+<a name="l00790"></a>00790   <span class="keywordflow">else</span> {
+<a name="l00791"></a>00791     key = <span class="stringliteral">&#39;thumbnail.&#39;</span> + (fileinfo.name || fileinfo.blob.name);
+<a name="l00792"></a>00792   }
+<a name="l00793"></a>00793 
+<a name="l00794"></a>00794   <span class="comment">// If we have the thumbnail url locally, just call the callback</span>
+<a name="l00795"></a>00795   var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> = thumbnailCache[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>];
+<a name="l00796"></a>00796   <span class="keywordflow">if</span> (url) {
+<a name="l00797"></a>00797     <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(url);
+<a name="l00798"></a>00798     <span class="keywordflow">return</span>;
+<a name="l00799"></a>00799   }
+<a name="l00800"></a>00800 
+<a name="l00801"></a>00801   <span class="comment">// Otherwise, see if we&#39;ve saved a blob in asyncStorage</span>
+<a name="l00802"></a>00802   <a class="code" href="../../d1/de6/build__stage_2email_2shared_2js_2async__storage_8js.html#a4107f01ea365b45d43bc83776b837ffa">asyncStorage</a>.getItem(key, <span class="keyword">function</span>(blob) {
+<a name="l00803"></a>00803     <span class="keywordflow">if</span> (blob) {
+<a name="l00804"></a>00804       <span class="comment">// If we get a blob, save the URL locally and return the url.</span>
+<a name="l00805"></a>00805       var url = <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.createObjectURL(blob);
+<a name="l00806"></a>00806       thumbnailCache[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>] = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>;
+<a name="l00807"></a>00807       <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(url);
+<a name="l00808"></a>00808       <span class="keywordflow">return</span>;
+<a name="l00809"></a>00809     }
+<a name="l00810"></a>00810     <span class="keywordflow">else</span> {
+<a name="l00811"></a>00811       <span class="comment">// Otherwise, create the thumbnail image</span>
+<a name="l00812"></a>00812       createAndCacheThumbnail();
+<a name="l00813"></a>00813     }
+<a name="l00814"></a>00814   });
+<a name="l00815"></a>00815 
+<a name="l00816"></a>00816   <span class="keyword">function</span> createAndCacheThumbnail() {
+<a name="l00817"></a>00817     <span class="keywordflow">if</span> (fileinfo.blob) {       <span class="comment">// this can happen for the open activity</span>
+<a name="l00818"></a>00818       getImage(fileinfo.blob);
+<a name="l00819"></a>00819     }
+<a name="l00820"></a>00820     <span class="keywordflow">else</span> {                     <span class="comment">// this is the normal case</span>
+<a name="l00821"></a>00821       <a class="code" href="../../de/db0/music_8js.html#a8655a4663f405b22ece2d956127fdab7">musicdb</a>.getFile(fileinfo.name, <span class="keyword">function</span>(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>) {
+<a name="l00822"></a>00822         getImage(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>);
+<a name="l00823"></a>00823       });
+<a name="l00824"></a>00824     }
+<a name="l00825"></a>00825 
+<a name="l00826"></a>00826     <span class="keyword">function</span> getImage(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>) {
+<a name="l00827"></a>00827       <span class="comment">// Get the embedded image from the music file</span>
+<a name="l00828"></a>00828       var embedded = <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.slice(metadata.picture.start,
+<a name="l00829"></a>00829                                 metadata.picture.end,
+<a name="l00830"></a>00830                                 metadata.picture.type);
+<a name="l00831"></a>00831       <span class="comment">// Convert to a blob url</span>
+<a name="l00832"></a>00832       var embeddedURL = <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.createObjectURL(embedded);
+<a name="l00833"></a>00833       <span class="comment">// Load it into an image element</span>
+<a name="l00834"></a>00834       offscreenImage.src = embeddedURL;
+<a name="l00835"></a>00835       offscreenImage.onerror = <span class="keyword">function</span>() {
+<a name="l00836"></a>00836         <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.revokeObjectURL(embeddedURL);
+<a name="l00837"></a>00837         offscreenImage.removeAttribute(<span class="stringliteral">&#39;src&#39;</span>);
+<a name="l00838"></a>00838         <span class="comment">// Something went wrong reading the embedded image.</span>
+<a name="l00839"></a>00839         <span class="comment">// Return a default one instead</span>
+<a name="l00840"></a>00840         <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;Album cover art failed to load&#39;</span>, <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name);
+<a name="l00841"></a>00841         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00842"></a>00842       };
+<a name="l00843"></a>00843       offscreenImage.onload = <span class="keyword">function</span>() {
+<a name="l00844"></a>00844         <span class="comment">// We&#39;ve loaded the image, now copy it to a canvas</span>
+<a name="l00845"></a>00845         var <a class="code" href="../../d3/d2e/webgl-demo_8js.html#a1c82fafbefefac03f47e6f1a3cad5b73">canvas</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;canvas&#39;</span>);
+<a name="l00846"></a>00846         canvas.width = <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#aaa5a321897cf10ccfb44fa858a9dae18">THUMBNAIL_WIDTH</a>;
+<a name="l00847"></a>00847         canvas.height = <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#ac5689d06614178ec1e1a4875d41bfb7d">THUMBNAIL_HEIGHT</a>;
+<a name="l00848"></a>00848         var <a class="code" href="../../d9/d04/expat_8h.html#afe0934df1732463fe5378d8c8724edc6">context</a> = canvas.getContext(<span class="stringliteral">&#39;2d&#39;</span>);
+<a name="l00849"></a>00849         var scalex = canvas.width / offscreenImage.width;
+<a name="l00850"></a>00850         var scaley = canvas.height / offscreenImage.height;
+<a name="l00851"></a>00851 
+<a name="l00852"></a>00852         <span class="comment">// Take the larger of the two scales: we crop the image to the thumbnail</span>
+<a name="l00853"></a>00853         var <a class="code" href="../../d3/d91/j3d_8js.html#a72467d06af86da2230d0bd24ace66356">scale</a> = Math.max(scalex, scaley);
+<a name="l00854"></a>00854 
+<a name="l00855"></a>00855         <span class="comment">// If the image was already thumbnail size, it is its own thumbnail</span>
+<a name="l00856"></a>00856         <span class="keywordflow">if</span> (scale &gt;= 1) {
+<a name="l00857"></a>00857           offscreenImage.removeAttribute(<span class="stringliteral">&#39;src&#39;</span>);
+<a name="l00858"></a>00858           cacheThumbnail(key, embedded, embeddedURL);
+<a name="l00859"></a>00859           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(embeddedURL);
+<a name="l00860"></a>00860           <span class="keywordflow">return</span>;
+<a name="l00861"></a>00861         }
+<a name="l00862"></a>00862 
+<a name="l00863"></a>00863         <span class="comment">// Calculate the region of the image that will be copied to the</span>
+<a name="l00864"></a>00864         <span class="comment">// canvas to create the thumbnail</span>
+<a name="l00865"></a>00865         var w = Math.round(THUMBNAIL_WIDTH / scale);
+<a name="l00866"></a>00866         var h = Math.round(THUMBNAIL_HEIGHT / scale);
+<a name="l00867"></a>00867         var x = Math.round((offscreenImage.width - w) / 2);
+<a name="l00868"></a>00868         var y = Math.round((offscreenImage.height - h) / 2);
+<a name="l00869"></a>00869 
+<a name="l00870"></a>00870         <span class="comment">// Draw that region of the image into the canvas, scaling it down</span>
+<a name="l00871"></a>00871         context.drawImage(offscreenImage, x, y, w, h,
+<a name="l00872"></a>00872                           0, 0, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
+<a name="l00873"></a>00873 
+<a name="l00874"></a>00874         <span class="comment">// We&#39;re done with the image now</span>
+<a name="l00875"></a>00875         offscreenImage.removeAttribute(<span class="stringliteral">&#39;src&#39;</span>);
+<a name="l00876"></a>00876         <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.revokeObjectURL(embeddedURL);
+<a name="l00877"></a>00877 
+<a name="l00878"></a>00878         canvas.toBlob(<span class="keyword">function</span>(blob) {
+<a name="l00879"></a>00879           var url = <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.createObjectURL(blob);
+<a name="l00880"></a>00880           cacheThumbnail(key, blob, url);
+<a name="l00881"></a>00881           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(url);
+<a name="l00882"></a>00882         }, <span class="stringliteral">&#39;image/jpeg&#39;</span>);
+<a name="l00883"></a>00883       };
+<a name="l00884"></a>00884     }
+<a name="l00885"></a>00885   }
+<a name="l00886"></a>00886 }
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d9/da7/test__apps_2music2_2js_2metadata_8js.html">metadata.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:47に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+var ns_i_file_streams_8h =
+[
+    [ "NS_DECL_NSIFILEINPUTSTREAM", "da/d19/ns_i_file_streams_8h.html#aa7fc76a229257fe3a6988db6e9dd3333", null ],
+    [ "NS_DECL_NSIFILEMETADATA", "da/d19/ns_i_file_streams_8h.html#a0d132ebe56915424108098ce8e488755", null ],
+    [ "NS_DECL_NSIFILEOUTPUTSTREAM", "da/d19/ns_i_file_streams_8h.html#a9874da5144c14bdcdebd7f5b8a28d3c2", null ],
+    [ "NS_DECL_NSIFILESTREAM", "da/d19/ns_i_file_streams_8h.html#a9230cb93feadc51e784c77e6c937a492", null ],
+    [ "NS_DECL_NSIPARTIALFILEINPUTSTREAM", "da/d19/ns_i_file_streams_8h.html#a83feeeb485de9ba8dfbce53e8b9e6b63", null ],
+    [ "NS_FORWARD_NSIFILEINPUTSTREAM", "da/d19/ns_i_file_streams_8h.html#a478a7982f70f54af7e4c36c650798526", null ],
+    [ "NS_FORWARD_NSIFILEMETADATA", "da/d19/ns_i_file_streams_8h.html#a9758085e7d25a95b5782b3260329c696", null ],
+    [ "NS_FORWARD_NSIFILEOUTPUTSTREAM", "da/d19/ns_i_file_streams_8h.html#a986459ef2d2aad93796026890612c305", null ],
+    [ "NS_FORWARD_NSIFILESTREAM", "da/d19/ns_i_file_streams_8h.html#afd1aa33096aa6357e5988e10b78daf44", null ],
+    [ "NS_FORWARD_NSIPARTIALFILEINPUTSTREAM", "da/d19/ns_i_file_streams_8h.html#affd8379a75a453b6a5adbc8c26b36c42", null ],
+    [ "NS_FORWARD_SAFE_NSIFILEINPUTSTREAM", "da/d19/ns_i_file_streams_8h.html#ac604ee119e30e4bfab28655a64e7cabd", null ],
+    [ "NS_FORWARD_SAFE_NSIFILEMETADATA", "da/d19/ns_i_file_streams_8h.html#a568b4393397fc6222cc299c738724ae3", null ],
+    [ "NS_FORWARD_SAFE_NSIFILEOUTPUTSTREAM", "da/d19/ns_i_file_streams_8h.html#a90759c484702a17e88d528f097781c65", null ],
+    [ "NS_FORWARD_SAFE_NSIFILESTREAM", "da/d19/ns_i_file_streams_8h.html#a9f51e52f0cb1902d53fa26ff41ca4ae8", null ],
+    [ "NS_FORWARD_SAFE_NSIPARTIALFILEINPUTSTREAM", "da/d19/ns_i_file_streams_8h.html#a1a0548c246b47d5727c30c22e2f4ea6a", null ],
+    [ "NS_IFILEINPUTSTREAM_IID", "da/d19/ns_i_file_streams_8h.html#affe0fd90666e0eed1abc7716c03b8452", null ],
+    [ "NS_IFILEINPUTSTREAM_IID_STR", "da/d19/ns_i_file_streams_8h.html#a6222409c0a7f9d749d28aa16087a1134", null ],
+    [ "NS_IFILEMETADATA_IID", "da/d19/ns_i_file_streams_8h.html#a105f751360b806b1380386676b17b572", null ],
+    [ "NS_IFILEMETADATA_IID_STR", "da/d19/ns_i_file_streams_8h.html#a67c20a00b57fee1cdd4c63e6db54026e", null ],
+    [ "NS_IFILEOUTPUTSTREAM_IID", "da/d19/ns_i_file_streams_8h.html#a0650c384cb852e99288b7a47e115d65a", null ],
+    [ "NS_IFILEOUTPUTSTREAM_IID_STR", "da/d19/ns_i_file_streams_8h.html#ab04192496a5094a6e673c6e2cd0bdd18", null ],
+    [ "NS_IFILESTREAM_IID", "da/d19/ns_i_file_streams_8h.html#ad4f4646a1147c3a3e0d458ce1d5b285f", null ],
+    [ "NS_IFILESTREAM_IID_STR", "da/d19/ns_i_file_streams_8h.html#ab2d219d05a876a87542f87f00685fa8f", null ],
+    [ "NS_IPARTIALFILEINPUTSTREAM_IID", "da/d19/ns_i_file_streams_8h.html#a4cb8777209f4d25df9734f1fb15086d4", null ],
+    [ "NS_IPARTIALFILEINPUTSTREAM_IID_STR", "da/d19/ns_i_file_streams_8h.html#a6634e632e594c6be0063b5e1e30d4c74", null ]
+];

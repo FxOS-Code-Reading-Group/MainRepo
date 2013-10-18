@@ -1,0 +1,609 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsStyleSet.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dc/dd1/ns_style_set_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsStyleSet.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dc/dd1/ns_style_set_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment"> * the container for the style sheets that apply to a presentation, and</span>
+<a name="l00008"></a>00008 <span class="comment"> * the internal API that the style system exposes for creating (and</span>
+<a name="l00009"></a>00009 <span class="comment"> * potentially re-creating) style contexts</span>
+<a name="l00010"></a>00010 <span class="comment"> */</span>
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="preprocessor">#ifndef nsStyleSet_h_</span>
+<a name="l00013"></a>00013 <span class="preprocessor"></span><span class="preprocessor">#define nsStyleSet_h_</span>
+<a name="l00014"></a>00014 <span class="preprocessor"></span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/da8/_attributes_8h.html">mozilla/Attributes.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6d/_memory_reporting_8h.html">mozilla/MemoryReporting.h</a>&quot;</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/df0/ns_i_style_rule_processor_8h.html">nsIStyleRuleProcessor.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d13/ns_c_s_s_style_sheet_8h.html">nsCSSStyleSheet.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../df/dd0/ns_binding_manager_8h.html">nsBindingManager.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../d8/dde/ns_rule_node_8h.html">nsRuleNode.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/db9/ns_t_array_8h.html">nsTArray.h</a>&quot;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/da8/ns_c_o_m_array_8h.html">nsCOMArray.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d40/ns_i_style_rule_8h.html">nsIStyleRule.h</a>&quot;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d15/ns_c_s_s_pseudo_elements_8h.html">nsCSSPseudoElements.h</a>&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/dc3/gfx_font_features_8h.html">gfxFontFeatures.h</a>&quot;</span>
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="keyword">class </span><a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>;
+<a name="l00030"></a>00030 <span class="keyword">class </span>nsCSSFontFaceRule;
+<a name="l00031"></a>00031 <span class="keyword">class </span>nsCSSKeyframesRule;
+<a name="l00032"></a>00032 <span class="keyword">class </span>nsCSSFontFeatureValuesRule;
+<a name="l00033"></a>00033 <span class="keyword">class </span>nsCSSPageRule;
+<a name="l00034"></a>00034 <span class="keyword">class </span><a class="code" href="../../d3/d88/classns_rule_walker.html">nsRuleWalker</a>;
+<a name="l00035"></a>00035 <span class="keyword">struct </span><a class="code" href="../../d5/d5d/struct_element_dependent_rule_processor_data.html">ElementDependentRuleProcessorData</a>;
+<a name="l00036"></a>00036 <span class="keyword">struct </span><a class="code" href="../../de/ddb/struct_tree_match_context.html">TreeMatchContext</a>;
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="keyword">class </span>nsEmptyStyleRule <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> : <span class="keyword">public</span> <a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>
+<a name="l00039"></a>00039 {
+<a name="l00040"></a>00040   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#a5084fc0869a6c828efdca6b17f8b5374">NS_DECL_ISUPPORTS</a>
+<a name="l00041"></a>00041   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d9/d0d/classns_i_style_rule.html#af8a94992b98fd4b1d6e9246625849964">MapRuleInfoInto</a>(<a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData) MOZ_OVERRIDE;
+<a name="l00042"></a>00042 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00043"></a>00043 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d7/d8a/list_8js.html#a8a1a2034843b0ebcea5dbc6450eaf356">List</a>(<a class="code" href="../../d1/ddf/ns_i_content_viewer_file_8idl.html#a2a9799b7b2af884315027dd95725e0c3">FILE</a>* <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a> = stdout, int32_t aIndent = 0) <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00044"></a>00044 <span class="preprocessor">#endif</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span>};
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047 <span class="keyword">class </span>nsInitialStyleRule <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> : <span class="keyword">public</span> <a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>
+<a name="l00048"></a>00048 {
+<a name="l00049"></a>00049   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#a5084fc0869a6c828efdca6b17f8b5374">NS_DECL_ISUPPORTS</a>
+<a name="l00050"></a>00050   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d9/d0d/classns_i_style_rule.html#af8a94992b98fd4b1d6e9246625849964">MapRuleInfoInto</a>(<a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData) MOZ_OVERRIDE;
+<a name="l00051"></a>00051 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d7/d8a/list_8js.html#a8a1a2034843b0ebcea5dbc6450eaf356">List</a>(<a class="code" href="../../d1/ddf/ns_i_content_viewer_file_8idl.html#a2a9799b7b2af884315027dd95725e0c3">FILE</a>* <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a> = stdout, int32_t aIndent = 0) <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00053"></a>00053 <span class="preprocessor">#endif</span>
+<a name="l00054"></a>00054 <span class="preprocessor"></span>};
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 <span class="keyword">class </span>nsDisableTextZoomStyleRule <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> : <span class="keyword">public</span> <a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>
+<a name="l00057"></a>00057 {
+<a name="l00058"></a>00058   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#a5084fc0869a6c828efdca6b17f8b5374">NS_DECL_ISUPPORTS</a>
+<a name="l00059"></a>00059   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d9/d0d/classns_i_style_rule.html#af8a94992b98fd4b1d6e9246625849964">MapRuleInfoInto</a>(<a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData) MOZ_OVERRIDE;
+<a name="l00060"></a>00060 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00061"></a>00061 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d7/d8a/list_8js.html#a8a1a2034843b0ebcea5dbc6450eaf356">List</a>(<a class="code" href="../../d1/ddf/ns_i_content_viewer_file_8idl.html#a2a9799b7b2af884315027dd95725e0c3">FILE</a>* <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a> = stdout, int32_t aIndent = 0) <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00062"></a>00062 <span class="preprocessor">#endif</span>
+<a name="l00063"></a>00063 <span class="preprocessor"></span>};
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065 <span class="comment">// The style set object is created by the document viewer and ownership is</span>
+<a name="l00066"></a>00066 <span class="comment">// then handed off to the PresShell.  Only the PresShell should delete a</span>
+<a name="l00067"></a>00067 <span class="comment">// style set.</span>
+<a name="l00068"></a>00068 
+<a name="l00069"></a><a class="code" href="../../d2/db0/classns_style_set.html">00069</a> <span class="keyword">class </span><a class="code" href="../../d2/db0/classns_style_set.html">nsStyleSet</a>
+<a name="l00070"></a>00070 {
+<a name="l00071"></a>00071  <span class="keyword">public</span>:
+<a name="l00072"></a>00072   <a class="code" href="../../d2/db0/classns_style_set.html#a3955501ff65643126a54adb55d9fa85b">nsStyleSet</a>();
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074   <span class="keywordtype">size_t</span> <a class="code" href="../../d2/db0/classns_style_set.html#aec73a715d9cd201be05a211d6ede712f">SizeOfIncludingThis</a>(mozilla::MallocSizeOf aMallocSizeOf) <span class="keyword">const</span>;
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076   <span class="keywordtype">void</span> <a class="code" href="../../d2/db0/classns_style_set.html#a5bbeeab97755f60f2f3219b6fc7d97e3">Init</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a> *aPresContext);
+<a name="l00077"></a>00077 
+<a name="l00078"></a><a class="code" href="../../d2/db0/classns_style_set.html#ad5b0d9439fd1973cbfbd34040d5af4de">00078</a>   <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* <a class="code" href="../../d2/db0/classns_style_set.html#ad5b0d9439fd1973cbfbd34040d5af4de">GetRuleTree</a>() { <span class="keywordflow">return</span> mRuleTree; }
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080   <span class="comment">// enable / disable the Quirk style sheet</span>
+<a name="l00081"></a>00081   <span class="keywordtype">void</span> <a class="code" href="../../d2/db0/classns_style_set.html#a94e8ad9c2c3a3833f02028770de5baa2">EnableQuirkStyleSheet</a>(<span class="keywordtype">bool</span> aEnable);
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083   <span class="comment">// get a style context for a non-pseudo frame.</span>
+<a name="l00084"></a>00084   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00085"></a>00085   <a class="code" href="../../d2/db0/classns_style_set.html#a147a2a986c4d34ebc7202227f00dd424">ResolveStyleFor</a>(<a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aElement,
+<a name="l00086"></a>00086                   <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext);
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00089"></a>00089   <a class="code" href="../../d2/db0/classns_style_set.html#a147a2a986c4d34ebc7202227f00dd424">ResolveStyleFor</a>(<a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aElement,
+<a name="l00090"></a>00090                   <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext,
+<a name="l00091"></a>00091                   <a class="code" href="../../de/ddb/struct_tree_match_context.html">TreeMatchContext</a>&amp; aTreeMatchContext);
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093   <span class="comment">// Get a style context (with the given parent) for the</span>
+<a name="l00094"></a>00094   <span class="comment">// sequence of style rules in the |aRules| array.</span>
+<a name="l00095"></a>00095   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00096"></a>00096   <a class="code" href="../../d2/db0/classns_style_set.html#a5f468000e66c267580bf55272464bda0">ResolveStyleForRules</a>(<a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext,
+<a name="l00097"></a>00097                        <span class="keyword">const</span> <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray</a>&lt; nsCOMPtr&lt;nsIStyleRule&gt; &gt; &amp;aRules);
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099   <span class="comment">// used in ResolveStyleForRules below</span>
+<a name="l00100"></a><a class="code" href="../../d1/da7/structns_style_set_1_1_rule_and_level.html">00100</a>   <span class="keyword">struct </span><a class="code" href="../../d1/da7/structns_style_set_1_1_rule_and_level.html">RuleAndLevel</a>
+<a name="l00101"></a>00101   {
+<a name="l00102"></a><a class="code" href="../../d1/da7/structns_style_set_1_1_rule_and_level.html#a8f56bbfaeac7c055436626665946d786">00102</a>     <a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>* <a class="code" href="../../d1/da7/structns_style_set_1_1_rule_and_level.html#a8f56bbfaeac7c055436626665946d786">mRule</a>;
+<a name="l00103"></a><a class="code" href="../../d1/da7/structns_style_set_1_1_rule_and_level.html#a77d136a11d10f7fc84def92512b7c247">00103</a>     uint8_t <a class="code" href="../../d1/da7/structns_style_set_1_1_rule_and_level.html#a77d136a11d10f7fc84def92512b7c247">mLevel</a>;
+<a name="l00104"></a>00104   };
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106   <span class="comment">// Get a new style context for aElement for the rules in aRules</span>
+<a name="l00107"></a>00107   <span class="comment">// aRules is an array of rules and their levels in reverse order,</span>
+<a name="l00108"></a>00108   <span class="comment">// that is from the leaf-most to the root-most rule in the rule tree.</span>
+<a name="l00109"></a>00109   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00110"></a>00110   <a class="code" href="../../d2/db0/classns_style_set.html#a5f468000e66c267580bf55272464bda0">ResolveStyleForRules</a>(<a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext,
+<a name="l00111"></a>00111                        <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aOldStyle,
+<a name="l00112"></a>00112                        <span class="keyword">const</span> <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;RuleAndLevel&gt;</a>&amp; aRules);
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114   <span class="comment">// Get a style context that represents aBaseContext, but as though</span>
+<a name="l00115"></a>00115   <span class="comment">// it additionally matched the rules in the aRules array (in that</span>
+<a name="l00116"></a>00116   <span class="comment">// order, as more specific than any other rules).</span>
+<a name="l00117"></a>00117   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00118"></a>00118   <a class="code" href="../../d2/db0/classns_style_set.html#aaedcc8e949e1c8d6f6af8d7e515d821a">ResolveStyleByAddingRules</a>(<a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aBaseContext,
+<a name="l00119"></a>00119                             <span class="keyword">const</span> <a class="code" href="../../d3/d4e/classns_c_o_m_array.html">nsCOMArray&lt;nsIStyleRule&gt;</a> &amp;aRules);
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121   <span class="comment">// Get a style context for a non-element (which no rules will match),</span>
+<a name="l00122"></a>00122   <span class="comment">// such as text nodes, placeholder frames, and the nsFirstLetterFrame</span>
+<a name="l00123"></a>00123   <span class="comment">// for everything after the first letter.</span>
+<a name="l00124"></a>00124   <span class="comment">//</span>
+<a name="l00125"></a>00125   <span class="comment">// Perhaps this should go away and we shouldn&#39;t even create style</span>
+<a name="l00126"></a>00126   <span class="comment">// contexts for such content nodes.  However, not doing any rule</span>
+<a name="l00127"></a>00127   <span class="comment">// matching for them is a first step.</span>
+<a name="l00128"></a>00128   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00129"></a>00129   <a class="code" href="../../d2/db0/classns_style_set.html#a2f1d863543558c6317aeaea7b5cd7f73">ResolveStyleForNonElement</a>(<a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext);
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131   <span class="comment">// Get a style context for a pseudo-element.  aParentElement must be</span>
+<a name="l00132"></a>00132   <span class="comment">// non-null.  aPseudoID is the nsCSSPseudoElements::Type for the</span>
+<a name="l00133"></a>00133   <span class="comment">// pseudo-element.</span>
+<a name="l00134"></a>00134   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00135"></a>00135   <a class="code" href="../../d2/db0/classns_style_set.html#a48589eca77eecc6eb1589eb23fb5e506">ResolvePseudoElementStyle</a>(<a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aParentElement,
+<a name="l00136"></a>00136                             <a class="code" href="../../d3/d0f/ns_display_item_types_8h.html#a1d1cfd8ffb84e947f82999c682b666a7">nsCSSPseudoElements::Type</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00137"></a>00137                             <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext);
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139   <span class="comment">// This functions just like ResolvePseudoElementStyle except that it will</span>
+<a name="l00140"></a>00140   <span class="comment">// return nullptr if there are no explicit style rules for that</span>
+<a name="l00141"></a>00141   <span class="comment">// pseudo element.</span>
+<a name="l00142"></a>00142   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00143"></a>00143   <a class="code" href="../../d2/db0/classns_style_set.html#a03c78f285007a62289ca76bbb6df979c">ProbePseudoElementStyle</a>(<a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aParentElement,
+<a name="l00144"></a>00144                           <a class="code" href="../../d3/d0f/ns_display_item_types_8h.html#a1d1cfd8ffb84e947f82999c682b666a7">nsCSSPseudoElements::Type</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00145"></a>00145                           <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext);
+<a name="l00146"></a>00146   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00147"></a>00147   <a class="code" href="../../d2/db0/classns_style_set.html#a03c78f285007a62289ca76bbb6df979c">ProbePseudoElementStyle</a>(<a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aParentElement,
+<a name="l00148"></a>00148                           <a class="code" href="../../d3/d0f/ns_display_item_types_8h.html#a1d1cfd8ffb84e947f82999c682b666a7">nsCSSPseudoElements::Type</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00149"></a>00149                           <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext,
+<a name="l00150"></a>00150                           <a class="code" href="../../de/ddb/struct_tree_match_context.html">TreeMatchContext</a>&amp; aTreeMatchContext);
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152   <span class="comment">// Get a style context for an anonymous box.  aPseudoTag is the</span>
+<a name="l00153"></a>00153   <span class="comment">// pseudo-tag to use and must be non-null.</span>
+<a name="l00154"></a>00154   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00155"></a>00155   <a class="code" href="../../d2/db0/classns_style_set.html#ab900c400ee5fc92461c43e7ba88a3d26">ResolveAnonymousBoxStyle</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aPseudoTag, <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext);
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157 <span class="preprocessor">#ifdef MOZ_XUL</span>
+<a name="l00158"></a>00158 <span class="preprocessor"></span>  <span class="comment">// Get a style context for a XUL tree pseudo.  aPseudoTag is the</span>
+<a name="l00159"></a>00159   <span class="comment">// pseudo-tag to use and must be non-null.  aParentContent must be</span>
+<a name="l00160"></a>00160   <span class="comment">// non-null.  aComparator must be non-null.</span>
+<a name="l00161"></a>00161   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00162"></a>00162   ResolveXULTreePseudoStyle(<a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aParentElement,
+<a name="l00163"></a>00163                             <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aPseudoTag,
+<a name="l00164"></a>00164                             <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext,
+<a name="l00165"></a>00165                             <a class="code" href="../../dd/d9c/classns_i_c_s_s_pseudo_comparator.html">nsICSSPseudoComparator</a>* aComparator);
+<a name="l00166"></a>00166 <span class="preprocessor">#endif</span>
+<a name="l00167"></a>00167 <span class="preprocessor"></span>
+<a name="l00168"></a>00168   <span class="comment">// Append all the currently-active font face rules to aArray.  Return</span>
+<a name="l00169"></a>00169   <span class="comment">// true for success and false for failure.</span>
+<a name="l00170"></a>00170   <span class="keywordtype">bool</span> <a class="code" href="../../d2/db0/classns_style_set.html#aefed9fc0869d93c21b050664e3f319df">AppendFontFaceRules</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00171"></a>00171                              <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsFontFaceRuleContainer&gt;</a>&amp; aArray);
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173   <span class="comment">// Append all the currently-active keyframes rules to aArray.  Return</span>
+<a name="l00174"></a>00174   <span class="comment">// true for success and false for failure.</span>
+<a name="l00175"></a>00175   <span class="keywordtype">bool</span> <a class="code" href="../../d2/db0/classns_style_set.html#ada9112127e10be38955cf110a7b4cadd">AppendKeyframesRules</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00176"></a>00176                               <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsCSSKeyframesRule*&gt;</a>&amp; aArray);
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178   <span class="comment">// Fetch object for looking up font feature values</span>
+<a name="l00179"></a>00179   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxFontFeatureValueSet&gt;</a> <a class="code" href="../../d2/db0/classns_style_set.html#adf04788c1788fdfca186af972a640505">GetFontFeatureValuesLookup</a>();
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181   <span class="comment">// Append all the currently-active font feature values rules to aArray.</span>
+<a name="l00182"></a>00182   <span class="comment">// Return true for success and false for failure.</span>
+<a name="l00183"></a>00183   <span class="keywordtype">bool</span> <a class="code" href="../../d2/db0/classns_style_set.html#a0e8525d4b75848dc0f35d4e443386384">AppendFontFeatureValuesRules</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00184"></a>00184                               <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsCSSFontFeatureValuesRule*&gt;</a>&amp; aArray);
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186   <span class="comment">// Append all the currently-active page rules to aArray.  Return</span>
+<a name="l00187"></a>00187   <span class="comment">// true for success and false for failure.</span>
+<a name="l00188"></a>00188   <span class="keywordtype">bool</span> <a class="code" href="../../d2/db0/classns_style_set.html#a90b5a3f1ded9042c8baf76c6f25671b5">AppendPageRules</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00189"></a>00189                        <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsCSSPageRule*&gt;</a>&amp; aArray);
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191   <span class="comment">// Begin ignoring style context destruction, to avoid lots of unnecessary</span>
+<a name="l00192"></a>00192   <span class="comment">// work on document teardown.</span>
+<a name="l00193"></a>00193   <span class="keywordtype">void</span> <a class="code" href="../../d2/db0/classns_style_set.html#a4a7499f5b45cdea3ec3032c2a186d07a">BeginShutdown</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext);
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195   <span class="comment">// Free all of the data associated with this style set.</span>
+<a name="l00196"></a>00196   <span class="keywordtype">void</span> <a class="code" href="../../d2/db0/classns_style_set.html#a748906cf3b531df69445e6e4f16d15e6">Shutdown</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext);
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198   <span class="comment">// Notification that a style context is being destroyed.</span>
+<a name="l00199"></a>00199   <span class="keywordtype">void</span> <a class="code" href="../../d2/db0/classns_style_set.html#af17ee6984b773c1a51aceec7167f51b8">NotifyStyleContextDestroyed</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00200"></a>00200                                    <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aStyleContext);
+<a name="l00201"></a>00201 
+<a name="l00202"></a>00202   <span class="comment">// Get a new style context that lives in a different parent</span>
+<a name="l00203"></a>00203   <span class="comment">// The new context will be the same as the old if the new parent is the</span>
+<a name="l00204"></a>00204   <span class="comment">// same as the old parent.</span>
+<a name="l00205"></a>00205   <span class="comment">// aElement should be non-null if this is a style context for an</span>
+<a name="l00206"></a>00206   <span class="comment">// element or pseudo-element; in the latter case it should be the</span>
+<a name="l00207"></a>00207   <span class="comment">// real element the pseudo-element is for.</span>
+<a name="l00208"></a>00208   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00209"></a>00209   <a class="code" href="../../d2/db0/classns_style_set.html#a1586afb18dd6bb101f208c74318eef5f">ReparentStyleContext</a>(<a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aStyleContext,
+<a name="l00210"></a>00210                        <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aNewParentContext,
+<a name="l00211"></a>00211                        <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aElement);
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213   <span class="comment">// Test if style is dependent on a document state.</span>
+<a name="l00214"></a>00214   <span class="keywordtype">bool</span> <a class="code" href="../../d2/db0/classns_style_set.html#a35eec48f253f6ffda66f0d1e5183794c">HasDocumentStateDependentStyle</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00215"></a>00215                                         <a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>*    aContent,
+<a name="l00216"></a>00216                                         <a class="code" href="../../d8/de5/classns_event_states.html">nsEventStates</a>  aStateMask);
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218   <span class="comment">// Test if style is dependent on content state</span>
+<a name="l00219"></a>00219   <a class="code" href="../../da/db4/ns_change_hint_8h.html#a69901b74af7eacc12494b4e49aaad972">nsRestyleHint</a> <a class="code" href="../../d2/db0/classns_style_set.html#ae80eea4bec93b49dc022af4aed9e4cf8">HasStateDependentStyle</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00220"></a>00220                                        <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aElement,
+<a name="l00221"></a>00221                                        <a class="code" href="../../d8/de5/classns_event_states.html">nsEventStates</a> aStateMask);
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223   <span class="comment">// Test if style is dependent on the presence of an attribute.</span>
+<a name="l00224"></a>00224   <a class="code" href="../../da/db4/ns_change_hint_8h.html#a69901b74af7eacc12494b4e49aaad972">nsRestyleHint</a> <a class="code" href="../../d2/db0/classns_style_set.html#abde1cbe0bf969799223880c6d48c6799">HasAttributeDependentStyle</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00225"></a>00225                                            <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aElement,
+<a name="l00226"></a>00226                                            <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>*       aAttribute,
+<a name="l00227"></a>00227                                            int32_t        aModType,
+<a name="l00228"></a>00228                                            <span class="keywordtype">bool</span>           aAttrHasChanged);
+<a name="l00229"></a>00229 
+<a name="l00230"></a>00230   <span class="comment">/*</span>
+<a name="l00231"></a>00231 <span class="comment">   * Do any processing that needs to happen as a result of a change in</span>
+<a name="l00232"></a>00232 <span class="comment">   * the characteristics of the medium, and return whether style rules</span>
+<a name="l00233"></a>00233 <span class="comment">   * may have changed as a result.</span>
+<a name="l00234"></a>00234 <span class="comment">   */</span>
+<a name="l00235"></a>00235   <span class="keywordtype">bool</span> <a class="code" href="../../d2/db0/classns_style_set.html#aa45ac90eaf20b324822da115658bc191">MediumFeaturesChanged</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext);
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237   <span class="comment">// APIs for registering objects that can supply additional</span>
+<a name="l00238"></a>00238   <span class="comment">// rules during processing.</span>
+<a name="l00239"></a><a class="code" href="../../d2/db0/classns_style_set.html#a96afc799fb060a304401732a870dff1a">00239</a>   <span class="keywordtype">void</span> <a class="code" href="../../d2/db0/classns_style_set.html#a96afc799fb060a304401732a870dff1a">SetBindingManager</a>(nsBindingManager* aBindingManager)
+<a name="l00240"></a>00240   {
+<a name="l00241"></a>00241     mBindingManager = aBindingManager;
+<a name="l00242"></a>00242   }
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244   <span class="comment">// The &quot;origins&quot; of the CSS cascade, from lowest precedence to</span>
+<a name="l00245"></a>00245   <span class="comment">// highest (for non-!important rules).</span>
+<a name="l00246"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">00246</a>   <span class="keyword">enum</span> <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">sheetType</a> {
+<a name="l00247"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a1123e214ce9de4d533e4c0d24c29c59d">00247</a>     <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a1123e214ce9de4d533e4c0d24c29c59d">eAgentSheet</a>, <span class="comment">// CSS</span>
+<a name="l00248"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a1ea9e8519bfc769db0f2f324bcf9b2a2">00248</a>     <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a1ea9e8519bfc769db0f2f324bcf9b2a2">eUserSheet</a>, <span class="comment">// CSS</span>
+<a name="l00249"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a56fbe0931d622782a58faeaab3689fb9">00249</a>     <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a56fbe0931d622782a58faeaab3689fb9">ePresHintSheet</a>,
+<a name="l00250"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a90c89670779c53eb4deaa640815d36c9">00250</a>     <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a90c89670779c53eb4deaa640815d36c9">eDocSheet</a>, <span class="comment">// CSS</span>
+<a name="l00251"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a8b5a030d12887f40f104414bbdc36388">00251</a>     <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a8b5a030d12887f40f104414bbdc36388">eScopedDocSheet</a>,
+<a name="l00252"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a45d8f089e97470b0f761ff1e1dcf35d4">00252</a>     <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a45d8f089e97470b0f761ff1e1dcf35d4">eStyleAttrSheet</a>,
+<a name="l00253"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a725c521dbc9003c2a97615500b1c9976">00253</a>     <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a725c521dbc9003c2a97615500b1c9976">eOverrideSheet</a>, <span class="comment">// CSS</span>
+<a name="l00254"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a9e1c02e0abccd86ba9b882464d825f40">00254</a>     <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37a9e1c02e0abccd86ba9b882464d825f40">eAnimationSheet</a>,
+<a name="l00255"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37ad613e83045113f0ea419217068a42ecb">00255</a>     <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37ad613e83045113f0ea419217068a42ecb">eTransitionSheet</a>,
+<a name="l00256"></a><a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37afbbb5dd71fb09cb301c2b24d053113f0">00256</a>     <a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37afbbb5dd71fb09cb301c2b24d053113f0">eSheetTypeCount</a>
+<a name="l00257"></a>00257     <span class="comment">// be sure to keep the number of bits in |mDirty| below and in</span>
+<a name="l00258"></a>00258     <span class="comment">// NS_RULE_NODE_LEVEL_MASK updated when changing the number of sheet</span>
+<a name="l00259"></a>00259     <span class="comment">// types</span>
+<a name="l00260"></a>00260   };
+<a name="l00261"></a>00261 
+<a name="l00262"></a>00262   <span class="comment">// APIs to manipulate the style sheet lists.  The sheets in each</span>
+<a name="l00263"></a>00263   <span class="comment">// list are stored with the most significant sheet last.</span>
+<a name="l00264"></a>00264   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#addead986597d6785805baa3f20f406a3">AppendStyleSheet</a>(<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">sheetType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>, <a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a> *aSheet);
+<a name="l00265"></a>00265   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#a3a7a083bcc099219b79acc0db77e5a8b">PrependStyleSheet</a>(<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">sheetType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>, <a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a> *aSheet);
+<a name="l00266"></a>00266   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#a7ff609f92df71099893e9acbcd37ebc1">RemoveStyleSheet</a>(<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">sheetType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>, <a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a> *aSheet);
+<a name="l00267"></a>00267   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#af3ffae74a7275128e3911341fc47f876">ReplaceSheets</a>(<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">sheetType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00268"></a>00268                          <span class="keyword">const</span> <a class="code" href="../../d3/d4e/classns_c_o_m_array.html">nsCOMArray&lt;nsIStyleSheet&gt;</a> &amp;aNewSheets);
+<a name="l00269"></a>00269   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#a1748a59bca54a54095c701e17035d16f">InsertStyleSheetBefore</a>(<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">sheetType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>, <a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a> *aNewSheet,
+<a name="l00270"></a>00270                                   <a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a> *aReferenceSheet);
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#a756c48deca66984417724ee24231968c">DirtyRuleProcessors</a>(<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">sheetType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>);
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274   <span class="comment">// Enable/Disable entire author style level (Doc, ScopedDoc &amp; PresHint levels)</span>
+<a name="l00275"></a>00275   <span class="keywordtype">bool</span> <a class="code" href="../../d2/db0/classns_style_set.html#a5605ecce1b9f0ea4db1ae0afbdc85f9a">GetAuthorStyleDisabled</a>();
+<a name="l00276"></a>00276   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#a182a71b37c55f3e7b2e5e6e5e8c7773c">SetAuthorStyleDisabled</a>(<span class="keywordtype">bool</span> aStyleDisabled);
+<a name="l00277"></a>00277 
+<a name="l00278"></a><a class="code" href="../../d2/db0/classns_style_set.html#a026a03774ae66604da84fb61f0d4c2f4">00278</a>   int32_t <a class="code" href="../../d2/db0/classns_style_set.html#a026a03774ae66604da84fb61f0d4c2f4">SheetCount</a>(<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">sheetType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>)<span class="keyword"> const </span>{
+<a name="l00279"></a>00279     <span class="keywordflow">return</span> mSheets[<a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>].<a class="code" href="../../d7/d1e/classns_c_o_m_array__base.html#a583a8d6a00c087e66e601d00d3018fb9">Count</a>();
+<a name="l00280"></a>00280   }
+<a name="l00281"></a>00281 
+<a name="l00282"></a><a class="code" href="../../d2/db0/classns_style_set.html#a77e4ac639db3863bacfa8f98cbd5f0ac">00282</a>   <a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a>* <a class="code" href="../../d2/db0/classns_style_set.html#a77e4ac639db3863bacfa8f98cbd5f0ac">StyleSheetAt</a>(<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">sheetType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>, int32_t aIndex)<span class="keyword"> const </span>{
+<a name="l00283"></a>00283     <span class="keywordflow">return</span> mSheets[<a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>].<a class="code" href="../../d3/d4e/classns_c_o_m_array.html#a3d91efaad806cd84bb710e804a50b5e9">ObjectAt</a>(aIndex);
+<a name="l00284"></a>00284   }
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#aa397fe90620277e566ea81705682e0eb">RemoveDocStyleSheet</a>(<a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a>* aSheet);
+<a name="l00287"></a>00287   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#aa0818a13a79b978b2bbde0eb0f4c7a27">AddDocStyleSheet</a>(<a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a>* aSheet, <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument);
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289   <span class="keywordtype">void</span>     <a class="code" href="../../d2/db0/classns_style_set.html#a94bb0a3bf01330efd4c17d32917c937a">BeginUpdate</a>();
+<a name="l00290"></a>00290   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#a62fb72f4cae5102b9a4748233524b74c">EndUpdate</a>();
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292   <span class="comment">// Methods for reconstructing the tree; BeginReconstruct basically moves the</span>
+<a name="l00293"></a>00293   <span class="comment">// old rule tree root and style context roots out of the way,</span>
+<a name="l00294"></a>00294   <span class="comment">// and EndReconstruct destroys the old rule tree when we&#39;re done</span>
+<a name="l00295"></a>00295   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d2/db0/classns_style_set.html#a08ac0b7522e1050d108a7bbb4622f5f2">BeginReconstruct</a>();
+<a name="l00296"></a>00296   <span class="comment">// Note: EndReconstruct should not be called if BeginReconstruct fails</span>
+<a name="l00297"></a>00297   <span class="keywordtype">void</span> <a class="code" href="../../d2/db0/classns_style_set.html#aa9463d649ce6fa7e4b6cdc6eb0651157">EndReconstruct</a>();
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299   <span class="comment">// Let the style set know that a particular sheet is the quirks sheet.  This</span>
+<a name="l00300"></a>00300   <span class="comment">// sheet must already have been added to the UA sheets.  The pointer must not</span>
+<a name="l00301"></a>00301   <span class="comment">// be null.  This should only be called once for a given style set.</span>
+<a name="l00302"></a>00302   <span class="keywordtype">void</span> <a class="code" href="../../d2/db0/classns_style_set.html#a0e37eb3a69759540a6a6cb3470647e05">SetQuirkStyleSheet</a>(<a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a>* aQuirkStyleSheet);
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304   <span class="comment">// Return whether the rule tree has cached data such that we need to</span>
+<a name="l00305"></a>00305   <span class="comment">// do dynamic change handling for changes that change the results of</span>
+<a name="l00306"></a>00306   <span class="comment">// media queries or require rebuilding all style data.</span>
+<a name="l00307"></a>00307   <span class="comment">// We don&#39;t care whether we have cached rule processors or whether</span>
+<a name="l00308"></a>00308   <span class="comment">// they have cached rule cascades; getting the rule cascades again in</span>
+<a name="l00309"></a>00309   <span class="comment">// order to do rule matching will get the correct rule cascade.</span>
+<a name="l00310"></a><a class="code" href="../../d2/db0/classns_style_set.html#af6305ee70391167057f8fa3c9343001c">00310</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d2/db0/classns_style_set.html#af6305ee70391167057f8fa3c9343001c">HasCachedStyleData</a>()<span class="keyword"> const </span>{
+<a name="l00311"></a>00311     <span class="keywordflow">return</span> (mRuleTree &amp;&amp; mRuleTree-&gt;<a class="code" href="../../dc/d1e/classns_rule_node.html#a7c30ce38b80ece69f9fc9610570e9184">TreeHasCachedData</a>()) || !mRoots.<a class="code" href="../../db/d9f/classns_t_array__base.html#ae1f48111b444c3c0a8bc113f2a38f2cf">IsEmpty</a>();
+<a name="l00312"></a>00312   }
+<a name="l00313"></a>00313 
+<a name="l00314"></a>00314   <span class="comment">// Notify the style set that a rulenode is no longer in use, or was</span>
+<a name="l00315"></a>00315   <span class="comment">// just created and is not in use yet.</span>
+<a name="l00316"></a><a class="code" href="../../d2/db0/classns_style_set.html#ab0c5fb1db5a35887def1ef72bb9cf0ff">00316</a>   <span class="keywordtype">void</span> <a class="code" href="../../d2/db0/classns_style_set.html#ab0c5fb1db5a35887def1ef72bb9cf0ff">RuleNodeUnused</a>() {
+<a name="l00317"></a>00317     ++mUnusedRuleNodeCount;
+<a name="l00318"></a>00318   }
+<a name="l00319"></a>00319 
+<a name="l00320"></a>00320   <span class="comment">// Notify the style set that a rulenode that wasn&#39;t in use now is</span>
+<a name="l00321"></a><a class="code" href="../../d2/db0/classns_style_set.html#a112d000d2aba51762f138280fa01e1de">00321</a>   <span class="keywordtype">void</span> <a class="code" href="../../d2/db0/classns_style_set.html#a112d000d2aba51762f138280fa01e1de">RuleNodeInUse</a>() {
+<a name="l00322"></a>00322     --mUnusedRuleNodeCount;
+<a name="l00323"></a>00323   }
+<a name="l00324"></a>00324 
+<a name="l00325"></a>00325   nsCSSStyleSheet::EnsureUniqueInnerResult <a class="code" href="../../d2/db0/classns_style_set.html#a27d11eb4549dbcd9bda0039533b3815b">EnsureUniqueInnerOnCSSSheets</a>();
+<a name="l00326"></a>00326 
+<a name="l00327"></a>00327   <a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>* <a class="code" href="../../d2/db0/classns_style_set.html#a7f3e28e356a2e2af9c3e4ce4b1d17d49">InitialStyleRule</a>();
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329  <span class="keyword">private</span>:
+<a name="l00330"></a>00330   <a class="code" href="../../d2/db0/classns_style_set.html#a3955501ff65643126a54adb55d9fa85b">nsStyleSet</a>(<span class="keyword">const</span> <a class="code" href="../../d2/db0/classns_style_set.html">nsStyleSet</a>&amp; aCopy) MOZ_DELETE;
+<a name="l00331"></a>00331   <a class="code" href="../../d2/db0/classns_style_set.html">nsStyleSet</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="../../d2/db0/classns_style_set.html">nsStyleSet</a>&amp; aCopy) MOZ_DELETE;
+<a name="l00332"></a>00332 
+<a name="l00333"></a>00333   <span class="comment">// Run mark-and-sweep GC on mRuleTree and mOldRuleTrees, based on mRoots.</span>
+<a name="l00334"></a>00334   <span class="keywordtype">void</span> GCRuleTrees();
+<a name="l00335"></a>00335 
+<a name="l00336"></a>00336   <span class="comment">// Update the rule processor list after a change to the style sheet list.</span>
+<a name="l00337"></a>00337   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> GatherRuleProcessors(<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37">sheetType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>);
+<a name="l00338"></a>00338 
+<a name="l00339"></a>00339   <span class="keywordtype">void</span> AddImportantRules(<a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aCurrLevelNode,
+<a name="l00340"></a>00340                          <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aLastPrevLevelNode,
+<a name="l00341"></a>00341                          <a class="code" href="../../d3/d88/classns_rule_walker.html">nsRuleWalker</a>* aRuleWalker);
+<a name="l00342"></a>00342 
+<a name="l00343"></a>00343   <span class="comment">// Move aRuleWalker forward by the appropriate rule if we need to add</span>
+<a name="l00344"></a>00344   <span class="comment">// a rule due to property restrictions on pseudo-elements.</span>
+<a name="l00345"></a>00345   <span class="keywordtype">void</span> WalkRestrictionRule(<a class="code" href="../../d3/d0f/ns_display_item_types_8h.html#a1d1cfd8ffb84e947f82999c682b666a7">nsCSSPseudoElements::Type</a> aPseudoType,
+<a name="l00346"></a>00346                            <a class="code" href="../../d3/d88/classns_rule_walker.html">nsRuleWalker</a>* aRuleWalker);
+<a name="l00347"></a>00347 
+<a name="l00348"></a>00348   <span class="keywordtype">void</span> WalkDisableTextZoomRule(<a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aElement,
+<a name="l00349"></a>00349                                <a class="code" href="../../d3/d88/classns_rule_walker.html">nsRuleWalker</a>* aRuleWalker);
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00352"></a>00352 <span class="preprocessor"></span>  <span class="comment">// Just like AddImportantRules except it doesn&#39;t actually add anything; it</span>
+<a name="l00353"></a>00353   <span class="comment">// just asserts that there are no important rules between aCurrLevelNode and</span>
+<a name="l00354"></a>00354   <span class="comment">// aLastPrevLevelNode.</span>
+<a name="l00355"></a>00355   <span class="keywordtype">void</span> AssertNoImportantRules(<a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aCurrLevelNode,
+<a name="l00356"></a>00356                               <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aLastPrevLevelNode);
+<a name="l00357"></a>00357   
+<a name="l00358"></a>00358   <span class="comment">// Just like AddImportantRules except it doesn&#39;t actually add anything; it</span>
+<a name="l00359"></a>00359   <span class="comment">// just asserts that there are no CSS rules between aCurrLevelNode and</span>
+<a name="l00360"></a>00360   <span class="comment">// aLastPrevLevelNode.  Mostly useful for the preshint level.</span>
+<a name="l00361"></a>00361   <span class="keywordtype">void</span> AssertNoCSSRules(<a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aCurrLevelNode,
+<a name="l00362"></a>00362                         <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aLastPrevLevelNode);
+<a name="l00363"></a>00363 <span class="preprocessor">#endif</span>
+<a name="l00364"></a>00364 <span class="preprocessor"></span>  
+<a name="l00365"></a>00365   <span class="comment">// Enumerate the rules in a way that cares about the order of the</span>
+<a name="l00366"></a>00366   <span class="comment">// rules.</span>
+<a name="l00367"></a>00367   <span class="comment">// aElement is the element the rules are for.  It might be null.  aData</span>
+<a name="l00368"></a>00368   <span class="comment">// is the closure to pass to aCollectorFunc.  If aContent is not null,</span>
+<a name="l00369"></a>00369   <span class="comment">// aData must be a RuleProcessorData*</span>
+<a name="l00370"></a>00370   <span class="keywordtype">void</span> FileRules(<a class="code" href="../../df/d9c/classns_i_style_rule_processor.html#aaed5f8a0974bf30ef0f861563780e0f2">nsIStyleRuleProcessor::EnumFunc</a> aCollectorFunc,
+<a name="l00371"></a>00371                  <a class="code" href="../../d3/dbb/struct_rule_processor_data.html">RuleProcessorData</a>* <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>, <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aElement,
+<a name="l00372"></a>00372                  <a class="code" href="../../d3/d88/classns_rule_walker.html">nsRuleWalker</a>* aRuleWalker);
+<a name="l00373"></a>00373 
+<a name="l00374"></a>00374   <span class="comment">// Enumerate all the rules in a way that doesn&#39;t care about the order</span>
+<a name="l00375"></a>00375   <span class="comment">// of the rules and break out if the enumeration is halted.</span>
+<a name="l00376"></a>00376   <span class="keywordtype">void</span> WalkRuleProcessors(<a class="code" href="../../df/d9c/classns_i_style_rule_processor.html#aaed5f8a0974bf30ef0f861563780e0f2">nsIStyleRuleProcessor::EnumFunc</a> aFunc,
+<a name="l00377"></a>00377                           <a class="code" href="../../d5/d5d/struct_element_dependent_rule_processor_data.html">ElementDependentRuleProcessorData</a>* <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00378"></a>00378                           <span class="keywordtype">bool</span> aWalkAllXBLStylesheets);
+<a name="l00379"></a>00379 
+<a name="l00383"></a>00383   <span class="keyword">enum</span> {
+<a name="l00384"></a>00384     eNoFlags =          0,
+<a name="l00385"></a>00385     eIsLink =           1 &lt;&lt; 0,
+<a name="l00386"></a>00386     eIsVisitedLink =    1 &lt;&lt; 1,
+<a name="l00387"></a>00387     eDoAnimation =      1 &lt;&lt; 2,
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389     <span class="comment">// Indicates that we should skip the flex-item-specific chunk of</span>
+<a name="l00390"></a>00390     <span class="comment">// ApplyStyleFixups().  This is useful if our parent has &quot;display: flex&quot;</span>
+<a name="l00391"></a>00391     <span class="comment">// but we can tell it&#39;s not going to actually be a flex container (e.g. if</span>
+<a name="l00392"></a>00392     <span class="comment">// it&#39;s the outer frame of a button widget, and we&#39;re the inline frame for</span>
+<a name="l00393"></a>00393     <span class="comment">// the button&#39;s label).</span>
+<a name="l00394"></a>00394     eSkipFlexItemStyleFixup = 1 &lt;&lt; 3
+<a name="l00395"></a>00395   };
+<a name="l00396"></a>00396 
+<a name="l00397"></a>00397   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStyleContext&gt;</a>
+<a name="l00398"></a>00398   GetContext(<a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aParentContext,
+<a name="l00399"></a>00399              <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aRuleNode,
+<a name="l00400"></a>00400              <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aVisitedRuleNode,
+<a name="l00401"></a>00401              <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aPseudoTag,
+<a name="l00402"></a>00402              <a class="code" href="../../d3/d0f/ns_display_item_types_8h.html#a1d1cfd8ffb84e947f82999c682b666a7">nsCSSPseudoElements::Type</a> aPseudoType,
+<a name="l00403"></a>00403              <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aElementForAnimation,
+<a name="l00404"></a>00404              uint32_t aFlags);
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406   <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* PresContext() { <span class="keywordflow">return</span> mRuleTree-&gt;<a class="code" href="../../dc/d1e/classns_rule_node.html#a3d56032423202fefe678db45e12ad6c9">PresContext</a>(); }
+<a name="l00407"></a>00407 
+<a name="l00408"></a>00408   <span class="comment">// The sheets in each array in mSheets are stored with the most significant</span>
+<a name="l00409"></a>00409   <span class="comment">// sheet last.</span>
+<a name="l00410"></a>00410   <span class="comment">// The arrays for ePresHintSheet, eStyleAttrSheet, eTransitionSheet,</span>
+<a name="l00411"></a>00411   <span class="comment">// and eAnimationSheet are always empty.  (FIXME:  We should reduce</span>
+<a name="l00412"></a>00412   <span class="comment">// the storage needed for them.)</span>
+<a name="l00413"></a>00413   <a class="code" href="../../d3/d4e/classns_c_o_m_array.html">nsCOMArray&lt;nsIStyleSheet&gt;</a> mSheets[<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37afbbb5dd71fb09cb301c2b24d053113f0">eSheetTypeCount</a>];
+<a name="l00414"></a>00414 
+<a name="l00415"></a>00415   <span class="comment">// mRuleProcessors[eScopedDocSheet] is always null; rule processors</span>
+<a name="l00416"></a>00416   <span class="comment">// for scoped style sheets are stored in mScopedDocSheetRuleProcessors.</span>
+<a name="l00417"></a>00417   nsCOMPtr&lt;nsIStyleRuleProcessor&gt; mRuleProcessors[<a class="code" href="../../d2/db0/classns_style_set.html#a713ee5a3d00f77c292ab1c6883bb6e37afbbb5dd71fb09cb301c2b24d053113f0">eSheetTypeCount</a>];
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419   <span class="comment">// Rule processors for HTML5 scoped style sheets, one per scope.</span>
+<a name="l00420"></a>00420   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsCOMPtr&lt;nsIStyleRuleProcessor&gt;</a> &gt; mScopedDocSheetRuleProcessors;
+<a name="l00421"></a>00421 
+<a name="l00422"></a>00422   <span class="comment">// cached instance for enabling/disabling</span>
+<a name="l00423"></a>00423   nsCOMPtr&lt;nsIStyleSheet&gt; mQuirkStyleSheet;
+<a name="l00424"></a>00424 
+<a name="l00425"></a>00425   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsBindingManager&gt;</a> mBindingManager;
+<a name="l00426"></a>00426 
+<a name="l00427"></a>00427   <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* mRuleTree; <span class="comment">// This is the root of our rule tree.  It is a</span>
+<a name="l00428"></a>00428                          <span class="comment">// lexicographic tree of matched rules that style</span>
+<a name="l00429"></a>00429                          <span class="comment">// contexts use to look up properties.</span>
+<a name="l00430"></a>00430 
+<a name="l00431"></a>00431   uint16_t mBatching;
+<a name="l00432"></a>00432 
+<a name="l00433"></a>00433   <span class="keywordtype">unsigned</span> mInShutdown : 1;
+<a name="l00434"></a>00434   <span class="keywordtype">unsigned</span> mAuthorStyleDisabled: 1;
+<a name="l00435"></a>00435   <span class="keywordtype">unsigned</span> mInReconstruct : 1;
+<a name="l00436"></a>00436   <span class="keywordtype">unsigned</span> mInitFontFeatureValuesLookup : 1;
+<a name="l00437"></a>00437   <span class="keywordtype">unsigned</span> mDirty : 9;  <span class="comment">// one dirty bit is used per sheet type</span>
+<a name="l00438"></a>00438 
+<a name="l00439"></a>00439   uint32_t mUnusedRuleNodeCount; <span class="comment">// used to batch rule node GC</span>
+<a name="l00440"></a>00440   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsStyleContext*&gt;</a> mRoots; <span class="comment">// style contexts with no parent</span>
+<a name="l00441"></a>00441 
+<a name="l00442"></a>00442   <span class="comment">// Empty style rules to force things that restrict which properties</span>
+<a name="l00443"></a>00443   <span class="comment">// apply into different branches of the rule tree.</span>
+<a name="l00444"></a>00444   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsEmptyStyleRule&gt;</a> mFirstLineRule, mFirstLetterRule, mPlaceholderRule;
+<a name="l00445"></a>00445 
+<a name="l00446"></a>00446   <span class="comment">// Style rule which sets all properties to their initial values for</span>
+<a name="l00447"></a>00447   <span class="comment">// determining when context-sensitive values are in use.</span>
+<a name="l00448"></a>00448   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsInitialStyleRule&gt;</a> mInitialStyleRule;
+<a name="l00449"></a>00449 
+<a name="l00450"></a>00450   <span class="comment">// Style rule that sets the internal -x-text-zoom property on</span>
+<a name="l00451"></a>00451   <span class="comment">// &lt;svg:text&gt; elements to disable the effect of text zooming.</span>
+<a name="l00452"></a>00452   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsDisableTextZoomStyleRule&gt;</a> mDisableTextZoomStyleRule;
+<a name="l00453"></a>00453 
+<a name="l00454"></a>00454   <span class="comment">// Old rule trees, which should only be non-empty between</span>
+<a name="l00455"></a>00455   <span class="comment">// BeginReconstruct and EndReconstruct, but in case of bugs that cause</span>
+<a name="l00456"></a>00456   <span class="comment">// style contexts to exist too long, may last longer.</span>
+<a name="l00457"></a>00457   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsRuleNode*&gt;</a> mOldRuleTrees;
+<a name="l00458"></a>00458 
+<a name="l00459"></a>00459   <span class="comment">// whether font feature values lookup object needs initialization</span>
+<a name="l00460"></a>00460   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;gfxFontFeatureValueSet&gt;</a> mFontFeatureValuesLookup;
+<a name="l00461"></a>00461 };
+<a name="l00462"></a>00462 
+<a name="l00463"></a>00463 <span class="preprocessor">#ifdef _IMPL_NS_LAYOUT</span>
+<a name="l00464"></a>00464 <span class="preprocessor"></span><span class="keyword">inline</span>
+<a name="l00465"></a>00465 <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a2b25055a5dc0db60fb15ce24e2f99156">nsRuleNode::AddRef</a>()
+<a name="l00466"></a>00466 {
+<a name="l00467"></a>00467   <span class="keywordflow">if</span> (mRefCnt++ == 0 &amp;&amp; !<a class="code" href="../../dc/d1e/classns_rule_node.html#a1281a3afb6f85910fde5815988cc4e8b">IsRoot</a>()) {
+<a name="l00468"></a>00468     mPresContext-&gt;StyleSet()-&gt;RuleNodeInUse();
+<a name="l00469"></a>00469   }
+<a name="l00470"></a>00470 }
+<a name="l00471"></a>00471 
+<a name="l00472"></a>00472 <span class="keyword">inline</span>
+<a name="l00473"></a>00473 <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a9ee6c1be85782bbfb085590ad48417ff">nsRuleNode::Release</a>()
+<a name="l00474"></a>00474 {
+<a name="l00475"></a>00475   <span class="keywordflow">if</span> (--mRefCnt == 0 &amp;&amp; !<a class="code" href="../../dc/d1e/classns_rule_node.html#a1281a3afb6f85910fde5815988cc4e8b">IsRoot</a>()) {
+<a name="l00476"></a>00476     mPresContext-&gt;StyleSet()-&gt;RuleNodeUnused();
+<a name="l00477"></a>00477   }
+<a name="l00478"></a>00478 }
+<a name="l00479"></a>00479 <span class="preprocessor">#endif</span>
+<a name="l00480"></a>00480 <span class="preprocessor"></span>
+<a name="l00481"></a>00481 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dc/dd1/ns_style_set_8h.html">nsStyleSet.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:44に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

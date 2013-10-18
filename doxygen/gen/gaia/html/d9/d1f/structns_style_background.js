@@ -1,0 +1,27 @@
+var structns_style_background =
+[
+    [ "nsStyleBackground", "d9/d1f/structns_style_background.html#adc650c5cc21c27de0febb37ff401b798", null ],
+    [ "nsStyleBackground", "d9/d1f/structns_style_background.html#ae387ee05b998758ceadefe023fad110d", null ],
+    [ "~nsStyleBackground", "d9/d1f/structns_style_background.html#a59b769a93cbec9b7ee498864d0225268", null ],
+    [ "BottomLayer", "d9/d1f/structns_style_background.html#a82275b1bae95a70064eae3fa6bde1e82", null ],
+    [ "CalcDifference", "d9/d1f/structns_style_background.html#aa23f16a5d056f8e1d0eb036d22f2464e", null ],
+    [ "Destroy", "d9/d1f/structns_style_background.html#a546e46ba52c11aea659432870fa4767f", null ],
+    [ "HasFixedBackground", "d9/d1f/structns_style_background.html#a94a8be961775c96c3164a2abb911c13e", null ],
+    [ "IsTransparent", "d9/d1f/structns_style_background.html#a8053ed2e9c206f3c3772933f08d3c962", null ],
+    [ "MaxDifference", "d9/d1f/structns_style_background.html#a1e1e364466acb586acaa021bfc3e732c", null ],
+    [ "operator new", "d9/d1f/structns_style_background.html#a76c351cf94914bfd0db87a88847eface", null ],
+    [ "Layer", "d9/d1f/structns_style_background.html#a6c2915b6353b57cfdbd1e75398ad9d23", null ],
+    [ "Position", "d9/d1f/structns_style_background.html#aac3ee07a73e002eed171bd10d6a88d79", null ],
+    [ "Repeat", "d9/d1f/structns_style_background.html#a2c1b0eedf650e57fbfd68e2957a320f1", null ],
+    [ "Size", "d9/d1f/structns_style_background.html#a490d5edcfb439397074d286d503ea506", null ],
+    [ "mAttachmentCount", "d9/d1f/structns_style_background.html#a4b23ce24b685ca89c52a0d3ff11d11ab", null ],
+    [ "mBackgroundColor", "d9/d1f/structns_style_background.html#ae23c02ea63a73eae68ed7ef0106ef2c5", null ],
+    [ "mBackgroundInlinePolicy", "d9/d1f/structns_style_background.html#a95c26231e88059beeac1b621884f55ce", null ],
+    [ "mClipCount", "d9/d1f/structns_style_background.html#adf8d5e4dffab2ff30a77c7e7db765c9e", null ],
+    [ "mImageCount", "d9/d1f/structns_style_background.html#a06bee2a0ca6fccc46d3edf1f5e1e14d3", null ],
+    [ "mLayers", "d9/d1f/structns_style_background.html#ae7397c2279406944ad81b283ffd1763d", null ],
+    [ "mOriginCount", "d9/d1f/structns_style_background.html#a2aedf893f0f543b2a0f2d45765917703", null ],
+    [ "mPositionCount", "d9/d1f/structns_style_background.html#a4672e3f79de0c1882da9f2b496d0e8ba", null ],
+    [ "mRepeatCount", "d9/d1f/structns_style_background.html#a766560bccdf624d188cdac8159166188", null ],
+    [ "mSizeCount", "d9/d1f/structns_style_background.html#a030f40bcef0e2bb33e08c6b45629881c", null ]
+];

@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_s_v_g_path_seg_curveto_quadratic_abs_01_4 =
+[
+    [ "NativeType", "df/df8/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_s_v_g_path_seg_curveto_quadratic_abs_01_4.html#a9f318764335bfcef488094495c3a09f3", null ]
+];

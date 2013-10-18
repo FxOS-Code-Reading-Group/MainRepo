@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsBaseHashtable.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/d3c/ns_base_hashtable_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsBaseHashtable.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/d3c/ns_base_hashtable_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef nsBaseHashtable_h__</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define nsBaseHashtable_h__</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6d/_memory_reporting_8h.html">mozilla/MemoryReporting.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/d59/ns_t_hashtable_8h.html">nsTHashtable.h</a>&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/dea/prlock_8h.html">prlock.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/d6d/ns_debug_8h.html">nsDebug.h</a>&quot;</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00015"></a>00015 <span class="keyword">class </span><a class="code" href="../../da/dba/classns_base_hashtable.html">nsBaseHashtable</a>; <span class="comment">// forward declaration</span>
+<a name="l00016"></a>00016 
+<a name="l00022"></a>00022 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType&gt;
+<a name="l00023"></a><a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">00023</a> <span class="keyword">class </span><a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET</a> : <span class="keyword">public</span> KeyClass
+<a name="l00024"></a>00024 {
+<a name="l00025"></a>00025 <span class="keyword">public</span>:
+<a name="l00026"></a><a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html#a8e943e5d9a7033e8dc584f310930040f">00026</a>   DataType <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html#a8e943e5d9a7033e8dc584f310930040f">mData</a>;
+<a name="l00027"></a><a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html#a843b8dd3e31c266d41c94164faefdbbe">00027</a>   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d5/dc3/classns_t_hashtable.html">nsTHashtable</a>&lt; <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET</a>&lt;KeyClass,DataType&gt; &gt;;
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="keyword">private</span>:
+<a name="l00030"></a>00030   <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code" href="../../d7/da9/keythi_8h.html#aab0feaba617470cb4aa830dc5935238c">KeyClass::KeyType</a> <a class="code" href="../../d5/dc3/classns_t_hashtable.html#a10fd7840051356019772b76f228d1de3">KeyType</a>;
+<a name="l00031"></a>00031   <span class="keyword">typedef</span> <span class="keyword">typename</span> KeyClass::KeyTypePointer <a class="code" href="../../d5/dc3/classns_t_hashtable.html#aeab8454f92a72a24015f36a520868f31">KeyTypePointer</a>;
+<a name="l00032"></a>00032   
+<a name="l00033"></a>00033   <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET</a>(KeyTypePointer aKey);
+<a name="l00034"></a>00034   <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET</a>(<a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET&lt;KeyClass,DataType&gt;</a>&amp; toCopy);
+<a name="l00035"></a>00035   ~<a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET</a>();
+<a name="l00036"></a>00036 };
+<a name="l00037"></a>00037 
+<a name="l00050"></a>00050 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00051"></a><a class="code" href="../../da/dba/classns_base_hashtable.html">00051</a> <span class="keyword">class </span><a class="code" href="../../da/dba/classns_base_hashtable.html">nsBaseHashtable</a> :
+<a name="l00052"></a>00052   <span class="keyword">protected</span> <a class="code" href="../../d5/dc3/classns_t_hashtable.html">nsTHashtable</a>&lt; nsBaseHashtableET&lt;KeyClass,DataType&gt; &gt;
+<a name="l00053"></a>00053 {
+<a name="l00054"></a>00054   <span class="keyword">typedef</span> <a class="code" href="../../dc/d9e/structmozilla_1_1fallible__t.html">mozilla::fallible_t</a> <a class="code" href="../../dc/d9e/structmozilla_1_1fallible__t.html">fallible_t</a>;
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 <span class="keyword">public</span>:
+<a name="l00057"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a0b6ae9804b54145aad286183f164d9a0">00057</a>   <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code" href="../../d7/da9/keythi_8h.html#aab0feaba617470cb4aa830dc5935238c">KeyClass::KeyType</a> <a class="code" href="../../da/dba/classns_base_hashtable.html#a0b6ae9804b54145aad286183f164d9a0">KeyType</a>;
+<a name="l00058"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a686e543e77edcd76cfe57a51ab0a58e4">00058</a>   <span class="keyword">typedef</span> <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET&lt;KeyClass,DataType&gt;</a> <a class="code" href="../../da/dba/classns_base_hashtable.html#a686e543e77edcd76cfe57a51ab0a58e4">EntryType</a>;
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060   <span class="comment">// default constructor+destructor are fine</span>
+<a name="l00061"></a>00061 
+<a name="l00069"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a4f48e1b8f52b1065f6351f7e77e9b4a2">00069</a>   <span class="keywordtype">void</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a4f48e1b8f52b1065f6351f7e77e9b4a2">Init</a>(uint32_t initSize = PL_DHASH_MIN_SIZE)
+<a name="l00070"></a>00070   { <a class="code" href="../../da/dba/classns_base_hashtable.html#a4f48e1b8f52b1065f6351f7e77e9b4a2">nsTHashtable&lt;EntryType&gt;::Init</a>(initSize); }
+<a name="l00071"></a>00071 
+<a name="l00072"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a4599d6505af1dff9fcc7ad02f2ba12d2">00072</a>   <span class="keywordtype">bool</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a4f48e1b8f52b1065f6351f7e77e9b4a2">Init</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d9e/structmozilla_1_1fallible__t.html">fallible_t</a>&amp;) <a class="code" href="../../de/d48/mozilla-config_8h.html#afebedda6f0f3b38693466a4d200219e6">NS_WARN_UNUSED_RESULT</a>
+<a name="l00073"></a>00073   { <span class="keywordflow">return</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a4599d6505af1dff9fcc7ad02f2ba12d2">Init</a>(PL_DHASH_MIN_SIZE, <a class="code" href="../../dc/d9e/structmozilla_1_1fallible__t.html">fallible_t</a>()); }
+<a name="l00074"></a>00074 
+<a name="l00075"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a0907087d7c8e1bebf00dd8613c6a2c5b">00075</a>   <span class="keywordtype">bool</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a4f48e1b8f52b1065f6351f7e77e9b4a2">Init</a>(uint32_t initSize, <span class="keyword">const</span> <a class="code" href="../../dc/d9e/structmozilla_1_1fallible__t.html">fallible_t</a>&amp;) <a class="code" href="../../de/d48/mozilla-config_8h.html#afebedda6f0f3b38693466a4d200219e6">NS_WARN_UNUSED_RESULT</a>
+<a name="l00076"></a>00076   { <span class="keywordflow">return</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a4f48e1b8f52b1065f6351f7e77e9b4a2">nsTHashtable&lt;EntryType&gt;::Init</a>(initSize, <a class="code" href="../../dc/d9e/structmozilla_1_1fallible__t.html">fallible_t</a>()); }
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 
+<a name="l00085"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a0fffb23d7730bd148056ffbad34d8fb2">00085</a>   <span class="keywordtype">bool</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a0fffb23d7730bd148056ffbad34d8fb2">IsInitialized</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> !!this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#aa0e76a0afed4629d0187be0fb1b3c927">mTable</a>.<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html#a4889605f6119505cb33bd75932cff535">entrySize</a>; }
+<a name="l00086"></a>00086 
+<a name="l00091"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#aca398c25a3cc474cccce632a59fd69a8">00091</a>   uint32_t <a class="code" href="../../da/dba/classns_base_hashtable.html#aca398c25a3cc474cccce632a59fd69a8">Count</a>()<span class="keyword"> const</span>
+<a name="l00092"></a>00092 <span class="keyword">  </span>{ <span class="keywordflow">return</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#aca398c25a3cc474cccce632a59fd69a8">nsTHashtable&lt;EntryType&gt;::Count</a>(); }
+<a name="l00093"></a>00093 
+<a name="l00103"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a1b46ebed28010c9a7d18aa72d181bcba">00103</a>   <span class="keywordtype">bool</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a1b46ebed28010c9a7d18aa72d181bcba">Get</a>(<a class="code" href="../../d5/dc3/classns_t_hashtable.html#a10fd7840051356019772b76f228d1de3">KeyType</a> aKey, UserDataType* pData)<span class="keyword"> const</span>
+<a name="l00104"></a>00104 <span class="keyword">  </span>{
+<a name="l00105"></a>00105     <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">EntryType</a>* ent = this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#a294b7c85090abc579f8a2dc8f5d716df">GetEntry</a>(aKey);
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107     <span class="keywordflow">if</span> (!ent)
+<a name="l00108"></a>00108       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110     <span class="keywordflow">if</span> (pData)
+<a name="l00111"></a>00111       *pData = ent-&gt;<a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html#a8e943e5d9a7033e8dc584f310930040f">mData</a>;
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00114"></a>00114   }
+<a name="l00115"></a>00115 
+<a name="l00125"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a0829f4cf85af34c333c3582afaee1f1f">00125</a>   UserDataType <a class="code" href="../../da/dba/classns_base_hashtable.html#a1b46ebed28010c9a7d18aa72d181bcba">Get</a>(<a class="code" href="../../d5/dc3/classns_t_hashtable.html#a10fd7840051356019772b76f228d1de3">KeyType</a> aKey)<span class="keyword"> const</span>
+<a name="l00126"></a>00126 <span class="keyword">  </span>{
+<a name="l00127"></a>00127     <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">EntryType</a>* ent = this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#a294b7c85090abc579f8a2dc8f5d716df">GetEntry</a>(aKey);
+<a name="l00128"></a>00128     <span class="keywordflow">if</span> (!ent)
+<a name="l00129"></a>00129       <span class="keywordflow">return</span> 0;
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131     <span class="keywordflow">return</span> ent-&gt;<a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html#a8e943e5d9a7033e8dc584f310930040f">mData</a>;
+<a name="l00132"></a>00132   }
+<a name="l00133"></a>00133 
+<a name="l00140"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a8dbda318cd7782fe8115560a34ebfb6f">00140</a>   <span class="keywordtype">void</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a8dbda318cd7782fe8115560a34ebfb6f">Put</a>(<a class="code" href="../../d5/dc3/classns_t_hashtable.html#a10fd7840051356019772b76f228d1de3">KeyType</a> aKey, <span class="keyword">const</span> UserDataType&amp; <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>)
+<a name="l00141"></a>00141   {
+<a name="l00142"></a>00142     <span class="keywordflow">if</span> (!<a class="code" href="../../da/dba/classns_base_hashtable.html#a8dbda318cd7782fe8115560a34ebfb6f">Put</a>(aKey, aData, <a class="code" href="../../dc/d9e/structmozilla_1_1fallible__t.html">fallible_t</a>()))
+<a name="l00143"></a>00143       <a class="code" href="../../dc/d6d/ns_debug_8h.html#af23ce88454f9ea763d9e8a9b8a77b340">NS_RUNTIMEABORT</a>(<span class="stringliteral">&quot;OOM&quot;</span>);
+<a name="l00144"></a>00144   }
+<a name="l00145"></a>00145 
+<a name="l00146"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a863e4006ef93cd6d9de8019adc4dffa7">00146</a>   <span class="keywordtype">bool</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a8dbda318cd7782fe8115560a34ebfb6f">Put</a>(<a class="code" href="../../d5/dc3/classns_t_hashtable.html#a10fd7840051356019772b76f228d1de3">KeyType</a> aKey, <span class="keyword">const</span> UserDataType&amp; <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>, <span class="keyword">const</span> <a class="code" href="../../dc/d9e/structmozilla_1_1fallible__t.html">fallible_t</a>&amp;) <a class="code" href="../../de/d48/mozilla-config_8h.html#afebedda6f0f3b38693466a4d200219e6">NS_WARN_UNUSED_RESULT</a>
+<a name="l00147"></a>00147   {
+<a name="l00148"></a>00148     <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">EntryType</a>* ent = this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#aef659c022ee76c6708528708a1f102eb">PutEntry</a>(aKey);
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150     <span class="keywordflow">if</span> (!ent)
+<a name="l00151"></a>00151       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153     ent-&gt;<a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html#a8e943e5d9a7033e8dc584f310930040f">mData</a> = <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>;
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00156"></a>00156   }
+<a name="l00157"></a>00157 
+<a name="l00162"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a4508d9865214da99277cd9274ab93739">00162</a>   <span class="keywordtype">void</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a4508d9865214da99277cd9274ab93739">Remove</a>(<a class="code" href="../../d5/dc3/classns_t_hashtable.html#a10fd7840051356019772b76f228d1de3">KeyType</a> aKey) { this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#aac83e7dbc9dd2bf4f5159e0af5713800">RemoveEntry</a>(aKey); }
+<a name="l00163"></a>00163 
+<a name="l00173"></a>00173   <span class="keyword">typedef</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519">PLDHashOperator</a>
+<a name="l00174"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a6478b4c8a7c01bde58a9fd7b66a0c75c">00174</a>     (* <a class="code" href="../../da/dba/classns_base_hashtable.html#a6478b4c8a7c01bde58a9fd7b66a0c75c">EnumReadFunction</a>)(<a class="code" href="../../d5/dc3/classns_t_hashtable.html#a10fd7840051356019772b76f228d1de3">KeyType</a>      aKey,
+<a name="l00175"></a>00175                          UserDataType <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00176"></a>00176                          <span class="keywordtype">void</span>*        userArg);
+<a name="l00177"></a>00177 
+<a name="l00183"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a15580de27506929827532b4057a99550">00183</a>   uint32_t <a class="code" href="../../da/dba/classns_base_hashtable.html#a15580de27506929827532b4057a99550">EnumerateRead</a>(<a class="code" href="../../da/dba/classns_base_hashtable.html#a6478b4c8a7c01bde58a9fd7b66a0c75c">EnumReadFunction</a> enumFunc, <span class="keywordtype">void</span>* userArg)<span class="keyword"> const</span>
+<a name="l00184"></a>00184 <span class="keyword">  </span>{
+<a name="l00185"></a>00185     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#aa0e76a0afed4629d0187be0fb1b3c927">mTable</a>.<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html#a4889605f6119505cb33bd75932cff535">entrySize</a>,
+<a name="l00186"></a>00186                  <span class="stringliteral">&quot;nsBaseHashtable was not initialized properly.&quot;</span>);
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188     s_EnumReadArgs enumData = { enumFunc, userArg };
+<a name="l00189"></a>00189     <span class="keywordflow">return</span> <a class="code" href="../../da/d2c/pldhash_8h.html#af55e629846ba2cd127404865c1179cf7">PL_DHashTableEnumerate</a>(const_cast&lt;PLDHashTable*&gt;(&amp;this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#aa0e76a0afed4629d0187be0fb1b3c927">mTable</a>),
+<a name="l00190"></a>00190                                   <a class="code" href="../../da/dba/classns_base_hashtable.html#adc11078948468e95649370b65e805f5d">s_EnumReadStub</a>,
+<a name="l00191"></a>00191                                   &amp;enumData);
+<a name="l00192"></a>00192   }
+<a name="l00193"></a>00193 
+<a name="l00205"></a>00205   <span class="keyword">typedef</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519">PLDHashOperator</a>
+<a name="l00206"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a0be5358a03de0ae394c490c93330a6ec">00206</a>     (* <a class="code" href="../../da/dba/classns_base_hashtable.html#a0be5358a03de0ae394c490c93330a6ec">EnumFunction</a>)(<a class="code" href="../../d5/dc3/classns_t_hashtable.html#a10fd7840051356019772b76f228d1de3">KeyType</a>       aKey,
+<a name="l00207"></a>00207                      DataType&amp;     <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00208"></a>00208                      <span class="keywordtype">void</span>*         userArg);
+<a name="l00209"></a>00209 
+<a name="l00216"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#aab1dcaec671f76c5a0a987c3a3b3332d">00216</a>   uint32_t <a class="code" href="../../da/dba/classns_base_hashtable.html#aab1dcaec671f76c5a0a987c3a3b3332d">Enumerate</a>(<a class="code" href="../../da/dba/classns_base_hashtable.html#a0be5358a03de0ae394c490c93330a6ec">EnumFunction</a> enumFunc, <span class="keywordtype">void</span>* userArg)
+<a name="l00217"></a>00217   {
+<a name="l00218"></a>00218     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#aa0e76a0afed4629d0187be0fb1b3c927">mTable</a>.<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html#a4889605f6119505cb33bd75932cff535">entrySize</a>,
+<a name="l00219"></a>00219                  <span class="stringliteral">&quot;nsBaseHashtable was not initialized properly.&quot;</span>);
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221     <a class="code" href="../../da/d39/structns_t_hashtable_1_1s___enum_args.html">s_EnumArgs</a> enumData = { enumFunc, userArg };
+<a name="l00222"></a>00222     <span class="keywordflow">return</span> <a class="code" href="../../da/d2c/pldhash_8h.html#af55e629846ba2cd127404865c1179cf7">PL_DHashTableEnumerate</a>(&amp;this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#aa0e76a0afed4629d0187be0fb1b3c927">mTable</a>,
+<a name="l00223"></a>00223                                   <a class="code" href="../../da/dba/classns_base_hashtable.html#a7da3f30e163a55f39816aa00cdbc2b55">s_EnumStub</a>,
+<a name="l00224"></a>00224                                   &amp;enumData);
+<a name="l00225"></a>00225   }
+<a name="l00226"></a>00226 
+<a name="l00230"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a2433fc546a458e95c9d09792083223f6">00230</a>   <span class="keywordtype">void</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a2433fc546a458e95c9d09792083223f6">Clear</a>() { <a class="code" href="../../da/dba/classns_base_hashtable.html#a2433fc546a458e95c9d09792083223f6">nsTHashtable&lt;EntryType&gt;::Clear</a>(); }
+<a name="l00231"></a>00231 
+<a name="l00241"></a>00241   <span class="keyword">typedef</span> size_t
+<a name="l00242"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#acf43f3735a8ee2c8a80348887ad05c59">00242</a>     (* <a class="code" href="../../da/dba/classns_base_hashtable.html#acf43f3735a8ee2c8a80348887ad05c59">SizeOfEntryExcludingThisFun</a>)(<a class="code" href="../../d5/dc3/classns_t_hashtable.html#a10fd7840051356019772b76f228d1de3">KeyType</a>           aKey,
+<a name="l00243"></a>00243                                     <span class="keyword">const</span> DataType    &amp;<a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00244"></a>00244                                     mozilla::MallocSizeOf <a class="code" href="../../dd/dc2/plarenas_8h.html#a949eedf624fe531514701f3f304b94a9">mallocSizeOf</a>,
+<a name="l00245"></a>00245                                     <span class="keywordtype">void</span>*             userArg);
+<a name="l00246"></a>00246 
+<a name="l00259"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a50baf5ce73b5e4c1a5026f067e1ebdd8">00259</a>   <span class="keywordtype">size_t</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a50baf5ce73b5e4c1a5026f067e1ebdd8">SizeOfIncludingThis</a>(<a class="code" href="../../da/dba/classns_base_hashtable.html#acf43f3735a8ee2c8a80348887ad05c59">SizeOfEntryExcludingThisFun</a> sizeOfEntryExcludingThis,
+<a name="l00260"></a>00260                              mozilla::MallocSizeOf <a class="code" href="../../dd/dc2/plarenas_8h.html#a949eedf624fe531514701f3f304b94a9">mallocSizeOf</a>, <span class="keywordtype">void</span> *userArg = <span class="keyword">nullptr</span>)
+<a name="l00261"></a>00261   {
+<a name="l00262"></a>00262     <span class="keywordflow">return</span> <a class="code" href="../../dd/dc2/plarenas_8h.html#a949eedf624fe531514701f3f304b94a9">mallocSizeOf</a>(<span class="keyword">this</span>) + this-&gt;<a class="code" href="../../da/dba/classns_base_hashtable.html#ad172f3b6b1735a2909ec5f6eef48f3a1">SizeOfExcludingThis</a>(sizeOfEntryExcludingThis,
+<a name="l00263"></a>00263                                                           mallocSizeOf, userArg);
+<a name="l00264"></a>00264   }
+<a name="l00265"></a>00265 
+<a name="l00278"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#ad172f3b6b1735a2909ec5f6eef48f3a1">00278</a>   <span class="keywordtype">size_t</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#ad172f3b6b1735a2909ec5f6eef48f3a1">SizeOfExcludingThis</a>(<a class="code" href="../../da/dba/classns_base_hashtable.html#acf43f3735a8ee2c8a80348887ad05c59">SizeOfEntryExcludingThisFun</a> sizeOfEntryExcludingThis,
+<a name="l00279"></a>00279                              mozilla::MallocSizeOf <a class="code" href="../../dd/dc2/plarenas_8h.html#a949eedf624fe531514701f3f304b94a9">mallocSizeOf</a>, <span class="keywordtype">void</span> *userArg = <span class="keyword">nullptr</span>)<span class="keyword"> const</span>
+<a name="l00280"></a>00280 <span class="keyword">  </span>{
+<a name="l00281"></a>00281     <span class="keywordflow">if</span> (!<a class="code" href="../../da/dba/classns_base_hashtable.html#a0fffb23d7730bd148056ffbad34d8fb2">IsInitialized</a>()) {
+<a name="l00282"></a>00282       <span class="keywordflow">return</span> 0;
+<a name="l00283"></a>00283     }
+<a name="l00284"></a>00284     <span class="keywordflow">if</span> (sizeOfEntryExcludingThis) {
+<a name="l00285"></a>00285       <a class="code" href="../../d2/d6d/structns_t_hashtable_1_1s___size_of_args.html">s_SizeOfArgs</a> <a class="code" href="../../db/d7b/r_8js.html#a283fa4dd58795cf5b621404be6601e86">args</a> = { sizeOfEntryExcludingThis, userArg };
+<a name="l00286"></a>00286       <span class="keywordflow">return</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a5c0fb7f5860f2c9425b3c50cdeab2eeb">PL_DHashTableSizeOfExcludingThis</a>(&amp;this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#aa0e76a0afed4629d0187be0fb1b3c927">mTable</a>, <a class="code" href="../../da/dba/classns_base_hashtable.html#a10fc8d23a5df28804baf4693ada1c8d9">s_SizeOfStub</a>,
+<a name="l00287"></a>00287                                               mallocSizeOf, &amp;args);
+<a name="l00288"></a>00288     }
+<a name="l00289"></a>00289     <span class="keywordflow">return</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a5c0fb7f5860f2c9425b3c50cdeab2eeb">PL_DHashTableSizeOfExcludingThis</a>(&amp;this-&gt;<a class="code" href="../../d5/dc3/classns_t_hashtable.html#aa0e76a0afed4629d0187be0fb1b3c927">mTable</a>, <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>, mallocSizeOf);
+<a name="l00290"></a>00290   }
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292 <span class="keyword">protected</span>:
+<a name="l00298"></a><a class="code" href="../../d1/dcd/structns_base_hashtable_1_1s___enum_read_args.html">00298</a>   <span class="keyword">struct </span><a class="code" href="../../d1/dcd/structns_base_hashtable_1_1s___enum_read_args.html">s_EnumReadArgs</a>
+<a name="l00299"></a>00299   {
+<a name="l00300"></a><a class="code" href="../../d1/dcd/structns_base_hashtable_1_1s___enum_read_args.html#a08620f25be92ee42dbc23bbde853d773">00300</a>     <a class="code" href="../../da/dba/classns_base_hashtable.html#a6478b4c8a7c01bde58a9fd7b66a0c75c">EnumReadFunction</a> <a class="code" href="../../d1/dcd/structns_base_hashtable_1_1s___enum_read_args.html#a08620f25be92ee42dbc23bbde853d773">func</a>;
+<a name="l00301"></a><a class="code" href="../../d1/dcd/structns_base_hashtable_1_1s___enum_read_args.html#add622ba9fbfe4c9558b24faa2d890907">00301</a>     <span class="keywordtype">void</span>* <a class="code" href="../../d1/dcd/structns_base_hashtable_1_1s___enum_read_args.html#add622ba9fbfe4c9558b24faa2d890907">userArg</a>;
+<a name="l00302"></a>00302   };
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304   <span class="keyword">static</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519">PLDHashOperator</a> <a class="code" href="../../da/dba/classns_base_hashtable.html#adc11078948468e95649370b65e805f5d">s_EnumReadStub</a>(<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a>    *<a class="code" href="../../d3/d82/prlink_8h.html#aae95f41aa336f8375a3415100cf9ffd4">table</a>,
+<a name="l00305"></a>00305                                         <a class="code" href="../../d0/dcc/struct_p_l_d_hash_entry_hdr.html">PLDHashEntryHdr</a> *hdr,
+<a name="l00306"></a>00306                                         uint32_t         number,
+<a name="l00307"></a>00307                                         <span class="keywordtype">void</span>            *<a class="code" href="../../d2/dbe/jsprf_8h.html#ae036856e415526e58e249638733f6752">arg</a>);
+<a name="l00308"></a>00308 
+<a name="l00309"></a><a class="code" href="../../d8/dc3/structns_base_hashtable_1_1s___enum_args.html">00309</a>   <span class="keyword">struct </span><a class="code" href="../../d8/dc3/structns_base_hashtable_1_1s___enum_args.html">s_EnumArgs</a>
+<a name="l00310"></a>00310   {
+<a name="l00311"></a><a class="code" href="../../d8/dc3/structns_base_hashtable_1_1s___enum_args.html#a9a039331c1c8811a89e71a8962287499">00311</a>     <a class="code" href="../../da/dba/classns_base_hashtable.html#a0be5358a03de0ae394c490c93330a6ec">EnumFunction</a> <a class="code" href="../../d8/dc3/structns_base_hashtable_1_1s___enum_args.html#a9a039331c1c8811a89e71a8962287499">func</a>;
+<a name="l00312"></a><a class="code" href="../../d8/dc3/structns_base_hashtable_1_1s___enum_args.html#acfec9f7d9e1ad89247e6515a552dc37a">00312</a>     <span class="keywordtype">void</span>* <a class="code" href="../../d8/dc3/structns_base_hashtable_1_1s___enum_args.html#acfec9f7d9e1ad89247e6515a552dc37a">userArg</a>;
+<a name="l00313"></a>00313   };
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315   <span class="keyword">static</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519">PLDHashOperator</a> <a class="code" href="../../da/dba/classns_base_hashtable.html#a7da3f30e163a55f39816aa00cdbc2b55">s_EnumStub</a>(<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a>      *<a class="code" href="../../d3/d82/prlink_8h.html#aae95f41aa336f8375a3415100cf9ffd4">table</a>,
+<a name="l00316"></a>00316                                     <a class="code" href="../../d0/dcc/struct_p_l_d_hash_entry_hdr.html">PLDHashEntryHdr</a>   *hdr,
+<a name="l00317"></a>00317                                     uint32_t           number,
+<a name="l00318"></a>00318                                     <span class="keywordtype">void</span>              *<a class="code" href="../../d2/dbe/jsprf_8h.html#ae036856e415526e58e249638733f6752">arg</a>);
+<a name="l00319"></a>00319 
+<a name="l00320"></a><a class="code" href="../../d6/d18/structns_base_hashtable_1_1s___size_of_args.html">00320</a>   <span class="keyword">struct </span><a class="code" href="../../d6/d18/structns_base_hashtable_1_1s___size_of_args.html">s_SizeOfArgs</a>
+<a name="l00321"></a>00321   {
+<a name="l00322"></a><a class="code" href="../../d6/d18/structns_base_hashtable_1_1s___size_of_args.html#aaccae94bde08cbb8d2037d67fb83c719">00322</a>     <a class="code" href="../../da/dba/classns_base_hashtable.html#acf43f3735a8ee2c8a80348887ad05c59">SizeOfEntryExcludingThisFun</a> <a class="code" href="../../d6/d18/structns_base_hashtable_1_1s___size_of_args.html#aaccae94bde08cbb8d2037d67fb83c719">func</a>;
+<a name="l00323"></a><a class="code" href="../../d6/d18/structns_base_hashtable_1_1s___size_of_args.html#a49497c39ea031a1fb212c0463081bf0b">00323</a>     <span class="keywordtype">void</span>* <a class="code" href="../../d6/d18/structns_base_hashtable_1_1s___size_of_args.html#a49497c39ea031a1fb212c0463081bf0b">userArg</a>;
+<a name="l00324"></a>00324   };
+<a name="l00325"></a>00325   
+<a name="l00326"></a>00326   <span class="keyword">static</span> <span class="keywordtype">size_t</span> <a class="code" href="../../da/dba/classns_base_hashtable.html#a10fc8d23a5df28804baf4693ada1c8d9">s_SizeOfStub</a>(<a class="code" href="../../d0/dcc/struct_p_l_d_hash_entry_hdr.html">PLDHashEntryHdr</a> *entry,
+<a name="l00327"></a>00327                              mozilla::MallocSizeOf <a class="code" href="../../dd/dc2/plarenas_8h.html#a949eedf624fe531514701f3f304b94a9">mallocSizeOf</a>,
+<a name="l00328"></a>00328                              <span class="keywordtype">void</span> *<a class="code" href="../../d2/dbe/jsprf_8h.html#ae036856e415526e58e249638733f6752">arg</a>);
+<a name="l00329"></a>00329 };
+<a name="l00330"></a>00330 
+<a name="l00331"></a>00331 <span class="keyword">class </span><a class="code" href="../../d9/d36/classns_cycle_collection_traversal_callback.html">nsCycleCollectionTraversalCallback</a>;
+<a name="l00332"></a>00332 
+<a name="l00333"></a><a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html">00333</a> <span class="keyword">struct </span>MOZ_STACK_CLASS <a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html">nsBaseHashtableCCTraversalData</a>
+<a name="l00334"></a>00334 {
+<a name="l00335"></a><a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html#abc72210e12f4c32ba863147f684ee661">00335</a>   <a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html">nsBaseHashtableCCTraversalData</a>(<a class="code" href="../../d9/d36/classns_cycle_collection_traversal_callback.html">nsCycleCollectionTraversalCallback</a>&amp; aCallback,
+<a name="l00336"></a>00336                                  <span class="keyword">const</span> <span class="keywordtype">char</span>* aName,
+<a name="l00337"></a>00337                                  uint32_t aFlags)
+<a name="l00338"></a>00338   : mCallback(aCallback),
+<a name="l00339"></a>00339     mName(aName),
+<a name="l00340"></a>00340     mFlags(aFlags)
+<a name="l00341"></a>00341   {
+<a name="l00342"></a>00342   }
+<a name="l00343"></a>00343 
+<a name="l00344"></a><a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html#aa43f485cdc996e51b4229c7618ed174f">00344</a>   <a class="code" href="../../d9/d36/classns_cycle_collection_traversal_callback.html">nsCycleCollectionTraversalCallback</a>&amp; <a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html#aa43f485cdc996e51b4229c7618ed174f">mCallback</a>;
+<a name="l00345"></a><a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html#ae73408d03b7dcbfb98c00c2922962ee2">00345</a>   <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html#ae73408d03b7dcbfb98c00c2922962ee2">mName</a>;
+<a name="l00346"></a><a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html#a0ff16b12191cb5e1b07e4ad8ab6f35fb">00346</a>   uint32_t <a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html#a0ff16b12191cb5e1b07e4ad8ab6f35fb">mFlags</a>;
+<a name="l00347"></a>00347 
+<a name="l00348"></a>00348 };
+<a name="l00349"></a>00349 
+<a name="l00350"></a>00350 <span class="keyword">template</span> &lt;<span class="keyword">typename</span> K, <span class="keyword">typename</span> T&gt;
+<a name="l00351"></a>00351 <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519">PLDHashOperator</a>
+<a name="l00352"></a><a class="code" href="../../da/d3c/ns_base_hashtable_8h.html#a6d2ec1d135bb03e08887a244dbe901df">00352</a> <a class="code" href="../../da/d3c/ns_base_hashtable_8h.html#a6d2ec1d135bb03e08887a244dbe901df">ImplCycleCollectionTraverse_EnumFunc</a>(K aKey,
+<a name="l00353"></a>00353                                      T <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00354"></a>00354                                      <span class="keywordtype">void</span>* aUserData)
+<a name="l00355"></a>00355 {
+<a name="l00356"></a>00356   <a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html">nsBaseHashtableCCTraversalData</a>* userData =
+<a name="l00357"></a>00357     <span class="keyword">static_cast&lt;</span><a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html">nsBaseHashtableCCTraversalData</a>*<span class="keyword">&gt;</span>(aUserData);
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359   <a class="code" href="../../d4/d15/ns_cycle_collection_note_child_8h.html#a2d85044d6002711aed92dff93b471e6d">CycleCollectionNoteChild</a>(userData-&gt;<a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html#aa43f485cdc996e51b4229c7618ed174f">mCallback</a>,
+<a name="l00360"></a>00360                            aData,
+<a name="l00361"></a>00361                            userData-&gt;<a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html#ae73408d03b7dcbfb98c00c2922962ee2">mName</a>,
+<a name="l00362"></a>00362                            userData-&gt;<a class="code" href="../../db/d3c/structns_base_hashtable_c_c_traversal_data.html#a0ff16b12191cb5e1b07e4ad8ab6f35fb">mFlags</a>);
+<a name="l00363"></a>00363   <span class="keywordflow">return</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519a43c08cad34a02107c007146be65b0bd9">PL_DHASH_NEXT</a>;
+<a name="l00364"></a>00364 }
+<a name="l00365"></a>00365 
+<a name="l00370"></a>00370 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00371"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html">00371</a> <span class="keyword">class </span><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html">nsBaseHashtableMT</a> :
+<a name="l00372"></a>00372   <span class="keyword">protected</span> <a class="code" href="../../da/dba/classns_base_hashtable.html">nsBaseHashtable</a>&lt;KeyClass,DataType,UserDataType&gt;
+<a name="l00373"></a>00373 {
+<a name="l00374"></a>00374 <span class="keyword">public</span>:
+<a name="l00375"></a>00375   <span class="keyword">typedef</span> <span class="keyword">typename</span>
+<a name="l00376"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a7c867ae8d51728570ec2d6a4b5dd29f6">00376</a>     <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::EntryType</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a7c867ae8d51728570ec2d6a4b5dd29f6">EntryType</a>;
+<a name="l00377"></a>00377   <span class="keyword">typedef</span> <span class="keyword">typename</span>
+<a name="l00378"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a00f1f5526d737b4424578325f7141f7d">00378</a>     <a class="code" href="../../da/dba/classns_base_hashtable.html#a0b6ae9804b54145aad286183f164d9a0">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::KeyType</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a00f1f5526d737b4424578325f7141f7d">KeyType</a>;
+<a name="l00379"></a>00379   <span class="keyword">typedef</span> <span class="keyword">typename</span>
+<a name="l00380"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a087d555bb98ee710ff8ad72a612dedbd">00380</a>     <a class="code" href="../../da/dba/classns_base_hashtable.html">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::EnumFunction</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a087d555bb98ee710ff8ad72a612dedbd">EnumFunction</a>;
+<a name="l00381"></a>00381   <span class="keyword">typedef</span> <span class="keyword">typename</span>
+<a name="l00382"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#af078220c2747a1cdb7f69bd0f1cad24d">00382</a>     <a class="code" href="../../da/dba/classns_base_hashtable.html">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::EnumReadFunction</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#af078220c2747a1cdb7f69bd0f1cad24d">EnumReadFunction</a>;
+<a name="l00383"></a>00383 
+<a name="l00384"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a286b4016bd0843926f66ed9e6cfbecca">00384</a>   <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a286b4016bd0843926f66ed9e6cfbecca">nsBaseHashtableMT</a>() : <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a419bbf74af4c4646eacc4a90d1bbd87d">mLock</a>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>) { }
+<a name="l00385"></a>00385   <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a660eb828c5242c1c765405a71e649846">~nsBaseHashtableMT</a>();
+<a name="l00386"></a>00386 
+<a name="l00387"></a>00387   <span class="keywordtype">void</span> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ac42c8c5cd200618e5983e51627a3ebc3">Init</a>(uint32_t initSize = PL_DHASH_MIN_SIZE);
+<a name="l00388"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ab6e398e812bc29ab851cc2725972a0c9">00388</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ab6e398e812bc29ab851cc2725972a0c9">IsInitialized</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a419bbf74af4c4646eacc4a90d1bbd87d">mLock</a> != <span class="keyword">nullptr</span>; }
+<a name="l00389"></a>00389   uint32_t <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ab42fe1f4702427a396af57944dda0599">Count</a>() <span class="keyword">const</span>;
+<a name="l00390"></a>00390   <span class="keywordtype">bool</span> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#af1811aa4d162e23bf756f8a59cc70337">Get</a>(<a class="code" href="../../d7/da9/keythi_8h.html#aab0feaba617470cb4aa830dc5935238c">KeyType</a> aKey, UserDataType* pData) <span class="keyword">const</span>;
+<a name="l00391"></a>00391   <span class="keywordtype">void</span> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a0004349b3bf4727601fc98947f883342">Put</a>(<a class="code" href="../../d7/da9/keythi_8h.html#aab0feaba617470cb4aa830dc5935238c">KeyType</a> aKey, UserDataType <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>);
+<a name="l00392"></a>00392   <span class="keywordtype">void</span> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a1022a29f00047d5dffa75070185acb80">Remove</a>(<a class="code" href="../../d7/da9/keythi_8h.html#aab0feaba617470cb4aa830dc5935238c">KeyType</a> aKey);
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394   uint32_t <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a286d8ce9ef01dcb436faba790fddf1a9">EnumerateRead</a>(<a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#af078220c2747a1cdb7f69bd0f1cad24d">EnumReadFunction</a> enumFunc, <span class="keywordtype">void</span>* userArg) <span class="keyword">const</span>;
+<a name="l00395"></a>00395   uint32_t <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#aa70ba1cc5059d6a1b72c33d7857385ef">Enumerate</a>(<a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a087d555bb98ee710ff8ad72a612dedbd">EnumFunction</a> enumFunc, <span class="keywordtype">void</span>* userArg);
+<a name="l00396"></a>00396   <span class="keywordtype">void</span> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ac006133409ed5efc73bf761552535c94">Clear</a>();
+<a name="l00397"></a>00397 
+<a name="l00398"></a>00398 <span class="keyword">protected</span>:
+<a name="l00399"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a419bbf74af4c4646eacc4a90d1bbd87d">00399</a>   <a class="code" href="../../d5/d93/jslock_8h.html#a80da71ec2473acd1cb2d457f06618150">PRLock</a>* <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a419bbf74af4c4646eacc4a90d1bbd87d">mLock</a>;
+<a name="l00400"></a>00400 };
+<a name="l00401"></a>00401   
+<a name="l00402"></a>00402 
+<a name="l00403"></a>00403 <span class="comment">//</span>
+<a name="l00404"></a>00404 <span class="comment">// nsBaseHashtableET definitions</span>
+<a name="l00405"></a>00405 <span class="comment">//</span>
+<a name="l00406"></a>00406 
+<a name="l00407"></a>00407 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType&gt;
+<a name="l00408"></a>00408 <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET&lt;KeyClass,DataType&gt;::nsBaseHashtableET</a>(KeyTypePointer aKey) :
+<a name="l00409"></a>00409   KeyClass(aKey)
+<a name="l00410"></a>00410 { }
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType&gt;
+<a name="l00413"></a>00413 <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET&lt;KeyClass,DataType&gt;::nsBaseHashtableET</a>
+<a name="l00414"></a>00414   (<a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET&lt;KeyClass,DataType&gt;</a>&amp; toCopy) :
+<a name="l00415"></a>00415   KeyClass(toCopy),
+<a name="l00416"></a>00416   mData(toCopy.mData)
+<a name="l00417"></a>00417 { }
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType&gt;
+<a name="l00420"></a>00420 <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">nsBaseHashtableET&lt;KeyClass,DataType&gt;::~nsBaseHashtableET</a>()
+<a name="l00421"></a>00421 { }
+<a name="l00422"></a>00422 
+<a name="l00423"></a>00423 
+<a name="l00424"></a>00424 <span class="comment">//</span>
+<a name="l00425"></a>00425 <span class="comment">// nsBaseHashtable definitions</span>
+<a name="l00426"></a>00426 <span class="comment">//</span>
+<a name="l00427"></a>00427 
+<a name="l00428"></a>00428 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00429"></a>00429 <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519">PLDHashOperator</a>
+<a name="l00430"></a>00430 <a class="code" href="../../da/dba/classns_base_hashtable.html#adc11078948468e95649370b65e805f5d">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::s_EnumReadStub</a>
+<a name="l00431"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#adc11078948468e95649370b65e805f5d">00431</a>   (<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a> *<a class="code" href="../../d3/d82/prlink_8h.html#aae95f41aa336f8375a3415100cf9ffd4">table</a>, <a class="code" href="../../d0/dcc/struct_p_l_d_hash_entry_hdr.html">PLDHashEntryHdr</a> *hdr, uint32_t number, <span class="keywordtype">void</span>* <a class="code" href="../../d2/dbe/jsprf_8h.html#ae036856e415526e58e249638733f6752">arg</a>)
+<a name="l00432"></a>00432 {
+<a name="l00433"></a>00433   <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">EntryType</a>* ent = <span class="keyword">static_cast&lt;</span><a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">EntryType</a>*<span class="keyword">&gt;</span>(hdr);
+<a name="l00434"></a>00434   <a class="code" href="../../d1/dcd/structns_base_hashtable_1_1s___enum_read_args.html">s_EnumReadArgs</a>* eargs = (<a class="code" href="../../d1/dcd/structns_base_hashtable_1_1s___enum_read_args.html">s_EnumReadArgs</a>*) arg;
+<a name="l00435"></a>00435 
+<a name="l00436"></a>00436   <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519">PLDHashOperator</a> res = (eargs-&gt;<a class="code" href="../../d1/dcd/structns_base_hashtable_1_1s___enum_read_args.html#a08620f25be92ee42dbc23bbde853d773">func</a>)(ent-&gt;GetKey(), ent-&gt;<a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html#a8e943e5d9a7033e8dc584f310930040f">mData</a>, eargs-&gt;<a class="code" href="../../d1/dcd/structns_base_hashtable_1_1s___enum_read_args.html#add622ba9fbfe4c9558b24faa2d890907">userArg</a>);
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>( !(res &amp; <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519aecda7b7f2dc7c0e4031fae43f933f6fe">PL_DHASH_REMOVE</a> ),
+<a name="l00439"></a>00439                 <span class="stringliteral">&quot;PL_DHASH_REMOVE return during const enumeration; ignoring.&quot;</span>);
+<a name="l00440"></a>00440 
+<a name="l00441"></a>00441   <span class="keywordflow">if</span> (res &amp; <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519a42bb5cf76c2abee76d01324e25180ea8">PL_DHASH_STOP</a>)
+<a name="l00442"></a>00442     <span class="keywordflow">return</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519a42bb5cf76c2abee76d01324e25180ea8">PL_DHASH_STOP</a>;
+<a name="l00443"></a>00443 
+<a name="l00444"></a>00444   <span class="keywordflow">return</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519a43c08cad34a02107c007146be65b0bd9">PL_DHASH_NEXT</a>;
+<a name="l00445"></a>00445 }
+<a name="l00446"></a>00446 
+<a name="l00447"></a>00447 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00448"></a>00448 <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519">PLDHashOperator</a>
+<a name="l00449"></a>00449 <a class="code" href="../../da/dba/classns_base_hashtable.html#a7da3f30e163a55f39816aa00cdbc2b55">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::s_EnumStub</a>
+<a name="l00450"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a7da3f30e163a55f39816aa00cdbc2b55">00450</a>   (<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a> *table, <a class="code" href="../../d0/dcc/struct_p_l_d_hash_entry_hdr.html">PLDHashEntryHdr</a> *hdr, uint32_t number, <span class="keywordtype">void</span>* arg)
+<a name="l00451"></a>00451 {
+<a name="l00452"></a>00452   <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">EntryType</a>* ent = <span class="keyword">static_cast&lt;</span><a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">EntryType</a>*<span class="keyword">&gt;</span>(hdr);
+<a name="l00453"></a>00453   <a class="code" href="../../d8/dc3/structns_base_hashtable_1_1s___enum_args.html">s_EnumArgs</a>* eargs = (<a class="code" href="../../d8/dc3/structns_base_hashtable_1_1s___enum_args.html">s_EnumArgs</a>*) arg;
+<a name="l00454"></a>00454 
+<a name="l00455"></a>00455   <span class="keywordflow">return</span> (eargs-&gt;<a class="code" href="../../d8/dc3/structns_base_hashtable_1_1s___enum_args.html#a9a039331c1c8811a89e71a8962287499">func</a>)(ent-&gt;GetKey(), ent-&gt;<a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html#a8e943e5d9a7033e8dc584f310930040f">mData</a>, eargs-&gt;<a class="code" href="../../d8/dc3/structns_base_hashtable_1_1s___enum_args.html#acfec9f7d9e1ad89247e6515a552dc37a">userArg</a>);
+<a name="l00456"></a>00456 }
+<a name="l00457"></a>00457 
+<a name="l00458"></a>00458 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00459"></a>00459 <span class="keywordtype">size_t</span>
+<a name="l00460"></a>00460 <a class="code" href="../../da/dba/classns_base_hashtable.html#a10fc8d23a5df28804baf4693ada1c8d9">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::s_SizeOfStub</a>
+<a name="l00461"></a><a class="code" href="../../da/dba/classns_base_hashtable.html#a10fc8d23a5df28804baf4693ada1c8d9">00461</a>   (<a class="code" href="../../d0/dcc/struct_p_l_d_hash_entry_hdr.html">PLDHashEntryHdr</a> *hdr, mozilla::MallocSizeOf <a class="code" href="../../dd/dc2/plarenas_8h.html#a949eedf624fe531514701f3f304b94a9">mallocSizeOf</a>, <span class="keywordtype">void</span> *arg)
+<a name="l00462"></a>00462 {
+<a name="l00463"></a>00463   <a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">EntryType</a>* ent = <span class="keyword">static_cast&lt;</span><a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html">EntryType</a>*<span class="keyword">&gt;</span>(hdr);
+<a name="l00464"></a>00464   <a class="code" href="../../d6/d18/structns_base_hashtable_1_1s___size_of_args.html">s_SizeOfArgs</a>* eargs = <span class="keyword">static_cast&lt;</span><a class="code" href="../../d6/d18/structns_base_hashtable_1_1s___size_of_args.html">s_SizeOfArgs</a>*<span class="keyword">&gt;</span>(<a class="code" href="../../d2/dbe/jsprf_8h.html#ae036856e415526e58e249638733f6752">arg</a>);
+<a name="l00465"></a>00465 
+<a name="l00466"></a>00466   <span class="keywordflow">return</span> (eargs-&gt;<a class="code" href="../../d6/d18/structns_base_hashtable_1_1s___size_of_args.html#aaccae94bde08cbb8d2037d67fb83c719">func</a>)(ent-&gt;GetKey(), ent-&gt;<a class="code" href="../../d7/d8a/classns_base_hashtable_e_t.html#a8e943e5d9a7033e8dc584f310930040f">mData</a>, <a class="code" href="../../dd/dc2/plarenas_8h.html#a949eedf624fe531514701f3f304b94a9">mallocSizeOf</a>, eargs-&gt;<a class="code" href="../../d6/d18/structns_base_hashtable_1_1s___size_of_args.html#a49497c39ea031a1fb212c0463081bf0b">userArg</a>);
+<a name="l00467"></a>00467 }
+<a name="l00468"></a>00468 
+<a name="l00469"></a>00469 <span class="comment">//</span>
+<a name="l00470"></a>00470 <span class="comment">// nsBaseHashtableMT  definitions</span>
+<a name="l00471"></a>00471 <span class="comment">//</span>
+<a name="l00472"></a>00472 
+<a name="l00473"></a>00473 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00474"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a660eb828c5242c1c765405a71e649846">00474</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a660eb828c5242c1c765405a71e649846">nsBaseHashtableMT&lt;KeyClass,DataType,UserDataType&gt;::~nsBaseHashtableMT</a>()
+<a name="l00475"></a>00475 {
+<a name="l00476"></a>00476   <span class="keywordflow">if</span> (this-&gt;mLock)
+<a name="l00477"></a>00477     PR_DestroyLock(this-&gt;mLock);
+<a name="l00478"></a>00478 }
+<a name="l00479"></a>00479 
+<a name="l00480"></a>00480 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00481"></a>00481 <span class="keywordtype">void</span>
+<a name="l00482"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ac42c8c5cd200618e5983e51627a3ebc3">00482</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ac42c8c5cd200618e5983e51627a3ebc3">nsBaseHashtableMT&lt;KeyClass,DataType,UserDataType&gt;::Init</a>(uint32_t initSize)
+<a name="l00483"></a>00483 {
+<a name="l00484"></a>00484   <span class="keywordflow">if</span> (!<a class="code" href="../../d5/dc3/classns_t_hashtable.html">nsTHashtable&lt;EntryType&gt;::IsInitialized</a>())
+<a name="l00485"></a>00485     <a class="code" href="../../d5/dc3/classns_t_hashtable.html#af52b45da185a80fa18921cde893590cd">nsTHashtable&lt;EntryType&gt;::Init</a>(initSize);
+<a name="l00486"></a>00486 
+<a name="l00487"></a>00487   this-&gt;mLock = PR_NewLock();
+<a name="l00488"></a>00488   <span class="keywordflow">if</span> (!this-&gt;mLock)
+<a name="l00489"></a>00489     <a class="code" href="../../dc/d6d/ns_debug_8h.html#af23ce88454f9ea763d9e8a9b8a77b340">NS_RUNTIMEABORT</a>(<span class="stringliteral">&quot;OOM&quot;</span>);
+<a name="l00490"></a>00490 }
+<a name="l00491"></a>00491 
+<a name="l00492"></a>00492 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00493"></a>00493 uint32_t
+<a name="l00494"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ab42fe1f4702427a396af57944dda0599">00494</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ab42fe1f4702427a396af57944dda0599">nsBaseHashtableMT&lt;KeyClass,DataType,UserDataType&gt;::Count</a>()<span class="keyword"> const</span>
+<a name="l00495"></a>00495 <span class="keyword"></span>{
+<a name="l00496"></a>00496   PR_Lock(this-&gt;mLock);
+<a name="l00497"></a>00497   uint32_t <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a> = <a class="code" href="../../d5/dc3/classns_t_hashtable.html#a13c93a2e5d73fd447a3e14a4f3f5118d">nsTHashtable&lt;EntryType&gt;::Count</a>();
+<a name="l00498"></a>00498   PR_Unlock(this-&gt;mLock);
+<a name="l00499"></a>00499 
+<a name="l00500"></a>00500   <span class="keywordflow">return</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>;
+<a name="l00501"></a>00501 }
+<a name="l00502"></a>00502 
+<a name="l00503"></a>00503 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00504"></a>00504 <span class="keywordtype">bool</span>
+<a name="l00505"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#af1811aa4d162e23bf756f8a59cc70337">00505</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#af1811aa4d162e23bf756f8a59cc70337">nsBaseHashtableMT&lt;KeyClass,DataType,UserDataType&gt;::Get</a>(<a class="code" href="../../da/dba/classns_base_hashtable.html#a0b6ae9804b54145aad286183f164d9a0">KeyType</a>       aKey,
+<a name="l00506"></a>00506                                                            UserDataType* pData)<span class="keyword"> const</span>
+<a name="l00507"></a>00507 <span class="keyword"></span>{
+<a name="l00508"></a>00508   PR_Lock(this-&gt;mLock);
+<a name="l00509"></a>00509   <span class="keywordtype">bool</span> res =
+<a name="l00510"></a>00510     <a class="code" href="../../da/dba/classns_base_hashtable.html#a1b46ebed28010c9a7d18aa72d181bcba">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::Get</a>(aKey, pData);
+<a name="l00511"></a>00511   PR_Unlock(this-&gt;mLock);
+<a name="l00512"></a>00512 
+<a name="l00513"></a>00513   <span class="keywordflow">return</span> res;
+<a name="l00514"></a>00514 }
+<a name="l00515"></a>00515 
+<a name="l00516"></a>00516 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00517"></a>00517 <span class="keywordtype">void</span>
+<a name="l00518"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a0004349b3bf4727601fc98947f883342">00518</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a0004349b3bf4727601fc98947f883342">nsBaseHashtableMT&lt;KeyClass,DataType,UserDataType&gt;::Put</a>(<a class="code" href="../../da/dba/classns_base_hashtable.html#a0b6ae9804b54145aad286183f164d9a0">KeyType</a>      aKey,
+<a name="l00519"></a>00519                                                            UserDataType <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>)
+<a name="l00520"></a>00520 {
+<a name="l00521"></a>00521   PR_Lock(this-&gt;mLock);
+<a name="l00522"></a>00522   <a class="code" href="../../da/dba/classns_base_hashtable.html#a8dbda318cd7782fe8115560a34ebfb6f">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::Put</a>(aKey, aData);
+<a name="l00523"></a>00523   PR_Unlock(this-&gt;mLock);
+<a name="l00524"></a>00524 }
+<a name="l00525"></a>00525 
+<a name="l00526"></a>00526 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00527"></a>00527 <span class="keywordtype">void</span>
+<a name="l00528"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a1022a29f00047d5dffa75070185acb80">00528</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a1022a29f00047d5dffa75070185acb80">nsBaseHashtableMT&lt;KeyClass,DataType,UserDataType&gt;::Remove</a>(<a class="code" href="../../da/dba/classns_base_hashtable.html#a0b6ae9804b54145aad286183f164d9a0">KeyType</a> aKey)
+<a name="l00529"></a>00529 {
+<a name="l00530"></a>00530   PR_Lock(this-&gt;mLock);
+<a name="l00531"></a>00531   <a class="code" href="../../da/dba/classns_base_hashtable.html#a4508d9865214da99277cd9274ab93739">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::Remove</a>(aKey);
+<a name="l00532"></a>00532   PR_Unlock(this-&gt;mLock);
+<a name="l00533"></a>00533 }
+<a name="l00534"></a>00534 
+<a name="l00535"></a>00535 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00536"></a>00536 uint32_t
+<a name="l00537"></a>00537 <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a286d8ce9ef01dcb436faba790fddf1a9">nsBaseHashtableMT&lt;KeyClass,DataType,UserDataType&gt;::EnumerateRead</a>
+<a name="l00538"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a286d8ce9ef01dcb436faba790fddf1a9">00538</a>   (<a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#af078220c2747a1cdb7f69bd0f1cad24d">EnumReadFunction</a> fEnumCall, <span class="keywordtype">void</span>* userArg) <span class="keyword">const</span>
+<a name="l00539"></a>00539 {
+<a name="l00540"></a>00540   PR_Lock(this-&gt;mLock);
+<a name="l00541"></a>00541   uint32_t <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a> =
+<a name="l00542"></a>00542     <a class="code" href="../../da/dba/classns_base_hashtable.html#a15580de27506929827532b4057a99550">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::EnumerateRead</a>(fEnumCall, userArg);
+<a name="l00543"></a>00543   PR_Unlock(this-&gt;mLock);
+<a name="l00544"></a>00544 
+<a name="l00545"></a>00545   <span class="keywordflow">return</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>;
+<a name="l00546"></a>00546 }
+<a name="l00547"></a>00547 
+<a name="l00548"></a>00548 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00549"></a>00549 uint32_t
+<a name="l00550"></a>00550 <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#aa70ba1cc5059d6a1b72c33d7857385ef">nsBaseHashtableMT&lt;KeyClass,DataType,UserDataType&gt;::Enumerate</a>
+<a name="l00551"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#aa70ba1cc5059d6a1b72c33d7857385ef">00551</a>   (<a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#a087d555bb98ee710ff8ad72a612dedbd">EnumFunction</a> fEnumCall, <span class="keywordtype">void</span>* userArg)
+<a name="l00552"></a>00552 {
+<a name="l00553"></a>00553   PR_Lock(this-&gt;mLock);
+<a name="l00554"></a>00554   uint32_t <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a> =
+<a name="l00555"></a>00555     <a class="code" href="../../da/dba/classns_base_hashtable.html#aab1dcaec671f76c5a0a987c3a3b3332d">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::Enumerate</a>(fEnumCall, userArg);
+<a name="l00556"></a>00556   PR_Unlock(this-&gt;mLock);
+<a name="l00557"></a>00557 
+<a name="l00558"></a>00558   <span class="keywordflow">return</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>;
+<a name="l00559"></a>00559 }
+<a name="l00560"></a>00560 
+<a name="l00561"></a>00561 <span class="keyword">template</span>&lt;<span class="keyword">class</span> KeyClass,<span class="keyword">class</span> DataType,<span class="keyword">class</span> UserDataType&gt;
+<a name="l00562"></a>00562 <span class="keywordtype">void</span>
+<a name="l00563"></a><a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ac006133409ed5efc73bf761552535c94">00563</a> <a class="code" href="../../d0/dba/classns_base_hashtable_m_t.html#ac006133409ed5efc73bf761552535c94">nsBaseHashtableMT&lt;KeyClass,DataType,UserDataType&gt;::Clear</a>()
+<a name="l00564"></a>00564 {
+<a name="l00565"></a>00565   PR_Lock(this-&gt;mLock);
+<a name="l00566"></a>00566   <a class="code" href="../../da/dba/classns_base_hashtable.html#a2433fc546a458e95c9d09792083223f6">nsBaseHashtable&lt;KeyClass,DataType,UserDataType&gt;::Clear</a>();
+<a name="l00567"></a>00567   PR_Unlock(this-&gt;mLock);
+<a name="l00568"></a>00568 }
+<a name="l00569"></a>00569 
+<a name="l00570"></a>00570 <span class="preprocessor">#endif // nsBaseHashtable_h__</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/d3c/ns_base_hashtable_8h.html">nsBaseHashtable.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:54に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

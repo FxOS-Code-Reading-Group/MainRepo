@@ -1,0 +1,488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: date_picker.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/dd5/date__picker_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">date_picker.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/dd5/date__picker_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00036"></a><a class="code" href="../../da/dd5/date__picker_8js.html#a6d844ddaf82bca86d129427d33ee77fc">00036</a> var <a class="code" href="../../da/dd5/date__picker_8js.html#a6d844ddaf82bca86d129427d33ee77fc">DatePicker</a> = (<span class="keyword">function</span>() {
+<a name="l00037"></a>00037   <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039   <span class="keyword">const</span> <a class="code" href="../../d9/d0a/namespacemozilla_1_1a11y_1_1states.html#a47e03c3396c09255b5d88502b2705cc2">SELECTED</a> = <span class="stringliteral">&#39;selected&#39;</span>;
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041   var <a class="code" href="../../d2/d48/calc_8js.html#a4bb48a0e266e30027f8359e81fd4d112">Calc</a> = {
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043     NEXT_MONTH: <span class="stringliteral">&#39;next-month&#39;</span>,
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045     OTHER_MONTH: <span class="stringliteral">&#39;other-month&#39;</span>,
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047     PRESENT: <span class="stringliteral">&#39;present&#39;</span>,
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049     FUTURE: <span class="stringliteral">&#39;future&#39;</span>,
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051     PAST: <span class="stringliteral">&#39;past&#39;</span>,
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053     <span class="keyword">get</span> today() {
+<a name="l00054"></a>00054       <span class="keywordflow">return</span> <span class="keyword">new</span> Date();
+<a name="l00055"></a>00055     },
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057     daysInWeek: <span class="keyword">function</span>() {
+<a name="l00058"></a>00058       <span class="comment">//XXX: We need to localize this...</span>
+<a name="l00059"></a>00059       <span class="keywordflow">return</span> 7;
+<a name="l00060"></a>00060     },
+<a name="l00061"></a>00061 
+<a name="l00068"></a>00068     isToday: <span class="keyword">function</span>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>) {
+<a name="l00069"></a>00069       <span class="keywordflow">return</span> Calc.isSameDate(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>, Calc.today);
+<a name="l00070"></a>00070     },
+<a name="l00071"></a>00071 
+<a name="l00081"></a>00081     isSameDate: <span class="keyword">function</span>(<a class="code" href="../../d5/d12/build__stage_2email_2shared_2resources_2apn_2_r_e_a_d_m_e_8md.html#aab9764d7f9e519400127ef5189844ed3">first</a>, second) {
+<a name="l00082"></a>00082       <span class="keywordflow">return</span> <a class="code" href="../../d5/d12/build__stage_2email_2shared_2resources_2apn_2_r_e_a_d_m_e_8md.html#aab9764d7f9e519400127ef5189844ed3">first</a>.getMonth() == second.getMonth() &amp;&amp;
+<a name="l00083"></a>00083              <a class="code" href="../../d5/d12/build__stage_2email_2shared_2resources_2apn_2_r_e_a_d_m_e_8md.html#aab9764d7f9e519400127ef5189844ed3">first</a>.getDate() == second.getDate() &amp;&amp;
+<a name="l00084"></a>00084              <a class="code" href="../../d5/d12/build__stage_2email_2shared_2resources_2apn_2_r_e_a_d_m_e_8md.html#aab9764d7f9e519400127ef5189844ed3">first</a>.getFullYear() == second.getFullYear();
+<a name="l00085"></a>00085     },
+<a name="l00086"></a>00086 
+<a name="l00094"></a>00094     getDayId: <span class="keyword">function</span>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>) {
+<a name="l00095"></a>00095       <span class="keywordflow">return</span> [
+<a name="l00096"></a>00096         <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.getFullYear(),
+<a name="l00097"></a>00097         <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.getMonth(),
+<a name="l00098"></a>00098         <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.getDate()
+<a name="l00099"></a>00099       ].join(<span class="charliteral">&#39;-&#39;</span>);
+<a name="l00100"></a>00100     },
+<a name="l00101"></a>00101 
+<a name="l00109"></a>00109     dateFromId: <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>) {
+<a name="l00110"></a>00110       var parts = <span class="keywordtype">id</span>.split(<span class="charliteral">&#39;-&#39;</span>);
+<a name="l00111"></a>00111       <span class="keywordflow">return</span> <span class="keyword">new</span> Date(parts[0], parts[1], parts[2]);
+<a name="l00112"></a>00112     },
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114     createDay: <span class="keyword">function</span>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>, day, month, <a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>) {
+<a name="l00115"></a>00115       <span class="keywordflow">return</span> <span class="keyword">new</span> Date(
+<a name="l00116"></a>00116         <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a> !== <span class="stringliteral">&#39;undefined&#39;</span> ? <a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a> : <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.getFullYear(),
+<a name="l00117"></a>00117         <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> month !== <span class="stringliteral">&#39;undefined&#39;</span> ? month : <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.getMonth(),
+<a name="l00118"></a>00118         <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> day !== <span class="stringliteral">&#39;undefined&#39;</span> ? day : <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.getDate()
+<a name="l00119"></a>00119       );
+<a name="l00120"></a>00120     },
+<a name="l00121"></a>00121 
+<a name="l00128"></a>00128     getWeekStartDate: <span class="keyword">function</span>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>) {
+<a name="l00129"></a>00129       var currentDay = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.getDay();
+<a name="l00130"></a>00130       var startDay = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.getDate() - currentDay;
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132       <span class="keywordflow">return</span> Calc.createDay(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>, startDay);
+<a name="l00133"></a>00133     },
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135     getWeekEndDate: <span class="keyword">function</span>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>) {
+<a name="l00136"></a>00136       <span class="comment">// TODO: There are localization problems</span>
+<a name="l00137"></a>00137       <span class="comment">// with this approach as we assume a 7 day week.</span>
+<a name="l00138"></a>00138       var <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> = Calc.getWeekStartDate(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>);
+<a name="l00139"></a>00139       start.setDate(start.getDate() + 7);
+<a name="l00140"></a>00140       start.setMilliseconds(-1);
+<a name="l00141"></a>00141 
+<a name="l00142"></a>00142       <span class="keywordflow">return</span> <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>;
+<a name="l00143"></a>00143     },
+<a name="l00144"></a>00144 
+<a name="l00154"></a>00154     daysBetween: <span class="keyword">function</span>(<a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>, <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>, includeTime) {
+<a name="l00155"></a>00155       <span class="keywordflow">if</span> (!(<a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> instanceof Date)) {
+<a name="l00156"></a>00156         <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;start date must be an instanceof Date&#39;</span>);
+<a name="l00157"></a>00157       }
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159       <span class="keywordflow">if</span> (!(end instanceof Date)) {
+<a name="l00160"></a>00160         <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;end date must be an instanceof Date&#39;</span>);
+<a name="l00161"></a>00161       }
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163       <span class="keywordflow">if</span> (<a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> &gt; end) {
+<a name="l00164"></a>00164         var <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a> = <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>;
+<a name="l00165"></a>00165         end = <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>;
+<a name="l00166"></a>00166         <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> = <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>;
+<a name="l00167"></a>00167         tmp = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00168"></a>00168       }
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170       var <a class="code" href="../../d3/d87/mock__contact_8js.html#ad08d759db77b6861afcb4729fc620b95">list</a> = [];
+<a name="l00171"></a>00171       var last = <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>.getDate();
+<a name="l00172"></a>00172       var cur;
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174       <span class="comment">// for infinite loop protection.</span>
+<a name="l00175"></a>00175       var <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#a0b0ede69e8156eb97acc579b88e883de">max</a> = 500;
+<a name="l00176"></a>00176       var macInc = 0;
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178       <span class="keywordflow">while</span> (macInc++ &lt; max) {
+<a name="l00179"></a>00179         var next = <span class="keyword">new</span> Date(
+<a name="l00180"></a>00180           <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>.getFullYear(),
+<a name="l00181"></a>00181           <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>.getMonth(),
+<a name="l00182"></a>00182           ++last
+<a name="l00183"></a>00183         );
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185         <span class="keywordflow">if</span> (next &gt; end) {
+<a name="l00186"></a>00186           <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(
+<a name="l00187"></a>00187             <span class="stringliteral">&#39;sanity fails next is greater then end&#39;</span>
+<a name="l00188"></a>00188           );
+<a name="l00189"></a>00189         }
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191         <span class="keywordflow">if</span> (!Calc.isSameDate(next, end)) {
+<a name="l00192"></a>00192           list.push(next);
+<a name="l00193"></a>00193           <span class="keywordflow">continue</span>;
+<a name="l00194"></a>00194         }
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196         <span class="keywordflow">break</span>;
+<a name="l00197"></a>00197       }
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199       <span class="keywordflow">if</span> (includeTime) {
+<a name="l00200"></a>00200         list.unshift(<a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>);
+<a name="l00201"></a>00201         list.push(end);
+<a name="l00202"></a>00202       } <span class="keywordflow">else</span> {
+<a name="l00203"></a>00203         list.unshift(this.createDay(<a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>));
+<a name="l00204"></a>00204         list.push(this.createDay(end));
+<a name="l00205"></a>00205       }
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207       <span class="keywordflow">return</span> <a class="code" href="../../d3/d87/mock__contact_8js.html#ad08d759db77b6861afcb4729fc620b95">list</a>;
+<a name="l00208"></a>00208     },
+<a name="l00209"></a>00209 
+<a name="l00216"></a>00216     isPast: <span class="keyword">function</span>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>) {
+<a name="l00217"></a>00217       <span class="keywordflow">return</span> (<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.valueOf() &lt; Calc.today.valueOf());
+<a name="l00218"></a>00218     },
+<a name="l00219"></a>00219 
+<a name="l00226"></a>00226     isFuture: <span class="keyword">function</span>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>) {
+<a name="l00227"></a>00227       <span class="keywordflow">return</span> !Calc.isPast(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>);
+<a name="l00228"></a>00228     },
+<a name="l00229"></a>00229 
+<a name="l00240"></a>00240     relativeState: <span class="keyword">function</span>(day, month) {
+<a name="l00241"></a>00241       var states;
+<a name="l00242"></a>00242       <span class="comment">//var today = Calc.today;</span>
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244       <span class="comment">// 1. the date is today (real time)</span>
+<a name="l00245"></a>00245       <span class="keywordflow">if</span> (Calc.isToday(day)) {
+<a name="l00246"></a>00246         <span class="keywordflow">return</span> Calc.PRESENT;
+<a name="l00247"></a>00247       }
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249       <span class="comment">// 2. the date is in the past (real time)</span>
+<a name="l00250"></a>00250       <span class="keywordflow">if</span> (Calc.isPast(day)) {
+<a name="l00251"></a>00251         states = Calc.PAST;
+<a name="l00252"></a>00252       <span class="comment">// 3. the date is in the future (real time)</span>
+<a name="l00253"></a>00253       } <span class="keywordflow">else</span> {
+<a name="l00254"></a>00254         states = Calc.FUTURE;
+<a name="l00255"></a>00255       }
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257       <span class="comment">// 4. the date is not in the current month (relative time)</span>
+<a name="l00258"></a>00258       <span class="keywordflow">if</span> (day.getMonth() !== month.getMonth()) {
+<a name="l00259"></a>00259         states += <span class="charliteral">&#39; &#39;</span> + Calc.OTHER_MONTH;
+<a name="l00260"></a>00260       }
+<a name="l00261"></a>00261 
+<a name="l00262"></a>00262       <span class="keywordflow">return</span> states;
+<a name="l00263"></a>00263     }
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265   };
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267   <span class="comment">/* expose calc */</span>
+<a name="l00268"></a>00268   <a class="code" href="../../da/dd5/date__picker_8js.html#a6d844ddaf82bca86d129427d33ee77fc">DatePicker</a>.Calc = <a class="code" href="../../d2/d48/calc_8js.html#a4bb48a0e266e30027f8359e81fd4d112">Calc</a>;
+<a name="l00269"></a>00269 
+<a name="l00275"></a>00275   <span class="keyword">function</span> <a class="code" href="../../da/dd5/date__picker_8js.html#a6d844ddaf82bca86d129427d33ee77fc">DatePicker</a>(element) {
+<a name="l00276"></a>00276     this.element = element;
+<a name="l00277"></a>00277     <span class="comment">// default time is set so next/previous work</span>
+<a name="l00278"></a>00278     <span class="comment">// but we do not render the initial display here.</span>
+<a name="l00279"></a>00279     this._position = <span class="keyword">new</span> Date();
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281     <span class="comment">// register events</span>
+<a name="l00282"></a>00282     element.addEventListener(<span class="stringliteral">&#39;click&#39;</span>, <span class="keyword">this</span>);
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284     <span class="comment">//XXX: When the document is localized again</span>
+<a name="l00285"></a>00285     <span class="comment">//     we must also re-render the month because</span>
+<a name="l00286"></a>00286     <span class="comment">//     the week days may have changed?</span>
+<a name="l00287"></a>00287     <span class="comment">//     This will only happen when we change timezones</span>
+<a name="l00288"></a>00288     <span class="comment">//     unless we add this information to the locales.</span>
+<a name="l00289"></a>00289   }
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291   <a class="code" href="../../da/dd5/date__picker_8js.html#a6d844ddaf82bca86d129427d33ee77fc">DatePicker</a>.prototype = {
+<a name="l00292"></a>00292 
+<a name="l00299"></a>00299     _value: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00300"></a>00300 
+<a name="l00301"></a>00301     <a class="code" href="../../d9/d0a/namespacemozilla_1_1a11y_1_1states.html#a47e03c3396c09255b5d88502b2705cc2">SELECTED</a>: <span class="stringliteral">&#39;selected&#39;</span>,
+<a name="l00302"></a>00302 
+<a name="l00308"></a>00308     <span class="keyword">get</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>() {
+<a name="l00309"></a>00309       <span class="keywordflow">return</span> this._value;
+<a name="l00310"></a>00310     },
+<a name="l00311"></a>00311 
+<a name="l00317"></a>00317     <span class="keyword">set</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00318"></a>00318       var old = this._value;
+<a name="l00319"></a>00319       <span class="keywordflow">if</span> (old !== <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00320"></a>00320         this._value = <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00321"></a>00321         this._clearSelectedDay(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00322"></a>00322         this.onvaluechange(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>, old);
+<a name="l00323"></a>00323       }
+<a name="l00324"></a>00324     },
+<a name="l00325"></a>00325 
+<a name="l00330"></a>00330     _clearSelectedDay: <span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00331"></a>00331       var <a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">target</a> = this.element.querySelector(<span class="charliteral">&#39;.&#39;</span> + <a class="code" href="../../d9/d0a/namespacemozilla_1_1a11y_1_1states.html#a47e03c3396c09255b5d88502b2705cc2">SELECTED</a>);
+<a name="l00332"></a>00332       <span class="keywordflow">if</span> (target) {
+<a name="l00333"></a>00333         target.classList.remove(<a class="code" href="../../d9/d0a/namespacemozilla_1_1a11y_1_1states.html#a47e03c3396c09255b5d88502b2705cc2">SELECTED</a>);
+<a name="l00334"></a>00334       }
+<a name="l00335"></a>00335     },
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337     <a class="code" href="../../dd/d6d/mock__spinner_8js.html#a7773a8226815156633260eafd5fc229e">handleEvent</a>: <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00338"></a>00338       <span class="keywordflow">switch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.type) {
+<a name="l00339"></a>00339         <span class="keywordflow">case</span> <span class="stringliteral">&#39;click&#39;</span>:
+<a name="l00340"></a>00340           var <a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">target</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target;
+<a name="l00341"></a>00341           <span class="comment">//XXX: if the html of the date elements changes</span>
+<a name="l00342"></a>00342           <span class="comment">//     this may also need to be altered as it</span>
+<a name="l00343"></a>00343           <span class="comment">//     assumes that there is no nesting of elements.</span>
+<a name="l00344"></a>00344           <span class="keywordflow">if</span> (target.dataset.date) {
+<a name="l00345"></a>00345             var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a> = Calc.dateFromId(target.dataset.date);
+<a name="l00346"></a>00346             <span class="comment">// order here is important as setting value will</span>
+<a name="l00347"></a>00347             <span class="comment">// clear all the past selected dates...</span>
+<a name="l00348"></a>00348             this.<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>;
+<a name="l00349"></a>00349             this._position = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>;
+<a name="l00350"></a>00350             <span class="comment">// must come after setting selected date</span>
+<a name="l00351"></a>00351             target.classList.add(<a class="code" href="../../d9/d0a/namespacemozilla_1_1a11y_1_1states.html#a47e03c3396c09255b5d88502b2705cc2">SELECTED</a>);
+<a name="l00352"></a>00352           }
+<a name="l00353"></a>00353           <span class="keywordflow">break</span>;
+<a name="l00354"></a>00354       }
+<a name="l00355"></a>00355     },
+<a name="l00356"></a>00356 
+<a name="l00360"></a>00360     <span class="keyword">get</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>() {
+<a name="l00361"></a>00361       <span class="keywordflow">return</span> this._position.getFullYear();
+<a name="l00362"></a>00362     },
+<a name="l00363"></a>00363 
+<a name="l00367"></a>00367     <span class="keyword">get</span> month() {
+<a name="l00368"></a>00368       <span class="keywordflow">return</span> this._position.getMonth();
+<a name="l00369"></a>00369     },
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371     <span class="keyword">get</span> <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>() {
+<a name="l00372"></a>00372       <span class="keywordflow">return</span> this._position.getDate();
+<a name="l00373"></a>00373     },
+<a name="l00374"></a>00374 
+<a name="l00383"></a>00383     _daysInMonth: <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month) {
+<a name="l00384"></a>00384       var <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a> = <span class="keyword">new</span> Date(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month + 1);
+<a name="l00385"></a>00385       end.setMilliseconds(-1);
+<a name="l00386"></a>00386       <span class="keywordflow">return</span> end.getDate();
+<a name="l00387"></a>00387     },
+<a name="l00388"></a>00388 
+<a name="l00408"></a>00408     _renderDay: <span class="keyword">function</span>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>) {
+<a name="l00409"></a>00409       var dayContainer = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;li&#39;</span>);
+<a name="l00410"></a>00410       var dayEl = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412       dayContainer.className = Calc.relativeState(
+<a name="l00413"></a>00413         <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>,
+<a name="l00414"></a>00414         this._position
+<a name="l00415"></a>00415       );
+<a name="l00416"></a>00416 
+<a name="l00417"></a>00417       dayEl.dataset.date = Calc.getDayId(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>);
+<a name="l00418"></a>00418       dayEl.textContent = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.getDate();
+<a name="l00419"></a>00419 
+<a name="l00420"></a>00420       dayContainer.appendChild(dayEl);
+<a name="l00421"></a>00421 
+<a name="l00422"></a>00422       <span class="keywordflow">return</span> dayContainer;
+<a name="l00423"></a>00423     },
+<a name="l00424"></a>00424 
+<a name="l00433"></a>00433     _renderWeek: <span class="keyword">function</span>(dates) {
+<a name="l00434"></a>00434       var <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;ol&#39;</span>);
+<a name="l00435"></a>00435       var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0;
+<a name="l00436"></a>00436       var <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a> = dates.length;
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438       <span class="keywordflow">for</span> (; i &lt; <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a>; i++) {
+<a name="l00439"></a>00439         container.appendChild(
+<a name="l00440"></a>00440           this._renderDay(dates[i])
+<a name="l00441"></a>00441         );
+<a name="l00442"></a>00442       }
+<a name="l00443"></a>00443 
+<a name="l00444"></a>00444       <span class="keywordflow">return</span> <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>;
+<a name="l00445"></a>00445     },
+<a name="l00446"></a>00446 
+<a name="l00457"></a>00457     _getMonthDays: <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month) {
+<a name="l00458"></a>00458       var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a> = <span class="keyword">new</span> Date(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month);
+<a name="l00459"></a>00459       var dateEnd = <span class="keyword">new</span> Date(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month + 1);
+<a name="l00460"></a>00460       dateEnd.setMilliseconds(-1);
+<a name="l00461"></a>00461 
+<a name="l00462"></a>00462       var <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> = Calc.getWeekStartDate(date);
+<a name="l00463"></a>00463       var <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a> = Calc.getWeekEndDate(dateEnd);
+<a name="l00464"></a>00464       <span class="keywordflow">return</span> Calc.daysBetween(start, end);
+<a name="l00465"></a>00465     },
+<a name="l00466"></a>00466 
+<a name="l00481"></a>00481     _renderMonth: <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month) {
+<a name="l00482"></a>00482       var <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;section&#39;</span>);
+<a name="l00483"></a>00483       var days = this._getMonthDays(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month);
+<a name="l00484"></a>00484       var daysInWeek = Calc.daysInWeek();
+<a name="l00485"></a>00485       var weeks = days.length / daysInWeek;
+<a name="l00486"></a>00486       var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0;
+<a name="l00487"></a>00487 
+<a name="l00488"></a>00488       container.classList.add(<span class="stringliteral">&#39;weeks-&#39;</span> + weeks);
+<a name="l00489"></a>00489 
+<a name="l00490"></a>00490       <span class="keywordflow">for</span> (; i &lt; weeks; i++) {
+<a name="l00491"></a>00491         container.appendChild(this._renderWeek(
+<a name="l00492"></a>00492           days.splice(0, daysInWeek)
+<a name="l00493"></a>00493         ));
+<a name="l00494"></a>00494       }
+<a name="l00495"></a>00495 
+<a name="l00496"></a>00496       <span class="keywordflow">return</span> <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>;
+<a name="l00497"></a>00497     },
+<a name="l00498"></a>00498 
+<a name="l00502"></a>00502     next: <span class="keyword">function</span>() {
+<a name="l00503"></a>00503       this.display(this.<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, this.month + 1, this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>);
+<a name="l00504"></a>00504     },
+<a name="l00505"></a>00505 
+<a name="l00509"></a>00509     <a class="code" href="../../d3/db2/prmwait_8h.html#a6aed8eca8bc323929991ebdb1a48929e">previous</a>: <span class="keyword">function</span>() {
+<a name="l00510"></a>00510       this.display(this.<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, this.month - 1, this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>);
+<a name="l00511"></a>00511     },
+<a name="l00512"></a>00512 
+<a name="l00522"></a>00522     display: <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month, <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>) {
+<a name="l00523"></a>00523 
+<a name="l00524"></a>00524       <span class="comment">// reset the date to the last date if overflow</span>
+<a name="l00525"></a>00525       var lastDate = <span class="keyword">new</span> Date(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month + 1, 0).getDate();
+<a name="l00526"></a>00526       <span class="keywordflow">if</span> (lastDate &lt; <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>)
+<a name="l00527"></a>00527         <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a> = lastDate;
+<a name="l00528"></a>00528 
+<a name="l00529"></a>00529       <span class="comment">// Should come before render month</span>
+<a name="l00530"></a>00530       this._position = <span class="keyword">new</span> Date(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month, <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>);
+<a name="l00531"></a>00531 
+<a name="l00532"></a>00532       var element = this._renderMonth(<a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>, month);
+<a name="l00533"></a>00533 
+<a name="l00534"></a>00534       <span class="keywordflow">if</span> (this.monthDisplay) {
+<a name="l00535"></a>00535         this.monthDisplay.parentNode.removeChild(
+<a name="l00536"></a>00536           this.monthDisplay
+<a name="l00537"></a>00537         );
+<a name="l00538"></a>00538       }
+<a name="l00539"></a>00539 
+<a name="l00540"></a>00540       this.monthDisplay = element;
+<a name="l00541"></a>00541       this.element.appendChild(this.monthDisplay);
+<a name="l00542"></a>00542 
+<a name="l00543"></a>00543       this.onmonthchange(this._position);
+<a name="l00544"></a>00544 
+<a name="l00545"></a>00545       <span class="comment">// Set the date as selected if presented</span>
+<a name="l00546"></a>00546       this._clearSelectedDay();
+<a name="l00547"></a>00547       <span class="keywordflow">if</span> (<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>) {
+<a name="l00548"></a>00548         var dayId = Calc.getDayId(this._position);
+<a name="l00549"></a>00549         this.<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = this._position;
+<a name="l00550"></a>00550         var selector = <span class="stringliteral">&#39;[data-date=&quot;&#39;</span> + dayId + <span class="stringliteral">&#39;&quot;]&#39;</span>;
+<a name="l00551"></a>00551         var dateElement = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.querySelector(selector);
+<a name="l00552"></a>00552         dateElement.classList.add(<a class="code" href="../../d9/d0a/namespacemozilla_1_1a11y_1_1states.html#a47e03c3396c09255b5d88502b2705cc2">SELECTED</a>);
+<a name="l00553"></a>00553       }
+<a name="l00554"></a>00554     },
+<a name="l00555"></a>00555 
+<a name="l00559"></a>00559     onmonthchange: <span class="keyword">function</span>(month, <a class="code" href="../../d2/d7d/jsapi_8h.html#abeac221e38b7b9ce7df8722c842bf671">year</a>) {},
+<a name="l00560"></a>00560 
+<a name="l00564"></a>00564     onvaluechange: <span class="keyword">function</span>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>) {}
+<a name="l00565"></a>00565   };
+<a name="l00566"></a>00566 
+<a name="l00567"></a>00567   <span class="keywordflow">return</span> <a class="code" href="../../da/dd5/date__picker_8js.html#a6d844ddaf82bca86d129427d33ee77fc">DatePicker</a>;
+<a name="l00568"></a>00568 }());
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/dd5/date__picker_8js.html">date_picker.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:51:51に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

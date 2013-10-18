@@ -1,0 +1,25 @@
+var classns_attr_name =
+[
+    [ "nsAttrName", "d0/dd8/classns_attr_name.html#a4a868b986262798ca02a0f2f5d933840", null ],
+    [ "nsAttrName", "d0/dd8/classns_attr_name.html#af8d19897227fe9e054809401cd08f2db", null ],
+    [ "nsAttrName", "d0/dd8/classns_attr_name.html#af5a9947cbf16b5be9b3bfd4bd1c2f1ed", null ],
+    [ "~nsAttrName", "d0/dd8/classns_attr_name.html#aebe3a5313ecba783d9b9ab87dd257d06", null ],
+    [ "Atom", "d0/dd8/classns_attr_name.html#a1c5fb0cc029e2ff5d92c0ff1ef8738d9", null ],
+    [ "Equals", "d0/dd8/classns_attr_name.html#a49eb82f1cb8c35f2bfe7cedd6e0eff03", null ],
+    [ "Equals", "d0/dd8/classns_attr_name.html#a2bfc4c934439645dc9e785d11de90f9d", null ],
+    [ "Equals", "d0/dd8/classns_attr_name.html#ad03eab7e5ef2c5a015c449b3e7e8e01c", null ],
+    [ "Equals", "d0/dd8/classns_attr_name.html#afe6945d76e2da3e8d5c13ab8951e0f41", null ],
+    [ "Equals", "d0/dd8/classns_attr_name.html#a18bdad3d69a3b33a5b9c44c511f29b59", null ],
+    [ "GetPrefix", "d0/dd8/classns_attr_name.html#ae06b337104b70a50f45d2e2b586a2763", null ],
+    [ "GetQualifiedName", "d0/dd8/classns_attr_name.html#ae2070a3653742fb8c5b2a43db69b0f8c", null ],
+    [ "HashValue", "d0/dd8/classns_attr_name.html#a83703c25a4e0ff57dfb90907138d72d8", null ],
+    [ "IsAtom", "d0/dd8/classns_attr_name.html#aa777040b167e0e05820778624786ce50", null ],
+    [ "IsSmaller", "d0/dd8/classns_attr_name.html#a950952e6f810ba25e01bdcec26d9f6a7", null ],
+    [ "LocalName", "d0/dd8/classns_attr_name.html#ad4d5dbe44ec71c164f9a35200eeae9f2", null ],
+    [ "NamespaceEquals", "d0/dd8/classns_attr_name.html#adc94d711ea6a2dcda4f0a40448a44f3e", null ],
+    [ "NamespaceID", "d0/dd8/classns_attr_name.html#a8f735befee06587f7904eeb7d19f7806", null ],
+    [ "NodeInfo", "d0/dd8/classns_attr_name.html#a270229f051d058e82152ca4079c83398", null ],
+    [ "QualifiedNameEquals", "d0/dd8/classns_attr_name.html#a648ef7453d4643be5bf77d19bcea311f", null ],
+    [ "SetTo", "d0/dd8/classns_attr_name.html#aa1e34666f9a6972526924838ff17dc70", null ],
+    [ "SetTo", "d0/dd8/classns_attr_name.html#a1d6a4382e077928aeda7c7d2a119424f", null ]
+];

@@ -1,0 +1,25 @@
+var classmozilla_1_1gfx_1_1_matrix =
+[
+    [ "Matrix", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#aa6753354534ee08404624fad252a1d5e", null ],
+    [ "Matrix", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#a7add8a069e4fd148bdacb8a4f202f5e3", null ],
+    [ "Determinant", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#aad8acead99784b2c5ddbe423b6ebf12b", null ],
+    [ "Invert", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#a4fc23634790fc2e6d193b3a10fac0016", null ],
+    [ "IsIdentity", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#aa0669440188f6db28c370c2bcaadd74f", null ],
+    [ "IsRectilinear", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#a361a44014d544f7a545ab19e8bb95f1b", null ],
+    [ "NudgeToIntegers", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#a745df5ce831cdea90f4653e286b66759", null ],
+    [ "operator!=", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#ae5e2466b45e64fe9a87275a0ba6c8ba9", null ],
+    [ "operator*", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#aa9062aeeab1317ac61fd6a25d83a2ea7", null ],
+    [ "operator*", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#ae08b9074dcc1a0b009a83cb4d0936a03", null ],
+    [ "operator*", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#af9e2a9e2f28a85aa2313da2ab8208bf7", null ],
+    [ "operator==", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#ab52104b47d94fd304e966ca7dbd308f0", null ],
+    [ "Rotation", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#a1b0558315d74bf001629d4a5c809bf95", null ],
+    [ "Scale", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#aafbd750c5e1b3e0f028fe586bc6f40e0", null ],
+    [ "TransformBounds", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#a91c061a3480aa017261c7219d42d6f76", null ],
+    [ "Translate", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#a4bd5bda46adee05a2bacc12c4f0f3099", null ],
+    [ "_11", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#a71e7930f0c0141c9e831e81b29348fd7", null ],
+    [ "_12", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#af70f05759841a74d94ebc08e5a59a9a0", null ],
+    [ "_21", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#a2eb684ba561d0287bfbeea884b55ccff", null ],
+    [ "_22", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#aece82eaab63553054d10391073592843", null ],
+    [ "_31", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#af82ae678c1b95cc57aecd56e342e09ba", null ],
+    [ "_32", "d2/db0/classmozilla_1_1gfx_1_1_matrix.html#a12abbca46911c3d538f58c9183d75055", null ]
+];

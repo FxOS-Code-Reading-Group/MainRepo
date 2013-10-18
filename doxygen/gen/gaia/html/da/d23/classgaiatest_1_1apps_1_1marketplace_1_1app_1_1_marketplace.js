@@ -1,0 +1,26 @@
+var classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace =
+[
+    [ "__init__", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a75eb9f0f5e82628b1deb13d0bdc5be5e", null ],
+    [ "enter_feedback", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a95b12b099c80671f3ec5930dbabb9d37", null ],
+    [ "error_message_text", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a65833c49ac91644c89f36b09a81abd52", null ],
+    [ "error_title_text", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#ad759fdff3423b96037e9b006ef829a16", null ],
+    [ "launch", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a368163c863e32c130c49fd422d03eb57", null ],
+    [ "login", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#ad3135cd84885cc3fb73cc66d634e50f1", null ],
+    [ "notification_message", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a4a7f1dec3ac166417793da888f1509fc", null ],
+    [ "popular_apps", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#acbf84378f05f501b474cd4b5fcb4cacf", null ],
+    [ "search", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a6b81a7d4c67b4cf30d4691d92b05be32", null ],
+    [ "select_setting_account", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a2b60756a9be24c6735e7706964c6559b", null ],
+    [ "select_setting_feedback", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#ab57462a8e179028e658dd1d46ea259e7", null ],
+    [ "select_setting_my_apps", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a959a8b80f64aac86e2dcd58ca8db6ca1", null ],
+    [ "show_popular_apps", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a68cec6a67bcc1e8181e948e50b47b8a7", null ],
+    [ "submit_feedback", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#ad81fd6df863147ff3de1a811e866ac87", null ],
+    [ "switch_to_marketplace_frame", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#aab0a7c2a784942063575d18ed7c894b2", null ],
+    [ "tap_back", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#ab38445598d8dd0a9bd9e5588a557a0e5", null ],
+    [ "tap_home", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a093c6083f922a9be707523961348bc6d", null ],
+    [ "tap_settings", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a2455182f8a6ea2d36e8f02bc630ad73b", null ],
+    [ "wait_for_notification_message_displayed", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a13cca9a38797d8c0213e80988753dab0", null ],
+    [ "wait_for_notification_message_not_displayed", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#af96576ad0102ad88e1da5872444fe32c", null ],
+    [ "wait_for_setting_displayed", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a85a088a7747fa6f4ea52445564297a53", null ],
+    [ "name", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#aa9dcd243c8dad267b0ce746c800896f7", null ],
+    [ "name", "da/d23/classgaiatest_1_1apps_1_1marketplace_1_1app_1_1_marketplace.html#a6f17c0abff7de716d354d07dfe0ac993", null ]
+];

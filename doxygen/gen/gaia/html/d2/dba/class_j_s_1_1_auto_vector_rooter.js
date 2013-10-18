@@ -1,0 +1,28 @@
+var class_j_s_1_1_auto_vector_rooter =
+[
+    [ "ElementType", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#ad3c0ee70ee183ee1e8392cd4677f3708", null ],
+    [ "AutoVectorRooter", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a021394accb5e8fbf207ded48530e0fca", null ],
+    [ "AutoVectorRooter", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#aac78524e3ebff8fffdf8d5df05e75bb6", null ],
+    [ "append", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#abeeb7392c6e6f697e60f20068d10d1d1", null ],
+    [ "appendAll", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#af025084945c15b25ba0ff8b5cd738756", null ],
+    [ "back", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a00647ca4843b38210dedafb7e3b6c530", null ],
+    [ "begin", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#ad37db41a56b29121daac37a176b439b4", null ],
+    [ "begin", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#ad4661b6251f55d367e43317a71140211", null ],
+    [ "clear", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a30d477e76a5b710091f91aa1f6e6b00e", null ],
+    [ "empty", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#adfe9b5d549277405f4fc9355a887fc41", null ],
+    [ "end", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#af2c5f8dfeb63389069dd492910b00c0b", null ],
+    [ "end", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a14d94d76aa3a338a76d06f8be7a936e0", null ],
+    [ "growBy", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#aec5753ea4f219da8a7468b11e31560fc", null ],
+    [ "handleAt", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a382346f8f5a336a02f02d4f11ec7c006", null ],
+    [ "handleAt", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a172fa0384637477b0c20e26a29517fa7", null ],
+    [ "infallibleAppend", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a61b7c3cd2d3d927502e960da28174629", null ],
+    [ "insert", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#ad6940f24d7ddad479d803d864af3e651", null ],
+    [ "length", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a463445366adaaac5f28dcf7093c398df", null ],
+    [ "operator[]", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#ace954246a6dfe809fe991e090f2d186b", null ],
+    [ "operator[]", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#ae89fc119dbf3208c215d9f048c1e8e73", null ],
+    [ "popBack", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a785b50b9a3fcd7a79ab5aa7060e0b647", null ],
+    [ "popCopy", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a2eb7a32fb9411828e583db8af3a9350f", null ],
+    [ "reserve", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a07313ceb1feb681f1f3953eff082a34b", null ],
+    [ "resize", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#a8b66c71ffe047322b68ae09908a92325", null ],
+    [ "AutoGCRooter::trace", "d2/dba/class_j_s_1_1_auto_vector_rooter.html#adac5abe7af6a50f1a87b30381a79c901", null ]
+];

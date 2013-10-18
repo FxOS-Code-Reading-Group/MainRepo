@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_web_g_l_extension_standard_derivatives_01_4 =
+[
+    [ "NativeType", "d0/db7/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_web_g_l_extension_standard_derivatives_01_4.html#adcc6aaf5730c56498be801a5a7e6f64b", null ]
+];

@@ -1,0 +1,680 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: thread_list_ui.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/def/thread__list__ui_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">thread_list_ui.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/def/thread__list__ui_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: js; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- /</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */</span>
+<a name="l00003"></a>00003 
+<a name="l00004"></a><a class="code" href="../../de/def/thread__list__ui_8js.html#ae2475e10618961c050dcba04e8c42331">00004</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00005"></a>00005 
+<a name="l00006"></a><a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">00006</a> var <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a> = {
+<a name="l00007"></a>00007   <span class="comment">// Used to track the current number of rendered</span>
+<a name="l00008"></a>00008   <span class="comment">// threads. Updated in ThreadListUI.renderThreads</span>
+<a name="l00009"></a>00009   <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>: 0,
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011   <span class="comment">// Set to |true| when in edit mode</span>
+<a name="l00012"></a>00012   inEditMode: <span class="keyword">false</span>,
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014   <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>: <span class="keyword">function</span> thlui_init() {
+<a name="l00015"></a>00015     this.tmpl = {
+<a name="l00016"></a>00016       <a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>: <a class="code" href="../../d6/d5f/build__stage_2email_2shared_2js_2template_8js.html#aab83dedcadf384ff4b12e9316e74d266">Template</a>(<span class="stringliteral">&#39;messages-thread-tmpl&#39;</span>)
+<a name="l00017"></a>00017     };
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019     <span class="comment">// TODO: https://bugzilla.mozilla.org/show_bug.cgi?id=854413</span>
+<a name="l00020"></a>00020     [
+<a name="l00021"></a>00021       <span class="stringliteral">&#39;container&#39;</span>, <span class="stringliteral">&#39;no-messages&#39;</span>,
+<a name="l00022"></a>00022       <span class="stringliteral">&#39;check-all-button&#39;</span>, <span class="stringliteral">&#39;uncheck-all-button&#39;</span>,
+<a name="l00023"></a>00023       <span class="stringliteral">&#39;delete-button&#39;</span>, <span class="stringliteral">&#39;cancel-button&#39;</span>,
+<a name="l00024"></a>00024       <span class="stringliteral">&#39;edit-icon&#39;</span>, <span class="stringliteral">&#39;edit-mode&#39;</span>, <span class="stringliteral">&#39;edit-form&#39;</span>
+<a name="l00025"></a>00025     ].forEach(<span class="keyword">function</span>(<span class="keywordtype">id</span>) {
+<a name="l00026"></a>00026       <span class="keyword">this</span>[<a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.camelCase(<span class="keywordtype">id</span>)] = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;threads-&#39;</span> + <span class="keywordtype">id</span>);
+<a name="l00027"></a>00027     }, <span class="keyword">this</span>);
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029     this.mainWrapper = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;main-wrapper&#39;</span>);
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031     this.delNumList = [];
+<a name="l00032"></a>00032     this.fullHeight = this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>.offsetHeight;
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034     this.checkAllButton.addEventListener(
+<a name="l00035"></a>00035       <span class="stringliteral">&#39;click&#39;</span>, this.toggleCheckedAll.bind(<span class="keyword">this</span>, <span class="keyword">true</span>)
+<a name="l00036"></a>00036     );
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038     this.uncheckAllButton.addEventListener(
+<a name="l00039"></a>00039       <span class="stringliteral">&#39;click&#39;</span>, this.toggleCheckedAll.bind(<span class="keyword">this</span>, <span class="keyword">false</span>)
+<a name="l00040"></a>00040     );
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042     this.deleteButton.addEventListener(
+<a name="l00043"></a>00043       <span class="stringliteral">&#39;click&#39;</span>, this.<span class="keyword">delete</span>.<a class="code" href="../../d3/d91/j3d_8js.html#a1ad2f17c038f79ef240a44e21a46ef14">bind</a>(<span class="keyword">this</span>)
+<a name="l00044"></a>00044     );
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     this.cancelButton.addEventListener(
+<a name="l00047"></a>00047       <span class="stringliteral">&#39;click&#39;</span>, this.cancelEdit.bind(<span class="keyword">this</span>)
+<a name="l00048"></a>00048     );
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050     this.editIcon.addEventListener(
+<a name="l00051"></a>00051       <span class="stringliteral">&#39;click&#39;</span>, this.startEdit.bind(<span class="keyword">this</span>)
+<a name="l00052"></a>00052     );
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054     this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>.addEventListener(
+<a name="l00055"></a>00055       <span class="stringliteral">&#39;click&#39;</span>, <span class="keyword">this</span>
+<a name="l00056"></a>00056     );
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058     this.editForm.addEventListener(
+<a name="l00059"></a>00059       <span class="stringliteral">&#39;submit&#39;</span>, <span class="keyword">this</span>
+<a name="l00060"></a>00060     );
+<a name="l00061"></a>00061   },
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063   getAllInputs: <span class="keyword">function</span> thlui_getAllInputs() {
+<a name="l00064"></a>00064     <span class="keywordflow">if</span> (this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>) {
+<a name="l00065"></a>00065       <span class="keywordflow">return</span> Array.prototype.slice.call(
+<a name="l00066"></a>00066         this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>.querySelectorAll(<span class="stringliteral">&#39;input[type=checkbox]&#39;</span>)
+<a name="l00067"></a>00067       );
+<a name="l00068"></a>00068     } <span class="keywordflow">else</span> {
+<a name="l00069"></a>00069       <span class="keywordflow">return</span> [];
+<a name="l00070"></a>00070     }
+<a name="l00071"></a>00071   },
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073   getSelectedInputs: <span class="keyword">function</span> thlui_getSelectedInputs() {
+<a name="l00074"></a>00074     <span class="keywordflow">if</span> (this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>) {
+<a name="l00075"></a>00075       <span class="keywordflow">return</span> Array.prototype.slice.call(
+<a name="l00076"></a>00076         this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>.querySelectorAll(<span class="stringliteral">&#39;input[type=checkbox]:checked&#39;</span>)
+<a name="l00077"></a>00077       );
+<a name="l00078"></a>00078     } <span class="keywordflow">else</span> {
+<a name="l00079"></a>00079       <span class="keywordflow">return</span> [];
+<a name="l00080"></a>00080     }
+<a name="l00081"></a>00081   },
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083   setContact: <span class="keyword">function</span> thlui_setContact(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>) {
+<a name="l00084"></a>00084     var <a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a> = Threads.get(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.dataset.threadId);
+<a name="l00085"></a>00085     var number, others;
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087     <span class="keywordflow">if</span> (!thread) {
+<a name="l00088"></a>00088       <span class="keywordflow">return</span>;
+<a name="l00089"></a>00089     }
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091     number = thread.participants[0];
+<a name="l00092"></a>00092     others = thread.participants.length - 1;
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094     <span class="keywordflow">if</span> (!number) {
+<a name="l00095"></a>00095       <span class="keywordflow">return</span>;
+<a name="l00096"></a>00096     }
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098     <span class="comment">// TODO: This should use SimplePhoneMatcher</span>
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100     <a class="code" href="../../d7/d68/apps_2communications_2contacts_2js_2contacts_8js.html#a55257a4a6c5aab93045fd427504a1c95">Contacts</a>.findByPhoneNumber(number, <span class="keyword">function</span> gotContact(<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>) {
+<a name="l00101"></a>00101       var <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.getElementsByClassName(<span class="stringliteral">&#39;name&#39;</span>)[0];
+<a name="l00102"></a>00102       var photo = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.getElementsByTagName(<span class="stringliteral">&#39;img&#39;</span>)[0];
+<a name="l00103"></a>00103       var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a>, src, details;
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105       <span class="keywordflow">if</span> (<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a> &amp;&amp; <a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>.length) {
+<a name="l00106"></a>00106         details = <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.getContactDetails(number, <a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>[0], {
+<a name="l00107"></a>00107           photoURL: <span class="keyword">true</span>
+<a name="l00108"></a>00108         });
+<a name="l00109"></a>00109         title = details.title || number;
+<a name="l00110"></a>00110         src = details.photoURL || <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00111"></a>00111       } <span class="keywordflow">else</span> {
+<a name="l00112"></a>00112         title = number;
+<a name="l00113"></a>00113         src = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00114"></a>00114       }
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116       <span class="keywordflow">if</span> (src) {
+<a name="l00117"></a>00117         photo.onload = photo.onerror = <span class="keyword">function</span> revokePhotoURL() {
+<a name="l00118"></a>00118           this.<a class="code" href="../../d8/deb/share_8js.html#ae63fb598d93a4bb590d74a27b9398c71">onload</a> = this.<a class="code" href="../../d4/d76/camera_2js_2filmstrip_8js.html#a9c95fb48715b0deb285f7bfd8f10df50">onerror</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00119"></a>00119           <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.revokeObjectURL(this.src);
+<a name="l00120"></a>00120         };
+<a name="l00121"></a>00121       }
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.localize(name, <span class="stringliteral">&#39;thread-header-text&#39;</span>, {
+<a name="l00124"></a>00124         name: <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a>,
+<a name="l00125"></a>00125         <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>: others
+<a name="l00126"></a>00126       });
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128       photo.src = src;
+<a name="l00129"></a>00129     });
+<a name="l00130"></a>00130   },
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132   <a class="code" href="../../dd/d6d/mock__spinner_8js.html#a7773a8226815156633260eafd5fc229e">handleEvent</a>: <span class="keyword">function</span> thlui_handleEvent(evt) {
+<a name="l00133"></a>00133     <span class="keywordflow">switch</span> (evt.type) {
+<a name="l00134"></a>00134       <span class="keywordflow">case</span> <span class="stringliteral">&#39;click&#39;</span>:
+<a name="l00135"></a>00135         <span class="comment">// Duck type determination; if the click event occurred on</span>
+<a name="l00136"></a>00136         <span class="comment">// a target with a |type| property, then assume it could&#39;ve</span>
+<a name="l00137"></a>00137         <span class="comment">// been a checkbox and proceed w/ validation condition</span>
+<a name="l00138"></a>00138         <span class="keywordflow">if</span> (evt.target.type &amp;&amp; evt.target.type === <span class="stringliteral">&#39;checkbox&#39;</span>) {
+<a name="l00139"></a>00139           <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.checkInputs();
+<a name="l00140"></a>00140         }
+<a name="l00141"></a>00141         <span class="keywordflow">break</span>;
+<a name="l00142"></a>00142       <span class="keywordflow">case</span> <span class="stringliteral">&#39;submit&#39;</span>:
+<a name="l00143"></a>00143         evt.preventDefault();
+<a name="l00144"></a>00144         <span class="keywordflow">break</span>;
+<a name="l00145"></a>00145     }
+<a name="l00146"></a>00146   },
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148   checkInputs: <span class="keyword">function</span> thlui_checkInputs() {
+<a name="l00149"></a>00149     var selected = <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.selectedInputs.length;
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151     <span class="keywordflow">if</span> (selected === <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.allInputs.length) {
+<a name="l00152"></a>00152       this.checkAllButton.disabled = <span class="keyword">true</span>;
+<a name="l00153"></a>00153     } <span class="keywordflow">else</span> {
+<a name="l00154"></a>00154       this.checkAllButton.disabled = <span class="keyword">false</span>;
+<a name="l00155"></a>00155     }
+<a name="l00156"></a>00156     <span class="keywordflow">if</span> (selected) {
+<a name="l00157"></a>00157       this.uncheckAllButton.disabled = <span class="keyword">false</span>;
+<a name="l00158"></a>00158       this.deleteButton.classList.remove(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00159"></a>00159       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.localize(this.editMode, <span class="stringliteral">&#39;selected&#39;</span>, {<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>: selected});
+<a name="l00160"></a>00160     } <span class="keywordflow">else</span> {
+<a name="l00161"></a>00161       this.uncheckAllButton.disabled = <span class="keyword">true</span>;
+<a name="l00162"></a>00162       this.deleteButton.classList.add(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00163"></a>00163       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.localize(this.editMode, <span class="stringliteral">&#39;editMode&#39;</span>);
+<a name="l00164"></a>00164     }
+<a name="l00165"></a>00165   },
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167   cleanForm: <span class="keyword">function</span> thlui_cleanForm() {
+<a name="l00168"></a>00168     var <a class="code" href="../../df/d12/latin__test_8js.html#a6c999f72dcd048b9f43513afcab6622d">inputs</a> = this.allInputs;
+<a name="l00169"></a>00169     var <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a> = inputs.length;
+<a name="l00170"></a>00170     <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00171"></a>00171       inputs[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>].checked = <span class="keyword">false</span>;
+<a name="l00172"></a>00172       inputs[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>].parentNode.parentNode.classList.remove(<span class="stringliteral">&#39;undo-candidate&#39;</span>);
+<a name="l00173"></a>00173     }
+<a name="l00174"></a>00174     this.delNumList = [];
+<a name="l00175"></a>00175     this.checkInputs();
+<a name="l00176"></a>00176   },
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178   toggleCheckedAll: <span class="keyword">function</span> thlui_select(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00179"></a>00179     var <a class="code" href="../../df/d12/latin__test_8js.html#a6c999f72dcd048b9f43513afcab6622d">inputs</a> = this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>.querySelectorAll(
+<a name="l00180"></a>00180       <span class="stringliteral">&#39;input[type=&quot;checkbox&quot;]&#39;</span> +
+<a name="l00181"></a>00181       <span class="comment">// value ?</span>
+<a name="l00182"></a>00182       <span class="comment">//   true : query for currently unselected threads</span>
+<a name="l00183"></a>00183       <span class="comment">//   false: query for currently selected threads</span>
+<a name="l00184"></a>00184       (<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> ? <span class="stringliteral">&#39;:not(:checked)&#39;</span> : <span class="stringliteral">&#39;:checked&#39;</span>)
+<a name="l00185"></a>00185     );
+<a name="l00186"></a>00186     var <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a> = inputs.length;
+<a name="l00187"></a>00187     <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00188"></a>00188       inputs[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>].checked = <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00189"></a>00189     }
+<a name="l00190"></a>00190     this.checkInputs();
+<a name="l00191"></a>00191   },
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193   removeThread: <span class="keyword">function</span>(threadId) {
+<a name="l00194"></a>00194     var li = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;thread-&#39;</span> + threadId);
+<a name="l00195"></a>00195     var <a class="code" href="../../d2/d7d/jsapi_8h.html#a8a4058d98ae1bca3d5fa2d01726cf734">parent</a> = li.parentNode;
+<a name="l00196"></a>00196     parent.removeChild(li);
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198     <span class="comment">// remove the header and the ul for an empty list</span>
+<a name="l00199"></a>00199     <span class="keywordflow">if</span> (!parent.firstElementChild) {
+<a name="l00200"></a>00200       var grandparent = parent.parentNode;
+<a name="l00201"></a>00201       grandparent.removeChild(parent.previousSibling);
+<a name="l00202"></a>00202       grandparent.removeChild(parent);
+<a name="l00203"></a>00203       FixedHeader.refresh();
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205       <span class="comment">// if we have no more elements, set empty classes</span>
+<a name="l00206"></a>00206       <span class="keywordflow">if</span> (!this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>.querySelector(<span class="stringliteral">&#39;li&#39;</span>)) {
+<a name="l00207"></a>00207         this.setEmpty(<span class="keyword">true</span>);
+<a name="l00208"></a>00208       }
+<a name="l00209"></a>00209     }
+<a name="l00210"></a>00210   },
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212   <span class="keyword">delete</span>: <span class="keyword">function</span> thlui_delete() {
+<a name="l00213"></a>00213     var question = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get(<span class="stringliteral">&#39;deleteThreads-confirmation2&#39;</span>);
+<a name="l00214"></a>00214     var messageIds = [];
+<a name="l00215"></a>00215     var threadIds, threadId, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#ab628e67f85699825109c59795f6ece42">filter</a>, <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>;
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217     <span class="keyword">function</span> checkDone(threadId) {
+<a name="l00218"></a>00218       Threads.delete(threadId);
+<a name="l00219"></a>00219       <span class="comment">// Cleanup the DOM</span>
+<a name="l00220"></a>00220       this.removeThread(threadId);
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222       <span class="keywordflow">if</span> (--count === 0) {
+<a name="l00223"></a>00223         this.cancelEdit();
+<a name="l00224"></a>00224         <a class="code" href="../../d3/df7/waiting__screen_8js.html#ac27f7e9fbfcca9d4f742be65fa602f22">WaitingScreen</a>.hide();
+<a name="l00225"></a>00225       }
+<a name="l00226"></a>00226     }
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228     <span class="keywordflow">if</span> (<a class="code" href="../../d5/d62/build__stage_2email_2shared_2style_2_r_e_a_d_m_e_8md.html#ab77aa8c2fa705d45d7ff1db3a11306ae">confirm</a>(question)) {
+<a name="l00229"></a>00229       <a class="code" href="../../d3/df7/waiting__screen_8js.html#ac27f7e9fbfcca9d4f742be65fa602f22">WaitingScreen</a>.show();
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231       threadIds = this.selectedInputs.map(<span class="keyword">function</span>(<a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>) {
+<a name="l00232"></a>00232         <span class="keywordflow">return</span> <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>.value;
+<a name="l00233"></a>00233       });
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235       count = threadIds.length;
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237       <span class="comment">// Remove and coerce the threadId back to a number</span>
+<a name="l00238"></a>00238       <span class="comment">// MozSmsFilter and all other platform APIs</span>
+<a name="l00239"></a>00239       <span class="comment">// expect this value to be a number.</span>
+<a name="l00240"></a>00240       <span class="keywordflow">while</span> (threadId = +threadIds.pop()) {
+<a name="l00241"></a>00241 
+<a name="l00242"></a>00242         <span class="comment">// Filter and request all messages with this threadId</span>
+<a name="l00243"></a>00243         filter = <span class="keyword">new</span> MozSmsFilter();
+<a name="l00244"></a>00244         filter.threadId = threadId;
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246         <a class="code" href="../../d4/d81/message__manager_8js.html#ab608b57c33ddb52ccfce58f0db00dc1f">MessageManager</a>.getMessages({
+<a name="l00247"></a>00247           filter: <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#ab628e67f85699825109c59795f6ece42">filter</a>,
+<a name="l00248"></a>00248           invert: <span class="keyword">true</span>,
+<a name="l00249"></a>00249           each: <span class="keyword">function</span> each(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>) {
+<a name="l00250"></a>00250             <a class="code" href="../../d4/d81/message__manager_8js.html#ab608b57c33ddb52ccfce58f0db00dc1f">MessageManager</a>.deleteMessage(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.id);
+<a name="l00251"></a>00251             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00252"></a>00252           },
+<a name="l00253"></a>00253           <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>: checkDone.bind(<span class="keyword">this</span>, threadId)
+<a name="l00254"></a>00254         });
+<a name="l00255"></a>00255       }
+<a name="l00256"></a>00256     }
+<a name="l00257"></a>00257   },
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259   setEmpty: <span class="keyword">function</span> thlui_setEmpty(empty) {
+<a name="l00260"></a>00260     var addWhenEmpty = empty ? <span class="stringliteral">&#39;add&#39;</span> : <span class="stringliteral">&#39;remove&#39;</span>;
+<a name="l00261"></a>00261     var removeWhenEmpty = empty ? <span class="stringliteral">&#39;remove&#39;</span> : <span class="stringliteral">&#39;add&#39;</span>;
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263     <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.noMessages.classList[removeWhenEmpty](<span class="stringliteral">&#39;hide&#39;</span>);
+<a name="l00264"></a>00264     <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.container.classList[addWhenEmpty](<span class="stringliteral">&#39;hide&#39;</span>);
+<a name="l00265"></a>00265     <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.editIcon.classList[addWhenEmpty](<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00266"></a>00266   },
+<a name="l00267"></a>00267 
+<a name="l00268"></a>00268   startEdit: <span class="keyword">function</span> thlui_edit() {
+<a name="l00269"></a>00269     this.inEditMode = <span class="keyword">true</span>;
+<a name="l00270"></a>00270     this.cleanForm();
+<a name="l00271"></a>00271     this.mainWrapper.classList.toggle(<span class="stringliteral">&#39;edit&#39;</span>);
+<a name="l00272"></a>00272   },
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274   cancelEdit: <span class="keyword">function</span> thlui_cancelEdit() {
+<a name="l00275"></a>00275     this.inEditMode = <span class="keyword">false</span>;
+<a name="l00276"></a>00276     this.mainWrapper.classList.remove(<span class="stringliteral">&#39;edit&#39;</span>);
+<a name="l00277"></a>00277   },
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279   renderThreads: <span class="keyword">function</span> thlui_renderThreads(threads, renderCallback) {
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281     <span class="comment">// shut down this render</span>
+<a name="l00282"></a>00282     var <a class="code" href="../../d6/da5/libpinyin_8js.html#a14987c2daddbcdc724afc8b8c0492b85">abort</a> = <span class="keyword">false</span>;
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284     <span class="comment">// we store the function to kill the previous render on the function itself</span>
+<a name="l00285"></a>00285     <span class="keywordflow">if</span> (thlui_renderThreads.abort) {
+<a name="l00286"></a>00286       thlui_renderThreads.abort();
+<a name="l00287"></a>00287     }
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289 
+<a name="l00290"></a>00290     <span class="comment">// TODO: https://bugzilla.mozilla.org/show_bug.cgi?id=854417</span>
+<a name="l00291"></a>00291     <span class="comment">// Refactor the rendering method: do not empty the entire</span>
+<a name="l00292"></a>00292     <span class="comment">// list on every render.</span>
+<a name="l00293"></a>00293     <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.container.innerHTML = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295     <span class="keywordflow">if</span> (threads.length) {
+<a name="l00296"></a>00296       thlui_renderThreads.abort = <span class="keyword">function</span> thlui_renderThreads_abort() {
+<a name="l00297"></a>00297         abort = <span class="keyword">true</span>;
+<a name="l00298"></a>00298       };
+<a name="l00299"></a>00299 
+<a name="l00300"></a>00300       <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.setEmpty(<span class="keyword">false</span>);
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302       FixedHeader.init(<span class="stringliteral">&#39;#threads-container&#39;</span>,
+<a name="l00303"></a>00303                        <span class="stringliteral">&#39;#threads-header-container&#39;</span>,
+<a name="l00304"></a>00304                        <span class="stringliteral">&#39;header&#39;</span>);
+<a name="l00305"></a>00305       <span class="comment">// Edit mode available</span>
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307       var appendThreads = <span class="keyword">function</span>(threads, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00308"></a>00308         <span class="keywordflow">if</span> (!threads.length) {
+<a name="l00309"></a>00309           <span class="keywordflow">if</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00310"></a>00310             <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>();
+<a name="l00311"></a>00311           }
+<a name="l00312"></a>00312           <span class="keywordflow">return</span>;
+<a name="l00313"></a>00313         }
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315         <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span> appendThreadsDelayed() {
+<a name="l00316"></a>00316           <span class="keywordflow">if</span> (abort) {
+<a name="l00317"></a>00317             <span class="keywordflow">return</span>;
+<a name="l00318"></a>00318           }
+<a name="l00319"></a>00319           <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.appendThread(threads.pop());
+<a name="l00320"></a>00320           appendThreads(threads, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>);
+<a name="l00321"></a>00321         });
+<a name="l00322"></a>00322       };
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324       appendThreads(threads, <span class="keyword">function</span> at_callback() {
+<a name="l00325"></a>00325         <span class="comment">// clear up abort method</span>
+<a name="l00326"></a>00326         <span class="keyword">delete</span> thlui_renderThreads.abort;
+<a name="l00327"></a>00327         <span class="comment">// set the fixed header</span>
+<a name="l00328"></a>00328         FixedHeader.refresh();
+<a name="l00329"></a>00329         <span class="comment">// Boot update of headers</span>
+<a name="l00330"></a>00330         <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.updateTimeHeaders();
+<a name="l00331"></a>00331         <span class="comment">// Once the rendering it&#39;s done, callback if needed</span>
+<a name="l00332"></a>00332         <span class="keywordflow">if</span> (renderCallback) {
+<a name="l00333"></a>00333           renderCallback();
+<a name="l00334"></a>00334         }
+<a name="l00335"></a>00335       });
+<a name="l00336"></a>00336     } <span class="keywordflow">else</span> {
+<a name="l00337"></a>00337       <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.setEmpty(<span class="keyword">true</span>);
+<a name="l00338"></a>00338       FixedHeader.refresh();
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340       <span class="comment">// Callback if exist</span>
+<a name="l00341"></a>00341       <span class="keywordflow">if</span> (renderCallback) {
+<a name="l00342"></a>00342         <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span> executeCB() {
+<a name="l00343"></a>00343           renderCallback();
+<a name="l00344"></a>00344         });
+<a name="l00345"></a>00345       }
+<a name="l00346"></a>00346     }
+<a name="l00347"></a>00347   },
+<a name="l00348"></a>00348 
+<a name="l00349"></a>00349   createThread: <span class="keyword">function</span> thlui_createThread(<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>) {
+<a name="l00350"></a>00350     <span class="comment">// Create DOM element</span>
+<a name="l00351"></a>00351     var li = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;li&#39;</span>);
+<a name="l00352"></a>00352     var timestamp = <a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>.timestamp.getTime();
+<a name="l00353"></a>00353     var lastMessageType = <a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>.lastMessageType;
+<a name="l00354"></a>00354     var participants = <a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>.participants;
+<a name="l00355"></a>00355     var number = participants[0];
+<a name="l00356"></a>00356     var <span class="keywordtype">id</span> = <a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>.id;
+<a name="l00357"></a>00357     var bodyHTML = <a class="code" href="../../d6/d5f/build__stage_2email_2shared_2js_2template_8js.html#aab83dedcadf384ff4b12e9316e74d266">Template</a>.escape(<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>.body || <span class="stringliteral">&#39;&#39;</span>);
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359     li.id = <span class="stringliteral">&#39;thread-&#39;</span> + <a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>;
+<a name="l00360"></a>00360     li.dataset.threadId = <a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>;
+<a name="l00361"></a>00361     li.dataset.time = timestamp;
+<a name="l00362"></a>00362     li.dataset.lastMessageType = lastMessageType;
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364 
+<a name="l00365"></a>00365     <span class="keywordflow">if</span> (<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>.unreadCount &gt; 0) {
+<a name="l00366"></a>00366       li.classList.add(<span class="stringliteral">&#39;unread&#39;</span>);
+<a name="l00367"></a>00367     }
+<a name="l00368"></a>00368 
+<a name="l00369"></a>00369 
+<a name="l00370"></a>00370     <span class="comment">// Render markup with thread data</span>
+<a name="l00371"></a>00371     li.innerHTML = this.tmpl.thread.interpolate({
+<a name="l00372"></a>00372       <span class="keywordtype">id</span>: <a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>,
+<a name="l00373"></a>00373       number: number,
+<a name="l00374"></a>00374       bodyHTML: bodyHTML,
+<a name="l00375"></a>00375       formattedDate: <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.getFormattedHour(timestamp)
+<a name="l00376"></a>00376     }, {
+<a name="l00377"></a>00377       safe: [<span class="stringliteral">&#39;id&#39;</span>, <span class="stringliteral">&#39;bodyHTML&#39;</span>]
+<a name="l00378"></a>00378     });
+<a name="l00379"></a>00379 
+<a name="l00380"></a>00380     <span class="keywordflow">return</span> li;
+<a name="l00381"></a>00381   },
+<a name="l00382"></a>00382 
+<a name="l00383"></a>00383   insertThreadContainer:
+<a name="l00384"></a>00384     <span class="keyword">function</span> thlui_insertThreadContainer(fragment, timestamp) {
+<a name="l00385"></a>00385     <span class="comment">// We look for placing the group in the right place.</span>
+<a name="l00386"></a>00386     var <a class="code" href="../../da/d32/prio_8h.html#ae514094796205f27cbccab72be2e8826">headers</a> = <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.container.getElementsByTagName(<span class="stringliteral">&#39;header&#39;</span>);
+<a name="l00387"></a>00387     var groupFound = <span class="keyword">false</span>;
+<a name="l00388"></a>00388     <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; headers.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00389"></a>00389       <span class="keywordflow">if</span> (timestamp &gt;= headers[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>].dataset.time) {
+<a name="l00390"></a>00390         groupFound = <span class="keyword">true</span>;
+<a name="l00391"></a>00391         <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.container.insertBefore(fragment, headers[i]);
+<a name="l00392"></a>00392         <span class="keywordflow">break</span>;
+<a name="l00393"></a>00393       }
+<a name="l00394"></a>00394     }
+<a name="l00395"></a>00395     <span class="keywordflow">if</span> (!groupFound) {
+<a name="l00396"></a>00396       <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.container.appendChild(fragment);
+<a name="l00397"></a>00397     }
+<a name="l00398"></a>00398   },
+<a name="l00399"></a>00399 
+<a name="l00400"></a>00400   <span class="comment">// This method fills the gap while we wait for next &#39;getThreads&#39; request,</span>
+<a name="l00401"></a>00401   <span class="comment">// letting us rendering the new thread with a better performance.</span>
+<a name="l00402"></a>00402   createThreadMockup: <span class="keyword">function</span> mm_createThreadMockup(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>) {
+<a name="l00403"></a>00403     <span class="comment">// Given a message we create a thread as a mockup. This let us render the</span>
+<a name="l00404"></a>00404     <span class="comment">// thread without requesting Gecko, so we increase the performance and we</span>
+<a name="l00405"></a>00405     <span class="comment">// reduce Gecko requests.</span>
+<a name="l00406"></a>00406     <span class="keywordflow">return</span> {
+<a name="l00407"></a>00407       <span class="keywordtype">id</span>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.threadId,
+<a name="l00408"></a>00408       participants: [<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.sender],
+<a name="l00409"></a>00409       body: <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.body,
+<a name="l00410"></a>00410       timestamp: <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.timestamp,
+<a name="l00411"></a>00411       unreadCount: 1,
+<a name="l00412"></a>00412       lastMessageType: <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.type || <span class="stringliteral">&#39;sms&#39;</span>
+<a name="l00413"></a>00413     };
+<a name="l00414"></a>00414   },
+<a name="l00415"></a>00415 
+<a name="l00416"></a>00416   onMessageReceived: <span class="keyword">function</span> thlui_onMessageReceived(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>) {
+<a name="l00417"></a>00417     var threadMockup = this.createThreadMockup(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>);
+<a name="l00418"></a>00418     var threadId = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.threadId;
+<a name="l00419"></a>00419 
+<a name="l00420"></a>00420     <span class="keywordflow">if</span> (!Threads.get(threadId)) {
+<a name="l00421"></a>00421       Threads.set(threadId, threadMockup);
+<a name="l00422"></a>00422       Threads.get(threadId).messages.push(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>);
+<a name="l00423"></a>00423     }
+<a name="l00424"></a>00424 
+<a name="l00425"></a>00425     <span class="keywordflow">if</span> (this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>.querySelector(<span class="stringliteral">&#39;ul&#39;</span>)) {
+<a name="l00426"></a>00426       var timestamp = threadMockup.timestamp.getTime();
+<a name="l00427"></a>00427       var previousThread = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;thread-&#39;</span> + threadId);
+<a name="l00428"></a>00428       <span class="keywordflow">if</span> (previousThread &amp;&amp; previousThread.dataset.time &gt; timestamp) {
+<a name="l00429"></a>00429         <span class="comment">// If the received SMS it&#39;s older that the latest one</span>
+<a name="l00430"></a>00430         <span class="comment">// We need only to update the &#39;unread status&#39;</span>
+<a name="l00431"></a>00431         this.<a class="code" href="../../de/deb/jsdbgapi_8h.html#a5781cac7f8ba493eaa5d1d9b2deac5aa">mark</a>(threadId, <span class="stringliteral">&#39;unread&#39;</span>);
+<a name="l00432"></a>00432         <span class="keywordflow">return</span>;
+<a name="l00433"></a>00433       }
+<a name="l00434"></a>00434 
+<a name="l00435"></a>00435       <span class="comment">// We remove the previous one in order to place the new one properly</span>
+<a name="l00436"></a>00436       <span class="keywordflow">if</span> (previousThread) {
+<a name="l00437"></a>00437         this.removeThread(threadId);
+<a name="l00438"></a>00438       }
+<a name="l00439"></a>00439 
+<a name="l00440"></a>00440       this.appendThread(threadMockup);
+<a name="l00441"></a>00441       FixedHeader.refresh();
+<a name="l00442"></a>00442       this.setEmpty(<span class="keyword">false</span>);
+<a name="l00443"></a>00443     } <span class="keywordflow">else</span> {
+<a name="l00444"></a>00444       this.renderThreads([threadMockup]);
+<a name="l00445"></a>00445     }
+<a name="l00446"></a>00446   },
+<a name="l00447"></a>00447 
+<a name="l00448"></a>00448   appendThread: <span class="keyword">function</span> thlui_appendThread(<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>) {
+<a name="l00449"></a>00449     var timestamp = <a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>.timestamp.getTime();
+<a name="l00450"></a>00450     <span class="comment">// We create the DOM element of the thread</span>
+<a name="l00451"></a>00451     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a> = this.createThread(<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>);
+<a name="l00452"></a>00452 
+<a name="l00453"></a>00453     <span class="comment">// Update info given a number</span>
+<a name="l00454"></a>00454     this.setContact(node);
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456     <span class="comment">// Is there any container already?</span>
+<a name="l00457"></a>00457     var threadsContainerID = <span class="stringliteral">&#39;threadsContainer_&#39;</span> +
+<a name="l00458"></a>00458                               <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.getDayDate(<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>.timestamp);
+<a name="l00459"></a>00459     var threadsContainer = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(threadsContainerID);
+<a name="l00460"></a>00460     <span class="comment">// If there is no container we create &amp; insert it to the DOM</span>
+<a name="l00461"></a>00461     <span class="keywordflow">if</span> (!threadsContainer) {
+<a name="l00462"></a>00462       <span class="comment">// We create the fragment with groul &#39;header&#39; &amp; &#39;ul&#39;</span>
+<a name="l00463"></a>00463       var threadsContainerFragment =
+<a name="l00464"></a>00464         <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.createThreadContainer(timestamp);
+<a name="l00465"></a>00465       <span class="comment">// Update threadsContainer with the new value</span>
+<a name="l00466"></a>00466       threadsContainer = threadsContainerFragment.childNodes[1];
+<a name="l00467"></a>00467       <span class="comment">// Place our new fragment in the DOM</span>
+<a name="l00468"></a>00468       <a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>.insertThreadContainer(threadsContainerFragment, timestamp);
+<a name="l00469"></a>00469     }
+<a name="l00470"></a>00470 
+<a name="l00471"></a>00471     <span class="comment">// Where have I to place the new thread?</span>
+<a name="l00472"></a>00472     var threads = threadsContainer.getElementsByTagName(<span class="stringliteral">&#39;li&#39;</span>);
+<a name="l00473"></a>00473     var threadFound = <span class="keyword">false</span>;
+<a name="l00474"></a>00474     <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0, <a class="code" href="../../d9/d6a/ns_color_8h.html#a0ad4b5fc255f59a8dace6aa74c5ca790">l</a> = threads.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d9/d6a/ns_color_8h.html#a0ad4b5fc255f59a8dace6aa74c5ca790">l</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00475"></a>00475       <span class="keywordflow">if</span> (timestamp &gt; threads[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>].dataset.time) {
+<a name="l00476"></a>00476         threadFound = <span class="keyword">true</span>;
+<a name="l00477"></a>00477         threadsContainer.insertBefore(node, threads[i]);
+<a name="l00478"></a>00478         <span class="keywordflow">break</span>;
+<a name="l00479"></a>00479       }
+<a name="l00480"></a>00480     }
+<a name="l00481"></a>00481     <span class="keywordflow">if</span> (!threadFound) {
+<a name="l00482"></a>00482       threadsContainer.appendChild(node);
+<a name="l00483"></a>00483     }
+<a name="l00484"></a>00484     <span class="keywordflow">if</span> (this.inEditMode) {
+<a name="l00485"></a>00485       this.checkInputs();
+<a name="l00486"></a>00486     }
+<a name="l00487"></a>00487   },
+<a name="l00488"></a>00488   <span class="comment">// Adds a new grouping header if necessary (today, tomorrow, ...)</span>
+<a name="l00489"></a>00489   createThreadContainer: <span class="keyword">function</span> thlui_createThreadContainer(timestamp) {
+<a name="l00490"></a>00490     var threadContainer = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createDocumentFragment();
+<a name="l00491"></a>00491     <span class="comment">// Create Header DOM Element</span>
+<a name="l00492"></a>00492     var headerDOM = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;header&#39;</span>);
+<a name="l00493"></a>00493     <span class="comment">// Append &#39;time-update&#39; state</span>
+<a name="l00494"></a>00494     headerDOM.dataset.timeUpdate = <span class="keyword">true</span>;
+<a name="l00495"></a>00495     headerDOM.dataset.time = timestamp;
+<a name="l00496"></a>00496     headerDOM.dataset.isThread = <span class="keyword">true</span>;
+<a name="l00497"></a>00497 
+<a name="l00498"></a>00498     <span class="comment">// Create UL DOM Element</span>
+<a name="l00499"></a>00499     var threadsContainerDOM = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;ul&#39;</span>);
+<a name="l00500"></a>00500     threadsContainerDOM.id = <span class="stringliteral">&#39;threadsContainer_&#39;</span> +
+<a name="l00501"></a>00501                               <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.getDayDate(timestamp);
+<a name="l00502"></a>00502     <span class="comment">// Add text</span>
+<a name="l00503"></a>00503     headerDOM.innerHTML = <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.getHeaderDate(timestamp);
+<a name="l00504"></a>00504 
+<a name="l00505"></a>00505     <span class="comment">// Add to DOM all elements</span>
+<a name="l00506"></a>00506     threadContainer.appendChild(headerDOM);
+<a name="l00507"></a>00507     threadContainer.appendChild(threadsContainerDOM);
+<a name="l00508"></a>00508     <span class="keywordflow">return</span> threadContainer;
+<a name="l00509"></a>00509   },
+<a name="l00510"></a>00510   <span class="comment">// Method for updating all contact info after creating a contact</span>
+<a name="l00511"></a>00511   updateContactsInfo: <span class="keyword">function</span> mm_updateContactsInfo() {
+<a name="l00512"></a>00512     <span class="comment">// Prevents cases where updateContactsInfo method is called</span>
+<a name="l00513"></a>00513     <span class="comment">// before ThreadListUI.container exists (as observed by errors</span>
+<a name="l00514"></a>00514     <span class="comment">// in the js console)</span>
+<a name="l00515"></a>00515     <span class="keywordflow">if</span> (!this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>) {
+<a name="l00516"></a>00516       <span class="keywordflow">return</span>;
+<a name="l00517"></a>00517     }
+<a name="l00518"></a>00518     <span class="comment">// Retrieve all &#39;li&#39; elements</span>
+<a name="l00519"></a>00519     var threads = this.<a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>.getElementsByTagName(<span class="stringliteral">&#39;li&#39;</span>);
+<a name="l00520"></a>00520 
+<a name="l00521"></a>00521     [].forEach.call(threads, this.setContact.bind(<span class="keyword">this</span>));
+<a name="l00522"></a>00522   },
+<a name="l00523"></a>00523 
+<a name="l00524"></a>00524   <a class="code" href="../../de/deb/jsdbgapi_8h.html#a5781cac7f8ba493eaa5d1d9b2deac5aa">mark</a>: <span class="keyword">function</span> thlui_mark(<span class="keywordtype">id</span>, current) {
+<a name="l00525"></a>00525     var li = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;thread-&#39;</span> + <span class="keywordtype">id</span>);
+<a name="l00526"></a>00526     var <span class="keyword">remove</span> = <span class="stringliteral">&#39;read&#39;</span>;
+<a name="l00527"></a>00527 
+<a name="l00528"></a>00528     <span class="keywordflow">if</span> (current === <span class="stringliteral">&#39;read&#39;</span>) {
+<a name="l00529"></a>00529       <span class="keyword">remove</span> = <span class="stringliteral">&#39;unread&#39;</span>;
+<a name="l00530"></a>00530     }
+<a name="l00531"></a>00531 
+<a name="l00532"></a>00532     <span class="keywordflow">if</span> (li) {
+<a name="l00533"></a>00533       li.classList.remove(<span class="keyword">remove</span>);
+<a name="l00534"></a>00534       li.classList.add(current);
+<a name="l00535"></a>00535     }
+<a name="l00536"></a>00536   }
+<a name="l00537"></a>00537 };
+<a name="l00538"></a>00538 
+<a name="l00539"></a>00539 Object.defineProperty(<a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>, <span class="stringliteral">&#39;allInputs&#39;</span>, {
+<a name="l00540"></a>00540   <span class="keyword">get</span>: <span class="keyword">function</span>() {
+<a name="l00541"></a>00541     <span class="keywordflow">return</span> this.getAllInputs();
+<a name="l00542"></a>00542   }
+<a name="l00543"></a>00543 });
+<a name="l00544"></a>00544 
+<a name="l00545"></a>00545 Object.defineProperty(<a class="code" href="../../de/def/thread__list__ui_8js.html#ab1f44c5409cb195473c1ecafaff607aa">ThreadListUI</a>, <span class="stringliteral">&#39;selectedInputs&#39;</span>, {
+<a name="l00546"></a>00546   <span class="keyword">get</span>: <span class="keyword">function</span>() {
+<a name="l00547"></a>00547     <span class="keywordflow">return</span> this.getSelectedInputs();
+<a name="l00548"></a>00548   }
+<a name="l00549"></a>00549 });
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/def/thread__list__ui_8js.html">thread_list_ui.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:24に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

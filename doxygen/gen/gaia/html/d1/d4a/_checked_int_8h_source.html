@@ -1,0 +1,898 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: CheckedInt.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d1/d4a/_checked_int_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">CheckedInt.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d1/d4a/_checked_int_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set ts=8 sts=2 et sw=2 tw=80: */</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/* Provides checked integers, detecting integer overflow and divide-by-0. */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="preprocessor">#ifndef mozilla_CheckedInt_h</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="preprocessor">#define mozilla_CheckedInt_h</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span>
+<a name="l00012"></a>00012 <span class="comment">// Enable relying of Mozilla&#39;s MFBT for possibly-available C++11 features</span>
+<a name="l00013"></a><a class="code" href="../../d1/d4a/_checked_int_8h.html#a0dd7b94984ba9725a8da071928cf79ea">00013</a> <span class="preprocessor">#define MOZ_CHECKEDINT_USE_MFBT</span>
+<a name="l00014"></a>00014 <span class="preprocessor"></span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &lt;stdint.h&gt;</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 <span class="preprocessor">#ifdef MOZ_CHECKEDINT_USE_MFBT</span>
+<a name="l00018"></a>00018 <span class="preprocessor"></span><span class="preprocessor">#  include &quot;<a class="code" href="../../d9/de9/_assertions_8h.html">mozilla/Assertions.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#else</span>
+<a name="l00020"></a>00020 <span class="preprocessor"></span><span class="preprocessor">#  include &lt;cassert&gt;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#  define MOZ_ASSERT(cond, reason) assert((cond) &amp;&amp; reason)</span>
+<a name="l00022"></a>00022 <span class="preprocessor"></span><span class="preprocessor">#  define MOZ_DELETE</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;climits&gt;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;cstddef&gt;</span>
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 <span class="keyword">namespace </span>mozilla {
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class </span>CheckedInt;
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="keyword">namespace </span>detail {
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034 <span class="comment">/*</span>
+<a name="l00035"></a>00035 <span class="comment"> * Step 1: manually record supported types</span>
+<a name="l00036"></a>00036 <span class="comment"> *</span>
+<a name="l00037"></a>00037 <span class="comment"> * What&#39;s nontrivial here is that there are different families of integer</span>
+<a name="l00038"></a>00038 <span class="comment"> * types: basic integer types and stdint types. It is merrily undefined which</span>
+<a name="l00039"></a>00039 <span class="comment"> * types from one family may be just typedefs for a type from another family.</span>
+<a name="l00040"></a>00040 <span class="comment"> *</span>
+<a name="l00041"></a>00041 <span class="comment"> * For example, on GCC 4.6, aside from the basic integer types, the only other</span>
+<a name="l00042"></a>00042 <span class="comment"> * type that isn&#39;t just a typedef for some of them, is int8_t.</span>
+<a name="l00043"></a>00043 <span class="comment"> */</span>
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="../../d2/d54/structmozilla_1_1detail_1_1_unsupported_type.html">00045</a> <span class="keyword">struct </span><a class="code" href="../../d2/d54/structmozilla_1_1detail_1_1_unsupported_type.html">UnsupportedType</a> {};
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;
+<a name="l00048"></a><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">00048</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>
+<a name="l00049"></a>00049 {
+<a name="l00050"></a><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html#a9469a4f93853b960706cde0f920d878a">00050</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">false</span>;
+<a name="l00051"></a>00051 };
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;
+<a name="l00054"></a><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">00054</a> <span class="keyword">struct </span><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">IsSupported</a>
+<a name="l00055"></a>00055 {
+<a name="l00056"></a><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html#adc8eeb9f3fee187529b6024130ad5095">00056</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2&lt;IntegerType&gt;::value</a>;
+<a name="l00057"></a>00057 };
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059 <span class="keyword">template</span>&lt;&gt;
+<a name="l00060"></a><a class="code" href="../../d8/d16/structmozilla_1_1detail_1_1_is_supported_3_01int8__t_01_4.html">00060</a> <span class="keyword">struct </span><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">IsSupported</a>&lt;int8_t&gt;
+<a name="l00061"></a><a class="code" href="../../d8/d16/structmozilla_1_1detail_1_1_is_supported_3_01int8__t_01_4.html#a095fa3c5811d116b0f2d05996e448ca0">00061</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 <span class="keyword">template</span>&lt;&gt;
+<a name="l00064"></a><a class="code" href="../../d5/de9/structmozilla_1_1detail_1_1_is_supported_3_01uint8__t_01_4.html">00064</a> <span class="keyword">struct </span><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">IsSupported</a>&lt;uint8_t&gt;
+<a name="l00065"></a><a class="code" href="../../d5/de9/structmozilla_1_1detail_1_1_is_supported_3_01uint8__t_01_4.html#aaf6e8a03f191fa45c1a2639ac0b899d1">00065</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 <span class="keyword">template</span>&lt;&gt;
+<a name="l00068"></a><a class="code" href="../../d5/dae/structmozilla_1_1detail_1_1_is_supported_3_01int16__t_01_4.html">00068</a> <span class="keyword">struct </span><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">IsSupported</a>&lt;int16_t&gt;
+<a name="l00069"></a><a class="code" href="../../d5/dae/structmozilla_1_1detail_1_1_is_supported_3_01int16__t_01_4.html#a0abf64b41a62d4e1c7fd13c8e1381dc6">00069</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071 <span class="keyword">template</span>&lt;&gt;
+<a name="l00072"></a><a class="code" href="../../dd/d1a/structmozilla_1_1detail_1_1_is_supported_3_01uint16__t_01_4.html">00072</a> <span class="keyword">struct </span><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">IsSupported</a>&lt;uint16_t&gt;
+<a name="l00073"></a><a class="code" href="../../dd/d1a/structmozilla_1_1detail_1_1_is_supported_3_01uint16__t_01_4.html#a03c68dc20827a2e736b403beca8e3739">00073</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 <span class="keyword">template</span>&lt;&gt;
+<a name="l00076"></a><a class="code" href="../../d4/d8d/structmozilla_1_1detail_1_1_is_supported_3_01int32__t_01_4.html">00076</a> <span class="keyword">struct </span><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">IsSupported</a>&lt;int32_t&gt;
+<a name="l00077"></a><a class="code" href="../../d4/d8d/structmozilla_1_1detail_1_1_is_supported_3_01int32__t_01_4.html#aca03f876d0a69cc4980aad9ecd4dccf5">00077</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 <span class="keyword">template</span>&lt;&gt;
+<a name="l00080"></a><a class="code" href="../../d8/d59/structmozilla_1_1detail_1_1_is_supported_3_01uint32__t_01_4.html">00080</a> <span class="keyword">struct </span><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">IsSupported</a>&lt;uint32_t&gt;
+<a name="l00081"></a><a class="code" href="../../d8/d59/structmozilla_1_1detail_1_1_is_supported_3_01uint32__t_01_4.html#af7211a7c47cc7d5f4cce06124416b641">00081</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 <span class="keyword">template</span>&lt;&gt;
+<a name="l00084"></a><a class="code" href="../../dc/d01/structmozilla_1_1detail_1_1_is_supported_3_01int64__t_01_4.html">00084</a> <span class="keyword">struct </span><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">IsSupported</a>&lt;int64_t&gt;
+<a name="l00085"></a><a class="code" href="../../dc/d01/structmozilla_1_1detail_1_1_is_supported_3_01int64__t_01_4.html#abab28b5817e9a70454cc56813e04d97a">00085</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 <span class="keyword">template</span>&lt;&gt;
+<a name="l00088"></a><a class="code" href="../../d0/dfb/structmozilla_1_1detail_1_1_is_supported_3_01uint64__t_01_4.html">00088</a> <span class="keyword">struct </span><a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">IsSupported</a>&lt;uint64_t&gt;
+<a name="l00089"></a><a class="code" href="../../d0/dfb/structmozilla_1_1detail_1_1_is_supported_3_01uint64__t_01_4.html#a6f0dc342cb2b455950c476cc58ec5db3">00089</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 <span class="keyword">template</span>&lt;&gt;
+<a name="l00093"></a><a class="code" href="../../dd/d8c/structmozilla_1_1detail_1_1_is_supported_pass2_3_01char_01_4.html">00093</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;char&gt;
+<a name="l00094"></a><a class="code" href="../../dd/d8c/structmozilla_1_1detail_1_1_is_supported_pass2_3_01char_01_4.html#afca9a067420ac050f7860c266e87809b">00094</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="keyword">template</span>&lt;&gt;
+<a name="l00097"></a><a class="code" href="../../d4/d2f/structmozilla_1_1detail_1_1_is_supported_pass2_3_01signed_01char_01_4.html">00097</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;<a class="code" href="../../d6/d92/cdefs_8h.html#ae31516cd0c4adc3d52b93ef2e5c6117b">signed</a> char&gt;
+<a name="l00098"></a><a class="code" href="../../d4/d2f/structmozilla_1_1detail_1_1_is_supported_pass2_3_01signed_01char_01_4.html#aac489fad829cd5d4992f3891a119c2e9">00098</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="keyword">template</span>&lt;&gt;
+<a name="l00101"></a><a class="code" href="../../d8/d13/structmozilla_1_1detail_1_1_is_supported_pass2_3_01unsigned_01char_01_4.html">00101</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;unsigned char&gt;
+<a name="l00102"></a><a class="code" href="../../d8/d13/structmozilla_1_1detail_1_1_is_supported_pass2_3_01unsigned_01char_01_4.html#a23243707879c832adc2d12a1f2ce24bb">00102</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="keyword">template</span>&lt;&gt;
+<a name="l00105"></a><a class="code" href="../../d8/d86/structmozilla_1_1detail_1_1_is_supported_pass2_3_01short_01_4.html">00105</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;short&gt;
+<a name="l00106"></a><a class="code" href="../../d8/d86/structmozilla_1_1detail_1_1_is_supported_pass2_3_01short_01_4.html#a89537a757d7b807278350956a3ab9e1b">00106</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108 <span class="keyword">template</span>&lt;&gt;
+<a name="l00109"></a><a class="code" href="../../de/da5/structmozilla_1_1detail_1_1_is_supported_pass2_3_01unsigned_01short_01_4.html">00109</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;unsigned short&gt;
+<a name="l00110"></a><a class="code" href="../../de/da5/structmozilla_1_1detail_1_1_is_supported_pass2_3_01unsigned_01short_01_4.html#ac9b375a14c561f0b31852d958ffdbece">00110</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112 <span class="keyword">template</span>&lt;&gt;
+<a name="l00113"></a><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_supported_pass2_3_01int_01_4.html">00113</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;<a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a>&gt;
+<a name="l00114"></a><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_supported_pass2_3_01int_01_4.html#a687575610166b9e7f802bb66f6e64ede">00114</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116 <span class="keyword">template</span>&lt;&gt;
+<a name="l00117"></a><a class="code" href="../../d7/d38/structmozilla_1_1detail_1_1_is_supported_pass2_3_01unsigned_01int_01_4.html">00117</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;unsigned <a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a>&gt;
+<a name="l00118"></a><a class="code" href="../../d7/d38/structmozilla_1_1detail_1_1_is_supported_pass2_3_01unsigned_01int_01_4.html#a40cc26c93a048cc0834cf458cef9c42f">00118</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120 <span class="keyword">template</span>&lt;&gt;
+<a name="l00121"></a><a class="code" href="../../dd/d65/structmozilla_1_1detail_1_1_is_supported_pass2_3_01long_01_4.html">00121</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;long&gt;
+<a name="l00122"></a><a class="code" href="../../dd/d65/structmozilla_1_1detail_1_1_is_supported_pass2_3_01long_01_4.html#a28859a36025dbb5cf833dc9a890321c4">00122</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124 <span class="keyword">template</span>&lt;&gt;
+<a name="l00125"></a><a class="code" href="../../d5/d42/structmozilla_1_1detail_1_1_is_supported_pass2_3_01unsigned_01long_01_4.html">00125</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;unsigned long&gt;
+<a name="l00126"></a><a class="code" href="../../d5/d42/structmozilla_1_1detail_1_1_is_supported_pass2_3_01unsigned_01long_01_4.html#a962f25ad9466d32fa4ea56eb97e402ce">00126</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128 <span class="keyword">template</span>&lt;&gt;
+<a name="l00129"></a><a class="code" href="../../d4/d4d/structmozilla_1_1detail_1_1_is_supported_pass2_3_01long_01long_01_4.html">00129</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;long long&gt;
+<a name="l00130"></a><a class="code" href="../../d4/d4d/structmozilla_1_1detail_1_1_is_supported_pass2_3_01long_01long_01_4.html#a68e8f273e8fe99a3ee6232251375bce3">00130</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132 <span class="keyword">template</span>&lt;&gt;
+<a name="l00133"></a><a class="code" href="../../de/d3d/structmozilla_1_1detail_1_1_is_supported_pass2_3_01unsigned_01long_01long_01_4.html">00133</a> <span class="keyword">struct </span><a class="code" href="../../dc/db3/structmozilla_1_1detail_1_1_is_supported_pass2.html">IsSupportedPass2</a>&lt;unsigned long long&gt;
+<a name="l00134"></a><a class="code" href="../../de/d3d/structmozilla_1_1detail_1_1_is_supported_pass2_3_01unsigned_01long_01long_01_4.html#a5f50335bc13ee846871765e035681459">00134</a> { <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">true</span>; };
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136 <span class="comment">/*</span>
+<a name="l00137"></a>00137 <span class="comment"> * Step 2: some integer-traits kind of stuff.</span>
+<a name="l00138"></a>00138 <span class="comment"> */</span>
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140 <span class="keyword">template</span>&lt;<span class="keywordtype">size_t</span> Size, <span class="keywordtype">bool</span> Signedness&gt;
+<a name="l00141"></a><a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">00141</a> <span class="keyword">struct </span><a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>
+<a name="l00142"></a>00142 {};
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144 <span class="keyword">template</span>&lt;&gt;
+<a name="l00145"></a><a class="code" href="../../d0/d4c/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_011_00_01true_01_4.html">00145</a> <span class="keyword">struct </span><a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>&lt;1, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&gt;
+<a name="l00146"></a><a class="code" href="../../d0/d4c/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_011_00_01true_01_4.html#aefa63ece3683fa4aa9eeabbbde885f72">00146</a> { <span class="keyword">typedef</span> int8_t   <a class="code" href="../../d0/d4c/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_011_00_01true_01_4.html#aefa63ece3683fa4aa9eeabbbde885f72">Type</a>; };
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148 <span class="keyword">template</span>&lt;&gt;
+<a name="l00149"></a><a class="code" href="../../db/d39/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_011_00_01false_01_4.html">00149</a> <span class="keyword">struct </span><a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>&lt;1, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00150"></a><a class="code" href="../../db/d39/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_011_00_01false_01_4.html#acac232c98cd8cfcce7935e8886322180">00150</a> { <span class="keyword">typedef</span> uint8_t  <a class="code" href="../../db/d39/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_011_00_01false_01_4.html#acac232c98cd8cfcce7935e8886322180">Type</a>; };
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152 <span class="keyword">template</span>&lt;&gt;
+<a name="l00153"></a><a class="code" href="../../de/daa/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_012_00_01true_01_4.html">00153</a> <span class="keyword">struct </span><a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>&lt;2, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&gt;
+<a name="l00154"></a><a class="code" href="../../de/daa/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_012_00_01true_01_4.html#aef18a0d9d11a7458231f43aa3cea7d6b">00154</a> { <span class="keyword">typedef</span> int16_t  <a class="code" href="../../de/daa/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_012_00_01true_01_4.html#aef18a0d9d11a7458231f43aa3cea7d6b">Type</a>; };
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156 <span class="keyword">template</span>&lt;&gt;
+<a name="l00157"></a><a class="code" href="../../dc/dcc/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_012_00_01false_01_4.html">00157</a> <span class="keyword">struct </span><a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>&lt;2, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00158"></a><a class="code" href="../../dc/dcc/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_012_00_01false_01_4.html#a62ca4099bf56c477036f3049f3f576f3">00158</a> { <span class="keyword">typedef</span> uint16_t <a class="code" href="../../dc/dcc/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_012_00_01false_01_4.html#a62ca4099bf56c477036f3049f3f576f3">Type</a>; };
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160 <span class="keyword">template</span>&lt;&gt;
+<a name="l00161"></a><a class="code" href="../../db/db5/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_014_00_01true_01_4.html">00161</a> <span class="keyword">struct </span><a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>&lt;4, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&gt;
+<a name="l00162"></a><a class="code" href="../../db/db5/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_014_00_01true_01_4.html#a237ad7b5316d92211b73f9ccb6250cec">00162</a> { <span class="keyword">typedef</span> int32_t  <a class="code" href="../../db/db5/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_014_00_01true_01_4.html#a237ad7b5316d92211b73f9ccb6250cec">Type</a>; };
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164 <span class="keyword">template</span>&lt;&gt;
+<a name="l00165"></a><a class="code" href="../../d7/d36/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_014_00_01false_01_4.html">00165</a> <span class="keyword">struct </span><a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>&lt;4, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00166"></a><a class="code" href="../../d7/d36/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_014_00_01false_01_4.html#a3fa0b4b4680cf5c94fc2dc37e4877989">00166</a> { <span class="keyword">typedef</span> uint32_t <a class="code" href="../../d7/d36/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_014_00_01false_01_4.html#a3fa0b4b4680cf5c94fc2dc37e4877989">Type</a>; };
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168 <span class="keyword">template</span>&lt;&gt;
+<a name="l00169"></a><a class="code" href="../../d1/d9c/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_018_00_01true_01_4.html">00169</a> <span class="keyword">struct </span><a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>&lt;8, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&gt;
+<a name="l00170"></a><a class="code" href="../../d1/d9c/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_018_00_01true_01_4.html#a6783e141bb41ad2cb4a2dcfcea902474">00170</a> { <span class="keyword">typedef</span> int64_t  <a class="code" href="../../d1/d9c/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_018_00_01true_01_4.html#a6783e141bb41ad2cb4a2dcfcea902474">Type</a>; };
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172 <span class="keyword">template</span>&lt;&gt;
+<a name="l00173"></a><a class="code" href="../../da/d49/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_018_00_01false_01_4.html">00173</a> <span class="keyword">struct </span><a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>&lt;8, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00174"></a><a class="code" href="../../da/d49/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_018_00_01false_01_4.html#a9b680daf023323c51c01e616e2110169">00174</a> { <span class="keyword">typedef</span> uint64_t <a class="code" href="../../da/d49/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness_3_018_00_01false_01_4.html#a9b680daf023323c51c01e616e2110169">Type</a>; };
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;
+<a name="l00177"></a><a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html">00177</a> <span class="keyword">struct </span><a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html">UnsignedType</a>
+<a name="l00178"></a>00178 {
+<a name="l00179"></a>00179     <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>&lt;<span class="keyword">sizeof</span>(IntegerType),
+<a name="l00180"></a><a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">00180</a>                                                     <span class="keyword">false</span>&gt;::<a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">Type</a> <a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">Type</a>;
+<a name="l00181"></a>00181 };
+<a name="l00182"></a>00182 
+<a name="l00183"></a>00183 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;
+<a name="l00184"></a><a class="code" href="../../db/d2f/structmozilla_1_1detail_1_1_is_signed.html">00184</a> <span class="keyword">struct </span><a class="code" href="../../db/d2f/structmozilla_1_1detail_1_1_is_signed.html">IsSigned</a>
+<a name="l00185"></a>00185 {
+<a name="l00186"></a><a class="code" href="../../db/d2f/structmozilla_1_1detail_1_1_is_signed.html#a5c95d05922e1ba152b5f40bbab77c08a">00186</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = IntegerType(-1) &lt;= IntegerType(0);
+<a name="l00187"></a>00187 };
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType, <span class="keywordtype">size_t</span> Size = sizeof(IntegerType)&gt;
+<a name="l00190"></a><a class="code" href="../../db/d78/structmozilla_1_1detail_1_1_twice_bigger_type.html">00190</a> <span class="keyword">struct </span><a class="code" href="../../db/d78/structmozilla_1_1detail_1_1_twice_bigger_type.html">TwiceBiggerType</a>
+<a name="l00191"></a>00191 {
+<a name="l00192"></a>00192     <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code" href="../../dd/d38/structmozilla_1_1detail_1_1_stdint_type_for_size_and_signedness.html">StdintTypeForSizeAndSignedness</a>&lt;
+<a name="l00193"></a>00193                        <span class="keyword">sizeof</span>(IntegerType) * 2,
+<a name="l00194"></a>00194                        <a class="code" href="../../db/d2f/structmozilla_1_1detail_1_1_is_signed.html">IsSigned&lt;IntegerType&gt;::value</a>
+<a name="l00195"></a><a class="code" href="../../db/d78/structmozilla_1_1detail_1_1_twice_bigger_type.html#a5aa30df3ba31124b7264067cb9953081">00195</a>                      &gt;::<a class="code" href="../../db/d78/structmozilla_1_1detail_1_1_twice_bigger_type.html#a5aa30df3ba31124b7264067cb9953081">Type</a> <a class="code" href="../../db/d78/structmozilla_1_1detail_1_1_twice_bigger_type.html#a5aa30df3ba31124b7264067cb9953081">Type</a>;
+<a name="l00196"></a>00196 };
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;
+<a name="l00199"></a><a class="code" href="../../db/d99/structmozilla_1_1detail_1_1_twice_bigger_type_3_01_integer_type_00_018_01_4.html">00199</a> <span class="keyword">struct </span><a class="code" href="../../db/d78/structmozilla_1_1detail_1_1_twice_bigger_type.html">TwiceBiggerType</a>&lt;IntegerType, 8&gt;
+<a name="l00200"></a>00200 {
+<a name="l00201"></a><a class="code" href="../../db/d99/structmozilla_1_1detail_1_1_twice_bigger_type_3_01_integer_type_00_018_01_4.html#a88eb80b262c663ab72625b7ea29ddea4">00201</a>     <span class="keyword">typedef</span> <a class="code" href="../../d2/d54/structmozilla_1_1detail_1_1_unsupported_type.html">UnsupportedType</a> <a class="code" href="../../db/d99/structmozilla_1_1detail_1_1_twice_bigger_type_3_01_integer_type_00_018_01_4.html#a88eb80b262c663ab72625b7ea29ddea4">Type</a>;
+<a name="l00202"></a>00202 };
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;
+<a name="l00205"></a><a class="code" href="../../df/d2d/structmozilla_1_1detail_1_1_position_of_sign_bit.html">00205</a> <span class="keyword">struct </span><a class="code" href="../../df/d2d/structmozilla_1_1detail_1_1_position_of_sign_bit.html">PositionOfSignBit</a>
+<a name="l00206"></a>00206 {
+<a name="l00207"></a><a class="code" href="../../df/d2d/structmozilla_1_1detail_1_1_position_of_sign_bit.html#ae8dd2ff42cbdb5da713c0b88a05c606f">00207</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = CHAR_BIT * <span class="keyword">sizeof</span>(IntegerType) - 1;
+<a name="l00208"></a>00208 };
+<a name="l00209"></a>00209 
+<a name="l00210"></a>00210 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;
+<a name="l00211"></a><a class="code" href="../../d6/d76/structmozilla_1_1detail_1_1_min_value.html">00211</a> <span class="keyword">struct </span><a class="code" href="../../d6/d76/structmozilla_1_1detail_1_1_min_value.html">MinValue</a>
+<a name="l00212"></a>00212 {
+<a name="l00213"></a>00213   <span class="keyword">private</span>:
+<a name="l00214"></a>00214     <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">UnsignedType&lt;IntegerType&gt;::Type</a> UnsignedIntegerType;
+<a name="l00215"></a>00215     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">size_t</span> PosOfSignBit = <a class="code" href="../../df/d2d/structmozilla_1_1detail_1_1_position_of_sign_bit.html">PositionOfSignBit&lt;IntegerType&gt;::value</a>;
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217   <span class="keyword">public</span>:
+<a name="l00218"></a>00218     <span class="comment">// Bitwise ops may return a larger type, that&#39;s why we cast explicitly.</span>
+<a name="l00219"></a>00219     <span class="comment">// In C++, left bit shifts on signed values is undefined by the standard</span>
+<a name="l00220"></a>00220     <span class="comment">// unless the shifted value is representable.</span>
+<a name="l00221"></a>00221     <span class="comment">// Notice that signed-to-unsigned conversions are always well-defined in</span>
+<a name="l00222"></a>00222     <span class="comment">// the standard as the value congruent to 2**n, as expected. By contrast,</span>
+<a name="l00223"></a>00223     <span class="comment">// unsigned-to-signed is only well-defined if the value is representable.</span>
+<a name="l00224"></a><a class="code" href="../../d6/d76/structmozilla_1_1detail_1_1_min_value.html#a599f7e3718c77ac9a11e8fb20109aad2">00224</a>     <span class="keyword">static</span> <span class="keyword">const</span> IntegerType <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> =
+<a name="l00225"></a>00225         <a class="code" href="../../db/d2f/structmozilla_1_1detail_1_1_is_signed.html">IsSigned&lt;IntegerType&gt;::value</a>
+<a name="l00226"></a>00226         ? IntegerType(UnsignedIntegerType(1) &lt;&lt; PosOfSignBit)
+<a name="l00227"></a>00227         : IntegerType(0);
+<a name="l00228"></a>00228 };
+<a name="l00229"></a>00229 
+<a name="l00230"></a>00230 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IntegerType&gt;
+<a name="l00231"></a><a class="code" href="../../d8/d90/structmozilla_1_1detail_1_1_max_value.html">00231</a> <span class="keyword">struct </span><a class="code" href="../../d8/d90/structmozilla_1_1detail_1_1_max_value.html">MaxValue</a>
+<a name="l00232"></a>00232 {
+<a name="l00233"></a>00233     <span class="comment">// Tricksy, but covered by the unit test.</span>
+<a name="l00234"></a>00234     <span class="comment">// Relies heavily on the type of MinValue&lt;IntegerType&gt;::value</span>
+<a name="l00235"></a>00235     <span class="comment">// being IntegerType.</span>
+<a name="l00236"></a><a class="code" href="../../d8/d90/structmozilla_1_1detail_1_1_max_value.html#a2524d26a75affde640be459506b503fa">00236</a>     <span class="keyword">static</span> <span class="keyword">const</span> IntegerType <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = ~<a class="code" href="../../d6/d76/structmozilla_1_1detail_1_1_min_value.html">MinValue&lt;IntegerType&gt;::value</a>;
+<a name="l00237"></a>00237 };
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239 <span class="comment">/*</span>
+<a name="l00240"></a>00240 <span class="comment"> * Step 3: Implement the actual validity checks.</span>
+<a name="l00241"></a>00241 <span class="comment"> *</span>
+<a name="l00242"></a>00242 <span class="comment"> * Ideas taken from IntegerLib, code different.</span>
+<a name="l00243"></a>00243 <span class="comment"> */</span>
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00246"></a>00246 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00247"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a3734b9f6c100a198c08adf127299b21e">00247</a> <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a3734b9f6c100a198c08adf127299b21e">HasSignBit</a>(T x)
+<a name="l00248"></a>00248 {
+<a name="l00249"></a>00249   <span class="comment">// In C++, right bit shifts on negative values is undefined by the standard.</span>
+<a name="l00250"></a>00250   <span class="comment">// Notice that signed-to-unsigned conversions are always well-defined in the</span>
+<a name="l00251"></a>00251   <span class="comment">// standard, as the value congruent modulo 2**n as expected. By contrast,</span>
+<a name="l00252"></a>00252   <span class="comment">// unsigned-to-signed is only well-defined if the value is representable.</span>
+<a name="l00253"></a>00253   <span class="keywordflow">return</span> <a class="code" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>(<span class="keyword">typename</span> <a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">UnsignedType&lt;T&gt;::Type</a>(x)
+<a name="l00254"></a>00254                 &gt;&gt; <a class="code" href="../../df/d2d/structmozilla_1_1detail_1_1_position_of_sign_bit.html">PositionOfSignBit&lt;T&gt;::value</a>);
+<a name="l00255"></a>00255 }
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257 <span class="comment">// Bitwise ops may return a larger type, so it&#39;s good to use this inline</span>
+<a name="l00258"></a>00258 <span class="comment">// helper guaranteeing that the result is really of type T.</span>
+<a name="l00259"></a>00259 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00260"></a>00260 <span class="keyword">inline</span> T
+<a name="l00261"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a341948f73cddf1d37d8f9ef357c91625">00261</a> <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a341948f73cddf1d37d8f9ef357c91625">BinaryComplement</a>(T x)
+<a name="l00262"></a>00262 {
+<a name="l00263"></a>00263   <span class="keywordflow">return</span> ~x;
+<a name="l00264"></a>00264 }
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T,
+<a name="l00267"></a>00267          <span class="keyword">typename</span> U,
+<a name="l00268"></a>00268          <span class="keywordtype">bool</span> IsTSigned = <a class="code" href="../../db/d62/structmozilla_1_1_is_signed.html">IsSigned&lt;T&gt;::value</a>,
+<a name="l00269"></a>00269          <span class="keywordtype">bool</span> IsUSigned = <a class="code" href="../../db/d62/structmozilla_1_1_is_signed.html">IsSigned&lt;U&gt;::value</a>&gt;
+<a name="l00270"></a><a class="code" href="../../de/d5d/structmozilla_1_1detail_1_1_does_range_contain_range.html">00270</a> <span class="keyword">struct </span><a class="code" href="../../de/d5d/structmozilla_1_1detail_1_1_does_range_contain_range.html">DoesRangeContainRange</a>
+<a name="l00271"></a>00271 {
+<a name="l00272"></a>00272 };
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U, <span class="keywordtype">bool</span> Signedness&gt;
+<a name="l00275"></a><a class="code" href="../../d1/d96/structmozilla_1_1detail_1_1_does_range_contain_range_3_01_t_00_01_u_00_01_signedness_00_01_signedness_01_4.html">00275</a> <span class="keyword">struct </span><a class="code" href="../../de/d5d/structmozilla_1_1detail_1_1_does_range_contain_range.html">DoesRangeContainRange</a>&lt;T, U, Signedness, Signedness&gt;
+<a name="l00276"></a>00276 {
+<a name="l00277"></a><a class="code" href="../../d1/d96/structmozilla_1_1detail_1_1_does_range_contain_range_3_01_t_00_01_u_00_01_signedness_00_01_signedness_01_4.html#ae7095cbd5aea4b52d5b55128c248e97e">00277</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">sizeof</span>(T) &gt;= <span class="keyword">sizeof</span>(U);
+<a name="l00278"></a>00278 };
+<a name="l00279"></a>00279 
+<a name="l00280"></a>00280 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00281"></a><a class="code" href="../../d1/d4d/structmozilla_1_1detail_1_1_does_range_contain_range_3_01_t_00_01_u_00_01true_00_01false_01_4.html">00281</a> <span class="keyword">struct </span><a class="code" href="../../de/d5d/structmozilla_1_1detail_1_1_does_range_contain_range.html">DoesRangeContainRange</a>&lt;T, U, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00282"></a>00282 {
+<a name="l00283"></a><a class="code" href="../../d1/d4d/structmozilla_1_1detail_1_1_does_range_contain_range_3_01_t_00_01_u_00_01true_00_01false_01_4.html#a627d7178dd0d7a3888fb7cf785a9741d">00283</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">sizeof</span>(T) &gt; <span class="keyword">sizeof</span>(U);
+<a name="l00284"></a>00284 };
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00287"></a><a class="code" href="../../df/d89/structmozilla_1_1detail_1_1_does_range_contain_range_3_01_t_00_01_u_00_01false_00_01true_01_4.html">00287</a> <span class="keyword">struct </span><a class="code" href="../../de/d5d/structmozilla_1_1detail_1_1_does_range_contain_range.html">DoesRangeContainRange</a>&lt;T, U, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&gt;
+<a name="l00288"></a>00288 {
+<a name="l00289"></a><a class="code" href="../../df/d89/structmozilla_1_1detail_1_1_does_range_contain_range_3_01_t_00_01_u_00_01false_00_01true_01_4.html#a860202f548f7e21db7a212ee6d62fe53">00289</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = <span class="keyword">false</span>;
+<a name="l00290"></a>00290 };
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T,
+<a name="l00293"></a>00293          <span class="keyword">typename</span> U,
+<a name="l00294"></a>00294          <span class="keywordtype">bool</span> IsTSigned = <a class="code" href="../../db/d2f/structmozilla_1_1detail_1_1_is_signed.html">IsSigned&lt;T&gt;::value</a>,
+<a name="l00295"></a>00295          <span class="keywordtype">bool</span> IsUSigned = <a class="code" href="../../db/d2f/structmozilla_1_1detail_1_1_is_signed.html">IsSigned&lt;U&gt;::value</a>,
+<a name="l00296"></a>00296          <span class="keywordtype">bool</span> DoesTRangeContainURange = <a class="code" href="../../de/d5d/structmozilla_1_1detail_1_1_does_range_contain_range.html">DoesRangeContainRange&lt;T, U&gt;::value</a>&gt;
+<a name="l00297"></a><a class="code" href="../../d6/db5/structmozilla_1_1detail_1_1_is_in_range_impl.html">00297</a> <span class="keyword">struct </span><a class="code" href="../../d6/db5/structmozilla_1_1detail_1_1_is_in_range_impl.html">IsInRangeImpl</a> {};
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U, <span class="keywordtype">bool</span> IsTSigned, <span class="keywordtype">bool</span> IsUSigned&gt;
+<a name="l00300"></a><a class="code" href="../../d2/dfe/structmozilla_1_1detail_1_1_is_in_range_impl_3_01_t_00_01_u_00_01_is_t_signed_00_01_is_u_signed_00_01true_01_4.html">00300</a> <span class="keyword">struct </span><a class="code" href="../../d6/db5/structmozilla_1_1detail_1_1_is_in_range_impl.html">IsInRangeImpl</a>&lt;T, U, IsTSigned, IsUSigned, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&gt;
+<a name="l00301"></a>00301 {
+<a name="l00302"></a><a class="code" href="../../d2/dfe/structmozilla_1_1detail_1_1_is_in_range_impl_3_01_t_00_01_u_00_01_is_t_signed_00_01_is_u_signed_00_01true_01_4.html#a7b00801e6efa6dc8dcb0469bf412eaaa">00302</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">run</a>(U)
+<a name="l00303"></a>00303     {
+<a name="l00304"></a>00304        <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00305"></a>00305     }
+<a name="l00306"></a>00306 };
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00309"></a><a class="code" href="../../d0/d0e/structmozilla_1_1detail_1_1_is_in_range_impl_3_01_t_00_01_u_00_01true_00_01true_00_01false_01_4.html">00309</a> <span class="keyword">struct </span><a class="code" href="../../d6/db5/structmozilla_1_1detail_1_1_is_in_range_impl.html">IsInRangeImpl</a>&lt;T, U, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00310"></a>00310 {
+<a name="l00311"></a><a class="code" href="../../d0/d0e/structmozilla_1_1detail_1_1_is_in_range_impl_3_01_t_00_01_u_00_01true_00_01true_00_01false_01_4.html#af0e2dec9c7bf4200842a58927338618e">00311</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">run</a>(U x)
+<a name="l00312"></a>00312     {
+<a name="l00313"></a>00313       <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">x &lt;= MaxValue&lt;T&gt;::value</a> &amp;&amp; x &gt;= <a class="code" href="../../d6/d76/structmozilla_1_1detail_1_1_min_value.html">MinValue&lt;T&gt;::value</a>;
+<a name="l00314"></a>00314     }
+<a name="l00315"></a>00315 };
+<a name="l00316"></a>00316 
+<a name="l00317"></a>00317 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00318"></a><a class="code" href="../../dd/dab/structmozilla_1_1detail_1_1_is_in_range_impl_3_01_t_00_01_u_00_01false_00_01false_00_01false_01_4.html">00318</a> <span class="keyword">struct </span><a class="code" href="../../d6/db5/structmozilla_1_1detail_1_1_is_in_range_impl.html">IsInRangeImpl</a>&lt;T, U, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00319"></a>00319 {
+<a name="l00320"></a><a class="code" href="../../dd/dab/structmozilla_1_1detail_1_1_is_in_range_impl_3_01_t_00_01_u_00_01false_00_01false_00_01false_01_4.html#a6147bf636c2f6b41997c139e4e662dea">00320</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">run</a>(U x)
+<a name="l00321"></a>00321     {
+<a name="l00322"></a>00322       <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">x &lt;= MaxValue&lt;T&gt;::value</a>;
+<a name="l00323"></a>00323     }
+<a name="l00324"></a>00324 };
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00327"></a><a class="code" href="../../d8/dba/structmozilla_1_1detail_1_1_is_in_range_impl_3_01_t_00_01_u_00_01true_00_01false_00_01false_01_4.html">00327</a> <span class="keyword">struct </span><a class="code" href="../../d6/db5/structmozilla_1_1detail_1_1_is_in_range_impl.html">IsInRangeImpl</a>&lt;T, U, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00328"></a>00328 {
+<a name="l00329"></a><a class="code" href="../../d8/dba/structmozilla_1_1detail_1_1_is_in_range_impl_3_01_t_00_01_u_00_01true_00_01false_00_01false_01_4.html#aca343a84cb004c4c927a6e9d9caa9719">00329</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">run</a>(U x)
+<a name="l00330"></a>00330     {
+<a name="l00331"></a>00331       <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(T) &gt; <span class="keyword">sizeof</span>(U) || <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">x &lt;= U(MaxValue&lt;T&gt;::value</a>);
+<a name="l00332"></a>00332     }
+<a name="l00333"></a>00333 };
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00336"></a><a class="code" href="../../dd/da5/structmozilla_1_1detail_1_1_is_in_range_impl_3_01_t_00_01_u_00_01false_00_01true_00_01false_01_4.html">00336</a> <span class="keyword">struct </span><a class="code" href="../../d6/db5/structmozilla_1_1detail_1_1_is_in_range_impl.html">IsInRangeImpl</a>&lt;T, U, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00337"></a>00337 {
+<a name="l00338"></a><a class="code" href="../../dd/da5/structmozilla_1_1detail_1_1_is_in_range_impl_3_01_t_00_01_u_00_01false_00_01true_00_01false_01_4.html#a3987ce941c05c8c6f63e9bcc7aa9a4e3">00338</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">run</a>(U x)
+<a name="l00339"></a>00339     {
+<a name="l00340"></a>00340       <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(T) &gt;= <span class="keyword">sizeof</span>(U)
+<a name="l00341"></a>00341              ? x &gt;= 0
+<a name="l00342"></a>00342              : x &gt;= 0 &amp;&amp; <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">x &lt;= U(MaxValue&lt;T&gt;::value</a>);
+<a name="l00343"></a>00343     }
+<a name="l00344"></a>00344 };
+<a name="l00345"></a>00345 
+<a name="l00346"></a>00346 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00347"></a>00347 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00348"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a4955fc01ba74a063f4555cec625fe7bd">00348</a> <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a4955fc01ba74a063f4555cec625fe7bd">IsInRange</a>(U x)
+<a name="l00349"></a>00349 {
+<a name="l00350"></a>00350   <span class="keywordflow">return</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">IsInRangeImpl&lt;T, U&gt;::run</a>(x);
+<a name="l00351"></a>00351 }
+<a name="l00352"></a>00352 
+<a name="l00353"></a>00353 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00354"></a>00354 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00355"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#af6bdc3fc94f88b866f08735e32039c09">00355</a> <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#af6bdc3fc94f88b866f08735e32039c09">IsAddValid</a>(T x, T y)
+<a name="l00356"></a>00356 {
+<a name="l00357"></a>00357   <span class="comment">// Addition is valid if the sign of x+y is equal to either that of x or that</span>
+<a name="l00358"></a>00358   <span class="comment">// of y. Since the value of x+y is undefined if we have a signed type, we</span>
+<a name="l00359"></a>00359   <span class="comment">// compute it using the unsigned type of the same size.</span>
+<a name="l00360"></a>00360   <span class="comment">// Beware! These bitwise operations can return a larger integer type,</span>
+<a name="l00361"></a>00361   <span class="comment">// if T was a small type like int8_t, so we explicitly cast to T.</span>
+<a name="l00362"></a>00362 
+<a name="l00363"></a>00363   <span class="keyword">typename</span> <a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">UnsignedType&lt;T&gt;::Type</a> ux = x;
+<a name="l00364"></a>00364   <span class="keyword">typename</span> <a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">UnsignedType&lt;T&gt;::Type</a> uy = y;
+<a name="l00365"></a>00365   <span class="keyword">typename</span> <a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">UnsignedType&lt;T&gt;::Type</a> <a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a> = ux + uy;
+<a name="l00366"></a>00366   <span class="keywordflow">return</span> <a class="code" href="../../db/d2f/structmozilla_1_1detail_1_1_is_signed.html">IsSigned&lt;T&gt;::value</a>
+<a name="l00367"></a>00367          ? <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a3734b9f6c100a198c08adf127299b21e">HasSignBit</a>(<a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a341948f73cddf1d37d8f9ef357c91625">BinaryComplement</a>(T((result ^ x) &amp; (result ^ y))))
+<a name="l00368"></a>00368          : <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a341948f73cddf1d37d8f9ef357c91625">BinaryComplement</a>(x) &gt;= y;
+<a name="l00369"></a>00369 }
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00372"></a>00372 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00373"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#aa5e97ae27f6872232c359a45f0aa38de">00373</a> <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#aa5e97ae27f6872232c359a45f0aa38de">IsSubValid</a>(T x, T y)
+<a name="l00374"></a>00374 {
+<a name="l00375"></a>00375   <span class="comment">// Subtraction is valid if either x and y have same sign, or x-y and x have</span>
+<a name="l00376"></a>00376   <span class="comment">// same sign. Since the value of x-y is undefined if we have a signed type,</span>
+<a name="l00377"></a>00377   <span class="comment">// we compute it using the unsigned type of the same size.</span>
+<a name="l00378"></a>00378   <span class="keyword">typename</span> <a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">UnsignedType&lt;T&gt;::Type</a> ux = x;
+<a name="l00379"></a>00379   <span class="keyword">typename</span> <a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">UnsignedType&lt;T&gt;::Type</a> uy = y;
+<a name="l00380"></a>00380   <span class="keyword">typename</span> <a class="code" href="../../de/dc8/structmozilla_1_1detail_1_1_unsigned_type.html#a2c21d88c22cffae34f92475861d2810c">UnsignedType&lt;T&gt;::Type</a> <a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a> = ux - uy;
+<a name="l00381"></a>00381 
+<a name="l00382"></a>00382   <span class="keywordflow">return</span> <a class="code" href="../../db/d2f/structmozilla_1_1detail_1_1_is_signed.html">IsSigned&lt;T&gt;::value</a>
+<a name="l00383"></a>00383          ? <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a3734b9f6c100a198c08adf127299b21e">HasSignBit</a>(<a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a341948f73cddf1d37d8f9ef357c91625">BinaryComplement</a>(T((result ^ x) &amp; (x ^ y))))
+<a name="l00384"></a>00384          : x &gt;= y;
+<a name="l00385"></a>00385 }
+<a name="l00386"></a>00386 
+<a name="l00387"></a>00387 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T,
+<a name="l00388"></a>00388          <span class="keywordtype">bool</span> IsTSigned = <a class="code" href="../../db/d62/structmozilla_1_1_is_signed.html">IsSigned&lt;T&gt;::value</a>,
+<a name="l00389"></a>00389          <span class="keywordtype">bool</span> TwiceBiggerTypeIsSupported =
+<a name="l00390"></a>00390            <a class="code" href="../../d3/d0f/ns_display_item_types_8h.html#a1d1cfd8ffb84e947f82999c682b666a7">IsSupported&lt;typename TwiceBiggerType&lt;T&gt;::Type</a>&gt;<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">::value</a>&gt;
+<a name="l00391"></a><a class="code" href="../../dc/d61/structmozilla_1_1detail_1_1_is_mul_valid_impl.html">00391</a> <span class="keyword">struct </span><a class="code" href="../../dc/d61/structmozilla_1_1detail_1_1_is_mul_valid_impl.html">IsMulValidImpl</a> {};
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keywordtype">bool</span> IsTSigned&gt;
+<a name="l00394"></a><a class="code" href="../../d5/d80/structmozilla_1_1detail_1_1_is_mul_valid_impl_3_01_t_00_01_is_t_signed_00_01true_01_4.html">00394</a> <span class="keyword">struct </span><a class="code" href="../../dc/d61/structmozilla_1_1detail_1_1_is_mul_valid_impl.html">IsMulValidImpl</a>&lt;T, IsTSigned, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&gt;
+<a name="l00395"></a>00395 {
+<a name="l00396"></a><a class="code" href="../../d5/d80/structmozilla_1_1detail_1_1_is_mul_valid_impl_3_01_t_00_01_is_t_signed_00_01true_01_4.html#abb11252f2acf4e1e0e9bdfc3ebb87c76">00396</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">run</a>(T x, T y)
+<a name="l00397"></a>00397     {
+<a name="l00398"></a>00398       <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code" href="../../db/d78/structmozilla_1_1detail_1_1_twice_bigger_type.html#a5aa30df3ba31124b7264067cb9953081">TwiceBiggerType&lt;T&gt;::Type</a> <a class="code" href="../../db/d78/structmozilla_1_1detail_1_1_twice_bigger_type.html">TwiceBiggerType</a>;
+<a name="l00399"></a>00399       TwiceBiggerType product = TwiceBiggerType(x) * TwiceBiggerType(y);
+<a name="l00400"></a>00400       <span class="keywordflow">return</span> IsInRange&lt;T&gt;(product);
+<a name="l00401"></a>00401     }
+<a name="l00402"></a>00402 };
+<a name="l00403"></a>00403 
+<a name="l00404"></a>00404 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00405"></a><a class="code" href="../../db/d7e/structmozilla_1_1detail_1_1_is_mul_valid_impl_3_01_t_00_01true_00_01false_01_4.html">00405</a> <span class="keyword">struct </span><a class="code" href="../../dc/d61/structmozilla_1_1detail_1_1_is_mul_valid_impl.html">IsMulValidImpl</a>&lt;T, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00406"></a>00406 {
+<a name="l00407"></a><a class="code" href="../../db/d7e/structmozilla_1_1detail_1_1_is_mul_valid_impl_3_01_t_00_01true_00_01false_01_4.html#ab53e34aa4c2a356fe732b513755fe8e9">00407</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">run</a>(T x, T y)
+<a name="l00408"></a>00408     {
+<a name="l00409"></a>00409       <span class="keyword">const</span> T <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#a0b0ede69e8156eb97acc579b88e883de">max</a> = <a class="code" href="../../d8/d90/structmozilla_1_1detail_1_1_max_value.html">MaxValue&lt;T&gt;::value</a>;
+<a name="l00410"></a>00410       <span class="keyword">const</span> T <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#aad36546e8175d2922bee165fe028fedc">min</a> = <a class="code" href="../../d6/d76/structmozilla_1_1detail_1_1_min_value.html">MinValue&lt;T&gt;::value</a>;
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412       <span class="keywordflow">if</span> (x == 0 || y == 0)
+<a name="l00413"></a>00413         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00414"></a>00414 
+<a name="l00415"></a>00415       <span class="keywordflow">if</span> (x &gt; 0) {
+<a name="l00416"></a>00416         <span class="keywordflow">return</span> y &gt; 0
+<a name="l00417"></a>00417                ? x &lt;= max / y
+<a name="l00418"></a>00418                : y &gt;= min / x;
+<a name="l00419"></a>00419       }
+<a name="l00420"></a>00420 
+<a name="l00421"></a>00421       <span class="comment">// If we reach this point, we know that x &lt; 0.</span>
+<a name="l00422"></a>00422       <span class="keywordflow">return</span> y &gt; 0
+<a name="l00423"></a>00423              ? x &gt;= min / y
+<a name="l00424"></a>00424              : y &gt;= max / x;
+<a name="l00425"></a>00425     }
+<a name="l00426"></a>00426 };
+<a name="l00427"></a>00427 
+<a name="l00428"></a>00428 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00429"></a><a class="code" href="../../d8/dbe/structmozilla_1_1detail_1_1_is_mul_valid_impl_3_01_t_00_01false_00_01false_01_4.html">00429</a> <span class="keyword">struct </span><a class="code" href="../../dc/d61/structmozilla_1_1detail_1_1_is_mul_valid_impl.html">IsMulValidImpl</a>&lt;T, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00430"></a>00430 {
+<a name="l00431"></a><a class="code" href="../../d8/dbe/structmozilla_1_1detail_1_1_is_mul_valid_impl_3_01_t_00_01false_00_01false_01_4.html#a8c00dfc823337b6f8290c2fbcb9f0c37">00431</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">run</a>(T x, T y)
+<a name="l00432"></a>00432     {
+<a name="l00433"></a>00433       <span class="keywordflow">return</span> y == 0 ||  <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">x &lt;= MaxValue&lt;T&gt;::value</a> / y;
+<a name="l00434"></a>00434     }
+<a name="l00435"></a>00435 };
+<a name="l00436"></a>00436 
+<a name="l00437"></a>00437 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00438"></a>00438 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00439"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a40d3d9f06493f80716b1216d548e9be7">00439</a> <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a40d3d9f06493f80716b1216d548e9be7">IsMulValid</a>(T x, T y)
+<a name="l00440"></a>00440 {
+<a name="l00441"></a>00441   <span class="keywordflow">return</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">IsMulValidImpl&lt;T&gt;::run</a>(x, y);
+<a name="l00442"></a>00442 }
+<a name="l00443"></a>00443 
+<a name="l00444"></a>00444 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00445"></a>00445 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00446"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a4fdde8e826b7b9df3f54c8f3083e94e7">00446</a> <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a4fdde8e826b7b9df3f54c8f3083e94e7">IsDivValid</a>(T x, T y)
+<a name="l00447"></a>00447 {
+<a name="l00448"></a>00448   <span class="comment">// Keep in mind that in the signed case, min/-1 is invalid because abs(min)&gt;max.</span>
+<a name="l00449"></a>00449   <span class="keywordflow">return</span> y != 0 &amp;&amp;
+<a name="l00450"></a>00450          !(<a class="code" href="../../db/d2f/structmozilla_1_1detail_1_1_is_signed.html">IsSigned&lt;T&gt;::value</a> &amp;&amp; x == <a class="code" href="../../d6/d76/structmozilla_1_1detail_1_1_min_value.html">MinValue&lt;T&gt;::value</a> &amp;&amp; y == T(-1));
+<a name="l00451"></a>00451 }
+<a name="l00452"></a>00452 
+<a name="l00453"></a>00453 <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">template&lt;typename T, bool IsTSigned = IsSigned&lt;T&gt;::value</a>&gt;
+<a name="l00454"></a>00454 <span class="keyword">struct </span>IsModValidImpl;
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00457"></a>00457 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00458"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a30e47da18611dd6b5cf10d83a0750b02">00458</a> <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a30e47da18611dd6b5cf10d83a0750b02">IsModValid</a>(T x, T y)
+<a name="l00459"></a>00459 {
+<a name="l00460"></a>00460   <span class="keywordflow">return</span> <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a8e93e7927692a7aaa510abceaf228d6f">IsModValidImpl&lt;T&gt;::run</a>(x, y);
+<a name="l00461"></a>00461 }
+<a name="l00462"></a>00462 
+<a name="l00463"></a>00463 <span class="comment">/*</span>
+<a name="l00464"></a>00464 <span class="comment"> * Mod is pretty simple.</span>
+<a name="l00465"></a>00465 <span class="comment"> * For now, let&#39;s just use the ANSI C definition:</span>
+<a name="l00466"></a>00466 <span class="comment"> * If x or y are negative, the results are implementation defined.</span>
+<a name="l00467"></a>00467 <span class="comment"> *   Consider these invalid.</span>
+<a name="l00468"></a>00468 <span class="comment"> * Undefined for y=0.</span>
+<a name="l00469"></a>00469 <span class="comment"> * The result will never exceed either x or y.</span>
+<a name="l00470"></a>00470 <span class="comment"> *</span>
+<a name="l00471"></a>00471 <span class="comment"> * Checking that x&gt;=0 is a warning when T is unsigned.</span>
+<a name="l00472"></a>00472 <span class="comment"> */</span>
+<a name="l00473"></a>00473 
+<a name="l00474"></a>00474 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00475"></a><a class="code" href="../../de/da2/structmozilla_1_1detail_1_1_is_mod_valid_impl_3_01_t_00_01false_01_4.html">00475</a> <span class="keyword">struct </span>IsModValidImpl&lt;T, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt; {
+<a name="l00476"></a><a class="code" href="../../de/da2/structmozilla_1_1detail_1_1_is_mod_valid_impl_3_01_t_00_01false_01_4.html#a46c867b27db4dd894328f131de9b9d48">00476</a>   <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="../../de/da2/structmozilla_1_1detail_1_1_is_mod_valid_impl_3_01_t_00_01false_01_4.html#a46c867b27db4dd894328f131de9b9d48">run</a>(T x, T y) {
+<a name="l00477"></a>00477     <span class="keywordflow">return</span> y &gt;= 1;
+<a name="l00478"></a>00478   }
+<a name="l00479"></a>00479 };
+<a name="l00480"></a>00480 
+<a name="l00481"></a>00481 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00482"></a><a class="code" href="../../d9/d43/structmozilla_1_1detail_1_1_is_mod_valid_impl_3_01_t_00_01true_01_4.html">00482</a> <span class="keyword">struct </span>IsModValidImpl&lt;T, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&gt; {
+<a name="l00483"></a><a class="code" href="../../d9/d43/structmozilla_1_1detail_1_1_is_mod_valid_impl_3_01_t_00_01true_01_4.html#a9535f269e95b148330e58b28e6cedde7">00483</a>   <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="../../d9/d43/structmozilla_1_1detail_1_1_is_mod_valid_impl_3_01_t_00_01true_01_4.html#a9535f269e95b148330e58b28e6cedde7">run</a>(T x, T y) {
+<a name="l00484"></a>00484     <span class="keywordflow">if</span> (x &lt; 0)
+<a name="l00485"></a>00485       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00486"></a>00486 
+<a name="l00487"></a>00487     <span class="keywordflow">return</span> y &gt;= 1;
+<a name="l00488"></a>00488   }
+<a name="l00489"></a>00489 };
+<a name="l00490"></a>00490 
+<a name="l00491"></a>00491 <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">template&lt;typename T, bool IsSigned = IsSigned&lt;T&gt;::value</a>&gt;
+<a name="l00492"></a>00492 <span class="keyword">struct </span>NegateImpl;
+<a name="l00493"></a>00493 
+<a name="l00494"></a>00494 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00495"></a><a class="code" href="../../df/dbb/structmozilla_1_1detail_1_1_negate_impl_3_01_t_00_01false_01_4.html">00495</a> <span class="keyword">struct </span>NegateImpl&lt;T, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00496"></a>00496 {
+<a name="l00497"></a><a class="code" href="../../df/dbb/structmozilla_1_1detail_1_1_negate_impl_3_01_t_00_01false_01_4.html#aeef3303245b6470e15337e3d5cd07714">00497</a>     <span class="keyword">static</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a> <a class="code" href="../../d3/d91/j3d_8js.html#abc00eb0fd458dc4bc9d7e581b960a322">negate</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a>&amp; <a class="code" href="../../d7/d27/jpeglib_8h.html#abde23394a8cafaa525be2efd5c6d4b2e">val</a>)
+<a name="l00498"></a>00498     {
+<a name="l00499"></a>00499       <span class="comment">// Handle negation separately for signed/unsigned, for simpler code and to</span>
+<a name="l00500"></a>00500       <span class="comment">// avoid an MSVC warning negating an unsigned value.</span>
+<a name="l00501"></a>00501       <span class="keywordflow">return</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a>(0, val.<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aa875473e559646998e2cb4f0f54aedc3">isValid</a>() &amp;&amp; val.<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a> == 0);
+<a name="l00502"></a>00502     }
+<a name="l00503"></a>00503 };
+<a name="l00504"></a>00504 
+<a name="l00505"></a>00505 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00506"></a><a class="code" href="../../db/d18/structmozilla_1_1detail_1_1_negate_impl_3_01_t_00_01true_01_4.html">00506</a> <span class="keyword">struct </span>NegateImpl&lt;T, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&gt;
+<a name="l00507"></a>00507 {
+<a name="l00508"></a><a class="code" href="../../db/d18/structmozilla_1_1detail_1_1_negate_impl_3_01_t_00_01true_01_4.html#acecd41f4a19d85408aaa8e746b33a468">00508</a>     <span class="keyword">static</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a> <a class="code" href="../../d3/d91/j3d_8js.html#abc00eb0fd458dc4bc9d7e581b960a322">negate</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a>&amp; <a class="code" href="../../d7/d27/jpeglib_8h.html#abde23394a8cafaa525be2efd5c6d4b2e">val</a>)
+<a name="l00509"></a>00509     {
+<a name="l00510"></a>00510       <span class="comment">// Watch out for the min-value, which (with twos-complement) can&#39;t be</span>
+<a name="l00511"></a>00511       <span class="comment">// negated as -min-value is then (max-value + 1).</span>
+<a name="l00512"></a>00512       <span class="keywordflow">if</span> (!val.<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aa875473e559646998e2cb4f0f54aedc3">isValid</a>() || val.<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a> == <a class="code" href="../../d6/d76/structmozilla_1_1detail_1_1_min_value.html">MinValue&lt;T&gt;::value</a>)
+<a name="l00513"></a>00513         <span class="keywordflow">return</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a>(val.<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a>, <span class="keyword">false</span>);
+<a name="l00514"></a>00514       <span class="keywordflow">return</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a>(-val.<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a>, <span class="keyword">true</span>);
+<a name="l00515"></a>00515     }
+<a name="l00516"></a>00516 };
+<a name="l00517"></a>00517 
+<a name="l00518"></a>00518 } <span class="comment">// namespace detail</span>
+<a name="l00519"></a>00519 
+<a name="l00520"></a>00520 
+<a name="l00521"></a>00521 <span class="comment">/*</span>
+<a name="l00522"></a>00522 <span class="comment"> * Step 4: Now define the CheckedInt class.</span>
+<a name="l00523"></a>00523 <span class="comment"> */</span>
+<a name="l00524"></a>00524 
+<a name="l00592"></a>00592 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00593"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html">00593</a> <span class="keyword">class </span><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>
+<a name="l00594"></a>00594 {
+<a name="l00595"></a>00595   <span class="keyword">protected</span>:
+<a name="l00596"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">00596</a>     T <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a>;
+<a name="l00597"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">00597</a>     <span class="keywordtype">bool</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a>;
+<a name="l00598"></a>00598 
+<a name="l00599"></a>00599     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00600"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a0cc907e1af97d6f01344af43d8c33e6e">00600</a>     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a4335815f498c3974ee7c223b2c6ee653">CheckedInt</a>(U <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>, <span class="keywordtype">bool</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aa875473e559646998e2cb4f0f54aedc3">isValid</a>) : <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a>(value), <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a>(isValid)
+<a name="l00601"></a>00601     {
+<a name="l00602"></a>00602       <a class="code" href="../../d2/d93/namespacemozilla.html#a3729684868f82552b55b233ac66f7b01">static_assert</a>(<a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">detail::IsSupported&lt;T&gt;::value</a> &amp;&amp;
+<a name="l00603"></a>00603                     <a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">detail::IsSupported&lt;U&gt;::value</a>,
+<a name="l00604"></a>00604                     <span class="stringliteral">&quot;This type is not supported by CheckedInt&quot;</span>);
+<a name="l00605"></a>00605     }
+<a name="l00606"></a>00606 
+<a name="l00607"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a268bdff43971914953db68e6beda5a6e">00607</a>     <span class="keyword">friend</span> <span class="keyword">struct </span>detail::NegateImpl&lt;T&gt;;
+<a name="l00608"></a>00608 
+<a name="l00609"></a>00609   <span class="keyword">public</span>:
+<a name="l00621"></a>00621     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00622"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5ef492c2db102e1e909e9a0fa2c51e07">00622</a>     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a4335815f498c3974ee7c223b2c6ee653">CheckedInt</a>(U <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>)
+<a name="l00623"></a>00623       : <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a>(T(value)),
+<a name="l00624"></a>00624         <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a>(detail::<a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a4955fc01ba74a063f4555cec625fe7bd">IsInRange</a>&lt;T&gt;(value))
+<a name="l00625"></a>00625     {
+<a name="l00626"></a>00626       <a class="code" href="../../d2/d93/namespacemozilla.html#a3729684868f82552b55b233ac66f7b01">static_assert</a>(<a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">detail::IsSupported&lt;T&gt;::value</a> &amp;&amp;
+<a name="l00627"></a>00627                     <a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">detail::IsSupported&lt;U&gt;::value</a>,
+<a name="l00628"></a>00628                     <span class="stringliteral">&quot;This type is not supported by CheckedInt&quot;</span>);
+<a name="l00629"></a>00629     }
+<a name="l00630"></a>00630 
+<a name="l00631"></a>00631     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00632"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a2999063171f9b6f2b4d4441b2abf2d52">00632</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>;
+<a name="l00633"></a>00633 
+<a name="l00634"></a>00634     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00635"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a6dca4f5eeda7601cede7d51a1760872d">00635</a>     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a6dca4f5eeda7601cede7d51a1760872d">toChecked</a>()<span class="keyword"> const</span>
+<a name="l00636"></a>00636 <span class="keyword">    </span>{
+<a name="l00637"></a>00637       <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a> <a class="code" href="../../d6/da5/libpinyin_8js.html#a2a7ba084dafcf16766cf163d1f5fbbba">ret</a>(<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a>);
+<a name="l00638"></a>00638       ret.<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a> = ret.<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a> &amp;&amp; <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a>;
+<a name="l00639"></a>00639       <span class="keywordflow">return</span> <a class="code" href="../../d6/da5/libpinyin_8js.html#a2a7ba084dafcf16766cf163d1f5fbbba">ret</a>;
+<a name="l00640"></a>00640     }
+<a name="l00641"></a>00641 
+<a name="l00643"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a4335815f498c3974ee7c223b2c6ee653">00643</a>     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a4335815f498c3974ee7c223b2c6ee653">CheckedInt</a>() : <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a>(0), <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>)
+<a name="l00644"></a>00644     {
+<a name="l00645"></a>00645       <a class="code" href="../../d2/d93/namespacemozilla.html#a3729684868f82552b55b233ac66f7b01">static_assert</a>(<a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">detail::IsSupported&lt;T&gt;::value</a>,
+<a name="l00646"></a>00646                     <span class="stringliteral">&quot;This type is not supported by CheckedInt&quot;</span>);
+<a name="l00647"></a>00647     }
+<a name="l00648"></a>00648 
+<a name="l00650"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8b36b4a1c385abb43884bcb430fef088">00650</a>     T <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8b36b4a1c385abb43884bcb430fef088">value</a>()<span class="keyword"> const</span>
+<a name="l00651"></a>00651 <span class="keyword">    </span>{
+<a name="l00652"></a>00652       <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a>, <span class="stringliteral">&quot;Invalid checked integer (division by zero or integer overflow)&quot;</span>);
+<a name="l00653"></a>00653       <span class="keywordflow">return</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a>;
+<a name="l00654"></a>00654     }
+<a name="l00655"></a>00655 
+<a name="l00661"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aa875473e559646998e2cb4f0f54aedc3">00661</a>     <span class="keywordtype">bool</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aa875473e559646998e2cb4f0f54aedc3">isValid</a>()<span class="keyword"> const</span>
+<a name="l00662"></a>00662 <span class="keyword">    </span>{
+<a name="l00663"></a>00663       <span class="keywordflow">return</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a>;
+<a name="l00664"></a>00664     }
+<a name="l00665"></a>00665 
+<a name="l00666"></a>00666     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00667"></a>00667     <span class="keyword">friend</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#ad624d9ee3841056390d2f78695c54da7">operator +</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a>&amp; lhs,
+<a name="l00668"></a>00668                                     <span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a>&amp; rhs);
+<a name="l00669"></a>00669     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00670"></a>00670     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>&amp; <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a36f745b635b95b5b3bb222469b0ef634">operator +=</a>(U rhs);
+<a name="l00671"></a>00671 
+<a name="l00672"></a>00672     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00673"></a>00673     <span class="keyword">friend</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a9113d9f3d9084a45123eaee1ccfc10b9">operator -</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a>&amp; lhs,
+<a name="l00674"></a>00674                                     <span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a>&amp; rhs);
+<a name="l00675"></a>00675     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00676"></a>00676     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>&amp; <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a6f4c078a17615065226c979bc6e3fd3a">operator -=</a>(U rhs);
+<a name="l00677"></a>00677 
+<a name="l00678"></a>00678     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00679"></a>00679     <span class="keyword">friend</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a94e1ed12e88299128402485ff53f236f">operator *</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a>&amp; lhs,
+<a name="l00680"></a>00680                                     <span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a>&amp; rhs);
+<a name="l00681"></a>00681     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00682"></a>00682     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>&amp; <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a58b43b6cddc26978a9c25f41a1d61a3e">operator *=</a>(U rhs);
+<a name="l00683"></a>00683 
+<a name="l00684"></a>00684     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00685"></a>00685     <span class="keyword">friend</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#af275f2e36d8227629d9520a0bdac26ca">operator /</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a>&amp; lhs,
+<a name="l00686"></a>00686                                     <span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a>&amp; rhs);
+<a name="l00687"></a>00687     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00688"></a>00688     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>&amp; <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aac2624fd4b61c3b66954f3c7bf45aac1">operator /=</a>(U rhs);
+<a name="l00689"></a>00689 
+<a name="l00690"></a>00690     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00691"></a>00691     <span class="keyword">friend</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a02a8f4844e8033e8e52a53b1551549f5">operator %</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a>&amp; lhs,
+<a name="l00692"></a>00692                                     <span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;U&gt;</a>&amp; rhs);
+<a name="l00693"></a>00693     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00694"></a>00694     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>&amp; <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a9fdb3a8a3bf361cbad0eea3204168bc9">operator %=</a>(U rhs);
+<a name="l00695"></a>00695 
+<a name="l00696"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a9113d9f3d9084a45123eaee1ccfc10b9">00696</a>     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a9113d9f3d9084a45123eaee1ccfc10b9">operator -</a>()<span class="keyword"> const</span>
+<a name="l00697"></a>00697 <span class="keyword">    </span>{
+<a name="l00698"></a>00698       <span class="keywordflow">return</span> <a class="code" href="../../d3/d91/j3d_8js.html#abc00eb0fd458dc4bc9d7e581b960a322">detail::NegateImpl&lt;T&gt;::negate</a>(*<span class="keyword">this</span>);
+<a name="l00699"></a>00699     }
+<a name="l00700"></a>00700 
+<a name="l00719"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aa3f459aecc1110200dab51b050bdf008">00719</a>     <span class="keywordtype">bool</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aa3f459aecc1110200dab51b050bdf008">operator ==</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>&amp; other)<span class="keyword"> const</span>
+<a name="l00720"></a>00720 <span class="keyword">    </span>{
+<a name="l00721"></a>00721       <span class="keywordflow">return</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a> &amp;&amp; other.<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a5c7af97b3aaa092655f98be0dec2ac36">mIsValid</a> &amp;&amp; <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a> == other.<a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a8045f715191eab66c342cd1ffd148c36">mValue</a>;
+<a name="l00722"></a>00722     }
+<a name="l00723"></a>00723 
+<a name="l00725"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#adacd246ebbc79a313cfdff357096d047">00725</a>     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>&amp; <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#adacd246ebbc79a313cfdff357096d047">operator++</a>()
+<a name="l00726"></a>00726     {
+<a name="l00727"></a>00727       *<span class="keyword">this</span> += 1;
+<a name="l00728"></a>00728       <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00729"></a>00729     }
+<a name="l00730"></a>00730 
+<a name="l00732"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#a722019a310adedb97895149f627dc6bb">00732</a>     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#adacd246ebbc79a313cfdff357096d047">operator++</a>(<span class="keywordtype">int</span>)
+<a name="l00733"></a>00733     {
+<a name="l00734"></a>00734       <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a> <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a> = *<span class="keyword">this</span>;
+<a name="l00735"></a>00735       *<span class="keyword">this</span> += 1;
+<a name="l00736"></a>00736       <span class="keywordflow">return</span> <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>;
+<a name="l00737"></a>00737     }
+<a name="l00738"></a>00738 
+<a name="l00740"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aba5cc6bf09a00fcc4749b6b66ff6b8d0">00740</a>     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>&amp; <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aba5cc6bf09a00fcc4749b6b66ff6b8d0">operator--</a>()
+<a name="l00741"></a>00741     {
+<a name="l00742"></a>00742       *<span class="keyword">this</span> -= 1;
+<a name="l00743"></a>00743       <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00744"></a>00744     }
+<a name="l00745"></a>00745 
+<a name="l00747"></a><a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#ab79d2ebe44bf3a6beb3234812213acfc">00747</a>     <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html#aba5cc6bf09a00fcc4749b6b66ff6b8d0">operator--</a>(<span class="keywordtype">int</span>)
+<a name="l00748"></a>00748     {
+<a name="l00749"></a>00749       <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a> <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a> = *<span class="keyword">this</span>;
+<a name="l00750"></a>00750       *<span class="keyword">this</span> -= 1;
+<a name="l00751"></a>00751       <span class="keywordflow">return</span> <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>;
+<a name="l00752"></a>00752     }
+<a name="l00753"></a>00753 
+<a name="l00754"></a>00754   <span class="keyword">private</span>:
+<a name="l00759"></a>00759     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00760"></a>00760     <span class="keywordtype">bool</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a7652895df8c85899a37314e606845781">operator !=</a>(U other) <span class="keyword">const</span> MOZ_DELETE;
+<a name="l00761"></a>00761     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00762"></a>00762     <span class="keywordtype">bool</span> <a class="code" href="../../dd/dc3/gfx_font_features_8h.html#ab360cb58282312da599cef7dacda41f8">operator &lt;</a>(U other) <span class="keyword">const</span> MOZ_DELETE;
+<a name="l00763"></a>00763     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00764"></a>00764     <span class="keywordtype">bool</span> <a class="code" href="../../da/db4/ns_change_hint_8h.html#a5de5184f76a860c6c3fbbe2d814d465a">operator &lt;=</a>(U other) <span class="keyword">const</span> MOZ_DELETE;
+<a name="l00765"></a>00765     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00766"></a>00766     <span class="keywordtype">bool</span> <a class="code" href="../../da/db4/ns_change_hint_8h.html#a024663cc0822a14b406f455d9250d165">operator &gt;</a>(U other) <span class="keyword">const</span> MOZ_DELETE;
+<a name="l00767"></a>00767     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00768"></a>00768     <span class="keywordtype">bool</span> <a class="code" href="../../da/db4/ns_change_hint_8h.html#a094b09b6ac506058e087cb423404ea94">operator &gt;=</a>(U other) <span class="keyword">const</span> MOZ_DELETE;
+<a name="l00769"></a>00769 };
+<a name="l00770"></a>00770 
+<a name="l00771"></a><a class="code" href="../../d1/d4a/_checked_int_8h.html#a98b0cbc78d549b8432ea74fbe56c9e5c">00771</a> <span class="preprocessor">#define MOZ_CHECKEDINT_BASIC_BINARY_OPERATOR(NAME, OP)                \</span>
+<a name="l00772"></a>00772 <span class="preprocessor">template&lt;typename T&gt;                                                  \</span>
+<a name="l00773"></a>00773 <span class="preprocessor">inline CheckedInt&lt;T&gt; operator OP(const CheckedInt&lt;T&gt; &amp;lhs,            \</span>
+<a name="l00774"></a>00774 <span class="preprocessor">                                 const CheckedInt&lt;T&gt; &amp;rhs)            \</span>
+<a name="l00775"></a>00775 <span class="preprocessor">{                                                                     \</span>
+<a name="l00776"></a>00776 <span class="preprocessor">  if (!detail::Is##NAME##Valid(lhs.mValue, rhs.mValue))               \</span>
+<a name="l00777"></a>00777 <span class="preprocessor">    return CheckedInt&lt;T&gt;(0, false);                                   \</span>
+<a name="l00778"></a>00778 <span class="preprocessor">                                                                      \</span>
+<a name="l00779"></a>00779 <span class="preprocessor">  return CheckedInt&lt;T&gt;(lhs.mValue OP rhs.mValue,                      \</span>
+<a name="l00780"></a>00780 <span class="preprocessor">                       lhs.mIsValid &amp;&amp; rhs.mIsValid);                 \</span>
+<a name="l00781"></a>00781 <span class="preprocessor">}</span>
+<a name="l00782"></a>00782 <span class="preprocessor"></span>
+<a name="l00783"></a>00783 <a class="code" href="../../d1/d4a/_checked_int_8h.html#a98b0cbc78d549b8432ea74fbe56c9e5c">MOZ_CHECKEDINT_BASIC_BINARY_OPERATOR</a>(Add, +)
+<a name="l00784"></a>00784 <a class="code" href="../../d1/d4a/_checked_int_8h.html#a98b0cbc78d549b8432ea74fbe56c9e5c">MOZ_CHECKEDINT_BASIC_BINARY_OPERATOR</a>(Sub, -)
+<a name="l00785"></a>00785 <a class="code" href="../../d1/d4a/_checked_int_8h.html#a98b0cbc78d549b8432ea74fbe56c9e5c">MOZ_CHECKEDINT_BASIC_BINARY_OPERATOR</a>(Mul, *)
+<a name="l00786"></a>00786 <a class="code" href="../../d1/d4a/_checked_int_8h.html#a98b0cbc78d549b8432ea74fbe56c9e5c">MOZ_CHECKEDINT_BASIC_BINARY_OPERATOR</a>(Div, /)
+<a name="l00787"></a>00787 <a class="code" href="../../d1/d4a/_checked_int_8h.html#a98b0cbc78d549b8432ea74fbe56c9e5c">MOZ_CHECKEDINT_BASIC_BINARY_OPERATOR</a>(Mod, %)
+<a name="l00788"></a>00788 
+<a name="l00789"></a>00789 <span class="preprocessor">#undef MOZ_CHECKEDINT_BASIC_BINARY_OPERATOR</span>
+<a name="l00790"></a>00790 <span class="preprocessor"></span>
+<a name="l00791"></a>00791 <span class="comment">// Implement castToCheckedInt&lt;T&gt;(x), making sure that</span>
+<a name="l00792"></a>00792 <span class="comment">//  - it allows x to be either a CheckedInt&lt;T&gt; or any integer type</span>
+<a name="l00793"></a>00793 <span class="comment">//    that can be casted to T</span>
+<a name="l00794"></a>00794 <span class="comment">//  - if x is already a CheckedInt&lt;T&gt;, we just return a reference to it,</span>
+<a name="l00795"></a>00795 <span class="comment">//    instead of copying it (optimization)</span>
+<a name="l00796"></a>00796 
+<a name="l00797"></a>00797 <span class="keyword">namespace </span>detail {
+<a name="l00798"></a>00798 
+<a name="l00799"></a>00799 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00800"></a><a class="code" href="../../d0/d5a/structmozilla_1_1detail_1_1_cast_to_checked_int_impl.html">00800</a> <span class="keyword">struct </span><a class="code" href="../../d0/d5a/structmozilla_1_1detail_1_1_cast_to_checked_int_impl.html">CastToCheckedIntImpl</a>
+<a name="l00801"></a>00801 {
+<a name="l00802"></a><a class="code" href="../../d0/d5a/structmozilla_1_1detail_1_1_cast_to_checked_int_impl.html#a7665f8dc2aab887262b947c7cc8b5d24">00802</a>     <span class="keyword">typedef</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a> <a class="code" href="../../d0/d5a/structmozilla_1_1detail_1_1_cast_to_checked_int_impl.html#a7665f8dc2aab887262b947c7cc8b5d24">ReturnType</a>;
+<a name="l00803"></a><a class="code" href="../../d0/d5a/structmozilla_1_1detail_1_1_cast_to_checked_int_impl.html#a2291ad7db3c2da1de625af3dcd4bc24e">00803</a>     <span class="keyword">static</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a> <a class="code" href="../../d0/d5a/structmozilla_1_1detail_1_1_cast_to_checked_int_impl.html#a2291ad7db3c2da1de625af3dcd4bc24e">run</a>(U u) { <span class="keywordflow">return</span> u; }
+<a name="l00804"></a>00804 };
+<a name="l00805"></a>00805 
+<a name="l00806"></a>00806 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00807"></a><a class="code" href="../../df/d50/structmozilla_1_1detail_1_1_cast_to_checked_int_impl_3_01_t_00_01_checked_int_3_01_t_01_4_01_4.html">00807</a> <span class="keyword">struct </span><a class="code" href="../../d0/d5a/structmozilla_1_1detail_1_1_cast_to_checked_int_impl.html">CastToCheckedIntImpl</a>&lt;T, <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt</a>&lt;T&gt; &gt;
+<a name="l00808"></a>00808 {
+<a name="l00809"></a><a class="code" href="../../df/d50/structmozilla_1_1detail_1_1_cast_to_checked_int_impl_3_01_t_00_01_checked_int_3_01_t_01_4_01_4.html#a66ba2e3da3d88360c9274d79b29a68d7">00809</a>     <span class="keyword">typedef</span> <span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a>&amp; <a class="code" href="../../df/d50/structmozilla_1_1detail_1_1_cast_to_checked_int_impl_3_01_t_00_01_checked_int_3_01_t_01_4_01_4.html#a66ba2e3da3d88360c9274d79b29a68d7">ReturnType</a>;
+<a name="l00810"></a><a class="code" href="../../df/d50/structmozilla_1_1detail_1_1_cast_to_checked_int_impl_3_01_t_00_01_checked_int_3_01_t_01_4_01_4.html#a95691c0e431a6c361064dcffa7621341">00810</a>     <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a>&amp; <a class="code" href="../../df/d50/structmozilla_1_1detail_1_1_cast_to_checked_int_impl_3_01_t_00_01_checked_int_3_01_t_01_4_01_4.html#a95691c0e431a6c361064dcffa7621341">run</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a>&amp; u) { <span class="keywordflow">return</span> u; }
+<a name="l00811"></a>00811 };
+<a name="l00812"></a>00812 
+<a name="l00813"></a>00813 } <span class="comment">// namespace detail</span>
+<a name="l00814"></a>00814 
+<a name="l00815"></a>00815 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00816"></a>00816 <span class="keyword">inline</span> <span class="keyword">typename</span> detail::CastToCheckedIntImpl&lt;T, U&gt;::ReturnType
+<a name="l00817"></a><a class="code" href="../../d2/d93/namespacemozilla.html#aeb6e3803c32563aaaead7d6abf5e3eb2">00817</a> <a class="code" href="../../d2/d93/namespacemozilla.html#aeb6e3803c32563aaaead7d6abf5e3eb2">castToCheckedInt</a>(U u)
+<a name="l00818"></a>00818 {
+<a name="l00819"></a>00819   <a class="code" href="../../d2/d93/namespacemozilla.html#a3729684868f82552b55b233ac66f7b01">static_assert</a>(<a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">detail::IsSupported&lt;T&gt;::value</a> &amp;&amp;
+<a name="l00820"></a>00820                 <a class="code" href="../../dc/dac/structmozilla_1_1detail_1_1_is_supported.html">detail::IsSupported&lt;U&gt;::value</a>,
+<a name="l00821"></a>00821                 <span class="stringliteral">&quot;This type is not supported by CheckedInt&quot;</span>);
+<a name="l00822"></a>00822   <span class="keywordflow">return</span> <a class="code" href="../../d0/d5a/structmozilla_1_1detail_1_1_cast_to_checked_int_impl.html#a2291ad7db3c2da1de625af3dcd4bc24e">detail::CastToCheckedIntImpl&lt;T, U&gt;::run</a>(u);
+<a name="l00823"></a>00823 }
+<a name="l00824"></a>00824 
+<a name="l00825"></a><a class="code" href="../../d1/d4a/_checked_int_8h.html#a0a96ddf4a5c30bc9ecf75d734d6f8559">00825</a> <span class="preprocessor">#define MOZ_CHECKEDINT_CONVENIENCE_BINARY_OPERATORS(OP, COMPOUND_OP)  \</span>
+<a name="l00826"></a>00826 <span class="preprocessor">template&lt;typename T&gt;                                              \</span>
+<a name="l00827"></a>00827 <span class="preprocessor">template&lt;typename U&gt;                                              \</span>
+<a name="l00828"></a>00828 <span class="preprocessor">CheckedInt&lt;T&gt;&amp; CheckedInt&lt;T&gt;::operator COMPOUND_OP(U rhs)         \</span>
+<a name="l00829"></a>00829 <span class="preprocessor">{                                                                 \</span>
+<a name="l00830"></a>00830 <span class="preprocessor">  *this = *this OP castToCheckedInt&lt;T&gt;(rhs);                      \</span>
+<a name="l00831"></a>00831 <span class="preprocessor">  return *this;                                                   \</span>
+<a name="l00832"></a>00832 <span class="preprocessor">}                                                                 \</span>
+<a name="l00833"></a>00833 <span class="preprocessor">template&lt;typename T, typename U&gt;                                  \</span>
+<a name="l00834"></a>00834 <span class="preprocessor">inline CheckedInt&lt;T&gt; operator OP(const CheckedInt&lt;T&gt; &amp;lhs, U rhs) \</span>
+<a name="l00835"></a>00835 <span class="preprocessor">{                                                                 \</span>
+<a name="l00836"></a>00836 <span class="preprocessor">  return lhs OP castToCheckedInt&lt;T&gt;(rhs);                         \</span>
+<a name="l00837"></a>00837 <span class="preprocessor">}                                                                 \</span>
+<a name="l00838"></a>00838 <span class="preprocessor">template&lt;typename T, typename U&gt;                                  \</span>
+<a name="l00839"></a>00839 <span class="preprocessor">inline CheckedInt&lt;T&gt; operator OP(U lhs, const CheckedInt&lt;T&gt; &amp;rhs) \</span>
+<a name="l00840"></a>00840 <span class="preprocessor">{                                                                 \</span>
+<a name="l00841"></a>00841 <span class="preprocessor">  return castToCheckedInt&lt;T&gt;(lhs) OP rhs;                         \</span>
+<a name="l00842"></a>00842 <span class="preprocessor">}</span>
+<a name="l00843"></a>00843 <span class="preprocessor"></span>
+<a name="l00844"></a>00844 <a class="code" href="../../d1/d4a/_checked_int_8h.html#a0a96ddf4a5c30bc9ecf75d734d6f8559">MOZ_CHECKEDINT_CONVENIENCE_BINARY_OPERATORS</a>(+, +=)
+<a name="l00845"></a>00845 <a class="code" href="../../d1/d4a/_checked_int_8h.html#a0a96ddf4a5c30bc9ecf75d734d6f8559">MOZ_CHECKEDINT_CONVENIENCE_BINARY_OPERATORS</a>(*, *=)
+<a name="l00846"></a>00846 <a class="code" href="../../d1/d4a/_checked_int_8h.html#a0a96ddf4a5c30bc9ecf75d734d6f8559">MOZ_CHECKEDINT_CONVENIENCE_BINARY_OPERATORS</a>(-, -=)
+<a name="l00847"></a>00847 <a class="code" href="../../d1/d4a/_checked_int_8h.html#a0a96ddf4a5c30bc9ecf75d734d6f8559">MOZ_CHECKEDINT_CONVENIENCE_BINARY_OPERATORS</a>(/, /=)
+<a name="l00848"></a>00848 <a class="code" href="../../d1/d4a/_checked_int_8h.html#a0a96ddf4a5c30bc9ecf75d734d6f8559">MOZ_CHECKEDINT_CONVENIENCE_BINARY_OPERATORS</a>(%, %=)
+<a name="l00849"></a>00849 
+<a name="l00850"></a>00850 <span class="preprocessor">#undef MOZ_CHECKEDINT_CONVENIENCE_BINARY_OPERATORS</span>
+<a name="l00851"></a>00851 <span class="preprocessor"></span>
+<a name="l00852"></a>00852 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00853"></a>00853 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00854"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a3b5997be3b637fe0050a7fc8b5f56a13">00854</a> <a class="code" href="../../d2/d93/namespacemozilla.html#a3b5997be3b637fe0050a7fc8b5f56a13">operator ==</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a> &amp;lhs, U rhs)
+<a name="l00855"></a>00855 {
+<a name="l00856"></a>00856   <span class="keywordflow">return</span> lhs == castToCheckedInt&lt;T&gt;(rhs);
+<a name="l00857"></a>00857 }
+<a name="l00858"></a>00858 
+<a name="l00859"></a>00859 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00860"></a>00860 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00861"></a><a class="code" href="../../d2/d93/namespacemozilla.html#ad7fb2dd361a971497a642f1689e0caf2">00861</a> <a class="code" href="../../d2/d93/namespacemozilla.html#a3b5997be3b637fe0050a7fc8b5f56a13">operator ==</a>(U  lhs, <span class="keyword">const</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;T&gt;</a> &amp;rhs)
+<a name="l00862"></a>00862 {
+<a name="l00863"></a>00863   <span class="keywordflow">return</span> castToCheckedInt&lt;T&gt;(lhs) == rhs;
+<a name="l00864"></a>00864 }
+<a name="l00865"></a>00865 
+<a name="l00866"></a>00866 <span class="comment">// Convenience typedefs.</span>
+<a name="l00867"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a0c0f9ba753c7157ab25672b160faa916">00867</a> <span class="keyword">typedef</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;int8_t&gt;</a>   <a class="code" href="../../d2/d93/namespacemozilla.html#a0c0f9ba753c7157ab25672b160faa916">CheckedInt8</a>;
+<a name="l00868"></a><a class="code" href="../../d2/d93/namespacemozilla.html#aa237d5097c5bad813eec8ee06336ee83">00868</a> <span class="keyword">typedef</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;uint8_t&gt;</a>  <a class="code" href="../../d2/d93/namespacemozilla.html#aa237d5097c5bad813eec8ee06336ee83">CheckedUint8</a>;
+<a name="l00869"></a><a class="code" href="../../d2/d93/namespacemozilla.html#ae77626d2496df884a08d68b54c6fe90e">00869</a> <span class="keyword">typedef</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;int16_t&gt;</a>  <a class="code" href="../../d2/d93/namespacemozilla.html#ae77626d2496df884a08d68b54c6fe90e">CheckedInt16</a>;
+<a name="l00870"></a><a class="code" href="../../d2/d93/namespacemozilla.html#adb513bd7e6cd5c1858274e2259d07cf9">00870</a> <span class="keyword">typedef</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;uint16_t&gt;</a> <a class="code" href="../../d2/d93/namespacemozilla.html#adb513bd7e6cd5c1858274e2259d07cf9">CheckedUint16</a>;
+<a name="l00871"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a24bed291b0937a24a1c6cd07312e16c1">00871</a> <span class="keyword">typedef</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;int32_t&gt;</a>  <a class="code" href="../../d2/d93/namespacemozilla.html#a24bed291b0937a24a1c6cd07312e16c1">CheckedInt32</a>;
+<a name="l00872"></a><a class="code" href="../../d2/d93/namespacemozilla.html#af9a3a2366ecb467166f4e0c43fcf5e51">00872</a> <span class="keyword">typedef</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;uint32_t&gt;</a> <a class="code" href="../../d2/d93/namespacemozilla.html#af9a3a2366ecb467166f4e0c43fcf5e51">CheckedUint32</a>;
+<a name="l00873"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a5f6469016dda72654ede91f5468019ab">00873</a> <span class="keyword">typedef</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;int64_t&gt;</a>  <a class="code" href="../../d2/d93/namespacemozilla.html#a5f6469016dda72654ede91f5468019ab">CheckedInt64</a>;
+<a name="l00874"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a93a0ce832bfab719499ae2678a1111e5">00874</a> <span class="keyword">typedef</span> <a class="code" href="../../dc/d01/classmozilla_1_1_checked_int.html" title="Integer wrapper class checking for integer overflow and other errors.">CheckedInt&lt;uint64_t&gt;</a> <a class="code" href="../../d2/d93/namespacemozilla.html#a93a0ce832bfab719499ae2678a1111e5">CheckedUint64</a>;
+<a name="l00875"></a>00875 
+<a name="l00876"></a>00876 } <span class="comment">// namespace mozilla</span>
+<a name="l00877"></a>00877 
+<a name="l00878"></a>00878 <span class="preprocessor">#endif </span><span class="comment">/* mozilla_CheckedInt_h */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d1/d4a/_checked_int_8h.html">CheckedInt.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:51:12に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+var interfacens_i_class_info =
+[
+    [ "GetClassDescription", "d8/d87/interfacens_i_class_info.html#a783bd12b0c00594391c891ae4e1a7ff6", null ],
+    [ "GetClassID", "d8/d87/interfacens_i_class_info.html#a37fa26eccd5fa2b4ca5d07bb532b4508", null ],
+    [ "GetClassIDNoAlloc", "d8/d87/interfacens_i_class_info.html#afcf292a92129eff6b528ccc1657c304c", null ],
+    [ "GetContractID", "d8/d87/interfacens_i_class_info.html#a3f6cb3903ee05afe1938cc197ce00779", null ],
+    [ "GetFlags", "d8/d87/interfacens_i_class_info.html#a3a69568b8330258c3ba2aa54b6c0e733", null ],
+    [ "GetHelperForLanguage", "d8/d87/interfacens_i_class_info.html#ae167ddfe684aeb0321e3fe98b9840700", null ],
+    [ "getHelperForLanguage", "d8/d87/interfacens_i_class_info.html#a9c14c01b751e64305d4ebe6d225bc266", null ],
+    [ "GetImplementationLanguage", "d8/d87/interfacens_i_class_info.html#acb3568d70784639f490733acced9db93", null ],
+    [ "getInterfaces", "d8/d87/interfacens_i_class_info.html#abf2366fb501ff93b1080b9f3d156efc4", null ],
+    [ "GetInterfaces", "d8/d87/interfacens_i_class_info.html#ab2d8a538f2b259ec022c2ce73f9626db", null ],
+    [ "classDescription", "d8/d87/interfacens_i_class_info.html#a2966f427b38f9e3053f54f31103f2991", null ],
+    [ "classID", "d8/d87/interfacens_i_class_info.html#a2469d4a05d0b4da6de577eb69c216a8a", null ],
+    [ "classIDNoAlloc", "d8/d87/interfacens_i_class_info.html#a1d1caecc9be669e3e47c87dc786673b5", null ],
+    [ "CONTENT_NODE", "d8/d87/interfacens_i_class_info.html#a99a0e1dd6211854ae25e5b7fcffa2f3b", null ],
+    [ "contractID", "d8/d87/interfacens_i_class_info.html#a68b04955486910295b63954ea7e667bc", null ],
+    [ "DOM_OBJECT", "d8/d87/interfacens_i_class_info.html#abc80ea621850b29a7600a1d78babb6b7", null ],
+    [ "flags", "d8/d87/interfacens_i_class_info.html#acded0e2dc28889345020aa8ef2d9734f", null ],
+    [ "implementationLanguage", "d8/d87/interfacens_i_class_info.html#a7cf3e52e2cda4876253284c041f6cae8", null ],
+    [ "MAIN_THREAD_ONLY", "d8/d87/interfacens_i_class_info.html#adbaa380cbcb0deda54a52fae3d9a96d3", null ],
+    [ "PLUGIN_OBJECT", "d8/d87/interfacens_i_class_info.html#ad584742c231aa5c9c5a2617cec8be8aa", null ],
+    [ "RESERVED", "d8/d87/interfacens_i_class_info.html#a6a1e85b1ad1116ae33f7dc893053e4c9", null ],
+    [ "SINGLETON", "d8/d87/interfacens_i_class_info.html#ae0c670ff7b9005d2601e6816d8e8d8c2", null ],
+    [ "SINGLETON_CLASSINFO", "d8/d87/interfacens_i_class_info.html#a13a7a5a62c566dc254ed9bb2952934eb", null ],
+    [ "THREADSAFE", "d8/d87/interfacens_i_class_info.html#a767de265d54062f097d56d64fbf6afe8", null ]
+];

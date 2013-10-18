@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_style_sheet_applicable_state_change_event_01_4 =
+[
+    [ "NativeType", "d4/dd8/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_style_sheet_applicable_state_change_event_01_4.html#af469df546f6df30a8717d32fc0e0cd66", null ]
+];

@@ -1,0 +1,448 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: gfxASurface.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d2/dca/gfx_a_surface_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">gfxASurface.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d2/dca/gfx_a_surface_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 20; indent-tabs-mode: nil; c-basic-offset: 4 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef GFX_ASURFACE_H</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define GFX_ASURFACE_H</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#ifdef MOZ_DUMP_PAINTING</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="preprocessor"> #define MOZ_DUMP_IMAGES</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6d/_memory_reporting_8h.html">mozilla/MemoryReporting.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/db4/gfx_types_8h.html">gfxTypes.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/dab/gfx_rect_8h.html">gfxRect.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/de6/ns_auto_ref_8h.html">nsAutoRef.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html">nsThreadUtils.h</a>&quot;</span>
+<a name="l00019"></a>00019 
+<a name="l00020"></a><a class="code" href="../../d2/dca/gfx_a_surface_8h.html#a17d877b06bebaf368693c73860584555">00020</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>_cairo_surface <a class="code" href="../../d3/d6e/cairo_8h.html#a17d877b06bebaf368693c73860584555">cairo_surface_t</a>;
+<a name="l00021"></a><a class="code" href="../../d2/dca/gfx_a_surface_8h.html#ab611c815ec623f5e867284a79c90b777">00021</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d5/dae/struct__cairo__user__data__key.html">_cairo_user_data_key</a> <a class="code" href="../../d5/dae/struct__cairo__user__data__key.html">cairo_user_data_key_t</a>;
+<a name="l00022"></a>00022 
+<a name="l00023"></a><a class="code" href="../../d2/dca/gfx_a_surface_8h.html#a1392d8a31a35e3dc9b822a4eb54a254d">00023</a> <span class="keyword">typedef</span> <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a> (*<a class="code" href="../../d2/dca/gfx_a_surface_8h.html#a1392d8a31a35e3dc9b822a4eb54a254d">thebes_destroy_func_t</a>) (<span class="keywordtype">void</span> *<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>);
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="keyword">class </span><a class="code" href="../../db/d54/classgfx_image_surface.html">gfxImageSurface</a>;
+<a name="l00026"></a>00026 <span class="keyword">struct </span><a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>;
+<a name="l00027"></a>00027 <span class="keyword">struct </span><a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>;
+<a name="l00028"></a>00028 
+<a name="l00033"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html">00033</a> <span class="keyword">class </span><a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a> {
+<a name="l00034"></a>00034 <span class="keyword">public</span>:
+<a name="l00035"></a>00035 <span class="preprocessor">#ifdef MOZILLA_INTERNAL_API</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span>    <a class="code" href="../../d3/dd8/nscore_8h.html#a55d97bea9d9bcf37f34284c3bf447f51">nsrefcnt</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#abe6d622486a5070e7972b1c1ed9513fb">AddRef</a>(<span class="keywordtype">void</span>);
+<a name="l00037"></a>00037     <a class="code" href="../../d3/dd8/nscore_8h.html#a55d97bea9d9bcf37f34284c3bf447f51">nsrefcnt</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a7b24da1488550f64a067472a976b0ac4">Release</a>(<span class="keywordtype">void</span>);
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039     <span class="comment">// These functions exist so that browsercomps can refcount a gfxASurface</span>
+<a name="l00040"></a>00040     <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a55d97bea9d9bcf37f34284c3bf447f51">nsrefcnt</a> AddRefExternal(<span class="keywordtype">void</span>)
+<a name="l00041"></a>00041     {
+<a name="l00042"></a>00042       <span class="keywordflow">return</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#abe6d622486a5070e7972b1c1ed9513fb">AddRef</a>();
+<a name="l00043"></a>00043     }
+<a name="l00044"></a>00044     <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a55d97bea9d9bcf37f34284c3bf447f51">nsrefcnt</a> ReleaseExternal(<span class="keywordtype">void</span>)
+<a name="l00045"></a>00045     {
+<a name="l00046"></a>00046       <span class="keywordflow">return</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a7b24da1488550f64a067472a976b0ac4">Release</a>();
+<a name="l00047"></a>00047     }
+<a name="l00048"></a>00048 <span class="preprocessor">#else</span>
+<a name="l00049"></a>00049 <span class="preprocessor"></span>    <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a55d97bea9d9bcf37f34284c3bf447f51">nsrefcnt</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#abe6d622486a5070e7972b1c1ed9513fb">AddRef</a>(<span class="keywordtype">void</span>);
+<a name="l00050"></a>00050     <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a55d97bea9d9bcf37f34284c3bf447f51">nsrefcnt</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a7b24da1488550f64a067472a976b0ac4">Release</a>(<span class="keywordtype">void</span>);
+<a name="l00051"></a>00051 <span class="preprocessor">#endif</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span>
+<a name="l00053"></a>00053 <span class="keyword">public</span>:
+<a name="l00058"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893e">00058</a>     <span class="keyword">typedef</span> <span class="keyword">enum</span> {
+<a name="l00059"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893eabfe2cbad27b5bfb8e5543c0f9715315c">00059</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893eabfe2cbad27b5bfb8e5543c0f9715315c" title="ARGB data in native endianness, using premultiplied alpha.">ImageFormatARGB32</a>, 
+<a name="l00060"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893ea1dad9938e39e4b5d9ab1fa7323ce6f09">00060</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893ea1dad9938e39e4b5d9ab1fa7323ce6f09" title="xRGB data in native endianness">ImageFormatRGB24</a>,  
+<a name="l00061"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893ea827a26d2aa121e4b521b4511b9a8fe2a">00061</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893ea827a26d2aa121e4b521b4511b9a8fe2a" title="Only an alpha channel.">ImageFormatA8</a>,     
+<a name="l00062"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893eaf52a71fe60d999c5eac8dbc43aaf0eb4">00062</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893eaf52a71fe60d999c5eac8dbc43aaf0eb4" title="Packed transparency information (one byte refers to 8 pixels)">ImageFormatA1</a>,     
+<a name="l00063"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893ea8cb335a031b93b448e4bb0cc9b16b83c">00063</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893ea8cb335a031b93b448e4bb0cc9b16b83c" title="RGB_565 data in native endianness.">ImageFormatRGB16_565</a>,  
+<a name="l00064"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893eacb3b58971c27a2f6ec763ec1986ceb5f">00064</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893eacb3b58971c27a2f6ec763ec1986ceb5f">ImageFormatUnknown</a>
+<a name="l00065"></a>00065     } <a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893e">gfxImageFormat</a>;
+<a name="l00066"></a>00066 
+<a name="l00067"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840">00067</a>     <span class="keyword">typedef</span> <span class="keyword">enum</span> {
+<a name="l00068"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840af707b8479da6ff26f34f3bbf1dda3814">00068</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840af707b8479da6ff26f34f3bbf1dda3814">SurfaceTypeImage</a>,
+<a name="l00069"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a3cc78b088ef4323a54e762b724db5087">00069</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a3cc78b088ef4323a54e762b724db5087">SurfaceTypePDF</a>,
+<a name="l00070"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840aeee91b0e3c661c438656028da75665df">00070</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840aeee91b0e3c661c438656028da75665df">SurfaceTypePS</a>,
+<a name="l00071"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a67cc6372cbed049f0b34f79026895bc6">00071</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a67cc6372cbed049f0b34f79026895bc6">SurfaceTypeXlib</a>,
+<a name="l00072"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a37f01bccdb1413574d1c430c9a12890f">00072</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a37f01bccdb1413574d1c430c9a12890f">SurfaceTypeXcb</a>,
+<a name="l00073"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a0778b9a0ef7faeacd5382ed11eea9cb7">00073</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a0778b9a0ef7faeacd5382ed11eea9cb7">SurfaceTypeGlitz</a>,           <span class="comment">// unused, but needed for cairo parity</span>
+<a name="l00074"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a857b759df2cf079b4c91a66fc92b472a">00074</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a857b759df2cf079b4c91a66fc92b472a">SurfaceTypeQuartz</a>,
+<a name="l00075"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a3280ba73912eec9b8c0e2d38b0d2b247">00075</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a3280ba73912eec9b8c0e2d38b0d2b247">SurfaceTypeWin32</a>,
+<a name="l00076"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ae5de27e9f82f270b238ce66ab3a00058">00076</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ae5de27e9f82f270b238ce66ab3a00058">SurfaceTypeBeOS</a>,
+<a name="l00077"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ad8ed3dedda3ddbbc19b6e1e727994167">00077</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ad8ed3dedda3ddbbc19b6e1e727994167">SurfaceTypeDirectFB</a>,        <span class="comment">// unused, but needed for cairo parity</span>
+<a name="l00078"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a2b4eec116a2079b87d5842532b83a90e">00078</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a2b4eec116a2079b87d5842532b83a90e">SurfaceTypeSVG</a>,
+<a name="l00079"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ab7fcff631dd5fb01dfa336915c8eb129">00079</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ab7fcff631dd5fb01dfa336915c8eb129">SurfaceTypeOS2</a>,
+<a name="l00080"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ae2a7f5bbc91828d66ceaebb0c8b20dfc">00080</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ae2a7f5bbc91828d66ceaebb0c8b20dfc">SurfaceTypeWin32Printing</a>,
+<a name="l00081"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ae2ff2486a85997627132fefbf757a5ea">00081</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ae2ff2486a85997627132fefbf757a5ea">SurfaceTypeQuartzImage</a>,
+<a name="l00082"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ade44c591fe195cb52beab9a7958c0189">00082</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ade44c591fe195cb52beab9a7958c0189">SurfaceTypeScript</a>,
+<a name="l00083"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a67937880e4309d0d878b51a2955e0425">00083</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a67937880e4309d0d878b51a2955e0425">SurfaceTypeQPainter</a>,
+<a name="l00084"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840adf11f67d0bbc2af397eaf22dc981cfae">00084</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840adf11f67d0bbc2af397eaf22dc981cfae">SurfaceTypeRecording</a>,
+<a name="l00085"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a79d245e6948c0c74a15eb3270a33716c">00085</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a79d245e6948c0c74a15eb3270a33716c">SurfaceTypeVG</a>,
+<a name="l00086"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840aebcffbc1eeb79826833640ad6626169a">00086</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840aebcffbc1eeb79826833640ad6626169a">SurfaceTypeGL</a>,
+<a name="l00087"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ae576ed70bd268ffc2d77018ab5d12153">00087</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ae576ed70bd268ffc2d77018ab5d12153">SurfaceTypeDRM</a>,
+<a name="l00088"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a77577eed28e0912559864f1ca2a46024">00088</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840a77577eed28e0912559864f1ca2a46024">SurfaceTypeTee</a>,
+<a name="l00089"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ae1e17634d84f73bef74c6cb5f5de3181">00089</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ae1e17634d84f73bef74c6cb5f5de3181">SurfaceTypeXML</a>,
+<a name="l00090"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840af17e186ad9da68d7e6a43d9fff9f5c10">00090</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840af17e186ad9da68d7e6a43d9fff9f5c10">SurfaceTypeSkia</a>,
+<a name="l00091"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840af6f3ca5023f43c24bdbc4cf0f30b666c">00091</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840af6f3ca5023f43c24bdbc4cf0f30b666c">SurfaceTypeSubsurface</a>,
+<a name="l00092"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840aeef5899c832dc027ed5dcff65e106316">00092</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840aeef5899c832dc027ed5dcff65e106316">SurfaceTypeD2D</a>,
+<a name="l00093"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ac8856937ccc1a8b0e3b9a4e07aaa3461">00093</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840ac8856937ccc1a8b0e3b9a4e07aaa3461">SurfaceTypeMax</a>
+<a name="l00094"></a>00094     } <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840">gfxSurfaceType</a>;
+<a name="l00095"></a>00095 
+<a name="l00096"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">00096</a>     <span class="keyword">typedef</span> <span class="keyword">enum</span> {
+<a name="l00097"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360ad5368db6fb001e911e277158f467f2a1">00097</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360ad5368db6fb001e911e277158f467f2a1">CONTENT_COLOR</a>       = 0x1000,
+<a name="l00098"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360a27c69bd041101583cd00bac2dd7c83c9">00098</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360a27c69bd041101583cd00bac2dd7c83c9">CONTENT_ALPHA</a>       = 0x2000,
+<a name="l00099"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360a7c23c84c574c4ce1c870f49cba085072">00099</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360a7c23c84c574c4ce1c870f49cba085072">CONTENT_COLOR_ALPHA</a> = 0x3000,
+<a name="l00100"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360abd0dc20fc2c758fcff6aea4937bbebba">00100</a>         <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360abd0dc20fc2c758fcff6aea4937bbebba">CONTENT_SENTINEL</a>    = 0xffff
+<a name="l00101"></a>00101     } <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">gfxContentType</a>;
+<a name="l00102"></a>00102 
+<a name="l00106"></a>00106     <span class="keyword">static</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxASurface&gt;</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ab5c664fab5dee87aa5df27994d640dd7">Wrap</a>(<a class="code" href="../../d3/d6e/cairo_8h.html#a17d877b06bebaf368693c73860584555">cairo_surface_t</a> *csurf);
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108     <span class="comment">/*** this DOES NOT addref the surface */</span>
+<a name="l00109"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a012beeaa5810c539ea1e731db497e01e">00109</a>     <a class="code" href="../../d3/d6e/cairo_8h.html#a17d877b06bebaf368693c73860584555">cairo_surface_t</a> *<a class="code" href="../../d4/d14/classgfx_a_surface.html#a012beeaa5810c539ea1e731db497e01e">CairoSurface</a>() {
+<a name="l00110"></a>00110         <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html#a328e053da9de6123cb1a01700554aa4d">mSurface</a> != <span class="keyword">nullptr</span>, <span class="stringliteral">&quot;gfxASurface::CairoSurface called with mSurface == nullptr!&quot;</span>);
+<a name="l00111"></a>00111         <span class="keywordflow">return</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a328e053da9de6123cb1a01700554aa4d">mSurface</a>;
+<a name="l00112"></a>00112     }
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114     <a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840">gfxSurfaceType</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#aef3748265e6d218717c3305f2c68f9f1">GetType</a>() <span class="keyword">const</span>;
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116     <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">gfxContentType</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a4eb0d613190757f1cdc4727fb9144b85">GetContentType</a>() <span class="keyword">const</span>;
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a26b2b2d79fa73ff9dd7e875719352c30">SetDeviceOffset</a>(<span class="keyword">const</span> <a class="code" href="../../d6/dfb/structgfx_point.html">gfxPoint</a>&amp; <a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>);
+<a name="l00119"></a>00119     <a class="code" href="../../d6/dfb/structgfx_point.html">gfxPoint</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a8544d53ef161fc86556564c21ac4b4ac">GetDeviceOffset</a>() <span class="keyword">const</span>;
+<a name="l00120"></a>00120 
+<a name="l00121"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a32bcadbd5720d1e2cf84e26e70dd2131">00121</a>     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a32bcadbd5720d1e2cf84e26e70dd2131">GetRotateForLandscape</a>() { <span class="keywordflow">return</span> <span class="keyword">false</span>; }
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a6a9b2e374895b66fa83b3a0bb994a473">Flush</a>() <span class="keyword">const</span>;
+<a name="l00124"></a>00124     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ab48d1c65f2b7e8bc3fca38231a894e11">MarkDirty</a>();
+<a name="l00125"></a>00125     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ab48d1c65f2b7e8bc3fca38231a894e11">MarkDirty</a>(<span class="keyword">const</span> <a class="code" href="../../de/d69/structgfx_rect.html">gfxRect</a>&amp; r);
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127     <span class="comment">/* Printing backend functions */</span>
+<a name="l00128"></a>00128     <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a63a95e3fbf687887d91e4b55f623ef15">BeginPrinting</a>(<span class="keyword">const</span> nsAString&amp; aTitle, <span class="keyword">const</span> nsAString&amp; aPrintToFileName);
+<a name="l00129"></a>00129     <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#adb1d53151ed3e8299817f0b0692d675d">EndPrinting</a>();
+<a name="l00130"></a>00130     <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#afa292ffd931cc8305bdd2b96ae60f8fb">AbortPrinting</a>();
+<a name="l00131"></a>00131     <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#af475a8f73aed5d9190ab8c7b47308598">BeginPage</a>();
+<a name="l00132"></a>00132     <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a860eed44a789a3ea6b623334d644e1f0">EndPage</a>();
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#af8818dc3fd614939a9942d72834b8ba8">SetData</a>(<span class="keyword">const</span> <a class="code" href="../../d5/dae/struct__cairo__user__data__key.html">cairo_user_data_key_t</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>,
+<a name="l00135"></a>00135                  <span class="keywordtype">void</span> *user_data,
+<a name="l00136"></a>00136                  <a class="code" href="../../d2/dca/gfx_a_surface_8h.html#a1392d8a31a35e3dc9b822a4eb54a254d">thebes_destroy_func_t</a> <a class="code" href="../../db/d0b/_image_editor_8js.html#ab508a76bce0563fb932c738c5d3ff9ed">destroy</a>);
+<a name="l00137"></a>00137     <span class="keywordtype">void</span> *<a class="code" href="../../d4/d14/classgfx_a_surface.html#a1d1fe739046f9f41eada364369ae4de2">GetData</a>(<span class="keyword">const</span> <a class="code" href="../../d5/dae/struct__cairo__user__data__key.html">cairo_user_data_key_t</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>);
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#abaf76088d70eaa6a032cef080eb2622e">Finish</a>();
+<a name="l00140"></a>00140 
+<a name="l00146"></a>00146     <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxASurface&gt;</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ad614b42b80bd13a7759b50adb24c9980">CreateSimilarSurface</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">gfxContentType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00147"></a>00147                                                                <span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a>&amp; aSize);
+<a name="l00148"></a>00148 
+<a name="l00154"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a45b74332e781fa42db74588ad87ae24a">00154</a>     <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxImageSurface&gt;</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a45b74332e781fa42db74588ad87ae24a">GetAsImageSurface</a>()
+<a name="l00155"></a>00155     {
+<a name="l00156"></a>00156       <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00157"></a>00157     }
+<a name="l00158"></a>00158 
+<a name="l00164"></a>00164     <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxImageSurface&gt;</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#afc3f39eebf1e6a4c8c0f23167437e7ab">GetAsReadableARGB32ImageSurface</a>();
+<a name="l00165"></a>00165 
+<a name="l00170"></a>00170     <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxImageSurface&gt;</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a82edaaddb5976cb03a2208dad0b0263f">CopyToARGB32ImageSurface</a>();
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172     <span class="keywordtype">int</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a9ec3677e047c9e9bfafb1af2719e55be">CairoStatus</a>();
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174     <span class="comment">/* Make sure that the given dimensions don&#39;t overflow a 32-bit signed int</span>
+<a name="l00175"></a>00175 <span class="comment">     * using 4 bytes per pixel; optionally, make sure that either dimension</span>
+<a name="l00176"></a>00176 <span class="comment">     * doesn&#39;t exceed the given limit.</span>
+<a name="l00177"></a>00177 <span class="comment">     */</span>
+<a name="l00178"></a>00178     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a1751288e0f8a7edcb6bb79eba2601365">CheckSurfaceSize</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a>&amp; sz, int32_t limit = 0);
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180     <span class="comment">/* Provide a stride value that will respect all alignment requirements of</span>
+<a name="l00181"></a>00181 <span class="comment">     * the accelerated image-rendering code.</span>
+<a name="l00182"></a>00182 <span class="comment">     */</span>
+<a name="l00183"></a>00183     <span class="keyword">static</span> int32_t <a class="code" href="../../d4/d14/classgfx_a_surface.html#a5ebd2fd027757c378048433177f10aa5">FormatStrideForWidth</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893e">gfxImageFormat</a> <a class="code" href="../../d5/dca/reply__imap__email__test_8js.html#a63214d8f1727e71292b73e09dc39644f">format</a>, int32_t <a class="code" href="../../d4/d8c/viewphoto_8js.html#adb90f9ed3668a895cc5b90a19bcdee13">width</a>);
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185     <span class="comment">/* Return the default set of context flags for this surface; these are</span>
+<a name="l00186"></a>00186 <span class="comment">     * hints to the context about any special rendering considerations.  See</span>
+<a name="l00187"></a>00187 <span class="comment">     * gfxContext::SetFlag for documentation.</span>
+<a name="l00188"></a>00188 <span class="comment">     */</span>
+<a name="l00189"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a3e444ce901839cc1cac963e6a3c98feb">00189</a>     <span class="keyword">virtual</span> int32_t <a class="code" href="../../d4/d14/classgfx_a_surface.html#a3e444ce901839cc1cac963e6a3c98feb">GetDefaultContextFlags</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> 0; }
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191     <span class="keyword">static</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">gfxContentType</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ae940a3bf75ceb7e5a82ab73c6f04da47">ContentFromFormat</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893e">gfxImageFormat</a> <a class="code" href="../../d5/dca/reply__imap__email__test_8js.html#a63214d8f1727e71292b73e09dc39644f">format</a>);
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a35cfa78432e8e36579e2a85ae59717ce">SetSubpixelAntialiasingEnabled</a>(<span class="keywordtype">bool</span> aEnabled);
+<a name="l00194"></a>00194     <span class="keywordtype">bool</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ac063c8196b77fd0229b1abc8a6c49bbd">GetSubpixelAntialiasingEnabled</a>();
+<a name="l00195"></a>00195 
+<a name="l00200"></a>00200     <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a8552e17e1896ecffdf73d9dd9dcfb4fe">RecordMemoryUsedForSurfaceType</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html#af05f45d9ee59afe8303899339ffff840">gfxASurface::gfxSurfaceType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00201"></a>00201                                                int32_t aBytes);
+<a name="l00202"></a>00202 
+<a name="l00209"></a>00209     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a283f133cc0fa6d262a138ee2457f3221">RecordMemoryUsed</a>(int32_t aBytes);
+<a name="l00210"></a>00210     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a8fa0b223d9cb76ca8e40290795a61556">RecordMemoryFreed</a>();
+<a name="l00211"></a>00211 
+<a name="l00212"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#ab38745b811c7d51b56e24de0a1863238">00212</a>     <span class="keyword">virtual</span> int32_t <a class="code" href="../../d4/d14/classgfx_a_surface.html#ab38745b811c7d51b56e24de0a1863238">KnownMemoryUsed</a>() { <span class="keywordflow">return</span> mBytesRecorded; }
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214     <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ac8ea2dfb8fae448cd3a360a37d9d2ed9">SizeOfExcludingThis</a>(mozilla::MallocSizeOf aMallocSizeOf) <span class="keyword">const</span>;
+<a name="l00215"></a>00215     <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a3d075052315eaa1b4e8ff444c77b15f4">SizeOfIncludingThis</a>(mozilla::MallocSizeOf aMallocSizeOf) <span class="keyword">const</span>;
+<a name="l00216"></a>00216     <span class="comment">// gfxASurface has many sub-classes.  This method indicates if a sub-class</span>
+<a name="l00217"></a>00217     <span class="comment">// is capable of measuring its own size accurately.  If not, the caller</span>
+<a name="l00218"></a>00218     <span class="comment">// must fall back to a computed size.  (Note that gfxASurface can actually</span>
+<a name="l00219"></a>00219     <span class="comment">// measure itself, but we must |return false| here because it serves as the</span>
+<a name="l00220"></a>00220     <span class="comment">// (conservative) default for all the sub-classes.  Therefore, this</span>
+<a name="l00221"></a>00221     <span class="comment">// function should only be called on a |gfxASurface*| that actually points</span>
+<a name="l00222"></a>00222     <span class="comment">// to a sub-class of gfxASurface.)</span>
+<a name="l00223"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#ad26cfa5373a6b69fadc60421e2afd1f1">00223</a>     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ad26cfa5373a6b69fadc60421e2afd1f1">SizeOfIsMeasured</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">false</span>; }
+<a name="l00224"></a>00224 
+<a name="l00230"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a05271f980947886fec44467d778e4f65">00230</a>     <span class="keyword">enum</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a05271f980947886fec44467d778e4f65">MemoryLocation</a> {
+<a name="l00231"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a05271f980947886fec44467d778e4f65add800af09f02cf14cd844c8ecd2de98f">00231</a>       <a class="code" href="../../d4/d14/classgfx_a_surface.html#a05271f980947886fec44467d778e4f65add800af09f02cf14cd844c8ecd2de98f">MEMORY_IN_PROCESS_HEAP</a>,
+<a name="l00232"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a05271f980947886fec44467d778e4f65a10a9c8210202cf634e1302ab3fb54472">00232</a>       <a class="code" href="../../d4/d14/classgfx_a_surface.html#a05271f980947886fec44467d778e4f65a10a9c8210202cf634e1302ab3fb54472">MEMORY_IN_PROCESS_NONHEAP</a>,
+<a name="l00233"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a05271f980947886fec44467d778e4f65abf0eb86f4670dae5d502e8aec92203d7">00233</a>       <a class="code" href="../../d4/d14/classgfx_a_surface.html#a05271f980947886fec44467d778e4f65abf0eb86f4670dae5d502e8aec92203d7">MEMORY_OUT_OF_PROCESS</a>
+<a name="l00234"></a>00234     };
+<a name="l00235"></a>00235 
+<a name="l00240"></a>00240     <span class="keyword">virtual</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a05271f980947886fec44467d778e4f65">MemoryLocation</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a3744964c1d059158736758727a6f37d6">GetMemoryLocation</a>() <span class="keyword">const</span>;
+<a name="l00241"></a>00241 
+<a name="l00242"></a>00242     <span class="keyword">static</span> int32_t <a class="code" href="../../d4/d14/classgfx_a_surface.html#af4214afb64ccf8d12d24eb05c7b15e61">BytePerPixelFromFormat</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893e">gfxImageFormat</a> <a class="code" href="../../d5/dca/reply__imap__email__test_8js.html#a63214d8f1727e71292b73e09dc39644f">format</a>);
+<a name="l00243"></a>00243 
+<a name="l00244"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a77777e62cf4416eb68086ca7db85b150">00244</a>     <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a77777e62cf4416eb68086ca7db85b150">GetSize</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../d2/d6f/gfx_point_8h.html#add335e0baf263a2d231155eb780daabb">gfxIntSize</a>(-1, -1); }
+<a name="l00245"></a>00245 
+<a name="l00253"></a>00253     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa17e9662a2c1b0ab0ad193b6341879f">WriteAsPNG</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* aFile);
+<a name="l00254"></a>00254 
+<a name="l00258"></a>00258     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a47f87de02b8f2d790eee93763367d796">DumpAsDataURL</a>(<a class="code" href="../../d1/ddf/ns_i_content_viewer_file_8idl.html#a2a9799b7b2af884315027dd95725e0c3">FILE</a>* aOutput = stdout);
+<a name="l00259"></a>00259 
+<a name="l00263"></a>00263     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a192845c516e3188371fbe755c86f198b">PrintAsDataURL</a>();
+<a name="l00264"></a>00264 
+<a name="l00268"></a>00268     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a5ac72d843a622355d4d950520af91dee">CopyAsDataURL</a>();
+<a name="l00269"></a>00269     
+<a name="l00270"></a>00270     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a38327b64ec49571e6d002a2e53bfdaca">WriteAsPNG_internal</a>(<a class="code" href="../../d1/ddf/ns_i_content_viewer_file_8idl.html#a2a9799b7b2af884315027dd95725e0c3">FILE</a>* aFile, <span class="keywordtype">bool</span> aBinary);
+<a name="l00271"></a>00271 
+<a name="l00272"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#ae4eff0e6b0e846b8256a460dd0ccf086">00272</a>     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ae4eff0e6b0e846b8256a460dd0ccf086">SetOpaqueRect</a>(<span class="keyword">const</span> <a class="code" href="../../de/d69/structgfx_rect.html">gfxRect</a>&amp; aRect) {
+<a name="l00273"></a>00273         <span class="keywordflow">if</span> (aRect.<a class="code" href="../../dc/db8/structmozilla_1_1gfx_1_1_base_rect.html#a50d5fc04c803fb5ede9fd7cc39db78d6">IsEmpty</a>()) {
+<a name="l00274"></a>00274             <a class="code" href="../../d4/d14/classgfx_a_surface.html#aab1156b89a9bae878bc2063a96fbf285">mOpaqueRect</a> = <span class="keyword">nullptr</span>;
+<a name="l00275"></a>00275         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d4/d14/classgfx_a_surface.html#aab1156b89a9bae878bc2063a96fbf285">mOpaqueRect</a>) {
+<a name="l00276"></a>00276             *<a class="code" href="../../d4/d14/classgfx_a_surface.html#aab1156b89a9bae878bc2063a96fbf285">mOpaqueRect</a> = aRect;
+<a name="l00277"></a>00277         } <span class="keywordflow">else</span> {
+<a name="l00278"></a>00278             <a class="code" href="../../d4/d14/classgfx_a_surface.html#aab1156b89a9bae878bc2063a96fbf285">mOpaqueRect</a> = <span class="keyword">new</span> <a class="code" href="../../d5/d28/img_i_container_8idl.html#ae52018f593e11f35ff14c47dd990cbc5">gfxRect</a>(aRect);
+<a name="l00279"></a>00279         }
+<a name="l00280"></a>00280     }
+<a name="l00281"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a5098fade63c181c73ca56ec191331e68">00281</a>     <span class="keyword">const</span> <a class="code" href="../../de/d69/structgfx_rect.html">gfxRect</a>&amp; <a class="code" href="../../d4/d14/classgfx_a_surface.html#a5098fade63c181c73ca56ec191331e68">GetOpaqueRect</a>() {
+<a name="l00282"></a>00282         <span class="keywordflow">if</span> (<a class="code" href="../../d4/d14/classgfx_a_surface.html#aab1156b89a9bae878bc2063a96fbf285">mOpaqueRect</a>)
+<a name="l00283"></a>00283             <span class="keywordflow">return</span> *<a class="code" href="../../d4/d14/classgfx_a_surface.html#aab1156b89a9bae878bc2063a96fbf285">mOpaqueRect</a>;
+<a name="l00284"></a>00284         <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="../../de/d69/structgfx_rect.html">gfxRect</a> empty(0, 0, 0, 0);
+<a name="l00285"></a>00285         <span class="keywordflow">return</span> empty;
+<a name="l00286"></a>00286     }
+<a name="l00287"></a>00287 
+<a name="l00298"></a>00298     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ae277f172bf780d053709a7e908510f53">MovePixels</a>(<span class="keyword">const</span> <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>&amp; aSourceRect,
+<a name="l00299"></a>00299                             <span class="keyword">const</span> <a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>&amp; aDestTopLeft);
+<a name="l00300"></a>00300 
+<a name="l00304"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a9dfec9ef6eccb13b40e8170f99bdcfd9">00304</a>     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a9dfec9ef6eccb13b40e8170f99bdcfd9">SetAllowUseAsSource</a>(<span class="keywordtype">bool</span> aAllow) { <a class="code" href="../../d4/d14/classgfx_a_surface.html#a10a7bb0cc77416475b6e9033e3522670">mAllowUseAsSource</a> = aAllow; }
+<a name="l00305"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#ad61e4032db88e2d9eae68064417a869e">00305</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ad61e4032db88e2d9eae68064417a869e">GetAllowUseAsSource</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a10a7bb0cc77416475b6e9033e3522670">mAllowUseAsSource</a>; }
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307     <span class="keyword">static</span> uint8_t <a class="code" href="../../d4/d14/classgfx_a_surface.html#a8d982bc06a207f550641af49f91bdd04">BytesPerPixel</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html#aaa01195999887451d4ddc6107c95893e">gfxImageFormat</a> aImageFormat);
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309 <span class="keyword">protected</span>:
+<a name="l00310"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a4e7cd626185668b5f036af08228d4c4e">00310</a>     <a class="code" href="../../d4/d14/classgfx_a_surface.html#a4e7cd626185668b5f036af08228d4c4e">gfxASurface</a>() : <a class="code" href="../../d4/d14/classgfx_a_surface.html#a328e053da9de6123cb1a01700554aa4d">mSurface</a>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>), mFloatingRefs(0), mBytesRecorded(0),
+<a name="l00311"></a>00311                     <a class="code" href="../../d4/d14/classgfx_a_surface.html#a7c503d49b2d8cfa8e06af44e4e53b970">mSurfaceValid</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>), <a class="code" href="../../d4/d14/classgfx_a_surface.html#a10a7bb0cc77416475b6e9033e3522670">mAllowUseAsSource</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>)
+<a name="l00312"></a>00312     {
+<a name="l00313"></a>00313         <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#aa7716d29a6749d766b19b8b880b448f1">MOZ_COUNT_CTOR</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a>);
+<a name="l00314"></a>00314     }
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316     <span class="keyword">static</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a>* <a class="code" href="../../d4/d14/classgfx_a_surface.html#aa74c7bb822a118d9ea203c206833c79f">GetSurfaceWrapper</a>(<a class="code" href="../../d3/d6e/cairo_8h.html#a17d877b06bebaf368693c73860584555">cairo_surface_t</a> *csurf);
+<a name="l00317"></a>00317     <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#ad0ca41063aaf2e7f1fec2efaf3e95434">SetSurfaceWrapper</a>(<a class="code" href="../../d3/d6e/cairo_8h.html#a17d877b06bebaf368693c73860584555">cairo_surface_t</a> *csurf, <a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a> *asurf);
+<a name="l00318"></a>00318 
+<a name="l00324"></a>00324     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a4d5f2b44b6fbd0a0d56a21f47df44f38">FastMovePixels</a>(<span class="keyword">const</span> <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>&amp; aSourceRect,
+<a name="l00325"></a>00325                         <span class="keyword">const</span> <a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>&amp; aDestTopLeft);
+<a name="l00326"></a>00326 
+<a name="l00327"></a>00327     <span class="comment">// NB: Init() *must* be called from within subclass&#39;s</span>
+<a name="l00328"></a>00328     <span class="comment">// constructors.  It&#39;s unsafe to call it after the ctor finishes;</span>
+<a name="l00329"></a>00329     <span class="comment">// leaks and use-after-frees are possible.</span>
+<a name="l00330"></a>00330     <span class="keywordtype">void</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a895f6fe0c03cf2850e6fee4f6f619c53">Init</a>(<a class="code" href="../../d3/d6e/cairo_8h.html#a17d877b06bebaf368693c73860584555">cairo_surface_t</a> *surface, <span class="keywordtype">bool</span> existingSurface = <span class="keyword">false</span>);
+<a name="l00331"></a>00331 
+<a name="l00332"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a750a8ae4e1ee05691f20bd030f3016fe">00332</a>     <span class="keyword">virtual</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a750a8ae4e1ee05691f20bd030f3016fe">~gfxASurface</a>()
+<a name="l00333"></a>00333     {
+<a name="l00334"></a>00334         <a class="code" href="../../d4/d14/classgfx_a_surface.html#a8fa0b223d9cb76ca8e40290795a61556">RecordMemoryFreed</a>();
+<a name="l00335"></a>00335 
+<a name="l00336"></a>00336         <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#a8a91532bfafbc5b73fad1b4127faf725">MOZ_COUNT_DTOR</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a>);
+<a name="l00337"></a>00337     }
+<a name="l00338"></a>00338 
+<a name="l00339"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a328e053da9de6123cb1a01700554aa4d">00339</a>     <a class="code" href="../../d3/d6e/cairo_8h.html#a17d877b06bebaf368693c73860584555">cairo_surface_t</a> *<a class="code" href="../../d4/d14/classgfx_a_surface.html#a328e053da9de6123cb1a01700554aa4d">mSurface</a>;
+<a name="l00340"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#aab1156b89a9bae878bc2063a96fbf285">00340</a>     <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;gfxRect&gt;</a> <a class="code" href="../../d4/d14/classgfx_a_surface.html#aab1156b89a9bae878bc2063a96fbf285">mOpaqueRect</a>;
+<a name="l00341"></a>00341 
+<a name="l00342"></a>00342 <span class="keyword">private</span>:
+<a name="l00343"></a>00343     <span class="keyword">static</span> <span class="keywordtype">void</span> SurfaceDestroyFunc(<span class="keywordtype">void</span> *<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>);
+<a name="l00344"></a>00344 
+<a name="l00345"></a>00345     int32_t mFloatingRefs;
+<a name="l00346"></a>00346     int32_t mBytesRecorded;
+<a name="l00347"></a>00347 
+<a name="l00348"></a>00348 <span class="keyword">protected</span>:
+<a name="l00349"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a7c503d49b2d8cfa8e06af44e4e53b970">00349</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a7c503d49b2d8cfa8e06af44e4e53b970">mSurfaceValid</a>;
+<a name="l00350"></a><a class="code" href="../../d4/d14/classgfx_a_surface.html#a10a7bb0cc77416475b6e9033e3522670">00350</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#a10a7bb0cc77416475b6e9033e3522670">mAllowUseAsSource</a>;
+<a name="l00351"></a>00351 };
+<a name="l00352"></a>00352 
+<a name="l00356"></a><a class="code" href="../../d8/db3/classgfx_unknown_surface.html">00356</a> <span class="keyword">class </span><a class="code" href="../../d8/db3/classgfx_unknown_surface.html">gfxUnknownSurface</a> : <span class="keyword">public</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a> {
+<a name="l00357"></a>00357 <span class="keyword">public</span>:
+<a name="l00358"></a><a class="code" href="../../d8/db3/classgfx_unknown_surface.html#a43e8d3a0b9c8a965affd229510909e94">00358</a>     <a class="code" href="../../d8/db3/classgfx_unknown_surface.html#a43e8d3a0b9c8a965affd229510909e94">gfxUnknownSurface</a>(<a class="code" href="../../d3/d6e/cairo_8h.html#a17d877b06bebaf368693c73860584555">cairo_surface_t</a> *surf) {
+<a name="l00359"></a>00359         <a class="code" href="../../d4/d14/classgfx_a_surface.html#a895f6fe0c03cf2850e6fee4f6f619c53">Init</a>(surf, <span class="keyword">true</span>);
+<a name="l00360"></a>00360     }
+<a name="l00361"></a>00361 
+<a name="l00362"></a><a class="code" href="../../d8/db3/classgfx_unknown_surface.html#aedb6afe98a86414afe5a0907b6404bb3">00362</a>     <span class="keyword">virtual</span> <a class="code" href="../../d8/db3/classgfx_unknown_surface.html#aedb6afe98a86414afe5a0907b6404bb3">~gfxUnknownSurface</a>() { }
+<a name="l00363"></a>00363 };
+<a name="l00364"></a>00364 
+<a name="l00365"></a>00365 <span class="preprocessor">#ifndef XPCOM_GLUE_AVOID_NSPR</span>
+<a name="l00366"></a>00366 <span class="preprocessor"></span>
+<a name="l00378"></a>00378 <span class="keyword">class </span>nsMainThreadSurfaceRef;
+<a name="l00379"></a>00379 
+<a name="l00380"></a>00380 <span class="keyword">template</span> &lt;&gt;
+<a name="l00381"></a><a class="code" href="../../d6/df3/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4.html">00381</a> <span class="keyword">class </span>nsAutoRefTraits&lt;nsMainThreadSurfaceRef&gt; {
+<a name="l00382"></a>00382 <span class="keyword">public</span>:
+<a name="l00383"></a><a class="code" href="../../d6/df3/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4.html#ae4dfac0e070a4dcabd25c6bc353cf6d9">00383</a>   <span class="keyword">typedef</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a>* <a class="code" href="../../d6/df3/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4.html#ae4dfac0e070a4dcabd25c6bc353cf6d9">RawRef</a>;
+<a name="l00384"></a>00384 
+<a name="l00388"></a><a class="code" href="../../db/dfb/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4_1_1_surface_releaser.html">00388</a>   <span class="keyword">class </span>SurfaceReleaser : <span class="keyword">public</span> <a class="code" href="../../da/ddb/classns_runnable.html">nsRunnable</a> {
+<a name="l00389"></a>00389   <span class="keyword">public</span>:
+<a name="l00390"></a><a class="code" href="../../db/dfb/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4_1_1_surface_releaser.html#a53d64c5f1f7301b4b692f2faccf19090">00390</a>     <a class="code" href="../../db/dfb/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4_1_1_surface_releaser.html#a53d64c5f1f7301b4b692f2faccf19090">SurfaceReleaser</a>(<a class="code" href="../../d4/d14/classgfx_a_surface.html">RawRef</a> aRef) : mRef(aRef) {}
+<a name="l00391"></a><a class="code" href="../../db/dfb/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4_1_1_surface_releaser.html#a80fbee6c89a3b3ff79fa6db4372e9e1c">00391</a>     <a class="code" href="../../d3/dd8/nscore_8h.html#abbc6d740d4f54ed1c90bbed28dcef65a">NS_IMETHOD</a> <a class="code" href="../../db/dfb/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4_1_1_surface_releaser.html#a80fbee6c89a3b3ff79fa6db4372e9e1c">Run</a>() {
+<a name="l00392"></a>00392       mRef-&gt;Release();
+<a name="l00393"></a>00393       <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a>;
+<a name="l00394"></a>00394     }
+<a name="l00395"></a><a class="code" href="../../db/dfb/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4_1_1_surface_releaser.html#a385928ef2f53c179aac31332f7b81bf2">00395</a>     <a class="code" href="../../d4/d14/classgfx_a_surface.html">RawRef</a> <a class="code" href="../../db/dfb/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4_1_1_surface_releaser.html#a385928ef2f53c179aac31332f7b81bf2">mRef</a>;
+<a name="l00396"></a>00396   };
+<a name="l00397"></a>00397 
+<a name="l00398"></a><a class="code" href="../../d6/df3/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4.html#ae94bcfb3c4b281000c658f75405726b1">00398</a>   <span class="keyword">static</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html">RawRef</a> <a class="code" href="../../d6/df3/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4.html#ae94bcfb3c4b281000c658f75405726b1">Void</a>() { <span class="keywordflow">return</span> <span class="keyword">nullptr</span>; }
+<a name="l00399"></a><a class="code" href="../../d6/df3/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4.html#a7f557a7bef5dc21e2e79d46043f20bbe">00399</a>   <span class="keyword">static</span> <span class="keywordtype">void</span> Release(<a class="code" href="../../d4/d14/classgfx_a_surface.html">RawRef</a> aRawRef)
+<a name="l00400"></a>00400   {
+<a name="l00401"></a>00401     <span class="keywordflow">if</span> (<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>()) {
+<a name="l00402"></a>00402       aRawRef-&gt;<a class="code" href="../../d4/d14/classgfx_a_surface.html#a7b24da1488550f64a067472a976b0ac4">Release</a>();
+<a name="l00403"></a>00403       <span class="keywordflow">return</span>;
+<a name="l00404"></a>00404     }
+<a name="l00405"></a>00405     nsCOMPtr&lt;nsIRunnable&gt; runnable = <span class="keyword">new</span> SurfaceReleaser(aRawRef);
+<a name="l00406"></a>00406     <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a0fc41a358332e9db1313c1f9935c90d4">NS_DispatchToMainThread</a>(runnable);
+<a name="l00407"></a>00407   }
+<a name="l00408"></a><a class="code" href="../../d6/df3/classns_auto_ref_traits_3_01ns_main_thread_surface_ref_01_4.html#a01af7d4defadab0bebdc5196bf5f8174">00408</a>   <span class="keyword">static</span> <span class="keywordtype">void</span> AddRef(<a class="code" href="../../d4/d14/classgfx_a_surface.html">RawRef</a> aRawRef)
+<a name="l00409"></a>00409   {
+<a name="l00410"></a>00410     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>(),
+<a name="l00411"></a>00411                  <span class="stringliteral">&quot;Can only add a reference on the main thread&quot;</span>);
+<a name="l00412"></a>00412     aRawRef-&gt;<a class="code" href="../../d4/d14/classgfx_a_surface.html#abe6d622486a5070e7972b1c1ed9513fb">AddRef</a>();
+<a name="l00413"></a>00413   }
+<a name="l00414"></a>00414 };
+<a name="l00415"></a>00415 
+<a name="l00416"></a>00416 <span class="preprocessor">#endif</span>
+<a name="l00417"></a>00417 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* GFX_ASURFACE_H */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d2/dca/gfx_a_surface_8h.html">gfxASurface.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:04に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

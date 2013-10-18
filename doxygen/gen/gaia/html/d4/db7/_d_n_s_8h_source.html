@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: DNS.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d4/db7/_d_n_s_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">DNS.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d4/db7/_d_n_s_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00002"></a>00002 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00003"></a>00003 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="preprocessor">#ifndef DNS_h_</span>
+<a name="l00006"></a>00006 <span class="preprocessor"></span><span class="preprocessor">#define DNS_h_</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span>
+<a name="l00008"></a>00008 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/dd8/nscore_8h.html">nscore.h</a>&quot;</span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d32/prio_8h.html">prio.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d9e/prnetdb_8h.html">prnetdb.h</a>&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../de/dc6/_linked_list_8h.html">mozilla/LinkedList.h</a>&quot;</span>
+<a name="l00012"></a>00012 
+<a name="l00013"></a>00013 <span class="preprocessor">#if !defined(XP_WIN) &amp;&amp; !defined(XP_OS2)</span>
+<a name="l00014"></a>00014 <span class="preprocessor"></span><span class="preprocessor">#include &lt;arpa/inet.h&gt;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#endif</span>
+<a name="l00016"></a>00016 <span class="preprocessor"></span>
+<a name="l00017"></a>00017 <span class="preprocessor">#ifdef XP_WIN</span>
+<a name="l00018"></a>00018 <span class="preprocessor"></span><span class="preprocessor">#include &quot;winsock2.h&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#endif</span>
+<a name="l00020"></a>00020 <span class="preprocessor"></span>
+<a name="l00021"></a><a class="code" href="../../d4/db7/_d_n_s_8h.html#ab07bb33771b23cb1a27f16d958821cde">00021</a> <span class="preprocessor">#define IPv6ADDR_IS_LOOPBACK(a) \</span>
+<a name="l00022"></a>00022 <span class="preprocessor">  (((a)-&gt;u32[0] == 0)     &amp;&amp;    \</span>
+<a name="l00023"></a>00023 <span class="preprocessor">   ((a)-&gt;u32[1] == 0)     &amp;&amp;    \</span>
+<a name="l00024"></a>00024 <span class="preprocessor">   ((a)-&gt;u32[2] == 0)     &amp;&amp;    \</span>
+<a name="l00025"></a>00025 <span class="preprocessor">   ((a)-&gt;u8[12] == 0)     &amp;&amp;    \</span>
+<a name="l00026"></a>00026 <span class="preprocessor">   ((a)-&gt;u8[13] == 0)     &amp;&amp;    \</span>
+<a name="l00027"></a>00027 <span class="preprocessor">   ((a)-&gt;u8[14] == 0)     &amp;&amp;    \</span>
+<a name="l00028"></a>00028 <span class="preprocessor">   ((a)-&gt;u8[15] == 0x1U))</span>
+<a name="l00029"></a>00029 <span class="preprocessor"></span>
+<a name="l00030"></a><a class="code" href="../../d4/db7/_d_n_s_8h.html#a5cc3878c6fa4c162f3a6f4faa3fa05fa">00030</a> <span class="preprocessor">#define IPv6ADDR_IS_V4MAPPED(a) \</span>
+<a name="l00031"></a>00031 <span class="preprocessor">  (((a)-&gt;u32[0] == 0)     &amp;&amp;    \</span>
+<a name="l00032"></a>00032 <span class="preprocessor">   ((a)-&gt;u32[1] == 0)     &amp;&amp;    \</span>
+<a name="l00033"></a>00033 <span class="preprocessor">   ((a)-&gt;u8[8] == 0)      &amp;&amp;    \</span>
+<a name="l00034"></a>00034 <span class="preprocessor">   ((a)-&gt;u8[9] == 0)      &amp;&amp;    \</span>
+<a name="l00035"></a>00035 <span class="preprocessor">   ((a)-&gt;u8[10] == 0xff)  &amp;&amp;    \</span>
+<a name="l00036"></a>00036 <span class="preprocessor">   ((a)-&gt;u8[11] == 0xff))</span>
+<a name="l00037"></a>00037 <span class="preprocessor"></span>
+<a name="l00038"></a><a class="code" href="../../d4/db7/_d_n_s_8h.html#a702116689f17c2474010271a654c06f6">00038</a> <span class="preprocessor">#define IPv6ADDR_V4MAPPED_TO_IPADDR(a) ((a)-&gt;u32[3])</span>
+<a name="l00039"></a>00039 <span class="preprocessor"></span>
+<a name="l00040"></a><a class="code" href="../../d4/db7/_d_n_s_8h.html#aa64525448b4408ec6a074155bcce59c1">00040</a> <span class="preprocessor">#define IPv6ADDR_IS_UNSPECIFIED(a) \</span>
+<a name="l00041"></a>00041 <span class="preprocessor">  (((a)-&gt;u32[0] == 0)  &amp;&amp;          \</span>
+<a name="l00042"></a>00042 <span class="preprocessor">   ((a)-&gt;u32[1] == 0)  &amp;&amp;          \</span>
+<a name="l00043"></a>00043 <span class="preprocessor">   ((a)-&gt;u32[2] == 0)  &amp;&amp;          \</span>
+<a name="l00044"></a>00044 <span class="preprocessor">   ((a)-&gt;u32[3] == 0))</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span>
+<a name="l00046"></a>00046 <span class="keyword">namespace </span>mozilla {
+<a name="l00047"></a>00047 <span class="keyword">namespace </span>net {
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 <span class="comment">// Required buffer size for text form of an IP address.</span>
+<a name="l00050"></a>00050 <span class="comment">// Includes space for null termination. We make our own contants</span>
+<a name="l00051"></a>00051 <span class="comment">// because we don&#39;t want higher-level code depending on things</span>
+<a name="l00052"></a>00052 <span class="comment">// like INET6_ADDRSTRLEN and having to include the associated</span>
+<a name="l00053"></a>00053 <span class="comment">// platform-specific headers.</span>
+<a name="l00054"></a>00054 <span class="preprocessor">#ifdef XP_WIN</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span><span class="comment">// Windows requires longer buffers for some reason.</span>
+<a name="l00056"></a>00056 <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#a0c12e8f7f23744c4d147b2c9d18b5bd2">kIPv4CStrBufSize</a> = 22;
+<a name="l00057"></a>00057 <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#a1f19552c28c97355f13547f884bcc1fd">kIPv6CStrBufSize</a> = 65;
+<a name="l00058"></a>00058 <span class="preprocessor">#else</span>
+<a name="l00059"></a><a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#a0c12e8f7f23744c4d147b2c9d18b5bd2">00059</a> <span class="preprocessor"></span><span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#a0c12e8f7f23744c4d147b2c9d18b5bd2">kIPv4CStrBufSize</a> = 16;
+<a name="l00060"></a><a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#a1f19552c28c97355f13547f884bcc1fd">00060</a> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#a1f19552c28c97355f13547f884bcc1fd">kIPv6CStrBufSize</a> = 46;
+<a name="l00061"></a>00061 <span class="preprocessor">#endif</span>
+<a name="l00062"></a>00062 <span class="preprocessor"></span>
+<a name="l00063"></a>00063 <span class="comment">// This was all created at a time in which we were using NSPR for host</span>
+<a name="l00064"></a>00064 <span class="comment">// resolution and we were propagating NSPR types like &quot;PRAddrInfo&quot; and</span>
+<a name="l00065"></a>00065 <span class="comment">// &quot;PRNetAddr&quot; all over Gecko. This made it hard to use another host</span>
+<a name="l00066"></a>00066 <span class="comment">// resolver -- we were locked into NSPR. The goal here is to get away</span>
+<a name="l00067"></a>00067 <span class="comment">// from that. We&#39;ll translate what we get from NSPR or any other host</span>
+<a name="l00068"></a>00068 <span class="comment">// resolution library into the types below and use them in Gecko.</span>
+<a name="l00069"></a>00069 
+<a name="l00070"></a><a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html">00070</a> <span class="keyword">union </span><a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html">IPv6Addr</a> {
+<a name="l00071"></a><a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html#a0b8dffb778555252c7b03ade89ecf36b">00071</a>   uint8_t  <a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html#a0b8dffb778555252c7b03ade89ecf36b">u8</a>[16];
+<a name="l00072"></a><a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html#a18d403bfb9d4322191c4bc640cb57715">00072</a>   uint16_t <a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html#a18d403bfb9d4322191c4bc640cb57715">u16</a>[8];
+<a name="l00073"></a><a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html#af2d820db82d01fded483e05fcdb99dbf">00073</a>   uint32_t <a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html#af2d820db82d01fded483e05fcdb99dbf">u32</a>[4];
+<a name="l00074"></a><a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html#a5dc1e27e1a8b172668ad39f73b167d73">00074</a>   uint64_t <a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html#a5dc1e27e1a8b172668ad39f73b167d73">u64</a>[2];
+<a name="l00075"></a>00075 };
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077 <span class="comment">// This struct is similar to operating system structs like &quot;sockaddr&quot;, used for</span>
+<a name="l00078"></a>00078 <span class="comment">// things like &quot;connect&quot; and &quot;getsockname&quot;. When tempted to cast or do dumb</span>
+<a name="l00079"></a>00079 <span class="comment">// copies of this struct to another struct, bear compiler-computed padding</span>
+<a name="l00080"></a>00080 <span class="comment">// in mind. The size of this struct, and the layout of the data in it, may</span>
+<a name="l00081"></a>00081 <span class="comment">// not be what you expect.</span>
+<a name="l00082"></a><a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html">00082</a> <span class="keyword">union </span><a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html">NetAddr</a> {
+<a name="l00083"></a>00083   <span class="keyword">struct </span>{
+<a name="l00084"></a><a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a2a616c21c996a45df0bf11a25ea4514c">00084</a>     uint16_t <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a2a616c21c996a45df0bf11a25ea4514c">family</a>;                <span class="comment">/* address family (0x00ff maskable) */</span>
+<a name="l00085"></a><a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a7f0c945e5e2fc3531820f5f36ee72e87">00085</a>     <span class="keywordtype">char</span> <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>[14];                  <span class="comment">/* raw address data */</span>
+<a name="l00086"></a>00086   } <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a25e3d3f86c7caabf08ac1b7a85f8f352">raw</a>;
+<a name="l00087"></a>00087   <span class="keyword">struct </span>{
+<a name="l00088"></a>00088     uint16_t <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a2a616c21c996a45df0bf11a25ea4514c">family</a>;                <span class="comment">/* address family (AF_INET) */</span>
+<a name="l00089"></a><a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#ac218e27320115faf0ceaad1674d429cd">00089</a>     uint16_t <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#ac218e27320115faf0ceaad1674d429cd">port</a>;                  <span class="comment">/* port number */</span>
+<a name="l00090"></a><a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a7ba9b0558f6e60b08ad067fe3fca78b0">00090</a>     uint32_t <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a7ba9b0558f6e60b08ad067fe3fca78b0">ip</a>;                    <span class="comment">/* The actual 32 bits of address */</span>
+<a name="l00091"></a>00091   } <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a3116b98e91433fb81cbae472cafae851">inet</a>;
+<a name="l00092"></a>00092   <span class="keyword">struct </span>{
+<a name="l00093"></a>00093     uint16_t <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a2a616c21c996a45df0bf11a25ea4514c">family</a>;                <span class="comment">/* address family (AF_INET6) */</span>
+<a name="l00094"></a>00094     uint16_t <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#ac218e27320115faf0ceaad1674d429cd">port</a>;                  <span class="comment">/* port number */</span>
+<a name="l00095"></a><a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#ac7da114fde26cdaabebdc0d48daa1913">00095</a>     uint32_t <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#ac7da114fde26cdaabebdc0d48daa1913">flowinfo</a>;              <span class="comment">/* routing information */</span>
+<a name="l00096"></a><a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#aed6293e7371f8327ba24f95e611234ad">00096</a>     <a class="code" href="../../d5/db7/unionmozilla_1_1net_1_1_i_pv6_addr.html">IPv6Addr</a> <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#aed6293e7371f8327ba24f95e611234ad">ip</a>;                    <span class="comment">/* the actual 128 bits of address */</span>
+<a name="l00097"></a><a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a0f11170f9166096bc5e778e6e9cc26a9">00097</a>     uint32_t <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a0f11170f9166096bc5e778e6e9cc26a9">scope_id</a>;              <span class="comment">/* set of interfaces for a scope */</span>
+<a name="l00098"></a>00098   } <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a3cd2af43e1472111fa001583615164b3">inet6</a>;
+<a name="l00099"></a>00099 <span class="preprocessor">#if defined(XP_UNIX) || defined(XP_OS2)</span>
+<a name="l00100"></a>00100 <span class="preprocessor"></span>  <span class="keyword">struct </span>{                          <span class="comment">/* Unix domain socket address */</span>
+<a name="l00101"></a>00101     uint16_t <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html#a2a616c21c996a45df0bf11a25ea4514c">family</a>;                <span class="comment">/* address family (AF_UNIX) */</span>
+<a name="l00102"></a>00102 <span class="preprocessor">#ifdef XP_OS2</span>
+<a name="l00103"></a>00103 <span class="preprocessor"></span>    <span class="keywordtype">char</span> <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a>[108];                 <span class="comment">/* null-terminated pathname */</span>
+<a name="l00104"></a>00104 <span class="preprocessor">#else</span>
+<a name="l00105"></a>00105 <span class="preprocessor"></span>    <span class="keywordtype">char</span> path[104];                 <span class="comment">/* null-terminated pathname */</span>
+<a name="l00106"></a>00106 <span class="preprocessor">#endif</span>
+<a name="l00107"></a>00107 <span class="preprocessor"></span>  } local;
+<a name="l00108"></a>00108 <span class="preprocessor">#endif</span>
+<a name="l00109"></a>00109 <span class="preprocessor"></span>};
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111 <span class="comment">// This class wraps a NetAddr union to provide C++ linked list</span>
+<a name="l00112"></a>00112 <span class="comment">// capabilities and other methods. It is created from a PRNetAddr,</span>
+<a name="l00113"></a>00113 <span class="comment">// which is converted to a mozilla::dns::NetAddr.</span>
+<a name="l00114"></a><a class="code" href="../../dd/dfc/classmozilla_1_1net_1_1_net_addr_element.html">00114</a> <span class="keyword">class </span><a class="code" href="../../dd/dfc/classmozilla_1_1net_1_1_net_addr_element.html">NetAddrElement</a> : <span class="keyword">public</span> LinkedListElement&lt;NetAddrElement&gt; {
+<a name="l00115"></a>00115 <span class="keyword">public</span>:
+<a name="l00116"></a>00116   <a class="code" href="../../dd/dfc/classmozilla_1_1net_1_1_net_addr_element.html#abc5e1bc4d30a0311e7919e9b29e3655a">NetAddrElement</a>(<span class="keyword">const</span> <a class="code" href="../../dd/dff/union_p_r_net_addr.html">PRNetAddr</a> *prNetAddr);
+<a name="l00117"></a>00117   <a class="code" href="../../dd/dfc/classmozilla_1_1net_1_1_net_addr_element.html#a12a2530d8e3cb7189db1fabbbdf94cd9">~NetAddrElement</a>();
+<a name="l00118"></a>00118 
+<a name="l00119"></a><a class="code" href="../../dd/dfc/classmozilla_1_1net_1_1_net_addr_element.html#a6fbc1425a6ae1d0275c5092b5ee3a8b6">00119</a>   <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html">NetAddr</a> <a class="code" href="../../dd/dfc/classmozilla_1_1net_1_1_net_addr_element.html#a6fbc1425a6ae1d0275c5092b5ee3a8b6">mAddress</a>;
+<a name="l00120"></a>00120 };
+<a name="l00121"></a>00121 
+<a name="l00122"></a><a class="code" href="../../d2/d7c/classmozilla_1_1net_1_1_addr_info.html">00122</a> <span class="keyword">class </span><a class="code" href="../../d2/d7c/classmozilla_1_1net_1_1_addr_info.html">AddrInfo</a> {
+<a name="l00123"></a>00123 <span class="keyword">public</span>:
+<a name="l00124"></a>00124   <a class="code" href="../../d2/d7c/classmozilla_1_1net_1_1_addr_info.html#add20f5e45c2824f7d7536dcc46d4b8cd">AddrInfo</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *host, <span class="keyword">const</span> <a class="code" href="../../df/d9e/prnetdb_8h.html#a638b43a5d45ad915d51f12eaf974ecdc">PRAddrInfo</a> *prAddrInfo, <span class="keywordtype">bool</span> disableIPv4,
+<a name="l00125"></a>00125            <span class="keyword">const</span> <span class="keywordtype">char</span> *cname);
+<a name="l00126"></a>00126   <a class="code" href="../../d2/d7c/classmozilla_1_1net_1_1_addr_info.html#a88ce72914d3fa6b21965f804cd937bd9">~AddrInfo</a>();
+<a name="l00127"></a>00127 
+<a name="l00128"></a><a class="code" href="../../d2/d7c/classmozilla_1_1net_1_1_addr_info.html#afb956546ca7d6b4390265196fedbd7c2">00128</a>   <span class="keywordtype">char</span> *<a class="code" href="../../d2/d7c/classmozilla_1_1net_1_1_addr_info.html#afb956546ca7d6b4390265196fedbd7c2">mHostName</a>;
+<a name="l00129"></a><a class="code" href="../../d2/d7c/classmozilla_1_1net_1_1_addr_info.html#ad073d5456ddcfe91b63d738f5cad9b2d">00129</a>   <span class="keywordtype">char</span> *<a class="code" href="../../d2/d7c/classmozilla_1_1net_1_1_addr_info.html#ad073d5456ddcfe91b63d738f5cad9b2d">mCanonicalName</a>;
+<a name="l00130"></a><a class="code" href="../../d2/d7c/classmozilla_1_1net_1_1_addr_info.html#a7ea82caf0b42df4ac9d5d310e871b4f8">00130</a>   LinkedList&lt;NetAddrElement&gt; <a class="code" href="../../d2/d7c/classmozilla_1_1net_1_1_addr_info.html#a7ea82caf0b42df4ac9d5d310e871b4f8">mAddresses</a>;
+<a name="l00131"></a>00131 };
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133 <span class="comment">// Copies the contents of a PRNetAddr to a NetAddr.</span>
+<a name="l00134"></a>00134 <span class="comment">// Does not do a ptr safety check!</span>
+<a name="l00135"></a>00135 <span class="keywordtype">void</span> <a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#a44258688179ba58e682af3faae9e4936">PRNetAddrToNetAddr</a>(<span class="keyword">const</span> <a class="code" href="../../dd/dff/union_p_r_net_addr.html">PRNetAddr</a> *prAddr, <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html">NetAddr</a> *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>);
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137 <span class="comment">// Copies the contents of a NetAddr to a PRNetAddr.</span>
+<a name="l00138"></a>00138 <span class="comment">// Does not do a ptr safety check!</span>
+<a name="l00139"></a>00139 <span class="keywordtype">void</span> <a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#a3b28821192c86259e9e936dd66ebb8b4">NetAddrToPRNetAddr</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html">NetAddr</a> *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>, <a class="code" href="../../dd/dff/union_p_r_net_addr.html">PRNetAddr</a> *prAddr);
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141 <span class="keywordtype">bool</span> <a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#af703251782f1ea8bf926fbab6394c42c">NetAddrToString</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html">NetAddr</a> *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>, <span class="keywordtype">char</span> *<a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>, uint32_t bufSize);
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143 <span class="keywordtype">bool</span> <a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#ad30ae44f7424fbb08e6f58611c8c1212">IsLoopBackAddress</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html">NetAddr</a> *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>);
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145 <span class="keywordtype">bool</span> <a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#a0a2cb09e879fcf4ae8913dc85f1b3506">IsIPAddrAny</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html">NetAddr</a> *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>);
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147 <span class="keywordtype">bool</span> <a class="code" href="../../d8/d56/namespacemozilla_1_1net.html#ab50b7dc83ff8e19b0f44deb67d41aebb">IsIPAddrV4Mapped</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d2c/unionmozilla_1_1net_1_1_net_addr.html">NetAddr</a> *<a class="code" href="../../da/d32/prio_8h.html#a2550ae332ef652dfdb937ec2ae5d149c">addr</a>);
+<a name="l00148"></a>00148 
+<a name="l00149"></a>00149 } <span class="comment">// namespace net</span>
+<a name="l00150"></a>00150 } <span class="comment">// namespace mozilla</span>
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152 <span class="preprocessor">#endif // DNS_h_</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d4/db7/_d_n_s_8h.html">DNS.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:51:56に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsHtml5MetaScanner.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d2/da7/ns_html5_meta_scanner_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsHtml5MetaScanner.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d2/da7/ns_html5_meta_scanner_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * Copyright (c) 2007 Henri Sivonen</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright (c) 2008-2010 Mozilla Foundation</span>
+<a name="l00004"></a>00004 <span class="comment"> *</span>
+<a name="l00005"></a>00005 <span class="comment"> * Permission is hereby granted, free of charge, to any person obtaining a </span>
+<a name="l00006"></a>00006 <span class="comment"> * copy of this software and associated documentation files (the &quot;Software&quot;), </span>
+<a name="l00007"></a>00007 <span class="comment"> * to deal in the Software without restriction, including without limitation </span>
+<a name="l00008"></a>00008 <span class="comment"> * the rights to use, copy, modify, merge, publish, distribute, sublicense, </span>
+<a name="l00009"></a>00009 <span class="comment"> * and/or sell copies of the Software, and to permit persons to whom the </span>
+<a name="l00010"></a>00010 <span class="comment"> * Software is furnished to do so, subject to the following conditions:</span>
+<a name="l00011"></a>00011 <span class="comment"> *</span>
+<a name="l00012"></a>00012 <span class="comment"> * The above copyright notice and this permission notice shall be included in </span>
+<a name="l00013"></a>00013 <span class="comment"> * all copies or substantial portions of the Software.</span>
+<a name="l00014"></a>00014 <span class="comment"> *</span>
+<a name="l00015"></a>00015 <span class="comment"> * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR </span>
+<a name="l00016"></a>00016 <span class="comment"> * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, </span>
+<a name="l00017"></a>00017 <span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL </span>
+<a name="l00018"></a>00018 <span class="comment"> * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER </span>
+<a name="l00019"></a>00019 <span class="comment"> * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING </span>
+<a name="l00020"></a>00020 <span class="comment"> * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER </span>
+<a name="l00021"></a>00021 <span class="comment"> * DEALINGS IN THE SOFTWARE.</span>
+<a name="l00022"></a>00022 <span class="comment"> */</span>
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="comment">/*</span>
+<a name="l00025"></a>00025 <span class="comment"> * THIS IS A GENERATED FILE. PLEASE DO NOT EDIT.</span>
+<a name="l00026"></a>00026 <span class="comment"> * Please edit MetaScanner.java instead and regenerate.</span>
+<a name="l00027"></a>00027 <span class="comment"> */</span>
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="preprocessor">#ifndef nsHtml5MetaScanner_h__</span>
+<a name="l00030"></a>00030 <span class="preprocessor"></span><span class="preprocessor">#define nsHtml5MetaScanner_h__</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d32/ns_i_atom_8h.html">nsIAtom.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d77/ns_html5_atom_table_8h.html">nsHtml5AtomTable.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/d37/ns_string_8h.html">nsString.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d20/ns_i_name_space_manager_8h.html">nsINameSpaceManager.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/dec/ns_i_content_8h.html">nsIContent.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html">nsTraceRefcnt.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d53/j_array_8h.html">jArray.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d00/ns_html5_array_copy_8h.html">nsHtml5ArrayCopy.h</a>&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d18/ns_a_html5_tree_builder_state_8h.html">nsAHtml5TreeBuilderState.h</a>&quot;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/dea/ns_html5_atoms_8h.html">nsHtml5Atoms.h</a>&quot;</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d66/ns_html5_byte_readable_8h.html">nsHtml5ByteReadable.h</a>&quot;</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/dfe/ns_i_unicode_decoder_8h.html">nsIUnicodeDecoder.h</a>&quot;</span>
+<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/d70/ns_html5_macros_8h.html">nsHtml5Macros.h</a>&quot;</span>
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 <span class="keyword">class </span><a class="code" href="../../d3/da5/classns_html5_stream_parser.html">nsHtml5StreamParser</a>;
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 <span class="keyword">class </span>nsHtml5Tokenizer;
+<a name="l00049"></a>00049 <span class="keyword">class </span>nsHtml5TreeBuilder;
+<a name="l00050"></a>00050 <span class="keyword">class </span>nsHtml5AttributeName;
+<a name="l00051"></a>00051 <span class="keyword">class </span>nsHtml5ElementName;
+<a name="l00052"></a>00052 <span class="keyword">class </span><a class="code" href="../../d1/d8b/classns_html5_html_attributes.html">nsHtml5HtmlAttributes</a>;
+<a name="l00053"></a>00053 <span class="keyword">class </span><a class="code" href="../../d0/df2/classns_html5_u_t_f16_buffer.html">nsHtml5UTF16Buffer</a>;
+<a name="l00054"></a>00054 <span class="keyword">class </span>nsHtml5StateSnapshot;
+<a name="l00055"></a>00055 <span class="keyword">class </span>nsHtml5Portability;
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057 
+<a name="l00058"></a><a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html">00058</a> <span class="keyword">class </span><a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html">nsHtml5MetaScanner</a>
+<a name="l00059"></a>00059 {
+<a name="l00060"></a>00060   <span class="keyword">private</span>:
+<a name="l00061"></a>00061     <span class="keyword">static</span> <a class="code" href="../../de/df7/structstatic_j_array.html">staticJArray&lt;PRUnichar,int32_t&gt;</a> CHARSET;
+<a name="l00062"></a>00062     <span class="keyword">static</span> <a class="code" href="../../de/df7/structstatic_j_array.html">staticJArray&lt;PRUnichar,int32_t&gt;</a> CONTENT;
+<a name="l00063"></a>00063     <span class="keyword">static</span> <a class="code" href="../../de/df7/structstatic_j_array.html">staticJArray&lt;PRUnichar,int32_t&gt;</a> HTTP_EQUIV;
+<a name="l00064"></a>00064     <span class="keyword">static</span> <a class="code" href="../../de/df7/structstatic_j_array.html">staticJArray&lt;PRUnichar,int32_t&gt;</a> CONTENT_TYPE;
+<a name="l00065"></a>00065   <span class="keyword">protected</span>:
+<a name="l00066"></a><a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html#aa95eab8c3c045046b972a983833793a3">00066</a>     <a class="code" href="../../d4/da6/classns_html5_byte_readable.html">nsHtml5ByteReadable</a>* <a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html#aa95eab8c3c045046b972a983833793a3">readable</a>;
+<a name="l00067"></a>00067   <span class="keyword">private</span>:
+<a name="l00068"></a>00068     int32_t metaState;
+<a name="l00069"></a>00069     int32_t contentIndex;
+<a name="l00070"></a>00070     int32_t charsetIndex;
+<a name="l00071"></a>00071     int32_t httpEquivIndex;
+<a name="l00072"></a>00072     int32_t contentTypeIndex;
+<a name="l00073"></a>00073   <span class="keyword">protected</span>:
+<a name="l00074"></a><a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html#a3f30b87242ecbd541bc913a35690e50a">00074</a>     int32_t <a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html#a3f30b87242ecbd541bc913a35690e50a">stateSave</a>;
+<a name="l00075"></a>00075   <span class="keyword">private</span>:
+<a name="l00076"></a>00076     int32_t strBufLen;
+<a name="l00077"></a>00077     <a class="code" href="../../df/d71/classauto_j_array.html">autoJArray&lt;PRUnichar,int32_t&gt;</a> strBuf;
+<a name="l00078"></a>00078     nsString* content;
+<a name="l00079"></a>00079     nsString* charset;
+<a name="l00080"></a>00080     int32_t httpEquivState;
+<a name="l00081"></a>00081   <span class="keyword">public</span>:
+<a name="l00082"></a>00082     <a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html#a31964260fc886cd2d42d367f7d138cab">nsHtml5MetaScanner</a>();
+<a name="l00083"></a>00083     <a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html#ae69d62643cd6317336ecdbb6c900687a">~nsHtml5MetaScanner</a>();
+<a name="l00084"></a>00084   <span class="keyword">protected</span>:
+<a name="l00085"></a>00085     <span class="keywordtype">void</span> <a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html#a1ef2ebad3e535f72c974742b33fb9c77">stateLoop</a>(int32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a>);
+<a name="l00086"></a>00086   <span class="keyword">private</span>:
+<a name="l00087"></a>00087     <span class="keywordtype">void</span> handleCharInAttributeValue(int32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>);
+<a name="l00088"></a>00088     <span class="keyword">inline</span> int32_t toAsciiLowerCase(int32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>)
+<a name="l00089"></a>00089     {
+<a name="l00090"></a>00090       <span class="keywordflow">if</span> (c &gt;= <span class="charliteral">&#39;A&#39;</span> &amp;&amp; c &lt;= <span class="charliteral">&#39;Z&#39;</span>) {
+<a name="l00091"></a>00091         <span class="keywordflow">return</span> c + 0x20;
+<a name="l00092"></a>00092       }
+<a name="l00093"></a>00093       <span class="keywordflow">return</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>;
+<a name="l00094"></a>00094     }
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096     <span class="keywordtype">void</span> addToBuffer(int32_t c);
+<a name="l00097"></a>00097     <span class="keywordtype">void</span> handleAttributeValue();
+<a name="l00098"></a>00098     <span class="keywordtype">bool</span> handleTag();
+<a name="l00099"></a>00099     <span class="keywordtype">bool</span> handleTagInner();
+<a name="l00100"></a>00100   <span class="keyword">protected</span>:
+<a name="l00101"></a>00101     <span class="keywordtype">bool</span> <a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html#ab4ddbfdcb20ea1285f5e9e3d7badb6f0">tryCharset</a>(nsString* <a class="code" href="../../d9/d04/expat_8h.html#a4dfeb87c47b4dde2571b24c1a6798056">encoding</a>);
+<a name="l00102"></a>00102   <span class="keyword">public</span>:
+<a name="l00103"></a>00103     <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html#ace245c6a55953f4fab79ff23012a8a9e">initializeStatics</a>();
+<a name="l00104"></a>00104     <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d8f/classns_html5_meta_scanner.html#a8b049c666d79152be3857f47bf472291">releaseStatics</a>();
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d02/ns_html5_meta_scanner_h_supplement_8h.html">nsHtml5MetaScannerHSupplement.h</a>&quot;</span>
+<a name="l00107"></a>00107 };
+<a name="l00108"></a>00108 
+<a name="l00109"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a870c6630520a76d15b2f3d8b1a663adf">00109</a> <span class="preprocessor">#define NS_HTML5META_SCANNER_NO 0</span>
+<a name="l00110"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#ae6e5d5a9b91075d22f2161bf16efff86">00110</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_M 1</span>
+<a name="l00111"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#ac3e8991d0cf3b95e40cbab1235bcc1ce">00111</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_E 2</span>
+<a name="l00112"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#ad2405940d7ee1b7533e66e04f3546a99">00112</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_T 3</span>
+<a name="l00113"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a8bb18e057f2e5443fe0b7986fdf21ed5">00113</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_A 4</span>
+<a name="l00114"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a02e2f5f38af51d56b7d8d2aeb89de616">00114</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_DATA 0</span>
+<a name="l00115"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#ae2f4bb823e9f14211ab88cddb743c326">00115</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_TAG_OPEN 1</span>
+<a name="l00116"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a9bb021b5d95f73f1aa63112d99f1a53a">00116</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_SCAN_UNTIL_GT 2</span>
+<a name="l00117"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#ab72f2c712f4a9f5098381a1612f4e0cb">00117</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_TAG_NAME 3</span>
+<a name="l00118"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#af7eca4f3329b6230c7633eb5c84f3097">00118</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_BEFORE_ATTRIBUTE_NAME 4</span>
+<a name="l00119"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a76d6c3d3b7c3e606f302408246944330">00119</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_ATTRIBUTE_NAME 5</span>
+<a name="l00120"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a46812950a822cf59748bee12cd1867d2">00120</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_AFTER_ATTRIBUTE_NAME 6</span>
+<a name="l00121"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a06f66b8a914dad0f092dd35ae8f6b858">00121</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_BEFORE_ATTRIBUTE_VALUE 7</span>
+<a name="l00122"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#af4abbf59b63349e5c958aff93feb518f">00122</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_ATTRIBUTE_VALUE_DOUBLE_QUOTED 8</span>
+<a name="l00123"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a9a38c28821fd6cd5daf993b2a8ffd93c">00123</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_ATTRIBUTE_VALUE_SINGLE_QUOTED 9</span>
+<a name="l00124"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a8adb31dd828501777f7da94cf9f808f1">00124</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_ATTRIBUTE_VALUE_UNQUOTED 10</span>
+<a name="l00125"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#ab98cf4e449d6959a68c2ea17f63ebd07">00125</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_AFTER_ATTRIBUTE_VALUE_QUOTED 11</span>
+<a name="l00126"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a4cf39d2b608665fb8015888026fdcdfc">00126</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_MARKUP_DECLARATION_OPEN 13</span>
+<a name="l00127"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a3d7ee7c3c3e483911425671323a28467">00127</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_MARKUP_DECLARATION_HYPHEN 14</span>
+<a name="l00128"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a85c35f63da91099791df6dd25583be72">00128</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_COMMENT_START 15</span>
+<a name="l00129"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a807e3e207ab88efaba5d19e77f7f8d2f">00129</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_COMMENT_START_DASH 16</span>
+<a name="l00130"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#ac4687728c9418b16f8b640035d16ddc4">00130</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_COMMENT 17</span>
+<a name="l00131"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a12b10d9c330e769375b868b4b923b0c9">00131</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_COMMENT_END_DASH 18</span>
+<a name="l00132"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a6b5c14e9d24cd1438e00f3dab7dc882d">00132</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_COMMENT_END 19</span>
+<a name="l00133"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a00d46b9532fa28f306bf7074368684b2">00133</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_SELF_CLOSING_START_TAG 20</span>
+<a name="l00134"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a94af84237e68fbccda3018cbd78e08cd">00134</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_HTTP_EQUIV_NOT_SEEN 0</span>
+<a name="l00135"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#aefc321de4b5133a268703b0e77612080">00135</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_HTTP_EQUIV_CONTENT_TYPE 1</span>
+<a name="l00136"></a><a class="code" href="../../d2/da7/ns_html5_meta_scanner_8h.html#a0b75b556422271c9aea6cfb6407ec32f">00136</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_HTML5META_SCANNER_HTTP_EQUIV_OTHER 2</span>
+<a name="l00137"></a>00137 <span class="preprocessor"></span>
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 <span class="preprocessor">#endif</span>
+<a name="l00140"></a>00140 <span class="preprocessor"></span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d2/da7/ns_html5_meta_scanner_8h.html">nsHtml5MetaScanner.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:10に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

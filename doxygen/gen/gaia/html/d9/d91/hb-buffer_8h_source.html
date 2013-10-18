@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: hb-buffer.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d9/d91/hb-buffer_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">hb-buffer.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d9/d91/hb-buffer_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * Copyright © 1998-2004  David Turner and Werner Lemberg</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright © 2004,2007,2009  Red Hat, Inc.</span>
+<a name="l00004"></a>00004 <span class="comment"> * Copyright © 2011,2012  Google, Inc.</span>
+<a name="l00005"></a>00005 <span class="comment"> *</span>
+<a name="l00006"></a>00006 <span class="comment"> *  This is part of HarfBuzz, a text shaping library.</span>
+<a name="l00007"></a>00007 <span class="comment"> *</span>
+<a name="l00008"></a>00008 <span class="comment"> * Permission is hereby granted, without written agreement and without</span>
+<a name="l00009"></a>00009 <span class="comment"> * license or royalty fees, to use, copy, modify, and distribute this</span>
+<a name="l00010"></a>00010 <span class="comment"> * software and its documentation for any purpose, provided that the</span>
+<a name="l00011"></a>00011 <span class="comment"> * above copyright notice and the following two paragraphs appear in</span>
+<a name="l00012"></a>00012 <span class="comment"> * all copies of this software.</span>
+<a name="l00013"></a>00013 <span class="comment"> *</span>
+<a name="l00014"></a>00014 <span class="comment"> * IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE TO ANY PARTY FOR</span>
+<a name="l00015"></a>00015 <span class="comment"> * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES</span>
+<a name="l00016"></a>00016 <span class="comment"> * ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN</span>
+<a name="l00017"></a>00017 <span class="comment"> * IF THE COPYRIGHT HOLDER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH</span>
+<a name="l00018"></a>00018 <span class="comment"> * DAMAGE.</span>
+<a name="l00019"></a>00019 <span class="comment"> *</span>
+<a name="l00020"></a>00020 <span class="comment"> * THE COPYRIGHT HOLDER SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING,</span>
+<a name="l00021"></a>00021 <span class="comment"> * BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND</span>
+<a name="l00022"></a>00022 <span class="comment"> * FITNESS FOR A PARTICULAR PURPOSE.  THE SOFTWARE PROVIDED HEREUNDER IS</span>
+<a name="l00023"></a>00023 <span class="comment"> * ON AN &quot;AS IS&quot; BASIS, AND THE COPYRIGHT HOLDER HAS NO OBLIGATION TO</span>
+<a name="l00024"></a>00024 <span class="comment"> * PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.</span>
+<a name="l00025"></a>00025 <span class="comment"> *</span>
+<a name="l00026"></a>00026 <span class="comment"> * Red Hat Author(s): Owen Taylor, Behdad Esfahbod</span>
+<a name="l00027"></a>00027 <span class="comment"> * Google Author(s): Behdad Esfahbod</span>
+<a name="l00028"></a>00028 <span class="comment"> */</span>
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="preprocessor">#ifndef HB_H_IN</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Include &lt;hb.h&gt; instead.&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00033"></a>00033 <span class="preprocessor"></span>
+<a name="l00034"></a>00034 <span class="preprocessor">#ifndef HB_BUFFER_H</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span><span class="preprocessor">#define HB_BUFFER_H</span>
+<a name="l00036"></a>00036 <span class="preprocessor"></span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/da8/hb-common_8h.html">hb-common.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d2e/hb-unicode_8h.html">hb-unicode.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d34/hb-font_8h.html">hb-font.h</a>&quot;</span>
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 HB_BEGIN_DECLS
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 <span class="keyword">typedef</span> <span class="keyword">struct </span>hb_glyph_info_t {
+<a name="l00045"></a>00045   hb_codepoint_t codepoint;
+<a name="l00046"></a>00046   hb_mask_t      <a class="code" href="../../d6/d1b/pprthred_8h.html#a0ef3d0e16cb97cc7f7a7493c13119571">mask</a>;
+<a name="l00047"></a>00047   uint32_t       cluster;
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049   <span class="comment">/*&lt; private &gt;*/</span>
+<a name="l00050"></a>00050   hb_var_int_t   var1;
+<a name="l00051"></a>00051   hb_var_int_t   var2;
+<a name="l00052"></a>00052 } hb_glyph_info_t;
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054 <span class="keyword">typedef</span> <span class="keyword">struct </span>hb_glyph_position_t {
+<a name="l00055"></a>00055   hb_position_t  x_advance;
+<a name="l00056"></a>00056   hb_position_t  y_advance;
+<a name="l00057"></a>00057   hb_position_t  x_offset;
+<a name="l00058"></a>00058   hb_position_t  y_offset;
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060   <span class="comment">/*&lt; private &gt;*/</span>
+<a name="l00061"></a>00061   hb_var_int_t   var;
+<a name="l00062"></a>00062 } hb_glyph_position_t;
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065 <span class="keyword">typedef</span> <span class="keyword">struct </span>hb_segment_properties_t {
+<a name="l00066"></a>00066   hb_direction_t  <a class="code" href="../../d3/d91/j3d_8js.html#ad0dea711cdf3eaf35d6e1dfde0f163b3">direction</a>;
+<a name="l00067"></a>00067   hb_script_t     <a class="code" href="../../d2/d7d/jsapi_8h.html#a31bd60a30b08f545ac3bb2e4c17c4d97">script</a>;
+<a name="l00068"></a>00068   hb_language_t   <a class="code" href="../../d6/d45/prerror_8h.html#a5b8860d15e47932f3ec6f41c96dcb857">language</a>;
+<a name="l00069"></a>00069   <span class="comment">/*&lt; private &gt;*/</span>
+<a name="l00070"></a>00070   <span class="keywordtype">void</span>           *reserved1;
+<a name="l00071"></a>00071   <span class="keywordtype">void</span>           *reserved2;
+<a name="l00072"></a>00072 } hb_segment_properties_t;
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 <span class="preprocessor">#define HB_SEGMENT_PROPERTIES_DEFAULT {HB_DIRECTION_INVALID, \</span>
+<a name="l00075"></a>00075 <span class="preprocessor">                       HB_SCRIPT_INVALID, \</span>
+<a name="l00076"></a>00076 <span class="preprocessor">                       HB_LANGUAGE_INVALID, \</span>
+<a name="l00077"></a>00077 <span class="preprocessor">                       NULL, \</span>
+<a name="l00078"></a>00078 <span class="preprocessor">                       NULL}</span>
+<a name="l00079"></a>00079 <span class="preprocessor"></span>
+<a name="l00080"></a>00080 hb_bool_t
+<a name="l00081"></a>00081 hb_segment_properties_equal (<span class="keyword">const</span> hb_segment_properties_t *<a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>,
+<a name="l00082"></a>00082                  <span class="keyword">const</span> hb_segment_properties_t *<a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>);
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>
+<a name="l00085"></a>00085 hb_segment_properties_hash (<span class="keyword">const</span> hb_segment_properties_t *<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>);
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 <span class="comment">/*</span>
+<a name="l00090"></a>00090 <span class="comment"> * hb_buffer_t</span>
+<a name="l00091"></a>00091 <span class="comment"> */</span>
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 <span class="keyword">typedef</span> <span class="keyword">struct </span>hb_buffer_t hb_buffer_t;
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095 hb_buffer_t *
+<a name="l00096"></a>00096 hb_buffer_create (<span class="keywordtype">void</span>);
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098 hb_buffer_t *
+<a name="l00099"></a>00099 hb_buffer_get_empty (<span class="keywordtype">void</span>);
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 hb_buffer_t *
+<a name="l00102"></a>00102 hb_buffer_reference (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="keywordtype">void</span>
+<a name="l00105"></a>00105 hb_buffer_destroy (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107 hb_bool_t
+<a name="l00108"></a>00108 hb_buffer_set_user_data (hb_buffer_t        *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00109"></a>00109              hb_user_data_key_t *<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>,
+<a name="l00110"></a>00110              <span class="keywordtype">void</span> *              <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>,
+<a name="l00111"></a>00111              hb_destroy_func_t   <a class="code" href="../../db/d0b/_image_editor_8js.html#ab508a76bce0563fb932c738c5d3ff9ed">destroy</a>,
+<a name="l00112"></a>00112              hb_bool_t           <a class="code" href="../../dc/d89/wappush_2js_2message_8js.html#a7c5f9536f6c7849a4a7a592bfedf18f1">replace</a>);
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 <span class="keywordtype">void</span> *
+<a name="l00115"></a>00115 hb_buffer_get_user_data (hb_buffer_t        *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00116"></a>00116              hb_user_data_key_t *<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>);
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119 <span class="keyword">typedef</span> <span class="keyword">enum</span> {
+<a name="l00120"></a>00120   HB_BUFFER_CONTENT_TYPE_INVALID = 0,
+<a name="l00121"></a>00121   HB_BUFFER_CONTENT_TYPE_UNICODE,
+<a name="l00122"></a>00122   HB_BUFFER_CONTENT_TYPE_GLYPHS
+<a name="l00123"></a>00123 } hb_buffer_content_type_t;
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 <span class="keywordtype">void</span>
+<a name="l00126"></a>00126 hb_buffer_set_content_type (hb_buffer_t              *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00127"></a>00127                 hb_buffer_content_type_t  content_type);
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129 hb_buffer_content_type_t
+<a name="l00130"></a>00130 hb_buffer_get_content_type (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133 <span class="keywordtype">void</span>
+<a name="l00134"></a>00134 hb_buffer_set_unicode_funcs (hb_buffer_t        *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00135"></a>00135                  hb_unicode_funcs_t *unicode_funcs);
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137 hb_unicode_funcs_t *
+<a name="l00138"></a>00138 hb_buffer_get_unicode_funcs (hb_buffer_t        *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140 <span class="keywordtype">void</span>
+<a name="l00141"></a>00141 hb_buffer_set_direction (hb_buffer_t    *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00142"></a>00142              hb_direction_t  <a class="code" href="../../d3/d91/j3d_8js.html#ad0dea711cdf3eaf35d6e1dfde0f163b3">direction</a>);
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144 hb_direction_t
+<a name="l00145"></a>00145 hb_buffer_get_direction (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147 <span class="keywordtype">void</span>
+<a name="l00148"></a>00148 hb_buffer_set_script (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00149"></a>00149               hb_script_t  <a class="code" href="../../d2/d7d/jsapi_8h.html#a31bd60a30b08f545ac3bb2e4c17c4d97">script</a>);
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151 hb_script_t
+<a name="l00152"></a>00152 hb_buffer_get_script (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154 <span class="keywordtype">void</span>
+<a name="l00155"></a>00155 hb_buffer_set_language (hb_buffer_t   *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00156"></a>00156             hb_language_t  <a class="code" href="../../d6/d45/prerror_8h.html#a5b8860d15e47932f3ec6f41c96dcb857">language</a>);
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159 hb_language_t
+<a name="l00160"></a>00160 hb_buffer_get_language (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162 <span class="keywordtype">void</span>
+<a name="l00163"></a>00163 hb_buffer_set_segment_properties (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00164"></a>00164                   <span class="keyword">const</span> hb_segment_properties_t *<a class="code" href="../../de/dc5/jsfriendapi_8h.html#a0c4e9efe1571ce3ef20a0baf42a47be9">props</a>);
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166 <span class="keywordtype">void</span>
+<a name="l00167"></a>00167 hb_buffer_get_segment_properties (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00168"></a>00168                   hb_segment_properties_t *<a class="code" href="../../de/dc5/jsfriendapi_8h.html#a0c4e9efe1571ce3ef20a0baf42a47be9">props</a>);
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170 <span class="keywordtype">void</span>
+<a name="l00171"></a>00171 hb_buffer_guess_segment_properties (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174 <span class="keyword">typedef</span> <span class="keyword">enum</span> {
+<a name="l00175"></a>00175   HB_BUFFER_FLAGS_DEFAULT           = 0x00000000,
+<a name="l00176"></a>00176   HB_BUFFER_FLAG_BOT                = 0x00000001, <span class="comment">/* Beginning-of-text */</span>
+<a name="l00177"></a>00177   HB_BUFFER_FLAG_EOT                = 0x00000002, <span class="comment">/* End-of-text */</span>
+<a name="l00178"></a>00178   HB_BUFFER_FLAG_PRESERVE_DEFAULT_IGNORABLES    = 0x00000004
+<a name="l00179"></a>00179 } hb_buffer_flags_t;
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181 <span class="keywordtype">void</span>
+<a name="l00182"></a>00182 hb_buffer_set_flags (hb_buffer_t       *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00183"></a>00183              hb_buffer_flags_t  <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>);
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185 hb_buffer_flags_t
+<a name="l00186"></a>00186 hb_buffer_get_flags (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189 <span class="comment">/* Resets the buffer.  Afterwards it&#39;s as if it was just created,</span>
+<a name="l00190"></a>00190 <span class="comment"> * except that it has a larger buffer allocated perhaps... */</span>
+<a name="l00191"></a>00191 <span class="keywordtype">void</span>
+<a name="l00192"></a>00192 hb_buffer_reset (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194 <span class="comment">/* Like reset, but does NOT clear unicode_funcs. */</span>
+<a name="l00195"></a>00195 <span class="keywordtype">void</span>
+<a name="l00196"></a>00196 hb_buffer_clear_contents (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198 <span class="comment">/* Returns false if allocation failed */</span>
+<a name="l00199"></a>00199 hb_bool_t
+<a name="l00200"></a>00200 hb_buffer_pre_allocate (hb_buffer_t  *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00201"></a>00201                 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>  <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>);
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204 <span class="comment">/* Returns false if allocation has failed before */</span>
+<a name="l00205"></a>00205 hb_bool_t
+<a name="l00206"></a>00206 hb_buffer_allocation_successful (hb_buffer_t  *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208 <span class="keywordtype">void</span>
+<a name="l00209"></a>00209 hb_buffer_reverse (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211 <span class="keywordtype">void</span>
+<a name="l00212"></a>00212 hb_buffer_reverse_clusters (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214 
+<a name="l00215"></a>00215 <span class="comment">/* Filling the buffer in */</span>
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217 <span class="keywordtype">void</span>
+<a name="l00218"></a>00218 hb_buffer_add (hb_buffer_t    *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00219"></a>00219            hb_codepoint_t  codepoint,
+<a name="l00220"></a>00220            <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    cluster);
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222 <span class="keywordtype">void</span>
+<a name="l00223"></a>00223 hb_buffer_add_utf8 (hb_buffer_t  *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00224"></a>00224             <span class="keyword">const</span> <span class="keywordtype">char</span>   *<a class="code" href="../../dd/dfa/classtext.html">text</a>,
+<a name="l00225"></a>00225             <span class="keywordtype">int</span>           text_length,
+<a name="l00226"></a>00226             <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>  item_offset,
+<a name="l00227"></a>00227             <span class="keywordtype">int</span>           item_length);
+<a name="l00228"></a>00228 
+<a name="l00229"></a>00229 <span class="keywordtype">void</span>
+<a name="l00230"></a>00230 hb_buffer_add_utf16 (hb_buffer_t    *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00231"></a>00231              <span class="keyword">const</span> uint16_t *<a class="code" href="../../dd/dfa/classtext.html">text</a>,
+<a name="l00232"></a>00232              <span class="keywordtype">int</span>             text_length,
+<a name="l00233"></a>00233              <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    item_offset,
+<a name="l00234"></a>00234              <span class="keywordtype">int</span>             item_length);
+<a name="l00235"></a>00235 
+<a name="l00236"></a>00236 <span class="keywordtype">void</span>
+<a name="l00237"></a>00237 hb_buffer_add_utf32 (hb_buffer_t    *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00238"></a>00238              <span class="keyword">const</span> uint32_t *<a class="code" href="../../dd/dfa/classtext.html">text</a>,
+<a name="l00239"></a>00239              <span class="keywordtype">int</span>             text_length,
+<a name="l00240"></a>00240              <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>    item_offset,
+<a name="l00241"></a>00241              <span class="keywordtype">int</span>             item_length);
+<a name="l00242"></a>00242 
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244 <span class="comment">/* Clears any new items added at the end */</span>
+<a name="l00245"></a>00245 hb_bool_t
+<a name="l00246"></a>00246 hb_buffer_set_length (hb_buffer_t  *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00247"></a>00247               <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>  <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>);
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249 <span class="comment">/* Return value valid as long as buffer not modified */</span>
+<a name="l00250"></a>00250 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>
+<a name="l00251"></a>00251 hb_buffer_get_length (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253 <span class="comment">/* Getting glyphs out of the buffer */</span>
+<a name="l00254"></a>00254 
+<a name="l00255"></a>00255 <span class="comment">/* Return value valid as long as buffer not modified */</span>
+<a name="l00256"></a>00256 hb_glyph_info_t *
+<a name="l00257"></a>00257 hb_buffer_get_glyph_infos (hb_buffer_t  *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00258"></a>00258                            <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *<a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>);
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260 <span class="comment">/* Return value valid as long as buffer not modified */</span>
+<a name="l00261"></a>00261 hb_glyph_position_t *
+<a name="l00262"></a>00262 hb_buffer_get_glyph_positions (hb_buffer_t  *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00263"></a>00263                                <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *<a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>);
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266 <span class="comment">/* Reorders a glyph buffer to have canonical in-cluster glyph order / position.</span>
+<a name="l00267"></a>00267 <span class="comment"> * The resulting clusters should behave identical to pre-reordering clusters.</span>
+<a name="l00268"></a>00268 <span class="comment"> * NOTE: This has nothing to do with Unicode normalization. */</span>
+<a name="l00269"></a>00269 <span class="keywordtype">void</span>
+<a name="l00270"></a>00270 hb_buffer_normalize_glyphs (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273 <span class="comment">/*</span>
+<a name="l00274"></a>00274 <span class="comment"> * Serialize</span>
+<a name="l00275"></a>00275 <span class="comment"> */</span>
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277 <span class="keyword">typedef</span> <span class="keyword">enum</span> {
+<a name="l00278"></a>00278   HB_BUFFER_SERIALIZE_FLAGS_DEFAULT     = 0x00000000,
+<a name="l00279"></a>00279   HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS      = 0x00000001,
+<a name="l00280"></a>00280   HB_BUFFER_SERIALIZE_FLAG_NO_POSITIONS     = 0x00000002,
+<a name="l00281"></a>00281   HB_BUFFER_SERIALIZE_FLAG_NO_GLYPH_NAMES   = 0x00000004
+<a name="l00282"></a>00282 } hb_buffer_serialize_flags_t;
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284 <span class="keyword">typedef</span> <span class="keyword">enum</span> {
+<a name="l00285"></a>00285   HB_BUFFER_SERIALIZE_FORMAT_TEXT   = HB_TAG(<span class="charliteral">&#39;T&#39;</span>,<span class="charliteral">&#39;E&#39;</span>,<span class="charliteral">&#39;X&#39;</span>,<span class="charliteral">&#39;T&#39;</span>),
+<a name="l00286"></a>00286   HB_BUFFER_SERIALIZE_FORMAT_JSON   = HB_TAG(<span class="charliteral">&#39;J&#39;</span>,<span class="charliteral">&#39;S&#39;</span>,<span class="charliteral">&#39;O&#39;</span>,<span class="charliteral">&#39;N&#39;</span>),
+<a name="l00287"></a>00287   HB_BUFFER_SERIALIZE_FORMAT_INVALID    = HB_TAG_NONE
+<a name="l00288"></a>00288 } hb_buffer_serialize_format_t;
+<a name="l00289"></a>00289 
+<a name="l00290"></a>00290 <span class="comment">/* len=-1 means str is NUL-terminated. */</span>
+<a name="l00291"></a>00291 hb_buffer_serialize_format_t
+<a name="l00292"></a>00292 hb_buffer_serialize_format_from_string (<span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>, <span class="keywordtype">int</span> <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a>);
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294 <span class="keyword">const</span> <span class="keywordtype">char</span> *
+<a name="l00295"></a>00295 hb_buffer_serialize_format_to_string (hb_buffer_serialize_format_t <a class="code" href="../../d5/dca/reply__imap__email__test_8js.html#a63214d8f1727e71292b73e09dc39644f">format</a>);
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297 <span class="keyword">const</span> <span class="keywordtype">char</span> **
+<a name="l00298"></a>00298 hb_buffer_serialize_list_formats (<span class="keywordtype">void</span>);
+<a name="l00299"></a>00299 
+<a name="l00300"></a>00300 <span class="comment">/* Returns number of items, starting at start, that were serialized. */</span>
+<a name="l00301"></a>00301 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>
+<a name="l00302"></a>00302 hb_buffer_serialize_glyphs (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00303"></a>00303                 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>,
+<a name="l00304"></a>00304                 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>,
+<a name="l00305"></a>00305                 <span class="keywordtype">char</span> *<a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>,
+<a name="l00306"></a>00306                 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> buf_size,
+<a name="l00307"></a>00307                 <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *buf_consumed, <span class="comment">/* May be NULL */</span>
+<a name="l00308"></a>00308                 hb_font_t *<a class="code" href="../../d4/d8c/viewphoto_8js.html#ae15b4cb928861ff768db92508d6ce0d2">font</a>, <span class="comment">/* May be NULL */</span>
+<a name="l00309"></a>00309                 hb_buffer_serialize_format_t <a class="code" href="../../d5/dca/reply__imap__email__test_8js.html#a63214d8f1727e71292b73e09dc39644f">format</a>,
+<a name="l00310"></a>00310                 hb_buffer_serialize_flags_t <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>);
+<a name="l00311"></a>00311 
+<a name="l00312"></a>00312 hb_bool_t
+<a name="l00313"></a>00313 hb_buffer_deserialize_glyphs (hb_buffer_t *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>,
+<a name="l00314"></a>00314                   <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>,
+<a name="l00315"></a>00315                   <span class="keywordtype">int</span> buf_len, <span class="comment">/* -1 means nul-terminated */</span>
+<a name="l00316"></a>00316                   <span class="keyword">const</span> <span class="keywordtype">char</span> **end_ptr, <span class="comment">/* May be NULL */</span>
+<a name="l00317"></a>00317                   hb_font_t *<a class="code" href="../../d4/d8c/viewphoto_8js.html#ae15b4cb928861ff768db92508d6ce0d2">font</a>, <span class="comment">/* May be NULL */</span>
+<a name="l00318"></a>00318                   hb_buffer_serialize_format_t <a class="code" href="../../d5/dca/reply__imap__email__test_8js.html#a63214d8f1727e71292b73e09dc39644f">format</a>);
+<a name="l00319"></a>00319 
+<a name="l00320"></a>00320 
+<a name="l00321"></a>00321 HB_END_DECLS
+<a name="l00322"></a>00322 
+<a name="l00323"></a>00323 <span class="preprocessor">#endif </span><span class="comment">/* HB_BUFFER_H */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d9/d91/hb-buffer_8h.html">hb-buffer.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:09に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

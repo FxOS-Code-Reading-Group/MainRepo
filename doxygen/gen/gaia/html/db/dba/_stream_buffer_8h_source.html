@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: StreamBuffer.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('db/dba/_stream_buffer_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">StreamBuffer.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../db/dba/_stream_buffer_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this file,</span>
+<a name="l00004"></a>00004 <span class="comment"> * You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef MOZILLA_STREAMBUFFER_H_</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define MOZILLA_STREAMBUFFER_H_</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d50/_debug_only_8h.html">mozilla/DebugOnly.h</a>&quot;</span>
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d80/_media_segment_8h.html">MediaSegment.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &lt;algorithm&gt;</span>
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="keyword">namespace </span>mozilla {
+<a name="l00016"></a>00016 
+<a name="l00020"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">00020</a> <span class="keyword">typedef</span> <a class="code" href="../../d2/d93/namespacemozilla.html#aa1f286bd51fbbcf03d7122e667599b28">MediaTime</a> <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a>;
+<a name="l00021"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a9c054ca86539d9a098bf3633d4e15af4">00021</a> <span class="keyword">const</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../d2/d93/namespacemozilla.html#a9c054ca86539d9a098bf3633d4e15af4">STREAM_TIME_MAX</a> = <a class="code" href="../../d2/d93/namespacemozilla.html#a9bba3bd280b4017595035bb4a15b97ee">MEDIA_TIME_MAX</a>;
+<a name="l00022"></a>00022 
+<a name="l00027"></a><a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">00027</a> <span class="keyword">typedef</span> int32_t <a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a>;
+<a name="l00028"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a6a0bec629185937dd95d3d59d73b3bc7">00028</a> <span class="keyword">const</span> <a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> <a class="code" href="../../d2/d93/namespacemozilla.html#a6a0bec629185937dd95d3d59d73b3bc7">TRACK_RATE_MAX</a> = 1 &lt;&lt; <a class="code" href="../../d2/d93/namespacemozilla.html#a2032b34b018faae3170c3a4dc6486c28">MEDIA_TIME_FRAC_BITS</a>;
+<a name="l00029"></a>00029 
+<a name="l00035"></a><a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">00035</a> <span class="keyword">typedef</span> int32_t <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a>;
+<a name="l00036"></a><a class="code" href="../../d2/d93/namespacemozilla.html#af45a421b87bec0af4db3af3d1bbc5130">00036</a> <span class="keyword">const</span> <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a> <a class="code" href="../../d2/d93/namespacemozilla.html#af45a421b87bec0af4db3af3d1bbc5130">TRACK_NONE</a> = 0;
+<a name="l00037"></a>00037 
+<a name="l00038"></a><a class="code" href="../../d2/d93/namespacemozilla.html#ac3f46476203b97fe068a9c2ac2983429">00038</a> <span class="keyword">inline</span> <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> <a class="code" href="../../d2/d93/namespacemozilla.html#ac3f46476203b97fe068a9c2ac2983429">TimeToTicksRoundUp</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> aRate, <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> aTime)
+<a name="l00039"></a>00039 {
+<a name="l00040"></a>00040   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt; aRate &amp;&amp; aRate &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a6a0bec629185937dd95d3d59d73b3bc7">TRACK_RATE_MAX</a>, <span class="stringliteral">&quot;Bad rate&quot;</span>);
+<a name="l00041"></a>00041   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt;= aTime &amp;&amp; aTime &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a9c054ca86539d9a098bf3633d4e15af4">STREAM_TIME_MAX</a>, <span class="stringliteral">&quot;Bad time&quot;</span>);
+<a name="l00042"></a>00042   <span class="keywordflow">return</span> (aTime*aRate + (1 &lt;&lt; <a class="code" href="../../d2/d93/namespacemozilla.html#a2032b34b018faae3170c3a4dc6486c28">MEDIA_TIME_FRAC_BITS</a>) - 1) &gt;&gt; <a class="code" href="../../d2/d93/namespacemozilla.html#a2032b34b018faae3170c3a4dc6486c28">MEDIA_TIME_FRAC_BITS</a>;
+<a name="l00043"></a>00043 }
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a62889d8a3bbb769bc945f8395f002b4e">00045</a> <span class="keyword">inline</span> <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> <a class="code" href="../../d2/d93/namespacemozilla.html#a62889d8a3bbb769bc945f8395f002b4e">TimeToTicksRoundDown</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> aRate, <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> aTime)
+<a name="l00046"></a>00046 {
+<a name="l00047"></a>00047   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt; aRate &amp;&amp; aRate &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a6a0bec629185937dd95d3d59d73b3bc7">TRACK_RATE_MAX</a>, <span class="stringliteral">&quot;Bad rate&quot;</span>);
+<a name="l00048"></a>00048   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt;= aTime &amp;&amp; aTime &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a9c054ca86539d9a098bf3633d4e15af4">STREAM_TIME_MAX</a>, <span class="stringliteral">&quot;Bad time&quot;</span>);
+<a name="l00049"></a>00049   <span class="keywordflow">return</span> (aTime*aRate) &gt;&gt; <a class="code" href="../../d2/d93/namespacemozilla.html#a2032b34b018faae3170c3a4dc6486c28">MEDIA_TIME_FRAC_BITS</a>;
+<a name="l00050"></a>00050 }
+<a name="l00051"></a>00051 
+<a name="l00052"></a><a class="code" href="../../d2/d93/namespacemozilla.html#ab90c0d92198865065f8ee9a814b21924">00052</a> <span class="keyword">inline</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../d2/d93/namespacemozilla.html#ab90c0d92198865065f8ee9a814b21924">TicksToTimeRoundUp</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> aRate, <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> aTicks)
+<a name="l00053"></a>00053 {
+<a name="l00054"></a>00054   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt; aRate &amp;&amp; aRate &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a6a0bec629185937dd95d3d59d73b3bc7">TRACK_RATE_MAX</a>, <span class="stringliteral">&quot;Bad rate&quot;</span>);
+<a name="l00055"></a>00055   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt;= aTicks &amp;&amp; aTicks &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a2a2df59e93b1d1177a3c55ad5a29a8d4">TRACK_TICKS_MAX</a>, <span class="stringliteral">&quot;Bad samples&quot;</span>);
+<a name="l00056"></a>00056   <span class="keywordflow">return</span> ((aTicks &lt;&lt; <a class="code" href="../../d2/d93/namespacemozilla.html#a2032b34b018faae3170c3a4dc6486c28">MEDIA_TIME_FRAC_BITS</a>) + aRate - 1)/aRate;
+<a name="l00057"></a>00057 }
+<a name="l00058"></a>00058 
+<a name="l00059"></a><a class="code" href="../../d2/d93/namespacemozilla.html#afc460235ab5d4244abcd37cec75268ba">00059</a> <span class="keyword">inline</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../d2/d93/namespacemozilla.html#afc460235ab5d4244abcd37cec75268ba">TicksToTimeRound</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> aRate, <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> aTicks)
+<a name="l00060"></a>00060 {
+<a name="l00061"></a>00061   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt; aRate &amp;&amp; aRate &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a6a0bec629185937dd95d3d59d73b3bc7">TRACK_RATE_MAX</a>, <span class="stringliteral">&quot;Bad rate&quot;</span>);
+<a name="l00062"></a>00062   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt;= aTicks &amp;&amp; aTicks &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a2a2df59e93b1d1177a3c55ad5a29a8d4">TRACK_TICKS_MAX</a>, <span class="stringliteral">&quot;Bad samples&quot;</span>);
+<a name="l00063"></a>00063   <span class="keywordflow">return</span> ((aTicks &lt;&lt; <a class="code" href="../../d2/d93/namespacemozilla.html#a2032b34b018faae3170c3a4dc6486c28">MEDIA_TIME_FRAC_BITS</a>) + aRate/2)/aRate;
+<a name="l00064"></a>00064 }
+<a name="l00065"></a>00065 
+<a name="l00066"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a41ef28331b12068c5194707c68ffb57f">00066</a> <span class="keyword">inline</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../d2/d93/namespacemozilla.html#a41ef28331b12068c5194707c68ffb57f">TicksToTimeRoundDown</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> aRate, <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> aTicks)
+<a name="l00067"></a>00067 {
+<a name="l00068"></a>00068   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt; aRate &amp;&amp; aRate &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a6a0bec629185937dd95d3d59d73b3bc7">TRACK_RATE_MAX</a>, <span class="stringliteral">&quot;Bad rate&quot;</span>);
+<a name="l00069"></a>00069   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt;= aTicks &amp;&amp; aTicks &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a2a2df59e93b1d1177a3c55ad5a29a8d4">TRACK_TICKS_MAX</a>, <span class="stringliteral">&quot;Bad samples&quot;</span>);
+<a name="l00070"></a>00070   <span class="keywordflow">return</span> (aTicks &lt;&lt; <a class="code" href="../../d2/d93/namespacemozilla.html#a2032b34b018faae3170c3a4dc6486c28">MEDIA_TIME_FRAC_BITS</a>)/aRate;
+<a name="l00071"></a>00071 }
+<a name="l00072"></a>00072 
+<a name="l00085"></a><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html">00085</a> <span class="keyword">class </span><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html">StreamBuffer</a> {
+<a name="l00086"></a>00086 <span class="keyword">public</span>:
+<a name="l00098"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">00098</a>   <span class="keyword">class </span><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a> {
+<a name="l00099"></a>00099   <span class="keyword">public</span>:
+<a name="l00100"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#af529d01aa0e3328b85ead319c58e2bbd">00100</a>     <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#af529d01aa0e3328b85ead319c58e2bbd">Track</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a> aID, <a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> aRate, <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> aStart, <a class="code" href="../../d2/d0d/classmozilla_1_1_media_segment.html">MediaSegment</a>* aSegment)
+<a name="l00101"></a>00101       : <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a33d18b4223ff1687180b815293834aee">mStart</a>(aStart),
+<a name="l00102"></a>00102         <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>(aSegment),
+<a name="l00103"></a>00103         <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab271210267e73c795c02a9dea28ca47a">mRate</a>(aRate),
+<a name="l00104"></a>00104         <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a65cc10569946d8b630bd6a9f86d9ba3a">mID</a>(aID),
+<a name="l00105"></a>00105         <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a199c02375f119befe6cb032e2aa0bb7a">mEnded</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00106"></a>00106     {
+<a name="l00107"></a>00107       <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#aa7716d29a6749d766b19b8b880b448f1">MOZ_COUNT_CTOR</a>(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>);
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109       <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(aID &gt; <a class="code" href="../../d2/d93/namespacemozilla.html#af45a421b87bec0af4db3af3d1bbc5130">TRACK_NONE</a>, <span class="stringliteral">&quot;Bad track ID&quot;</span>);
+<a name="l00110"></a>00110       <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt; aRate &amp;&amp; aRate &lt;= <a class="code" href="../../d2/d93/namespacemozilla.html#a6a0bec629185937dd95d3d59d73b3bc7">TRACK_RATE_MAX</a>, <span class="stringliteral">&quot;Invalid rate&quot;</span>);
+<a name="l00111"></a>00111       <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(0 &lt;= aStart &amp;&amp; aStart &lt;= aSegment-&gt;GetDuration(), <span class="stringliteral">&quot;Bad start position&quot;</span>);
+<a name="l00112"></a>00112     }
+<a name="l00113"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a1f86849814f9c5e756a066b45722ede0">00113</a>     <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a1f86849814f9c5e756a066b45722ede0">~Track</a>()
+<a name="l00114"></a>00114     {
+<a name="l00115"></a>00115       <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#a8a91532bfafbc5b73fad1b4127faf725">MOZ_COUNT_DTOR</a>(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>);
+<a name="l00116"></a>00116     }
+<a name="l00117"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a6ce78416dead810fbcf691e14b11c41f">00117</a>     <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; T* <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a6ce78416dead810fbcf691e14b11c41f">Get</a>()<span class="keyword"> const</span>
+<a name="l00118"></a>00118 <span class="keyword">    </span>{
+<a name="l00119"></a>00119       <span class="keywordflow">if</span> (<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>-&gt;GetType() == T::StaticType()) {
+<a name="l00120"></a>00120         <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T*<span class="keyword">&gt;</span>(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>.<a class="code" href="../../d1/d89/classns_auto_ptr.html#a4dc48257bfad6365c605e79aa2ce9803">get</a>());
+<a name="l00121"></a>00121       }
+<a name="l00122"></a>00122       <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00123"></a>00123     }
+<a name="l00124"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#aeeac420c28dcd91fbaffe858286d86c8">00124</a>     <a class="code" href="../../d2/d0d/classmozilla_1_1_media_segment.html">MediaSegment</a>* <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#aeeac420c28dcd91fbaffe858286d86c8">GetSegment</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>; }
+<a name="l00125"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a677ec4fb3cb464690a2945cdad045306">00125</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a677ec4fb3cb464690a2945cdad045306">GetRate</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab271210267e73c795c02a9dea28ca47a">mRate</a>; }
+<a name="l00126"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a3baabc1083cbcaf76cc04d660e8e1472">00126</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a3baabc1083cbcaf76cc04d660e8e1472">GetID</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a65cc10569946d8b630bd6a9f86d9ba3a">mID</a>; }
+<a name="l00127"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a5958b84428ff832e253f7e5218cc5213">00127</a>     <span class="keywordtype">bool</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a5958b84428ff832e253f7e5218cc5213">IsEnded</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a199c02375f119befe6cb032e2aa0bb7a">mEnded</a>; }
+<a name="l00128"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a3341461e9afeea1071e56bcaadccac28">00128</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a3341461e9afeea1071e56bcaadccac28">GetStart</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a33d18b4223ff1687180b815293834aee">mStart</a>; }
+<a name="l00129"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#afdbabcbb6af3b758b1a6a88163eab13e">00129</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#afdbabcbb6af3b758b1a6a88163eab13e">GetEnd</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>-&gt;GetDuration(); }
+<a name="l00130"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#af01c3087a5712bd2fc4000430809d2c9">00130</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#af01c3087a5712bd2fc4000430809d2c9">GetEndTimeRoundDown</a>()<span class="keyword"> const</span>
+<a name="l00131"></a>00131 <span class="keyword">    </span>{
+<a name="l00132"></a>00132       <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ac3445e7443d6ad1c9ba40bb017e7bae3">mozilla::TicksToTimeRoundDown</a>(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab271210267e73c795c02a9dea28ca47a">mRate</a>, <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>-&gt;GetDuration());
+<a name="l00133"></a>00133     }
+<a name="l00134"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a746044bacc5e369b7e73036c2262dcb3">00134</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a746044bacc5e369b7e73036c2262dcb3">GetStartTimeRoundDown</a>()<span class="keyword"> const</span>
+<a name="l00135"></a>00135 <span class="keyword">    </span>{
+<a name="l00136"></a>00136       <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ac3445e7443d6ad1c9ba40bb017e7bae3">mozilla::TicksToTimeRoundDown</a>(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab271210267e73c795c02a9dea28ca47a">mRate</a>, <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a33d18b4223ff1687180b815293834aee">mStart</a>);
+<a name="l00137"></a>00137     }
+<a name="l00138"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a0afc7724e804038b402c8a05bb147698">00138</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a0afc7724e804038b402c8a05bb147698">TimeToTicksRoundDown</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> aTime)<span class="keyword"> const</span>
+<a name="l00139"></a>00139 <span class="keyword">    </span>{
+<a name="l00140"></a>00140       <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a0afc7724e804038b402c8a05bb147698">mozilla::TimeToTicksRoundDown</a>(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab271210267e73c795c02a9dea28ca47a">mRate</a>, aTime);
+<a name="l00141"></a>00141     }
+<a name="l00142"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ac3445e7443d6ad1c9ba40bb017e7bae3">00142</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ac3445e7443d6ad1c9ba40bb017e7bae3">TicksToTimeRoundDown</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> aTicks)<span class="keyword"> const</span>
+<a name="l00143"></a>00143 <span class="keyword">    </span>{
+<a name="l00144"></a>00144       <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ac3445e7443d6ad1c9ba40bb017e7bae3">mozilla::TicksToTimeRoundDown</a>(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab271210267e73c795c02a9dea28ca47a">mRate</a>, aTicks);
+<a name="l00145"></a>00145     }
+<a name="l00146"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#abbcc79a0d390382987f6e3373e84da1e">00146</a>     <a class="code" href="../../d2/d0d/classmozilla_1_1_media_segment.html#ae554709b7b27e394a31d2e17e7ab80ab">MediaSegment::Type</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#abbcc79a0d390382987f6e3373e84da1e">GetType</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>-&gt;GetType(); }
+<a name="l00147"></a>00147 
+<a name="l00148"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#aa8662a241d8e647291dc77c5ee456ea9">00148</a>     <span class="keywordtype">void</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#aa8662a241d8e647291dc77c5ee456ea9">SetEnded</a>() { <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a199c02375f119befe6cb032e2aa0bb7a">mEnded</a> = <span class="keyword">true</span>; }
+<a name="l00149"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a0fd3b78ac9d848b572be8b99260d3e73">00149</a>     <span class="keywordtype">void</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a0fd3b78ac9d848b572be8b99260d3e73">AppendFrom</a>(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>* aTrack)
+<a name="l00150"></a>00150     {
+<a name="l00151"></a>00151       <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(!<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a199c02375f119befe6cb032e2aa0bb7a">mEnded</a>, <span class="stringliteral">&quot;Can&#39;t append to ended track&quot;</span>);
+<a name="l00152"></a>00152       <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(aTrack-&gt;<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a65cc10569946d8b630bd6a9f86d9ba3a">mID</a> == <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a65cc10569946d8b630bd6a9f86d9ba3a">mID</a>, <span class="stringliteral">&quot;IDs must match&quot;</span>);
+<a name="l00153"></a>00153       <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(aTrack-&gt;<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a33d18b4223ff1687180b815293834aee">mStart</a> == 0, <span class="stringliteral">&quot;Source track must start at zero&quot;</span>);
+<a name="l00154"></a>00154       <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(aTrack-&gt;<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>-&gt;GetType() == <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#abbcc79a0d390382987f6e3373e84da1e">GetType</a>(), <span class="stringliteral">&quot;Track types must match&quot;</span>);
+<a name="l00155"></a>00155       <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(aTrack-&gt;<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab271210267e73c795c02a9dea28ca47a">mRate</a> == <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab271210267e73c795c02a9dea28ca47a">mRate</a>, <span class="stringliteral">&quot;Track rates must match&quot;</span>);
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157       <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>-&gt;AppendFrom(aTrack-&gt;<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>);
+<a name="l00158"></a>00158       <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a199c02375f119befe6cb032e2aa0bb7a">mEnded</a> = aTrack-&gt;<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a199c02375f119befe6cb032e2aa0bb7a">mEnded</a>;
+<a name="l00159"></a>00159     }
+<a name="l00160"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a68b91c1d0badd8f9f46fc51e8ce32288">00160</a>     <a class="code" href="../../d2/d0d/classmozilla_1_1_media_segment.html">MediaSegment</a>* <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a68b91c1d0badd8f9f46fc51e8ce32288">RemoveSegment</a>()
+<a name="l00161"></a>00161     {
+<a name="l00162"></a>00162       <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>.<a class="code" href="../../d1/d89/classns_auto_ptr.html#a05b01e5675caecdaf45353891929fb88">forget</a>();
+<a name="l00163"></a>00163     }
+<a name="l00164"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab0d70ad33b75e809b20a4c885799c543">00164</a>     <span class="keywordtype">void</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab0d70ad33b75e809b20a4c885799c543">ForgetUpTo</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> aTime)
+<a name="l00165"></a>00165     {
+<a name="l00166"></a>00166       <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>-&gt;ForgetUpTo(aTime);
+<a name="l00167"></a>00167 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00168"></a>00168 <span class="preprocessor"></span>      <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a5346af30fb5b5dc3693cec2129048bd4">mForgottenUpTo</a> = std::max&lt;TrackTicks&gt;(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a5346af30fb5b5dc3693cec2129048bd4">mForgottenUpTo</a>, aTime);
+<a name="l00169"></a>00169 <span class="preprocessor">#endif</span>
+<a name="l00170"></a>00170 <span class="preprocessor"></span>    }
+<a name="l00171"></a>00171 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00172"></a>00172 <span class="preprocessor"></span>    <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> GetForgottenUpTo() { <span class="keywordflow">return</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a5346af30fb5b5dc3693cec2129048bd4">mForgottenUpTo</a>; }
+<a name="l00173"></a>00173 <span class="preprocessor">#endif</span>
+<a name="l00174"></a>00174 <span class="preprocessor"></span>
+<a name="l00175"></a>00175   <span class="keyword">protected</span>:
+<a name="l00176"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#aa5cb8fc592e0d31560688d5370110bc8">00176</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html">StreamBuffer</a>;
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178     <span class="comment">// Start offset is in ticks at rate mRate</span>
+<a name="l00179"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a33d18b4223ff1687180b815293834aee">00179</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a33d18b4223ff1687180b815293834aee">mStart</a>;
+<a name="l00180"></a>00180     <span class="comment">// The segment data starts at the start of the owning StreamBuffer, i.e.,</span>
+<a name="l00181"></a>00181     <span class="comment">// there&#39;s mStart silence/no video at the beginning.</span>
+<a name="l00182"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">00182</a>     <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;MediaSegment&gt;</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a478d097d3df2294a0f671b3855b0e225">mSegment</a>;
+<a name="l00183"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab271210267e73c795c02a9dea28ca47a">00183</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#ab271210267e73c795c02a9dea28ca47a">mRate</a>; <span class="comment">// rate in ticks per second</span>
+<a name="l00184"></a>00184     <span class="comment">// Unique ID</span>
+<a name="l00185"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a65cc10569946d8b630bd6a9f86d9ba3a">00185</a>     <a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a65cc10569946d8b630bd6a9f86d9ba3a">mID</a>;
+<a name="l00186"></a>00186     <span class="comment">// True when the track ends with the data in mSegment</span>
+<a name="l00187"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a199c02375f119befe6cb032e2aa0bb7a">00187</a>     <span class="keywordtype">bool</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a199c02375f119befe6cb032e2aa0bb7a">mEnded</a>;
+<a name="l00188"></a><a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a5346af30fb5b5dc3693cec2129048bd4">00188</a>     <a class="code" href="../../d8/d2e/classmozilla_1_1_debug_only.html">DebugOnly&lt;TrackTicks&gt;</a> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a5346af30fb5b5dc3693cec2129048bd4">mForgottenUpTo</a>;
+<a name="l00189"></a>00189   };
+<a name="l00190"></a>00190 
+<a name="l00191"></a><a class="code" href="../../d7/d89/classmozilla_1_1_stream_buffer_1_1_compare_tracks_by_i_d.html">00191</a>   <span class="keyword">class </span><a class="code" href="../../d7/d89/classmozilla_1_1_stream_buffer_1_1_compare_tracks_by_i_d.html">CompareTracksByID</a> {
+<a name="l00192"></a>00192   <span class="keyword">public</span>:
+<a name="l00193"></a><a class="code" href="../../d7/d89/classmozilla_1_1_stream_buffer_1_1_compare_tracks_by_i_d.html#aeed8533f5b2cbd6f0174a550cb364fcd">00193</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d7/d89/classmozilla_1_1_stream_buffer_1_1_compare_tracks_by_i_d.html#aeed8533f5b2cbd6f0174a550cb364fcd">Equals</a>(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>* aA, <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>* aB)<span class="keyword"> const </span>{
+<a name="l00194"></a>00194       <span class="keywordflow">return</span> aA-&gt;<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a3baabc1083cbcaf76cc04d660e8e1472">GetID</a>() == aB-&gt;<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a3baabc1083cbcaf76cc04d660e8e1472">GetID</a>();
+<a name="l00195"></a>00195     }
+<a name="l00196"></a><a class="code" href="../../d7/d89/classmozilla_1_1_stream_buffer_1_1_compare_tracks_by_i_d.html#a2a0edc1d636937c0c7ef90e31f34cc9c">00196</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d7/d89/classmozilla_1_1_stream_buffer_1_1_compare_tracks_by_i_d.html#a2a0edc1d636937c0c7ef90e31f34cc9c">LessThan</a>(<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>* aA, <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>* aB)<span class="keyword"> const </span>{
+<a name="l00197"></a>00197       <span class="keywordflow">return</span> aA-&gt;<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a3baabc1083cbcaf76cc04d660e8e1472">GetID</a>() &lt; aB-&gt;<a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html#a3baabc1083cbcaf76cc04d660e8e1472">GetID</a>();
+<a name="l00198"></a>00198     }
+<a name="l00199"></a>00199   };
+<a name="l00200"></a>00200 
+<a name="l00201"></a><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#addec57f02b46e9354c695606ec0b57ee">00201</a>   <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#addec57f02b46e9354c695606ec0b57ee">StreamBuffer</a>()
+<a name="l00202"></a>00202     : <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#ad7f993a41504d5353c0a9679059e2d19">mTracksKnownTime</a>(0), <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a2453ef7e3c41478b7e1f49bf8b7d6ffb">mForgottenTime</a>(0)
+<a name="l00203"></a>00203   {
+<a name="l00204"></a>00204     <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#aa7716d29a6749d766b19b8b880b448f1">MOZ_COUNT_CTOR</a>(<a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html">StreamBuffer</a>);
+<a name="l00205"></a>00205   }
+<a name="l00206"></a><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a9c9269c4bc0f79477874464af3b0e6e0">00206</a>   <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a9c9269c4bc0f79477874464af3b0e6e0">~StreamBuffer</a>()
+<a name="l00207"></a>00207   {
+<a name="l00208"></a>00208     <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#a8a91532bfafbc5b73fad1b4127faf725">MOZ_COUNT_DTOR</a>(<a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html">StreamBuffer</a>);
+<a name="l00209"></a>00209   }
+<a name="l00210"></a>00210 
+<a name="l00216"></a><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#acba8161f6dd908b5edb0a7ba6aa853dd">00216</a>   <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>&amp; <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#acba8161f6dd908b5edb0a7ba6aa853dd">AddTrack</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a> aID, <a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> aRate, <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> aStart, <a class="code" href="../../d2/d0d/classmozilla_1_1_media_segment.html">MediaSegment</a>* aSegment)
+<a name="l00217"></a>00217   {
+<a name="l00218"></a>00218     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#a62889d8a3bbb769bc945f8395f002b4e">TimeToTicksRoundDown</a>(aRate, <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#ad7f993a41504d5353c0a9679059e2d19">mTracksKnownTime</a>) &lt;= aStart,
+<a name="l00219"></a>00219                  <span class="stringliteral">&quot;Start time too early&quot;</span>);
+<a name="l00220"></a>00220     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(!<a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#aec6ef619564f62954bfb91973809c8dd">FindTrack</a>(aID), <span class="stringliteral">&quot;Track with this ID already exists&quot;</span>);
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222     <span class="keywordflow">return</span> **<a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a96baf15d63a4ec2f0bc3ac5d3eef11c8">mTracks</a>.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#a20905f9cd8e9d60a0285a1f426dcb2a7">InsertElementSorted</a>(<span class="keyword">new</span> <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>(aID, aRate, aStart, aSegment),
+<a name="l00223"></a>00223                                          <a class="code" href="../../d7/d89/classmozilla_1_1_stream_buffer_1_1_compare_tracks_by_i_d.html">CompareTracksByID</a>());
+<a name="l00224"></a>00224   }
+<a name="l00225"></a><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#aea370748e7c60d839e4fd65943cccb91">00225</a>   <span class="keywordtype">void</span> <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#aea370748e7c60d839e4fd65943cccb91">AdvanceKnownTracksTime</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> aKnownTime)
+<a name="l00226"></a>00226   {
+<a name="l00227"></a>00227     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(aKnownTime &gt;= <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#ad7f993a41504d5353c0a9679059e2d19">mTracksKnownTime</a>, <span class="stringliteral">&quot;Can&#39;t move tracks-known time earlier&quot;</span>);
+<a name="l00228"></a>00228     <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#ad7f993a41504d5353c0a9679059e2d19">mTracksKnownTime</a> = aKnownTime;
+<a name="l00229"></a>00229   }
+<a name="l00230"></a>00230 
+<a name="l00235"></a>00235   <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a71ce09daad3f9db1f993f03e756f7093">GetEnd</a>() <span class="keyword">const</span>;
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00238"></a>00238 <span class="preprocessor"></span>  <span class="keywordtype">void</span> DumpTrackInfo() <span class="keyword">const</span>;
+<a name="l00239"></a>00239 <span class="preprocessor">#endif</span>
+<a name="l00240"></a>00240 <span class="preprocessor"></span>
+<a name="l00241"></a>00241   Track* <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#aec6ef619564f62954bfb91973809c8dd">FindTrack</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#af6188bfc7ff83e38053e1d878a7f389b">TrackID</a> aID);
+<a name="l00242"></a>00242 
+<a name="l00243"></a><a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html">00243</a>   <span class="keyword">class </span><a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html">TrackIter</a> {
+<a name="l00244"></a>00244   <span class="keyword">public</span>:
+<a name="l00248"></a><a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#a9f0505c41af173dab821ab305b84136c">00248</a>     <a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#a9f0505c41af173dab821ab305b84136c">TrackIter</a>(<span class="keyword">const</span> <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html">StreamBuffer</a>&amp; aBuffer) :
+<a name="l00249"></a>00249       mBuffer(&amp;aBuffer.<a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a96baf15d63a4ec2f0bc3ac5d3eef11c8">mTracks</a>), mIndex(0), mMatchType(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>) {}
+<a name="l00253"></a><a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#aa9fb075ce9128994af496339d6e13ea9">00253</a>     <a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#a9f0505c41af173dab821ab305b84136c">TrackIter</a>(<span class="keyword">const</span> <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html">StreamBuffer</a>&amp; aBuffer, <a class="code" href="../../d2/d0d/classmozilla_1_1_media_segment.html#ae554709b7b27e394a31d2e17e7ab80ab">MediaSegment::Type</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>) :
+<a name="l00254"></a>00254       mBuffer(&amp;aBuffer.<a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a96baf15d63a4ec2f0bc3ac5d3eef11c8">mTracks</a>), mIndex(0), mType(aType), mMatchType(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>) { FindMatch(); }
+<a name="l00255"></a><a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#a15f5bf94b88dcbcbc5dd454a31691767">00255</a>     <span class="keywordtype">bool</span> <a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#a15f5bf94b88dcbcbc5dd454a31691767">IsEnded</a>() { <span class="keywordflow">return</span> mIndex &gt;= mBuffer-&gt;<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>(); }
+<a name="l00256"></a><a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#ade8e77cf570e6a399e54d24fa4b61986">00256</a>     <span class="keywordtype">void</span> <a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#ade8e77cf570e6a399e54d24fa4b61986">Next</a>()
+<a name="l00257"></a>00257     {
+<a name="l00258"></a>00258       ++mIndex;
+<a name="l00259"></a>00259       FindMatch();
+<a name="l00260"></a>00260     }
+<a name="l00261"></a><a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#a00497a1967087918890a125bd0129200">00261</a>     <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>* <span class="keyword">get</span>() { <span class="keywordflow">return</span> mBuffer-&gt;<a class="code" href="../../d4/dd8/classns_t_array___impl.html#ad4ff374dfb54c77c3f670de13e6f4275">ElementAt</a>(mIndex); }
+<a name="l00262"></a><a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#a6619f0b0f5266ea74347d3aa0d0e8b4a">00262</a>     <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>&amp; <a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#a6619f0b0f5266ea74347d3aa0d0e8b4a">operator*</a>() { <span class="keywordflow">return</span> *mBuffer-&gt;<a class="code" href="../../d4/dd8/classns_t_array___impl.html#ad4ff374dfb54c77c3f670de13e6f4275">ElementAt</a>(mIndex); }
+<a name="l00263"></a><a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#a1f196c483891c8fcf610fa3d3256917b">00263</a>     <a class="code" href="../../dc/dd3/classmozilla_1_1_stream_buffer_1_1_track.html">Track</a>* <a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html#a1f196c483891c8fcf610fa3d3256917b">operator-&gt;</a>() { <span class="keywordflow">return</span> mBuffer-&gt;<a class="code" href="../../d4/dd8/classns_t_array___impl.html#ad4ff374dfb54c77c3f670de13e6f4275">ElementAt</a>(mIndex); }
+<a name="l00264"></a>00264   <span class="keyword">private</span>:
+<a name="l00265"></a>00265     <span class="keywordtype">void</span> FindMatch()
+<a name="l00266"></a>00266     {
+<a name="l00267"></a>00267       <span class="keywordflow">if</span> (!mMatchType)
+<a name="l00268"></a>00268         <span class="keywordflow">return</span>;
+<a name="l00269"></a>00269       <span class="keywordflow">while</span> (mIndex &lt; mBuffer-&gt;Length() &amp;&amp;
+<a name="l00270"></a>00270              mBuffer-&gt;<a class="code" href="../../d4/dd8/classns_t_array___impl.html#ad4ff374dfb54c77c3f670de13e6f4275">ElementAt</a>(mIndex)-&gt;GetType() != mType) {
+<a name="l00271"></a>00271         ++mIndex;
+<a name="l00272"></a>00272       }
+<a name="l00273"></a>00273     }
+<a name="l00274"></a>00274 
+<a name="l00275"></a>00275     <span class="keyword">const</span> <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsAutoPtr&lt;Track&gt;</a> &gt;* mBuffer;
+<a name="l00276"></a>00276     uint32_t mIndex;
+<a name="l00277"></a>00277     <a class="code" href="../../d2/d0d/classmozilla_1_1_media_segment.html#ae554709b7b27e394a31d2e17e7ab80ab">MediaSegment::Type</a> mType;
+<a name="l00278"></a>00278     <span class="keywordtype">bool</span> mMatchType;
+<a name="l00279"></a>00279   };
+<a name="l00280"></a><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a4b7e0452864b185bf89e528b4dab6a73">00280</a>   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../df/dc9/classmozilla_1_1_stream_buffer_1_1_track_iter.html">TrackIter</a>;
+<a name="l00281"></a>00281 
+<a name="l00287"></a>00287   <span class="keywordtype">void</span> <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a21f81a9e086ae8552916d1f4d06b2fcf">ForgetUpTo</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> aTime);
+<a name="l00291"></a><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#aba832dc2c22024c40065b07f5db71045">00291</a>   <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#aba832dc2c22024c40065b07f5db71045">GetForgottenDuration</a>()
+<a name="l00292"></a>00292   {
+<a name="l00293"></a>00293     <span class="keywordflow">return</span> <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a2453ef7e3c41478b7e1f49bf8b7d6ffb">mForgottenTime</a>;
+<a name="l00294"></a>00294   }
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296 <span class="keyword">protected</span>:
+<a name="l00297"></a>00297   <span class="comment">// Any new tracks added will start at or after this time. In other words, the track</span>
+<a name="l00298"></a>00298   <span class="comment">// list is complete and correct for all times less than this time.</span>
+<a name="l00299"></a><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#ad7f993a41504d5353c0a9679059e2d19">00299</a>   <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#ad7f993a41504d5353c0a9679059e2d19">mTracksKnownTime</a>;
+<a name="l00300"></a><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a2453ef7e3c41478b7e1f49bf8b7d6ffb">00300</a>   <a class="code" href="../../d2/d93/namespacemozilla.html#a3aae055dd2ef757cab63c4beffee7b60">StreamTime</a> <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a2453ef7e3c41478b7e1f49bf8b7d6ffb">mForgottenTime</a>;
+<a name="l00301"></a>00301   <span class="comment">// All known tracks for this StreamBuffer</span>
+<a name="l00302"></a><a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a96baf15d63a4ec2f0bc3ac5d3eef11c8">00302</a>   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsAutoPtr&lt;Track&gt;</a> &gt; <a class="code" href="../../de/dec/classmozilla_1_1_stream_buffer.html#a96baf15d63a4ec2f0bc3ac5d3eef11c8">mTracks</a>;
+<a name="l00303"></a>00303 };
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305 }
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307 <span class="preprocessor">#endif </span><span class="comment">/* MOZILLA_STREAMBUFFER_H_ */</span>
+<a name="l00308"></a>00308 
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../db/dba/_stream_buffer_8h.html">StreamBuffer.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:16に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

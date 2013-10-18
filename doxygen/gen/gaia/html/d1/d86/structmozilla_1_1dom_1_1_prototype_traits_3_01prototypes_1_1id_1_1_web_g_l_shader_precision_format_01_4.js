@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_web_g_l_shader_precision_format_01_4 =
+[
+    [ "NativeType", "d1/d86/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_web_g_l_shader_precision_format_01_4.html#ab0900f1010aa12b86b95131c9f9132fc", null ]
+];

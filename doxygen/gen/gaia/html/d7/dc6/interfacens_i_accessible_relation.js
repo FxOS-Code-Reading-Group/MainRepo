@@ -1,0 +1,28 @@
+var interfacens_i_accessible_relation =
+[
+    [ "GetRelationType", "d7/dc6/interfacens_i_accessible_relation.html#ac403d7aa57df303580f2c20ca5988d73", null ],
+    [ "GetTarget", "d7/dc6/interfacens_i_accessible_relation.html#aebf5181631d8b31fdae0b9b91532179a", null ],
+    [ "getTarget", "d7/dc6/interfacens_i_accessible_relation.html#a3effacdb75e67e13fbdbd304d3755129", null ],
+    [ "GetTargets", "d7/dc6/interfacens_i_accessible_relation.html#aaea776a6ce38c12b5c80b15aad590b8c", null ],
+    [ "getTargets", "d7/dc6/interfacens_i_accessible_relation.html#aa7b2374fc3256adee3e0be08130d4f34", null ],
+    [ "GetTargetsCount", "d7/dc6/interfacens_i_accessible_relation.html#ad4a46e9af0f683f735ca92d9533d449b", null ],
+    [ "RELATION_CONTROLLED_BY", "d7/dc6/interfacens_i_accessible_relation.html#ab21671a072affab17df764f20e5267c8", null ],
+    [ "RELATION_CONTROLLER_FOR", "d7/dc6/interfacens_i_accessible_relation.html#ad4923b4542374273fb484e89c790fd92", null ],
+    [ "RELATION_DEFAULT_BUTTON", "d7/dc6/interfacens_i_accessible_relation.html#a29fef5e9a5b2b0cf3928479970076517", null ],
+    [ "RELATION_DESCRIBED_BY", "d7/dc6/interfacens_i_accessible_relation.html#acb7e596b633f895eb9c482071795c6d6", null ],
+    [ "RELATION_DESCRIPTION_FOR", "d7/dc6/interfacens_i_accessible_relation.html#a0b6e5b75365cc0105037255f12265486", null ],
+    [ "RELATION_EMBEDDED_BY", "d7/dc6/interfacens_i_accessible_relation.html#a9e55c17a8283327c1a9c44089b85974e", null ],
+    [ "RELATION_EMBEDS", "d7/dc6/interfacens_i_accessible_relation.html#ae5b2e509e63cc7bbba75d4b00956c280", null ],
+    [ "RELATION_FLOWS_FROM", "d7/dc6/interfacens_i_accessible_relation.html#a5ea6965d407f6e73ac77563ecb59bfe6", null ],
+    [ "RELATION_FLOWS_TO", "d7/dc6/interfacens_i_accessible_relation.html#a778f804f42c52fdf42a7eb296c7c1b33", null ],
+    [ "RELATION_LABEL_FOR", "d7/dc6/interfacens_i_accessible_relation.html#ac44b119029aa15b62a5fc5ab39757204", null ],
+    [ "RELATION_LABELLED_BY", "d7/dc6/interfacens_i_accessible_relation.html#ab02825e294dfb80595b202e42f0a3d1d", null ],
+    [ "RELATION_MEMBER_OF", "d7/dc6/interfacens_i_accessible_relation.html#a6e3420ccdbb75f9bb185c7ffa58810c8", null ],
+    [ "RELATION_NODE_CHILD_OF", "d7/dc6/interfacens_i_accessible_relation.html#a5c42a53c1f52a891bf99c506b3e72742", null ],
+    [ "RELATION_NODE_PARENT_OF", "d7/dc6/interfacens_i_accessible_relation.html#a504308ce5012d5796bf99313b7947b20", null ],
+    [ "RELATION_PARENT_WINDOW_OF", "d7/dc6/interfacens_i_accessible_relation.html#a272682d2acc8a9e0becfe6bfb5dbb41d", null ],
+    [ "RELATION_POPUP_FOR", "d7/dc6/interfacens_i_accessible_relation.html#ac22cd469119a375e3a1aa0b5b8ab60dc", null ],
+    [ "RELATION_SUBWINDOW_OF", "d7/dc6/interfacens_i_accessible_relation.html#a7623bd1b33fe8b8b71d365bcf2e17097", null ],
+    [ "relationType", "d7/dc6/interfacens_i_accessible_relation.html#a1b4f70b461bd1543031a12c3ccc3fad7", null ],
+    [ "targetsCount", "d7/dc6/interfacens_i_accessible_relation.html#a96d337e079ac357a7daf131634f48fa9", null ]
+];

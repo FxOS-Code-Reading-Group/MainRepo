@@ -1,0 +1,25 @@
+var structmozilla_1_1widget_1_1_base_event_flags =
+[
+    [ "Clear", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a77bf90b6f7573bbf307306e5ad3b8967", null ],
+    [ "InTargetPhase", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a32681980ca8e3d44f263a93321fbba33", null ],
+    [ "Union", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a565a4a52e8dd603acbd6689bae05f8bf", null ],
+    [ "mBubbles", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a950cfddae0dbe73153e71654fa2f7340", null ],
+    [ "mCancelable", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a15b443aed7773ae792d54b9ea2ba8ff9", null ],
+    [ "mDefaultPrevented", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#aa80abac9fbc40909d97600b76fa8e34b", null ],
+    [ "mDefaultPreventedByContent", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#ac1fefa522f5eb0b338def3f8e71ee080", null ],
+    [ "mDispatchedAtLeastOnce", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a162982c4b4231d7ed30e5202d6342474", null ],
+    [ "mExceptionHasBeenRisen", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#ad4c3af78be2e6e8f83d2400b98637b69", null ],
+    [ "mImmediatePropagationStopped", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#ac4221d4a4d3ccffeb1db3906c1934df0", null ],
+    [ "mInBubblingPhase", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a759c6c754810da8bdbe39462a20d64ac", null ],
+    [ "mInCapturePhase", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a440fa7e91fb8dfc175b7647c2cd2fc1c", null ],
+    [ "mInSystemGroup", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#ae02f512a022761572d7cdf2cd4d0e755", null ],
+    [ "mIsBeingDispatched", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#af441b7d55daaab8cf6b6ecbf39cdf64f", null ],
+    [ "mIsSynthesizedForTests", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a30f3dcd191ff25624c643ee5718cd4ba", null ],
+    [ "mIsTrusted", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a90ac6026935ecad4b2fa06e80706019f", null ],
+    [ "mMultipleActionsPrevented", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#ac57ecc44d783d40f4c484a5ecce52ca7", null ],
+    [ "mNoContentDispatch", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#ad20535d555c1d92f0be848ba3b4c8b64", null ],
+    [ "mNoCrossProcessBoundaryForwarding", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a555932b1d7e2907db775a232d24b5aff", null ],
+    [ "mOnlyChromeDispatch", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a1a98d18a2c9f65d9a70d51e672a09522", null ],
+    [ "mPropagationStopped", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a62f5a55cf95626da6db6a32e874c52b9", null ],
+    [ "mRetargetToNonNativeAnonymous", "d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a556e067119fb5881d8bd5bb2cc65afc1", null ]
+];

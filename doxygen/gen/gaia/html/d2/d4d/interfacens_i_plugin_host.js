@@ -1,0 +1,27 @@
+var interfacens_i_plugin_host =
+[
+    [ "clearSiteData", "d2/d4d/interfacens_i_plugin_host.html#a58c5a489e0075c5bfdfff87cb67a9bd6", null ],
+    [ "ClearSiteData", "d2/d4d/interfacens_i_plugin_host.html#af5faf3304d7299a7b08ddb5440466174", null ],
+    [ "getBlocklistStateForType", "d2/d4d/interfacens_i_plugin_host.html#ab2811bc6827d0df593ba365dbbec2d70", null ],
+    [ "GetBlocklistStateForType", "d2/d4d/interfacens_i_plugin_host.html#a70d18d7235942f47c5c12a85506f5d8d", null ],
+    [ "getPermissionStringForType", "d2/d4d/interfacens_i_plugin_host.html#af0ebb88c30b4212707bef9522e1fb2e1", null ],
+    [ "GetPermissionStringForType", "d2/d4d/interfacens_i_plugin_host.html#a830d37b40ffc32206284c0a1575c8c89", null ],
+    [ "getPlayPreviewInfo", "d2/d4d/interfacens_i_plugin_host.html#a40d6c899efc1faca3c2242abcbd80aa7", null ],
+    [ "GetPlayPreviewInfo", "d2/d4d/interfacens_i_plugin_host.html#ad1a2638a8a54be8af2bd91a59ecd5059", null ],
+    [ "getPluginTagForType", "d2/d4d/interfacens_i_plugin_host.html#abd47aaa4818e4707336b3ddae8e1da13", null ],
+    [ "GetPluginTagForType", "d2/d4d/interfacens_i_plugin_host.html#af4cff7743708887bc2b522e9122559ef", null ],
+    [ "getPluginTags", "d2/d4d/interfacens_i_plugin_host.html#affb4c5c4297710d72af06e1672f7b8a1", null ],
+    [ "GetPluginTags", "d2/d4d/interfacens_i_plugin_host.html#a32181230e7e98fda8a2df44ac214c37c", null ],
+    [ "getStateForType", "d2/d4d/interfacens_i_plugin_host.html#a62973723c8c6d0501c654851eda81903", null ],
+    [ "GetStateForType", "d2/d4d/interfacens_i_plugin_host.html#a64ead2fdbbd6ccb2ac6d1ef2a4d9205d", null ],
+    [ "registerPlayPreviewMimeType", "d2/d4d/interfacens_i_plugin_host.html#a2793597fe4a16604924b715102a1abd0", null ],
+    [ "RegisterPlayPreviewMimeType", "d2/d4d/interfacens_i_plugin_host.html#a98a3a7621a61555c06f8524b489c2223", null ],
+    [ "reloadPlugins", "d2/d4d/interfacens_i_plugin_host.html#a50d8c2b736798a3dd610defb730dc31f", null ],
+    [ "ReloadPlugins", "d2/d4d/interfacens_i_plugin_host.html#ab010e8e32cde426fecf6651d554de75c", null ],
+    [ "siteHasData", "d2/d4d/interfacens_i_plugin_host.html#a16645cf7d424127bd357c6e6027fe5e5", null ],
+    [ "SiteHasData", "d2/d4d/interfacens_i_plugin_host.html#a3c51af517faafa2e29b86b2c8902057b", null ],
+    [ "unregisterPlayPreviewMimeType", "d2/d4d/interfacens_i_plugin_host.html#a1a4bf19f4e804520a70de1349e7be1de", null ],
+    [ "UnregisterPlayPreviewMimeType", "d2/d4d/interfacens_i_plugin_host.html#a5f29415a75a342a83b7a707476e55737", null ],
+    [ "FLAG_CLEAR_ALL", "d2/d4d/interfacens_i_plugin_host.html#a8e0e809b5773565535fa31787893376b", null ],
+    [ "FLAG_CLEAR_CACHE", "d2/d4d/interfacens_i_plugin_host.html#abcda6da7b23fe91d89135206fc9877bc", null ]
+];

@@ -1,0 +1,942 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: MediaDecoderStateMachine.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dc/d47/_media_decoder_state_machine_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">MediaDecoderStateMachine.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dc/d47/_media_decoder_state_machine_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim:set ts=2 sw=2 sts=2 et cindent: */</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment">Each video element for a media file has two threads:</span>
+<a name="l00008"></a>00008 <span class="comment"></span>
+<a name="l00009"></a>00009 <span class="comment">  1) The Audio thread writes the decoded audio data to the audio</span>
+<a name="l00010"></a>00010 <span class="comment">     hardware. This is done in a separate thread to ensure that the</span>
+<a name="l00011"></a>00011 <span class="comment">     audio hardware gets a constant stream of data without</span>
+<a name="l00012"></a>00012 <span class="comment">     interruption due to decoding or display. At some point</span>
+<a name="l00013"></a>00013 <span class="comment">     AudioStream will be refactored to have a callback interface</span>
+<a name="l00014"></a>00014 <span class="comment">     where it asks for data and an extra thread will no longer be</span>
+<a name="l00015"></a>00015 <span class="comment">     needed.</span>
+<a name="l00016"></a>00016 <span class="comment"></span>
+<a name="l00017"></a>00017 <span class="comment">  2) The decode thread. This thread reads from the media stream and</span>
+<a name="l00018"></a>00018 <span class="comment">     decodes the Theora and Vorbis data. It places the decoded data into</span>
+<a name="l00019"></a>00019 <span class="comment">     queues for the other threads to pull from.</span>
+<a name="l00020"></a>00020 <span class="comment"></span>
+<a name="l00021"></a>00021 <span class="comment">All file reads, seeks, and all decoding must occur on the decode thread.</span>
+<a name="l00022"></a>00022 <span class="comment">Synchronisation of state between the thread is done via a monitor owned</span>
+<a name="l00023"></a>00023 <span class="comment">by MediaDecoder.</span>
+<a name="l00024"></a>00024 <span class="comment"></span>
+<a name="l00025"></a>00025 <span class="comment">The lifetime of the decode and audio threads is controlled by the state</span>
+<a name="l00026"></a>00026 <span class="comment">machine when it runs on the shared state machine thread. When playback</span>
+<a name="l00027"></a>00027 <span class="comment">needs to occur they are created and events dispatched to them to run</span>
+<a name="l00028"></a>00028 <span class="comment">them. These events exit when decoding/audio playback is completed or</span>
+<a name="l00029"></a>00029 <span class="comment">no longer required.</span>
+<a name="l00030"></a>00030 <span class="comment"></span>
+<a name="l00031"></a>00031 <span class="comment">A/V synchronisation is handled by the state machine. It examines the audio</span>
+<a name="l00032"></a>00032 <span class="comment">playback time and compares this to the next frame in the queue of video</span>
+<a name="l00033"></a>00033 <span class="comment">frames. If it is time to play the video frame it is then displayed, otherwise</span>
+<a name="l00034"></a>00034 <span class="comment">it schedules the state machine to run again at the time of the next frame.</span>
+<a name="l00035"></a>00035 <span class="comment"></span>
+<a name="l00036"></a>00036 <span class="comment">Frame skipping is done in the following ways:</span>
+<a name="l00037"></a>00037 <span class="comment"></span>
+<a name="l00038"></a>00038 <span class="comment">  1) The state machine will skip all frames in the video queue whose</span>
+<a name="l00039"></a>00039 <span class="comment">     display time is less than the current audio time. This ensures</span>
+<a name="l00040"></a>00040 <span class="comment">     the correct frame for the current time is always displayed.</span>
+<a name="l00041"></a>00041 <span class="comment"></span>
+<a name="l00042"></a>00042 <span class="comment">  2) The decode thread will stop decoding interframes and read to the</span>
+<a name="l00043"></a>00043 <span class="comment">     next keyframe if it determines that decoding the remaining</span>
+<a name="l00044"></a>00044 <span class="comment">     interframes will cause playback issues. It detects this by:</span>
+<a name="l00045"></a>00045 <span class="comment">       a) If the amount of audio data in the audio queue drops</span>
+<a name="l00046"></a>00046 <span class="comment">          below a threshold whereby audio may start to skip.</span>
+<a name="l00047"></a>00047 <span class="comment">       b) If the video queue drops below a threshold where it</span>
+<a name="l00048"></a>00048 <span class="comment">          will be decoding video data that won&#39;t be displayed due</span>
+<a name="l00049"></a>00049 <span class="comment">          to the decode thread dropping the frame immediately.</span>
+<a name="l00050"></a>00050 <span class="comment"></span>
+<a name="l00051"></a>00051 <span class="comment">When hardware accelerated graphics is not available, YCbCr conversion</span>
+<a name="l00052"></a>00052 <span class="comment">is done on the decode thread when video frames are decoded.</span>
+<a name="l00053"></a>00053 <span class="comment"></span>
+<a name="l00054"></a>00054 <span class="comment">The decode thread pushes decoded audio and videos frames into two</span>
+<a name="l00055"></a>00055 <span class="comment">separate queues - one for audio and one for video. These are kept</span>
+<a name="l00056"></a>00056 <span class="comment">separate to make it easy to constantly feed audio data to the audio</span>
+<a name="l00057"></a>00057 <span class="comment">hardware while allowing frame skipping of video data. These queues are</span>
+<a name="l00058"></a>00058 <span class="comment">threadsafe, and neither the decode, audio, or state machine should</span>
+<a name="l00059"></a>00059 <span class="comment">be able to monopolize them, and cause starvation of the other threads.</span>
+<a name="l00060"></a>00060 <span class="comment"></span>
+<a name="l00061"></a>00061 <span class="comment">Both queues are bounded by a maximum size. When this size is reached</span>
+<a name="l00062"></a>00062 <span class="comment">the decode thread will no longer decode video or audio depending on the</span>
+<a name="l00063"></a>00063 <span class="comment">queue that has reached the threshold. If both queues are full, the decode</span>
+<a name="l00064"></a>00064 <span class="comment">thread will wait on the decoder monitor.</span>
+<a name="l00065"></a>00065 <span class="comment"></span>
+<a name="l00066"></a>00066 <span class="comment">When the decode queues are full (they&#39;ve reaced their maximum size) and</span>
+<a name="l00067"></a>00067 <span class="comment">the decoder is not in PLAYING play state, the state machine may opt</span>
+<a name="l00068"></a>00068 <span class="comment">to shut down the decode thread in order to conserve resources.</span>
+<a name="l00069"></a>00069 <span class="comment"></span>
+<a name="l00070"></a>00070 <span class="comment">During playback the audio thread will be idle (via a Wait() on the</span>
+<a name="l00071"></a>00071 <span class="comment">monitor) if the audio queue is empty. Otherwise it constantly pops</span>
+<a name="l00072"></a>00072 <span class="comment">audio data off the queue and plays it with a blocking write to the audio</span>
+<a name="l00073"></a>00073 <span class="comment">hardware (via AudioStream).</span>
+<a name="l00074"></a>00074 <span class="comment"></span>
+<a name="l00075"></a>00075 <span class="comment">*/</span>
+<a name="l00076"></a>00076 <span class="preprocessor">#if !defined(MediaDecoderStateMachine_h__)</span>
+<a name="l00077"></a>00077 <span class="preprocessor"></span><span class="preprocessor">#define MediaDecoderStateMachine_h__</span>
+<a name="l00078"></a>00078 <span class="preprocessor"></span>
+<a name="l00079"></a>00079 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/da8/_attributes_8h.html">mozilla/Attributes.h</a>&quot;</span>
+<a name="l00080"></a>00080 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html">nsThreadUtils.h</a>&quot;</span>
+<a name="l00081"></a>00081 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d29/_media_decoder_8h.html">MediaDecoder.h</a>&quot;</span>
+<a name="l00082"></a>00082 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/dae/_audio_available_event_manager_8h.html">AudioAvailableEventManager.h</a>&quot;</span>
+<a name="l00083"></a>00083 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d51/_reentrant_monitor_8h.html">mozilla/ReentrantMonitor.h</a>&quot;</span>
+<a name="l00084"></a>00084 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d1c/ns_i_timer_8h.html">nsITimer.h</a>&quot;</span>
+<a name="l00085"></a>00085 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/dad/_audio_segment_8h.html">AudioSegment.h</a>&quot;</span>
+<a name="l00086"></a>00086 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d91/_video_segment_8h.html">VideoSegment.h</a>&quot;</span>
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088 <span class="keyword">namespace </span>mozilla {
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090 <span class="keyword">class </span>MediaDecoderReader;
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 <span class="comment">/*</span>
+<a name="l00093"></a>00093 <span class="comment">  The state machine class. This manages the decoding and seeking in the</span>
+<a name="l00094"></a>00094 <span class="comment">  MediaDecoderReader on the decode thread, and A/V sync on the shared</span>
+<a name="l00095"></a>00095 <span class="comment">  state machine thread, and controls the audio &quot;push&quot; thread.</span>
+<a name="l00096"></a>00096 <span class="comment"></span>
+<a name="l00097"></a>00097 <span class="comment">  All internal state is synchronised via the decoder monitor. State changes</span>
+<a name="l00098"></a>00098 <span class="comment">  are either propagated by NotifyAll on the monitor (typically when state</span>
+<a name="l00099"></a>00099 <span class="comment">  changes need to be propagated to non-state machine threads) or by scheduling</span>
+<a name="l00100"></a>00100 <span class="comment">  the state machine to run another cycle on the shared state machine thread.</span>
+<a name="l00101"></a>00101 <span class="comment"></span>
+<a name="l00102"></a>00102 <span class="comment">  See MediaDecoder.h for more details.</span>
+<a name="l00103"></a>00103 <span class="comment">*/</span>
+<a name="l00104"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html">00104</a> <span class="keyword">class </span><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html">MediaDecoderStateMachine</a> : <span class="keyword">public</span> <a class="code" href="../../da/ddb/classns_runnable.html">nsRunnable</a>
+<a name="l00105"></a>00105 {
+<a name="l00106"></a>00106 <span class="keyword">public</span>:
+<a name="l00107"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a651a14793a628ec9e0631d0fa610fbb0">00107</a>   <span class="keyword">typedef</span> MediaDecoder::DecodedStreamData <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a651a14793a628ec9e0631d0fa610fbb0">DecodedStreamData</a>;
+<a name="l00108"></a>00108   <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a2fe7819942de3d3971f17dfc25663ea1">MediaDecoderStateMachine</a>(<a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html">MediaDecoder</a>* aDecoder,
+<a name="l00109"></a>00109                                <a class="code" href="../../db/d28/classmozilla_1_1_media_decoder_reader.html">MediaDecoderReader</a>* aReader,
+<a name="l00110"></a>00110                                <span class="keywordtype">bool</span> aRealTime = <span class="keyword">false</span>);
+<a name="l00111"></a>00111   <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#afa79444d7c118768df7f45ed7509aa37">~MediaDecoderStateMachine</a>();
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113   <span class="comment">// nsDecoderStateMachine interface</span>
+<a name="l00114"></a>00114   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a090c9d12d8d14ade33a67baba968839b">Init</a>(<a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html">MediaDecoderStateMachine</a>* aCloneDonor);
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116   <span class="comment">// Enumeration for the valid decoding states</span>
+<a name="l00117"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1e">00117</a>   <span class="keyword">enum</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1e">State</a> {
+<a name="l00118"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea4d5a0fd6ba99e6ae20dba309ea96e56b">00118</a>     <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea4d5a0fd6ba99e6ae20dba309ea96e56b">DECODER_STATE_DECODING_METADATA</a>,
+<a name="l00119"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea951472cfcd3e9a5f6794d692b3c22247">00119</a>     <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea951472cfcd3e9a5f6794d692b3c22247">DECODER_STATE_WAIT_FOR_RESOURCES</a>,
+<a name="l00120"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea2a518922d83ff8f1f2eebe4a1e924bd8">00120</a>     <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea2a518922d83ff8f1f2eebe4a1e924bd8">DECODER_STATE_DORMANT</a>,
+<a name="l00121"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea0995b1328af49e838bb95873379424c4">00121</a>     <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea0995b1328af49e838bb95873379424c4">DECODER_STATE_DECODING</a>,
+<a name="l00122"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea1b4245d63c375a1cb7574a39bd96f5d9">00122</a>     <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea1b4245d63c375a1cb7574a39bd96f5d9">DECODER_STATE_SEEKING</a>,
+<a name="l00123"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea4ccf4a4cba09181578bf05fcac544467">00123</a>     <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea4ccf4a4cba09181578bf05fcac544467">DECODER_STATE_BUFFERING</a>,
+<a name="l00124"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea1cf0b2216299fb5fc7e062f992a52b6d">00124</a>     <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea1cf0b2216299fb5fc7e062f992a52b6d">DECODER_STATE_COMPLETED</a>,
+<a name="l00125"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea88c7d533abdf5e3d10058556ce13b302">00125</a>     <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea88c7d533abdf5e3d10058556ce13b302">DECODER_STATE_SHUTDOWN</a>
+<a name="l00126"></a>00126   };
+<a name="l00127"></a>00127 
+<a name="l00128"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4152c8b8c1f952067c6093ed552959a7">00128</a>   <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1e">State</a> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4152c8b8c1f952067c6093ed552959a7">GetState</a>() {
+<a name="l00129"></a>00129     mDecoder-&gt;GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00130"></a>00130     <span class="keywordflow">return</span> mState;
+<a name="l00131"></a>00131   }
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133   <span class="comment">// Set the audio volume. The decoder monitor must be obtained before</span>
+<a name="l00134"></a>00134   <span class="comment">// calling this.</span>
+<a name="l00135"></a>00135   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ab33056671f65d2795998cd476399bd06">SetVolume</a>(<span class="keywordtype">double</span> aVolume);
+<a name="l00136"></a>00136   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a2d233894c1fc747a79bb8c2c95a5c53d">SetAudioCaptured</a>(<span class="keywordtype">bool</span> aCapture);
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138   <span class="comment">// Check if the decoder needs to become dormant state.</span>
+<a name="l00139"></a>00139   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#acd68bc1beec668a457805d8aa73bbe49">IsDormantNeeded</a>();
+<a name="l00140"></a>00140   <span class="comment">// Set/Unset dormant state.</span>
+<a name="l00141"></a>00141   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#aa8fc269ba8a4e6b1b53ab01fe2bfaa0e">SetDormant</a>(<span class="keywordtype">bool</span> aDormant);
+<a name="l00142"></a>00142   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a2d06e214cdcf9a5b94bf6e39ecdafeb4">Shutdown</a>();
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144   <span class="comment">// Called from the main thread to get the duration. The decoder monitor</span>
+<a name="l00145"></a>00145   <span class="comment">// must be obtained before calling this. It is in units of microseconds.</span>
+<a name="l00146"></a>00146   int64_t <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ab0e3f3db633d0463ae218cdf477362de">GetDuration</a>();
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148   <span class="comment">// Called from the main thread to set the duration of the media resource</span>
+<a name="l00149"></a>00149   <span class="comment">// if it is able to be obtained via HTTP headers. Called from the</span>
+<a name="l00150"></a>00150   <span class="comment">// state machine thread to set the duration if it is obtained from the</span>
+<a name="l00151"></a>00151   <span class="comment">// media metadata. The decoder monitor must be obtained before calling this.</span>
+<a name="l00152"></a>00152   <span class="comment">// aDuration is in microseconds.</span>
+<a name="l00153"></a>00153   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a15b1f1c94593d1397fd328921471b1c4">SetDuration</a>(int64_t aDuration);
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155   <span class="comment">// Called while decoding metadata to set the end time of the media</span>
+<a name="l00156"></a>00156   <span class="comment">// resource. The decoder monitor must be obtained before calling this.</span>
+<a name="l00157"></a>00157   <span class="comment">// aEndTime is in microseconds.</span>
+<a name="l00158"></a>00158   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a92900712576e28c35b66bf22a2cd6d75">SetMediaEndTime</a>(int64_t aEndTime);
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160   <span class="comment">// Functions used by assertions to ensure we&#39;re calling things</span>
+<a name="l00161"></a>00161   <span class="comment">// on the appropriate threads.</span>
+<a name="l00162"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ac25cedf974e5fd55fc995de80c38f1c9">00162</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ac25cedf974e5fd55fc995de80c38f1c9">OnDecodeThread</a>()<span class="keyword"> const </span>{
+<a name="l00163"></a>00163     <span class="keywordflow">return</span> IsCurrentThread(mDecodeThread);
+<a name="l00164"></a>00164   }
+<a name="l00165"></a>00165   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a719ef6eb835cb1fbf6c31380deeae209">OnStateMachineThread</a>() <span class="keyword">const</span>;
+<a name="l00166"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a74b807f9d963fccb4cd65b1c795d6779">00166</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a74b807f9d963fccb4cd65b1c795d6779">OnAudioThread</a>()<span class="keyword"> const </span>{
+<a name="l00167"></a>00167     <span class="keywordflow">return</span> IsCurrentThread(mAudioThread);
+<a name="l00168"></a>00168   }
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170   <a class="code" href="../../d2/d9b/classmozilla_1_1_media_decoder_owner.html#afc95d527f018fca6a0889217cca50b7f">MediaDecoderOwner::NextFrameStatus</a> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#aee4c999bc3abc64dec624dbc16923e2e">GetNextFrameStatus</a>();
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172   <span class="comment">// Cause state transitions. These methods obtain the decoder monitor</span>
+<a name="l00173"></a>00173   <span class="comment">// to synchronise the change of state, and to notify other threads</span>
+<a name="l00174"></a>00174   <span class="comment">// that the state has changed.</span>
+<a name="l00175"></a>00175   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#afafe651eb1cc53be99680a04213f9119">Play</a>();
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177   <span class="comment">// Seeks to aTime in seconds.</span>
+<a name="l00178"></a>00178   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ace37c6538d8f2e818c515f3e4b2cad06">Seek</a>(<span class="keywordtype">double</span> aTime);
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180   <span class="comment">// Returns the current playback position in seconds.</span>
+<a name="l00181"></a>00181   <span class="comment">// Called from the main thread to get the current frame time. The decoder</span>
+<a name="l00182"></a>00182   <span class="comment">// monitor must be obtained before calling this.</span>
+<a name="l00183"></a>00183   <span class="keywordtype">double</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a2ba9fd47fc0c3fce9c78bad2789b7e72">GetCurrentTime</a>() <span class="keyword">const</span>;
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185   <span class="comment">// Clear the flag indicating that a playback position change event</span>
+<a name="l00186"></a>00186   <span class="comment">// is currently queued. This is called from the main thread and must</span>
+<a name="l00187"></a>00187   <span class="comment">// be called with the decode monitor held.</span>
+<a name="l00188"></a>00188   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ac2b4f0877d53ffa09e06161b37076936">ClearPositionChangeFlag</a>();
+<a name="l00189"></a>00189 
+<a name="l00190"></a>00190   <span class="comment">// Called from the main thread or the decoder thread to set whether the media</span>
+<a name="l00191"></a>00191   <span class="comment">// resource can seek into unbuffered ranges. The decoder monitor must be</span>
+<a name="l00192"></a>00192   <span class="comment">// obtained before calling this.</span>
+<a name="l00193"></a>00193   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4aa2e5e135413725b3189062ac4179f1">SetTransportSeekable</a>(<span class="keywordtype">bool</span> aSeekable);
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195   <span class="comment">// Called from the main thread or the decoder thread to set whether the media</span>
+<a name="l00196"></a>00196   <span class="comment">// can seek to random location. This is not true for chained ogg and WebM</span>
+<a name="l00197"></a>00197   <span class="comment">// media without index. The decoder monitor must be obtained before calling</span>
+<a name="l00198"></a>00198   <span class="comment">// this.</span>
+<a name="l00199"></a>00199   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#aeab634579bc4685600cda749fd7f027b">SetMediaSeekable</a>(<span class="keywordtype">bool</span> aSeekable);
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201   <span class="comment">// Update the playback position. This can result in a timeupdate event</span>
+<a name="l00202"></a>00202   <span class="comment">// and an invalidate of the frame being dispatched asynchronously if</span>
+<a name="l00203"></a>00203   <span class="comment">// there is no such event currently queued.</span>
+<a name="l00204"></a>00204   <span class="comment">// Only called on the decoder thread. Must be called with</span>
+<a name="l00205"></a>00205   <span class="comment">// the decode monitor held.</span>
+<a name="l00206"></a>00206   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a2819a5dbbfe72537a668be3463d9ecea">UpdatePlaybackPosition</a>(int64_t aTime);
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208   <span class="comment">// Causes the state machine to switch to buffering state, and to</span>
+<a name="l00209"></a>00209   <span class="comment">// immediately stop playback and buffer downloaded data. Must be called</span>
+<a name="l00210"></a>00210   <span class="comment">// with the decode monitor held. Called on the state machine thread and</span>
+<a name="l00211"></a>00211   <span class="comment">// the main thread.</span>
+<a name="l00212"></a>00212   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#aeb301595e934f664993b6be960b3b60e">StartBuffering</a>();
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214   <span class="comment">// State machine thread run function. Defers to RunStateMachine().</span>
+<a name="l00215"></a>00215   <a class="code" href="../../d3/dd8/nscore_8h.html#abbc6d740d4f54ed1c90bbed28dcef65a">NS_IMETHOD</a> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a309ff14c9c3f6b61d56157493fb208b5">Run</a>() MOZ_OVERRIDE;
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217   <span class="comment">// This is called on the state machine thread and audio thread.</span>
+<a name="l00218"></a>00218   <span class="comment">// The decoder monitor must be obtained before calling this.</span>
+<a name="l00219"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a049ac27e5b3c5acf66ec18e57966af6e">00219</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a049ac27e5b3c5acf66ec18e57966af6e">HasAudio</a>()<span class="keyword"> const </span>{
+<a name="l00220"></a>00220     mDecoder-&gt;GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00221"></a>00221     <span class="keywordflow">return</span> mInfo.<a class="code" href="../../d8/d1b/classmozilla_1_1_video_info.html#a84e334d87d45e6aa14ae45ddece6c9f2">mHasAudio</a>;
+<a name="l00222"></a>00222   }
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224   <span class="comment">// This is called on the state machine thread and audio thread.</span>
+<a name="l00225"></a>00225   <span class="comment">// The decoder monitor must be obtained before calling this.</span>
+<a name="l00226"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a817099e8c2f88af03ad9f4b36106cd16">00226</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a817099e8c2f88af03ad9f4b36106cd16">HasVideo</a>()<span class="keyword"> const </span>{
+<a name="l00227"></a>00227     mDecoder-&gt;GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00228"></a>00228     <span class="keywordflow">return</span> mInfo.<a class="code" href="../../d8/d1b/classmozilla_1_1_video_info.html#a25b4999fa54e0b7e763acef651041c34">mHasVideo</a>;
+<a name="l00229"></a>00229   }
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231   <span class="comment">// Should be called by main thread.</span>
+<a name="l00232"></a>00232   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#abef63a873034d308ecab22778fff8c3b">HaveNextFrameData</a>() <span class="keyword">const</span>;
+<a name="l00233"></a>00233 
+<a name="l00234"></a>00234   <span class="comment">// Must be called with the decode monitor held.</span>
+<a name="l00235"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a2f58fa9ef94f524eab0e68916b8568a1">00235</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a2f58fa9ef94f524eab0e68916b8568a1">IsBuffering</a>()<span class="keyword"> const </span>{
+<a name="l00236"></a>00236     mDecoder-&gt;GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238     <span class="keywordflow">return</span> mState == <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea4ccf4a4cba09181578bf05fcac544467">DECODER_STATE_BUFFERING</a>;
+<a name="l00239"></a>00239   }
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241   <span class="comment">// Must be called with the decode monitor held.</span>
+<a name="l00242"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#aba645cad6caa49ee1ce096fc34a28882">00242</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#aba645cad6caa49ee1ce096fc34a28882">IsSeeking</a>()<span class="keyword"> const </span>{
+<a name="l00243"></a>00243     mDecoder-&gt;GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245     <span class="keywordflow">return</span> mState == <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1ea1b4245d63c375a1cb7574a39bd96f5d9">DECODER_STATE_SEEKING</a>;
+<a name="l00246"></a>00246   }
+<a name="l00247"></a>00247 
+<a name="l00248"></a>00248   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4dffb671ef26f34ed1b0de160fcf5264">GetBuffered</a>(<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a4e0d20ad73401845f8354a296526ef83">TimeRanges</a>* aBuffered);
+<a name="l00249"></a>00249 
+<a name="l00250"></a>00250   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a28bd137e73acd8b07a6038ab8d4c4e55">SetPlaybackRate</a>(<span class="keywordtype">double</span> aPlaybackRate);
+<a name="l00251"></a>00251   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ad842fba478ce994393c8bf143cd0e47d">SetPreservesPitch</a>(<span class="keywordtype">bool</span> aPreservesPitch);
+<a name="l00252"></a>00252 
+<a name="l00253"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a641bed3421cbe8c1575fbd8770fddda0">00253</a>   int64_t <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a641bed3421cbe8c1575fbd8770fddda0">VideoQueueMemoryInUse</a>() {
+<a name="l00254"></a>00254     <span class="keywordflow">if</span> (mReader) {
+<a name="l00255"></a>00255       <span class="keywordflow">return</span> mReader-&gt;VideoQueueMemoryInUse();
+<a name="l00256"></a>00256     }
+<a name="l00257"></a>00257     <span class="keywordflow">return</span> 0;
+<a name="l00258"></a>00258   }
+<a name="l00259"></a>00259 
+<a name="l00260"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ad7116a87643cd1d077336ed41a8d315d">00260</a>   int64_t <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ad7116a87643cd1d077336ed41a8d315d">AudioQueueMemoryInUse</a>() {
+<a name="l00261"></a>00261     <span class="keywordflow">if</span> (mReader) {
+<a name="l00262"></a>00262       <span class="keywordflow">return</span> mReader-&gt;AudioQueueMemoryInUse();
+<a name="l00263"></a>00263     }
+<a name="l00264"></a>00264     <span class="keywordflow">return</span> 0;
+<a name="l00265"></a>00265   }
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a724a6b1e5c32a047eaa828707ea49b05">NotifyDataArrived</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* aBuffer, uint32_t aLength, int64_t aOffset);
+<a name="l00268"></a>00268 
+<a name="l00269"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ac82c44aef7283a644aef6e33eddf6c15">00269</a>   int64_t <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ac82c44aef7283a644aef6e33eddf6c15">GetEndMediaTime</a>()<span class="keyword"> const </span>{
+<a name="l00270"></a>00270     mDecoder-&gt;GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00271"></a>00271     <span class="keywordflow">return</span> mEndTime;
+<a name="l00272"></a>00272   }
+<a name="l00273"></a>00273 
+<a name="l00274"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#abe9292b94dbbceff9b85a39d25bd2c50">00274</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#abe9292b94dbbceff9b85a39d25bd2c50">IsTransportSeekable</a>() {
+<a name="l00275"></a>00275     mDecoder-&gt;GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00276"></a>00276     <span class="keywordflow">return</span> mTransportSeekable;
+<a name="l00277"></a>00277   }
+<a name="l00278"></a>00278 
+<a name="l00279"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a6a831c214231433593046f809c1e76de">00279</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a6a831c214231433593046f809c1e76de">IsMediaSeekable</a>() {
+<a name="l00280"></a>00280     mDecoder-&gt;GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00281"></a>00281     <span class="keywordflow">return</span> mMediaSeekable;
+<a name="l00282"></a>00282   }
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284   <span class="comment">// Sets the current frame buffer length for the MozAudioAvailable event.</span>
+<a name="l00285"></a>00285   <span class="comment">// Accessed on the main and state machine threads.</span>
+<a name="l00286"></a>00286   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a46abbe6c05ec5c713cb4cbc103e71012">SetFrameBufferLength</a>(uint32_t aLength);
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288   <span class="comment">// Returns the shared state machine thread.</span>
+<a name="l00289"></a>00289   <span class="keyword">static</span> <a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a>* <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#aa82c4d8219bf2bc65af54ac3d17f9f6f">GetStateMachineThread</a>();
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291   <span class="comment">// Calls ScheduleStateMachine() after taking the decoder lock. Also</span>
+<a name="l00292"></a>00292   <span class="comment">// notifies the decoder thread in case it&#39;s waiting on the decoder lock.</span>
+<a name="l00293"></a>00293   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ab5f2cf2724a225970167fc3c7843200b">ScheduleStateMachineWithLockAndWakeDecoder</a>();
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295   <span class="comment">// Schedules the shared state machine thread to run the state machine</span>
+<a name="l00296"></a>00296   <span class="comment">// in aUsecs microseconds from now, if it&#39;s not already scheduled to run</span>
+<a name="l00297"></a>00297   <span class="comment">// earlier, in which case the request is discarded.</span>
+<a name="l00298"></a>00298   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ad1c6cd93f76f3f65e45896d2c6de582b">ScheduleStateMachine</a>(int64_t aUsecs = 0);
+<a name="l00299"></a>00299 
+<a name="l00300"></a>00300   <span class="comment">// Creates and starts a new decode thread. Don&#39;t call this directly,</span>
+<a name="l00301"></a>00301   <span class="comment">// request a new decode thread by calling</span>
+<a name="l00302"></a>00302   <span class="comment">// StateMachineTracker::RequestCreateDecodeThread().</span>
+<a name="l00303"></a>00303   <span class="comment">// The decoder monitor must not be held. Called on the state machine thread.</span>
+<a name="l00304"></a>00304   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ae101f7f7b6cd54f90c636a168a024f16">StartDecodeThread</a>();
+<a name="l00305"></a>00305 
+<a name="l00306"></a>00306   <span class="comment">// Timer function to implement ScheduleStateMachine(aUsecs).</span>
+<a name="l00307"></a>00307   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a88de7fedf6cbcfe5afed076e7d1e5034">TimeoutExpired</a>();
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309   <span class="comment">// Set the media fragment end time. aEndTime is in microseconds.</span>
+<a name="l00310"></a>00310   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#addf04414422302d42d83392a863ffb77">SetFragmentEndTime</a>(int64_t aEndTime);
+<a name="l00311"></a>00311 
+<a name="l00312"></a>00312   <span class="comment">// Drop reference to decoder.  Only called during shutdown dance.</span>
+<a name="l00313"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a7de6c482092e51bdd851d0f0f3ad0407">00313</a>   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a7de6c482092e51bdd851d0f0f3ad0407">ReleaseDecoder</a>() { mDecoder = <span class="keyword">nullptr</span>; }
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315    <span class="comment">// Called when a &quot;MozAudioAvailable&quot; event listener is added to the media</span>
+<a name="l00316"></a>00316    <span class="comment">// element. Called on the main thread.</span>
+<a name="l00317"></a>00317    <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a71296d81824deb8be5903fc7c3f1ef7c">NotifyAudioAvailableListener</a>();
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319   <span class="comment">// Copy queued audio/video data in the reader to any output MediaStreams that</span>
+<a name="l00320"></a>00320   <span class="comment">// need it.</span>
+<a name="l00321"></a>00321   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a7e7df3ab6a09ca3092fb4dc42582092b">SendStreamData</a>();
+<a name="l00322"></a>00322   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a87eaa11dec4bc734f5ecd7e293ec9985">FinishStreamData</a>();
+<a name="l00323"></a>00323   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a0ffdd0a0ee576b4a42cb63593ca66e08">HaveEnoughDecodedAudio</a>(int64_t aAmpleAudioUSecs);
+<a name="l00324"></a>00324   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#ab3820729239d05bbd7b739658e09f1f0">HaveEnoughDecodedVideo</a>();
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326   <span class="comment">// Returns true if the state machine has shutdown or is in the process of</span>
+<a name="l00327"></a>00327   <span class="comment">// shutting down. The decoder monitor must be held while calling this.</span>
+<a name="l00328"></a>00328   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a2252cecdcb2f6f9cc06a95428e712f16">IsShutdown</a>();
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330   <span class="keywordtype">void</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a043be797836ae4da1f4567feecec4130">QueueMetadata</a>(int64_t aPublishTime, <span class="keywordtype">int</span> aChannels, <span class="keywordtype">int</span> aRate, <span class="keywordtype">bool</span> aHasAudio, <span class="keywordtype">bool</span> aHasVideo, <a class="code" href="../../d4/dfc/classns_data_hashtable.html">MetadataTags</a>* aTags);
+<a name="l00331"></a>00331 
+<a name="l00332"></a>00332 <span class="keyword">protected</span>:
+<a name="l00333"></a><a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a3ee5f34875e234633dee70dc09aee677">00333</a>   <span class="keyword">virtual</span> uint32_t <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a3ee5f34875e234633dee70dc09aee677">GetAmpleVideoFrames</a>() { <span class="keywordflow">return</span> mAmpleVideoFrames; }
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335 <span class="keyword">private</span>:
+<a name="l00336"></a>00336   <span class="keyword">class </span>WakeDecoderRunnable : <span class="keyword">public</span> <a class="code" href="../../da/ddb/classns_runnable.html">nsRunnable</a> {
+<a name="l00337"></a>00337   <span class="keyword">public</span>:
+<a name="l00338"></a>00338     WakeDecoderRunnable(<a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html">MediaDecoderStateMachine</a>* aSM)
+<a name="l00339"></a>00339       : mMutex(<span class="stringliteral">&quot;WakeDecoderRunnable&quot;</span>), mStateMachine(aSM) {}
+<a name="l00340"></a>00340     <a class="code" href="../../d3/dd8/nscore_8h.html#abbc6d740d4f54ed1c90bbed28dcef65a">NS_IMETHOD</a> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a309ff14c9c3f6b61d56157493fb208b5">Run</a>() MOZ_OVERRIDE
+<a name="l00341"></a>00341     {
+<a name="l00342"></a>00342       <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;MediaDecoderStateMachine&gt;</a> stateMachine;
+<a name="l00343"></a>00343       {
+<a name="l00344"></a>00344         <span class="comment">// Don&#39;t let Run() (called by media stream graph thread) race with</span>
+<a name="l00345"></a>00345         <span class="comment">// Revoke() (called by decoder state machine thread)</span>
+<a name="l00346"></a>00346         <a class="code" href="../../d2/d93/namespacemozilla.html#aefbe20ec742e1dba4f52d82d0050971b">MutexAutoLock</a> <a class="code" href="../../df/d6d/prpdce_8h.html#a3a0acaef79170339a71bc1c4c54ad225">lock</a>(mMutex);
+<a name="l00347"></a>00347         <span class="keywordflow">if</span> (!mStateMachine)
+<a name="l00348"></a>00348           <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a>;
+<a name="l00349"></a>00349         stateMachine = mStateMachine;
+<a name="l00350"></a>00350       }
+<a name="l00351"></a>00351       stateMachine-&gt;ScheduleStateMachineWithLockAndWakeDecoder();
+<a name="l00352"></a>00352       <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a>;
+<a name="l00353"></a>00353     }
+<a name="l00354"></a>00354     <span class="keywordtype">void</span> Revoke()
+<a name="l00355"></a>00355     {
+<a name="l00356"></a>00356       <a class="code" href="../../d2/d93/namespacemozilla.html#aefbe20ec742e1dba4f52d82d0050971b">MutexAutoLock</a> <a class="code" href="../../df/d6d/prpdce_8h.html#a3a0acaef79170339a71bc1c4c54ad225">lock</a>(mMutex);
+<a name="l00357"></a>00357       mStateMachine = <span class="keyword">nullptr</span>;
+<a name="l00358"></a>00358     }
+<a name="l00359"></a>00359 
+<a name="l00360"></a>00360     Mutex mMutex;
+<a name="l00361"></a>00361     <span class="comment">// Protected by mMutex.</span>
+<a name="l00362"></a>00362     <span class="comment">// We don&#39;t use an owning pointer here, because keeping mStateMachine alive</span>
+<a name="l00363"></a>00363     <span class="comment">// would mean in some cases we&#39;d have to destroy mStateMachine from this</span>
+<a name="l00364"></a>00364     <span class="comment">// object, which would be problematic since MediaDecoderStateMachine can</span>
+<a name="l00365"></a>00365     <span class="comment">// only be destroyed on the main thread whereas this object can be destroyed</span>
+<a name="l00366"></a>00366     <span class="comment">// on the media stream graph thread.</span>
+<a name="l00367"></a>00367     <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a2fe7819942de3d3971f17dfc25663ea1">MediaDecoderStateMachine</a>* mStateMachine;
+<a name="l00368"></a>00368   };
+<a name="l00369"></a>00369   WakeDecoderRunnable* GetWakeDecoderRunnable();
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371   <span class="comment">// Returns true if we&#39;ve got less than aAudioUsecs microseconds of decoded</span>
+<a name="l00372"></a>00372   <span class="comment">// and playable data. The decoder monitor must be held.</span>
+<a name="l00373"></a>00373   <span class="keywordtype">bool</span> HasLowDecodedData(int64_t aAudioUsecs) <span class="keyword">const</span>;
+<a name="l00374"></a>00374 
+<a name="l00375"></a>00375   <span class="comment">// Returns true if we&#39;re running low on data which is not yet decoded.</span>
+<a name="l00376"></a>00376   <span class="comment">// The decoder monitor must be held.</span>
+<a name="l00377"></a>00377   <span class="keywordtype">bool</span> HasLowUndecodedData() <span class="keyword">const</span>;
+<a name="l00378"></a>00378 
+<a name="l00379"></a>00379   <span class="comment">// Returns the number of microseconds of undecoded data available for</span>
+<a name="l00380"></a>00380   <span class="comment">// decoding. The decoder monitor must be held.</span>
+<a name="l00381"></a>00381   int64_t GetUndecodedData() <span class="keyword">const</span>;
+<a name="l00382"></a>00382 
+<a name="l00383"></a>00383   <span class="comment">// Returns the number of unplayed usecs of audio we&#39;ve got decoded and/or</span>
+<a name="l00384"></a>00384   <span class="comment">// pushed to the hardware waiting to play. This is how much audio we can</span>
+<a name="l00385"></a>00385   <span class="comment">// play without having to run the audio decoder. The decoder monitor</span>
+<a name="l00386"></a>00386   <span class="comment">// must be held.</span>
+<a name="l00387"></a>00387   int64_t AudioDecodedUsecs() <span class="keyword">const</span>;
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389   <span class="comment">// Returns true when there&#39;s decoded audio waiting to play.</span>
+<a name="l00390"></a>00390   <span class="comment">// The decoder monitor must be held.</span>
+<a name="l00391"></a>00391   <span class="keywordtype">bool</span> HasFutureAudio() <span class="keyword">const</span>;
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393   <span class="comment">// Returns true if we recently exited &quot;quick buffering&quot; mode.</span>
+<a name="l00394"></a>00394   <span class="keywordtype">bool</span> JustExitedQuickBuffering();
+<a name="l00395"></a>00395 
+<a name="l00396"></a>00396   <span class="comment">// Waits on the decoder ReentrantMonitor for aUsecs microseconds. If the decoder</span>
+<a name="l00397"></a>00397   <span class="comment">// monitor is awoken by a Notify() call, we&#39;ll continue waiting, unless</span>
+<a name="l00398"></a>00398   <span class="comment">// we&#39;ve moved into shutdown state. This enables us to ensure that we</span>
+<a name="l00399"></a>00399   <span class="comment">// wait for a specified time, and that the myriad of Notify()s we do on</span>
+<a name="l00400"></a>00400   <span class="comment">// the decoder monitor don&#39;t cause the audio thread to be starved. aUsecs</span>
+<a name="l00401"></a>00401   <span class="comment">// values of less than 1 millisecond are rounded up to 1 millisecond</span>
+<a name="l00402"></a>00402   <span class="comment">// (see bug 651023). The decoder monitor must be held. Called only on the</span>
+<a name="l00403"></a>00403   <span class="comment">// audio thread.</span>
+<a name="l00404"></a>00404   <span class="keywordtype">void</span> Wait(int64_t aUsecs);
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406   <span class="comment">// Dispatches an asynchronous event to update the media element&#39;s ready state.</span>
+<a name="l00407"></a>00407   <span class="keywordtype">void</span> UpdateReadyState();
+<a name="l00408"></a>00408 
+<a name="l00409"></a>00409   <span class="comment">// Resets playback timing data. Called when we seek, on the decode thread.</span>
+<a name="l00410"></a>00410   <span class="keywordtype">void</span> ResetPlayback();
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412   <span class="comment">// Returns the audio clock, if we have audio, or -1 if we don&#39;t.</span>
+<a name="l00413"></a>00413   <span class="comment">// Called on the state machine thread.</span>
+<a name="l00414"></a>00414   int64_t GetAudioClock();
+<a name="l00415"></a>00415 
+<a name="l00416"></a>00416   <span class="comment">// Get the video stream position, taking the |playbackRate| change into</span>
+<a name="l00417"></a>00417   <span class="comment">// account. This is a position in the media, not the duration of the playback</span>
+<a name="l00418"></a>00418   <span class="comment">// so far.</span>
+<a name="l00419"></a>00419   int64_t GetVideoStreamPosition();
+<a name="l00420"></a>00420 
+<a name="l00421"></a>00421   <span class="comment">// Return the current time, either the audio clock if available (if the media</span>
+<a name="l00422"></a>00422   <span class="comment">// has audio, and the playback is possible), or a clock for the video.</span>
+<a name="l00423"></a>00423   <span class="comment">// Called on the state machine thread.</span>
+<a name="l00424"></a>00424   int64_t GetClock();
+<a name="l00425"></a>00425 
+<a name="l00426"></a>00426   <span class="comment">// Returns the presentation time of the first audio or video frame in the</span>
+<a name="l00427"></a>00427   <span class="comment">// media.  If the media has video, it returns the first video frame. The</span>
+<a name="l00428"></a>00428   <span class="comment">// decoder monitor must be held with exactly one lock count. Called on the</span>
+<a name="l00429"></a>00429   <span class="comment">// state machine thread.</span>
+<a name="l00430"></a>00430   VideoData* FindStartTime();
+<a name="l00431"></a>00431 
+<a name="l00432"></a>00432   <span class="comment">// Update only the state machine&#39;s current playback position (and duration,</span>
+<a name="l00433"></a>00433   <span class="comment">// if unknown).  Does not update the playback position on the decoder or</span>
+<a name="l00434"></a>00434   <span class="comment">// media element -- use UpdatePlaybackPosition for that.  Called on the state</span>
+<a name="l00435"></a>00435   <span class="comment">// machine thread, caller must hold the decoder lock.</span>
+<a name="l00436"></a>00436   <span class="keywordtype">void</span> UpdatePlaybackPositionInternal(int64_t aTime);
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438   <span class="comment">// Pushes the image down the rendering pipeline. Called on the shared state</span>
+<a name="l00439"></a>00439   <span class="comment">// machine thread. The decoder monitor must *not* be held when calling this.</span>
+<a name="l00440"></a>00440   <span class="keywordtype">void</span> RenderVideoFrame(VideoData* <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>, <a class="code" href="../../d5/d28/img_i_container_8idl.html#aa16e6b2422cef428bbecbae0a0325e97">TimeStamp</a> aTarget);
+<a name="l00441"></a>00441 
+<a name="l00442"></a>00442   <span class="comment">// If we have video, display a video frame if it&#39;s time for display has</span>
+<a name="l00443"></a>00443   <span class="comment">// arrived, otherwise sleep until it&#39;s time for the next frame. Update the</span>
+<a name="l00444"></a>00444   <span class="comment">// current frame time as appropriate, and trigger ready state update.  The</span>
+<a name="l00445"></a>00445   <span class="comment">// decoder monitor must be held with exactly one lock count. Called on the</span>
+<a name="l00446"></a>00446   <span class="comment">// state machine thread.</span>
+<a name="l00447"></a>00447   <span class="keywordtype">void</span> AdvanceFrame();
+<a name="l00448"></a>00448 
+<a name="l00449"></a>00449   <span class="comment">// Write aFrames of audio frames of silence to the audio hardware. Returns</span>
+<a name="l00450"></a>00450   <span class="comment">// the number of frames actually written. The write size is capped at</span>
+<a name="l00451"></a>00451   <span class="comment">// SILENCE_BYTES_CHUNK (32kB), so must be called in a loop to write the</span>
+<a name="l00452"></a>00452   <span class="comment">// desired number of frames. This ensures that the playback position</span>
+<a name="l00453"></a>00453   <span class="comment">// advances smoothly, and guarantees that we don&#39;t try to allocate an</span>
+<a name="l00454"></a>00454   <span class="comment">// impossibly large chunk of memory in order to play back silence. Called</span>
+<a name="l00455"></a>00455   <span class="comment">// on the audio thread.</span>
+<a name="l00456"></a>00456   uint32_t PlaySilence(uint32_t aFrames,
+<a name="l00457"></a>00457                        uint32_t aChannels,
+<a name="l00458"></a>00458                        uint64_t aFrameOffset);
+<a name="l00459"></a>00459 
+<a name="l00460"></a>00460   <span class="comment">// Pops an audio chunk from the front of the audio queue, and pushes its</span>
+<a name="l00461"></a>00461   <span class="comment">// audio data to the audio hardware. MozAudioAvailable data is also queued</span>
+<a name="l00462"></a>00462   <span class="comment">// here. Called on the audio thread.</span>
+<a name="l00463"></a>00463   uint32_t PlayFromAudioQueue(uint64_t aFrameOffset, uint32_t aChannels);
+<a name="l00464"></a>00464 
+<a name="l00465"></a>00465   <span class="comment">// Stops the decode thread, and if we have a pending request for a new</span>
+<a name="l00466"></a>00466   <span class="comment">// decode thread it is canceled. The decoder monitor must be held with exactly</span>
+<a name="l00467"></a>00467   <span class="comment">// one lock count. Called on the state machine thread.</span>
+<a name="l00468"></a>00468   <span class="keywordtype">void</span> StopDecodeThread();
+<a name="l00469"></a>00469 
+<a name="l00470"></a>00470   <span class="comment">// Stops the audio thread. The decoder monitor must be held with exactly</span>
+<a name="l00471"></a>00471   <span class="comment">// one lock count. Called on the state machine thread.</span>
+<a name="l00472"></a>00472   <span class="keywordtype">void</span> StopAudioThread();
+<a name="l00473"></a>00473 
+<a name="l00474"></a>00474   <span class="comment">// Ensures the decode thread is running if it already exists, or requests</span>
+<a name="l00475"></a>00475   <span class="comment">// a new decode thread be started if there currently is no decode thread.</span>
+<a name="l00476"></a>00476   <span class="comment">// The decoder monitor must be held with exactly one lock count. Called on</span>
+<a name="l00477"></a>00477   <span class="comment">// the state machine thread.</span>
+<a name="l00478"></a>00478   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> ScheduleDecodeThread();
+<a name="l00479"></a>00479 
+<a name="l00480"></a>00480   <span class="comment">// Starts the audio thread. The decoder monitor must be held with exactly</span>
+<a name="l00481"></a>00481   <span class="comment">// one lock count. Called on the state machine thread.</span>
+<a name="l00482"></a>00482   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> StartAudioThread();
+<a name="l00483"></a>00483 
+<a name="l00484"></a>00484   <span class="comment">// The main loop for the audio thread. Sent to the thread as</span>
+<a name="l00485"></a>00485   <span class="comment">// an nsRunnableMethod. This continually does blocking writes to</span>
+<a name="l00486"></a>00486   <span class="comment">// to audio stream to play audio data.</span>
+<a name="l00487"></a>00487   <span class="keywordtype">void</span> AudioLoop();
+<a name="l00488"></a>00488 
+<a name="l00489"></a>00489   <span class="comment">// Sets internal state which causes playback of media to pause.</span>
+<a name="l00490"></a>00490   <span class="comment">// The decoder monitor must be held. Called on the state machine,</span>
+<a name="l00491"></a>00491   <span class="comment">// and decode threads.</span>
+<a name="l00492"></a>00492   <span class="keywordtype">void</span> StopPlayback();
+<a name="l00493"></a>00493 
+<a name="l00494"></a>00494   <span class="comment">// Sets internal state which causes playback of media to begin or resume.</span>
+<a name="l00495"></a>00495   <span class="comment">// Must be called with the decode monitor held. Called on the state machine</span>
+<a name="l00496"></a>00496   <span class="comment">// and decode threads.</span>
+<a name="l00497"></a>00497   <span class="keywordtype">void</span> StartPlayback();
+<a name="l00498"></a>00498 
+<a name="l00499"></a>00499   <span class="comment">// Moves the decoder into decoding state. Called on the state machine</span>
+<a name="l00500"></a>00500   <span class="comment">// thread. The decoder monitor must be held.</span>
+<a name="l00501"></a>00501   <span class="keywordtype">void</span> StartDecoding();
+<a name="l00502"></a>00502 
+<a name="l00503"></a>00503   <span class="keywordtype">void</span> StartWaitForResources();
+<a name="l00504"></a>00504 
+<a name="l00505"></a>00505   <span class="keywordtype">void</span> StartDecodeMetadata();
+<a name="l00506"></a>00506 
+<a name="l00507"></a>00507   <span class="comment">// Returns true if we&#39;re currently playing. The decoder monitor must</span>
+<a name="l00508"></a>00508   <span class="comment">// be held.</span>
+<a name="l00509"></a>00509   <span class="keywordtype">bool</span> IsPlaying();
+<a name="l00510"></a>00510 
+<a name="l00511"></a>00511   <span class="comment">// Returns the &quot;media time&quot;. This is the absolute time which the media</span>
+<a name="l00512"></a>00512   <span class="comment">// playback has reached. i.e. this returns values in the range</span>
+<a name="l00513"></a>00513   <span class="comment">// [mStartTime, mEndTime], and mStartTime will not be 0 if the media does</span>
+<a name="l00514"></a>00514   <span class="comment">// not start at 0. Note this is different to the value returned</span>
+<a name="l00515"></a>00515   <span class="comment">// by GetCurrentTime(), which is in the range [0,duration].</span>
+<a name="l00516"></a>00516   int64_t GetMediaTime()<span class="keyword"> const </span>{
+<a name="l00517"></a>00517     mDecoder-&gt;GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00518"></a>00518     <span class="keywordflow">return</span> mStartTime + mCurrentFrameTime;
+<a name="l00519"></a>00519   }
+<a name="l00520"></a>00520 
+<a name="l00521"></a>00521   <span class="comment">// Returns an upper bound on the number of microseconds of audio that is</span>
+<a name="l00522"></a>00522   <span class="comment">// decoded and playable. This is the sum of the number of usecs of audio which</span>
+<a name="l00523"></a>00523   <span class="comment">// is decoded and in the reader&#39;s audio queue, and the usecs of unplayed audio</span>
+<a name="l00524"></a>00524   <span class="comment">// which has been pushed to the audio hardware for playback. Note that after</span>
+<a name="l00525"></a>00525   <span class="comment">// calling this, the audio hardware may play some of the audio pushed to</span>
+<a name="l00526"></a>00526   <span class="comment">// hardware, so this can only be used as a upper bound. The decoder monitor</span>
+<a name="l00527"></a>00527   <span class="comment">// must be held when calling this. Called on the decode thread.</span>
+<a name="l00528"></a>00528   int64_t GetDecodedAudioDuration();
+<a name="l00529"></a>00529 
+<a name="l00530"></a>00530   <span class="comment">// Load metadata. Called on the decode thread. The decoder monitor</span>
+<a name="l00531"></a>00531   <span class="comment">// must be held with exactly one lock count.</span>
+<a name="l00532"></a>00532   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> DecodeMetadata();
+<a name="l00533"></a>00533 
+<a name="l00534"></a>00534   <span class="comment">// Seeks to mSeekTarget. Called on the decode thread. The decoder monitor</span>
+<a name="l00535"></a>00535   <span class="comment">// must be held with exactly one lock count.</span>
+<a name="l00536"></a>00536   <span class="keywordtype">void</span> DecodeSeek();
+<a name="l00537"></a>00537 
+<a name="l00538"></a>00538   <span class="comment">// Decode loop, decodes data until EOF or shutdown.</span>
+<a name="l00539"></a>00539   <span class="comment">// Called on the decode thread.</span>
+<a name="l00540"></a>00540   <span class="keywordtype">void</span> DecodeLoop();
+<a name="l00541"></a>00541 
+<a name="l00542"></a>00542   <span class="comment">// Decode thread run function. Determines which of the Decode*() functions</span>
+<a name="l00543"></a>00543   <span class="comment">// to call.</span>
+<a name="l00544"></a>00544   <span class="keywordtype">void</span> DecodeThreadRun();
+<a name="l00545"></a>00545 
+<a name="l00546"></a>00546   <span class="comment">// Copy audio from an AudioData packet to aOutput. This may require</span>
+<a name="l00547"></a>00547   <span class="comment">// inserting silence depending on the timing of the audio packet.</span>
+<a name="l00548"></a>00548   <span class="keywordtype">void</span> SendStreamAudio(AudioData* aAudio, <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a651a14793a628ec9e0631d0fa610fbb0">DecodedStreamData</a>* aStream,
+<a name="l00549"></a>00549                        AudioSegment* aOutput);
+<a name="l00550"></a>00550 
+<a name="l00551"></a>00551   <span class="comment">// State machine thread run function. Defers to RunStateMachine().</span>
+<a name="l00552"></a>00552   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> CallRunStateMachine();
+<a name="l00553"></a>00553 
+<a name="l00554"></a>00554   <span class="comment">// Performs one &quot;cycle&quot; of the state machine. Polls the state, and may send</span>
+<a name="l00555"></a>00555   <span class="comment">// a video frame to be displayed, and generally manages the decode. Called</span>
+<a name="l00556"></a>00556   <span class="comment">// periodically via timer to ensure the video stays in sync.</span>
+<a name="l00557"></a>00557   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> RunStateMachine();
+<a name="l00558"></a>00558 
+<a name="l00559"></a>00559   <span class="keywordtype">bool</span> IsStateMachineScheduled()<span class="keyword"> const </span>{
+<a name="l00560"></a>00560     mDecoder-&gt;GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00561"></a>00561     <span class="keywordflow">return</span> !mTimeout.<a class="code" href="../../d0/d76/classmozilla_1_1_time_stamp.html#a5fc913be73dd4028fd7300b25cdda150">IsNull</a>() || mRunAgain;
+<a name="l00562"></a>00562   }
+<a name="l00563"></a>00563 
+<a name="l00564"></a>00564   <span class="comment">// Returns true if we&#39;re not playing and the decode thread has filled its</span>
+<a name="l00565"></a>00565   <span class="comment">// decode buffers and is waiting. We can shut the decode thread down in this</span>
+<a name="l00566"></a>00566   <span class="comment">// case as it may not be needed again.</span>
+<a name="l00567"></a>00567   <span class="keywordtype">bool</span> IsPausedAndDecoderWaiting();
+<a name="l00568"></a>00568 
+<a name="l00569"></a>00569   <span class="comment">// The decoder object that created this state machine. The state machine</span>
+<a name="l00570"></a>00570   <span class="comment">// holds a strong reference to the decoder to ensure that the decoder stays</span>
+<a name="l00571"></a>00571   <span class="comment">// alive once media element has started the decoder shutdown process, and has</span>
+<a name="l00572"></a>00572   <span class="comment">// dropped its reference to the decoder. This enables the state machine to</span>
+<a name="l00573"></a>00573   <span class="comment">// keep using the decoder&#39;s monitor until the state machine has finished</span>
+<a name="l00574"></a>00574   <span class="comment">// shutting down, without fear of the monitor being destroyed. After</span>
+<a name="l00575"></a>00575   <span class="comment">// shutting down, the state machine will then release this reference,</span>
+<a name="l00576"></a>00576   <span class="comment">// causing the decoder to be destroyed. This is accessed on the decode,</span>
+<a name="l00577"></a>00577   <span class="comment">// state machine, audio and main threads.</span>
+<a name="l00578"></a>00578   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;MediaDecoder&gt;</a> mDecoder;
+<a name="l00579"></a>00579 
+<a name="l00580"></a>00580   <span class="comment">// The decoder monitor must be obtained before modifying this state.</span>
+<a name="l00581"></a>00581   <span class="comment">// NotifyAll on the monitor must be called when the state is changed so</span>
+<a name="l00582"></a>00582   <span class="comment">// that interested threads can wake up and alter behaviour if appropriate</span>
+<a name="l00583"></a>00583   <span class="comment">// Accessed on state machine, audio, main, and AV thread.</span>
+<a name="l00584"></a>00584   <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html#a4386b787c566650acf69028681a48b1e">State</a> mState;
+<a name="l00585"></a>00585 
+<a name="l00586"></a>00586   <span class="comment">// Thread for pushing audio onto the audio hardware.</span>
+<a name="l00587"></a>00587   <span class="comment">// The &quot;audio push thread&quot;.</span>
+<a name="l00588"></a>00588   nsCOMPtr&lt;nsIThread&gt; mAudioThread;
+<a name="l00589"></a>00589 
+<a name="l00590"></a>00590   <span class="comment">// Thread for decoding video in background. The &quot;decode thread&quot;.</span>
+<a name="l00591"></a>00591   nsCOMPtr&lt;nsIThread&gt; mDecodeThread;
+<a name="l00592"></a>00592 
+<a name="l00593"></a>00593   <span class="comment">// Timer to call the state machine Run() method. Used by</span>
+<a name="l00594"></a>00594   <span class="comment">// ScheduleStateMachine(). Access protected by decoder monitor.</span>
+<a name="l00595"></a>00595   nsCOMPtr&lt;nsITimer&gt; mTimer;
+<a name="l00596"></a>00596 
+<a name="l00597"></a>00597   <span class="comment">// Timestamp at which the next state machine Run() method will be called.</span>
+<a name="l00598"></a>00598   <span class="comment">// If this is non-null, a call to Run() is scheduled, either by a timer,</span>
+<a name="l00599"></a>00599   <span class="comment">// or via an event. Access protected by decoder monitor.</span>
+<a name="l00600"></a>00600   <a class="code" href="../../d5/d28/img_i_container_8idl.html#aa16e6b2422cef428bbecbae0a0325e97">TimeStamp</a> mTimeout;
+<a name="l00601"></a>00601 
+<a name="l00602"></a>00602   <span class="comment">// The time that playback started from the system clock. This is used for</span>
+<a name="l00603"></a>00603   <span class="comment">// timing the presentation of video frames when there&#39;s no audio.</span>
+<a name="l00604"></a>00604   <span class="comment">// Accessed only via the state machine thread.</span>
+<a name="l00605"></a>00605   <a class="code" href="../../d5/d28/img_i_container_8idl.html#aa16e6b2422cef428bbecbae0a0325e97">TimeStamp</a> mPlayStartTime;
+<a name="l00606"></a>00606 
+<a name="l00607"></a>00607   <span class="comment">// When the playbackRate changes, and there is no audio clock, it is necessary</span>
+<a name="l00608"></a>00608   <span class="comment">// to reset the mPlayStartTime. This is done next time the clock is queried,</span>
+<a name="l00609"></a>00609   <span class="comment">// when this member is true. Access protected by decoder monitor.</span>
+<a name="l00610"></a>00610   <span class="keywordtype">bool</span> mResetPlayStartTime;
+<a name="l00611"></a>00611 
+<a name="l00612"></a>00612   <span class="comment">// The amount of time we&#39;ve spent playing already the media. The current</span>
+<a name="l00613"></a>00613   <span class="comment">// playback position is therefore |Now() - mPlayStartTime +</span>
+<a name="l00614"></a>00614   <span class="comment">// mPlayDuration|, which must be adjusted by mStartTime if used with media</span>
+<a name="l00615"></a>00615   <span class="comment">// timestamps.  Accessed only via the state machine thread.</span>
+<a name="l00616"></a>00616   int64_t mPlayDuration;
+<a name="l00617"></a>00617 
+<a name="l00618"></a>00618   <span class="comment">// Time that buffering started. Used for buffering timeout and only</span>
+<a name="l00619"></a>00619   <span class="comment">// accessed on the state machine thread. This is null while we&#39;re not</span>
+<a name="l00620"></a>00620   <span class="comment">// buffering.</span>
+<a name="l00621"></a>00621   <a class="code" href="../../d5/d28/img_i_container_8idl.html#aa16e6b2422cef428bbecbae0a0325e97">TimeStamp</a> mBufferingStart;
+<a name="l00622"></a>00622 
+<a name="l00623"></a>00623   <span class="comment">// Start time of the media, in microseconds. This is the presentation</span>
+<a name="l00624"></a>00624   <span class="comment">// time of the first frame decoded from the media, and is used to calculate</span>
+<a name="l00625"></a>00625   <span class="comment">// duration and as a bounds for seeking. Accessed on state machine, decode,</span>
+<a name="l00626"></a>00626   <span class="comment">// and main threads. Access controlled by decoder monitor.</span>
+<a name="l00627"></a>00627   int64_t mStartTime;
+<a name="l00628"></a>00628 
+<a name="l00629"></a>00629   <span class="comment">// Time of the last frame in the media, in microseconds. This is the</span>
+<a name="l00630"></a>00630   <span class="comment">// end time of the last frame in the media. Accessed on state</span>
+<a name="l00631"></a>00631   <span class="comment">// machine, decode, and main threads. Access controlled by decoder monitor.</span>
+<a name="l00632"></a>00632   int64_t mEndTime;
+<a name="l00633"></a>00633 
+<a name="l00634"></a>00634   <span class="comment">// Position to seek to in microseconds when the seek state transition occurs.</span>
+<a name="l00635"></a>00635   <span class="comment">// The decoder monitor lock must be obtained before reading or writing</span>
+<a name="l00636"></a>00636   <span class="comment">// this value. Accessed on main and decode thread.</span>
+<a name="l00637"></a>00637   int64_t mSeekTime;
+<a name="l00638"></a>00638 
+<a name="l00639"></a>00639   <span class="comment">// Media Fragment end time in microseconds. Access controlled by decoder monitor.</span>
+<a name="l00640"></a>00640   int64_t mFragmentEndTime;
+<a name="l00641"></a>00641 
+<a name="l00642"></a>00642   <span class="comment">// The audio stream resource. Used on the state machine, and audio threads.</span>
+<a name="l00643"></a>00643   <span class="comment">// This is created and destroyed on the audio thread, while holding the</span>
+<a name="l00644"></a>00644   <span class="comment">// decoder monitor, so if this is used off the audio thread, you must</span>
+<a name="l00645"></a>00645   <span class="comment">// first acquire the decoder monitor and check that it is non-null.</span>
+<a name="l00646"></a>00646   <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;AudioStream&gt;</a> mAudioStream;
+<a name="l00647"></a>00647 
+<a name="l00648"></a>00648   <span class="comment">// The reader, don&#39;t call its methods with the decoder monitor held.</span>
+<a name="l00649"></a>00649   <span class="comment">// This is created in the play state machine&#39;s constructor, and destroyed</span>
+<a name="l00650"></a>00650   <span class="comment">// in the play state machine&#39;s destructor.</span>
+<a name="l00651"></a>00651   <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;MediaDecoderReader&gt;</a> mReader;
+<a name="l00652"></a>00652 
+<a name="l00653"></a>00653   <span class="comment">// Accessed only on the state machine thread.</span>
+<a name="l00654"></a>00654   <span class="comment">// Not an nsRevocableEventPtr since we must Revoke() it well before</span>
+<a name="l00655"></a>00655   <span class="comment">// this object is destroyed, anyway.</span>
+<a name="l00656"></a>00656   <span class="comment">// Protected by decoder monitor except during the SHUTDOWN state after the</span>
+<a name="l00657"></a>00657   <span class="comment">// decoder thread has been stopped.</span>
+<a name="l00658"></a>00658   <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html">nsRevocableEventPtr&lt;WakeDecoderRunnable&gt;</a> mPendingWakeDecoder;
+<a name="l00659"></a>00659 
+<a name="l00660"></a>00660   <span class="comment">// The time of the current frame in microseconds. This is referenced from</span>
+<a name="l00661"></a>00661   <span class="comment">// 0 which is the initial playback position. Set by the state machine</span>
+<a name="l00662"></a>00662   <span class="comment">// thread, and read-only from the main thread to get the current</span>
+<a name="l00663"></a>00663   <span class="comment">// time value. Synchronised via decoder monitor.</span>
+<a name="l00664"></a>00664   int64_t mCurrentFrameTime;
+<a name="l00665"></a>00665 
+<a name="l00666"></a>00666   <span class="comment">// The presentation time of the first audio frame that was played in</span>
+<a name="l00667"></a>00667   <span class="comment">// microseconds. We can add this to the audio stream position to determine</span>
+<a name="l00668"></a>00668   <span class="comment">// the current audio time. Accessed on audio and state machine thread.</span>
+<a name="l00669"></a>00669   <span class="comment">// Synchronized by decoder monitor.</span>
+<a name="l00670"></a>00670   int64_t mAudioStartTime;
+<a name="l00671"></a>00671 
+<a name="l00672"></a>00672   <span class="comment">// The end time of the last audio frame that&#39;s been pushed onto the audio</span>
+<a name="l00673"></a>00673   <span class="comment">// hardware in microseconds. This will approximately be the end time of the</span>
+<a name="l00674"></a>00674   <span class="comment">// audio stream, unless another frame is pushed to the hardware.</span>
+<a name="l00675"></a>00675   int64_t mAudioEndTime;
+<a name="l00676"></a>00676 
+<a name="l00677"></a>00677   <span class="comment">// The presentation end time of the last video frame which has been displayed</span>
+<a name="l00678"></a>00678   <span class="comment">// in microseconds. Accessed from the state machine thread.</span>
+<a name="l00679"></a>00679   int64_t mVideoFrameEndTime;
+<a name="l00680"></a>00680 
+<a name="l00681"></a>00681   <span class="comment">// Volume of playback. 0.0 = muted. 1.0 = full volume. Read/Written</span>
+<a name="l00682"></a>00682   <span class="comment">// from the state machine and main threads. Synchronised via decoder</span>
+<a name="l00683"></a>00683   <span class="comment">// monitor.</span>
+<a name="l00684"></a>00684   <span class="keywordtype">double</span> mVolume;
+<a name="l00685"></a>00685 
+<a name="l00686"></a>00686   <span class="comment">// Playback rate. 1.0 : normal speed, 0.5 : two times slower. Synchronized via</span>
+<a name="l00687"></a>00687   <span class="comment">// decoder monitor.</span>
+<a name="l00688"></a>00688   <span class="keywordtype">double</span> mPlaybackRate;
+<a name="l00689"></a>00689 
+<a name="l00690"></a>00690   <span class="comment">// Pitch preservation for the playback rate. Synchronized via decoder monitor.</span>
+<a name="l00691"></a>00691   <span class="keywordtype">bool</span> mPreservesPitch;
+<a name="l00692"></a>00692 
+<a name="l00693"></a>00693   <span class="comment">// Position at which the last playback rate change occured, used to compute</span>
+<a name="l00694"></a>00694   <span class="comment">// the actual position in the stream when the playback rate changes and there</span>
+<a name="l00695"></a>00695   <span class="comment">// is no audio to be sync-ed to. Synchronized via decoder monitor.</span>
+<a name="l00696"></a>00696   int64_t mBasePosition;
+<a name="l00697"></a>00697 
+<a name="l00698"></a>00698   <span class="comment">// Time at which we started decoding. Synchronised via decoder monitor.</span>
+<a name="l00699"></a>00699   <a class="code" href="../../d5/d28/img_i_container_8idl.html#aa16e6b2422cef428bbecbae0a0325e97">TimeStamp</a> mDecodeStartTime;
+<a name="l00700"></a>00700 
+<a name="l00701"></a>00701   <span class="comment">// The maximum number of second we spend buffering when we are short on</span>
+<a name="l00702"></a>00702   <span class="comment">// unbuffered data.</span>
+<a name="l00703"></a>00703   uint32_t mBufferingWait;
+<a name="l00704"></a>00704   int64_t  mLowDataThresholdUsecs;
+<a name="l00705"></a>00705 
+<a name="l00706"></a>00706   <span class="comment">// If we&#39;ve got more than mAmpleVideoFrames decoded video frames waiting in</span>
+<a name="l00707"></a>00707   <span class="comment">// the video queue, we will not decode any more video frames until some have</span>
+<a name="l00708"></a>00708   <span class="comment">// been consumed by the play state machine thread.</span>
+<a name="l00709"></a>00709   uint32_t mAmpleVideoFrames;
+<a name="l00710"></a>00710   <span class="comment">// True if we shouldn&#39;t play our audio (but still write it to any capturing</span>
+<a name="l00711"></a>00711   <span class="comment">// streams). When this is true, mStopAudioThread is always true and</span>
+<a name="l00712"></a>00712   <span class="comment">// the audio thread will never start again after it has stopped.</span>
+<a name="l00713"></a>00713   <span class="keywordtype">bool</span> mAudioCaptured;
+<a name="l00714"></a>00714 
+<a name="l00715"></a>00715   <span class="comment">// True if the media resource can be seeked on a transport level. Accessed</span>
+<a name="l00716"></a>00716   <span class="comment">// from the state machine and main threads. Synchronised via decoder monitor.</span>
+<a name="l00717"></a>00717   <span class="keywordtype">bool</span> mTransportSeekable;
+<a name="l00718"></a>00718 
+<a name="l00719"></a>00719   <span class="comment">// True if the media can be seeked. Accessed from the state machine and main</span>
+<a name="l00720"></a>00720   <span class="comment">// threads. Synchronised via decoder monitor.</span>
+<a name="l00721"></a>00721   <span class="keywordtype">bool</span> mMediaSeekable;
+<a name="l00722"></a>00722 
+<a name="l00723"></a>00723   <span class="comment">// True if an event to notify about a change in the playback</span>
+<a name="l00724"></a>00724   <span class="comment">// position has been queued, but not yet run. It is set to false when</span>
+<a name="l00725"></a>00725   <span class="comment">// the event is run. This allows coalescing of these events as they can be</span>
+<a name="l00726"></a>00726   <span class="comment">// produced many times per second. Synchronised via decoder monitor.</span>
+<a name="l00727"></a>00727   <span class="comment">// Accessed on main and state machine threads.</span>
+<a name="l00728"></a>00728   <span class="keywordtype">bool</span> mPositionChangeQueued;
+<a name="l00729"></a>00729 
+<a name="l00730"></a>00730   <span class="comment">// True if the audio playback thread has finished. It is finished</span>
+<a name="l00731"></a>00731   <span class="comment">// when either all the audio frames in the Vorbis bitstream have completed</span>
+<a name="l00732"></a>00732   <span class="comment">// playing, or we&#39;ve moved into shutdown state, and the threads are to be</span>
+<a name="l00733"></a>00733   <span class="comment">// destroyed. Written by the audio playback thread and read and written by</span>
+<a name="l00734"></a>00734   <span class="comment">// the state machine thread. Synchronised via decoder monitor.</span>
+<a name="l00735"></a>00735   <span class="keywordtype">bool</span> mAudioCompleted;
+<a name="l00736"></a>00736 
+<a name="l00737"></a>00737   <span class="comment">// True if mDuration has a value obtained from an HTTP header, or from</span>
+<a name="l00738"></a>00738   <span class="comment">// the media index/metadata. Accessed on the state machine thread.</span>
+<a name="l00739"></a>00739   <span class="keywordtype">bool</span> mGotDurationFromMetaData;
+<a name="l00740"></a>00740 
+<a name="l00741"></a>00741   <span class="comment">// False while decode thread should be running. Accessed state machine</span>
+<a name="l00742"></a>00742   <span class="comment">// and decode threads. Syncrhonised by decoder monitor.</span>
+<a name="l00743"></a>00743   <span class="keywordtype">bool</span> mStopDecodeThread;
+<a name="l00744"></a>00744 
+<a name="l00745"></a>00745   <span class="comment">// True when the decode thread run function has finished, but the thread</span>
+<a name="l00746"></a>00746   <span class="comment">// has not necessarily been shut down yet. This can happen if we switch</span>
+<a name="l00747"></a>00747   <span class="comment">// from COMPLETED state to SEEKING before the state machine has a chance</span>
+<a name="l00748"></a>00748   <span class="comment">// to run in the COMPLETED state and shutdown the decode thread.</span>
+<a name="l00749"></a>00749   <span class="comment">// Synchronised by the decoder monitor.</span>
+<a name="l00750"></a>00750   <span class="keywordtype">bool</span> mDecodeThreadIdle;
+<a name="l00751"></a>00751 
+<a name="l00752"></a>00752   <span class="comment">// False while audio thread should be running. Accessed state machine</span>
+<a name="l00753"></a>00753   <span class="comment">// and audio threads. Syncrhonised by decoder monitor.</span>
+<a name="l00754"></a>00754   <span class="keywordtype">bool</span> mStopAudioThread;
+<a name="l00755"></a>00755 
+<a name="l00756"></a>00756   <span class="comment">// If this is true while we&#39;re in buffering mode, we can exit early,</span>
+<a name="l00757"></a>00757   <span class="comment">// as it&#39;s likely we may be able to playback. This happens when we enter</span>
+<a name="l00758"></a>00758   <span class="comment">// buffering mode soon after the decode starts, because the decode-ahead</span>
+<a name="l00759"></a>00759   <span class="comment">// ran fast enough to exhaust all data while the download is starting up.</span>
+<a name="l00760"></a>00760   <span class="comment">// Synchronised via decoder monitor.</span>
+<a name="l00761"></a>00761   <span class="keywordtype">bool</span> mQuickBuffering;
+<a name="l00762"></a>00762 
+<a name="l00763"></a>00763   <span class="comment">// True if the shared state machine thread is currently running this</span>
+<a name="l00764"></a>00764   <span class="comment">// state machine.</span>
+<a name="l00765"></a>00765   <span class="keywordtype">bool</span> mIsRunning;
+<a name="l00766"></a>00766 
+<a name="l00767"></a>00767   <span class="comment">// True if we should run the state machine again once the current</span>
+<a name="l00768"></a>00768   <span class="comment">// state machine run has finished.</span>
+<a name="l00769"></a>00769   <span class="keywordtype">bool</span> mRunAgain;
+<a name="l00770"></a>00770 
+<a name="l00771"></a>00771   <span class="comment">// True if we&#39;ve dispatched an event to run the state machine. It&#39;s</span>
+<a name="l00772"></a>00772   <span class="comment">// imperative that we don&#39;t dispatch multiple events to run the state</span>
+<a name="l00773"></a>00773   <span class="comment">// machine at the same time, as our code assume all events are synchronous.</span>
+<a name="l00774"></a>00774   <span class="comment">// If we dispatch multiple events, the second event can run while the</span>
+<a name="l00775"></a>00775   <span class="comment">// first is shutting down a thread, causing inconsistent state.</span>
+<a name="l00776"></a>00776   <span class="keywordtype">bool</span> mDispatchedRunEvent;
+<a name="l00777"></a>00777 
+<a name="l00778"></a>00778   <span class="comment">// True if the decode thread has gone filled its buffers and is now</span>
+<a name="l00779"></a>00779   <span class="comment">// waiting to be awakened before it continues decoding. Synchronized</span>
+<a name="l00780"></a>00780   <span class="comment">// by the decoder monitor.</span>
+<a name="l00781"></a>00781   <span class="keywordtype">bool</span> mDecodeThreadWaiting;
+<a name="l00782"></a>00782 
+<a name="l00783"></a>00783   <span class="comment">// True is we are decoding a realtime stream, like a camera stream</span>
+<a name="l00784"></a>00784   <span class="keywordtype">bool</span> mRealTime;
+<a name="l00785"></a>00785 
+<a name="l00786"></a>00786   <span class="comment">// Record whether audio and video decoding were throttled during the</span>
+<a name="l00787"></a>00787   <span class="comment">// previous iteration of DecodeLooop. When we transition from</span>
+<a name="l00788"></a>00788   <span class="comment">// throttled to not-throttled we need to pump decoding.</span>
+<a name="l00789"></a>00789   <span class="keywordtype">bool</span> mDidThrottleAudioDecoding;
+<a name="l00790"></a>00790   <span class="keywordtype">bool</span> mDidThrottleVideoDecoding;
+<a name="l00791"></a>00791 
+<a name="l00792"></a>00792   <span class="comment">// True if we&#39;ve requested a new decode thread, but it has not yet been</span>
+<a name="l00793"></a>00793   <span class="comment">// created. Synchronized by the decoder monitor.</span>
+<a name="l00794"></a>00794   <span class="keywordtype">bool</span> mRequestedNewDecodeThread;
+<a name="l00795"></a>00795 
+<a name="l00796"></a>00796   <span class="comment">// Manager for queuing and dispatching MozAudioAvailable events.  The</span>
+<a name="l00797"></a>00797   <span class="comment">// event manager is accessed from the state machine and audio threads,</span>
+<a name="l00798"></a>00798   <span class="comment">// and takes care of synchronizing access to its internal queue.</span>
+<a name="l00799"></a>00799   AudioAvailableEventManager mEventManager;
+<a name="l00800"></a>00800 
+<a name="l00801"></a>00801   <span class="comment">// Stores presentation info required for playback. The decoder monitor</span>
+<a name="l00802"></a>00802   <span class="comment">// must be held when accessing this.</span>
+<a name="l00803"></a>00803   VideoInfo mInfo;
+<a name="l00804"></a>00804 
+<a name="l00805"></a>00805   <a class="code" href="../../dc/da2/classmozilla_1_1_media_metadata_manager.html">mozilla::MediaMetadataManager</a> mMetadataManager;
+<a name="l00806"></a>00806 
+<a name="l00807"></a>00807   <a class="code" href="../../d2/d9b/classmozilla_1_1_media_decoder_owner.html#afc95d527f018fca6a0889217cca50b7f">MediaDecoderOwner::NextFrameStatus</a> mLastFrameStatus;
+<a name="l00808"></a>00808 };
+<a name="l00809"></a>00809 
+<a name="l00810"></a>00810 } <span class="comment">// namespace mozilla;</span>
+<a name="l00811"></a>00811 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dc/d47/_media_decoder_state_machine_8h.html">MediaDecoderStateMachine.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:45に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

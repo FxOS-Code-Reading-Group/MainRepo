@@ -1,0 +1,483 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: GonkNativeWindow.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('db/d84/_gonk_native_window_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">GonkNativeWindow.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../db/d84/_gonk_native_window_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * Copyright (C) 2010 The Android Open Source Project</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright (C) 2012 Mozilla Foundation</span>
+<a name="l00004"></a>00004 <span class="comment"> *</span>
+<a name="l00005"></a>00005 <span class="comment"> * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<a name="l00006"></a>00006 <span class="comment"> * you may not use this file except in compliance with the License.</span>
+<a name="l00007"></a>00007 <span class="comment"> * You may obtain a copy of the License at</span>
+<a name="l00008"></a>00008 <span class="comment"> *</span>
+<a name="l00009"></a>00009 <span class="comment"> *      http://www.apache.org/licenses/LICENSE-2.0</span>
+<a name="l00010"></a>00010 <span class="comment"> *</span>
+<a name="l00011"></a>00011 <span class="comment"> * Unless required by applicable law or agreed to in writing, software</span>
+<a name="l00012"></a>00012 <span class="comment"> * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<a name="l00013"></a>00013 <span class="comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<a name="l00014"></a>00014 <span class="comment"> * See the License for the specific language governing permissions and</span>
+<a name="l00015"></a>00015 <span class="comment"> * limitations under the License.</span>
+<a name="l00016"></a>00016 <span class="comment"> */</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 <span class="preprocessor">#ifndef DOM_CAMERA_GONKNATIVEWINDOW_H</span>
+<a name="l00019"></a>00019 <span class="preprocessor"></span><span class="preprocessor">#define DOM_CAMERA_GONKNATIVEWINDOW_H</span>
+<a name="l00020"></a>00020 <span class="preprocessor"></span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &lt;stdint.h&gt;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &lt;sys/types.h&gt;</span>
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="preprocessor">#include &lt;gui/ISurfaceTexture.h&gt;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;ui/egl/android_natives.h&gt;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;ui/GraphicBuffer.h&gt;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &lt;ui/Rect.h&gt;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &lt;utils/Errors.h&gt;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &lt;utils/RefBase.h&gt;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &lt;utils/String8.h&gt;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &lt;utils/threads.h&gt;</span>
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;mozilla/layers/LayersSurfaces.h&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="../../db/df0/_image_bridge_child_8h.html">mozilla/layers/ImageBridgeChild.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/ddc/_gralloc_images_8h.html">GrallocImages.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/d5c/_camera_common_8h.html">CameraCommon.h</a>&quot;</span>
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="keyword">namespace </span>android {
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 <span class="comment">// The user of GonkNativeWindow who wants to receive notification of</span>
+<a name="l00041"></a>00041 <span class="comment">// new frames should implement this interface.</span>
+<a name="l00042"></a><a class="code" href="../../d5/d10/classandroid_1_1_gonk_native_window_new_frame_callback.html">00042</a> <span class="keyword">class </span><a class="code" href="../../d5/d10/classandroid_1_1_gonk_native_window_new_frame_callback.html">GonkNativeWindowNewFrameCallback</a> {
+<a name="l00043"></a>00043 <span class="keyword">public</span>:
+<a name="l00044"></a>00044     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/d10/classandroid_1_1_gonk_native_window_new_frame_callback.html#a98c09e6a76fac8e8ae45e718b807db91">OnNewFrame</a>() = 0;
+<a name="l00045"></a>00045 };
+<a name="l00046"></a>00046 
+<a name="l00047"></a><a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html">00047</a> <span class="keyword">class </span><a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html">GonkNativeWindow</a> : <span class="keyword">public</span> BnSurfaceTexture
+<a name="l00048"></a>00048 {
+<a name="l00049"></a><a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#ae8bfeab1ef9187daca53e184c47282c4">00049</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../df/de4/classandroid_1_1_gonk_native_window_client.html">GonkNativeWindowClient</a>;
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051     <span class="keyword">typedef</span> mozilla::layers::SurfaceDescriptor SurfaceDescriptor;
+<a name="l00052"></a>00052     <span class="keyword">typedef</span> mozilla::layers::GraphicBufferLocked GraphicBufferLocked;
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054 <span class="keyword">public</span>:
+<a name="l00055"></a><a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#aba7cea8c6b3f871b9ac99407f54f2b21a27c826c10746bee34b12ebd26d239a97">00055</a>     <span class="keyword">enum</span> { <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#aba7cea8c6b3f871b9ac99407f54f2b21a27c826c10746bee34b12ebd26d239a97">MIN_UNDEQUEUED_BUFFERS</a> = 2 };
+<a name="l00056"></a><a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a95ea38e5f2064286e19ddf23c00f514fa9565913dc9a2ef1154bafc0561d261b9">00056</a>     <span class="keyword">enum</span> { <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a95ea38e5f2064286e19ddf23c00f514fa9565913dc9a2ef1154bafc0561d261b9">MIN_BUFFER_SLOTS</a> = <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#aba7cea8c6b3f871b9ac99407f54f2b21a27c826c10746bee34b12ebd26d239a97">MIN_UNDEQUEUED_BUFFERS</a> };
+<a name="l00057"></a><a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#aabb00dd691b7c2a33e129d3556100b8fa5547fce53d268d96e931d92d92411780">00057</a>     <span class="keyword">enum</span> { <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#aabb00dd691b7c2a33e129d3556100b8fa5547fce53d268d96e931d92d92411780">NUM_BUFFER_SLOTS</a> = 32 };
+<a name="l00058"></a><a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#aa41d1ad1b561fff7d8240c809e2cb3d5a677ee9e92a8bf83b5408a09b65a9f518">00058</a>     <span class="keyword">enum</span> { <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#aa41d1ad1b561fff7d8240c809e2cb3d5a677ee9e92a8bf83b5408a09b65a9f518">NO_CONNECTED_API</a> = 0 };
+<a name="l00059"></a><a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a885b0d80e29f9a7cb43a35d27df790faa002d3b363e5872c45f75bf7769e98cab">00059</a>     <span class="keyword">enum</span> { <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a885b0d80e29f9a7cb43a35d27df790faa002d3b363e5872c45f75bf7769e98cab">NATIVE_WINDOW_SET_BUFFERS_SIZE</a> = 0x10000000 };
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061     <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a409d2c15dddd771ac5118caba0e3cb15">GonkNativeWindow</a>();
+<a name="l00062"></a>00062     <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a2123e8ca68519d0cca5662925113f8b5">~GonkNativeWindow</a>(); <span class="comment">// this class cannot be overloaded</span>
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064     <span class="comment">// Get next frame from the queue and mark it as RENDERING, caller</span>
+<a name="l00065"></a>00065     <span class="comment">// owns the returned buffer.</span>
+<a name="l00066"></a>00066     <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;GraphicBufferLocked&gt;</a> <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a07fdd46d1cdf24876afbca4d614f06dc">getCurrentBuffer</a>();
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068     <span class="comment">// Return the buffer to the queue and mark it as FREE. After that</span>
+<a name="l00069"></a>00069     <span class="comment">// the buffer is useable again for the decoder.</span>
+<a name="l00070"></a>00070     <span class="keywordtype">bool</span> <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a7493ed0e72344d37da1a694cc97d6bcd">returnBuffer</a>(uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>, uint32_t generation);
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072     <span class="comment">// setBufferCount updates the number of available buffer slots.  After</span>
+<a name="l00073"></a>00073     <span class="comment">// calling this all buffer slots are owned by the GonkNativeWindow object</span>
+<a name="l00074"></a>00074     <span class="comment">// (i.e. they are not owned by the client).</span>
+<a name="l00075"></a>00075     <span class="keyword">virtual</span> status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#accfdd44b5a853d731e977fee892f1435">setBufferCount</a>(<span class="keywordtype">int</span> bufferCount);
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077     <span class="comment">// requestBuffer requests a new buffer for the given index.</span>
+<a name="l00078"></a>00078     <span class="keyword">virtual</span> status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#ab43d142612b3b0608e57ec9f5975eda0">requestBuffer</a>(<span class="keywordtype">int</span> slot, sp&lt;GraphicBuffer&gt;* <a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>);
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080     <span class="comment">// dequeueBuffer gets the next buffer slot index for the client to use. If a</span>
+<a name="l00081"></a>00081     <span class="comment">// buffer slot is available then that slot index is written to the location</span>
+<a name="l00082"></a>00082     <span class="comment">// pointed to by the buf argument and a status of OK is returned.  If no</span>
+<a name="l00083"></a>00083     <span class="comment">// slot is available then a status of -EBUSY is returned and buf is</span>
+<a name="l00084"></a>00084     <span class="comment">// unmodified.</span>
+<a name="l00085"></a>00085     <span class="keyword">virtual</span> status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a91e9cbc7bb0b12e888e56c287fbee491">dequeueBuffer</a>(<span class="keywordtype">int</span> *<a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>, uint32_t <a class="code" href="../../d4/d8c/viewphoto_8js.html#adb90f9ed3668a895cc5b90a19bcdee13">width</a>, uint32_t <a class="code" href="../../d4/d8c/viewphoto_8js.html#a06f7a63ceb91351a4c31800c9a7af42f">height</a>,
+<a name="l00086"></a>00086             uint32_t <a class="code" href="../../d5/dca/reply__imap__email__test_8js.html#a63214d8f1727e71292b73e09dc39644f">format</a>, uint32_t usage);
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088     <span class="comment">// queueBuffer returns a filled buffer to the GonkNativeWindow. In addition,</span>
+<a name="l00089"></a>00089     <span class="comment">// a timestamp must be provided for the buffer. The timestamp is in</span>
+<a name="l00090"></a>00090     <span class="comment">// nanoseconds, and must be monotonically increasing. Its other semantics</span>
+<a name="l00091"></a>00091     <span class="comment">// (zero point, etc) are client-dependent and should be documented by the</span>
+<a name="l00092"></a>00092     <span class="comment">// client.</span>
+<a name="l00093"></a>00093     <span class="keyword">virtual</span> status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#ad18641347edbecd32276bdbc711ea64b">queueBuffer</a>(<span class="keywordtype">int</span> <a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>, int64_t timestamp,
+<a name="l00094"></a>00094             uint32_t* outWidth, uint32_t* outHeight, uint32_t* outTransform);
+<a name="l00095"></a>00095     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a105102270c9a60a2ccee7467b12e0279">cancelBuffer</a>(<span class="keywordtype">int</span> <a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>);
+<a name="l00096"></a>00096     <span class="keyword">virtual</span> status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a55bbe833bdf86b1f712e8ce41fa624d0">setCrop</a>(<span class="keyword">const</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#ab866f941a8eab82be1716724b1dc796e">Rect</a>&amp; reg);
+<a name="l00097"></a>00097     <span class="keyword">virtual</span> status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#ab15b68664ff9dd6a6c4e95af8a8bbe8d">setTransform</a>(uint32_t <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a16f1a2d59c558394e62fa83237fbd076">transform</a>);
+<a name="l00098"></a>00098     <span class="keyword">virtual</span> status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a05c0f7f62e7fba9dcf295684f2d2a36a">setScalingMode</a>(<span class="keywordtype">int</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a5e94be9423b9de6b3ab4057aca59293f">mode</a>);
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100     <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#ad026230fc5c0ef2d4c68f58ccc0e7cfe">query</a>(<span class="keywordtype">int</span> what, <span class="keywordtype">int</span>* <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102     <span class="comment">// Qcom specific function</span>
+<a name="l00103"></a><a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a800a0ee64181f10d4034bb07d30568ec">00103</a>     <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a800a0ee64181f10d4034bb07d30568ec">performQcomOperation</a>(<span class="keywordtype">int</span> operation, <span class="keywordtype">int</span> arg1, <span class="keywordtype">int</span> arg2, <span class="keywordtype">int</span> arg3) {
+<a name="l00104"></a>00104         <span class="keywordflow">return</span> OK;
+<a name="l00105"></a>00105     }
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107     <span class="comment">// GonkNativeWindow do not implement the function and always works in</span>
+<a name="l00108"></a>00108     <span class="comment">// synchronous mode.</span>
+<a name="l00109"></a>00109     <span class="keyword">virtual</span> status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a679d2bfd64d2fdec6c591cf1461224ea">setSynchronousMode</a>(<span class="keywordtype">bool</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#ad40d8437f6cf8675f077c4117119c8c0">enabled</a>);
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111     <span class="comment">// connect attempts to connect a client API to the GonkNativeWindow.</span>
+<a name="l00112"></a>00112     <span class="comment">//</span>
+<a name="l00113"></a>00113     <span class="comment">// This method will fail if the connect was previously called on the</span>
+<a name="l00114"></a>00114     <span class="comment">// GonkNativeWindow and no corresponding disconnect call was made.</span>
+<a name="l00115"></a>00115     <span class="keyword">virtual</span> status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#af76b0b8b264820796d615b24024c0324">connect</a>(<span class="keywordtype">int</span> api,
+<a name="l00116"></a>00116             uint32_t* outWidth, uint32_t* outHeight, uint32_t* outTransform);
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118     <span class="comment">// disconnect attempts to disconnect a client API from the GonkNativeWindow.</span>
+<a name="l00119"></a>00119     <span class="comment">// This method will fail if the the GonkNativeWindow is not currently</span>
+<a name="l00120"></a>00120     <span class="comment">// connected to the specified client API.</span>
+<a name="l00121"></a>00121     <span class="keyword">virtual</span> status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#afe8e49edfe21ce0be60cd9a8e549e580">disconnect</a>(<span class="keywordtype">int</span> api);
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123     <span class="keywordtype">void</span> <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a88380d0e02d5a5aa13104b8b594fbf78">setNewFrameCallback</a>(<a class="code" href="../../d5/d10/classandroid_1_1_gonk_native_window_new_frame_callback.html">GonkNativeWindowNewFrameCallback</a>* aCallback);
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125     <span class="comment">// setDefaultBufferSize is used to set the size of buffers returned by</span>
+<a name="l00126"></a>00126     <span class="comment">// requestBuffers when a with and height of zero is requested.</span>
+<a name="l00127"></a>00127     <span class="comment">// A call to setDefaultBufferSize() may trigger requestBuffers() to</span>
+<a name="l00128"></a>00128     <span class="comment">// be called from the client.</span>
+<a name="l00129"></a>00129     status_t <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#af93acc75a6f3595f4a410cb71c11c428">setDefaultBufferSize</a>(uint32_t <a class="code" href="../../d4/d8c/viewphoto_8js.html#adb90f9ed3668a895cc5b90a19bcdee13">width</a>, uint32_t <a class="code" href="../../d4/d8c/viewphoto_8js.html#a06f7a63ceb91351a4c31800c9a7af42f">height</a>);
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131     <span class="comment">// abandon frees all the buffers and puts the GonkNativeWindow into the</span>
+<a name="l00132"></a>00132     <span class="comment">// &#39;abandoned&#39; state.  Once put in this state the GonkNativeWindow can never</span>
+<a name="l00133"></a>00133     <span class="comment">// leave it.  When in the &#39;abandoned&#39; state, all methods of the</span>
+<a name="l00134"></a>00134     <span class="comment">// ISurfaceTexture interface will fail with the NO_INIT error.</span>
+<a name="l00135"></a>00135     <span class="comment">//</span>
+<a name="l00136"></a>00136     <span class="comment">// Note that while calling this method causes all the buffers to be freed</span>
+<a name="l00137"></a>00137     <span class="comment">// from the perspective of the the GonkNativeWindow, if there are additional</span>
+<a name="l00138"></a>00138     <span class="comment">// references on the buffers (e.g. if a buffer is referenced by a client)</span>
+<a name="l00139"></a>00139     <span class="comment">// then those buffer will remain allocated.</span>
+<a name="l00140"></a>00140     <span class="keywordtype">void</span> <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a1458442205d80922cb8e2fa925837984">abandon</a>();
+<a name="l00141"></a>00141 
+<a name="l00142"></a>00142     SurfaceDescriptor *<a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#acd30722b105268cb9fb1ab74bfa519cc">getSurfaceDescriptorFromBuffer</a>(ANativeWindowBuffer* <a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144 <span class="keyword">protected</span>:
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146     <span class="comment">// freeAllBuffersLocked frees the resources (both GraphicBuffer and</span>
+<a name="l00147"></a>00147     <span class="comment">// EGLImage) for all slots by removing them from the slots and appending</span>
+<a name="l00148"></a>00148     <span class="comment">// then to the freeList.  This must be called with mMutex locked.</span>
+<a name="l00149"></a>00149     <span class="keywordtype">void</span> <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a880320f913fa542df474d5ac6d02325b">freeAllBuffersLocked</a>(<a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;SurfaceDescriptor&gt;</a>&amp; freeList);
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151     <span class="comment">// releaseBufferFreeListUnlocked releases the resources in the freeList;</span>
+<a name="l00152"></a>00152     <span class="comment">// this must be called with mMutex unlocked.</span>
+<a name="l00153"></a>00153     <span class="keywordtype">void</span> <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a2cca1ffe29466e3e7656bfbf338be5d5">releaseBufferFreeListUnlocked</a>(<a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;SurfaceDescriptor&gt;</a>&amp; freeList);
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155     <span class="comment">// clearRenderingStateBuffersLocked clear the resources in RENDERING state;</span>
+<a name="l00156"></a>00156     <span class="comment">// But do not destroy the gralloc buffer. It is still in the video stream</span>
+<a name="l00157"></a>00157     <span class="comment">// awaiting rendering.</span>
+<a name="l00158"></a>00158     <span class="comment">// this must be called with mMutex locked.</span>
+<a name="l00159"></a>00159     <span class="keywordtype">void</span> <a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#a7a56a31650b07e1255b034953e99593f">clearRenderingStateBuffersLocked</a>();
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161 <span class="keyword">private</span>:
+<a name="l00162"></a>00162     <span class="keywordtype">void</span> <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>();
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164     <span class="keywordtype">int</span> getSlotFromBufferLocked(android_native_buffer_t* <a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>) <span class="keyword">const</span>;
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166     <span class="keyword">enum</span> { INVALID_BUFFER_SLOT = -1 };
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168     <span class="keyword">struct </span>BufferSlot {
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170         BufferSlot()
+<a name="l00171"></a>00171             : mBufferState(BufferSlot::FREE),
+<a name="l00172"></a>00172               mTimestamp(0),
+<a name="l00173"></a>00173               mFrameNumber(0){
+<a name="l00174"></a>00174         }
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176         <span class="comment">// mGraphicBuffer points to the buffer allocated for this slot or is NULL</span>
+<a name="l00177"></a>00177         <span class="comment">// if no buffer has been allocated.</span>
+<a name="l00178"></a>00178         sp&lt;GraphicBuffer&gt; mGraphicBuffer;
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180         <span class="comment">// mSurfaceDescriptor is the token to remotely allocated GraphicBuffer.</span>
+<a name="l00181"></a>00181         SurfaceDescriptor mSurfaceDescriptor;
+<a name="l00182"></a>00182 
+<a name="l00183"></a>00183         <span class="comment">// BufferState represents the different states in which a buffer slot</span>
+<a name="l00184"></a>00184         <span class="comment">// can be.</span>
+<a name="l00185"></a>00185         <span class="keyword">enum</span> BufferState {
+<a name="l00186"></a>00186             <span class="comment">// FREE indicates that the buffer is not currently being used and</span>
+<a name="l00187"></a>00187             <span class="comment">// will not be used in the future until it gets dequeued and</span>
+<a name="l00188"></a>00188             <span class="comment">// subsequently queued by the client.</span>
+<a name="l00189"></a>00189             FREE = 0,
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191             <span class="comment">// DEQUEUED indicates that the buffer has been dequeued by the</span>
+<a name="l00192"></a>00192             <span class="comment">// client, but has not yet been queued or canceled. The buffer is</span>
+<a name="l00193"></a>00193             <span class="comment">// considered &#39;owned&#39; by the client, and the server should not use</span>
+<a name="l00194"></a>00194             <span class="comment">// it for anything.</span>
+<a name="l00195"></a>00195             <span class="comment">//</span>
+<a name="l00196"></a>00196             <span class="comment">// Note that when in synchronous-mode (mSynchronousMode == true),</span>
+<a name="l00197"></a>00197             <span class="comment">// the buffer that&#39;s currently attached to the texture may be</span>
+<a name="l00198"></a>00198             <span class="comment">// dequeued by the client.  That means that the current buffer can</span>
+<a name="l00199"></a>00199             <span class="comment">// be in either the DEQUEUED or QUEUED state.  In asynchronous mode,</span>
+<a name="l00200"></a>00200             <span class="comment">// however, the current buffer is always in the QUEUED state.</span>
+<a name="l00201"></a>00201             DEQUEUED = 1,
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203             <span class="comment">// QUEUED indicates that the buffer has been queued by the client,</span>
+<a name="l00204"></a>00204             <span class="comment">// and has not since been made available for the client to dequeue.</span>
+<a name="l00205"></a>00205             <span class="comment">// Attaching the buffer to the texture does NOT transition the</span>
+<a name="l00206"></a>00206             <span class="comment">// buffer away from the QUEUED state. However, in Synchronous mode</span>
+<a name="l00207"></a>00207             <span class="comment">// the current buffer may be dequeued by the client under some</span>
+<a name="l00208"></a>00208             <span class="comment">// circumstances. See the note about the current buffer in the</span>
+<a name="l00209"></a>00209             <span class="comment">// documentation for DEQUEUED.</span>
+<a name="l00210"></a>00210             QUEUED = 2,
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212             <span class="comment">// RENDERING indicates that the buffer has been sent to</span>
+<a name="l00213"></a>00213             <span class="comment">// the compositor, and has not yet available for the</span>
+<a name="l00214"></a>00214             <span class="comment">// client to dequeue. When the compositor has finished its</span>
+<a name="l00215"></a>00215             <span class="comment">// job, the buffer will be returned to FREE state.</span>
+<a name="l00216"></a>00216             RENDERING = 3,
+<a name="l00217"></a>00217         };
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219         <span class="comment">// mBufferState is the current state of this buffer slot.</span>
+<a name="l00220"></a>00220         BufferState mBufferState;
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222         <span class="comment">// mRequestBufferCalled is used for validating that the client did</span>
+<a name="l00223"></a>00223         <span class="comment">// call requestBuffer() when told to do so. Technically this is not</span>
+<a name="l00224"></a>00224         <span class="comment">// needed but useful for debugging and catching client bugs.</span>
+<a name="l00225"></a>00225         <span class="keywordtype">bool</span> mRequestBufferCalled;
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227         <span class="comment">// mTimestamp is the current timestamp for this buffer slot. This gets</span>
+<a name="l00228"></a>00228         <span class="comment">// to set by queueBuffer each time this slot is queued.</span>
+<a name="l00229"></a>00229         int64_t mTimestamp;
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231         <span class="comment">// mFrameNumber is the number of the queued frame for this slot.</span>
+<a name="l00232"></a>00232         uint64_t mFrameNumber;
+<a name="l00233"></a>00233     };
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235     <span class="comment">// mSlots is the array of buffer slots that must be mirrored on the client</span>
+<a name="l00236"></a>00236     <span class="comment">// side. This allows buffer ownership to be transferred between the client</span>
+<a name="l00237"></a>00237     <span class="comment">// and server without sending a GraphicBuffer over binder. The entire array</span>
+<a name="l00238"></a>00238     <span class="comment">// is initialized to NULL at construction time, and buffers are allocated</span>
+<a name="l00239"></a>00239     <span class="comment">// for a slot when requestBuffer is called with that slot&#39;s index.</span>
+<a name="l00240"></a>00240     BufferSlot mSlots[<a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html#aabb00dd691b7c2a33e129d3556100b8fa5547fce53d268d96e931d92d92411780">NUM_BUFFER_SLOTS</a>];
+<a name="l00241"></a>00241 
+<a name="l00242"></a>00242     <span class="comment">// mDequeueCondition condition used for dequeueBuffer in synchronous mode</span>
+<a name="l00243"></a>00243     <span class="keyword">mutable</span> Condition mDequeueCondition;
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245     <span class="comment">// mAbandoned indicates that the GonkNativeWindow will no longer be used to</span>
+<a name="l00246"></a>00246     <span class="comment">// consume buffers pushed to it.</span>
+<a name="l00247"></a>00247     <span class="comment">// It is initialized to false, and set to true in the abandon method.  A</span>
+<a name="l00248"></a>00248     <span class="comment">// GonkNativeWindow that has been abandoned will return the NO_INIT error</span>
+<a name="l00249"></a>00249     <span class="comment">// from all control methods capable of returning an error.</span>
+<a name="l00250"></a>00250     <span class="keywordtype">bool</span> mAbandoned;
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252     <span class="comment">// mTimestamp is the timestamp that will be used for the next buffer queue</span>
+<a name="l00253"></a>00253     <span class="comment">// operation. It defaults to NATIVE_WINDOW_TIMESTAMP_AUTO, which means that</span>
+<a name="l00254"></a>00254     <span class="comment">// a timestamp is auto-generated when queueBuffer is called.</span>
+<a name="l00255"></a>00255     int64_t mTimestamp;
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257     <span class="comment">// mDefaultWidth holds the default width of allocated buffers. It is used</span>
+<a name="l00258"></a>00258     <span class="comment">// in requestBuffers() if a width and height of zero is specified.</span>
+<a name="l00259"></a>00259     uint32_t mDefaultWidth;
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261     <span class="comment">// mDefaultHeight holds the default height of allocated buffers. It is used</span>
+<a name="l00262"></a>00262     <span class="comment">// in requestBuffers() if a width and height of zero is specified.</span>
+<a name="l00263"></a>00263     uint32_t mDefaultHeight;
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265     <span class="comment">// mPixelFormat holds the pixel format of allocated buffers. It is used</span>
+<a name="l00266"></a>00266     <span class="comment">// in requestBuffers() if a format of zero is specified.</span>
+<a name="l00267"></a>00267     uint32_t mPixelFormat;
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269     <span class="comment">// mBufferCount is the number of buffer slots that the client and server</span>
+<a name="l00270"></a>00270     <span class="comment">// must maintain. It defaults to MIN_BUFFER_SLOTS + 1 and can be changed</span>
+<a name="l00271"></a>00271     <span class="comment">// by calling setBufferCount or setBufferCountServer</span>
+<a name="l00272"></a>00272     <span class="keywordtype">int</span> mBufferCount;
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274     <span class="comment">// mConnectedApi indicates the API that is currently connected to this</span>
+<a name="l00275"></a>00275     <span class="comment">// GonkNativeWindow.  It defaults to NO_CONNECTED_API (= 0), and gets updated</span>
+<a name="l00276"></a>00276     <span class="comment">// by the connect and disconnect methods.</span>
+<a name="l00277"></a>00277     <span class="keywordtype">int</span> mConnectedApi;
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279     <span class="comment">// mQueue is a FIFO of queued buffers used in synchronous mode</span>
+<a name="l00280"></a>00280     <span class="comment">// GonkNativeWindow always works in synchronous mode</span>
+<a name="l00281"></a>00281     <span class="keyword">typedef</span> Vector&lt;int&gt; Fifo;
+<a name="l00282"></a>00282     Fifo mQueue;
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284     <span class="comment">// mMutex is the mutex used to prevent concurrent access to the member</span>
+<a name="l00285"></a>00285     <span class="comment">// variables of GonkNativeWindow objects. It must be locked whenever the</span>
+<a name="l00286"></a>00286     <span class="comment">// member variables are accessed.</span>
+<a name="l00287"></a>00287     <span class="keyword">mutable</span> Mutex mMutex;
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289     <span class="comment">// mFrameCounter is the free running counter, incremented for every buffer queued</span>
+<a name="l00290"></a>00290     uint64_t mFrameCounter;
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292     <span class="comment">// mGeneration is the current generation of buffer slots</span>
+<a name="l00293"></a>00293     uint32_t mGeneration;
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295     GonkNativeWindowNewFrameCallback* mNewFrameCallback;
+<a name="l00296"></a>00296 };
+<a name="l00297"></a>00297 
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299 <span class="comment">// CameraGraphicBuffer maintains the buffer returned from GonkNativeWindow</span>
+<a name="l00300"></a><a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html">00300</a> <span class="keyword">class </span><a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html">CameraGraphicBuffer</a> : <span class="keyword">public</span> mozilla::layers::GraphicBufferLocked
+<a name="l00301"></a>00301 {
+<a name="l00302"></a>00302     <span class="keyword">typedef</span> mozilla::layers::SurfaceDescriptor SurfaceDescriptor;
+<a name="l00303"></a>00303     <span class="keyword">typedef</span> <a class="code" href="../../d7/d40/classmozilla_1_1layers_1_1_image_bridge_child.html">mozilla::layers::ImageBridgeChild</a> <a class="code" href="../../d7/d40/classmozilla_1_1layers_1_1_image_bridge_child.html">ImageBridgeChild</a>;
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305 <span class="keyword">public</span>:
+<a name="l00306"></a><a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a1be9d20a2a0a21b24ac1592f8baf8fdf">00306</a>     <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a1be9d20a2a0a21b24ac1592f8baf8fdf">CameraGraphicBuffer</a>(<a class="code" href="../../d6/d08/classandroid_1_1_gonk_native_window.html">GonkNativeWindow</a>* aNativeWindow,
+<a name="l00307"></a>00307                         uint32_t aIndex,
+<a name="l00308"></a>00308                         uint32_t aGeneration,
+<a name="l00309"></a>00309                         SurfaceDescriptor aBuffer)
+<a name="l00310"></a>00310         : GraphicBufferLocked(aBuffer)
+<a name="l00311"></a>00311         , <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a120347488d256a20253ce1a21db0d95e">mNativeWindow</a>(aNativeWindow)
+<a name="l00312"></a>00312         , <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a09498cc3c3aa41c4741720c78f426336">mIndex</a>(aIndex)
+<a name="l00313"></a>00313         , <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a2bc79b8a20e89bb08b9eb06ed2e077ec">mGeneration</a>(aGeneration)
+<a name="l00314"></a>00314         , <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a7a0557eb4cf15faf03e9cc2aaa8ee765">mLocked</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>)
+<a name="l00315"></a>00315     {
+<a name="l00316"></a>00316         <a class="code" href="../../d1/d5c/_camera_common_8h.html#ae262f12b2c3ec7baa5338886574a61e5">DOM_CAMERA_LOGT</a>(<span class="stringliteral">&quot;%s:%d : this=%p\n&quot;</span>, <a class="code" href="../../d1/d5c/_camera_common_8h.html#a7d6e1cf1a8d53f38471e9e9db3faf740">__func__</a>, __LINE__, <span class="keyword">this</span>);
+<a name="l00317"></a>00317     }
+<a name="l00318"></a>00318 
+<a name="l00319"></a><a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#acb1e26a4d94f908c6ab2eabd92f6d6e7">00319</a>     <span class="keyword">virtual</span> <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#acb1e26a4d94f908c6ab2eabd92f6d6e7">~CameraGraphicBuffer</a>()
+<a name="l00320"></a>00320     {
+<a name="l00321"></a>00321         <a class="code" href="../../d1/d5c/_camera_common_8h.html#ae262f12b2c3ec7baa5338886574a61e5">DOM_CAMERA_LOGT</a>(<span class="stringliteral">&quot;%s:%d : this=%p\n&quot;</span>, <a class="code" href="../../d1/d5c/_camera_common_8h.html#a7d6e1cf1a8d53f38471e9e9db3faf740">__func__</a>, __LINE__, <span class="keyword">this</span>);
+<a name="l00322"></a>00322     }
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324     <span class="comment">// Unlock either returns the buffer to the native window or</span>
+<a name="l00325"></a>00325     <span class="comment">// destroys the buffer if the window is already released.</span>
+<a name="l00326"></a><a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#ad585e61f983275b5be558522b63173be">00326</a>     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#ad585e61f983275b5be558522b63173be">Unlock</a>() MOZ_OVERRIDE
+<a name="l00327"></a>00327     {
+<a name="l00328"></a>00328         <span class="keywordflow">if</span> (<a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a7a0557eb4cf15faf03e9cc2aaa8ee765">mLocked</a>) {
+<a name="l00329"></a>00329             <span class="comment">// The window might have been destroyed. The buffer is no longer</span>
+<a name="l00330"></a>00330             <span class="comment">// valid at that point.</span>
+<a name="l00331"></a>00331             sp&lt;GonkNativeWindow&gt; <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a> = <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a120347488d256a20253ce1a21db0d95e">mNativeWindow</a>.promote();
+<a name="l00332"></a>00332             <span class="keywordflow">if</span> (window.get() &amp;&amp; window-&gt;returnBuffer(<a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a09498cc3c3aa41c4741720c78f426336">mIndex</a>, <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a2bc79b8a20e89bb08b9eb06ed2e077ec">mGeneration</a>)) {
+<a name="l00333"></a>00333                 <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a7a0557eb4cf15faf03e9cc2aaa8ee765">mLocked</a> = <span class="keyword">false</span>;
+<a name="l00334"></a>00334             } <span class="keywordflow">else</span> {
+<a name="l00335"></a>00335                 <span class="comment">// If the window doesn&#39;t exist any more, release the buffer</span>
+<a name="l00336"></a>00336                 <span class="comment">// directly.</span>
+<a name="l00337"></a>00337                 <a class="code" href="../../d7/d40/classmozilla_1_1layers_1_1_image_bridge_child.html">ImageBridgeChild</a> *ibc = <a class="code" href="../../d7/d40/classmozilla_1_1layers_1_1_image_bridge_child.html#a67fd72570ffae5a250aeb5007426044a">ImageBridgeChild::GetSingleton</a>();
+<a name="l00338"></a>00338                 ibc-&gt;<a class="code" href="../../d7/d40/classmozilla_1_1layers_1_1_image_bridge_child.html#ab587fa59022afddf69615bd1f8cdc68c">DeallocSurfaceDescriptorGralloc</a>(mSurfaceDescriptor);
+<a name="l00339"></a>00339             }
+<a name="l00340"></a>00340         }
+<a name="l00341"></a>00341     }
+<a name="l00342"></a>00342 
+<a name="l00343"></a>00343 <span class="keyword">protected</span>:
+<a name="l00344"></a><a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a120347488d256a20253ce1a21db0d95e">00344</a>     wp&lt;GonkNativeWindow&gt; <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a120347488d256a20253ce1a21db0d95e">mNativeWindow</a>;
+<a name="l00345"></a><a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a09498cc3c3aa41c4741720c78f426336">00345</a>     uint32_t <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a09498cc3c3aa41c4741720c78f426336">mIndex</a>;
+<a name="l00346"></a><a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a2bc79b8a20e89bb08b9eb06ed2e077ec">00346</a>     uint32_t <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a2bc79b8a20e89bb08b9eb06ed2e077ec">mGeneration</a>;
+<a name="l00347"></a><a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a7a0557eb4cf15faf03e9cc2aaa8ee765">00347</a>     <span class="keywordtype">bool</span> <a class="code" href="../../db/dfc/classandroid_1_1_camera_graphic_buffer.html#a7a0557eb4cf15faf03e9cc2aaa8ee765">mLocked</a>;
+<a name="l00348"></a>00348 };
+<a name="l00349"></a>00349 
+<a name="l00350"></a>00350 }; <span class="comment">// namespace android</span>
+<a name="l00351"></a>00351 
+<a name="l00352"></a>00352 <span class="preprocessor">#endif // DOM_CAMERA_GONKNATIVEWINDOW_H</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../db/d84/_gonk_native_window_8h.html">GonkNativeWindow.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:07に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

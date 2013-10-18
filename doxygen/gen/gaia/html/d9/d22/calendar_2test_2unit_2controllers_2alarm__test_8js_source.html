@@ -1,0 +1,756 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: alarm_test.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d9/d22/calendar_2test_2unit_2controllers_2alarm__test_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">alarm_test.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d9/d22/calendar_2test_2unit_2controllers_2alarm__test_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <a class="code" href="../../d9/d87/browser__db__test_8js.html#ad548b08f6e63e350af60da8702015c5d">requireApp</a>(<span class="stringliteral">&#39;calendar/shared/js/notification_helper.js&#39;</span>);
+<a name="l00002"></a>00002 <a class="code" href="../../d3/d95/app__test_8js.html#af2124e4df645d38fd46481d84f4b0d13">requireLib</a>(<span class="stringliteral">&#39;notification.js&#39;</span>);
+<a name="l00003"></a>00003 
+<a name="l00004"></a>00004 <a class="code" href="../../d9/d22/calendar_2test_2unit_2controllers_2alarm__test_8js.html#a5d8440377a49e6f79c9098fd35660434">suiteGroup</a>(<span class="stringliteral">&#39;Controllers.Alarm&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006   <span class="keyword">function</span> mockRequestWakeLock(<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>) {
+<a name="l00007"></a>00007     var realApi;
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009     <span class="keyword">function</span> lockMock() {
+<a name="l00010"></a>00010       <span class="keywordflow">return</span> {
+<a name="l00011"></a>00011         mAquired: <span class="keyword">false</span>,
+<a name="l00012"></a>00012         mIsUnlocked: <span class="keyword">false</span>,
+<a name="l00013"></a>00013         <a class="code" href="../../d3/d4b/lockscreen_8js.html#a5fcc87d72af0776c43f03559fd828d16">unlock</a>: <span class="keyword">function</span>() {
+<a name="l00014"></a>00014           this.mIsUnlocked = <span class="keyword">true</span>;
+<a name="l00015"></a>00015         }
+<a name="l00016"></a>00016       };
+<a name="l00017"></a>00017     }
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019     suiteSetup(<span class="keyword">function</span>() {
+<a name="l00020"></a>00020       realApi = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.requestWakeLock;
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.requestWakeLock = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00023"></a>00023         var <a class="code" href="../../df/d6d/prpdce_8h.html#a3a0acaef79170339a71bc1c4c54ad225">lock</a> = lockMock();
+<a name="l00024"></a>00024         lock.type = <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>;
+<a name="l00025"></a>00025         lock.mAquired = <span class="keyword">true</span>;
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027         <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a> &amp;&amp; <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>(lock);
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029         <span class="keywordflow">return</span> <a class="code" href="../../df/d6d/prpdce_8h.html#a3a0acaef79170339a71bc1c4c54ad225">lock</a>;
+<a name="l00030"></a>00030       };
+<a name="l00031"></a>00031     });
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033     suiteTeardown(<span class="keyword">function</span>() {
+<a name="l00034"></a>00034       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.requestWakeLock = realApi;
+<a name="l00035"></a>00035     });
+<a name="l00036"></a>00036   }
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038   var <a class="code" href="../../da/dce/details__test_8js.html#ab17dfde70922e77b2bbcbd0192a12531">subject</a>;
+<a name="l00039"></a>00039   var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a7b225fcb720e4d5ed2bbf60e28a25e6d">app</a>;
+<a name="l00040"></a>00040   var <a class="code" href="../../d1/d0b/browser__db_8js.html#a699c7194b69fa5470e5f97986af77ee1">db</a>;
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042   var alarmStore;
+<a name="l00043"></a>00043   var busytimeStore;
+<a name="l00044"></a>00044   var eventStore;
+<a name="l00045"></a>00045   var settingStore;
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047   <a class="code" href="../../d3/d91/j3d_8js.html#a1e0e4683a3d1006a0cfe228b2fd5f11d">setup</a>(<span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00048"></a>00048     this.<a class="code" href="../../da/d32/prio_8h.html#a0f2163507f01dc9bb68ca5c72cacaa34">timeout</a>(10000);
+<a name="l00049"></a>00049     app = testSupport.calendar.app();
+<a name="l00050"></a>00050     db = app.db;
+<a name="l00051"></a>00051     subject = <span class="keyword">new</span> <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.Controllers.Alarm(app);
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053     alarmStore = app.store(<span class="stringliteral">&#39;Alarm&#39;</span>);
+<a name="l00054"></a>00054     busytimeStore = app.store(<span class="stringliteral">&#39;Busytime&#39;</span>);
+<a name="l00055"></a>00055     eventStore = app.store(<span class="stringliteral">&#39;Event&#39;</span>);
+<a name="l00056"></a>00056     settingStore = app.store(<span class="stringliteral">&#39;Setting&#39;</span>);
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058     db.open(<span class="keyword">function</span>() {
+<a name="l00059"></a>00059       <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00060"></a>00060     });
+<a name="l00061"></a>00061   });
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063   teardown(<span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00064"></a>00064     testSupport.calendar.clearStore(
+<a name="l00065"></a>00065       db,
+<a name="l00066"></a>00066       <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>
+<a name="l00067"></a>00067     );
+<a name="l00068"></a>00068   });
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070   teardown(<span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00071"></a>00071     subject.unobserve();
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073     var defaults = settingStore.defaults;
+<a name="l00074"></a>00074     var trans = db.transaction(<span class="stringliteral">&#39;settings&#39;</span>, <span class="stringliteral">&#39;readwrite&#39;</span>);
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076     settingStore.remove(<span class="stringliteral">&#39;syncFrequency&#39;</span>, trans);
+<a name="l00077"></a>00077     settingStore.remove(<span class="stringliteral">&#39;syncAlarm&#39;</span>, trans);
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079     trans.oncomplete = <span class="keyword">function</span>() {
+<a name="l00080"></a>00080       db.close();
+<a name="l00081"></a>00081       <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00082"></a>00082     };
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084   });
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086   <a class="code" href="../../d7/d1b/test-agent-server_8js.html#ae4e488f52af5e7c198b9c91afab5a16e">suite</a>(<span class="stringliteral">&#39;#observe&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00087"></a>00087     <span class="keyword">function</span> sendId(<span class="keywordtype">id</span>) {
+<a name="l00088"></a>00088       mockRequest.onsuccess({
+<a name="l00089"></a>00089         <a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">target</a>: {
+<a name="l00090"></a>00090           <a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>: <span class="keywordtype">id</span>
+<a name="l00091"></a>00091         }
+<a name="l00092"></a>00092       });
+<a name="l00093"></a>00093     }
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095     var worksQueue;
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097     var realApi;
+<a name="l00098"></a>00098     var handleMessagesCalled;
+<a name="l00099"></a>00099     var realAlarmApi;
+<a name="l00100"></a>00100     var currentAlarmTime = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00101"></a>00101     var removed = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00102"></a>00102     var mockRequest = {};
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104     suiteSetup(<span class="keyword">function</span>() {
+<a name="l00105"></a>00105       realApi = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozSetMessageHandler;
+<a name="l00106"></a>00106       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozSetMessageHandler = <span class="keyword">function</span>() {
+<a name="l00107"></a>00107         handleMessagesCalled.push(arguments);
+<a name="l00108"></a>00108       };
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110       realAlarmApi = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms;
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112       var mockAlarms = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms = {
+<a name="l00113"></a>00113         <a class="code" href="../../d3/d4a/mock__recipients_8js.html#a81b686bc164506c493dc722ce59d5b54">add</a>: <span class="keyword">function</span>(endTime, <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>, <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>) {
+<a name="l00114"></a>00114           <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a> &amp;&amp; <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.type === <span class="stringliteral">&#39;sync&#39;</span>)
+<a name="l00115"></a>00115             currentAlarmTime = endTime;
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117           <span class="keywordflow">if</span> (mockAlarms.onadd) {
+<a name="l00118"></a>00118             <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.nextTick(<span class="keyword">function</span>() {
+<a name="l00119"></a>00119               mockAlarms.onadd();
+<a name="l00120"></a>00120             });
+<a name="l00121"></a>00121           }
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123           <span class="keywordflow">return</span> mockRequest;
+<a name="l00124"></a>00124         },
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126         <span class="keyword">remove</span>: <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>) {
+<a name="l00127"></a>00127           removed = <a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>;
+<a name="l00128"></a>00128           currentAlarmTime = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00129"></a>00129         }
+<a name="l00130"></a>00130       };
+<a name="l00131"></a>00131     });
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133     suiteTeardown(<span class="keyword">function</span>() {
+<a name="l00134"></a>00134       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozSetMessageHandler = realApi;
+<a name="l00135"></a>00135       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms = realAlarmApi;
+<a name="l00136"></a>00136     });
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138     <a class="code" href="../../d3/d91/j3d_8js.html#a1e0e4683a3d1006a0cfe228b2fd5f11d">setup</a>(<span class="keyword">function</span>() {
+<a name="l00139"></a>00139       handleMessagesCalled = [];
+<a name="l00140"></a>00140       worksQueue = <span class="keyword">false</span>;
+<a name="l00141"></a>00141       alarmStore.workQueue = <span class="keyword">function</span>() {
+<a name="l00142"></a>00142         worksQueue = <span class="keyword">true</span>;
+<a name="l00143"></a>00143       };
+<a name="l00144"></a>00144     });
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146     teardown(<span class="keyword">function</span>() {
+<a name="l00147"></a>00147       <span class="comment">// cleanup previous test runs</span>
+<a name="l00148"></a>00148       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.onadd = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150       <span class="comment">// clear request between runs...</span>
+<a name="l00151"></a>00151       mockRequest = {};
+<a name="l00152"></a>00152     });
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154     <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;alarm messages&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00155"></a>00155       subject.observe();
+<a name="l00156"></a>00156       var handleAlarmMessages = handleMessagesCalled[0];
+<a name="l00157"></a>00157       <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(handleAlarmMessages);
+<a name="l00158"></a>00158       <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(handleAlarmMessages[0], <span class="stringliteral">&#39;alarm&#39;</span>);
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160       subject.handleAlarmMessage = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>) {
+<a name="l00161"></a>00161         <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<span class="keyword">function</span>() {
+<a name="l00162"></a>00162           <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>, <span class="stringliteral">&#39;foo&#39;</span>);
+<a name="l00163"></a>00163         });
+<a name="l00164"></a>00164       };
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166       handleAlarmMessages[1](<span class="stringliteral">&#39;foo&#39;</span>);
+<a name="l00167"></a>00167     });
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169     <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;notification messages&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00170"></a>00170       subject.observe();
+<a name="l00171"></a>00171       var handleNotificationMessages = handleMessagesCalled[1];
+<a name="l00172"></a>00172       <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(handleNotificationMessages);
+<a name="l00173"></a>00173       <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(handleNotificationMessages[0], <span class="stringliteral">&#39;notification&#39;</span>);
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175       subject.handleNotificationMessage = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>) {
+<a name="l00176"></a>00176         <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<span class="keyword">function</span>() {
+<a name="l00177"></a>00177           <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>, <span class="stringliteral">&#39;foo&#39;</span>);
+<a name="l00178"></a>00178         });
+<a name="l00179"></a>00179       };
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181       handleNotificationMessages[1](<span class="stringliteral">&#39;foo&#39;</span>);
+<a name="l00182"></a>00182     });
+<a name="l00183"></a>00183 
+<a name="l00184"></a>00184     <a class="code" href="../../d7/d1b/test-agent-server_8js.html#ae4e488f52af5e7c198b9c91afab5a16e">suite</a>(<span class="stringliteral">&#39;#_sendAlarmNotification&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00185"></a>00185       var realApi;
+<a name="l00186"></a>00186       var sent = [];
+<a name="l00187"></a>00187       var onsend;
+<a name="l00188"></a>00188       var MockNotifications = {
+<a name="l00189"></a>00189         <a class="code" href="../../df/d65/openaudio_8js.html#a4379e0d0aa0995d904faac29a324b51b">send</a>: <span class="keyword">function</span>() {
+<a name="l00190"></a>00190           var <a class="code" href="../../db/d7b/r_8js.html#a283fa4dd58795cf5b621404be6601e86">args</a> = Array.slice(arguments);
+<a name="l00191"></a>00191           var <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a> = args[args.length - 1];
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193           sent.push(args);
+<a name="l00194"></a>00194           <span class="comment">// wait until next tick...</span>
+<a name="l00195"></a>00195           <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(callback);
+<a name="l00196"></a>00196         }
+<a name="l00197"></a>00197       };
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199       suiteSetup(<span class="keyword">function</span>() {
+<a name="l00200"></a>00200         realApi = <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.Notification;
+<a name="l00201"></a>00201         <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.Notification = MockNotifications;
+<a name="l00202"></a>00202       });
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204       suiteTeardown(<span class="keyword">function</span>() {
+<a name="l00205"></a>00205         <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.Notification = realApi;
+<a name="l00206"></a>00206       });
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208       <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;issues notification&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00209"></a>00209         var <span class="keyword">event</span> = <a class="code" href="../../d4/d6d/factory_8js.html#a95acddcf8d59f67c9a249c3266057e91">Factory</a>(<span class="stringliteral">&#39;event&#39;</span>);
+<a name="l00210"></a>00210         var busytime = <a class="code" href="../../d4/d6d/factory_8js.html#a95acddcf8d59f67c9a249c3266057e91">Factory</a>(<span class="stringliteral">&#39;busytime&#39;</span>, { _id: <span class="charliteral">&#39;1&#39;</span> });
+<a name="l00211"></a>00211         var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> = subject.displayURL + busytime._id;
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213         subject._sendAlarmNotification(
+<a name="l00214"></a>00214           {},
+<a name="l00215"></a>00215           <a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>,
+<a name="l00216"></a>00216           busytime,
+<a name="l00217"></a>00217           <span class="keyword">function</span>() {
+<a name="l00218"></a>00218             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<span class="keyword">function</span>() {
+<a name="l00219"></a>00219               var notification = sent[0];
+<a name="l00220"></a>00220               <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(notification, <span class="stringliteral">&#39;sends notification&#39;</span>);
+<a name="l00221"></a>00221               <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(notification[0], <span class="stringliteral">&#39;has title&#39;</span>);
+<a name="l00222"></a>00222               <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(
+<a name="l00223"></a>00223                 notification[1], <a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>.remote.description, <span class="stringliteral">&#39;description&#39;</span>
+<a name="l00224"></a>00224               );
+<a name="l00225"></a>00225               <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(notification[2], url, <span class="stringliteral">&#39;sends url&#39;</span>);
+<a name="l00226"></a>00226             });
+<a name="l00227"></a>00227           }
+<a name="l00228"></a>00228         );
+<a name="l00229"></a>00229       });
+<a name="l00230"></a>00230     });
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232     <a class="code" href="../../d7/d1b/test-agent-server_8js.html#ae4e488f52af5e7c198b9c91afab5a16e">suite</a>(<span class="stringliteral">&#39;#handleAlarm&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00233"></a>00233       var sent = [];
+<a name="l00234"></a>00234       var busytime;
+<a name="l00235"></a>00235       var <a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>;
+<a name="l00236"></a>00236       var alarm;
+<a name="l00237"></a>00237       var transPending = 0;
+<a name="l00238"></a>00238       var worksQueue;
+<a name="l00239"></a>00239 
+<a name="l00240"></a>00240       <span class="keyword">function</span> createTrans(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00241"></a>00241         var trans = eventStore.db.transaction(
+<a name="l00242"></a>00242           [<span class="stringliteral">&#39;busytimes&#39;</span>, <span class="stringliteral">&#39;events&#39;</span>, <span class="stringliteral">&#39;alarms&#39;</span>],
+<a name="l00243"></a>00243           <span class="stringliteral">&#39;readwrite&#39;</span>
+<a name="l00244"></a>00244         );
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246         <span class="keywordflow">if</span> (<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00247"></a>00247           trans.addEventListener(<span class="stringliteral">&#39;complete&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00248"></a>00248             <span class="comment">// wait until next tick so sync processing</span>
+<a name="l00249"></a>00249             <span class="comment">// of handleAlarm can finish first.</span>
+<a name="l00250"></a>00250             <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span>() {
+<a name="l00251"></a>00251               <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00252"></a>00252             }, 0);
+<a name="l00253"></a>00253           });
+<a name="l00254"></a>00254         }
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256         <span class="keywordflow">return</span> trans;
+<a name="l00257"></a>00257       }
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259       var <a class="code" href="../../df/d6d/prpdce_8h.html#a3a0acaef79170339a71bc1c4c54ad225">lock</a>;
+<a name="l00260"></a>00260       mockRequestWakeLock(<span class="keyword">function</span>(_lock) {
+<a name="l00261"></a>00261         lock = _lock;
+<a name="l00262"></a>00262       });
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264       <a class="code" href="../../d3/d91/j3d_8js.html#a1e0e4683a3d1006a0cfe228b2fd5f11d">setup</a>(<span class="keyword">function</span>() {
+<a name="l00265"></a>00265         lock = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00266"></a>00266         worksQueue = <span class="keyword">false</span>;
+<a name="l00267"></a>00267         subject.observe();
+<a name="l00268"></a>00268         transPending = 0;
+<a name="l00269"></a>00269         sent.length = 0;
+<a name="l00270"></a>00270         <span class="keyword">event</span> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00271"></a>00271         busytime = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273         alarmStore.workQueue = <span class="keyword">function</span>() {
+<a name="l00274"></a>00274           worksQueue = <span class="keyword">true</span>;
+<a name="l00275"></a>00275           var <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a> = Array.slice(arguments).pop();
+<a name="l00276"></a>00276           <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.nextTick(callback);
+<a name="l00277"></a>00277         };
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279         subject._sendAlarmNotification = <span class="keyword">function</span>() {
+<a name="l00280"></a>00280           sent.push(arguments);
+<a name="l00281"></a>00281         };
+<a name="l00282"></a>00282       });
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284       <span class="keyword">function</span> setupAlarms(<a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>) {
+<a name="l00285"></a>00285         <a class="code" href="../../d3/d91/j3d_8js.html#a1e0e4683a3d1006a0cfe228b2fd5f11d">setup</a>(<span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00286"></a>00286           var trans = createTrans(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>);
+<a name="l00287"></a>00287           <a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>(trans);
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289           <span class="keywordflow">if</span> (alarm) {
+<a name="l00290"></a>00290             alarmStore.persist(alarm, trans);
+<a name="l00291"></a>00291           }
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293           <span class="keywordflow">if</span> (event) {
+<a name="l00294"></a>00294             eventStore.persist(event, trans);
+<a name="l00295"></a>00295           }
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297           <span class="keywordflow">if</span> (busytime) {
+<a name="l00298"></a>00298             busytimeStore.persist(busytime, trans);
+<a name="l00299"></a>00299           }
+<a name="l00300"></a>00300         });
+<a name="l00301"></a>00301       }
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303       <a class="code" href="../../d7/d1b/test-agent-server_8js.html#ae4e488f52af5e7c198b9c91afab5a16e">suite</a>(<span class="stringliteral">&#39;busytime in the past&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00304"></a>00304         setupAlarms(<span class="keyword">function</span>(trans) {
+<a name="l00305"></a>00305           var <a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a> = <span class="keyword">new</span> Date();
+<a name="l00306"></a>00306           time.setMinutes(time.getMinutes() - 3);
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308           <span class="keyword">event</span> = <a class="code" href="../../d4/d6d/factory_8js.html#a95acddcf8d59f67c9a249c3266057e91">Factory</a>(<span class="stringliteral">&#39;event&#39;</span>);
+<a name="l00309"></a>00309 
+<a name="l00310"></a>00310           busytime = <a class="code" href="../../d4/d6d/factory_8js.html#a95acddcf8d59f67c9a249c3266057e91">Factory</a>(<span class="stringliteral">&#39;busytime&#39;</span>, {
+<a name="l00311"></a>00311             eventId: <span class="keyword">event</span>._id,
+<a name="l00312"></a>00312             <a class="code" href="../../d3/d91/j3d_8js.html#a604297ad8460b8482beeb0c441cf491a">startTime</a>: <span class="keyword">new</span> Date(2012, 0, 1),
+<a name="l00313"></a>00313             endDate: time
+<a name="l00314"></a>00314           });
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316           alarm = <a class="code" href="../../d4/d6d/factory_8js.html#a95acddcf8d59f67c9a249c3266057e91">Factory</a>(<span class="stringliteral">&#39;alarm&#39;</span>, {
+<a name="l00317"></a>00317             startDate: <span class="keyword">new</span> Date(2012, 0, 2),
+<a name="l00318"></a>00318             eventId: <span class="keyword">event</span>._id,
+<a name="l00319"></a>00319             busytimeId: busytime._id
+<a name="l00320"></a>00320           });
+<a name="l00321"></a>00321         });
+<a name="l00322"></a>00322 
+<a name="l00323"></a>00323         <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;result&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00324"></a>00324           subject.handleAlarm(alarm, <span class="keyword">function</span>() {
+<a name="l00325"></a>00325             <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.nextTick(<span class="keyword">function</span>() {
+<a name="l00326"></a>00326               <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<span class="keyword">function</span>() {
+<a name="l00327"></a>00327                 <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.length(sent, 0);
+<a name="l00328"></a>00328                 <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(lock.mIsUnlocked, <span class="stringliteral">&#39;frees lock&#39;</span>);
+<a name="l00329"></a>00329                 <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(worksQueue, <span class="stringliteral">&#39;works alarm queue&#39;</span>);
+<a name="l00330"></a>00330               });
+<a name="l00331"></a>00331             });
+<a name="l00332"></a>00332           });
+<a name="l00333"></a>00333           <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(lock.mAquired, <span class="stringliteral">&#39;aquired lock&#39;</span>);
+<a name="l00334"></a>00334         });
+<a name="l00335"></a>00335       });
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337       <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;missing records&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00338"></a>00338         alarm = {
+<a name="l00339"></a>00339           eventId: 12,
+<a name="l00340"></a>00340           busytimeId: 12
+<a name="l00341"></a>00341         };
+<a name="l00342"></a>00342 
+<a name="l00343"></a>00343         subject.handleAlarm(alarm, <span class="keyword">function</span>() {
+<a name="l00344"></a>00344           <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<span class="keyword">function</span>() {
+<a name="l00345"></a>00345             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(sent.length, 0);
+<a name="l00346"></a>00346             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(worksQueue, <span class="stringliteral">&#39;works alarm queue&#39;</span>);
+<a name="l00347"></a>00347           });
+<a name="l00348"></a>00348         });
+<a name="l00349"></a>00349       });
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351       <a class="code" href="../../d7/d1b/test-agent-server_8js.html#ae4e488f52af5e7c198b9c91afab5a16e">suite</a>(<span class="stringliteral">&#39;valid busytime&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00352"></a>00352         setupAlarms(<span class="keyword">function</span>(trans) {
+<a name="l00353"></a>00353           var ends = <span class="keyword">new</span> Date();
+<a name="l00354"></a>00354           ends.setMinutes(ends.getMinutes() + 100);
+<a name="l00355"></a>00355 
+<a name="l00356"></a>00356           <span class="keyword">event</span> = <a class="code" href="../../d4/d6d/factory_8js.html#a95acddcf8d59f67c9a249c3266057e91">Factory</a>(<span class="stringliteral">&#39;event&#39;</span>);
+<a name="l00357"></a>00357 
+<a name="l00358"></a>00358           busytime = <a class="code" href="../../d4/d6d/factory_8js.html#a95acddcf8d59f67c9a249c3266057e91">Factory</a>(<span class="stringliteral">&#39;busytime&#39;</span>, {
+<a name="l00359"></a>00359             eventId: <span class="keyword">event</span>._id,
+<a name="l00360"></a>00360             <a class="code" href="../../d3/d91/j3d_8js.html#a604297ad8460b8482beeb0c441cf491a">startTime</a>: <span class="keyword">new</span> Date(2012, 0, 1),
+<a name="l00361"></a>00361             endDate: ends
+<a name="l00362"></a>00362           });
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364           alarm = <a class="code" href="../../d4/d6d/factory_8js.html#a95acddcf8d59f67c9a249c3266057e91">Factory</a>(<span class="stringliteral">&#39;alarm&#39;</span>, {
+<a name="l00365"></a>00365             eventId: <span class="keyword">event</span>._id,
+<a name="l00366"></a>00366             busytimeId: busytime._id
+<a name="l00367"></a>00367           });
+<a name="l00368"></a>00368         });
+<a name="l00369"></a>00369 
+<a name="l00370"></a>00370         <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;result&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00371"></a>00371           var isComplete = <span class="keyword">false</span>;
+<a name="l00372"></a>00372 
+<a name="l00373"></a>00373           var sent;
+<a name="l00374"></a>00374           subject._sendAlarmNotification = <span class="keyword">function</span>() {
+<a name="l00375"></a>00375             sent = Array.slice(arguments);
+<a name="l00376"></a>00376             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.isFalse(
+<a name="l00377"></a>00377               lock.mIsUnlocked, <span class="stringliteral">&#39;is locked until notification is ready&#39;</span>
+<a name="l00378"></a>00378             );
+<a name="l00379"></a>00379 
+<a name="l00380"></a>00380             var <a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a> = sent[sent.length - 1];
+<a name="l00381"></a>00381             <a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>();
+<a name="l00382"></a>00382             isComplete = <span class="keyword">true</span>;
+<a name="l00383"></a>00383           };
+<a name="l00384"></a>00384 
+<a name="l00385"></a>00385           subject.handleAlarm(alarm, <span class="keyword">function</span>() {
+<a name="l00386"></a>00386             <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.nextTick(<span class="keyword">function</span>() {
+<a name="l00387"></a>00387               <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<span class="keyword">function</span>() {
+<a name="l00388"></a>00388                 <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(isComplete);
+<a name="l00389"></a>00389                 <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.deepEqual(sent[0], alarm);
+<a name="l00390"></a>00390                 <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(worksQueue, <span class="stringliteral">&#39;works alarm queue&#39;</span>);
+<a name="l00391"></a>00391                 <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(lock.mIsUnlocked, <span class="stringliteral">&#39;frees lock&#39;</span>);
+<a name="l00392"></a>00392               });
+<a name="l00393"></a>00393             });
+<a name="l00394"></a>00394           });
+<a name="l00395"></a>00395 
+<a name="l00396"></a>00396           <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(lock.mAquired, <span class="stringliteral">&#39;aquired lock&#39;</span>);
+<a name="l00397"></a>00397         });
+<a name="l00398"></a>00398       });
+<a name="l00399"></a>00399     });
+<a name="l00400"></a>00400 
+<a name="l00401"></a>00401     <a class="code" href="../../d7/d1b/test-agent-server_8js.html#ae4e488f52af5e7c198b9c91afab5a16e">suite</a>(<span class="stringliteral">&#39;(perodic) sync alarms&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00402"></a>00402       <span class="keyword">function</span> willChangeAlarmId(newId, <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00403"></a>00403         <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.onadd = <span class="keyword">function</span>() {
+<a name="l00404"></a>00404           settingStore.getValue(<span class="stringliteral">&#39;syncAlarm&#39;</span>, <span class="keyword">function</span>(err, <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00405"></a>00405             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<span class="keyword">function</span>() {
+<a name="l00406"></a>00406               <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>.alarmId, newId, <span class="stringliteral">&#39;changes alarm id&#39;</span>);
+<a name="l00407"></a>00407             });
+<a name="l00408"></a>00408           });
+<a name="l00409"></a>00409         };
+<a name="l00410"></a>00410       }
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412       <span class="comment">// get initial frequency</span>
+<a name="l00413"></a>00413       var initialFreq;
+<a name="l00414"></a>00414       <a class="code" href="../../d3/d91/j3d_8js.html#a1e0e4683a3d1006a0cfe228b2fd5f11d">setup</a>(<span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00415"></a>00415         settingStore.getValue(<span class="stringliteral">&#39;syncFrequency&#39;</span>, <span class="keyword">function</span>(err, <a class="code" href="../../dd/d9f/namespaceconv.html#a704c20f94d48395d1ae0a44a780f9c6f">freq</a>) {
+<a name="l00416"></a>00416           initialFreq = <a class="code" href="../../dd/d9f/namespaceconv.html#a704c20f94d48395d1ae0a44a780f9c6f">freq</a>;
+<a name="l00417"></a>00417           <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00418"></a>00418         });
+<a name="l00419"></a>00419       });
+<a name="l00420"></a>00420 
+<a name="l00421"></a>00421       <span class="comment">// send initial alarm</span>
+<a name="l00422"></a>00422       var initialAlarmId = 1;
+<a name="l00423"></a>00423       <a class="code" href="../../d3/d91/j3d_8js.html#a1e0e4683a3d1006a0cfe228b2fd5f11d">setup</a>(<span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00424"></a>00424         <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.onadd = <span class="keyword">function</span>() {
+<a name="l00425"></a>00425           sendId(initialAlarmId);
+<a name="l00426"></a>00426           <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00427"></a>00427         };
+<a name="l00428"></a>00428 
+<a name="l00429"></a>00429         subject.observe();
+<a name="l00430"></a>00430       });
+<a name="l00431"></a>00431 
+<a name="l00432"></a>00432       <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;initial alarms&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00433"></a>00433         settingStore.getValue(<span class="stringliteral">&#39;syncAlarm&#39;</span>, <span class="keyword">function</span>(err, <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00434"></a>00434           <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<span class="keyword">function</span>() {
+<a name="l00435"></a>00435             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(
+<a name="l00436"></a>00436               <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>.alarmId,
+<a name="l00437"></a>00437               initialAlarmId,
+<a name="l00438"></a>00438               <span class="stringliteral">&#39;saves alarm reference&#39;</span>
+<a name="l00439"></a>00439             );
+<a name="l00440"></a>00440 
+<a name="l00441"></a>00441             <span class="comment">// calculate duration</span>
+<a name="l00442"></a>00442             var duration = (
+<a name="l00443"></a>00443               (<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>.end.valueOf() - <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>.start.valueOf()) / 1000 / 60
+<a name="l00444"></a>00444             );
+<a name="l00445"></a>00445 
+<a name="l00446"></a>00446             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(
+<a name="l00447"></a>00447               <span class="comment">// we don&#39;t care about seconds much its likely test drift.</span>
+<a name="l00448"></a>00448               Math.ceil(duration),
+<a name="l00449"></a>00449               initialFreq,
+<a name="l00450"></a>00450               <span class="stringliteral">&#39;sets correct duration&#39;</span>
+<a name="l00451"></a>00451             );
+<a name="l00452"></a>00452           });
+<a name="l00453"></a>00453         });
+<a name="l00454"></a>00454       });
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456       <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;remove alarm by changing syncFrequency&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00457"></a>00457         settingStore.set(<span class="stringliteral">&#39;syncFrequency&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00458"></a>00458         <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(removed, initialAlarmId, <span class="stringliteral">&#39;removes alarm from mozAlarms&#39;</span>);
+<a name="l00459"></a>00459 
+<a name="l00460"></a>00460         settingStore.getValue(<span class="stringliteral">&#39;syncAlarm&#39;</span>, <span class="keyword">function</span>(err, <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00461"></a>00461           <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<span class="keyword">function</span>() {
+<a name="l00462"></a>00462             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.hasProperties(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>, {
+<a name="l00463"></a>00463               alarmId: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00464"></a>00464               <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00465"></a>00465               <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>
+<a name="l00466"></a>00466             });
+<a name="l00467"></a>00467           });
+<a name="l00468"></a>00468         });
+<a name="l00469"></a>00469       });
+<a name="l00470"></a>00470 
+<a name="l00471"></a>00471       <span class="keyword">function</span> testChangesToTime(freqDiff) {
+<a name="l00472"></a>00472 
+<a name="l00473"></a>00473         <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;changing syncFrequency by: &#39;</span> + freqDiff, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00474"></a>00474           var newAlarmId = 2;
+<a name="l00475"></a>00475           var newFreq = initialFreq + freqDiff;
+<a name="l00476"></a>00476 
+<a name="l00477"></a>00477           <span class="comment">// async assertion that alarm id will change</span>
+<a name="l00478"></a>00478           willChangeAlarmId(newAlarmId, <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>);
+<a name="l00479"></a>00479           settingStore.set(<span class="stringliteral">&#39;syncFrequency&#39;</span>, newFreq);
+<a name="l00480"></a>00480 
+<a name="l00481"></a>00481           <span class="comment">// verify new alarm was set with right date</span>
+<a name="l00482"></a>00482           var difference = Math.round(
+<a name="l00483"></a>00483             (currentAlarmTime - <span class="keyword">new</span> Date()) / 1000 / 60
+<a name="l00484"></a>00484           );
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486           <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(difference, newFreq);
+<a name="l00487"></a>00487           sendId(2);
+<a name="l00488"></a>00488 
+<a name="l00489"></a>00489           <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(
+<a name="l00490"></a>00490             removed, initialAlarmId,
+<a name="l00491"></a>00491             <span class="stringliteral">&#39;removes previous alarm on change&#39;</span>
+<a name="l00492"></a>00492           );
+<a name="l00493"></a>00493         });
+<a name="l00494"></a>00494       }
+<a name="l00495"></a>00495 
+<a name="l00496"></a>00496       <span class="comment">// add time</span>
+<a name="l00497"></a>00497       testChangesToTime(10);
+<a name="l00498"></a>00498 
+<a name="l00499"></a>00499       <span class="comment">// reduce time</span>
+<a name="l00500"></a>00500       testChangesToTime(-5);
+<a name="l00501"></a>00501     });
+<a name="l00502"></a>00502 
+<a name="l00503"></a>00503     <a class="code" href="../../d7/d1b/test-agent-server_8js.html#ae4e488f52af5e7c198b9c91afab5a16e">suite</a>(<span class="stringliteral">&#39;#handleAlarmMessage&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00504"></a>00504 
+<a name="l00505"></a>00505       <a class="code" href="../../d7/d1b/test-agent-server_8js.html#ae4e488f52af5e7c198b9c91afab5a16e">suite</a>(<span class="stringliteral">&#39;type: sync&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00506"></a>00506         var locks = [];
+<a name="l00507"></a>00507         var realLockApi;
+<a name="l00508"></a>00508 
+<a name="l00509"></a>00509         mockRequestWakeLock(<span class="keyword">function</span>(lock) {
+<a name="l00510"></a>00510           <span class="keywordflow">if</span> (lock.type === <span class="stringliteral">&#39;wifi&#39;</span>) {
+<a name="l00511"></a>00511             locks.push(lock);
+<a name="l00512"></a>00512           }
+<a name="l00513"></a>00513         });
+<a name="l00514"></a>00514 
+<a name="l00515"></a>00515         <a class="code" href="../../d3/d91/j3d_8js.html#a1e0e4683a3d1006a0cfe228b2fd5f11d">setup</a>(<span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00516"></a>00516           locks.length = 0;
+<a name="l00517"></a>00517 
+<a name="l00518"></a>00518           <span class="comment">// stage first alarm to simulate real conditions.</span>
+<a name="l00519"></a>00519           <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.onadd = <span class="keyword">function</span>() {
+<a name="l00520"></a>00520             <span class="comment">// save it</span>
+<a name="l00521"></a>00521             sendId(1);
+<a name="l00522"></a>00522             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00523"></a>00523           };
+<a name="l00524"></a>00524 
+<a name="l00525"></a>00525           <span class="comment">// setup observer</span>
+<a name="l00526"></a>00526           subject.observe();
+<a name="l00527"></a>00527         });
+<a name="l00528"></a>00528 
+<a name="l00529"></a>00529         <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;reschedules sync&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00530"></a>00530           <span class="comment">// mock out all</span>
+<a name="l00531"></a>00531           app.syncController.all = <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>) {
+<a name="l00532"></a>00532             <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.nextTick(<a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>);
+<a name="l00533"></a>00533           };
+<a name="l00534"></a>00534 
+<a name="l00535"></a>00535           var lastAlarmTime = <span class="keyword">new</span> Date(currentAlarmTime);
+<a name="l00536"></a>00536 
+<a name="l00537"></a>00537           <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.onadd = <span class="keyword">function</span>() {
+<a name="l00538"></a>00538             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(removed, 1, <span class="stringliteral">&#39;removes initial alarm&#39;</span>);
+<a name="l00539"></a>00539             sendId(55);
+<a name="l00540"></a>00540 
+<a name="l00541"></a>00541             settingStore.getValue(<span class="stringliteral">&#39;syncAlarm&#39;</span>, <span class="keyword">function</span>(err, <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00542"></a>00542               <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<span class="keyword">function</span>() {
+<a name="l00543"></a>00543                 <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>.alarmId, 55, <span class="stringliteral">&#39;creates new alarm&#39;</span>);
+<a name="l00544"></a>00544 
+<a name="l00545"></a>00545                 <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(
+<a name="l00546"></a>00546                   lastAlarmTime &lt; currentAlarmTime,
+<a name="l00547"></a>00547                   <span class="stringliteral">&#39;alarm time changes&#39;</span>
+<a name="l00548"></a>00548                 );
+<a name="l00549"></a>00549               });
+<a name="l00550"></a>00550             });
+<a name="l00551"></a>00551           };
+<a name="l00552"></a>00552 
+<a name="l00553"></a>00553           subject.handleAlarmMessage({
+<a name="l00554"></a>00554             <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>: { <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <span class="stringliteral">&#39;sync&#39;</span> }
+<a name="l00555"></a>00555           });
+<a name="l00556"></a>00556         });
+<a name="l00557"></a>00557 
+<a name="l00558"></a>00558         <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;multiple syncs&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00559"></a>00559           var pending = 4;
+<a name="l00560"></a>00560 
+<a name="l00561"></a>00561           <span class="keyword">function</span> onComplete() {
+<a name="l00562"></a>00562             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.length(locks, 4, <span class="stringliteral">&#39;has correct number of locks&#39;</span>);
+<a name="l00563"></a>00563 
+<a name="l00564"></a>00564             var freedAll = locks.every(<span class="keyword">function</span>(lock) {
+<a name="l00565"></a>00565               <span class="keywordflow">return</span> lock.mIsUnlocked === <span class="keyword">true</span>;
+<a name="l00566"></a>00566             });
+<a name="l00567"></a>00567 
+<a name="l00568"></a>00568             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(freedAll, <span class="stringliteral">&#39;all locks are freed.&#39;</span>);
+<a name="l00569"></a>00569           }
+<a name="l00570"></a>00570 
+<a name="l00571"></a>00571           app.syncController.all = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00572"></a>00572             var lock = locks[locks.length - 1];
+<a name="l00573"></a>00573             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(lock, <span class="stringliteral">&#39;has lock&#39;</span>);
+<a name="l00574"></a>00574             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.isFalse(lock.mIsUnlocked, <span class="stringliteral">&#39;is locked&#39;</span>);
+<a name="l00575"></a>00575 
+<a name="l00576"></a>00576             <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.nextTick(<span class="keyword">function</span>() {
+<a name="l00577"></a>00577               <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>();
+<a name="l00578"></a>00578               <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.isTrue(lock.mIsUnlocked, <span class="stringliteral">&#39;unlocks itself&#39;</span>);
+<a name="l00579"></a>00579 
+<a name="l00580"></a>00580               <span class="keywordflow">if</span> (!(--pending))
+<a name="l00581"></a>00581                 <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(onComplete);
+<a name="l00582"></a>00582             });
+<a name="l00583"></a>00583           };
+<a name="l00584"></a>00584 
+<a name="l00585"></a>00585           var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0;
+<a name="l00586"></a>00586           <span class="keywordflow">while</span> (i++ &lt; pending)
+<a name="l00587"></a>00587             subject.handleAlarmMessage({ <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>: { <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <span class="stringliteral">&#39;sync&#39;</span> } });
+<a name="l00588"></a>00588 
+<a name="l00589"></a>00589         });
+<a name="l00590"></a>00590 
+<a name="l00591"></a>00591       });
+<a name="l00592"></a>00592     });
+<a name="l00593"></a>00593 
+<a name="l00594"></a>00594     <a class="code" href="../../d7/d1b/test-agent-server_8js.html#ae4e488f52af5e7c198b9c91afab5a16e">suite</a>(<span class="stringliteral">&#39;#handleNotificationMessage&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00595"></a>00595       var realGo;
+<a name="l00596"></a>00596       var <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>;
+<a name="l00597"></a>00597 
+<a name="l00598"></a>00598       <a class="code" href="../../d3/d91/j3d_8js.html#a1e0e4683a3d1006a0cfe228b2fd5f11d">setup</a>(<span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00599"></a>00599         message = {
+<a name="l00600"></a>00600           clicked: <span class="keyword">true</span>,
+<a name="l00601"></a>00601           imageURL: <span class="stringliteral">&#39;app://calendar.gaiamobile.org/icon.png?/alarm-display/foo&#39;</span>
+<a name="l00602"></a>00602         };
+<a name="l00603"></a>00603 
+<a name="l00604"></a>00604         realGo = app.go;
+<a name="l00605"></a>00605         <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00606"></a>00606       });
+<a name="l00607"></a>00607 
+<a name="l00608"></a>00608       teardown(<span class="keyword">function</span>() {
+<a name="l00609"></a>00609         <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.App.go = realGo;
+<a name="l00610"></a>00610       });
+<a name="l00611"></a>00611 
+<a name="l00612"></a>00612       <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&#39;receive a notification message&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00613"></a>00613 
+<a name="l00614"></a>00614         app.go = <span class="keyword">function</span>(place) {
+<a name="l00615"></a>00615           <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.equal(place, <span class="stringliteral">&#39;/alarm-display/foo&#39;</span>,
+<a name="l00616"></a>00616               <span class="stringliteral">&#39;redirects to alarm display page&#39;</span>);
+<a name="l00617"></a>00617           <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00618"></a>00618         };
+<a name="l00619"></a>00619 
+<a name="l00620"></a>00620         subject.handleNotificationMessage(message);
+<a name="l00621"></a>00621       });
+<a name="l00622"></a>00622     });
+<a name="l00623"></a>00623 
+<a name="l00624"></a>00624   });
+<a name="l00625"></a>00625 });
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d9/d22/calendar_2test_2unit_2controllers_2alarm__test_8js.html">alarm_test.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:50:51に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

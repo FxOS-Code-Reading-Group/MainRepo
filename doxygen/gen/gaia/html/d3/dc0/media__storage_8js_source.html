@@ -1,0 +1,598 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: media_storage.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d3/dc0/media__storage_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">media_storage.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d3/dc0/media__storage_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: js; js-indent-level: 2; indent-tabs-mode: nil -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */</span>
+<a name="l00003"></a>00003 
+<a name="l00004"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#ae2475e10618961c050dcba04e8c42331">00004</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00005"></a>00005 
+<a name="l00014"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#a98c8fcf007baff8a3fb276320a1cde20">00014</a> <span class="keyword">const</span> <a class="code" href="../../d3/dc0/media__storage_8js.html#a98c8fcf007baff8a3fb276320a1cde20">MEDIA_TYPE</a> = [<span class="stringliteral">&#39;music&#39;</span>, <span class="stringliteral">&#39;pictures&#39;</span>, <span class="stringliteral">&#39;videos&#39;</span>, <span class="stringliteral">&#39;sdcard&#39;</span>];
+<a name="l00015"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#a05d90cdfda82e082e034ab0e1e9dc9cc">00015</a> <span class="keyword">const</span> <a class="code" href="../../d3/dc0/media__storage_8js.html#a05d90cdfda82e082e034ab0e1e9dc9cc">ITEM_TYPE</a> = [<span class="stringliteral">&#39;music&#39;</span>, <span class="stringliteral">&#39;pictures&#39;</span>, <span class="stringliteral">&#39;videos&#39;</span>, <span class="stringliteral">&#39;free&#39;</span>];
+<a name="l00016"></a>00016 
+<a name="l00017"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#ae4571ffae933aacd7f735b468e40cfdf">00017</a> var <a class="code" href="../../d3/dc0/media__storage_8js.html#ae4571ffae933aacd7f735b468e40cfdf">Volume</a> = <span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, external, externalIndex, storages) {
+<a name="l00018"></a>00018   this.<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> = <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>;
+<a name="l00019"></a>00019   this.external = external;
+<a name="l00020"></a>00020   this.externalIndex = externalIndex;
+<a name="l00021"></a>00021   this.storages = storages;
+<a name="l00022"></a>00022   this.rootElement = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;  <span class="comment">//&lt;ul&gt;&lt;/ul&gt;</span>
+<a name="l00023"></a>00023   this.stackedbar = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00024"></a>00024 };
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="comment">// This function will create a view for each volume under #volume-list,</span>
+<a name="l00027"></a>00027 <span class="comment">// the DOM structure looks like:</span>
+<a name="l00028"></a>00028 <span class="comment">//</span>
+<a name="l00029"></a>00029 <span class="comment">//&lt;header&gt;</span>
+<a name="l00030"></a>00030 <span class="comment">//  &lt;h2 data-l10n-id=&quot;storage-name-internal&quot;&gt;Internal Storage&lt;/h2&gt;</span>
+<a name="l00031"></a>00031 <span class="comment">//&lt;/header&gt;</span>
+<a name="l00032"></a>00032 <span class="comment">//&lt;ul&gt;</span>
+<a name="l00033"></a>00033 <span class="comment">//  &lt;li&gt;</span>
+<a name="l00034"></a>00034 <span class="comment">//    &lt;div id=&quot;sdcard-space-stackedbar&quot; class=&quot;space-stackedbar&quot;&gt;</span>
+<a name="l00035"></a>00035 <span class="comment">//      &lt;!-- stacked bar for displaying the amounts of media type usages --&gt;</span>
+<a name="l00036"></a>00036 <span class="comment">//    &lt;/div&gt;</span>
+<a name="l00037"></a>00037 <span class="comment">//  &lt;/li&gt;</span>
+<a name="l00038"></a>00038 <span class="comment">//  &lt;li class=&quot;color-music&quot;&gt;</span>
+<a name="l00039"></a>00039 <span class="comment">//    &lt;span class=&quot;stackedbar-color-label&quot;&gt;&lt;/span&gt;</span>
+<a name="l00040"></a>00040 <span class="comment">//    &lt;a data-l10n-id=&quot;music-space&quot;&gt;Music</span>
+<a name="l00041"></a>00041 <span class="comment">//      &lt;span class=&quot;size&quot;&gt;&lt;/span&gt;</span>
+<a name="l00042"></a>00042 <span class="comment">//    &lt;/a&gt;</span>
+<a name="l00043"></a>00043 <span class="comment">//  &lt;/li&gt;</span>
+<a name="l00044"></a>00044 <span class="comment">//  &lt;li class=&quot;color-pictures&quot;&gt;</span>
+<a name="l00045"></a>00045 <span class="comment">//    &lt;span class=&quot;stackedbar-color-label&quot;&gt;&lt;/span&gt;</span>
+<a name="l00046"></a>00046 <span class="comment">//    &lt;a data-l10n-id=&quot;pictures-space&quot;&gt;Pictures</span>
+<a name="l00047"></a>00047 <span class="comment">//      &lt;span class=&quot;size&quot;&gt;&lt;/span&gt;</span>
+<a name="l00048"></a>00048 <span class="comment">//    &lt;/a&gt;</span>
+<a name="l00049"></a>00049 <span class="comment">//  &lt;/li&gt;</span>
+<a name="l00050"></a>00050 <span class="comment">//  &lt;li class=&quot;color-videos&quot;&gt;</span>
+<a name="l00051"></a>00051 <span class="comment">//    &lt;span class=&quot;stackedbar-color-label&quot;&gt;&lt;/span&gt;</span>
+<a name="l00052"></a>00052 <span class="comment">//    &lt;a data-l10n-id=&quot;videos-space&quot;&gt;Videos</span>
+<a name="l00053"></a>00053 <span class="comment">//      &lt;span class=&quot;size&quot;&gt;&lt;/span&gt;</span>
+<a name="l00054"></a>00054 <span class="comment">//    &lt;/a&gt;</span>
+<a name="l00055"></a>00055 <span class="comment">//  &lt;/li&gt;</span>
+<a name="l00056"></a>00056 <span class="comment">//  &lt;li class=&quot;color-free&quot;&gt;</span>
+<a name="l00057"></a>00057 <span class="comment">//    &lt;span class=&quot;stackedbar-color-label&quot;&gt;&lt;/span&gt;</span>
+<a name="l00058"></a>00058 <span class="comment">//    &lt;a data-l10n-id=&quot;free-space&quot;&gt;Space left</span>
+<a name="l00059"></a>00059 <span class="comment">//      &lt;span class=&quot;size&quot;&gt;&lt;/span&gt;</span>
+<a name="l00060"></a>00060 <span class="comment">//    &lt;/a&gt;</span>
+<a name="l00061"></a>00061 <span class="comment">//  &lt;/li&gt;</span>
+<a name="l00062"></a>00062 <span class="comment">//  &lt;li&gt;</span>
+<a name="l00063"></a>00063 <span class="comment">//    &lt;label class=&quot;pack-switch&quot;&gt;</span>
+<a name="l00064"></a>00064 <span class="comment">//      &lt;input type=&quot;checkbox&quot; name=&quot;ums.volume.sdcard.enabled&quot; /&gt;</span>
+<a name="l00065"></a>00065 <span class="comment">//      &lt;span&gt;&lt;/span&gt;</span>
+<a name="l00066"></a>00066 <span class="comment">//    &lt;/label&gt;</span>
+<a name="l00067"></a>00067 <span class="comment">//    &lt;a data-l10n-id=&quot;share-using-usb&quot;&gt;Share using USB&lt;/a&gt;</span>
+<a name="l00068"></a>00068 <span class="comment">//  &lt;/li&gt;</span>
+<a name="l00069"></a>00069 <span class="comment">//&lt;/ul&gt;</span>
+<a name="l00070"></a>00070 
+<a name="l00071"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#a706d9ccd390e450975a77a57ab7448f1">00071</a> <a class="code" href="../../d3/dc0/media__storage_8js.html#ae4571ffae933aacd7f735b468e40cfdf">Volume</a>.prototype.getL10nId = <span class="keyword">function</span> volume_getL10nId(useShort) {
+<a name="l00072"></a>00072   var <a class="code" href="../../d9/d04/expat_8h.html#ab9c3d990bb61927ef5406b25c41652ee">prefix</a> = useShort ? <span class="stringliteral">&#39;short-storage-name-&#39;</span> : <span class="stringliteral">&#39;storage-name-&#39;</span>;
+<a name="l00073"></a>00073   <span class="keywordflow">if</span> (this.external) {
+<a name="l00074"></a>00074     <span class="keywordflow">return</span> prefix + <span class="stringliteral">&#39;external-&#39;</span> + this.externalIndex;
+<a name="l00075"></a>00075   } <span class="keywordflow">else</span> {
+<a name="l00076"></a>00076     <span class="keywordflow">return</span> prefix + <span class="stringliteral">&#39;internal&#39;</span>;
+<a name="l00077"></a>00077   }
+<a name="l00078"></a>00078 };
+<a name="l00079"></a>00079 
+<a name="l00080"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#a11826970ee38c4815e30541c9fa4e7b2">00080</a> <a class="code" href="../../d3/dc0/media__storage_8js.html#ae4571ffae933aacd7f735b468e40cfdf">Volume</a>.prototype.createView = <span class="keyword">function</span> volume_createView(listRoot) {
+<a name="l00081"></a>00081   var <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00082"></a>00082   <span class="comment">// create header</span>
+<a name="l00083"></a>00083   var h2 = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;h2&#39;</span>);
+<a name="l00084"></a>00084   var l10nId = this.<a class="code" href="../../d3/dc0/media__storage_8js.html#a706d9ccd390e450975a77a57ab7448f1">getL10nId</a>();
+<a name="l00085"></a>00085   h2.dataset.l10nId = l10nId;
+<a name="l00086"></a>00086   h2.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(l10nId);
+<a name="l00087"></a>00087   var <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;header&#39;</span>);
+<a name="l00088"></a>00088   header.appendChild(h2);
+<a name="l00089"></a>00089   listRoot.appendChild(header);
+<a name="l00090"></a>00090   <span class="comment">// create ul</span>
+<a name="l00091"></a>00091   this.rootElement = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;ul&#39;</span>);
+<a name="l00092"></a>00092   listRoot.appendChild(this.rootElement);
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094   var stackedbarDiv = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;div&#39;</span>);
+<a name="l00095"></a>00095   stackedbarDiv.id = this.<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> + <span class="stringliteral">&#39;-space-stackedbar&#39;</span>;
+<a name="l00096"></a>00096   stackedbarDiv.classList.add(<span class="stringliteral">&#39;space-stackedbar&#39;</span>);
+<a name="l00097"></a>00097   var li = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;li&#39;</span>);
+<a name="l00098"></a>00098   li.appendChild(stackedbarDiv);
+<a name="l00099"></a>00099   this.rootElement.appendChild(li);
+<a name="l00100"></a>00100   this.stackedbar = <a class="code" href="../../d3/dc0/media__storage_8js.html#a5ce266808ab313a04fd194ab7dfd6aee">StackedBar</a>(stackedbarDiv);
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102   var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00103"></a>00103   <a class="code" href="../../d3/dc0/media__storage_8js.html#a05d90cdfda82e082e034ab0e1e9dc9cc">ITEM_TYPE</a>.forEach(<span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00104"></a>00104     var label = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00105"></a>00105     label.classList.add(<span class="stringliteral">&#39;stackedbar-color-label&#39;</span>);
+<a name="l00106"></a>00106     var <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00107"></a>00107     size.classList.add(<span class="stringliteral">&#39;size&#39;</span>);
+<a name="l00108"></a>00108     var <a class="code" href="../../dd/dfa/classtext.html">text</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="charliteral">&#39;a&#39;</span>);
+<a name="l00109"></a>00109     var l10nId = <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> + <span class="stringliteral">&#39;-space&#39;</span>;
+<a name="l00110"></a>00110     text.dataset.l10nId = l10nId;
+<a name="l00111"></a>00111     text.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(l10nId);
+<a name="l00112"></a>00112     text.appendChild(size);
+<a name="l00113"></a>00113     var li = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;li&#39;</span>);
+<a name="l00114"></a>00114     li.classList.add(<span class="stringliteral">&#39;color-&#39;</span> + <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>);
+<a name="l00115"></a>00115     li.appendChild(label);
+<a name="l00116"></a>00116     li.appendChild(text);
+<a name="l00117"></a>00117     <span class="keyword">self</span>.rootElement.appendChild(li);
+<a name="l00118"></a>00118   });
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120   var <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;input&#39;</span>);
+<a name="l00121"></a>00121   input.type = <span class="stringliteral">&#39;checkbox&#39;</span>;
+<a name="l00122"></a>00122   input.name = <span class="stringliteral">&#39;ums.volume.&#39;</span> + this.<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> + <span class="stringliteral">&#39;.enabled&#39;</span>;
+<a name="l00123"></a>00123   var span = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00124"></a>00124   var label = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;label&#39;</span>);
+<a name="l00125"></a>00125   label.classList.add(<span class="stringliteral">&#39;pack-switch&#39;</span>);
+<a name="l00126"></a>00126   label.appendChild(input);
+<a name="l00127"></a>00127   label.appendChild(span);
+<a name="l00128"></a>00128   var <a class="code" href="../../dd/dfa/classtext.html">text</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="charliteral">&#39;a&#39;</span>);
+<a name="l00129"></a>00129   text.dataset.l10nId = <span class="stringliteral">&#39;share-using-usb&#39;</span>;
+<a name="l00130"></a>00130   text.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;share-using-usb&#39;</span>);
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132   var ele = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;li&#39;</span>);
+<a name="l00133"></a>00133   ele.appendChild(label);
+<a name="l00134"></a>00134   ele.appendChild(text);
+<a name="l00135"></a>00135   this.rootElement.appendChild(ele);
+<a name="l00136"></a>00136 };
+<a name="l00137"></a>00137 
+<a name="l00138"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#a067741dc14574f151d9d12765e661eca">00138</a> <a class="code" href="../../d3/dc0/media__storage_8js.html#ae4571ffae933aacd7f735b468e40cfdf">Volume</a>.prototype.updateStorageInfo = <span class="keyword">function</span> volume_updateStorageInfo() {
+<a name="l00139"></a>00139   <span class="comment">// Update the storage details</span>
+<a name="l00140"></a>00140   var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00141"></a>00141   this.<a class="code" href="../../d3/dc0/media__storage_8js.html#adadd07ec4cc64377e8acf90438de7efd">getStats</a>(<span class="keyword">function</span>(sizes) {
+<a name="l00142"></a>00142     <span class="keyword">self</span>.stackedbar.reset();
+<a name="l00143"></a>00143     <a class="code" href="../../d3/dc0/media__storage_8js.html#a05d90cdfda82e082e034ab0e1e9dc9cc">ITEM_TYPE</a>.forEach(<span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00144"></a>00144       var element = <span class="keyword">self</span>.rootElement.querySelector(<span class="stringliteral">&#39;.color-&#39;</span> + <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> + <span class="stringliteral">&#39; .size&#39;</span>);
+<a name="l00145"></a>00145       <a class="code" href="../../d1/de1/apps_2settings_2js_2utils_8js.html#adaf4d00786e58e7e4be440a1eb528540">DeviceStorageHelper</a>.showFormatedSize(element, <span class="stringliteral">&#39;storageSize&#39;</span>, sizes[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>]);
+<a name="l00146"></a>00146       <span class="keyword">self</span>.stackedbar.add({ <span class="stringliteral">&#39;type&#39;</span>: <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, <span class="stringliteral">&#39;value&#39;</span>: sizes[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>] });
+<a name="l00147"></a>00147     });
+<a name="l00148"></a>00148     <span class="keyword">self</span>.stackedbar.refreshUI();
+<a name="l00149"></a>00149   });
+<a name="l00150"></a>00150 };
+<a name="l00151"></a>00151 
+<a name="l00152"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#adadd07ec4cc64377e8acf90438de7efd">00152</a> <a class="code" href="../../d3/dc0/media__storage_8js.html#ae4571ffae933aacd7f735b468e40cfdf">Volume</a>.prototype.getStats = <span class="keyword">function</span> volume_getStats(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00153"></a>00153   var <a class="code" href="../../de/d4d/ns_i_d_o_m_speech_recognition_event_8idl.html#a004e752a63561c4c9bfd98d2be668a5d">results</a> = {};
+<a name="l00154"></a>00154   var current = <a class="code" href="../../d3/dc0/media__storage_8js.html#a98c8fcf007baff8a3fb276320a1cde20">MEDIA_TYPE</a>.length;
+<a name="l00155"></a>00155   var storages = this.storages;
+<a name="l00156"></a>00156   <a class="code" href="../../d3/dc0/media__storage_8js.html#a98c8fcf007baff8a3fb276320a1cde20">MEDIA_TYPE</a>.forEach(<span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00157"></a>00157     var storage = storages[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>];
+<a name="l00158"></a>00158     storage.usedSpace().onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00159"></a>00159       results[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>] = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.result;
+<a name="l00160"></a>00160       current--;
+<a name="l00161"></a>00161       <span class="keywordflow">if</span> (current == 0) {
+<a name="l00162"></a>00162         storage.freeSpace().onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00163"></a>00163           results[<span class="stringliteral">&#39;free&#39;</span>] = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.result;
+<a name="l00164"></a>00164           <span class="keywordflow">if</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>)
+<a name="l00165"></a>00165             <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(results);
+<a name="l00166"></a>00166         };
+<a name="l00167"></a>00167       }
+<a name="l00168"></a>00168     };
+<a name="l00169"></a>00169   });
+<a name="l00170"></a>00170 };
+<a name="l00171"></a>00171 
+<a name="l00172"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#a7063bf8e752c3144322f5051db60627c">00172</a> <a class="code" href="../../d3/dc0/media__storage_8js.html#ae4571ffae933aacd7f735b468e40cfdf">Volume</a>.prototype.updateInfo = <span class="keyword">function</span> volume_updateInfo(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00173"></a>00173   var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00174"></a>00174   var availreq = this.storages.sdcard.available();
+<a name="l00175"></a>00175   availreq.onsuccess = <span class="keyword">function</span> availSuccess(evt) {
+<a name="l00176"></a>00176     var <a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a> = evt.target.result;
+<a name="l00177"></a>00177     <span class="keywordflow">switch</span> (state) {
+<a name="l00178"></a>00178       <span class="keywordflow">case</span> <span class="stringliteral">&#39;shared&#39;</span>:
+<a name="l00179"></a>00179         <span class="keyword">self</span>.setInfoUnavailable();
+<a name="l00180"></a>00180         <span class="keywordflow">break</span>;
+<a name="l00181"></a>00181       <span class="keywordflow">case</span> <span class="stringliteral">&#39;unavailable&#39;</span>:
+<a name="l00182"></a>00182         <span class="keyword">self</span>.setInfoUnavailable();
+<a name="l00183"></a>00183         <span class="keywordflow">break</span>;
+<a name="l00184"></a>00184       <span class="keywordflow">case</span> <span class="stringliteral">&#39;available&#39;</span>:
+<a name="l00185"></a>00185         <span class="keyword">self</span>.updateStorageInfo();
+<a name="l00186"></a>00186         <span class="keywordflow">break</span>;
+<a name="l00187"></a>00187     }
+<a name="l00188"></a>00188     <span class="keywordflow">if</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>)
+<a name="l00189"></a>00189       <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(state);
+<a name="l00190"></a>00190   };
+<a name="l00191"></a>00191 };
+<a name="l00192"></a>00192 
+<a name="l00193"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#acd31197f2aad22d16ca468911fc1692e">00193</a> <a class="code" href="../../d3/dc0/media__storage_8js.html#ae4571ffae933aacd7f735b468e40cfdf">Volume</a>.prototype.setInfoUnavailable = <span class="keyword">function</span> volume_setInfoUnavailable() {
+<a name="l00194"></a>00194   var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00195"></a>00195   var <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00196"></a>00196   <a class="code" href="../../d3/dc0/media__storage_8js.html#a05d90cdfda82e082e034ab0e1e9dc9cc">ITEM_TYPE</a>.forEach(<span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00197"></a>00197     var <a class="code" href="../../db/d17/ns_i_d_o_m_style_rule_change_event_8idl.html#a3880ddd32037634307202093fead9337">rule</a> = <span class="stringliteral">&#39;.color-&#39;</span> + <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> + <span class="stringliteral">&#39; .size&#39;</span>;
+<a name="l00198"></a>00198     var element = <span class="keyword">self</span>.rootElement.querySelector(rule);
+<a name="l00199"></a>00199     element.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;size-not-available&#39;</span>);
+<a name="l00200"></a>00200     element.dataset.l10nId = <span class="stringliteral">&#39;size-not-available&#39;</span>;
+<a name="l00201"></a>00201   });
+<a name="l00202"></a>00202   this.stackedbar.reset();
+<a name="l00203"></a>00203 };
+<a name="l00204"></a>00204 
+<a name="l00205"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#a22f6d2e6b08fba8fb5305fc480bf5226">00205</a> var <a class="code" href="../../d3/dc0/media__storage_8js.html#a22f6d2e6b08fba8fb5305fc480bf5226">MediaStorage</a> = {
+<a name="l00206"></a>00206   <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>: <span class="keyword">function</span> ms_init() {
+<a name="l00207"></a>00207     this._volumeList = this.initAllVolumeObjects();
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209     this.documentStorageListener = <span class="keyword">false</span>;
+<a name="l00210"></a>00210     this.updateListeners();
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212     this.usmEnabledVolume = {};
+<a name="l00213"></a>00213     this.umsVolumeShareState = <span class="keyword">false</span>;
+<a name="l00214"></a>00214     <span class="comment">// Use visibilitychange so that we don&#39;t get notified of device</span>
+<a name="l00215"></a>00215     <span class="comment">// storage notifications when the settings app isn&#39;t visible.</span>
+<a name="l00216"></a>00216     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.addEventListener(<span class="stringliteral">&#39;visibilitychange&#39;</span>, <span class="keyword">this</span>);
+<a name="l00217"></a>00217     this.umsEnabledCheckBox = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;ums-switch&#39;</span>);
+<a name="l00218"></a>00218     this.umsEnabledInfoBlock = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;ums-desc&#39;</span>);
+<a name="l00219"></a>00219     this.umsEnabledCheckBox.addEventListener(<span class="stringliteral">&#39;change&#39;</span>, <span class="keyword">this</span>);
+<a name="l00220"></a>00220     this.registerUmsListener();
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222     var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00223"></a>00223     var umsSettingKey = <span class="stringliteral">&#39;ums.enabled&#39;</span>;
+<a name="l00224"></a>00224     <a class="code" href="../../de/d5e/apps_2browser_2js_2settings_8js.html#a2f596332cd75ad3af3b5639f64da6573">Settings</a>.getSettings(<span class="keyword">function</span>(allSettings) {
+<a name="l00225"></a>00225       <span class="keyword">self</span>.umsEnabledCheckBox.checked = allSettings[umsSettingKey] || <span class="keyword">false</span>;
+<a name="l00226"></a>00226       <span class="keyword">self</span>.updateMasterUmsDesc();
+<a name="l00227"></a>00227     });
+<a name="l00228"></a>00228     <a class="code" href="../../de/d5e/apps_2browser_2js_2settings_8js.html#a2f596332cd75ad3af3b5639f64da6573">Settings</a>.mozSettings.addObserver(umsSettingKey, <span class="keyword">function</span>(evt) {
+<a name="l00229"></a>00229       <span class="keyword">self</span>.umsEnabledCheckBox.checked = evt.settingValue;
+<a name="l00230"></a>00230       <span class="keyword">self</span>.updateMasterUmsDesc();
+<a name="l00231"></a>00231     });
+<a name="l00232"></a>00232 
+<a name="l00233"></a>00233     this.defaultMediaLocation = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;defaultMediaLocation&#39;</span>);
+<a name="l00234"></a>00234     this.defaultMediaLocation.addEventListener(<span class="stringliteral">&#39;click&#39;</span>, <span class="keyword">this</span>);
+<a name="l00235"></a>00235     this.makeDefaultLocationMenu();
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;localized&#39;</span>, <span class="keyword">this</span>);
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239     this.<a class="code" href="../../d3/dc0/media__storage_8js.html#a7063bf8e752c3144322f5051db60627c">updateInfo</a>();
+<a name="l00240"></a>00240   },
+<a name="l00241"></a>00241 
+<a name="l00242"></a>00242   initAllVolumeObjects: <span class="keyword">function</span> ms_initAllVolumeObjects() {
+<a name="l00243"></a>00243     var volumes = {};
+<a name="l00244"></a>00244     var totalVolumes = 0;
+<a name="l00245"></a>00245     <a class="code" href="../../d3/dc0/media__storage_8js.html#a98c8fcf007baff8a3fb276320a1cde20">MEDIA_TYPE</a>.forEach(<span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00246"></a>00246       var storages = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.getDeviceStorages(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>);
+<a name="l00247"></a>00247       storages.forEach(<span class="keyword">function</span>(storage) {
+<a name="l00248"></a>00248         var <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> = storage.storageName;
+<a name="l00249"></a>00249         <span class="keywordflow">if</span> (!volumes.hasOwnProperty(name)) {
+<a name="l00250"></a>00250           volumes[<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>] = {};
+<a name="l00251"></a>00251           totalVolumes++;
+<a name="l00252"></a>00252         }
+<a name="l00253"></a>00253         volumes[<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>][<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>] = storage;
+<a name="l00254"></a>00254       });
+<a name="l00255"></a>00255     });
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257     var volumeList = [];
+<a name="l00258"></a>00258     var externalIndex = 0;
+<a name="l00259"></a>00259     var volumeListRootElement = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;volume-list&#39;</span>);
+<a name="l00260"></a>00260     <span class="keywordflow">for</span> (var <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> in volumes) {
+<a name="l00261"></a>00261       var volume;
+<a name="l00262"></a>00262       <span class="comment">// XXX: This is a heuristic to determine whether a storage is internal or</span>
+<a name="l00263"></a>00263       <span class="comment">// external (e.g. a pluggable SD card). It does *not* work in general, but</span>
+<a name="l00264"></a>00264       <span class="comment">// it works for all officially-supported devices.</span>
+<a name="l00265"></a>00265       <span class="keywordflow">if</span> (totalVolumes &gt; 1 &amp;&amp; <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> === <span class="stringliteral">&#39;sdcard&#39;</span>) {
+<a name="l00266"></a>00266         volume = <span class="keyword">new</span> <a class="code" href="../../d3/dc0/media__storage_8js.html#ae4571ffae933aacd7f735b468e40cfdf">Volume</a>(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <span class="keyword">false</span> <span class="comment">/* internal */</span>, 0, volumes[<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>]);
+<a name="l00267"></a>00267       } <span class="keywordflow">else</span> {
+<a name="l00268"></a>00268         volume = <span class="keyword">new</span> <a class="code" href="../../d3/dc0/media__storage_8js.html#ae4571ffae933aacd7f735b468e40cfdf">Volume</a>(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <span class="keyword">true</span> <span class="comment">/* external */</span>, externalIndex++,
+<a name="l00269"></a>00269                             volumes[<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>]);
+<a name="l00270"></a>00270       }
+<a name="l00271"></a>00271       volume.createView(volumeListRootElement);
+<a name="l00272"></a>00272       volumeList.push(volume);
+<a name="l00273"></a>00273     }
+<a name="l00274"></a>00274     <span class="keywordflow">return</span> volumeList;
+<a name="l00275"></a>00275   },
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277   registerUmsListener: <span class="keyword">function</span> ms_registerUmsListener() {
+<a name="l00278"></a>00278     var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00279"></a>00279     var settings = <a class="code" href="../../de/d5e/apps_2browser_2js_2settings_8js.html#a2f596332cd75ad3af3b5639f64da6573">Settings</a>.mozSettings;
+<a name="l00280"></a>00280     this._volumeList.forEach(<span class="keyword">function</span>(volume, <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>) {
+<a name="l00281"></a>00281       var <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> = <span class="stringliteral">&#39;ums.volume.&#39;</span> + volume.name + <span class="stringliteral">&#39;.enabled&#39;</span>;
+<a name="l00282"></a>00282       <a class="code" href="../../de/d5e/apps_2browser_2js_2settings_8js.html#a2f596332cd75ad3af3b5639f64da6573">Settings</a>.getSettings(<span class="keyword">function</span>(allSettings) {
+<a name="l00283"></a>00283         var <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.querySelector(<span class="stringliteral">&#39;input[name=&quot;&#39;</span> + key + <span class="stringliteral">&#39;&quot;]&#39;</span>);
+<a name="l00284"></a>00284         input.checked = allSettings[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>] || <span class="keyword">false</span>;
+<a name="l00285"></a>00285         <span class="keyword">self</span>.usmEnabledVolume[<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>] = input.checked;
+<a name="l00286"></a>00286         <span class="keyword">self</span>.updateMasterUmsDesc();
+<a name="l00287"></a>00287       });
+<a name="l00288"></a>00288       settings.addObserver(key, <span class="keyword">function</span>(evt) {
+<a name="l00289"></a>00289         <span class="keyword">self</span>.usmEnabledVolume[<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>] = evt.settingValue;
+<a name="l00290"></a>00290         <span class="keyword">self</span>.updateMasterUmsDesc();
+<a name="l00291"></a>00291       });
+<a name="l00292"></a>00292     });
+<a name="l00293"></a>00293   },
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295   updateMasterUmsDesc: <span class="keyword">function</span> ms_updateMasterUmsDesc() {
+<a name="l00296"></a>00296     var <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00297"></a>00297     <span class="keywordflow">if</span> (this.umsEnabledCheckBox.checked) {
+<a name="l00298"></a>00298       var <a class="code" href="../../d3/d87/mock__contact_8js.html#ad08d759db77b6861afcb4729fc620b95">list</a> = [];
+<a name="l00299"></a>00299       <span class="keywordflow">for</span> (var <span class="keywordtype">id</span> in this.usmEnabledVolume) {
+<a name="l00300"></a>00300         <span class="keywordflow">if</span> (this.usmEnabledVolume[<span class="keywordtype">id</span>]) {
+<a name="l00301"></a>00301           list.push(<a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(this._volumeList[<span class="keywordtype">id</span>].<a class="code" href="../../d3/dc0/media__storage_8js.html#a706d9ccd390e450975a77a57ab7448f1">getL10nId</a>(<span class="keyword">true</span>)));
+<a name="l00302"></a>00302         }
+<a name="l00303"></a>00303       }
+<a name="l00304"></a>00304       <span class="keywordflow">if</span> (list.length === 0) {
+<a name="l00305"></a>00305         this.umsEnabledInfoBlock.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;enabled&#39;</span>);
+<a name="l00306"></a>00306         this.umsEnabledInfoBlock.dataset.l10nId = <span class="stringliteral">&#39;enabled&#39;</span>;
+<a name="l00307"></a>00307       } <span class="keywordflow">else</span> {
+<a name="l00308"></a>00308         var <a class="code" href="../../d8/dd0/extension__set_8h.html#a348efe6592512f937a672d5f5ec7d76a">desc</a> = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;ums-shared-volumes&#39;</span>, { list: list.join(<span class="stringliteral">&#39;, &#39;</span>) });
+<a name="l00309"></a>00309         this.umsEnabledInfoBlock.textContent = <a class="code" href="../../d8/dd0/extension__set_8h.html#a348efe6592512f937a672d5f5ec7d76a">desc</a>;
+<a name="l00310"></a>00310         this.umsEnabledInfoBlock.dataset.l10nId = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00311"></a>00311       }
+<a name="l00312"></a>00312     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this.umsVolumeShareState) {
+<a name="l00313"></a>00313       this.umsEnabledInfoBlock.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;umsUnplugToDisable&#39;</span>);
+<a name="l00314"></a>00314       this.umsEnabledInfoBlock.dataset.l10nId = <span class="stringliteral">&#39;umsUnplugToDisable&#39;</span>;
+<a name="l00315"></a>00315     } <span class="keywordflow">else</span> {
+<a name="l00316"></a>00316       this.umsEnabledInfoBlock.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00317"></a>00317       this.umsEnabledInfoBlock.dataset.l10nId = <span class="stringliteral">&#39;disabled&#39;</span>;
+<a name="l00318"></a>00318     }
+<a name="l00319"></a>00319   },
+<a name="l00320"></a>00320 
+<a name="l00321"></a>00321   <a class="code" href="../../dd/d6d/mock__spinner_8js.html#a7773a8226815156633260eafd5fc229e">handleEvent</a>: <span class="keyword">function</span> ms_handleEvent(evt) {
+<a name="l00322"></a>00322     <span class="keywordflow">switch</span> (evt.type) {
+<a name="l00323"></a>00323       <span class="keywordflow">case</span> <span class="stringliteral">&#39;localized&#39;</span>:
+<a name="l00324"></a>00324         this.<a class="code" href="../../d3/dc0/media__storage_8js.html#a7063bf8e752c3144322f5051db60627c">updateInfo</a>();
+<a name="l00325"></a>00325         <span class="keywordflow">break</span>;
+<a name="l00326"></a>00326       <span class="keywordflow">case</span> <span class="stringliteral">&#39;change&#39;</span>:
+<a name="l00327"></a>00327         <span class="keywordflow">if</span> (evt.target.id === <span class="stringliteral">&#39;ums-switch&#39;</span>) {
+<a name="l00328"></a>00328           <a class="code" href="../../d2/dd1/_storage_8js.html#a118c5bd3d5838afd0e8525c65ac014e1">Storage</a>.umsMasterSettingChanged(evt);
+<a name="l00329"></a>00329         } <span class="keywordflow">else</span> {
+<a name="l00330"></a>00330           <span class="comment">// we are handling storage state changes</span>
+<a name="l00331"></a>00331           <span class="comment">// possible state: available, unavailable, shared</span>
+<a name="l00332"></a>00332           this.<a class="code" href="../../d3/dc0/media__storage_8js.html#a7063bf8e752c3144322f5051db60627c">updateInfo</a>();
+<a name="l00333"></a>00333         }
+<a name="l00334"></a>00334         <span class="keywordflow">break</span>;
+<a name="l00335"></a>00335       <span class="keywordflow">case</span> <span class="stringliteral">&#39;click&#39;</span>:
+<a name="l00336"></a>00336         this.changeDefaultStorage();
+<a name="l00337"></a>00337         <span class="keywordflow">break</span>;
+<a name="l00338"></a>00338       <span class="keywordflow">case</span> <span class="stringliteral">&#39;visibilitychange&#39;</span>:
+<a name="l00339"></a>00339         this.updateListeners(this.<a class="code" href="../../d3/dc0/media__storage_8js.html#a7063bf8e752c3144322f5051db60627c">updateInfo</a>.bind(<span class="keyword">this</span>));
+<a name="l00340"></a>00340         <span class="keywordflow">break</span>;
+<a name="l00341"></a>00341     }
+<a name="l00342"></a>00342   },
+<a name="l00343"></a>00343 
+<a name="l00344"></a>00344   makeDefaultLocationMenu: <span class="keyword">function</span> ms_makeDefaultLocationMenu() {
+<a name="l00345"></a>00345     var <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00346"></a>00346     var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00347"></a>00347     var defaultMediaVolumeKey = <span class="stringliteral">&#39;device.storage.writable.name&#39;</span>;
+<a name="l00348"></a>00348     <a class="code" href="../../de/d5e/apps_2browser_2js_2settings_8js.html#a2f596332cd75ad3af3b5639f64da6573">Settings</a>.getSettings(<span class="keyword">function</span>(allSettings) {
+<a name="l00349"></a>00349       var defaultName = allSettings[defaultMediaVolumeKey];
+<a name="l00350"></a>00350       var selectionMenu = <span class="keyword">self</span>.defaultMediaLocation;
+<a name="l00351"></a>00351       var selectedIndex = 0;
+<a name="l00352"></a>00352       <span class="keyword">self</span>._volumeList.forEach(<span class="keyword">function</span>(volume, <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>) {
+<a name="l00353"></a>00353         var option = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;option&#39;</span>);
+<a name="l00354"></a>00354         option.value = volume.name;
+<a name="l00355"></a>00355         var l10nId = volume.getL10nId(<span class="keyword">true</span>);
+<a name="l00356"></a>00356         option.dataset.l10nId = l10nId;
+<a name="l00357"></a>00357         option.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(l10nId);
+<a name="l00358"></a>00358         selectionMenu.appendChild(option);
+<a name="l00359"></a>00359         <span class="keywordflow">if</span> (defaultName &amp;&amp; volume.name === defaultName) {
+<a name="l00360"></a>00360           selectedIndex = <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>;
+<a name="l00361"></a>00361         }
+<a name="l00362"></a>00362       });
+<a name="l00363"></a>00363       var selectedOption = selectionMenu.options[selectedIndex];
+<a name="l00364"></a>00364       selectedOption.selected = <span class="keyword">true</span>;
+<a name="l00365"></a>00365 
+<a name="l00366"></a>00366       <span class="comment">// update fake selection button content</span>
+<a name="l00367"></a>00367       var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a56a6742e738e925221d41ea45da5851d">button</a> = selectionMenu.previousElementSibling;
+<a name="l00368"></a>00368       button.textContent = selectedOption.textContent;
+<a name="l00369"></a>00369       button.dataset.l10nId = selectedOption.dataset.l10nId;
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371       <span class="comment">// disable option menu if we have only one option</span>
+<a name="l00372"></a>00372       <span class="keywordflow">if</span> (<span class="keyword">self</span>._volumeList.length === 1) {
+<a name="l00373"></a>00373         selectionMenu.disabled = <span class="keyword">true</span>;
+<a name="l00374"></a>00374         var <a class="code" href="../../d2/d7d/jsapi_8h.html#a2219cf9467e8547184b3cf2b051e8067">obj</a> = {};
+<a name="l00375"></a>00375         obj[defaultMediaVolumeKey] = selectedOption.value;
+<a name="l00376"></a>00376         <a class="code" href="../../de/d5e/apps_2browser_2js_2settings_8js.html#a2f596332cd75ad3af3b5639f64da6573">Settings</a>.mozSettings.createLock().set(obj);
+<a name="l00377"></a>00377       }
+<a name="l00378"></a>00378     });
+<a name="l00379"></a>00379   },
+<a name="l00380"></a>00380   changeDefaultStorage: <span class="keyword">function</span> ms_changeDefaultStorage() {
+<a name="l00381"></a>00381     <span class="comment">//Pop up a confirm window before listing options.</span>
+<a name="l00382"></a>00382     var popup = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;default-location-popup-container&#39;</span>);
+<a name="l00383"></a>00383     var cancelBtn = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;default-location-cancel-btn&#39;</span>);
+<a name="l00384"></a>00384     var changeBtn = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;default-location-change-btn&#39;</span>);
+<a name="l00385"></a>00385 
+<a name="l00386"></a>00386     this.defaultMediaLocation.blur();
+<a name="l00387"></a>00387     var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00388"></a>00388     popup.hidden = <span class="keyword">false</span>;
+<a name="l00389"></a>00389     cancelBtn.onclick = <span class="keyword">function</span>() {
+<a name="l00390"></a>00390       popup.hidden = <span class="keyword">true</span>;
+<a name="l00391"></a>00391     };
+<a name="l00392"></a>00392     changeBtn.onclick = <span class="keyword">function</span>() {
+<a name="l00393"></a>00393       popup.hidden = <span class="keyword">true</span>;
+<a name="l00394"></a>00394       <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span>() {
+<a name="l00395"></a>00395         <span class="keyword">self</span>.defaultMediaLocation.focus();
+<a name="l00396"></a>00396       });
+<a name="l00397"></a>00397     };
+<a name="l00398"></a>00398   },
+<a name="l00399"></a>00399 
+<a name="l00400"></a>00400   updateListeners: <span class="keyword">function</span> ms_updateListeners(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00401"></a>00401     var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00402"></a>00402     <span class="keywordflow">if</span> (<a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.hidden) {
+<a name="l00403"></a>00403       <span class="comment">// Settings is being hidden. Unregister our change listener so we won&#39;t</span>
+<a name="l00404"></a>00404       <span class="comment">// get notifications whenever files are added in another app.</span>
+<a name="l00405"></a>00405       <span class="keywordflow">if</span> (this.documentStorageListener) {
+<a name="l00406"></a>00406         this._volumeList.forEach(<span class="keyword">function</span>(volume) {
+<a name="l00407"></a>00407           <span class="comment">// use sdcard storage to represent this volume</span>
+<a name="l00408"></a>00408           var volumeStorage = volume.storages.sdcard;
+<a name="l00409"></a>00409           volumeStorage.removeEventListener(<span class="stringliteral">&#39;change&#39;</span>, <span class="keyword">self</span>);
+<a name="l00410"></a>00410         });
+<a name="l00411"></a>00411         this.documentStorageListener = <span class="keyword">false</span>;
+<a name="l00412"></a>00412       }
+<a name="l00413"></a>00413     } <span class="keywordflow">else</span> {
+<a name="l00414"></a>00414       <span class="keywordflow">if</span> (!this.documentStorageListener) {
+<a name="l00415"></a>00415         this._volumeList.forEach(<span class="keyword">function</span>(volume) {
+<a name="l00416"></a>00416           <span class="comment">// use sdcard storage to represent this volume</span>
+<a name="l00417"></a>00417           var volumeStorage = volume.storages.sdcard;
+<a name="l00418"></a>00418           volumeStorage.addEventListener(<span class="stringliteral">&#39;change&#39;</span>, <span class="keyword">self</span>);
+<a name="l00419"></a>00419         });
+<a name="l00420"></a>00420         this.documentStorageListener = <span class="keyword">true</span>;
+<a name="l00421"></a>00421       }
+<a name="l00422"></a>00422       <span class="keywordflow">if</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a> &amp;&amp; <a class="code" href="../../de/d5e/apps_2browser_2js_2settings_8js.html#a2f596332cd75ad3af3b5639f64da6573">Settings</a>.currentPanel === <span class="stringliteral">&#39;#mediaStorage&#39;</span>)
+<a name="l00423"></a>00423         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>();
+<a name="l00424"></a>00424     }
+<a name="l00425"></a>00425   },
+<a name="l00426"></a>00426 
+<a name="l00427"></a>00427   <a class="code" href="../../d3/dc0/media__storage_8js.html#a7063bf8e752c3144322f5051db60627c">updateInfo</a>: <span class="keyword">function</span> ms_updateInfo() {
+<a name="l00428"></a>00428     var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00429"></a>00429     this.umsVolumeShareState = <span class="keyword">false</span>;
+<a name="l00430"></a>00430     this._volumeList.forEach(<span class="keyword">function</span>(volume) {
+<a name="l00431"></a>00431       volume.updateInfo(<span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a>) {
+<a name="l00432"></a>00432         <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a> === <span class="stringliteral">&#39;shared&#39;</span>) {
+<a name="l00433"></a>00433           <span class="keyword">self</span>.umsVolumeShareState = <span class="keyword">true</span>;
+<a name="l00434"></a>00434         }
+<a name="l00435"></a>00435         <span class="keyword">self</span>.updateMasterUmsDesc();
+<a name="l00436"></a>00436       });
+<a name="l00437"></a>00437     });
+<a name="l00438"></a>00438   }
+<a name="l00439"></a>00439 };
+<a name="l00440"></a>00440 
+<a name="l00441"></a><a class="code" href="../../d3/dc0/media__storage_8js.html#a5ce266808ab313a04fd194ab7dfd6aee">00441</a> var <a class="code" href="../../d3/dc0/media__storage_8js.html#a5ce266808ab313a04fd194ab7dfd6aee">StackedBar</a> = <span class="keyword">function</span>(div) {
+<a name="l00442"></a>00442   var <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a> = div;
+<a name="l00443"></a>00443   var items = [];
+<a name="l00444"></a>00444   var totalSize = 0;
+<a name="l00445"></a>00445 
+<a name="l00446"></a>00446   <span class="keywordflow">return</span> {
+<a name="l00447"></a>00447     <a class="code" href="../../d3/d4a/mock__recipients_8js.html#a81b686bc164506c493dc722ce59d5b54">add</a>: <span class="keyword">function</span> sb_add(item) {
+<a name="l00448"></a>00448       totalSize += item.value;
+<a name="l00449"></a>00449       items.push(item);
+<a name="l00450"></a>00450     },
+<a name="l00451"></a>00451 
+<a name="l00452"></a>00452     refreshUI: <span class="keyword">function</span> sb_refreshUI() {
+<a name="l00453"></a>00453       container.parentNode.hidden = <span class="keyword">false</span>;
+<a name="l00454"></a>00454       items.forEach(<span class="keyword">function</span>(item) {
+<a name="l00455"></a>00455         var className = <span class="stringliteral">&#39;color-&#39;</span> + item.type;
+<a name="l00456"></a>00456         var ele = container.querySelector(<span class="charliteral">&#39;.&#39;</span> + className);
+<a name="l00457"></a>00457         <span class="keywordflow">if</span> (!ele) {
+<a name="l00458"></a>00458           ele = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00459"></a>00459           ele.classList.add(className);
+<a name="l00460"></a>00460           ele.classList.add(<span class="stringliteral">&#39;stackedbar-item&#39;</span>);
+<a name="l00461"></a>00461           container.appendChild(ele);
+<a name="l00462"></a>00462         }
+<a name="l00463"></a>00463         ele.style.width = (item.value * 100) / totalSize + <span class="charliteral">&#39;%&#39;</span>;
+<a name="l00464"></a>00464       });
+<a name="l00465"></a>00465     },
+<a name="l00466"></a>00466 
+<a name="l00467"></a>00467     <a class="code" href="../../db/dac/mock__picker_8js.html#aed26045338f591d889d2a8bf699451ef">reset</a>: <span class="keyword">function</span> sb_reset() {
+<a name="l00468"></a>00468       items = [];
+<a name="l00469"></a>00469       totalSize = 0;
+<a name="l00470"></a>00470       container.parentNode.hidden = <span class="keyword">true</span>;
+<a name="l00471"></a>00471     }
+<a name="l00472"></a>00472   };
+<a name="l00473"></a>00473 };
+<a name="l00474"></a>00474 
+<a name="l00475"></a>00475 <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.ready(<a class="code" href="../../d3/dc0/media__storage_8js.html#a22f6d2e6b08fba8fb5305fc480bf5226">MediaStorage</a>.init.bind(<a class="code" href="../../d3/dc0/media__storage_8js.html#a22f6d2e6b08fba8fb5305fc480bf5226">MediaStorage</a>));
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d3/dc0/media__storage_8js.html">media_storage.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:45に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: LayerManagerOGL.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d3/da2/_layer_manager_o_g_l_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">LayerManagerOGL.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d3/da2/_layer_manager_o_g_l_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 20; indent-tabs-mode: nil; c-basic-offset: 2 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef GFX_LAYERMANAGEROGL_H</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define GFX_LAYERMANAGEROGL_H</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/d49/_layers_8h.html">Layers.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/d5d/_layer_manager_o_g_l_program_8h.html">LayerManagerOGLProgram.h</a>&quot;</span>
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/d77/_time_stamp_8h.html">mozilla/TimeStamp.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/d42/ns_point_8h.html">nsPoint.h</a>&quot;</span>
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="preprocessor">#ifdef XP_WIN</span>
+<a name="l00016"></a>00016 <span class="preprocessor"></span><span class="preprocessor">#include &lt;windows.h&gt;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#endif</span>
+<a name="l00018"></a>00018 <span class="preprocessor"></span>
+<a name="l00019"></a><a class="code" href="../../d3/da2/_layer_manager_o_g_l_8h.html#a063a3af905ecefe83d76ca3f0fe0653e">00019</a> <span class="preprocessor">#define BUFFER_OFFSET(i) ((char *)nullptr + (i))</span>
+<a name="l00020"></a>00020 <span class="preprocessor"></span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d92/gfx_context_8h.html">gfxContext.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../db/db3/gfx3_d_matrix_8h.html">gfx3DMatrix.h</a>&quot;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d9f/ns_i_widget_8h.html">nsIWidget.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="../../db/df0/_g_l_context_types_8h.html">GLContextTypes.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="../../df/de6/_g_l_defs_8h.html">GLDefs.h</a>&quot;</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="keyword">namespace </span>mozilla {
+<a name="l00028"></a>00028 <span class="keyword">namespace </span><a class="code" href="../../d3/d91/j3d_8js.html#ac073c982f25059138823f2cb600ddb78">gl</a> {
+<a name="l00029"></a>00029 <span class="keyword">class </span>GLContext;
+<a name="l00030"></a>00030 }
+<a name="l00031"></a>00031 <span class="keyword">namespace </span>layers {
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="keyword">class </span>Composer2D;
+<a name="l00034"></a>00034 <span class="keyword">class </span>LayerOGL;
+<a name="l00035"></a>00035 <span class="keyword">class </span>ThebesLayerComposite;
+<a name="l00036"></a>00036 <span class="keyword">class </span>ContainerLayerComposite;
+<a name="l00037"></a>00037 <span class="keyword">class </span>ImageLayerComposite;
+<a name="l00038"></a>00038 <span class="keyword">class </span>CanvasLayerComposite;
+<a name="l00039"></a>00039 <span class="keyword">class </span>ColorLayerComposite;
+<a name="l00040"></a>00040 <span class="keyword">struct </span>FPSState;
+<a name="l00041"></a>00041 
+<a name="l00046"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html">00046</a> <span class="keyword">class </span><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html">LayerManagerOGL</a> : <span class="keyword">public</span> <a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html">LayerManager</a>
+<a name="l00047"></a>00047 {
+<a name="l00048"></a>00048   <span class="keyword">typedef</span> <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">mozilla::gl::GLContext</a> <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">GLContext</a>;
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050 <span class="keyword">public</span>:
+<a name="l00051"></a>00051   <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a4eeb637e3c57eb7cdb40748e513e0622">LayerManagerOGL</a>(<a class="code" href="../../d8/d93/classns_i_widget.html">nsIWidget</a> *aWidget, <span class="keywordtype">int</span> aSurfaceWidth = -1, <span class="keywordtype">int</span> aSurfaceHeight = -1,
+<a name="l00052"></a>00052                   <span class="keywordtype">bool</span> aIsRenderingToEGLSurface = <span class="keyword">false</span>);
+<a name="l00053"></a>00053   <span class="keyword">virtual</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#accd2755028cd5fa5d4fcbc6dccff8d1d">~LayerManagerOGL</a>();
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#af47da9a88586533c646c04fe45f10fc5">Destroy</a>();
+<a name="l00056"></a>00056 
+<a name="l00063"></a>00063   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a11d7002ba1aa68d14eb5fd90ebc74ba8">Initialize</a>(<span class="keywordtype">bool</span> force = <span class="keyword">false</span>);
+<a name="l00064"></a>00064 
+<a name="l00074"></a>00074   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a449396208701cc838f114f3f1d512e55">SetClippingRegion</a>(<span class="keyword">const</span> <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>&amp; aClippingRegion);
+<a name="l00075"></a>00075 
+<a name="l00079"></a>00079   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#affd5bebd42e80cbeac5bfa07839bacec">BeginTransaction</a>();
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a42233a005692ec7364cdc08fb45b3ef3">BeginTransactionWithTarget</a>(<a class="code" href="../../d5/dc9/classgfx_context.html">gfxContext</a>* aTarget);
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a75f69b81043a7cf7f47cf239544d9daa">EndConstruction</a>();
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a15921aa8f2c5cf40dbcc2aa659f4273a">EndEmptyTransaction</a>(<a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html#a61e93c03ffc7ad87999edda2918816bf">EndTransactionFlags</a> aFlags = <a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html#a61e93c03ffc7ad87999edda2918816bfab9c4a801df56a05f65e24a062ceafbf0">END_DEFAULT</a>);
+<a name="l00086"></a>00086   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a0e54d8623df55a6a674821131cac0535">EndTransaction</a>(<a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html#ae66276e30cc0bbc2eacfc2cef816f484">DrawThebesLayerCallback</a> aCallback,
+<a name="l00087"></a>00087                               <span class="keywordtype">void</span>* aCallbackData,
+<a name="l00088"></a>00088                               <a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html#a61e93c03ffc7ad87999edda2918816bf">EndTransactionFlags</a> aFlags = <a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html#a61e93c03ffc7ad87999edda2918816bfab9c4a801df56a05f65e24a062ceafbf0">END_DEFAULT</a>);
+<a name="l00089"></a>00089 
+<a name="l00090"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aaee812a1ceb6899610e7bdb51efa77af">00090</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aaee812a1ceb6899610e7bdb51efa77af">SetRoot</a>(<a class="code" href="../../d9/da9/classmozilla_1_1layers_1_1_layer.html">Layer</a>* aLayer) { <a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html#a809fbe0520a12b3caa768d65c21b9545">mRoot</a> = aLayer; }
+<a name="l00091"></a>00091 
+<a name="l00092"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a161a1fe2604974cb2c8330e519be4461">00092</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a161a1fe2604974cb2c8330e519be4461">CanUseCanvasLayerForSize</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a> &amp;aSize) {
+<a name="l00093"></a>00093     <span class="keywordflow">if</span> (!mGLContext)
+<a name="l00094"></a>00094       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00095"></a>00095     int32_t maxSize = <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a98689371c4bcf1d9c38a1f2f888bb302">GetMaxTextureSize</a>();
+<a name="l00096"></a>00096     <span class="keywordflow">return</span> aSize &lt;= <a class="code" href="../../d2/d6f/gfx_point_8h.html#add335e0baf263a2d231155eb780daabb">gfxIntSize</a>(maxSize, maxSize);
+<a name="l00097"></a>00097   }
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099   <span class="keyword">virtual</span> int32_t <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a98689371c4bcf1d9c38a1f2f888bb302">GetMaxTextureSize</a>() <span class="keyword">const</span>;
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;ThebesLayer&gt;</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a6cc0f3bb182184ad20d58a250bc2495d">CreateThebesLayer</a>();
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;ContainerLayer&gt;</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a176b25dac305221f2bebc3542feb84b1">CreateContainerLayer</a>();
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;ImageLayer&gt;</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a60f33a09ebc0401820d7e8caf0c30960">CreateImageLayer</a>();
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;ColorLayer&gt;</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a519abe99ea28aaf96819c16d57a8e6ce">CreateColorLayer</a>();
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;CanvasLayer&gt;</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#afbf22d411b8a5b223d847597bed1e4c1">CreateCanvasLayer</a>();
+<a name="l00110"></a>00110 
+<a name="l00111"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a6ce2a40276d5a656b97eeeea05b1a2a5">00111</a>   <span class="keyword">virtual</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a608a5d3baaee467cd6c5f194d7f79410">LayersBackend</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a6ce2a40276d5a656b97eeeea05b1a2a5">GetBackendType</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a608a5d3baaee467cd6c5f194d7f79410a6166fe29c8aa790f9e1b86adb1fda8a8">LAYERS_OPENGL</a>; }
+<a name="l00112"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a11ec146686b3325308e2ef2643233586">00112</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a11ec146686b3325308e2ef2643233586">GetBackendName</a>(nsAString&amp; <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>) { name.AssignLiteral(<span class="stringliteral">&quot;OpenGL&quot;</span>); }
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxASurface&gt;</a>
+<a name="l00115"></a>00115     <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a9676e31be0a49d15d8ee0aaa0aa03d46">CreateOptimalMaskSurface</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a> &amp;aSize);
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a74b9b701d432f09a8424b3d93db15300">ClearCachedResources</a>(<a class="code" href="../../d9/da9/classmozilla_1_1layers_1_1_layer.html">Layer</a>* aSubtree = <span class="keyword">nullptr</span>) MOZ_OVERRIDE;
+<a name="l00118"></a>00118 
+<a name="l00122"></a>00122   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a2e69de88d2588f3b9702ad013f1db2db">MakeCurrent</a>(<span class="keywordtype">bool</span> aForce = <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>);
+<a name="l00123"></a>00123 
+<a name="l00124"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a8bd61b572af5c604556c1c0c9e612547">00124</a>   <a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html">ShaderProgramOGL</a>* <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a8bd61b572af5c604556c1c0c9e612547">GetBasicLayerProgram</a>(<span class="keywordtype">bool</span> aOpaque, <span class="keywordtype">bool</span> aIsRGB,
+<a name="l00125"></a>00125                                          <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a17e79ec86a6cc893f78b24f4a880b83e">MaskType</a> aMask = <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a17e79ec86a6cc893f78b24f4a880b83eabe4083e87b5cdd95922fa0cf31f1b346">MaskNone</a>)
+<a name="l00126"></a>00126   {
+<a name="l00127"></a>00127     <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57">ShaderProgramType</a> <a class="code" href="../../d5/dca/reply__imap__email__test_8js.html#a63214d8f1727e71292b73e09dc39644f">format</a> = <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57ae5dbfe8e386782547108af6bf6d7bec5">BGRALayerProgramType</a>;
+<a name="l00128"></a>00128     <span class="keywordflow">if</span> (aIsRGB) {
+<a name="l00129"></a>00129       <span class="keywordflow">if</span> (aOpaque) {
+<a name="l00130"></a>00130         format = <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57a628c8b4279d3a58f4a5f95d0e3b66987">RGBXLayerProgramType</a>;
+<a name="l00131"></a>00131       } <span class="keywordflow">else</span> {
+<a name="l00132"></a>00132         format = <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57a51974257fc9a257e0e1a9d5df6f37cf8">RGBALayerProgramType</a>;
+<a name="l00133"></a>00133       }
+<a name="l00134"></a>00134     } <span class="keywordflow">else</span> {
+<a name="l00135"></a>00135       <span class="keywordflow">if</span> (aOpaque) {
+<a name="l00136"></a>00136         format = <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57a6ffa5333d399e3e9ae52f75b03a2025c">BGRXLayerProgramType</a>;
+<a name="l00137"></a>00137       }
+<a name="l00138"></a>00138     }
+<a name="l00139"></a>00139     <span class="keywordflow">return</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a79f47a80020268d21f7168262a2ddf23">GetProgram</a>(format, aMask);
+<a name="l00140"></a>00140   }
+<a name="l00141"></a>00141 
+<a name="l00142"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a79f47a80020268d21f7168262a2ddf23">00142</a>   <a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html">ShaderProgramOGL</a>* <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a79f47a80020268d21f7168262a2ddf23">GetProgram</a>(<a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57">ShaderProgramType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00143"></a>00143                                <a class="code" href="../../d9/da9/classmozilla_1_1layers_1_1_layer.html">Layer</a>* aMaskLayer) {
+<a name="l00144"></a>00144     <span class="keywordflow">if</span> (aMaskLayer)
+<a name="l00145"></a>00145       <span class="keywordflow">return</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a79f47a80020268d21f7168262a2ddf23">GetProgram</a>(aType, <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a17e79ec86a6cc893f78b24f4a880b83ea5f0e3b3302b60707d736964df84c6746">Mask2d</a>);
+<a name="l00146"></a>00146     <span class="keywordflow">return</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a79f47a80020268d21f7168262a2ddf23">GetProgram</a>(aType, <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a17e79ec86a6cc893f78b24f4a880b83eabe4083e87b5cdd95922fa0cf31f1b346">MaskNone</a>);
+<a name="l00147"></a>00147   }
+<a name="l00148"></a>00148 
+<a name="l00149"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#ab6bd1e658c3c2d593051118c32f8bed0">00149</a>   <a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html">ShaderProgramOGL</a>* <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a79f47a80020268d21f7168262a2ddf23">GetProgram</a>(<a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57">ShaderProgramType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00150"></a>00150                                <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a17e79ec86a6cc893f78b24f4a880b83e">MaskType</a> aMask = <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a17e79ec86a6cc893f78b24f4a880b83eabe4083e87b5cdd95922fa0cf31f1b346">MaskNone</a>) {
+<a name="l00151"></a>00151     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(<a class="code" href="../../d2/def/structmozilla_1_1layers_1_1_program_profile_o_g_l.html#a60b77acc88ab8ecb960e50f5e6f2bc4b">ProgramProfileOGL::ProgramExists</a>(aType, aMask),
+<a name="l00152"></a>00152                  <span class="stringliteral">&quot;Invalid program type.&quot;</span>);
+<a name="l00153"></a>00153     <span class="keywordflow">return</span> mPrograms[<a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>].mVariations[aMask];
+<a name="l00154"></a>00154   }
+<a name="l00155"></a>00155 
+<a name="l00156"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a8e29814b6c7f1ddd20e69fc7e809e3e4">00156</a>   <a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html">ShaderProgramOGL</a>* <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a8e29814b6c7f1ddd20e69fc7e809e3e4">GetFBOLayerProgram</a>(<a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a17e79ec86a6cc893f78b24f4a880b83e">MaskType</a> aMask = <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a17e79ec86a6cc893f78b24f4a880b83eabe4083e87b5cdd95922fa0cf31f1b346">MaskNone</a>) {
+<a name="l00157"></a>00157     <span class="keywordflow">return</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a79f47a80020268d21f7168262a2ddf23">GetProgram</a>(<a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a078ba3b071e8ad6ebdde7bc621f277dc">GetFBOLayerProgramType</a>(), aMask);
+<a name="l00158"></a>00158   }
+<a name="l00159"></a>00159 
+<a name="l00160"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a078ba3b071e8ad6ebdde7bc621f277dc">00160</a>   <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57">ShaderProgramType</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a078ba3b071e8ad6ebdde7bc621f277dc">GetFBOLayerProgramType</a>() {
+<a name="l00161"></a>00161     <span class="keywordflow">if</span> (mFBOTextureTarget == <a class="code" href="../../df/de6/_g_l_defs_8h.html#a63ababc5836b98d678b1d42f3a98cf10">LOCAL_GL_TEXTURE_RECTANGLE_ARB</a>)
+<a name="l00162"></a>00162       <span class="keywordflow">return</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57a84f68353bf4121dd391b1ec10f619159">RGBARectLayerProgramType</a>;
+<a name="l00163"></a>00163     <span class="keywordflow">return</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57a51974257fc9a257e0e1a9d5df6f37cf8">RGBALayerProgramType</a>;
+<a name="l00164"></a>00164   }
+<a name="l00165"></a>00165 
+<a name="l00166"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a1d19f0c2c13c747fbf721bee08473587">00166</a>   <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a1d19f0c2c13c747fbf721bee08473587">GetFBOTextureFormat</a>() {
+<a name="l00167"></a>00167     <span class="keywordflow">return</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331fa297b7219387fce67b4494290a8937e38">gfx::FORMAT_R8G8B8A8</a>;
+<a name="l00168"></a>00168   }
+<a name="l00169"></a>00169 
+<a name="l00170"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#afcbc83b41de6b0629cb8364a6757dd46">00170</a>   <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">GLContext</a>* <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#afcbc83b41de6b0629cb8364a6757dd46">gl</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mGLContext; }
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172   <span class="comment">// |NSOpenGLContext*|:</span>
+<a name="l00173"></a>00173   <span class="keywordtype">void</span>* <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aba22d1e943e127b0e4efc2dbf48baaa4">GetNSOpenGLContext</a>() <span class="keyword">const</span>;
+<a name="l00174"></a>00174 
+<a name="l00175"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a65acd2dc13d996ed6465f9d3efa633d8">00175</a>   <a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html#ae66276e30cc0bbc2eacfc2cef816f484">DrawThebesLayerCallback</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a65acd2dc13d996ed6465f9d3efa633d8">GetThebesLayerCallback</a>()<span class="keyword"> const</span>
+<a name="l00176"></a>00176 <span class="keyword">  </span>{ <span class="keywordflow">return</span> mThebesLayerCallback; }
+<a name="l00177"></a>00177 
+<a name="l00178"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a962b77b39fce45d585a06bd6a3ef9898">00178</a>   <span class="keywordtype">void</span>* <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a962b77b39fce45d585a06bd6a3ef9898">GetThebesLayerCallbackData</a>()<span class="keyword"> const</span>
+<a name="l00179"></a>00179 <span class="keyword">  </span>{ <span class="keywordflow">return</span> mThebesLayerCallbackData; }
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181   <span class="comment">/*</span>
+<a name="l00182"></a>00182 <span class="comment">   * Helper functions for our layers</span>
+<a name="l00183"></a>00183 <span class="comment">   */</span>
+<a name="l00184"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a86486c15648b8da8c2c488bd47b727cb">00184</a>   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a86486c15648b8da8c2c488bd47b727cb">CallThebesLayerDrawCallback</a>(<a class="code" href="../../da/d93/classmozilla_1_1layers_1_1_thebes_layer.html">ThebesLayer</a>* aLayer,
+<a name="l00185"></a>00185                                    <a class="code" href="../../d5/dc9/classgfx_context.html">gfxContext</a>* aContext,
+<a name="l00186"></a>00186                                    <span class="keyword">const</span> <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>&amp; aRegionToDraw)
+<a name="l00187"></a>00187   {
+<a name="l00188"></a>00188     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(mThebesLayerCallback,
+<a name="l00189"></a>00189                  <span class="stringliteral">&quot;CallThebesLayerDrawCallback without callback!&quot;</span>);
+<a name="l00190"></a>00190     mThebesLayerCallback(aLayer, aContext,
+<a name="l00191"></a>00191                          aRegionToDraw, <a class="code" href="../../d2/d3a/ns_i_scriptable_region_8idl.html#a8940a48da7aae7f728242caab6d9d916">nsIntRegion</a>(),
+<a name="l00192"></a>00192                          mThebesLayerCallbackData);
+<a name="l00193"></a>00193   }
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195 
+<a name="l00196"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#ad8589bbd177b64f3872f0a0c71de564f">00196</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#ad8589bbd177b64f3872f0a0c71de564f">FBOTextureTarget</a>() { <span class="keywordflow">return</span> mFBOTextureTarget; }
+<a name="l00197"></a>00197 
+<a name="l00206"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9e023957e6d22bc4a13843a0381bd67">00206</a>   <span class="keyword">enum</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9e023957e6d22bc4a13843a0381bd67">InitMode</a> {
+<a name="l00207"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9e023957e6d22bc4a13843a0381bd67aeb48a2157ac5735f094290a9df5093cf">00207</a>     <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9e023957e6d22bc4a13843a0381bd67aeb48a2157ac5735f094290a9df5093cf">InitModeNone</a>,
+<a name="l00208"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9e023957e6d22bc4a13843a0381bd67a355aea100358e65c254b0f4c37222851">00208</a>     <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9e023957e6d22bc4a13843a0381bd67a355aea100358e65c254b0f4c37222851">InitModeClear</a>,
+<a name="l00209"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9e023957e6d22bc4a13843a0381bd67a8bde087b90e1b38b99f0ee3bc9430218">00209</a>     <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9e023957e6d22bc4a13843a0381bd67a8bde087b90e1b38b99f0ee3bc9430218">InitModeCopy</a>
+<a name="l00210"></a>00210   };
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212   <span class="comment">/* Create a FBO backed by a texture; will leave the FBO</span>
+<a name="l00213"></a>00213 <span class="comment">   * bound.  Note that the texture target type will be</span>
+<a name="l00214"></a>00214 <span class="comment">   * of the type returned by FBOTextureTarget; different</span>
+<a name="l00215"></a>00215 <span class="comment">   * shaders are required to sample from the different</span>
+<a name="l00216"></a>00216 <span class="comment">   * texture types.</span>
+<a name="l00217"></a>00217 <span class="comment">   */</span>
+<a name="l00218"></a>00218   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#ac3e4935ab265887f8d696d88537a01fa">CreateFBOWithTexture</a>(<span class="keyword">const</span> <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>&amp; aRect, <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9e023957e6d22bc4a13843a0381bd67">InitMode</a> aInit,
+<a name="l00219"></a>00219                             <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> aCurrentFrameBuffer,
+<a name="l00220"></a>00220                             <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> *aFBO, <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> *aTexture);
+<a name="l00221"></a>00221 
+<a name="l00222"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa01b8289cafee7328e9ce86f8b34f183">00222</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa01b8289cafee7328e9ce86f8b34f183">QuadVBO</a>() { <span class="keywordflow">return</span> mQuadVBO; }
+<a name="l00223"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#af549b28afce658753abaaa16993eb757">00223</a>   GLintptr <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#af549b28afce658753abaaa16993eb757">QuadVBOVertexOffset</a>() { <span class="keywordflow">return</span> 0; }
+<a name="l00224"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a9329f050407ee686d3cdc08843068647">00224</a>   GLintptr <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a9329f050407ee686d3cdc08843068647">QuadVBOTexCoordOffset</a>() { <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a41c4c29f6d7869f7621f2549cecccbf0">float</a>)*4*2; }
+<a name="l00225"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9799ba54238d67847b81e8c23d55753">00225</a>   GLintptr <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa9799ba54238d67847b81e8c23d55753">QuadVBOFlippedTexCoordOffset</a>() { <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a41c4c29f6d7869f7621f2549cecccbf0">float</a>)*8*2; }
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a6908bda076a3d2756510c50ea345b52b">BindQuadVBO</a>();
+<a name="l00228"></a>00228   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#ae39a9897a759bee7a841e65034cbc6bc">QuadVBOVerticesAttrib</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> aAttribIndex);
+<a name="l00229"></a>00229   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aa58918accbfddf94ca152acb43520ac7">QuadVBOTexCoordsAttrib</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> aAttribIndex);
+<a name="l00230"></a>00230   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#accc1a99e9e82b45639b65eafff97a0e9">QuadVBOFlippedTexCoordsAttrib</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> aAttribIndex);
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232   <span class="comment">// Super common</span>
+<a name="l00233"></a>00233 
+<a name="l00234"></a>00234   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a62bfc18f76589407948311b97a4f96e8">BindAndDrawQuad</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> aVertAttribIndex,
+<a name="l00235"></a>00235                        <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> aTexCoordAttribIndex,
+<a name="l00236"></a>00236                        <span class="keywordtype">bool</span> aFlipped = <span class="keyword">false</span>);
+<a name="l00237"></a>00237 
+<a name="l00238"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#ab556c889aa5e5afeaaae27c66a34056a">00238</a>   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a62bfc18f76589407948311b97a4f96e8">BindAndDrawQuad</a>(<a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html">ShaderProgramOGL</a> *aProg,
+<a name="l00239"></a>00239                        <span class="keywordtype">bool</span> aFlipped = <span class="keyword">false</span>)
+<a name="l00240"></a>00240   {
+<a name="l00241"></a>00241     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(aProg-&gt;<a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html#affe572830a3b0082249158e3ac210149">HasInitialized</a>(), <span class="stringliteral">&quot;Shader program not correctly initialized&quot;</span>);
+<a name="l00242"></a>00242     <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a62bfc18f76589407948311b97a4f96e8">BindAndDrawQuad</a>(aProg-&gt;<a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html#a0517aa864be0aeccd983fe646d8eecf4">AttribLocation</a>(<a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html#a3240512799ed8cc27d22996dffb3ae66">ShaderProgramOGL::VertexCoordAttrib</a>),
+<a name="l00243"></a>00243                     aProg-&gt;<a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html#a0517aa864be0aeccd983fe646d8eecf4">AttribLocation</a>(<a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html#ae943342e3e960170adc465ee48bd2870">ShaderProgramOGL::TexCoordAttrib</a>),
+<a name="l00244"></a>00244                     aFlipped);
+<a name="l00245"></a>00245   }
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247   <span class="comment">// |aTexCoordRect| is the rectangle from the texture that we want to</span>
+<a name="l00248"></a>00248   <span class="comment">// draw using the given program.  The program already has a necessary</span>
+<a name="l00249"></a>00249   <span class="comment">// offset and scale, so the geometry that needs to be drawn is a unit</span>
+<a name="l00250"></a>00250   <span class="comment">// square from 0,0 to 1,1.</span>
+<a name="l00251"></a>00251   <span class="comment">//</span>
+<a name="l00252"></a>00252   <span class="comment">// |aTexSize| is the actual size of the texture, as it can be larger</span>
+<a name="l00253"></a>00253   <span class="comment">// than the rectangle given by |aTexCoordRect|.</span>
+<a name="l00254"></a>00254   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a5f2eb760300c9e6f247db236442eb895">BindAndDrawQuadWithTextureRect</a>(<a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html">ShaderProgramOGL</a> *aProg,
+<a name="l00255"></a>00255                                       <span class="keyword">const</span> <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>&amp; aTexCoordRect,
+<a name="l00256"></a>00256                                       <span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">nsIntSize</a>&amp; aTexSize,
+<a name="l00257"></a>00257                                       <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aWrapMode = <a class="code" href="../../df/de6/_g_l_defs_8h.html#a99a83e0b752f458a809e04c20b2aceeb">LOCAL_GL_REPEAT</a>,
+<a name="l00258"></a>00258                                       <span class="keywordtype">bool</span> aFlipped = <span class="keyword">false</span>);
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260 <span class="preprocessor">#ifdef MOZ_LAYERS_HAVE_LOG</span>
+<a name="l00261"></a>00261 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html#af77ea3698c8e62e8c00eaec0d562da1c">Name</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;OGL&quot;</span>; }
+<a name="l00262"></a>00262 <span class="preprocessor">#endif // MOZ_LAYERS_HAVE_LOG</span>
+<a name="l00263"></a>00263 <span class="preprocessor"></span>
+<a name="l00264"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a08ebd2df108abf43dd41363a54d65754">00264</a>   <span class="keyword">const</span> <a class="code" href="../../dc/d43/structns_int_size.html">nsIntSize</a>&amp; <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a08ebd2df108abf43dd41363a54d65754">GetWidgetSize</a>() {
+<a name="l00265"></a>00265     <span class="keywordflow">return</span> mWidgetSize;
+<a name="l00266"></a>00266   }
+<a name="l00267"></a>00267 
+<a name="l00268"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a5be912bae74d7b4cdc1fdbaafd23ae8a">00268</a>   <span class="keyword">enum</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a5be912bae74d7b4cdc1fdbaafd23ae8a">WorldTransforPolicy</a> {
+<a name="l00269"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a5be912bae74d7b4cdc1fdbaafd23ae8aa2fe86e63ca779cce21b1ef211acf9034">00269</a>     <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a5be912bae74d7b4cdc1fdbaafd23ae8aa2fe86e63ca779cce21b1ef211acf9034">ApplyWorldTransform</a>,
+<a name="l00270"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a5be912bae74d7b4cdc1fdbaafd23ae8aa156ce022b2a13af586aadb80e5340e7e">00270</a>     <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a5be912bae74d7b4cdc1fdbaafd23ae8aa156ce022b2a13af586aadb80e5340e7e">DontApplyWorldTransform</a>
+<a name="l00271"></a>00271   };
+<a name="l00272"></a>00272 
+<a name="l00277"></a>00277   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a9552ec7e1a1f4c11bbd5ab88515c15b3">SetupPipeline</a>(<span class="keywordtype">int</span> aWidth, <span class="keywordtype">int</span> aHeight, <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a5be912bae74d7b4cdc1fdbaafd23ae8a">WorldTransforPolicy</a> aTransformPolicy);
+<a name="l00278"></a>00278 
+<a name="l00284"></a>00284   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#ae48bcb2dda812bcc9c48e6fcb5aaceae">SetWorldTransform</a>(<span class="keyword">const</span> <a class="code" href="../../d1/d4f/structgfx_matrix.html">gfxMatrix</a>&amp; aMatrix);
+<a name="l00285"></a>00285   <a class="code" href="../../d1/d4f/structgfx_matrix.html">gfxMatrix</a>&amp; <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a24b139c55bf05fba426d7bf4b7e0d2a2">GetWorldTransform</a>(<span class="keywordtype">void</span>);
+<a name="l00286"></a>00286   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#ae60b30772a4130972e354bfe1a561a19">WorldTransformRect</a>(<a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>&amp; aRect);
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a32653c4e087e1830f26b038bb760351f">UpdateRenderBounds</a>(<span class="keyword">const</span> <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>&amp; aRect);
+<a name="l00289"></a>00289 
+<a name="l00293"></a>00293   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a6d94edafe80e9d7a9bae17696c84c7e8">SetSurfaceSize</a>(<span class="keywordtype">int</span> <a class="code" href="../../d4/d8c/viewphoto_8js.html#adb90f9ed3668a895cc5b90a19bcdee13">width</a>, <span class="keywordtype">int</span> <a class="code" href="../../d4/d8c/viewphoto_8js.html#a06f7a63ceb91351a4c31800c9a7af42f">height</a>);
+<a name="l00294"></a>00294  
+<a name="l00295"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aef37f7d4fb3ab5bd732c0b51ff2addb1">00295</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#aef37f7d4fb3ab5bd732c0b51ff2addb1">CompositingDisabled</a>() { <span class="keywordflow">return</span> mCompositingDisabled; }
+<a name="l00296"></a><a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a474c6f424f3f21428d2b11396b64e760">00296</a>   <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a474c6f424f3f21428d2b11396b64e760">SetCompositingDisabled</a>(<span class="keywordtype">bool</span> aCompositingDisabled) { mCompositingDisabled = aCompositingDisabled; }
+<a name="l00297"></a>00297 
+<a name="l00302"></a>00302   <span class="keyword">virtual</span> <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef&lt;mozilla::gfx::DrawTarget&gt;</a>
+<a name="l00303"></a>00303     <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#a4ef6b724b1454ab8d737f4942a9cbfa3">CreateDrawTarget</a>(<span class="keyword">const</span> <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">mozilla::gfx::IntSize</a> &amp;aSize,
+<a name="l00304"></a>00304                      <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">mozilla::gfx::SurfaceFormat</a> aFormat);
+<a name="l00305"></a>00305 
+<a name="l00313"></a>00313   <span class="keywordtype">float</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#adfea5d8d2cb7b4f2c472cb5dd3f6a8b5">ComputeRenderIntegrity</a>();
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315 <span class="keyword">private</span>:
+<a name="l00317"></a>00317   <a class="code" href="../../d8/d93/classns_i_widget.html">nsIWidget</a> *mWidget;
+<a name="l00318"></a>00318   <a class="code" href="../../dc/d43/structns_int_size.html">nsIntSize</a> mWidgetSize;
+<a name="l00319"></a>00319 
+<a name="l00321"></a>00321   <a class="code" href="../../dc/d43/structns_int_size.html">nsIntSize</a> mSurfaceSize;
+<a name="l00322"></a>00322 
+<a name="l00326"></a>00326   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;gfxContext&gt;</a> mTarget;
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;GLContext&gt;</a> mGLContext;
+<a name="l00329"></a>00329 
+<a name="l00331"></a>00331   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;Composer2D&gt;</a> mComposer2D;
+<a name="l00332"></a>00332 
+<a name="l00333"></a>00333   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;mozilla::gl::GLContext&gt;</a> CreateContext();
+<a name="l00334"></a>00334 
+<a name="l00336"></a>00336   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> mBackBufferFBO;
+<a name="l00337"></a>00337   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> mBackBufferTexture;
+<a name="l00338"></a>00338   <a class="code" href="../../dc/d43/structns_int_size.html">nsIntSize</a> mBackBufferSize;
+<a name="l00339"></a>00339 
+<a name="l00341"></a>00341   <span class="keyword">struct </span>ShaderProgramVariations {
+<a name="l00342"></a>00342     <a class="code" href="../../d9/d65/classmozilla_1_1layers_1_1_shader_program_o_g_l.html">ShaderProgramOGL</a>* mVariations[<a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a17e79ec86a6cc893f78b24f4a880b83ea4fef4b85f53a3ebe270edd160ada1244">NumMaskTypes</a>];
+<a name="l00343"></a>00343   };
+<a name="l00344"></a>00344   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;ShaderProgramVariations&gt;</a> mPrograms;
+<a name="l00345"></a>00345 
+<a name="l00347"></a>00347   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> mFBOTextureTarget;
+<a name="l00348"></a>00348 
+<a name="l00352"></a>00352   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> mQuadVBO;
+<a name="l00353"></a>00353   
+<a name="l00355"></a>00355   <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a> mClippingRegion;
+<a name="l00356"></a>00356 
+<a name="l00358"></a>00358   <span class="keywordtype">bool</span> mHasBGRA;
+<a name="l00359"></a>00359   <span class="keywordtype">bool</span> mCompositingDisabled;
+<a name="l00360"></a>00360 
+<a name="l00366"></a>00366   <span class="keywordtype">bool</span> mIsRenderingToEGLSurface;
+<a name="l00367"></a>00367 
+<a name="l00369"></a>00369   <span class="keyword">class </span>ReadDrawFPSPref <a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> : <span class="keyword">public</span> <a class="code" href="../../da/ddb/classns_runnable.html">nsRunnable</a> {
+<a name="l00370"></a>00370   <span class="keyword">public</span>:
+<a name="l00371"></a>00371     <a class="code" href="../../d3/dd8/nscore_8h.html#abbc6d740d4f54ed1c90bbed28dcef65a">NS_IMETHOD</a> <a class="code" href="../../dd/df5/ns_bidi_8h.html#a7ca5de84c4a55ba2a2caf8fad54ddc22">Run</a>() MOZ_OVERRIDE;
+<a name="l00372"></a>00372   };
+<a name="l00373"></a>00373 
+<a name="l00375"></a>00375   LayerOGL *RootLayer() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a>;
+<a name="l00376"></a>00376 
+<a name="l00380"></a>00380   <span class="keywordtype">void</span> Render();
+<a name="l00381"></a>00381 
+<a name="l00385"></a>00385   <span class="keywordtype">void</span> SetupBackBuffer(<span class="keywordtype">int</span> aWidth, <span class="keywordtype">int</span> aHeight);
+<a name="l00386"></a>00386 
+<a name="l00390"></a>00390   <span class="keywordtype">void</span> CopyToTarget(<a class="code" href="../../d5/dc9/classgfx_context.html">gfxContext</a> *aTarget);
+<a name="l00391"></a>00391 
+<a name="l00395"></a>00395   <span class="keywordtype">void</span> SetLayerProgramProjectionMatrix(const <a class="code" href="../../d6/d3b/classgfx3_d_matrix.html">gfx3DMatrix</a>&amp; aMatrix);
+<a name="l00396"></a>00396 
+<a name="l00401"></a>00401   <span class="keywordtype">void</span> AddPrograms(<a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57">ShaderProgramType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>);
+<a name="l00402"></a>00402 
+<a name="l00409"></a>00409   static <span class="keywordtype">void</span> ComputeRenderIntegrityInternal(Layer* aLayer,
+<a name="l00410"></a>00410                                              <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>&amp; aScreenRegion,
+<a name="l00411"></a>00411                                              <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>&amp; aLowPrecisionScreenRegion,
+<a name="l00412"></a>00412                                              const <a class="code" href="../../d6/d3b/classgfx3_d_matrix.html">gfx3DMatrix</a>&amp; aTransform);
+<a name="l00413"></a>00413 
+<a name="l00414"></a>00414   <span class="comment">/* Thebes layer callbacks; valid at the end of a transaciton,</span>
+<a name="l00415"></a>00415 <span class="comment">   * while rendering */</span>
+<a name="l00416"></a>00416   <a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html#ae66276e30cc0bbc2eacfc2cef816f484">DrawThebesLayerCallback</a> mThebesLayerCallback;
+<a name="l00417"></a>00417   <span class="keywordtype">void</span> *mThebesLayerCallbackData;
+<a name="l00418"></a>00418   <a class="code" href="../../d1/d4f/structgfx_matrix.html">gfxMatrix</a> mWorldMatrix;
+<a name="l00419"></a>00419   <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr</a>&lt;FPSState&gt; mFPS;
+<a name="l00420"></a>00420   <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a> mRenderBounds;
+<a name="l00421"></a>00421 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00422"></a>00422 <span class="preprocessor"></span>  <span class="comment">// NB: only interesting when this is a purely compositing layer</span>
+<a name="l00423"></a>00423   <span class="comment">// manager.  True after possibly onscreen layers have had their</span>
+<a name="l00424"></a>00424   <span class="comment">// cached resources cleared outside of a transaction, and before the</span>
+<a name="l00425"></a>00425   <span class="comment">// next forwarded transaction that re-validates their buffers.</span>
+<a name="l00426"></a>00426   <span class="keywordtype">bool</span> mMaybeInvalidTree;
+<a name="l00427"></a>00427 <span class="preprocessor">#endif</span>
+<a name="l00428"></a>00428 <span class="preprocessor"></span>
+<a name="l00429"></a>00429   <span class="keyword">static</span> <span class="keywordtype">bool</span> sDrawFPS;
+<a name="l00430"></a>00430 };
+<a name="l00431"></a>00431 
+<a name="l00435"></a><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html">00435</a> <span class="keyword">class </span><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html">LayerOGL</a>
+<a name="l00436"></a>00436 {
+<a name="l00437"></a>00437 <span class="keyword">public</span>:
+<a name="l00438"></a><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#a06f9c048f0db679ccb490cc1f8e095ea">00438</a>   <a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html">LayerOGL</a>(<a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html">LayerManagerOGL</a> *aManager)
+<a name="l00439"></a>00439     : mOGLManager(aManager), <a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html#a4bb4f3c5d4f20b1d41165b85c4a1fc2b">mDestroyed</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00440"></a>00440   { }
+<a name="l00441"></a>00441 
+<a name="l00442"></a><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#aa849ba30070991750d3b51a03b617740">00442</a>   <span class="keyword">virtual</span> <a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#aa849ba30070991750d3b51a03b617740">~LayerOGL</a>() { }
+<a name="l00443"></a>00443 
+<a name="l00444"></a><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#a99b779ee484c0b7b25f4af8961a8684d">00444</a>   <span class="keyword">virtual</span> <a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html">LayerOGL</a> *<a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#a99b779ee484c0b7b25f4af8961a8684d">GetFirstChildOGL</a>() {
+<a name="l00445"></a>00445     <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00446"></a>00446   }
+<a name="l00447"></a>00447 
+<a name="l00448"></a>00448   <span class="comment">/* Do NOT call this from the generic LayerOGL destructor.  Only from the</span>
+<a name="l00449"></a>00449 <span class="comment">   * concrete class destructor</span>
+<a name="l00450"></a>00450 <span class="comment">   */</span>
+<a name="l00451"></a>00451   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html#af47da9a88586533c646c04fe45f10fc5">Destroy</a>() = 0;
+<a name="l00452"></a>00452 
+<a name="l00453"></a>00453   <span class="keyword">virtual</span> <a class="code" href="../../d9/da9/classmozilla_1_1layers_1_1_layer.html">Layer</a>* GetLayer() = 0;
+<a name="l00454"></a>00454 
+<a name="l00455"></a>00455   <span class="keyword">virtual</span> <span class="keywordtype">void</span> RenderLayer(<span class="keywordtype">int</span> aPreviousFrameBuffer,
+<a name="l00456"></a>00456                            <span class="keyword">const</span> <a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>&amp; aOffset) = 0;
+<a name="l00457"></a>00457 
+<a name="l00458"></a><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#a1ed3b4ca90d7eb3fb9d03706d5b0df3a">00458</a>   <span class="keyword">typedef</span> <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">mozilla::gl::GLContext</a> <a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#a1ed3b4ca90d7eb3fb9d03706d5b0df3a">GLContext</a>;
+<a name="l00459"></a>00459 
+<a name="l00460"></a><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#ac237f7fb8ecf9d0b9ab2113cd7cb60bd">00460</a>   <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html">LayerManagerOGL</a>* <a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#ac237f7fb8ecf9d0b9ab2113cd7cb60bd">OGLManager</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mOGLManager; }
+<a name="l00461"></a><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#aab927afa371f92f5f11e0af5607cca9b">00461</a>   <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">GLContext</a> *<a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#aab927afa371f92f5f11e0af5607cca9b">gl</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mOGLManager-&gt;gl(); }
+<a name="l00462"></a>00462   <span class="keyword">virtual</span> <span class="keywordtype">void</span> CleanupResources() = 0;
+<a name="l00463"></a>00463 
+<a name="l00474"></a><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#a2a5be4a7d33a07bd5bb3fabc71a1db4c">00474</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> LoadAsTexture(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> aTextureUnit, <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a>* aSize)
+<a name="l00475"></a>00475   {
+<a name="l00476"></a>00476     <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;LoadAsTexture called without being overriden&quot;</span>);
+<a name="l00477"></a>00477     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00478"></a>00478   }
+<a name="l00479"></a>00479 
+<a name="l00480"></a>00480 <span class="keyword">protected</span>:
+<a name="l00481"></a><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#af1a3dc17e016014b619c822b21e15ec6">00481</a>   <a class="code" href="../../d3/d03/classmozilla_1_1layers_1_1_layer_manager_o_g_l.html">LayerManagerOGL</a> *<a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#af1a3dc17e016014b619c822b21e15ec6">mOGLManager</a>;
+<a name="l00482"></a><a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#a161679064376a540b42a7fd3e5c4acd7">00482</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d0/dea/classmozilla_1_1layers_1_1_layer_o_g_l.html#a161679064376a540b42a7fd3e5c4acd7">mDestroyed</a>;
+<a name="l00483"></a>00483 };
+<a name="l00484"></a>00484 
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486 } <span class="comment">/* layers */</span>
+<a name="l00487"></a>00487 } <span class="comment">/* mozilla */</span>
+<a name="l00488"></a>00488 
+<a name="l00489"></a>00489 <span class="preprocessor">#endif </span><span class="comment">/* GFX_LAYERMANAGEROGL_H */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d3/da2/_layer_manager_o_g_l_8h.html">LayerManagerOGL.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:31に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

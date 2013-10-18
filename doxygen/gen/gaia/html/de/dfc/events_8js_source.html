@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: events.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/dfc/events_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">events.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/dfc/events_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">//Copyright Joyent, Inc. and other Node contributors.</span>
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="comment">//Permission is hereby granted, free of charge, to any person obtaining a</span>
+<a name="l00004"></a>00004 <span class="comment">//copy of this software and associated documentation files (the</span>
+<a name="l00005"></a>00005 <span class="comment">//&quot;Software&quot;), to deal in the Software without restriction, including</span>
+<a name="l00006"></a>00006 <span class="comment">//without limitation the rights to use, copy, modify, merge, publish,</span>
+<a name="l00007"></a>00007 <span class="comment">//distribute, sublicense, and/or sell copies of the Software, and to permit</span>
+<a name="l00008"></a>00008 <span class="comment">//persons to whom the Software is furnished to do so, subject to the</span>
+<a name="l00009"></a>00009 <span class="comment">//following conditions:</span>
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="comment">//The above copyright notice and this permission notice shall be included</span>
+<a name="l00012"></a>00012 <span class="comment">//in all copies or substantial portions of the Software.</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="comment">//THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS</span>
+<a name="l00015"></a>00015 <span class="comment">//OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF</span>
+<a name="l00016"></a>00016 <span class="comment">//MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN</span>
+<a name="l00017"></a>00017 <span class="comment">//NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,</span>
+<a name="l00018"></a>00018 <span class="comment">//DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR</span>
+<a name="l00019"></a>00019 <span class="comment">//OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE</span>
+<a name="l00020"></a>00020 <span class="comment">//USE OR OTHER DEALINGS IN THE SOFTWARE.</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="keywordflow">if</span> (!this.<a class="code" href="../../de/dfc/events_8js.html#ad57db69f456bd679167cecd98d6c4019">EventEmitter</a>) this.<a class="code" href="../../de/dfc/events_8js.html#ad57db69f456bd679167cecd98d6c4019">EventEmitter</a> = <span class="keyword">function</span> () {};
+<a name="l00023"></a>00023 
+<a name="l00024"></a><a class="code" href="../../de/dfc/events_8js.html#ad57db69f456bd679167cecd98d6c4019">00024</a> var <a class="code" href="../../de/dfc/events_8js.html#ad57db69f456bd679167cecd98d6c4019">EventEmitter</a> = <a class="code" href="../../d8/deb/test_2marionette_2lib_2browser_8js.html#aa4072ba4b6b56b0fb6f4801f17ab2b34">exports</a>.EventEmitter = this.<a class="code" href="../../de/dfc/events_8js.html#ad57db69f456bd679167cecd98d6c4019">EventEmitter</a>;
+<a name="l00025"></a><a class="code" href="../../de/dfc/events_8js.html#adca5ce0ed65a1514a671ae81eb33bd53">00025</a> var <a class="code" href="../../de/dfc/events_8js.html#adca5ce0ed65a1514a671ae81eb33bd53">isArray</a> = <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> Array.isArray === <span class="stringliteral">&#39;function&#39;</span>
+<a name="l00026"></a>00026     ? Array.isArray
+<a name="l00027"></a>00027     : <span class="keyword">function</span> (xs) {
+<a name="l00028"></a>00028         <span class="keywordflow">return</span> Object.prototype.toString.call(xs) === <span class="stringliteral">&#39;[object Array]&#39;</span>
+<a name="l00029"></a>00029     }
+<a name="l00030"></a>00030 ;
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="comment">// By default EventEmitters will print a warning if more than</span>
+<a name="l00033"></a>00033 <span class="comment">// 10 listeners are added to it. This is a useful default which</span>
+<a name="l00034"></a>00034 <span class="comment">// helps finding memory leaks.</span>
+<a name="l00035"></a>00035 <span class="comment">//</span>
+<a name="l00036"></a>00036 <span class="comment">// Obviously not all Emitters should be limited to 10. This function allows</span>
+<a name="l00037"></a>00037 <span class="comment">// that to be increased. Set to zero for unlimited.</span>
+<a name="l00038"></a><a class="code" href="../../de/dfc/events_8js.html#a337004a347b709269ece5bd8dce5871c">00038</a> var <a class="code" href="../../de/dfc/events_8js.html#a337004a347b709269ece5bd8dce5871c">defaultMaxListeners</a> = 10;
+<a name="l00039"></a><a class="code" href="../../de/dfc/events_8js.html#ace0be9bf741795ec761ccb3f91d48797">00039</a> EventEmitter.prototype.setMaxListeners = <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>) {
+<a name="l00040"></a>00040   <span class="keywordflow">if</span> (!this._events) this._events = {};
+<a name="l00041"></a>00041   this._events.maxListeners = <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>;
+<a name="l00042"></a>00042 };
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="../../de/dfc/events_8js.html#a16439605b9cd7bd34fdbf935bef49de6">00045</a> EventEmitter.prototype.emit = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00046"></a>00046   <span class="comment">// If there is no &#39;error&#39; event listener then throw.</span>
+<a name="l00047"></a>00047   <span class="keywordflow">if</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> === <span class="stringliteral">&#39;error&#39;</span>) {
+<a name="l00048"></a>00048     <span class="keywordflow">if</span> (!this._events || !this._events.error ||
+<a name="l00049"></a>00049         (isArray(this._events.error) &amp;&amp; !this._events.error.length))
+<a name="l00050"></a>00050     {
+<a name="l00051"></a>00051       <span class="keywordflow">if</span> (arguments[1] instanceof <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>) {
+<a name="l00052"></a>00052         <span class="keywordflow">throw</span> arguments[1]; <span class="comment">// Unhandled &#39;error&#39; event</span>
+<a name="l00053"></a>00053       } <span class="keywordflow">else</span> {
+<a name="l00054"></a>00054         <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&quot;Uncaught, unspecified &#39;error&#39; event.&quot;</span>);
+<a name="l00055"></a>00055       }
+<a name="l00056"></a>00056       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00057"></a>00057     }
+<a name="l00058"></a>00058   }
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060   <span class="keywordflow">if</span> (!this._events) <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00061"></a>00061   var <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a> = this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>];
+<a name="l00062"></a>00062   <span class="keywordflow">if</span> (!handler) <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064   <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> handler == <span class="stringliteral">&#39;function&#39;</span>) {
+<a name="l00065"></a>00065     <span class="keywordflow">switch</span> (arguments.length) {
+<a name="l00066"></a>00066       <span class="comment">// fast cases</span>
+<a name="l00067"></a>00067       <span class="keywordflow">case</span> 1:
+<a name="l00068"></a>00068         handler.call(<span class="keyword">this</span>);
+<a name="l00069"></a>00069         <span class="keywordflow">break</span>;
+<a name="l00070"></a>00070       <span class="keywordflow">case</span> 2:
+<a name="l00071"></a>00071         handler.call(<span class="keyword">this</span>, arguments[1]);
+<a name="l00072"></a>00072         <span class="keywordflow">break</span>;
+<a name="l00073"></a>00073       <span class="keywordflow">case</span> 3:
+<a name="l00074"></a>00074         handler.call(<span class="keyword">this</span>, arguments[1], arguments[2]);
+<a name="l00075"></a>00075         <span class="keywordflow">break</span>;
+<a name="l00076"></a>00076       <span class="comment">// slower</span>
+<a name="l00077"></a>00077       <span class="keywordflow">default</span>:
+<a name="l00078"></a>00078         var <a class="code" href="../../db/d7b/r_8js.html#a283fa4dd58795cf5b621404be6601e86">args</a> = Array.prototype.slice.call(arguments, 1);
+<a name="l00079"></a>00079         handler.apply(<span class="keyword">this</span>, args);
+<a name="l00080"></a>00080     }
+<a name="l00081"></a>00081     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083   } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../de/dfc/events_8js.html#adca5ce0ed65a1514a671ae81eb33bd53">isArray</a>(handler)) {
+<a name="l00084"></a>00084     var <a class="code" href="../../db/d7b/r_8js.html#a283fa4dd58795cf5b621404be6601e86">args</a> = Array.prototype.slice.call(arguments, 1);
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086     var <a class="code" href="../../de/dfc/events_8js.html#aefbed4536fb9e73c5a626949dcbffbf4">listeners</a> = handler.slice();
+<a name="l00087"></a>00087     <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0, <a class="code" href="../../d9/d6a/ns_color_8h.html#a0ad4b5fc255f59a8dace6aa74c5ca790">l</a> = listeners.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d9/d6a/ns_color_8h.html#a0ad4b5fc255f59a8dace6aa74c5ca790">l</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00088"></a>00088       listeners[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>].apply(<span class="keyword">this</span>, args);
+<a name="l00089"></a>00089     }
+<a name="l00090"></a>00090     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092   } <span class="keywordflow">else</span> {
+<a name="l00093"></a>00093     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00094"></a>00094   }
+<a name="l00095"></a>00095 };
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097 <span class="comment">// EventEmitter is defined in src/node_events.cc</span>
+<a name="l00098"></a>00098 <span class="comment">// EventEmitter.prototype.emit() is also defined there.</span>
+<a name="l00099"></a><a class="code" href="../../de/dfc/events_8js.html#add6b850fe4991ba41a1d2636a9610836">00099</a> EventEmitter.prototype.addListener = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, listener) {
+<a name="l00100"></a>00100   <span class="keywordflow">if</span> (<span class="stringliteral">&#39;function&#39;</span> !== <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> listener) {
+<a name="l00101"></a>00101     <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;addListener only takes instances of Function&#39;</span>);
+<a name="l00102"></a>00102   }
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104   <span class="keywordflow">if</span> (!this._events) this._events = {};
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106   <span class="comment">// To avoid recursion in the case that type == &quot;newListeners&quot;! Before</span>
+<a name="l00107"></a>00107   <span class="comment">// adding it to the listeners, first emit &quot;newListeners&quot;.</span>
+<a name="l00108"></a>00108   this.<a class="code" href="../../d3/d4a/mock__recipients_8js.html#a1c233303d7d7013c8dc2390a2f264b43">emit</a>(<span class="stringliteral">&#39;newListener&#39;</span>, <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, listener);
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110   <span class="keywordflow">if</span> (!this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>]) {
+<a name="l00111"></a>00111     <span class="comment">// Optimize the case of one listener. Don&#39;t need the extra array object.</span>
+<a name="l00112"></a>00112     this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>] = listener;
+<a name="l00113"></a>00113   } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../de/dfc/events_8js.html#adca5ce0ed65a1514a671ae81eb33bd53">isArray</a>(this._events[type])) {
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115     <span class="comment">// Check for listener leak</span>
+<a name="l00116"></a>00116     <span class="keywordflow">if</span> (!this._events[type].warned) {
+<a name="l00117"></a>00117       var m;
+<a name="l00118"></a>00118       <span class="keywordflow">if</span> (this._events.maxListeners !== undefined) {
+<a name="l00119"></a>00119         m = this._events.maxListeners;
+<a name="l00120"></a>00120       } <span class="keywordflow">else</span> {
+<a name="l00121"></a>00121         m = <a class="code" href="../../de/dfc/events_8js.html#a337004a347b709269ece5bd8dce5871c">defaultMaxListeners</a>;
+<a name="l00122"></a>00122       }
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124       <span class="keywordflow">if</span> (m &amp;&amp; m &gt; 0 &amp;&amp; this._events[type].<a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a> &gt; m) {
+<a name="l00125"></a>00125         this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>].warned = <span class="keyword">true</span>;
+<a name="l00126"></a>00126         <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.error(<span class="stringliteral">&#39;(node) warning: possible EventEmitter memory &#39;</span> +
+<a name="l00127"></a>00127                       <span class="stringliteral">&#39;leak detected. %d listeners added. &#39;</span> +
+<a name="l00128"></a>00128                       <span class="stringliteral">&#39;Use emitter.setMaxListeners() to increase limit.&#39;</span>,
+<a name="l00129"></a>00129                       this._events[type].<a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>);
+<a name="l00130"></a>00130         <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.trace();
+<a name="l00131"></a>00131       }
+<a name="l00132"></a>00132     }
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134     <span class="comment">// If we&#39;ve already got an array, just append.</span>
+<a name="l00135"></a>00135     this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>].push(listener);
+<a name="l00136"></a>00136   } <span class="keywordflow">else</span> {
+<a name="l00137"></a>00137     <span class="comment">// Adding the second element, need to change to array.</span>
+<a name="l00138"></a>00138     this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>] = [this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>], listener];
+<a name="l00139"></a>00139   }
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141   <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00142"></a>00142 };
+<a name="l00143"></a>00143 
+<a name="l00144"></a><a class="code" href="../../de/dfc/events_8js.html#ac6ebb2e1fddfd9205cff6790e2aaa3a6">00144</a> EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+<a name="l00145"></a>00145 
+<a name="l00146"></a><a class="code" href="../../de/dfc/events_8js.html#a801b0668ecf79a79c81f75dbbabb4ebf">00146</a> EventEmitter.prototype.once = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, listener) {
+<a name="l00147"></a>00147   var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00148"></a>00148   <span class="keyword">self</span>.on(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, <span class="keyword">function</span> <a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>() {
+<a name="l00149"></a>00149     <span class="keyword">self</span>.removeListener(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, <a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>);
+<a name="l00150"></a>00150     listener.apply(<span class="keyword">this</span>, arguments);
+<a name="l00151"></a>00151   });
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153   <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00154"></a>00154 };
+<a name="l00155"></a>00155 
+<a name="l00156"></a><a class="code" href="../../de/dfc/events_8js.html#a066978bd94f0777d7c619d58b27eba5f">00156</a> EventEmitter.prototype.removeListener = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, listener) {
+<a name="l00157"></a>00157   <span class="keywordflow">if</span> (<span class="stringliteral">&#39;function&#39;</span> !== <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> listener) {
+<a name="l00158"></a>00158     <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;removeListener only takes instances of Function&#39;</span>);
+<a name="l00159"></a>00159   }
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161   <span class="comment">// does not use listeners(), so no side effect of creating _events[type]</span>
+<a name="l00162"></a>00162   <span class="keywordflow">if</span> (!this._events || !this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>]) <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164   var <a class="code" href="../../d3/d87/mock__contact_8js.html#ad08d759db77b6861afcb4729fc620b95">list</a> = this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>];
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166   <span class="keywordflow">if</span> (<a class="code" href="../../de/dfc/events_8js.html#adca5ce0ed65a1514a671ae81eb33bd53">isArray</a>(list)) {
+<a name="l00167"></a>00167     var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = list.indexOf(listener);
+<a name="l00168"></a>00168     <span class="keywordflow">if</span> (i &lt; 0) <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00169"></a>00169     list.splice(i, 1);
+<a name="l00170"></a>00170     <span class="keywordflow">if</span> (list.length == 0)
+<a name="l00171"></a>00171       <span class="keyword">delete</span> this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>];
+<a name="l00172"></a>00172   } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this._events[type] === listener) {
+<a name="l00173"></a>00173     <span class="keyword">delete</span> this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>];
+<a name="l00174"></a>00174   }
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176   <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00177"></a>00177 };
+<a name="l00178"></a>00178 
+<a name="l00179"></a><a class="code" href="../../de/dfc/events_8js.html#aea530a2bc607feab659aaf6bd7aad0d9">00179</a> EventEmitter.prototype.removeAllListeners = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00180"></a>00180   <span class="comment">// does not use listeners(), so no side effect of creating _events[type]</span>
+<a name="l00181"></a>00181   <span class="keywordflow">if</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> &amp;&amp; this._events &amp;&amp; this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>]) this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>] = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00182"></a>00182   <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00183"></a>00183 };
+<a name="l00184"></a>00184 
+<a name="l00185"></a><a class="code" href="../../de/dfc/events_8js.html#aefbed4536fb9e73c5a626949dcbffbf4">00185</a> EventEmitter.prototype.listeners = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00186"></a>00186   <span class="keywordflow">if</span> (!this._events) this._events = {};
+<a name="l00187"></a>00187   <span class="keywordflow">if</span> (!this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>]) this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>] = [];
+<a name="l00188"></a>00188   <span class="keywordflow">if</span> (!<a class="code" href="../../de/dfc/events_8js.html#adca5ce0ed65a1514a671ae81eb33bd53">isArray</a>(this._events[type])) {
+<a name="l00189"></a>00189     this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>] = [this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>]];
+<a name="l00190"></a>00190   }
+<a name="l00191"></a>00191   <span class="keywordflow">return</span> this._events[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>];
+<a name="l00192"></a>00192 };
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/dfc/events_8js.html">events.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:51:59に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

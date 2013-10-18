@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: crash_reporter.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/dde/crash__reporter_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">crash_reporter.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/dde/crash__reporter_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: js; js-indent-level: 2; indent-tabs-mode: nil -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */</span>
+<a name="l00003"></a>00003 
+<a name="l00004"></a><a class="code" href="../../da/dde/crash__reporter_8js.html#ae2475e10618961c050dcba04e8c42331">00004</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">// This file calls getElementById without waiting for an onload event, so it</span>
+<a name="l00007"></a>00007 <span class="comment">// must have a defer attribute or be included at the end of the &lt;body&gt;.</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a><a class="code" href="../../da/dde/crash__reporter_8js.html#aa6cb60aa4454ebcd69441b4a5ecbe70e">00009</a> var <a class="code" href="../../da/dde/crash__reporter_8js.html#aa6cb60aa4454ebcd69441b4a5ecbe70e">CrashReporter</a> = (<span class="keyword">function</span>() {
+<a name="l00010"></a>00010   var <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00011"></a>00011   var settings = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozSettings;
+<a name="l00012"></a>00012   var <a class="code" href="../../dc/db8/system_2test_2unit_2action__menu__test_8js.html#a143b83738f9fab453e3116d14dfac0e7">screen</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;screen&#39;</span>);
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014   <span class="comment">// The name of the app that just crashed.</span>
+<a name="l00015"></a>00015   var crashedAppName = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017   <span class="comment">// Whether or not to show a &quot;Report&quot; button in the banner.</span>
+<a name="l00018"></a>00018   var showReportButton = <span class="keyword">false</span>;
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020   <span class="comment">// Only show the &quot;Report&quot; button if the user hasn&#39;t set a preference to</span>
+<a name="l00021"></a>00021   <span class="comment">// always/never report crashes.</span>
+<a name="l00022"></a>00022   <a class="code" href="../../df/d2c/build__stage_2email_2shared_2js_2settings__listener_8js.html#abe3dd8a60bd635e3d2261110570f3c29">SettingsListener</a>.observe(<span class="stringliteral">&#39;app.reportCrashes&#39;</span>, <span class="stringliteral">&#39;ask&#39;</span>,
+<a name="l00023"></a>00023       <span class="keyword">function</span> handleCrashSetting(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00024"></a>00024     showReportButton = (<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> != <span class="stringliteral">&#39;always&#39;</span> &amp;&amp; <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> != <span class="stringliteral">&#39;never&#39;</span>);
+<a name="l00025"></a>00025   });
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027   <span class="comment">// This function should only ever be called once.</span>
+<a name="l00028"></a>00028   <span class="keyword">function</span> showDialog(crashID, isChrome) {
+<a name="l00029"></a>00029     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a> = isChrome ? <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;crash-dialog-os2&#39;</span>) :
+<a name="l00030"></a>00030       <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;crash-dialog-app&#39;</span>, { <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>: crashedAppName });
+<a name="l00031"></a>00031     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;crash-dialog-title&#39;</span>).textContent = <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a>;
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033     <span class="comment">// &quot;Don&#39;t Send Report&quot; button in dialog</span>
+<a name="l00034"></a>00034     var noButton = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;dont-send-report&#39;</span>);
+<a name="l00035"></a>00035     noButton.addEventListener(<span class="stringliteral">&#39;click&#39;</span>, <span class="keyword">function</span> onNoButtonClick() {
+<a name="l00036"></a>00036       settings.createLock().set({<span class="stringliteral">&#39;app.reportCrashes&#39;</span>: <span class="stringliteral">&#39;never&#39;</span>});
+<a name="l00037"></a>00037       removeDialog();
+<a name="l00038"></a>00038     });
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040     <span class="comment">// &quot;Send Report&quot; button in dialog</span>
+<a name="l00041"></a>00041     var yesButton = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;send-report&#39;</span>);
+<a name="l00042"></a>00042     yesButton.addEventListener(<span class="stringliteral">&#39;click&#39;</span>, <span class="keyword">function</span> onYesButtonClick() {
+<a name="l00043"></a>00043       submitCrash(crashID);
+<a name="l00044"></a>00044       <span class="keywordflow">if</span> (checkbox.checked) {
+<a name="l00045"></a>00045         settings.createLock().set({<span class="stringliteral">&#39;app.reportCrashes&#39;</span>: <span class="stringliteral">&#39;always&#39;</span>});
+<a name="l00046"></a>00046       }
+<a name="l00047"></a>00047       removeDialog();
+<a name="l00048"></a>00048     });
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050     var checkbox = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;always-send&#39;</span>);
+<a name="l00051"></a>00051     checkbox.addEventListener(<span class="stringliteral">&#39;click&#39;</span>, <span class="keyword">function</span> onCheckboxClick() {
+<a name="l00052"></a>00052       <span class="comment">// Disable the &quot;Don&#39;t Send Report&quot; button if the &quot;Always send...&quot;</span>
+<a name="l00053"></a>00053       <span class="comment">// checkbox is checked</span>
+<a name="l00054"></a>00054       noButton.disabled = this.checked;
+<a name="l00055"></a>00055     });
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057     <span class="comment">// &quot;What&#39;s in a crash report?&quot; link</span>
+<a name="l00058"></a>00058     var crashInfoLink = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;crash-info-link&#39;</span>);
+<a name="l00059"></a>00059     crashInfoLink.addEventListener(<span class="stringliteral">&#39;click&#39;</span>, <span class="keyword">function</span> onLearnMoreClick() {
+<a name="l00060"></a>00060       var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;crash-dialog&#39;</span>);
+<a name="l00061"></a>00061       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;crash-reports-done&#39;</span>).
+<a name="l00062"></a>00062                <a class="code" href="../../d8/d0d/transfer_8js.html#abd169909fbdd66534e2d19bf20938d8b">addEventListener</a>(<span class="stringliteral">&#39;click&#39;</span>, <span class="keyword">function</span> onDoneClick() {
+<a name="l00063"></a>00063         this.<a class="code" href="../../df/d44/permission__manager_8js.html#acf9987ef04ab3791e7ff8b28d748ebcc">removeEventListener</a>(<span class="stringliteral">&#39;click&#39;</span>, onDoneClick);
+<a name="l00064"></a>00064         dialog.classList.remove(<span class="stringliteral">&#39;learn-more&#39;</span>);
+<a name="l00065"></a>00065       });
+<a name="l00066"></a>00066       dialog.classList.add(<span class="stringliteral">&#39;learn-more&#39;</span>);
+<a name="l00067"></a>00067     });
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069     screen.classList.add(<span class="stringliteral">&#39;crash-dialog&#39;</span>);
+<a name="l00070"></a>00070   }
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072   <span class="comment">// We can get rid of the dialog after it is shown once.</span>
+<a name="l00073"></a>00073   <span class="keyword">function</span> removeDialog() {
+<a name="l00074"></a>00074     screen.classList.remove(<span class="stringliteral">&#39;crash-dialog&#39;</span>);
+<a name="l00075"></a>00075     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;crash-dialog&#39;</span>);
+<a name="l00076"></a>00076     dialog.parentNode.removeChild(dialog);
+<a name="l00077"></a>00077   }
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079   <span class="keyword">function</span> <a class="code" href="../../d4/daf/video_2js_2view_8js.html#a0c88e61100f24e8a125327221259bf79">showBanner</a>(crashID, isChrome) {
+<a name="l00080"></a>00080     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a> = isChrome ? <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;crash-banner-os2&#39;</span>) :
+<a name="l00081"></a>00081       <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;crash-banner-app&#39;</span>, { <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>: crashedAppName });
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083     var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a56a6742e738e925221d41ea45da5851d">button</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00084"></a>00084     <span class="keywordflow">if</span> (showReportButton) {
+<a name="l00085"></a>00085       button = {
+<a name="l00086"></a>00086         label: <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;crash-banner-report&#39;</span>),
+<a name="l00087"></a>00087         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>: <span class="keyword">function</span> reportCrash() {
+<a name="l00088"></a>00088           submitCrash(crashID);
+<a name="l00089"></a>00089         },
+<a name="l00090"></a>00090         dismiss: <span class="keyword">function</span> dismissCrash() {
+<a name="l00091"></a>00091           deleteCrash(crashID);
+<a name="l00092"></a>00092         }
+<a name="l00093"></a>00093       };
+<a name="l00094"></a>00094     }
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096     <a class="code" href="../../db/d64/system__banner_8js.html#acdf9059669793cf5f5c3d4a15f750177">SystemBanner</a>.show(message, button);
+<a name="l00097"></a>00097   }
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099   <span class="keyword">function</span> deleteCrash(crashID) {
+<a name="l00100"></a>00100     var <span class="keyword">event</span> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createEvent(<span class="stringliteral">&#39;CustomEvent&#39;</span>);
+<a name="l00101"></a>00101     <span class="keyword">event</span>.initCustomEvent(<span class="stringliteral">&#39;mozContentEvent&#39;</span>, <span class="keyword">true</span>, <span class="keyword">true</span>, {
+<a name="l00102"></a>00102       <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <span class="stringliteral">&#39;delete-crash&#39;</span>,
+<a name="l00103"></a>00103       crashID: crashID
+<a name="l00104"></a>00104     });
+<a name="l00105"></a>00105     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.dispatchEvent(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>);
+<a name="l00106"></a>00106   }
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108   <span class="keyword">function</span> submitCrash(crashID) {
+<a name="l00109"></a>00109     var <span class="keyword">event</span> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createEvent(<span class="stringliteral">&#39;CustomEvent&#39;</span>);
+<a name="l00110"></a>00110     <span class="keyword">event</span>.initCustomEvent(<span class="stringliteral">&#39;mozContentEvent&#39;</span>, <span class="keyword">true</span>, <span class="keyword">true</span>, {
+<a name="l00111"></a>00111       <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <span class="stringliteral">&#39;submit-crash&#39;</span>,
+<a name="l00112"></a>00112       crashID: crashID
+<a name="l00113"></a>00113     });
+<a name="l00114"></a>00114     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.dispatchEvent(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>);
+<a name="l00115"></a>00115   }
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117   <span class="comment">// - Show a dialog only the first time there&#39;s a crash to report.</span>
+<a name="l00118"></a>00118   <span class="comment">// - On subsequent crashes, show a banner letting the user know there was a</span>
+<a name="l00119"></a>00119   <span class="comment">//   crash.</span>
+<a name="l00120"></a>00120   <span class="comment">// - If the user hasn&#39;t set a pref, add a &quot;Report&quot; button to the banner.</span>
+<a name="l00121"></a>00121   <span class="keyword">function</span> handleCrash(crashID, isChrome) {
+<a name="l00122"></a>00122     <span class="comment">// Check to see if we should show a dialog.</span>
+<a name="l00123"></a>00123     var dialogReq = settings.createLock().get(<span class="stringliteral">&#39;crashReporter.dialogShown&#39;</span>);
+<a name="l00124"></a>00124     dialogReq.onsuccess = <span class="keyword">function</span> dialogShownSuccess() {
+<a name="l00125"></a>00125       var dialogShown = dialogReq.result[<span class="stringliteral">&#39;crashReporter.dialogShown&#39;</span>];
+<a name="l00126"></a>00126       <span class="keywordflow">if</span> (!dialogShown) {
+<a name="l00127"></a>00127         settings.createLock().set({<span class="stringliteral">&#39;crashReporter.dialogShown&#39;</span>: <span class="keyword">true</span>});
+<a name="l00128"></a>00128         showDialog(crashID, isChrome);
+<a name="l00129"></a>00129       } <span class="keywordflow">else</span> {
+<a name="l00130"></a>00130         <a class="code" href="../../d4/daf/video_2js_2view_8js.html#a0c88e61100f24e8a125327221259bf79">showBanner</a>(crashID, isChrome);
+<a name="l00131"></a>00131       }
+<a name="l00132"></a>00132     };
+<a name="l00133"></a>00133   }
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135   <span class="comment">// We depend on window_manager.js calling this function before</span>
+<a name="l00136"></a>00136   <span class="comment">// we get a &#39;handle-crash&#39; event from shell.js</span>
+<a name="l00137"></a>00137   <span class="keyword">function</span> setAppName(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>) {
+<a name="l00138"></a>00138     crashedAppName = <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>;
+<a name="l00139"></a>00139   }
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141   <span class="comment">// We will be notified of system crashes from shell.js</span>
+<a name="l00142"></a>00142   <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;mozChromeEvent&#39;</span>, <span class="keyword">function</span> handleChromeEvent(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00143"></a>00143     <span class="keywordflow">if</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.type == <span class="stringliteral">&#39;handle-crash&#39;</span>) {
+<a name="l00144"></a>00144       handleCrash(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.crashID, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.chrome);
+<a name="l00145"></a>00145     }
+<a name="l00146"></a>00146   });
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148   <span class="keywordflow">return</span> {
+<a name="l00149"></a>00149     setAppName: setAppName
+<a name="l00150"></a>00150   };
+<a name="l00151"></a>00151 })();
+<a name="l00152"></a>00152 
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/dde/crash__reporter_8js.html">crash_reporter.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:51:48に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

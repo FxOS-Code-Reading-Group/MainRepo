@@ -1,0 +1,25 @@
+var structns_style_font =
+[
+    [ "nsStyleFont", "dd/d30/structns_style_font.html#af6c2f50aeeb23bdf57c0b1c2cd5f5ce0", null ],
+    [ "nsStyleFont", "dd/d30/structns_style_font.html#a1b32cb35c0d7d85607f2974b33ba096d", null ],
+    [ "nsStyleFont", "dd/d30/structns_style_font.html#ad2939a1c9039a86f263f42ae9ee6dc79", null ],
+    [ "~nsStyleFont", "dd/d30/structns_style_font.html#af5fa1f06d7153bb206ca290b2fc0a7fa", null ],
+    [ "CalcDifference", "dd/d30/structns_style_font.html#a3218129836ac3e3323cab21d1cd5b02c", null ],
+    [ "CalcFontDifference", "dd/d30/structns_style_font.html#a3be86d97c8f88a1f50ed5b519763779a", null ],
+    [ "Destroy", "dd/d30/structns_style_font.html#a434bcf2d2224318dbcde250fa4424eaa", null ],
+    [ "EnableZoom", "dd/d30/structns_style_font.html#ac1aeeb13273c641779f4712c8f779720", null ],
+    [ "MaxDifference", "dd/d30/structns_style_font.html#a96a264af62ebf5fa4b2589886a47fd9f", null ],
+    [ "operator new", "dd/d30/structns_style_font.html#a13f69da360508ccafd02d2443e16fe3c", null ],
+    [ "UnZoomText", "dd/d30/structns_style_font.html#a0a05610c21aa7f1f5dae0cc6a8ad5bf6", null ],
+    [ "ZoomText", "dd/d30/structns_style_font.html#a5795d9e4f80799ca46e5c677ca5b9a49", null ],
+    [ "mAllowZoom", "dd/d30/structns_style_font.html#afa12e59512ec8db3d59fe2c3d8004789", null ],
+    [ "mExplicitLanguage", "dd/d30/structns_style_font.html#a47c2fe541dfbfed05f78521e5de1d815", null ],
+    [ "mFont", "dd/d30/structns_style_font.html#ad6450ecb06b3776250163e1eef274015", null ],
+    [ "mGenericID", "dd/d30/structns_style_font.html#a513f02137f9c423af9e6200d3525b03b", null ],
+    [ "mLanguage", "dd/d30/structns_style_font.html#a27325a91b0b29bd32374a85f45d1727c", null ],
+    [ "mScriptLevel", "dd/d30/structns_style_font.html#ab0da95dfa574f47a7ebb6f6cabbfe296", null ],
+    [ "mScriptMinSize", "dd/d30/structns_style_font.html#a0ba3f74a2e43d2e5ef16d672c370f69a", null ],
+    [ "mScriptSizeMultiplier", "dd/d30/structns_style_font.html#a129e56ed03740d13fe82be6a29c82064", null ],
+    [ "mScriptUnconstrainedSize", "dd/d30/structns_style_font.html#a39307f05d797202f6fb738bae078fcba", null ],
+    [ "mSize", "dd/d30/structns_style_font.html#a1e629a0bbca8ee37ba256f80180aa895", null ]
+];

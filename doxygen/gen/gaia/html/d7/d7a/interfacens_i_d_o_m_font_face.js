@@ -1,0 +1,25 @@
+var interfacens_i_d_o_m_font_face =
+[
+    [ "GetCSSFamilyName", "d7/d7a/interfacens_i_d_o_m_font_face.html#abe85d49de43802d7a52f84cf2b5485fe", null ],
+    [ "GetFormat", "d7/d7a/interfacens_i_d_o_m_font_face.html#a5f3ed33b34d035324a97c84362c59580", null ],
+    [ "GetFromFontGroup", "d7/d7a/interfacens_i_d_o_m_font_face.html#a449a1fb658747a57c40cd978eff434c0", null ],
+    [ "GetFromLanguagePrefs", "d7/d7a/interfacens_i_d_o_m_font_face.html#aa8533894d684d0ae9f3851ea7bc0a88c", null ],
+    [ "GetFromSystemFallback", "d7/d7a/interfacens_i_d_o_m_font_face.html#a6b97ebc4c8925b43ac3a68217cd70e78", null ],
+    [ "GetLocalName", "d7/d7a/interfacens_i_d_o_m_font_face.html#aa50ddbd537668f1f65b0638c21ed891d", null ],
+    [ "GetMetadata", "d7/d7a/interfacens_i_d_o_m_font_face.html#a5abaa74ca73ed37ebeb131ecd4613618", null ],
+    [ "GetName", "d7/d7a/interfacens_i_d_o_m_font_face.html#abcf73c6bdcc5c77f11b540f8b9914fea", null ],
+    [ "GetRule", "d7/d7a/interfacens_i_d_o_m_font_face.html#a6f40a4e2f10826a9bfe53812c119ef24", null ],
+    [ "GetSrcIndex", "d7/d7a/interfacens_i_d_o_m_font_face.html#a244754b82707dd50d506efda0a99662c", null ],
+    [ "GetURI", "d7/d7a/interfacens_i_d_o_m_font_face.html#a3d98ece02e601026dcbd668afe13c72e", null ],
+    [ "CSSFamilyName", "d7/d7a/interfacens_i_d_o_m_font_face.html#a0b5891ecd33f126e6313cbfd1035edf8", null ],
+    [ "format", "d7/d7a/interfacens_i_d_o_m_font_face.html#a8172b99712bf5042dba727dfcf453560", null ],
+    [ "fromFontGroup", "d7/d7a/interfacens_i_d_o_m_font_face.html#a1b11b3725c28b2dc189910620f004ee6", null ],
+    [ "fromLanguagePrefs", "d7/d7a/interfacens_i_d_o_m_font_face.html#a3d889a0200ea4b3bb9d1dc39f157846c", null ],
+    [ "fromSystemFallback", "d7/d7a/interfacens_i_d_o_m_font_face.html#a40bcc16039404332574beb8f07f8fea4", null ],
+    [ "localName", "d7/d7a/interfacens_i_d_o_m_font_face.html#ab23afe17be2909bdbed1088741db8227", null ],
+    [ "metadata", "d7/d7a/interfacens_i_d_o_m_font_face.html#a9e8439d07e5130c32efc409bc363b4bd", null ],
+    [ "name", "d7/d7a/interfacens_i_d_o_m_font_face.html#a8adfbc204ce849bacea17ad52fe26da6", null ],
+    [ "rule", "d7/d7a/interfacens_i_d_o_m_font_face.html#a2e1ef5f8ac34dafe85a11a34add27cc1", null ],
+    [ "srcIndex", "d7/d7a/interfacens_i_d_o_m_font_face.html#a613f80691443602b2dc88a34d5497bec", null ],
+    [ "URI", "d7/d7a/interfacens_i_d_o_m_font_face.html#ae31dd3f361f00c2a8aefc56c99e4d8ab", null ]
+];

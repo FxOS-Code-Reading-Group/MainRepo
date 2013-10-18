@@ -1,0 +1,28 @@
+var interfacens_i_d_o_m_device_storage =
+[
+    [ "add", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a143cc78cf65438dde7dde73af227ad0a", null ],
+    [ "Add", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a538e99f19d9431f5a0f0f2110483f8e7", null ],
+    [ "addNamed", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a84220fe88cd7afe35f9b4cfa1b47abd8", null ],
+    [ "AddNamed", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a3f41f48c4be740f4900d59d12ace4233", null ],
+    [ "available", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a8f68c189b4f5f04fa68ebc9a5067d3aa", null ],
+    [ "Available", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a96007bee8be1ea2d185b5f28f9fcb8f1", null ],
+    [ "delete", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a7c2f475937ae5f10474fc22be6688b29", null ],
+    [ "Delete", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a4914eb1aaba08b446d7368e945e41249", null ],
+    [ "freeSpace", "d8/dfd/interfacens_i_d_o_m_device_storage.html#aec5d689265d6fe147fab547225ae933f", null ],
+    [ "FreeSpace", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a3d133340b4de36bcbd6328f7eef517b0", null ],
+    [ "get", "d8/dfd/interfacens_i_d_o_m_device_storage.html#ac23f0321d5a830acd26a59561316c9c6", null ],
+    [ "Get", "d8/dfd/interfacens_i_d_o_m_device_storage.html#aa09976f9e6015c2af7e06b0e529bdadf", null ],
+    [ "GetDefault", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a75266922aeb40c51e7645a2c31648dd1", null ],
+    [ "getEditable", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a13e11f05b625f9e230bdd54360e4c81b", null ],
+    [ "GetEditable", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a5d9453e8c9c2adfde63ed25bce89681a", null ],
+    [ "GetOnchange", "d8/dfd/interfacens_i_d_o_m_device_storage.html#ad5800244746c66044f5ae9e249fe73f4", null ],
+    [ "getRootDirectoryForFile", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a243345561334fdbdcec447b75ad58b3f", null ],
+    [ "GetRootDirectoryForFile", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a8ae997373bfe934ac945ee9227bacfae", null ],
+    [ "GetStorageName", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a93c3f46b2e6fc69a6ee5c6b0145572dc", null ],
+    [ "SetOnchange", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a33123206363dd666bb6c1c87f22100f6", null ],
+    [ "usedSpace", "d8/dfd/interfacens_i_d_o_m_device_storage.html#ab4bb58eb34c99af734e0fdf68f820e5a", null ],
+    [ "UsedSpace", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a555f958394da73f9d5d2090fc712f4fd", null ],
+    [ "default", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a81c8165720c24274ebb17dfee542b287", null ],
+    [ "onchange", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a7984f364747dd94dbc9c689da2014f44", null ],
+    [ "storageName", "d8/dfd/interfacens_i_d_o_m_device_storage.html#a99e6ce8cc05d4c052a329b30fa99e670", null ]
+];

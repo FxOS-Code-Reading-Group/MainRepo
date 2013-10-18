@@ -1,0 +1,672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: MemoryMetrics.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d6/d0e/_memory_metrics_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">MemoryMetrics.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d6/d0e/_memory_metrics_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * vim: set ts=8 sts=4 et sw=4 tw=99:</span>
+<a name="l00003"></a>00003 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="preprocessor">#ifndef js_MemoryMetrics_h</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor">#define js_MemoryMetrics_h</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span>
+<a name="l00010"></a>00010 <span class="comment">// These declarations are not within jsapi.h because they are highly likely to</span>
+<a name="l00011"></a>00011 <span class="comment">// change in the future. Depend on them at your own risk.</span>
+<a name="l00012"></a>00012 
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6d/_memory_reporting_8h.html">mozilla/MemoryReporting.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/d11/_pod_operations_8h.html">mozilla/PodOperations.h</a>&quot;</span>
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="preprocessor">#include &lt;string.h&gt;</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/dbb/jsalloc_8h.html">jsalloc.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d28/jspubtd_8h.html">jspubtd.h</a>&quot;</span>
+<a name="l00020"></a>00020 
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../de/def/_hash_table_8h.html">js/HashTable.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d2a/_utility_8h.html">js/Utility.h</a>&quot;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d2f/js_2_vector_8h.html">js/Vector.h</a>&quot;</span>
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="keyword">class </span><a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a>;      <span class="comment">// This is needed for ObjectPrivateVisitor.</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="keyword">namespace </span>js {
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="comment">// In memory reporting, we have concept of &quot;sundries&quot;, line items which are too</span>
+<a name="l00030"></a>00030 <span class="comment">// small to be worth reporting individually.  Under some circumstances, a memory</span>
+<a name="l00031"></a>00031 <span class="comment">// reporter gets tossed into the sundries bucket if it&#39;s smaller than</span>
+<a name="l00032"></a>00032 <span class="comment">// MemoryReportingSundriesThreshold() bytes.</span>
+<a name="l00033"></a>00033 <span class="comment">//</span>
+<a name="l00034"></a>00034 <span class="comment">// We need to define this value here, rather than in the code which actually</span>
+<a name="l00035"></a>00035 <span class="comment">// generates the memory reports, because NotableStringInfo uses this value.</span>
+<a name="l00036"></a>00036 <a class="code" href="../../db/da2/namespacejs.html#a682661c06661609cfb4081d7cb48de33">JS_FRIEND_API</a>(<span class="keywordtype">size_t</span>) MemoryReportingSundriesThreshold();
+<a name="l00037"></a>00037 
+<a name="l00038"></a><a class="code" href="../../d0/d56/structjs_1_1_string_hash_policy.html">00038</a> struct <a class="code" href="../../d0/d56/structjs_1_1_string_hash_policy.html">StringHashPolicy</a>
+<a name="l00039"></a>00039 {
+<a name="l00040"></a><a class="code" href="../../d0/d56/structjs_1_1_string_hash_policy.html#a4b47707c5ba92cfa8342e859382aa9de">00040</a>     <span class="keyword">typedef</span> JSString *<a class="code" href="../../d0/d56/structjs_1_1_string_hash_policy.html#a4b47707c5ba92cfa8342e859382aa9de">Lookup</a>;
+<a name="l00041"></a>00041     <span class="keyword">static</span> <a class="code" href="../../db/da2/namespacejs.html#a5145cdf2ac07588b3a96081495e0a810">HashNumber</a> hash(<span class="keyword">const</span> Lookup &amp;<a class="code" href="../../d9/d6a/ns_color_8h.html#a0ad4b5fc255f59a8dace6aa74c5ca790">l</a>);
+<a name="l00042"></a>00042     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>(<span class="keyword">const</span> JSString *<span class="keyword">const</span> &amp;<a class="code" href="../../da/d7d/sylvester_8js.html#ae8667dd07a5b15efad1c9ed229e131da">k</a>, <span class="keyword">const</span> Lookup &amp;<a class="code" href="../../d9/d6a/ns_color_8h.html#a0ad4b5fc255f59a8dace6aa74c5ca790">l</a>);
+<a name="l00043"></a>00043 };
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html">00045</a> <span class="keyword">struct </span><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html">ZoneStatsPod</a>
+<a name="l00046"></a>00046 {
+<a name="l00047"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#aac9452b12cee7e3ba24e82582bcfe06a">00047</a>     <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#aac9452b12cee7e3ba24e82582bcfe06a">ZoneStatsPod</a>() {
+<a name="l00048"></a>00048         mozilla::PodZero(<span class="keyword">this</span>);
+<a name="l00049"></a>00049     }
+<a name="l00050"></a>00050 
+<a name="l00051"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a1a0d35fdc52b08b4881a71ff94e82a51">00051</a>     <span class="keywordtype">void</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a1a0d35fdc52b08b4881a71ff94e82a51">add</a>(<span class="keyword">const</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html">ZoneStatsPod</a> &amp;other) {
+<a name="l00052"></a>00052 <span class="preprocessor">        #define ADD(x)  this-&gt;x += other.x</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span>
+<a name="l00054"></a>00054         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#ae8c518b9b5b539bba1e025467bd8cb76">gcHeapArenaAdmin</a>);
+<a name="l00055"></a>00055         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#aea90c22ff9dc45f5a9035b8cf178c166">gcHeapUnusedGcThings</a>);
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a67e4f5de633a14b607af189d93db58d2">gcHeapStringsNormal</a>);
+<a name="l00058"></a>00058         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a7db766bae457516c9dbc0b122bf9478b">gcHeapStringsShort</a>);
+<a name="l00059"></a>00059         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a32954efcf577d00073f1e39c0a20fabe">gcHeapLazyScripts</a>);
+<a name="l00060"></a>00060         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#ab41958b612136def74c120bd31c28b33">gcHeapTypeObjects</a>);
+<a name="l00061"></a>00061         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#ac0fe3876f51a796d4a553f630567aecf">gcHeapIonCodes</a>);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a60d8b2c25c19145e795f44f935f1c40b">stringCharsNonNotable</a>);
+<a name="l00064"></a>00064         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#af41a08f35a7f819461e17eb2cf4e1e78">lazyScripts</a>);
+<a name="l00065"></a>00065         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a987eb9ddd8d2fa5ea804d8f951c985a4">typeObjects</a>);
+<a name="l00066"></a>00066         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#aaf3b048584df7a2d4f68f9ca143af6af">typePool</a>);
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068 <span class="preprocessor">        #undef ADD</span>
+<a name="l00069"></a>00069 <span class="preprocessor"></span>    }
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071     <span class="comment">// This field can be used by embedders.</span>
+<a name="l00072"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a6cebe7aaab3877b9aae4bb127a629529">00072</a>     <span class="keywordtype">void</span>   *<a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a6cebe7aaab3877b9aae4bb127a629529">extra</a>;
+<a name="l00073"></a>00073 
+<a name="l00074"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#ae8c518b9b5b539bba1e025467bd8cb76">00074</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#ae8c518b9b5b539bba1e025467bd8cb76">gcHeapArenaAdmin</a>;
+<a name="l00075"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#aea90c22ff9dc45f5a9035b8cf178c166">00075</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#aea90c22ff9dc45f5a9035b8cf178c166">gcHeapUnusedGcThings</a>;
+<a name="l00076"></a>00076 
+<a name="l00077"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a67e4f5de633a14b607af189d93db58d2">00077</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a67e4f5de633a14b607af189d93db58d2">gcHeapStringsNormal</a>;
+<a name="l00078"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a7db766bae457516c9dbc0b122bf9478b">00078</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a7db766bae457516c9dbc0b122bf9478b">gcHeapStringsShort</a>;
+<a name="l00079"></a>00079 
+<a name="l00080"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a32954efcf577d00073f1e39c0a20fabe">00080</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a32954efcf577d00073f1e39c0a20fabe">gcHeapLazyScripts</a>;
+<a name="l00081"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#ab41958b612136def74c120bd31c28b33">00081</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#ab41958b612136def74c120bd31c28b33">gcHeapTypeObjects</a>;
+<a name="l00082"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#ac0fe3876f51a796d4a553f630567aecf">00082</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#ac0fe3876f51a796d4a553f630567aecf">gcHeapIonCodes</a>;
+<a name="l00083"></a>00083 
+<a name="l00084"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a60d8b2c25c19145e795f44f935f1c40b">00084</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a60d8b2c25c19145e795f44f935f1c40b">stringCharsNonNotable</a>;
+<a name="l00085"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#af41a08f35a7f819461e17eb2cf4e1e78">00085</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#af41a08f35a7f819461e17eb2cf4e1e78">lazyScripts</a>;
+<a name="l00086"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a987eb9ddd8d2fa5ea804d8f951c985a4">00086</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#a987eb9ddd8d2fa5ea804d8f951c985a4">typeObjects</a>;
+<a name="l00087"></a><a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#aaf3b048584df7a2d4f68f9ca143af6af">00087</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#aaf3b048584df7a2d4f68f9ca143af6af">typePool</a>;
+<a name="l00088"></a>00088 };
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090 } <span class="comment">// namespace js</span>
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 <span class="keyword">namespace </span>JS {
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094 <span class="comment">// Data for tracking memory usage of things hanging off objects.</span>
+<a name="l00095"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html">00095</a> <span class="keyword">struct </span><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html">ObjectsExtraSizes</a>
+<a name="l00096"></a>00096 {
+<a name="l00097"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a9729ee643e8c0ef987fdcbfca403a10c">00097</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a9729ee643e8c0ef987fdcbfca403a10c">slots</a>;
+<a name="l00098"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a00ba8dfb9f602160010b6efa9b18631d">00098</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a00ba8dfb9f602160010b6efa9b18631d">elementsNonAsmJS</a>;
+<a name="l00099"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a465deec508eaf46389f23c14a97979d6">00099</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a465deec508eaf46389f23c14a97979d6">elementsAsmJSHeap</a>;
+<a name="l00100"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#af22bdc1d66d8de0f8883ee3831405648">00100</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#af22bdc1d66d8de0f8883ee3831405648">elementsAsmJSNonHeap</a>;
+<a name="l00101"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#aa46705e86e6bb8ff6555e96accc7e6fa">00101</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#aa46705e86e6bb8ff6555e96accc7e6fa">argumentsData</a>;
+<a name="l00102"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#ad3a498ff923f9722495f30369383dcad">00102</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#ad3a498ff923f9722495f30369383dcad">regExpStatics</a>;
+<a name="l00103"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a1556df00b6fb49c9620b1c1f7844f745">00103</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a1556df00b6fb49c9620b1c1f7844f745">propertyIteratorData</a>;
+<a name="l00104"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a499d7b74dc5b28def80d332bfd0d2ab7">00104</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a499d7b74dc5b28def80d332bfd0d2ab7">ctypesData</a>;
+<a name="l00105"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a1db2796228079061aaff2caba96fbc08">00105</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a1db2796228079061aaff2caba96fbc08">private_</a>;    <span class="comment">// The &#39;_&#39; suffix is required because |private| is a keyword.</span>
+<a name="l00106"></a>00106                         <span class="comment">// Note that this field is measured separately from the others.</span>
+<a name="l00107"></a>00107 
+<a name="l00108"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a87f8a3a85a70e13caa53922a0dc3a414">00108</a>     <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a87f8a3a85a70e13caa53922a0dc3a414">ObjectsExtraSizes</a>() { memset(<span class="keyword">this</span>, 0, <span class="keyword">sizeof</span>(<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html">ObjectsExtraSizes</a>)); }
+<a name="l00109"></a>00109 
+<a name="l00110"></a><a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a535cb77c53e96f2f3b9bf6ad091acc2e">00110</a>     <span class="keywordtype">void</span> <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a535cb77c53e96f2f3b9bf6ad091acc2e">add</a>(<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html">ObjectsExtraSizes</a> &amp;sizes) {
+<a name="l00111"></a>00111         this-&gt;<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a9729ee643e8c0ef987fdcbfca403a10c">slots</a>                += sizes.<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a9729ee643e8c0ef987fdcbfca403a10c">slots</a>;
+<a name="l00112"></a>00112         this-&gt;<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a00ba8dfb9f602160010b6efa9b18631d">elementsNonAsmJS</a>     += sizes.<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a00ba8dfb9f602160010b6efa9b18631d">elementsNonAsmJS</a>;
+<a name="l00113"></a>00113         this-&gt;<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a465deec508eaf46389f23c14a97979d6">elementsAsmJSHeap</a>    += sizes.<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a465deec508eaf46389f23c14a97979d6">elementsAsmJSHeap</a>;
+<a name="l00114"></a>00114         this-&gt;<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#af22bdc1d66d8de0f8883ee3831405648">elementsAsmJSNonHeap</a> += sizes.<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#af22bdc1d66d8de0f8883ee3831405648">elementsAsmJSNonHeap</a>;
+<a name="l00115"></a>00115         this-&gt;<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#aa46705e86e6bb8ff6555e96accc7e6fa">argumentsData</a>        += sizes.<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#aa46705e86e6bb8ff6555e96accc7e6fa">argumentsData</a>;
+<a name="l00116"></a>00116         this-&gt;<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#ad3a498ff923f9722495f30369383dcad">regExpStatics</a>        += sizes.<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#ad3a498ff923f9722495f30369383dcad">regExpStatics</a>;
+<a name="l00117"></a>00117         this-&gt;<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a1556df00b6fb49c9620b1c1f7844f745">propertyIteratorData</a> += sizes.<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a1556df00b6fb49c9620b1c1f7844f745">propertyIteratorData</a>;
+<a name="l00118"></a>00118         this-&gt;<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a499d7b74dc5b28def80d332bfd0d2ab7">ctypesData</a>           += sizes.<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a499d7b74dc5b28def80d332bfd0d2ab7">ctypesData</a>;
+<a name="l00119"></a>00119         this-&gt;<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a1db2796228079061aaff2caba96fbc08">private_</a>             += sizes.<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a1db2796228079061aaff2caba96fbc08">private_</a>;
+<a name="l00120"></a>00120     }
+<a name="l00121"></a>00121 };
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123 <span class="comment">// Data for tracking analysis/inference memory usage.</span>
+<a name="l00124"></a><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html">00124</a> <span class="keyword">struct </span><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html">TypeInferenceSizes</a>
+<a name="l00125"></a>00125 {
+<a name="l00126"></a><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a2b181fe70d6d7f57ba88bb85cec7dfab">00126</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a2b181fe70d6d7f57ba88bb85cec7dfab">typeScripts</a>;
+<a name="l00127"></a><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a35808db5af125549bdaee0ec39e7eefe">00127</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a35808db5af125549bdaee0ec39e7eefe">typeResults</a>;
+<a name="l00128"></a><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a637a33b2e09b3f8ff74fc919ec7c2f41">00128</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a637a33b2e09b3f8ff74fc919ec7c2f41">analysisPool</a>;
+<a name="l00129"></a><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a519583aa90c4ac47b366100010c2f552">00129</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a519583aa90c4ac47b366100010c2f552">pendingArrays</a>;
+<a name="l00130"></a><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a52d894f8f6e5218dedf4ad8c55a82b44">00130</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a52d894f8f6e5218dedf4ad8c55a82b44">allocationSiteTables</a>;
+<a name="l00131"></a><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a75a61acce06034561823cd346c7723e8">00131</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a75a61acce06034561823cd346c7723e8">arrayTypeTables</a>;
+<a name="l00132"></a><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a75a621185139b8ed73bab9e87f40f2db">00132</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a75a621185139b8ed73bab9e87f40f2db">objectTypeTables</a>;
+<a name="l00133"></a>00133 
+<a name="l00134"></a><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#afcec313faf38248e8e30fb90bb57ff05">00134</a>     <a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#afcec313faf38248e8e30fb90bb57ff05">TypeInferenceSizes</a>() { memset(<span class="keyword">this</span>, 0, <span class="keyword">sizeof</span>(<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html">TypeInferenceSizes</a>)); }
+<a name="l00135"></a>00135 
+<a name="l00136"></a><a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#aeca684a2cc3b53e7e72bd67ca2e99f97">00136</a>     <span class="keywordtype">void</span> <a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#aeca684a2cc3b53e7e72bd67ca2e99f97">add</a>(<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html">TypeInferenceSizes</a> &amp;sizes) {
+<a name="l00137"></a>00137         this-&gt;<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a2b181fe70d6d7f57ba88bb85cec7dfab">typeScripts</a>          += sizes.<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a2b181fe70d6d7f57ba88bb85cec7dfab">typeScripts</a>;
+<a name="l00138"></a>00138         this-&gt;<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a35808db5af125549bdaee0ec39e7eefe">typeResults</a>          += sizes.<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a35808db5af125549bdaee0ec39e7eefe">typeResults</a>;
+<a name="l00139"></a>00139         this-&gt;<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a637a33b2e09b3f8ff74fc919ec7c2f41">analysisPool</a>         += sizes.<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a637a33b2e09b3f8ff74fc919ec7c2f41">analysisPool</a>;
+<a name="l00140"></a>00140         this-&gt;<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a519583aa90c4ac47b366100010c2f552">pendingArrays</a>        += sizes.<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a519583aa90c4ac47b366100010c2f552">pendingArrays</a>;
+<a name="l00141"></a>00141         this-&gt;<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a52d894f8f6e5218dedf4ad8c55a82b44">allocationSiteTables</a> += sizes.<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a52d894f8f6e5218dedf4ad8c55a82b44">allocationSiteTables</a>;
+<a name="l00142"></a>00142         this-&gt;<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a75a61acce06034561823cd346c7723e8">arrayTypeTables</a>      += sizes.<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a75a61acce06034561823cd346c7723e8">arrayTypeTables</a>;
+<a name="l00143"></a>00143         this-&gt;<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a75a621185139b8ed73bab9e87f40f2db">objectTypeTables</a>     += sizes.<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#a75a621185139b8ed73bab9e87f40f2db">objectTypeTables</a>;
+<a name="l00144"></a>00144     }
+<a name="l00145"></a>00145 };
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147 <span class="comment">// Data for tracking JIT-code memory usage.</span>
+<a name="l00148"></a><a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html">00148</a> <span class="keyword">struct </span><a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html">CodeSizes</a>
+<a name="l00149"></a>00149 {
+<a name="l00150"></a><a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a241c04f0de747aaf8afc174c2e4a1d08">00150</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a241c04f0de747aaf8afc174c2e4a1d08">ion</a>;
+<a name="l00151"></a><a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a104d0d5e1a8705d2fe9374ef9aa53e6c">00151</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a104d0d5e1a8705d2fe9374ef9aa53e6c">asmJS</a>;
+<a name="l00152"></a><a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#ae40acceccdc08bff6b495296b6032c5e">00152</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#ae40acceccdc08bff6b495296b6032c5e">baseline</a>;
+<a name="l00153"></a><a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a190bdcbdc2185b754c167689ae1cde22">00153</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a190bdcbdc2185b754c167689ae1cde22">regexp</a>;
+<a name="l00154"></a><a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a2a0e5222521bd9420588cdb5ea0267da">00154</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a2a0e5222521bd9420588cdb5ea0267da">other</a>;
+<a name="l00155"></a><a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a1c1a7beea0a7d41036cf4153a9836b29">00155</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a1c1a7beea0a7d41036cf4153a9836b29">unused</a>;
+<a name="l00156"></a>00156 
+<a name="l00157"></a><a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a2f3de3481e95e1b477bbe935376767db">00157</a>     <a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html#a2f3de3481e95e1b477bbe935376767db">CodeSizes</a>() { memset(<span class="keyword">this</span>, 0, <span class="keyword">sizeof</span>(<a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html">CodeSizes</a>)); }
+<a name="l00158"></a>00158 };
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161 <span class="comment">// This class holds information about the memory taken up by identical copies of</span>
+<a name="l00162"></a>00162 <span class="comment">// a particular string.  Multiple JSStrings may have their sizes aggregated</span>
+<a name="l00163"></a>00163 <span class="comment">// together into one StringInfo object.</span>
+<a name="l00164"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html">00164</a> <span class="keyword">struct </span><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html">StringInfo</a>
+<a name="l00165"></a>00165 {
+<a name="l00166"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a7362712a2aedbcd1bb9e9f26de7693e3">00166</a>     <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a7362712a2aedbcd1bb9e9f26de7693e3">StringInfo</a>()
+<a name="l00167"></a>00167       : <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a9c6245125c514628c715f254db9682d7">length</a>(0), <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a78f20c7311ea8420c4797464571c2af9">numCopies</a>(0), <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a31bb2ef5e87824407c91460be8478153">sizeOfShortStringGCThings</a>(0),
+<a name="l00168"></a>00168         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a4395e702f812fbb3bd81f6a4bfc03522">sizeOfNormalStringGCThings</a>(0), <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a881f41e32ec64e63b2000db7cb9d4507">sizeOfAllStringChars</a>(0)
+<a name="l00169"></a>00169     {}
+<a name="l00170"></a>00170 
+<a name="l00171"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a0c178451c044895892151370c1d3d09a">00171</a>     <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a7362712a2aedbcd1bb9e9f26de7693e3">StringInfo</a>(<span class="keywordtype">size_t</span> <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a>, <span class="keywordtype">size_t</span> shorts, <span class="keywordtype">size_t</span> normals, <span class="keywordtype">size_t</span> <a class="code" href="../../da/d7b/namespace_j_s.html#a81a7d8b6e3a954fa08207b5d05e89df0">chars</a>)
+<a name="l00172"></a>00172       : <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a9c6245125c514628c715f254db9682d7">length</a>(len),
+<a name="l00173"></a>00173         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a78f20c7311ea8420c4797464571c2af9">numCopies</a>(1),
+<a name="l00174"></a>00174         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a31bb2ef5e87824407c91460be8478153">sizeOfShortStringGCThings</a>(shorts),
+<a name="l00175"></a>00175         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a4395e702f812fbb3bd81f6a4bfc03522">sizeOfNormalStringGCThings</a>(normals),
+<a name="l00176"></a>00176         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a881f41e32ec64e63b2000db7cb9d4507">sizeOfAllStringChars</a>(chars)
+<a name="l00177"></a>00177     {}
+<a name="l00178"></a>00178 
+<a name="l00179"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a81cac7e97a0e25476b07b3f52790008c">00179</a>     <span class="keywordtype">void</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a81cac7e97a0e25476b07b3f52790008c">add</a>(<span class="keywordtype">size_t</span> shorts, <span class="keywordtype">size_t</span> normals, <span class="keywordtype">size_t</span> <a class="code" href="../../da/d7b/namespace_j_s.html#a81a7d8b6e3a954fa08207b5d05e89df0">chars</a>) {
+<a name="l00180"></a>00180         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a31bb2ef5e87824407c91460be8478153">sizeOfShortStringGCThings</a> += shorts;
+<a name="l00181"></a>00181         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a4395e702f812fbb3bd81f6a4bfc03522">sizeOfNormalStringGCThings</a> += normals;
+<a name="l00182"></a>00182         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a881f41e32ec64e63b2000db7cb9d4507">sizeOfAllStringChars</a> += <a class="code" href="../../da/d7b/namespace_j_s.html#a81a7d8b6e3a954fa08207b5d05e89df0">chars</a>;
+<a name="l00183"></a>00183         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a78f20c7311ea8420c4797464571c2af9">numCopies</a>++;
+<a name="l00184"></a>00184     }
+<a name="l00185"></a>00185 
+<a name="l00186"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#ad8458ccaca94d90c1fae6b4610ba7c91">00186</a>     <span class="keywordtype">void</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#ad8458ccaca94d90c1fae6b4610ba7c91">add</a>(<span class="keyword">const</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html">StringInfo</a>&amp; <a class="code" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>) {
+<a name="l00187"></a>00187         <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a9c6245125c514628c715f254db9682d7">length</a> == info.<a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a9c6245125c514628c715f254db9682d7">length</a>);
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a31bb2ef5e87824407c91460be8478153">sizeOfShortStringGCThings</a> += info.<a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a31bb2ef5e87824407c91460be8478153">sizeOfShortStringGCThings</a>;
+<a name="l00190"></a>00190         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a4395e702f812fbb3bd81f6a4bfc03522">sizeOfNormalStringGCThings</a> += info.<a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a4395e702f812fbb3bd81f6a4bfc03522">sizeOfNormalStringGCThings</a>;
+<a name="l00191"></a>00191         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a881f41e32ec64e63b2000db7cb9d4507">sizeOfAllStringChars</a> += info.<a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a881f41e32ec64e63b2000db7cb9d4507">sizeOfAllStringChars</a>;
+<a name="l00192"></a>00192         <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a78f20c7311ea8420c4797464571c2af9">numCopies</a> += info.<a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a78f20c7311ea8420c4797464571c2af9">numCopies</a>;
+<a name="l00193"></a>00193     }
+<a name="l00194"></a>00194 
+<a name="l00195"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a2ad97c0f34ec5db2fc431891628a0abf">00195</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a2ad97c0f34ec5db2fc431891628a0abf">totalSizeOf</a>()<span class="keyword"> const </span>{
+<a name="l00196"></a>00196         <span class="keywordflow">return</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a31bb2ef5e87824407c91460be8478153">sizeOfShortStringGCThings</a> + <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a4395e702f812fbb3bd81f6a4bfc03522">sizeOfNormalStringGCThings</a> + <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a881f41e32ec64e63b2000db7cb9d4507">sizeOfAllStringChars</a>;
+<a name="l00197"></a>00197     }
+<a name="l00198"></a>00198 
+<a name="l00199"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a795cf78c2260ec44913f57a0ffe1203e">00199</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a795cf78c2260ec44913f57a0ffe1203e">totalGCThingSizeOf</a>()<span class="keyword"> const </span>{
+<a name="l00200"></a>00200         <span class="keywordflow">return</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a31bb2ef5e87824407c91460be8478153">sizeOfShortStringGCThings</a> + <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a4395e702f812fbb3bd81f6a4bfc03522">sizeOfNormalStringGCThings</a>;
+<a name="l00201"></a>00201     }
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203     <span class="comment">// The string&#39;s length, excluding the null-terminator.</span>
+<a name="l00204"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a9c6245125c514628c715f254db9682d7">00204</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a9c6245125c514628c715f254db9682d7">length</a>;
+<a name="l00205"></a>00205 
+<a name="l00206"></a>00206     <span class="comment">// How many copies of the string have we seen?</span>
+<a name="l00207"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a78f20c7311ea8420c4797464571c2af9">00207</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a78f20c7311ea8420c4797464571c2af9">numCopies</a>;
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209     <span class="comment">// These are all totals across all copies of the string we&#39;ve seen.</span>
+<a name="l00210"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a31bb2ef5e87824407c91460be8478153">00210</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a31bb2ef5e87824407c91460be8478153">sizeOfShortStringGCThings</a>;
+<a name="l00211"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a4395e702f812fbb3bd81f6a4bfc03522">00211</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a4395e702f812fbb3bd81f6a4bfc03522">sizeOfNormalStringGCThings</a>;
+<a name="l00212"></a><a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a881f41e32ec64e63b2000db7cb9d4507">00212</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html#a881f41e32ec64e63b2000db7cb9d4507">sizeOfAllStringChars</a>;
+<a name="l00213"></a>00213 };
+<a name="l00214"></a>00214 
+<a name="l00215"></a>00215 <span class="comment">// Holds data about a notable string (one which uses more than</span>
+<a name="l00216"></a>00216 <span class="comment">// NotableStringInfo::notableSize() bytes of memory), so we can report it</span>
+<a name="l00217"></a>00217 <span class="comment">// individually.</span>
+<a name="l00218"></a>00218 <span class="comment">//</span>
+<a name="l00219"></a>00219 <span class="comment">// Essentially the only difference between this class and StringInfo is that</span>
+<a name="l00220"></a>00220 <span class="comment">// NotableStringInfo holds a copy of the string&#39;s chars.</span>
+<a name="l00221"></a><a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html">00221</a> <span class="keyword">struct </span><a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html">NotableStringInfo</a> : <span class="keyword">public</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html">StringInfo</a>
+<a name="l00222"></a>00222 {
+<a name="l00223"></a>00223     <a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#a8a9eb75a04b84e2d4ec8f190a98aae5a">NotableStringInfo</a>();
+<a name="l00224"></a>00224     <a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#a8a9eb75a04b84e2d4ec8f190a98aae5a">NotableStringInfo</a>(JSString *<a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>, <span class="keyword">const</span> <a class="code" href="../../d6/dab/struct_j_s_1_1_string_info.html">StringInfo</a> &amp;<a class="code" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>);
+<a name="l00225"></a>00225     <a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#a8a9eb75a04b84e2d4ec8f190a98aae5a">NotableStringInfo</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html">NotableStringInfo</a>&amp; info);
+<a name="l00226"></a>00226     <a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#a8a9eb75a04b84e2d4ec8f190a98aae5a">NotableStringInfo</a>(<a class="code" href="../../dd/d70/classmozilla_1_1_move_ref.html">mozilla::MoveRef&lt;NotableStringInfo&gt;</a> info);
+<a name="l00227"></a>00227     <a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html">NotableStringInfo</a> &amp;<a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#abed183f2d77c47b410519b71ab520999">operator=</a>(<a class="code" href="../../dd/d70/classmozilla_1_1_move_ref.html">mozilla::MoveRef&lt;NotableStringInfo&gt;</a> info);
+<a name="l00228"></a>00228 
+<a name="l00229"></a><a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#aab68f9f5818dcea70c7561b2c72c34f0">00229</a>     <a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#aab68f9f5818dcea70c7561b2c72c34f0">~NotableStringInfo</a>() {
+<a name="l00230"></a>00230         js_free(<a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#aac06fb9120a55e19a22bbf65e6954f25">buffer</a>);
+<a name="l00231"></a>00231     }
+<a name="l00232"></a>00232 
+<a name="l00233"></a>00233     <span class="comment">// A string needs to take up this many bytes of storage before we consider</span>
+<a name="l00234"></a>00234     <span class="comment">// it to be &quot;notable&quot;.</span>
+<a name="l00235"></a><a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#a2447c654724a9eed5338f0ff415b7ad0">00235</a>     <span class="keyword">static</span> <span class="keywordtype">size_t</span> <a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#a2447c654724a9eed5338f0ff415b7ad0">notableSize</a>() {
+<a name="l00236"></a>00236         <span class="keywordflow">return</span> js::MemoryReportingSundriesThreshold();
+<a name="l00237"></a>00237     }
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239     <span class="comment">// The amount of memory we requested for |buffer|; i.e.</span>
+<a name="l00240"></a>00240     <span class="comment">// buffer = malloc(bufferSize).</span>
+<a name="l00241"></a><a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#a1b55239b8a8d5e6fc9a9abb66ade774f">00241</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#a1b55239b8a8d5e6fc9a9abb66ade774f">bufferSize</a>;
+<a name="l00242"></a><a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#aac06fb9120a55e19a22bbf65e6954f25">00242</a>     <span class="keywordtype">char</span> *<a class="code" href="../../d7/d6d/struct_j_s_1_1_notable_string_info.html#aac06fb9120a55e19a22bbf65e6954f25">buffer</a>;
+<a name="l00243"></a>00243 };
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245 <span class="comment">// These measurements relate directly to the JSRuntime, and not to</span>
+<a name="l00246"></a>00246 <span class="comment">// compartments within it.</span>
+<a name="l00247"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html">00247</a> <span class="keyword">struct </span><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html">RuntimeSizes</a>
+<a name="l00248"></a>00248 {
+<a name="l00249"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a3f2824339f4348d6e674346fa9b4acb5">00249</a>     <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a3f2824339f4348d6e674346fa9b4acb5">RuntimeSizes</a>() { memset(<span class="keyword">this</span>, 0, <span class="keyword">sizeof</span>(<a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html">RuntimeSizes</a>)); }
+<a name="l00250"></a>00250 
+<a name="l00251"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a2e3ca757401fe409463919d3a279182f">00251</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a2e3ca757401fe409463919d3a279182f">object</a>;
+<a name="l00252"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#aa87328153daa394271600de117953ab3">00252</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#aa87328153daa394271600de117953ab3">atomsTable</a>;
+<a name="l00253"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#ac6f388028d0b11b87235e845328e11e6">00253</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#ac6f388028d0b11b87235e845328e11e6">contexts</a>;
+<a name="l00254"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#aa141c79367b6b08052ac4ea7db0c5a72">00254</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#aa141c79367b6b08052ac4ea7db0c5a72">dtoa</a>;
+<a name="l00255"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a445dbdc325d9390c6593837d72219c0d">00255</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a445dbdc325d9390c6593837d72219c0d">temporary</a>;
+<a name="l00256"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a59887fce838c945b48945fc9ad189fd4">00256</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a59887fce838c945b48945fc9ad189fd4">regexpData</a>;
+<a name="l00257"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a46acab983f3dd8f9edd77e4747d47b77">00257</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a46acab983f3dd8f9edd77e4747d47b77">interpreterStack</a>;
+<a name="l00258"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a27ba1e6418d2dc4776edec6fac515afb">00258</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a27ba1e6418d2dc4776edec6fac515afb">gcMarker</a>;
+<a name="l00259"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a3d00badea05466e9cb8107b3a2892e7d">00259</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a3d00badea05466e9cb8107b3a2892e7d">mathCache</a>;
+<a name="l00260"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a955e0db8f6629860b7308682c7716c67">00260</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a955e0db8f6629860b7308682c7716c67">scriptData</a>;
+<a name="l00261"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a77da31e6d912f7c18f5464f875f0e037">00261</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a77da31e6d912f7c18f5464f875f0e037">scriptSources</a>;
+<a name="l00262"></a>00262 
+<a name="l00263"></a><a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a0096dce41112347043f2bd1a67cc4e77">00263</a>     <a class="code" href="../../d2/d75/struct_j_s_1_1_code_sizes.html">CodeSizes</a> <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html#a0096dce41112347043f2bd1a67cc4e77">code</a>;
+<a name="l00264"></a>00264 };
+<a name="l00265"></a>00265 
+<a name="l00266"></a><a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html">00266</a> <span class="keyword">struct </span><a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html">ZoneStats</a> : js::ZoneStatsPod
+<a name="l00267"></a>00267 {
+<a name="l00268"></a><a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a40df6888d0886fd8971311afa8c7708c">00268</a>     <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a40df6888d0886fd8971311afa8c7708c">ZoneStats</a>() {
+<a name="l00269"></a>00269         <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#adb959b48a2f802f22a500e0178dfb75a">strings</a>.<a class="code" href="../../de/d4a/classjs_1_1_hash_map.html#ae22de920d5c4c7a9346d9941b2c30431">init</a>();
+<a name="l00270"></a>00270     }
+<a name="l00271"></a>00271 
+<a name="l00272"></a><a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a4680776b48ccf3b315b070e8bc9174c4">00272</a>     <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a40df6888d0886fd8971311afa8c7708c">ZoneStats</a>(<a class="code" href="../../dd/d70/classmozilla_1_1_move_ref.html">mozilla::MoveRef&lt;ZoneStats&gt;</a> other)
+<a name="l00273"></a>00273         : <a class="code" href="../../df/da0/structjs_1_1_zone_stats_pod.html#aac9452b12cee7e3ba24e82582bcfe06a">ZoneStatsPod</a>(other),
+<a name="l00274"></a>00274           <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#adb959b48a2f802f22a500e0178dfb75a">strings</a>(mozilla::<a class="code" href="../../d2/d93/namespacemozilla.html#aff4754243ccc78444027ffa55c6762da">Move</a>(other-&gt;<a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#adb959b48a2f802f22a500e0178dfb75a">strings</a>)),
+<a name="l00275"></a>00275           <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a741cae16c3e3c33d76486271c3b49799">notableStrings</a>(mozilla::<a class="code" href="../../d2/d93/namespacemozilla.html#aff4754243ccc78444027ffa55c6762da">Move</a>(other-&gt;<a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a741cae16c3e3c33d76486271c3b49799">notableStrings</a>))
+<a name="l00276"></a>00276     {}
+<a name="l00277"></a>00277 
+<a name="l00278"></a>00278     <span class="comment">// Add other&#39;s numbers to this object&#39;s numbers.  Both objects&#39;</span>
+<a name="l00279"></a>00279     <span class="comment">// notableStrings vectors must be empty at this point, because we can&#39;t</span>
+<a name="l00280"></a>00280     <span class="comment">// merge them.  (A NotableStringInfo contains only a prefix of the string,</span>
+<a name="l00281"></a>00281     <span class="comment">// so we can&#39;t tell whether two NotableStringInfo objects correspond to the</span>
+<a name="l00282"></a>00282     <span class="comment">// same string.)</span>
+<a name="l00283"></a><a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#ad68f59d6d485d46da0f8bdcdf5fc274f">00283</a>     <span class="keywordtype">void</span> <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#ad68f59d6d485d46da0f8bdcdf5fc274f">add</a>(<span class="keyword">const</span> <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html">ZoneStats</a> &amp;other) {
+<a name="l00284"></a>00284         <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#ad68f59d6d485d46da0f8bdcdf5fc274f">ZoneStatsPod::add</a>(other);
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286         <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a741cae16c3e3c33d76486271c3b49799">notableStrings</a>.<a class="code" href="../../d0/dbf/classmozilla_1_1_vector_base.html#aacb3cdf66b7484cc3a9ace854271edac">empty</a>());
+<a name="l00287"></a>00287         <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(other.<a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a741cae16c3e3c33d76486271c3b49799">notableStrings</a>.<a class="code" href="../../d0/dbf/classmozilla_1_1_vector_base.html#aacb3cdf66b7484cc3a9ace854271edac">empty</a>());
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289         <span class="keywordflow">for</span> (<a class="code" href="../../de/d4a/classjs_1_1_hash_map.html#ab46363f19526ec43155369132bd0a010">StringsHashMap::Range</a> r = other.<a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#adb959b48a2f802f22a500e0178dfb75a">strings</a>.<a class="code" href="../../de/d4a/classjs_1_1_hash_map.html#a462b08d70dcc71fd2ca2a71a2c52a3c6">all</a>(); !r.empty(); r.popFront()) {
+<a name="l00290"></a>00290             <a class="code" href="../../de/d4a/classjs_1_1_hash_map.html#ae2ccac727e2bf20384132cea6c8934f8">StringsHashMap::AddPtr</a> <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> = <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#adb959b48a2f802f22a500e0178dfb75a">strings</a>.<a class="code" href="../../de/d4a/classjs_1_1_hash_map.html#af280342c01e2321afc83dd353e78f2a4">lookupForAdd</a>(r.front().key);
+<a name="l00291"></a>00291             <span class="keywordflow">if</span> (p) {
+<a name="l00292"></a>00292                 <span class="comment">// We&#39;ve seen this string before; add its size to our tally.</span>
+<a name="l00293"></a>00293                 p-&gt;value.add(r.front().value);
+<a name="l00294"></a>00294             } <span class="keywordflow">else</span> {
+<a name="l00295"></a>00295                 <span class="comment">// We haven&#39;t seen this string before; add it to the hashtable.</span>
+<a name="l00296"></a>00296                 <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#adb959b48a2f802f22a500e0178dfb75a">strings</a>.<a class="code" href="../../de/d4a/classjs_1_1_hash_map.html#a7551b1a959123ad30bc4a28e44915848">add</a>(p, r.front().key, r.front().value);
+<a name="l00297"></a>00297             }
+<a name="l00298"></a>00298         }
+<a name="l00299"></a>00299     }
+<a name="l00300"></a>00300 
+<a name="l00301"></a>00301     <span class="keyword">typedef</span> <a class="code" href="../../de/d4a/classjs_1_1_hash_map.html">js::HashMap&lt;JSString*, StringInfo, js::StringHashPolicy, js::SystemAllocPolicy&gt;</a>
+<a name="l00302"></a><a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a2495044adc257f2a0ed9828e3e7827a0">00302</a>         <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a2495044adc257f2a0ed9828e3e7827a0">StringsHashMap</a>;
+<a name="l00303"></a>00303 
+<a name="l00304"></a><a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#adb959b48a2f802f22a500e0178dfb75a">00304</a>     <a class="code" href="../../de/d4a/classjs_1_1_hash_map.html">StringsHashMap</a> <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#adb959b48a2f802f22a500e0178dfb75a">strings</a>;
+<a name="l00305"></a><a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a741cae16c3e3c33d76486271c3b49799">00305</a>     <a class="code" href="../../dd/d60/classjs_1_1_vector.html">js::Vector&lt;NotableStringInfo, 0, js::SystemAllocPolicy&gt;</a> <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a741cae16c3e3c33d76486271c3b49799">notableStrings</a>;
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307     <span class="comment">// The size of all the live things in the GC heap that don&#39;t belong to any</span>
+<a name="l00308"></a>00308     <span class="comment">// compartment.</span>
+<a name="l00309"></a>00309     <span class="keywordtype">size_t</span> <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html#a58663976da559d306d651391bb002ca0">GCHeapThingsSize</a>();
+<a name="l00310"></a>00310 };
+<a name="l00311"></a>00311 
+<a name="l00312"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html">00312</a> <span class="keyword">struct </span><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html">CompartmentStats</a>
+<a name="l00313"></a>00313 {
+<a name="l00314"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ac2015afec52ad213dd391943209ec2e7">00314</a>     <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ac2015afec52ad213dd391943209ec2e7">CompartmentStats</a>()
+<a name="l00315"></a>00315       : <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3612512c81ee368805489306f80450d3">extra</a>(<a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>),
+<a name="l00316"></a>00316         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#aceedc2c8353f025654c8cf25e2846d76">gcHeapObjectsOrdinary</a>(0),
+<a name="l00317"></a>00317         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adf94f922662be8e2869a4aab7c09d2b5">gcHeapObjectsFunction</a>(0),
+<a name="l00318"></a>00318         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6cb75378043404de95f40133856a64d1">gcHeapObjectsDenseArray</a>(0),
+<a name="l00319"></a>00319         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a412271f86bb5c4205b12cbaa90102625">gcHeapObjectsSlowArray</a>(0),
+<a name="l00320"></a>00320         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a93f3c85fc4a2eb92fd30bfbf1dc2e3b7">gcHeapObjectsCrossCompartmentWrapper</a>(0),
+<a name="l00321"></a>00321         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7f04f1e95db6443d61bd1e03b5aa4930">gcHeapShapesTreeGlobalParented</a>(0),
+<a name="l00322"></a>00322         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae2325ed533d10c79005f5b09dd6e1609">gcHeapShapesTreeNonGlobalParented</a>(0),
+<a name="l00323"></a>00323         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae5ecec1b534a9341468dbdae1a7c0289">gcHeapShapesDict</a>(0),
+<a name="l00324"></a>00324         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6a6e9f5309d1f20f92f876b4e3019806">gcHeapShapesBase</a>(0),
+<a name="l00325"></a>00325         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a63aa9511bc12af07e150fc1d3899b1d4">gcHeapScripts</a>(0),
+<a name="l00326"></a>00326         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adeef99a7bedd76ed1e244cbe7ee6e504">objectsExtra</a>(),
+<a name="l00327"></a>00327         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8ce99f422242c06aa839e17d235b6c25">shapesExtraTreeTables</a>(0),
+<a name="l00328"></a>00328         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#addfaad869125fb78052651e8f5056142">shapesExtraDictTables</a>(0),
+<a name="l00329"></a>00329         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a2976de617a0b62c0bb69ecaa8df1329d">shapesExtraTreeShapeKids</a>(0),
+<a name="l00330"></a>00330         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#af352cbae5ef010d64eb31e3008027246">shapesCompartmentTables</a>(0),
+<a name="l00331"></a>00331         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a35404946ac7563d916605b2aae072327">scriptData</a>(0),
+<a name="l00332"></a>00332         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3dd5a39a61eb58f337e42f6ba57bb29b">baselineData</a>(0),
+<a name="l00333"></a>00333         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8a85d52921cdca742d6138b09d76f467">baselineStubsFallback</a>(0),
+<a name="l00334"></a>00334         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a10afdfe10c846b59c0ef0082f89c5aae">baselineStubsOptimized</a>(0),
+<a name="l00335"></a>00335         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a25343de40ccd02b8aa5a9a959be3aa55">ionData</a>(0),
+<a name="l00336"></a>00336         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8d744b614d7b424fa8a28c28cc3c8daa">compartmentObject</a>(0),
+<a name="l00337"></a>00337         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a60eec3b820742d09eb4d3ebc40f5279d">crossCompartmentWrappersTable</a>(0),
+<a name="l00338"></a>00338         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7cf6cd0c7788ce8b1360b6bac1131f3c">regexpCompartment</a>(0),
+<a name="l00339"></a>00339         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6b50b71e73f13eb52089a33710138e7d">debuggeesSet</a>(0),
+<a name="l00340"></a>00340         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a0d7c6f111ae26c86cbf55e83387155b1">typeInference</a>()
+<a name="l00341"></a>00341     {}
+<a name="l00342"></a>00342 
+<a name="l00343"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ac2983b95b983d6e063c031865b90b817">00343</a>     <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ac2015afec52ad213dd391943209ec2e7">CompartmentStats</a>(<span class="keyword">const</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html">CompartmentStats</a> &amp;other)
+<a name="l00344"></a>00344       : <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3612512c81ee368805489306f80450d3">extra</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3612512c81ee368805489306f80450d3">extra</a>),
+<a name="l00345"></a>00345         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#aceedc2c8353f025654c8cf25e2846d76">gcHeapObjectsOrdinary</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#aceedc2c8353f025654c8cf25e2846d76">gcHeapObjectsOrdinary</a>),
+<a name="l00346"></a>00346         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adf94f922662be8e2869a4aab7c09d2b5">gcHeapObjectsFunction</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adf94f922662be8e2869a4aab7c09d2b5">gcHeapObjectsFunction</a>),
+<a name="l00347"></a>00347         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6cb75378043404de95f40133856a64d1">gcHeapObjectsDenseArray</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6cb75378043404de95f40133856a64d1">gcHeapObjectsDenseArray</a>),
+<a name="l00348"></a>00348         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a412271f86bb5c4205b12cbaa90102625">gcHeapObjectsSlowArray</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a412271f86bb5c4205b12cbaa90102625">gcHeapObjectsSlowArray</a>),
+<a name="l00349"></a>00349         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a93f3c85fc4a2eb92fd30bfbf1dc2e3b7">gcHeapObjectsCrossCompartmentWrapper</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a93f3c85fc4a2eb92fd30bfbf1dc2e3b7">gcHeapObjectsCrossCompartmentWrapper</a>),
+<a name="l00350"></a>00350         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7f04f1e95db6443d61bd1e03b5aa4930">gcHeapShapesTreeGlobalParented</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7f04f1e95db6443d61bd1e03b5aa4930">gcHeapShapesTreeGlobalParented</a>),
+<a name="l00351"></a>00351         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae2325ed533d10c79005f5b09dd6e1609">gcHeapShapesTreeNonGlobalParented</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae2325ed533d10c79005f5b09dd6e1609">gcHeapShapesTreeNonGlobalParented</a>),
+<a name="l00352"></a>00352         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae5ecec1b534a9341468dbdae1a7c0289">gcHeapShapesDict</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae5ecec1b534a9341468dbdae1a7c0289">gcHeapShapesDict</a>),
+<a name="l00353"></a>00353         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6a6e9f5309d1f20f92f876b4e3019806">gcHeapShapesBase</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6a6e9f5309d1f20f92f876b4e3019806">gcHeapShapesBase</a>),
+<a name="l00354"></a>00354         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a63aa9511bc12af07e150fc1d3899b1d4">gcHeapScripts</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a63aa9511bc12af07e150fc1d3899b1d4">gcHeapScripts</a>),
+<a name="l00355"></a>00355         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adeef99a7bedd76ed1e244cbe7ee6e504">objectsExtra</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adeef99a7bedd76ed1e244cbe7ee6e504">objectsExtra</a>),
+<a name="l00356"></a>00356         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8ce99f422242c06aa839e17d235b6c25">shapesExtraTreeTables</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8ce99f422242c06aa839e17d235b6c25">shapesExtraTreeTables</a>),
+<a name="l00357"></a>00357         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#addfaad869125fb78052651e8f5056142">shapesExtraDictTables</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#addfaad869125fb78052651e8f5056142">shapesExtraDictTables</a>),
+<a name="l00358"></a>00358         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a2976de617a0b62c0bb69ecaa8df1329d">shapesExtraTreeShapeKids</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a2976de617a0b62c0bb69ecaa8df1329d">shapesExtraTreeShapeKids</a>),
+<a name="l00359"></a>00359         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#af352cbae5ef010d64eb31e3008027246">shapesCompartmentTables</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#af352cbae5ef010d64eb31e3008027246">shapesCompartmentTables</a>),
+<a name="l00360"></a>00360         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a35404946ac7563d916605b2aae072327">scriptData</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a35404946ac7563d916605b2aae072327">scriptData</a>),
+<a name="l00361"></a>00361         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3dd5a39a61eb58f337e42f6ba57bb29b">baselineData</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3dd5a39a61eb58f337e42f6ba57bb29b">baselineData</a>),
+<a name="l00362"></a>00362         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8a85d52921cdca742d6138b09d76f467">baselineStubsFallback</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8a85d52921cdca742d6138b09d76f467">baselineStubsFallback</a>),
+<a name="l00363"></a>00363         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a10afdfe10c846b59c0ef0082f89c5aae">baselineStubsOptimized</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a10afdfe10c846b59c0ef0082f89c5aae">baselineStubsOptimized</a>),
+<a name="l00364"></a>00364         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a25343de40ccd02b8aa5a9a959be3aa55">ionData</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a25343de40ccd02b8aa5a9a959be3aa55">ionData</a>),
+<a name="l00365"></a>00365         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8d744b614d7b424fa8a28c28cc3c8daa">compartmentObject</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8d744b614d7b424fa8a28c28cc3c8daa">compartmentObject</a>),
+<a name="l00366"></a>00366         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a60eec3b820742d09eb4d3ebc40f5279d">crossCompartmentWrappersTable</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a60eec3b820742d09eb4d3ebc40f5279d">crossCompartmentWrappersTable</a>),
+<a name="l00367"></a>00367         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7cf6cd0c7788ce8b1360b6bac1131f3c">regexpCompartment</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7cf6cd0c7788ce8b1360b6bac1131f3c">regexpCompartment</a>),
+<a name="l00368"></a>00368         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6b50b71e73f13eb52089a33710138e7d">debuggeesSet</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6b50b71e73f13eb52089a33710138e7d">debuggeesSet</a>),
+<a name="l00369"></a>00369         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a0d7c6f111ae26c86cbf55e83387155b1">typeInference</a>(other.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a0d7c6f111ae26c86cbf55e83387155b1">typeInference</a>)
+<a name="l00370"></a>00370     {
+<a name="l00371"></a>00371     }
+<a name="l00372"></a>00372 
+<a name="l00373"></a>00373     <span class="comment">// This field can be used by embedders.</span>
+<a name="l00374"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3612512c81ee368805489306f80450d3">00374</a>     <span class="keywordtype">void</span>   *<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3612512c81ee368805489306f80450d3">extra</a>;
+<a name="l00375"></a>00375 
+<a name="l00376"></a>00376     <span class="comment">// If you add a new number, remember to update the constructors, add(), and</span>
+<a name="l00377"></a>00377     <span class="comment">// maybe gcHeapThingsSize()!</span>
+<a name="l00378"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#aceedc2c8353f025654c8cf25e2846d76">00378</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#aceedc2c8353f025654c8cf25e2846d76">gcHeapObjectsOrdinary</a>;
+<a name="l00379"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adf94f922662be8e2869a4aab7c09d2b5">00379</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adf94f922662be8e2869a4aab7c09d2b5">gcHeapObjectsFunction</a>;
+<a name="l00380"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6cb75378043404de95f40133856a64d1">00380</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6cb75378043404de95f40133856a64d1">gcHeapObjectsDenseArray</a>;
+<a name="l00381"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a412271f86bb5c4205b12cbaa90102625">00381</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a412271f86bb5c4205b12cbaa90102625">gcHeapObjectsSlowArray</a>;
+<a name="l00382"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a93f3c85fc4a2eb92fd30bfbf1dc2e3b7">00382</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a93f3c85fc4a2eb92fd30bfbf1dc2e3b7">gcHeapObjectsCrossCompartmentWrapper</a>;
+<a name="l00383"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7f04f1e95db6443d61bd1e03b5aa4930">00383</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7f04f1e95db6443d61bd1e03b5aa4930">gcHeapShapesTreeGlobalParented</a>;
+<a name="l00384"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae2325ed533d10c79005f5b09dd6e1609">00384</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae2325ed533d10c79005f5b09dd6e1609">gcHeapShapesTreeNonGlobalParented</a>;
+<a name="l00385"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae5ecec1b534a9341468dbdae1a7c0289">00385</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae5ecec1b534a9341468dbdae1a7c0289">gcHeapShapesDict</a>;
+<a name="l00386"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6a6e9f5309d1f20f92f876b4e3019806">00386</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6a6e9f5309d1f20f92f876b4e3019806">gcHeapShapesBase</a>;
+<a name="l00387"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a63aa9511bc12af07e150fc1d3899b1d4">00387</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a63aa9511bc12af07e150fc1d3899b1d4">gcHeapScripts</a>;
+<a name="l00388"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adeef99a7bedd76ed1e244cbe7ee6e504">00388</a>     <a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html">ObjectsExtraSizes</a> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adeef99a7bedd76ed1e244cbe7ee6e504">objectsExtra</a>;
+<a name="l00389"></a>00389 
+<a name="l00390"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8ce99f422242c06aa839e17d235b6c25">00390</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8ce99f422242c06aa839e17d235b6c25">shapesExtraTreeTables</a>;
+<a name="l00391"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#addfaad869125fb78052651e8f5056142">00391</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#addfaad869125fb78052651e8f5056142">shapesExtraDictTables</a>;
+<a name="l00392"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a2976de617a0b62c0bb69ecaa8df1329d">00392</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a2976de617a0b62c0bb69ecaa8df1329d">shapesExtraTreeShapeKids</a>;
+<a name="l00393"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#af352cbae5ef010d64eb31e3008027246">00393</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#af352cbae5ef010d64eb31e3008027246">shapesCompartmentTables</a>;
+<a name="l00394"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a35404946ac7563d916605b2aae072327">00394</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a35404946ac7563d916605b2aae072327">scriptData</a>;
+<a name="l00395"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3dd5a39a61eb58f337e42f6ba57bb29b">00395</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3dd5a39a61eb58f337e42f6ba57bb29b">baselineData</a>;
+<a name="l00396"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8a85d52921cdca742d6138b09d76f467">00396</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8a85d52921cdca742d6138b09d76f467">baselineStubsFallback</a>;
+<a name="l00397"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a10afdfe10c846b59c0ef0082f89c5aae">00397</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a10afdfe10c846b59c0ef0082f89c5aae">baselineStubsOptimized</a>;
+<a name="l00398"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a25343de40ccd02b8aa5a9a959be3aa55">00398</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a25343de40ccd02b8aa5a9a959be3aa55">ionData</a>;
+<a name="l00399"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8d744b614d7b424fa8a28c28cc3c8daa">00399</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8d744b614d7b424fa8a28c28cc3c8daa">compartmentObject</a>;
+<a name="l00400"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a60eec3b820742d09eb4d3ebc40f5279d">00400</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a60eec3b820742d09eb4d3ebc40f5279d">crossCompartmentWrappersTable</a>;
+<a name="l00401"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7cf6cd0c7788ce8b1360b6bac1131f3c">00401</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7cf6cd0c7788ce8b1360b6bac1131f3c">regexpCompartment</a>;
+<a name="l00402"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6b50b71e73f13eb52089a33710138e7d">00402</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6b50b71e73f13eb52089a33710138e7d">debuggeesSet</a>;
+<a name="l00403"></a>00403 
+<a name="l00404"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a0d7c6f111ae26c86cbf55e83387155b1">00404</a>     <a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html">TypeInferenceSizes</a> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a0d7c6f111ae26c86cbf55e83387155b1">typeInference</a>;
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406     <span class="comment">// Add cStats&#39;s numbers to this object&#39;s numbers.</span>
+<a name="l00407"></a><a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ad31b06d61eee26e5cafe46abd712500a">00407</a>     <span class="keywordtype">void</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ad31b06d61eee26e5cafe46abd712500a">add</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html">CompartmentStats</a> &amp;cStats) {
+<a name="l00408"></a>00408 <span class="preprocessor">        #define ADD(x)  this-&gt;x += cStats.x</span>
+<a name="l00409"></a>00409 <span class="preprocessor"></span>
+<a name="l00410"></a>00410         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#aceedc2c8353f025654c8cf25e2846d76">gcHeapObjectsOrdinary</a>);
+<a name="l00411"></a>00411         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adf94f922662be8e2869a4aab7c09d2b5">gcHeapObjectsFunction</a>);
+<a name="l00412"></a>00412         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6cb75378043404de95f40133856a64d1">gcHeapObjectsDenseArray</a>);
+<a name="l00413"></a>00413         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a412271f86bb5c4205b12cbaa90102625">gcHeapObjectsSlowArray</a>);
+<a name="l00414"></a>00414         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a93f3c85fc4a2eb92fd30bfbf1dc2e3b7">gcHeapObjectsCrossCompartmentWrapper</a>);
+<a name="l00415"></a>00415         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7f04f1e95db6443d61bd1e03b5aa4930">gcHeapShapesTreeGlobalParented</a>);
+<a name="l00416"></a>00416         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae2325ed533d10c79005f5b09dd6e1609">gcHeapShapesTreeNonGlobalParented</a>);
+<a name="l00417"></a>00417         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#ae5ecec1b534a9341468dbdae1a7c0289">gcHeapShapesDict</a>);
+<a name="l00418"></a>00418         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6a6e9f5309d1f20f92f876b4e3019806">gcHeapShapesBase</a>);
+<a name="l00419"></a>00419         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a63aa9511bc12af07e150fc1d3899b1d4">gcHeapScripts</a>);
+<a name="l00420"></a>00420         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adeef99a7bedd76ed1e244cbe7ee6e504">objectsExtra</a>.<a class="code" href="../../d6/d4a/struct_j_s_1_1_objects_extra_sizes.html#a535cb77c53e96f2f3b9bf6ad091acc2e">add</a>(cStats.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#adeef99a7bedd76ed1e244cbe7ee6e504">objectsExtra</a>);
+<a name="l00421"></a>00421 
+<a name="l00422"></a>00422         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8ce99f422242c06aa839e17d235b6c25">shapesExtraTreeTables</a>);
+<a name="l00423"></a>00423         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#addfaad869125fb78052651e8f5056142">shapesExtraDictTables</a>);
+<a name="l00424"></a>00424         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a2976de617a0b62c0bb69ecaa8df1329d">shapesExtraTreeShapeKids</a>);
+<a name="l00425"></a>00425         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#af352cbae5ef010d64eb31e3008027246">shapesCompartmentTables</a>);
+<a name="l00426"></a>00426         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a35404946ac7563d916605b2aae072327">scriptData</a>);
+<a name="l00427"></a>00427         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a3dd5a39a61eb58f337e42f6ba57bb29b">baselineData</a>);
+<a name="l00428"></a>00428         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8a85d52921cdca742d6138b09d76f467">baselineStubsFallback</a>);
+<a name="l00429"></a>00429         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a10afdfe10c846b59c0ef0082f89c5aae">baselineStubsOptimized</a>);
+<a name="l00430"></a>00430         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a25343de40ccd02b8aa5a9a959be3aa55">ionData</a>);
+<a name="l00431"></a>00431         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a8d744b614d7b424fa8a28c28cc3c8daa">compartmentObject</a>);
+<a name="l00432"></a>00432         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a60eec3b820742d09eb4d3ebc40f5279d">crossCompartmentWrappersTable</a>);
+<a name="l00433"></a>00433         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a7cf6cd0c7788ce8b1360b6bac1131f3c">regexpCompartment</a>);
+<a name="l00434"></a>00434         <a class="code" href="../../d6/d0e/_memory_metrics_8h.html#a46ca9b7fd65d2e4327cb9d41b65b6f89">ADD</a>(<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a6b50b71e73f13eb52089a33710138e7d">debuggeesSet</a>);
+<a name="l00435"></a>00435 
+<a name="l00436"></a>00436 <span class="preprocessor">        #undef ADD</span>
+<a name="l00437"></a>00437 <span class="preprocessor"></span>
+<a name="l00438"></a>00438         <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a0d7c6f111ae26c86cbf55e83387155b1">typeInference</a>.<a class="code" href="../../d9/dc9/struct_j_s_1_1_type_inference_sizes.html#aeca684a2cc3b53e7e72bd67ca2e99f97">add</a>(cStats.<a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a0d7c6f111ae26c86cbf55e83387155b1">typeInference</a>);
+<a name="l00439"></a>00439     }
+<a name="l00440"></a>00440 
+<a name="l00441"></a>00441     <span class="comment">// The size of all the live things in the GC heap.</span>
+<a name="l00442"></a>00442     <span class="keywordtype">size_t</span> <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html#a75fb616949b55bfcb57b1fd1e0972c08">GCHeapThingsSize</a>();
+<a name="l00443"></a>00443 };
+<a name="l00444"></a>00444 
+<a name="l00445"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html">00445</a> <span class="keyword">struct </span><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html">RuntimeStats</a>
+<a name="l00446"></a>00446 {
+<a name="l00447"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a1856d5ccf3d985b7b1f9ce9bcacc0d20">00447</a>     <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a1856d5ccf3d985b7b1f9ce9bcacc0d20">RuntimeStats</a>(mozilla::MallocSizeOf <a class="code" href="../../dd/dc2/plarenas_8h.html#a949eedf624fe531514701f3f304b94a9">mallocSizeOf</a>)
+<a name="l00448"></a>00448       : <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a00f21d20bb3a9a6a669fedf51a6b9b17">runtime</a>(),
+<a name="l00449"></a>00449         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#ae6544ff4487b02b065812c67eb5c316e">gcHeapChunkTotal</a>(0),
+<a name="l00450"></a>00450         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a3d442ee29b920f627fd85f05c01c1b29">gcHeapDecommittedArenas</a>(0),
+<a name="l00451"></a>00451         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a0f26bab31d73a0a3829bfc2aad591342">gcHeapUnusedChunks</a>(0),
+<a name="l00452"></a>00452         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a63a113bf6f2ba62ed15730ae7bef7bcd">gcHeapUnusedArenas</a>(0),
+<a name="l00453"></a>00453         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#abc7251d428c14a55981c3bf0f8eda638">gcHeapUnusedGcThings</a>(0),
+<a name="l00454"></a>00454         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a0b29940039281b67afeef4fc327b1003">gcHeapChunkAdmin</a>(0),
+<a name="l00455"></a>00455         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a8a17397c5812d5048a5c9cc06ee020b9">gcHeapGcThings</a>(0),
+<a name="l00456"></a>00456         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a9cabb0009bee386e5340a85774299f8f">cTotals</a>(),
+<a name="l00457"></a>00457         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a13aee117c4c61d91b44acd6629c4bba6">zTotals</a>(),
+<a name="l00458"></a>00458         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#ad8b7c44028ca4f8cdff76bee47c8549d">compartmentStatsVector</a>(),
+<a name="l00459"></a>00459         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a0e9c5b235e22031e2c1fbb664deb800a">zoneStatsVector</a>(),
+<a name="l00460"></a>00460         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a06c91482ad164dc0569970bfaa54c52d">currZoneStats</a>(<a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>),
+<a name="l00461"></a>00461         <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a7e75ab4ab1da45cab1214086b317306d">mallocSizeOf_</a>(mallocSizeOf)
+<a name="l00462"></a>00462     {}
+<a name="l00463"></a>00463 
+<a name="l00464"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a00f21d20bb3a9a6a669fedf51a6b9b17">00464</a>     <a class="code" href="../../d9/d8d/struct_j_s_1_1_runtime_sizes.html">RuntimeSizes</a> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a00f21d20bb3a9a6a669fedf51a6b9b17">runtime</a>;
+<a name="l00465"></a>00465 
+<a name="l00466"></a>00466     <span class="comment">// If you add a new number, remember to update the constructor!</span>
+<a name="l00467"></a>00467 
+<a name="l00468"></a>00468     <span class="comment">// Here&#39;s a useful breakdown of the GC heap.</span>
+<a name="l00469"></a>00469     <span class="comment">//</span>
+<a name="l00470"></a>00470     <span class="comment">// - rtStats.gcHeapChunkTotal</span>
+<a name="l00471"></a>00471     <span class="comment">//   - decommitted bytes</span>
+<a name="l00472"></a>00472     <span class="comment">//     - rtStats.gcHeapDecommittedArenas (decommitted arenas in non-empty chunks)</span>
+<a name="l00473"></a>00473     <span class="comment">//   - unused bytes</span>
+<a name="l00474"></a>00474     <span class="comment">//     - rtStats.gcHeapUnusedChunks (empty chunks)</span>
+<a name="l00475"></a>00475     <span class="comment">//     - rtStats.gcHeapUnusedArenas (empty arenas within non-empty chunks)</span>
+<a name="l00476"></a>00476     <span class="comment">//     - rtStats.total.gcHeapUnusedGcThings (empty GC thing slots within non-empty arenas)</span>
+<a name="l00477"></a>00477     <span class="comment">//   - used bytes</span>
+<a name="l00478"></a>00478     <span class="comment">//     - rtStats.gcHeapChunkAdmin</span>
+<a name="l00479"></a>00479     <span class="comment">//     - rtStats.total.gcHeapArenaAdmin</span>
+<a name="l00480"></a>00480     <span class="comment">//     - rtStats.gcHeapGcThings (in-use GC things)</span>
+<a name="l00481"></a>00481     <span class="comment">//</span>
+<a name="l00482"></a>00482     <span class="comment">// It&#39;s possible that some arenas in empty chunks may be decommitted, but</span>
+<a name="l00483"></a>00483     <span class="comment">// we don&#39;t count those under rtStats.gcHeapDecommittedArenas because (a)</span>
+<a name="l00484"></a>00484     <span class="comment">// it&#39;s rare, and (b) this means that rtStats.gcHeapUnusedChunks is a</span>
+<a name="l00485"></a>00485     <span class="comment">// multiple of the chunk size, which is good.</span>
+<a name="l00486"></a>00486 
+<a name="l00487"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#ae6544ff4487b02b065812c67eb5c316e">00487</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#ae6544ff4487b02b065812c67eb5c316e">gcHeapChunkTotal</a>;
+<a name="l00488"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a3d442ee29b920f627fd85f05c01c1b29">00488</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a3d442ee29b920f627fd85f05c01c1b29">gcHeapDecommittedArenas</a>;
+<a name="l00489"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a0f26bab31d73a0a3829bfc2aad591342">00489</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a0f26bab31d73a0a3829bfc2aad591342">gcHeapUnusedChunks</a>;
+<a name="l00490"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a63a113bf6f2ba62ed15730ae7bef7bcd">00490</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a63a113bf6f2ba62ed15730ae7bef7bcd">gcHeapUnusedArenas</a>;
+<a name="l00491"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#abc7251d428c14a55981c3bf0f8eda638">00491</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#abc7251d428c14a55981c3bf0f8eda638">gcHeapUnusedGcThings</a>;
+<a name="l00492"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a0b29940039281b67afeef4fc327b1003">00492</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a0b29940039281b67afeef4fc327b1003">gcHeapChunkAdmin</a>;
+<a name="l00493"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a8a17397c5812d5048a5c9cc06ee020b9">00493</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a8a17397c5812d5048a5c9cc06ee020b9">gcHeapGcThings</a>;
+<a name="l00494"></a>00494 
+<a name="l00495"></a>00495     <span class="comment">// The sum of all compartment&#39;s measurements.</span>
+<a name="l00496"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a9cabb0009bee386e5340a85774299f8f">00496</a>     <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html">CompartmentStats</a> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a9cabb0009bee386e5340a85774299f8f">cTotals</a>;
+<a name="l00497"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a13aee117c4c61d91b44acd6629c4bba6">00497</a>     <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html">ZoneStats</a> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a13aee117c4c61d91b44acd6629c4bba6">zTotals</a>;
+<a name="l00498"></a>00498 
+<a name="l00499"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#ad8b7c44028ca4f8cdff76bee47c8549d">00499</a>     <a class="code" href="../../dd/d60/classjs_1_1_vector.html">js::Vector&lt;CompartmentStats, 0, js::SystemAllocPolicy&gt;</a> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#ad8b7c44028ca4f8cdff76bee47c8549d">compartmentStatsVector</a>;
+<a name="l00500"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a0e9c5b235e22031e2c1fbb664deb800a">00500</a>     <a class="code" href="../../dd/d60/classjs_1_1_vector.html">js::Vector&lt;ZoneStats, 0, js::SystemAllocPolicy&gt;</a> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a0e9c5b235e22031e2c1fbb664deb800a">zoneStatsVector</a>;
+<a name="l00501"></a>00501 
+<a name="l00502"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a06c91482ad164dc0569970bfaa54c52d">00502</a>     <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html">ZoneStats</a> *<a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a06c91482ad164dc0569970bfaa54c52d">currZoneStats</a>;
+<a name="l00503"></a>00503 
+<a name="l00504"></a><a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a7e75ab4ab1da45cab1214086b317306d">00504</a>     mozilla::MallocSizeOf <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a7e75ab4ab1da45cab1214086b317306d">mallocSizeOf_</a>;
+<a name="l00505"></a>00505 
+<a name="l00506"></a>00506     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#aaf5e8afaa80ac76493ee64b83faf8be3">initExtraCompartmentStats</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#af62a61874ffa4eae34a8b4b694f64d8c">JSCompartment</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>, <a class="code" href="../../d5/d50/struct_j_s_1_1_compartment_stats.html">CompartmentStats</a> *cstats) = 0;
+<a name="l00507"></a>00507     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html#a8123602db9cc534dd622a7b9edfb437c">initExtraZoneStats</a>(JS::Zone *zone, <a class="code" href="../../dc/d7c/struct_j_s_1_1_zone_stats.html">ZoneStats</a> *zstats) = 0;
+<a name="l00508"></a>00508 };
+<a name="l00509"></a>00509 
+<a name="l00510"></a><a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html">00510</a> <span class="keyword">class </span><a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html">ObjectPrivateVisitor</a>
+<a name="l00511"></a>00511 {
+<a name="l00512"></a>00512   <span class="keyword">public</span>:
+<a name="l00513"></a>00513     <span class="comment">// Within CollectRuntimeStats, this method is called for each JS object</span>
+<a name="l00514"></a>00514     <span class="comment">// that has an nsISupports pointer.</span>
+<a name="l00515"></a>00515     <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html#a5e0246d83dfc1620e237e6738e4729a0">sizeOfIncludingThis</a>(<a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a> *aSupports) = 0;
+<a name="l00516"></a>00516 
+<a name="l00517"></a>00517     <span class="comment">// A callback that gets a JSObject&#39;s nsISupports pointer, if it has one.</span>
+<a name="l00518"></a>00518     <span class="comment">// Note: this function does *not* addref |iface|.</span>
+<a name="l00519"></a><a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html#a1e372e0e7b485bd5d3a0bf2d274dd24b">00519</a>     <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>(*<a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html#a1e372e0e7b485bd5d3a0bf2d274dd24b">GetISupportsFun</a>)(JSObject *<a class="code" href="../../da/d7b/namespace_j_s.html#a0842d82cd8a06e877277bf8e90de77d5">obj</a>, <a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a> **iface);
+<a name="l00520"></a><a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html#a519bcb1af9cd7c38e5b83e47a74cbef6">00520</a>     <a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html#a1e372e0e7b485bd5d3a0bf2d274dd24b">GetISupportsFun</a> <a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html#a519bcb1af9cd7c38e5b83e47a74cbef6">getISupports_</a>;
+<a name="l00521"></a>00521 
+<a name="l00522"></a><a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html#ae976c81a9733cc93574aa1afe8e19ac7">00522</a>     <a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html#ae976c81a9733cc93574aa1afe8e19ac7">ObjectPrivateVisitor</a>(<a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html#a1e372e0e7b485bd5d3a0bf2d274dd24b">GetISupportsFun</a> getISupports)
+<a name="l00523"></a>00523       : <a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html#a519bcb1af9cd7c38e5b83e47a74cbef6">getISupports_</a>(getISupports)
+<a name="l00524"></a>00524     {}
+<a name="l00525"></a>00525 };
+<a name="l00526"></a>00526 
+<a name="l00527"></a>00527 <span class="keyword">extern</span> <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">bool</span>)
+<a name="l00528"></a><a class="code" href="../../da/d7b/namespace_j_s.html#a9872867fe4cc289b8608a9d692840b1a">00528</a> CollectRuntimeStats(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a3ba489a976915ca6161baede3c439066">rt</a>, <a class="code" href="../../d1/d83/struct_j_s_1_1_runtime_stats.html">RuntimeStats</a> *<a class="code" href="../../da/d7b/namespace_j_s.html#a9872867fe4cc289b8608a9d692840b1a">rtStats</a>, <a class="code" href="../../d3/d63/class_j_s_1_1_object_private_visitor.html">ObjectPrivateVisitor</a> *<a class="code" href="../../da/d7b/namespace_j_s.html#a1ddc25ace30d0624610f55796c75e667">opv</a>);
+<a name="l00529"></a>00529 
+<a name="l00530"></a>00530 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">size_t</span>)
+<a name="l00531"></a>00531 SystemCompartmentCount(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt);
+<a name="l00532"></a>00532 
+<a name="l00533"></a>00533 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">size_t</span>)
+<a name="l00534"></a>00534 UserCompartmentCount(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt);
+<a name="l00535"></a>00535 
+<a name="l00536"></a>00536 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">size_t</span>)
+<a name="l00537"></a>00537 PeakSizeOfTemporary(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt);
+<a name="l00538"></a>00538 
+<a name="l00539"></a>00539 } <span class="comment">// namespace JS</span>
+<a name="l00540"></a>00540 
+<a name="l00541"></a>00541 <span class="preprocessor">#endif </span><span class="comment">/* js_MemoryMetrics_h */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d6/d0e/_memory_metrics_8h.html">MemoryMetrics.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:46に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

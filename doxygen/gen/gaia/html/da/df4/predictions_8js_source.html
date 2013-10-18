@@ -1,0 +1,1135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: predictions.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/df4/predictions_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">predictions.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/df4/predictions_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: js; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- /</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */</span>
+<a name="l00003"></a>00003 <span class="comment">//</span>
+<a name="l00004"></a>00004 <span class="comment">// This is a JavaScript predictive text engine: given a dictionary, a data</span>
+<a name="l00005"></a>00005 <span class="comment">// structure that specifies which keys are near which other keys, and</span>
+<a name="l00006"></a>00006 <span class="comment">// a string of user input, it guesses what the user meant to type or, (if</span>
+<a name="l00007"></a>00007 <span class="comment">// if cannot find a word loosely matching the input) what the user is planning</span>
+<a name="l00008"></a>00008 <span class="comment">// to type.</span>
+<a name="l00009"></a>00009 <span class="comment">//</span>
+<a name="l00010"></a>00010 <span class="comment">// This module defines a single global variable Predictions which is an</span>
+<a name="l00011"></a>00011 <span class="comment">// object with the following methods:</span>
+<a name="l00012"></a>00012 <span class="comment">//</span>
+<a name="l00013"></a>00013 <span class="comment">//   setDictionary: specifies the dictionary to use</span>
+<a name="l00014"></a>00014 <span class="comment">//</span>
+<a name="l00015"></a>00015 <span class="comment">//   setNearbyKeys: specifies which keys are near which other keys</span>
+<a name="l00016"></a>00016 <span class="comment">//</span>
+<a name="l00017"></a>00017 <span class="comment">//   predict: given an input string, asynchronously find corrections or</span>
+<a name="l00018"></a>00018 <span class="comment">//      predictions and pass them to a specified callback.</span>
+<a name="l00019"></a>00019 <span class="comment">//</span>
+<a name="l00020"></a>00020 <span class="comment">// The word prediction / auto-correction algorithm works by finding loose</span>
+<a name="l00021"></a>00021 <span class="comment">// matches for the user&#39;s input. The hard part of this process is getting</span>
+<a name="l00022"></a>00022 <span class="comment">// the &quot;loose&quot; part right. For each character in the user&#39;s input, we&#39;ll</span>
+<a name="l00023"></a>00023 <span class="comment">// match variant forms of the character to handle case differences and</span>
+<a name="l00024"></a>00024 <span class="comment">// diacritics. In languages that use apostrophes and hyphens, we&#39;ll match</span>
+<a name="l00025"></a>00025 <span class="comment">// those at any point, even if the user omits them. Because we&#39;ve been</span>
+<a name="l00026"></a>00026 <span class="comment">// passed a data structure that tells us which keys are near each other (and</span>
+<a name="l00027"></a>00027 <span class="comment">// how near they are) we use that information to correct typing errors.</span>
+<a name="l00028"></a>00028 <span class="comment">// Other loose matching techniques we try include transpositions, insertions</span>
+<a name="l00029"></a>00029 <span class="comment">// and deletions.</span>
+<a name="l00030"></a>00030 <span class="comment">//</span>
+<a name="l00031"></a>00031 <span class="comment">// During this loose matching process, we associate a weight with each</span>
+<a name="l00032"></a>00032 <span class="comment">// candidate we&#39;re considering. This weight is based on the word frequency</span>
+<a name="l00033"></a>00033 <span class="comment">// information from the dictionary file, but it is reduced when we make</span>
+<a name="l00034"></a>00034 <span class="comment">// corrections to the user&#39;s input, to reflect our decreased confidence in</span>
+<a name="l00035"></a>00035 <span class="comment">// the suggestion. Substituting variant forms and inserting apostrophes does</span>
+<a name="l00036"></a>00036 <span class="comment">// not reduce the weight by much at all. Substituting a nearby key reduces</span>
+<a name="l00037"></a>00037 <span class="comment">// the weight moderately (depending on how near the keys are), and</span>
+<a name="l00038"></a>00038 <span class="comment">// insertions and deletions and transpositions reduce the weight</span>
+<a name="l00039"></a>00039 <span class="comment">// significantly.</span>
+<a name="l00040"></a>00040 <span class="comment">//</span>
+<a name="l00041"></a>00041 <span class="comment">// The core part of the matching algorithm is in the process() function</span>
+<a name="l00042"></a>00042 <span class="comment">// nested inside the predict() method. To fully understand it, however, you</span>
+<a name="l00043"></a>00043 <span class="comment">// also need to understand the weighted Ternary Search Tree data structure</span>
+<a name="l00044"></a>00044 <span class="comment">// used to represent the dictionary.</span>
+<a name="l00045"></a>00045 <span class="comment">//</span>
+<a name="l00046"></a>00046 <span class="comment">// Each node of the tree represents a single character, and is part of</span>
+<a name="l00047"></a>00047 <span class="comment">// an ordinary binary tree. Nodes representing characters that are less</span>
+<a name="l00048"></a>00048 <span class="comment">// than the current node are found by following the left pointer, and nodes</span>
+<a name="l00049"></a>00049 <span class="comment">// that repesent characters that are greater than the character in the</span>
+<a name="l00050"></a>00050 <span class="comment">// current node are found by following the right pointer.</span>
+<a name="l00051"></a>00051 <span class="comment">//</span>
+<a name="l00052"></a>00052 <span class="comment">// Our data structure is called a ternary tree because in addition to these</span>
+<a name="l00053"></a>00053 <span class="comment">// left and right pointers, each node also has a center pointer that points</span>
+<a name="l00054"></a>00054 <span class="comment">// to the subtree of nodes that represent the next character of the</span>
+<a name="l00055"></a>00055 <span class="comment">// word. You can think of all the nodes found by recursively traversing</span>
+<a name="l00056"></a>00056 <span class="comment">// left and right from the current node as being on the same level, and the</span>
+<a name="l00057"></a>00057 <span class="comment">// node found by by traversing to the center pointer as being on the next</span>
+<a name="l00058"></a>00058 <span class="comment">// level.</span>
+<a name="l00059"></a>00059 <span class="comment">//</span>
+<a name="l00060"></a>00060 <span class="comment">// Ternary trees are good for representing dictionaries and checking</span>
+<a name="l00061"></a>00061 <span class="comment">// whether a string appears in the dictionary. In order to make</span>
+<a name="l00062"></a>00062 <span class="comment">// predictions, however, our dictionary also contains word frequency</span>
+<a name="l00063"></a>00063 <span class="comment">// information, and we use it to predict more frequently used words instead</span>
+<a name="l00064"></a>00064 <span class="comment">// of less frequently used words. So instead of using a generic ternary</span>
+<a name="l00065"></a>00065 <span class="comment">// search tree, we use a weighted ternary search tree. In addition to the</span>
+<a name="l00066"></a>00066 <span class="comment">// left, center, and right pointers, each node also has a next pointer that</span>
+<a name="l00067"></a>00067 <span class="comment">// points to the node that represents the next most likely letter at the</span>
+<a name="l00068"></a>00068 <span class="comment">// current position. In effect, all of the nodes that are on the same level</span>
+<a name="l00069"></a>00069 <span class="comment">// form a linked list sorted from most likely to least likely.</span>
+<a name="l00070"></a>00070 <span class="comment">//</span>
+<a name="l00071"></a>00071 <span class="comment">// To make this linked list work, the tree uses non-traditional</span>
+<a name="l00072"></a>00072 <span class="comment">// balancing. Instead of balancing the binary tree so that there are</span>
+<a name="l00073"></a>00073 <span class="comment">// approximately equal numbers of nodes on the left and the right, the tree</span>
+<a name="l00074"></a>00074 <span class="comment">// is balanced so that when you follow the center pointer from one level to</span>
+<a name="l00075"></a>00075 <span class="comment">// the next level, the node represents the most likely letter on that</span>
+<a name="l00076"></a>00076 <span class="comment">// level. Each center pointer points to the head of a linked list.</span>
+<a name="l00077"></a>00077 <span class="comment">//</span>
+<a name="l00078"></a>00078 <span class="comment">// In addition to holding a character, each node of the tree also stores a</span>
+<a name="l00079"></a>00079 <span class="comment">// frequency value. For each node, this number is the frequency of the most</span>
+<a name="l00080"></a>00080 <span class="comment">// frequent word beneath that node. If you recursively follow the center</span>
+<a name="l00081"></a>00081 <span class="comment">// pointer of a node, you&#39;ll find that most frequent word.</span>
+<a name="l00082"></a>00082 <span class="comment">//</span>
+<a name="l00083"></a>00083 <span class="comment">// It turns out that our matching algorithm does not actually use the left</span>
+<a name="l00084"></a>00084 <span class="comment">// and right pointers of the tree at all, so they are omitted from the</span>
+<a name="l00085"></a>00085 <span class="comment">// dictionary to dramatically reduce its file size. At any given &quot;level&quot; of</span>
+<a name="l00086"></a>00086 <span class="comment">// the tree, we find the possible letters by following the next pointer. And</span>
+<a name="l00087"></a>00087 <span class="comment">// at any given node, we move to the next level by following the center</span>
+<a name="l00088"></a>00088 <span class="comment">// pointer.</span>
+<a name="l00089"></a>00089 <span class="comment">//</span>
+<a name="l00090"></a>00090 <span class="comment">// You can read more about the data structure in the script that generates the</span>
+<a name="l00091"></a>00091 <span class="comment">// dictionary files:</span>
+<a name="l00092"></a>00092 <span class="comment">//</span>
+<a name="l00093"></a>00093 <span class="comment">//   gaia/dictionaries/xml2dict.py.</span>
+<a name="l00094"></a>00094 <span class="comment">//</span>
+<a name="l00095"></a>00095 <span class="comment">// Also see the following online resources which include helpful diagrams:</span>
+<a name="l00096"></a>00096 <span class="comment">//</span>
+<a name="l00097"></a>00097 <span class="comment">//   http://en.wikipedia.org/wiki/Ternary_search_tree</span>
+<a name="l00098"></a>00098 <span class="comment">//   http://www.strchr.com/ternary_dags</span>
+<a name="l00099"></a>00099 <span class="comment">//   http://www.strchr.com/dawg_predictive</span>
+<a name="l00100"></a>00100 <span class="comment">//</span>
+<a name="l00101"></a>00101 <span class="comment">// Note that this implementation does not convert the TST into a DAG to</span>
+<a name="l00102"></a>00102 <span class="comment">// share common suffix nodes as described in the strchr.com blog</span>
+<a name="l00103"></a>00103 <span class="comment">// posts. (That is an optimization that may be possible later: the shared</span>
+<a name="l00104"></a>00104 <span class="comment">// suffix nodes can&#39;t hold correct word frequencies, so the search</span>
+<a name="l00105"></a>00105 <span class="comment">// algorithm would have to be modified to carry the correct frequency</span>
+<a name="l00106"></a>00106 <span class="comment">// through while processing a shared suffix.)</span>
+<a name="l00107"></a>00107 <span class="comment">//</span>
+<a name="l00108"></a>00108 <span class="comment">// TODO:</span>
+<a name="l00109"></a>00109 <span class="comment">//</span>
+<a name="l00110"></a>00110 <span class="comment">// Also have to figure out if something is going wrong with Polish.</span>
+<a name="l00111"></a>00111 <span class="comment">// When I type an unaccented character, I&#39;m not confident that I&#39;m</span>
+<a name="l00112"></a>00112 <span class="comment">// getting predictions that include accented versions of that character.</span>
+<a name="l00113"></a>00113 <span class="comment">//</span>
+<a name="l00114"></a><a class="code" href="../../da/df4/predictions_8js.html#ae2475e10618961c050dcba04e8c42331">00114</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00115"></a>00115 
+<a name="l00116"></a><a class="code" href="../../da/df4/predictions_8js.html#a0f95306030d860041fedb9c2cba662b7">00116</a> var <a class="code" href="../../da/df4/predictions_8js.html#a0f95306030d860041fedb9c2cba662b7">Predictions</a> = <span class="keyword">function</span>() {
+<a name="l00117"></a>00117   <span class="keyword">const</span> cacheSize = 255;    <span class="comment">// how many suggestions to remember</span>
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119   <span class="comment">// Weights of various permutations we do when matching input</span>
+<a name="l00120"></a>00120   <span class="keyword">const</span> variantFormMultiplier = .99;          <span class="comment">// slightly prefer exact match</span>
+<a name="l00121"></a>00121   <span class="keyword">const</span> punctuationInsertionMultiplier = .95; <span class="comment">// apostrophes are almost free</span>
+<a name="l00122"></a>00122   <span class="keyword">const</span> nearbyKeyReplacementMultiplier = 1;   <span class="comment">// adjusted by actual distance</span>
+<a name="l00123"></a>00123   <span class="keyword">const</span> transpositionMultiplier = .3;
+<a name="l00124"></a>00124   <span class="keyword">const</span> insertionMultiplier = .3;
+<a name="l00125"></a>00125   <span class="keyword">const</span> substitutionMultiplier = .2;          <span class="comment">// for keys that are not nearby</span>
+<a name="l00126"></a>00126   <span class="keyword">const</span> deletionMultiplier = .1;
+<a name="l00127"></a>00127   <span class="comment">// profane words don&#39;t have a frequency themselves, so we bump their</span>
+<a name="l00128"></a>00128   <span class="comment">// frequency to a value which will make it pop up (only do if matches input)</span>
+<a name="l00129"></a>00129   <span class="comment">// 15 is a value that still allows very obvious corrections to be made</span>
+<a name="l00130"></a>00130   <span class="comment">// see #803189 for more information.</span>
+<a name="l00131"></a>00131   <span class="keyword">const</span> profaneInputMatchWeight = 15;
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133   <span class="comment">// If we can&#39;t find enough exact word matches for the user&#39;s input</span>
+<a name="l00134"></a>00134   <span class="comment">// we have to expand some of the candidates we found into complete</span>
+<a name="l00135"></a>00135   <span class="comment">// words. But we want words that are close in length to the user&#39;s</span>
+<a name="l00136"></a>00136   <span class="comment">// input. The most frequent word beginning with r in the en.us wordlist is</span>
+<a name="l00137"></a>00137   <span class="comment">// received, but we don&#39;t want that as a suggestion if the user just</span>
+<a name="l00138"></a>00138   <span class="comment">// type r. We want things like red and run. So for each extra character</span>
+<a name="l00139"></a>00139   <span class="comment">// we have to add, we multiply the weight by this amount.</span>
+<a name="l00140"></a>00140   <span class="keyword">const</span> wordExtensionMultiplier = 0.4;
+<a name="l00141"></a>00141 
+<a name="l00142"></a>00142   <span class="comment">// How many candidates do we consider before pausing with a setTimeout()?</span>
+<a name="l00143"></a>00143   <span class="comment">// Smaller values make the prediction code more interruptible and</span>
+<a name="l00144"></a>00144   <span class="comment">// possibly result in a more responsive UX. Larger values may reduce the</span>
+<a name="l00145"></a>00145   <span class="comment">// total time required to get predictions</span>
+<a name="l00146"></a>00146   <span class="keyword">const</span> candidatesPerBatch = 10;
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148   var <a class="code" href="../../da/df2/namespacexml2dict.html#aa8dec942af2c6d4b6c6053526383cbd8">tree</a>;                <span class="comment">// A typed array of bytes holding the dictionary tree</span>
+<a name="l00149"></a>00149   var <a class="code" href="../../da/df2/namespacexml2dict.html#ab8a3427bca6a4645ea145fd0f69ea2e9">maxWordLength</a>;       <span class="comment">// We can reject any input longer than this</span>
+<a name="l00150"></a>00150   var characterTable = []; <span class="comment">// Maps charcodes to frequency in dictionary</span>
+<a name="l00151"></a>00151   var variants = [];       <span class="comment">// Maps charcodes to variant forms</span>
+<a name="l00152"></a>00152   var rootform = [];       <span class="comment">// Maps charcodes to the root form</span>
+<a name="l00153"></a>00153   var nearbyKeys;          <span class="comment">// Maps charcodes to a set of codes of nearby keys</span>
+<a name="l00154"></a>00154   var <a class="code" href="../../df/dc7/viewer_8js.html#a521016aa0ca9ff38bfba60ab069cb34b">cache</a>;               <span class="comment">// Cache inputs to completions.</span>
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156   <span class="comment">// This function is called to pass our dictionary to us as an ArrayBuffer.</span>
+<a name="l00157"></a>00157   <span class="keyword">function</span> setDictionary(<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>) {
+<a name="l00158"></a>00158     cache = <span class="keyword">new</span> LRUCache(cacheSize); <span class="comment">// Start with a new cache</span>
+<a name="l00159"></a>00159     var <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a> = <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#afb47a616d85cb1a7267e4ccdf85c0f94">Uint8Array</a>(<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>);
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161     <span class="keyword">function</span> <a class="code" href="../../d8/d9d/chromium__types_8h.html#acbd4acd0d29e2d6c43104827f77d9cd2">uint32</a>(<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>) {
+<a name="l00162"></a>00162       <span class="keywordflow">return</span> (file[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>] &lt;&lt; 24) +
+<a name="l00163"></a>00163         (file[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a> + 1] &lt;&lt; 16) +
+<a name="l00164"></a>00164         (file[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a> + 2] &lt;&lt; 8) +
+<a name="l00165"></a>00165         file[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a> + 3];
+<a name="l00166"></a>00166     }
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168     <span class="keyword">function</span> <a class="code" href="../../d8/d9d/chromium__types_8h.html#ac2a9e79eb120216f855626495b7bd18a">uint16</a>(<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>) {
+<a name="l00169"></a>00169       <span class="keywordflow">return</span> (file[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>] &lt;&lt; 8) +
+<a name="l00170"></a>00170         file[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a> + 1];
+<a name="l00171"></a>00171     }
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173     <span class="keywordflow">if</span> (<a class="code" href="../../d8/d9d/chromium__types_8h.html#acbd4acd0d29e2d6c43104827f77d9cd2">uint32</a>(0) !== 0x46784F53 ||   <span class="comment">// &quot;FxOS&quot;</span>
+<a name="l00174"></a>00174         <a class="code" href="../../d8/d9d/chromium__types_8h.html#acbd4acd0d29e2d6c43104827f77d9cd2">uint32</a>(4) !== 0x44494354)     <span class="comment">// &quot;DICT&quot;</span>
+<a name="l00175"></a>00175       <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;Invalid dictionary file&#39;</span>);
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177     <span class="keywordflow">if</span> (<a class="code" href="../../d8/d9d/chromium__types_8h.html#acbd4acd0d29e2d6c43104827f77d9cd2">uint32</a>(8) !== 1)
+<a name="l00178"></a>00178       <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;Unknown dictionary version&#39;</span>);
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180     <span class="comment">// Read the maximum word length.</span>
+<a name="l00181"></a>00181     <span class="comment">// We add 1 because word predictions can delete characters, so the</span>
+<a name="l00182"></a>00182     <span class="comment">// user could type one extra character and we might still predict it.</span>
+<a name="l00183"></a>00183     maxWordLength = file[12] + 1;
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185     <span class="comment">// Read the table of characters and their frequencies</span>
+<a name="l00186"></a>00186     var numEntries = <a class="code" href="../../d8/d9d/chromium__types_8h.html#ac2a9e79eb120216f855626495b7bd18a">uint16</a>(13);
+<a name="l00187"></a>00187     <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; numEntries; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00188"></a>00188       var <a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a> = 15 + <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> * 6;
+<a name="l00189"></a>00189       var ch = <a class="code" href="../../d8/d9d/chromium__types_8h.html#ac2a9e79eb120216f855626495b7bd18a">uint16</a>(offset);
+<a name="l00190"></a>00190       var <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a> = <a class="code" href="../../d8/d9d/chromium__types_8h.html#acbd4acd0d29e2d6c43104827f77d9cd2">uint32</a>(offset + 2);
+<a name="l00191"></a>00191       characterTable[ch] = <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>;
+<a name="l00192"></a>00192     }
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194     <span class="comment">// The dictionary data begins right after the character table</span>
+<a name="l00195"></a>00195     tree = <span class="keyword">new</span> <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#afb47a616d85cb1a7267e4ccdf85c0f94">Uint8Array</a>(<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>, 15 + numEntries * 6);
+<a name="l00196"></a>00196 
+<a name="l00197"></a>00197     <span class="comment">// The rest of this function processes the character table to create a</span>
+<a name="l00198"></a>00198     <span class="comment">// list of variant forms that we&#39;ll accept for each character in the</span>
+<a name="l00199"></a>00199     <span class="comment">// dictionary. Variants cover case differences and unaccented forms of</span>
+<a name="l00200"></a>00200     <span class="comment">// accented letters. Characters with no variants are considered word</span>
+<a name="l00201"></a>00201     <span class="comment">// internal punctuation like apostophes and hyphens.</span>
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203     <span class="comment">// Map from lowercase ASCII to all known accented forms of the letter</span>
+<a name="l00204"></a>00204     var rootToAccentedForm = {
+<a name="l00205"></a>00205       <span class="charliteral">&#39;a&#39;</span>: <span class="stringliteral">&#39;ÁáĂăǍǎÂâÄäȦȧẠạȀȁÀàẢảȂȃĀāĄąÅåḀḁȺⱥÃãǼǽǢǣÆæ&#39;</span>,
+<a name="l00206"></a>00206       <span class="charliteral">&#39;b&#39;</span>: <span class="stringliteral">&#39;ḂḃḄḅƁɓḆḇɃƀƂƃ&#39;</span>,
+<a name="l00207"></a>00207       <span class="charliteral">&#39;c&#39;</span>: <span class="stringliteral">&#39;ĆćČčÇçĈĉĊċƇƈȻȼ&#39;</span>,
+<a name="l00208"></a>00208       <span class="charliteral">&#39;d&#39;</span>: <span class="stringliteral">&#39;ĎďḐḑḒḓḊḋḌḍƊɗḎḏĐđƋƌð&#39;</span>,
+<a name="l00209"></a>00209       <span class="charliteral">&#39;e&#39;</span>: <span class="stringliteral">&#39;ÉéĔĕĚěȨȩÊêḘḙËëĖėẸẹȄȅÈèẺẻȆȇĒēĘę&#39;</span>,
+<a name="l00210"></a>00210       <span class="charliteral">&#39;f&#39;</span>: <span class="stringliteral">&#39;ḞḟƑƒ&#39;</span>,
+<a name="l00211"></a>00211       <span class="charliteral">&#39;g&#39;</span>: <span class="stringliteral">&#39;ǴǵĞğǦǧĢģĜĝĠġƓɠḠḡǤǥ&#39;</span>,
+<a name="l00212"></a>00212       <span class="charliteral">&#39;h&#39;</span>: <span class="stringliteral">&#39;ḪḫȞȟḨḩĤĥⱧⱨḦḧḢḣḤḥĦħ&#39;</span>,
+<a name="l00213"></a>00213       <span class="charliteral">&#39;i&#39;</span>: <span class="stringliteral">&#39;ÍíĬĭǏǐÎîÏïỊịȈȉÌìỈỉȊȋĪīĮįƗɨĨĩḬḭı&#39;</span>,
+<a name="l00214"></a>00214       <span class="charliteral">&#39;j&#39;</span>: <span class="stringliteral">&#39;ĴĵɈɉ&#39;</span>,
+<a name="l00215"></a>00215       <span class="charliteral">&#39;k&#39;</span>: <span class="stringliteral">&#39;ḰḱǨǩĶķⱩⱪꝂꝃḲḳƘƙḴḵꝀꝁ&#39;</span>,
+<a name="l00216"></a>00216       <span class="charliteral">&#39;l&#39;</span>: <span class="stringliteral">&#39;ĹĺȽƚĽľĻļḼḽḶḷⱠⱡꝈꝉḺḻĿŀⱢɫŁł&#39;</span>,
+<a name="l00217"></a>00217       <span class="charliteral">&#39;m&#39;</span>: <span class="stringliteral">&#39;ḾḿṀṁṂṃⱮɱ&#39;</span>,
+<a name="l00218"></a>00218       <span class="charliteral">&#39;n&#39;</span>: <span class="stringliteral">&#39;ŃńŇňŅņṊṋṄṅṆṇǸǹƝɲṈṉȠƞÑñ&#39;</span>,
+<a name="l00219"></a>00219       <span class="charliteral">&#39;o&#39;</span>: <span class="stringliteral">&#39;ÓóŎŏǑǒÔôÖöȮȯỌọŐőȌȍÒòỎỏƠơȎȏꝊꝋꝌꝍŌōǪǫØøÕõŒœ&#39;</span>,
+<a name="l00220"></a>00220       <span class="charliteral">&#39;p&#39;</span>: <span class="stringliteral">&#39;ṔṕṖṗꝒꝓƤƥⱣᵽꝐꝑ&#39;</span>,
+<a name="l00221"></a>00221       <span class="charliteral">&#39;q&#39;</span>: <span class="stringliteral">&#39;Ꝗꝗ&#39;</span>,
+<a name="l00222"></a>00222       <span class="charliteral">&#39;r&#39;</span>: <span class="stringliteral">&#39;ŔŕŘřŖŗṘṙṚṛȐȑȒȓṞṟɌɍⱤɽ&#39;</span>,
+<a name="l00223"></a>00223       <span class="charliteral">&#39;s&#39;</span>: <span class="stringliteral">&#39;ŚśŠšŞşŜŝȘșṠṡṢṣß$&#39;</span>,
+<a name="l00224"></a>00224       <span class="charliteral">&#39;t&#39;</span>: <span class="stringliteral">&#39;ŤťŢţṰṱȚțȾⱦṪṫṬṭƬƭṮṯƮʈŦŧ&#39;</span>,
+<a name="l00225"></a>00225       <span class="charliteral">&#39;u&#39;</span>: <span class="stringliteral">&#39;ÚúŬŭǓǔÛûṶṷÜüṲṳỤụŰűȔȕÙùỦủƯưȖȗŪūŲųŮůŨũṴṵ&#39;</span>,
+<a name="l00226"></a>00226       <span class="charliteral">&#39;v&#39;</span>: <span class="stringliteral">&#39;ṾṿƲʋṼṽ&#39;</span>,
+<a name="l00227"></a>00227       <span class="charliteral">&#39;w&#39;</span>: <span class="stringliteral">&#39;ẂẃŴŵẄẅẆẇẈẉẀẁⱲⱳ&#39;</span>,
+<a name="l00228"></a>00228       <span class="charliteral">&#39;x&#39;</span>: <span class="stringliteral">&#39;ẌẍẊẋ&#39;</span>,
+<a name="l00229"></a>00229       <span class="charliteral">&#39;y&#39;</span>: <span class="stringliteral">&#39;ÝýŶŷŸÿẎẏỴỵỲỳƳƴỶỷỾỿȲȳɎɏỸỹ&#39;</span>,
+<a name="l00230"></a>00230       <span class="charliteral">&#39;z&#39;</span>: <span class="stringliteral">&#39;ŹźŽžẐẑⱫⱬŻżẒẓȤȥẔẕƵƶ&#39;</span>
+<a name="l00231"></a>00231     };
+<a name="l00232"></a>00232 
+<a name="l00233"></a>00233     <span class="comment">// The reverse mapping from accented forms to the normalized ASCII form</span>
+<a name="l00234"></a>00234     var accentedFormToRoot = {};
+<a name="l00235"></a>00235     <span class="keywordflow">for</span> (var letter in rootToAccentedForm) {
+<a name="l00236"></a>00236       var <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> = rootToAccentedForm[letter];
+<a name="l00237"></a>00237       <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0, <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a> = s.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++)
+<a name="l00238"></a>00238         accentedFormToRoot[s[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]] = letter;
+<a name="l00239"></a>00239     }
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241     <span class="comment">// Now through all the characters that appear in the dictionary</span>
+<a name="l00242"></a>00242     <span class="comment">// and figure out their variant forms.</span>
+<a name="l00243"></a>00243     <span class="keywordflow">for</span> (var charcode in characterTable) {
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245       <span class="comment">// Start off by with an empty set of variants for each character.</span>
+<a name="l00246"></a>00246       variants[charcode] = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00247"></a>00247 
+<a name="l00248"></a>00248       <span class="comment">// Handle upper and lowercase forms</span>
+<a name="l00249"></a>00249       var ch = String.fromCharCode(charcode);
+<a name="l00250"></a>00250       var upper = ch.toUpperCase();
+<a name="l00251"></a>00251       var lower = ch.toLowerCase();
+<a name="l00252"></a>00252       <span class="keywordflow">if</span> (upper !== ch) {
+<a name="l00253"></a>00253         variants[charcode] += upper;
+<a name="l00254"></a>00254         <span class="comment">// It is not upper case it is probably the root form.</span>
+<a name="l00255"></a>00255         <span class="comment">// If it is an accented character, we&#39;ll override this below</span>
+<a name="l00256"></a>00256         rootform[charcode] = charcode;
+<a name="l00257"></a>00257       }
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259       <span class="keywordflow">if</span> (lower !== ch) {
+<a name="l00260"></a>00260         variants[charcode] += lower;
+<a name="l00261"></a>00261         rootform[charcode] = lower.charCodeAt(0);
+<a name="l00262"></a>00262       }
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264       <span class="comment">// Handle accented forms</span>
+<a name="l00265"></a>00265       <span class="keywordflow">if</span> (accentedFormToRoot[ch]) {
+<a name="l00266"></a>00266         var <a class="code" href="../../d1/df9/apps_2email_2js_2ext_2mailapi_2activesync_2configurator_8js.html#a11a10a6834f3c54a5380f4ff04d002a9">root</a> = accentedFormToRoot[ch];
+<a name="l00267"></a>00267         rootform[charcode] = root.charCodeAt(0);
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269         <span class="comment">// The root form and its uppercase version are variants we&#39;ll</span>
+<a name="l00270"></a>00270         <span class="comment">// accept in user input instead of this accented character.</span>
+<a name="l00271"></a>00271         variants[charcode] += root + root.toUpperCase();
+<a name="l00272"></a>00272       }
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274       <span class="comment">// log(&quot;Variants for &quot; + ch + &quot; &quot; + variants[charcode]);</span>
+<a name="l00275"></a>00275       <span class="comment">// log(&quot;Root form of &quot; + ch + &quot; &quot; +</span>
+<a name="l00276"></a>00276       <span class="comment">//     String.fromCharCode(rootform[charcode]))</span>
+<a name="l00277"></a>00277     }
+<a name="l00278"></a>00278   }
+<a name="l00279"></a>00279 
+<a name="l00280"></a>00280   <span class="comment">// latin.js passes us a data structure that holds the inverse square</span>
+<a name="l00281"></a>00281   <span class="comment">// distance between keys that are near each other on the keyboard.</span>
+<a name="l00282"></a>00282   <span class="comment">// This method just stores it for use later. We use these values as</span>
+<a name="l00283"></a>00283   <span class="comment">// weights for nearby character replacement. With typical FirefoxOS</span>
+<a name="l00284"></a>00284   <span class="comment">// keyboard layouts, adjacent keys on the same row have a value of</span>
+<a name="l00285"></a>00285   <span class="comment">// about .5, keys directly above or below each other have a value of</span>
+<a name="l00286"></a>00286   <span class="comment">// about .25 and keys diagonally adjacent to each other have a value of</span>
+<a name="l00287"></a>00287   <span class="comment">// about .16.</span>
+<a name="l00288"></a>00288   <span class="keyword">function</span> setNearbyKeys(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>) {
+<a name="l00289"></a>00289     cache = <span class="keyword">new</span> LRUCache(cacheSize); <span class="comment">// Discard any cached results</span>
+<a name="l00290"></a>00290     nearbyKeys = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>;
+<a name="l00291"></a>00291     <span class="comment">// log(&quot;Nearby Keys: &quot; + JSON.stringify(data));</span>
+<a name="l00292"></a>00292   }
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294   <span class="comment">//</span>
+<a name="l00295"></a>00295   <span class="comment">// This function asynchronously computes word completions for the specified</span>
+<a name="l00296"></a>00296   <span class="comment">// input string. When called, it immediately returns an object used for</span>
+<a name="l00297"></a>00297   <span class="comment">// communicating with the caller and defers its computations with</span>
+<a name="l00298"></a>00298   <span class="comment">// setTimeout.</span>
+<a name="l00299"></a>00299   <span class="comment">//</span>
+<a name="l00300"></a>00300   <span class="comment">// The returned object has an abort() method that, when called, will</span>
+<a name="l00301"></a>00301   <span class="comment">// cause the predictions to be cancelled the next time it calls setTimeout()</span>
+<a name="l00302"></a>00302   <span class="comment">// to pause.</span>
+<a name="l00303"></a>00303   <span class="comment">//</span>
+<a name="l00304"></a>00304   <span class="comment">// This method communicates with the caller by invoking the specified</span>
+<a name="l00305"></a>00305   <span class="comment">// callback and onerror functions. If an exception occurs while predicting</span>
+<a name="l00306"></a>00306   <span class="comment">// the onerror function is called with an error message.</span>
+<a name="l00307"></a>00307   <span class="comment">//</span>
+<a name="l00308"></a>00308   <span class="comment">// If no error occurs, then the callback function is called with an array</span>
+<a name="l00309"></a>00309   <span class="comment">// argument. Each element of this array is also an array holding a word</span>
+<a name="l00310"></a>00310   <span class="comment">// and a number. The word is a proposed completion or correction to the</span>
+<a name="l00311"></a>00311   <span class="comment">// input word and the number is the weight that the prediction algorithm</span>
+<a name="l00312"></a>00312   <span class="comment">// assigns to that suggestions. Higher numbers mean better</span>
+<a name="l00313"></a>00313   <span class="comment">// suggestions. Suggestions may take tens of milliseconds to compute which</span>
+<a name="l00314"></a>00314   <span class="comment">// is why this method is designed to be asynchronous. Periodcally during</span>
+<a name="l00315"></a>00315   <span class="comment">// the search process, the code returns to the event loop with</span>
+<a name="l00316"></a>00316   <span class="comment">// setTimeout(0) which gives other code time to run and potentially call</span>
+<a name="l00317"></a>00317   <span class="comment">// the abort method</span>
+<a name="l00318"></a>00318   <span class="comment">//</span>
+<a name="l00319"></a>00319   <span class="comment">// Before calling this function you must call setDictionary() and</span>
+<a name="l00320"></a>00320   <span class="comment">// setNearbyKeys() to provide the data it needs to make predictions.</span>
+<a name="l00321"></a>00321   <span class="comment">//</span>
+<a name="l00322"></a>00322   <span class="keyword">function</span> predict(<a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>,           <span class="comment">// the user&#39;s input</span>
+<a name="l00323"></a>00323                    maxSuggestions,  <span class="comment">// how many suggestions are requested</span>
+<a name="l00324"></a>00324                    maxCandidates,   <span class="comment">// how many candidates to consider</span>
+<a name="l00325"></a>00325                    maxCorrections,  <span class="comment">// how many corrections to allow per word</span>
+<a name="l00326"></a>00326                    <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>,        <span class="comment">// call this on success</span>
+<a name="l00327"></a>00327                    <a class="code" href="../../d4/d76/camera_2js_2filmstrip_8js.html#a9c95fb48715b0deb285f7bfd8f10df50">onerror</a>)         <span class="comment">// and call this on error</span>
+<a name="l00328"></a>00328   {
+<a name="l00329"></a>00329     <span class="keywordflow">if</span> (!tree || !nearbyKeys)
+<a name="l00330"></a>00330       <span class="keywordflow">throw</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;not initialized&#39;</span>);
+<a name="l00331"></a>00331 
+<a name="l00332"></a>00332     <span class="comment">// The search algorithm compares the user&#39;s input to the dictionary tree</span>
+<a name="l00333"></a>00333     <span class="comment">// data structure and generates a set of candidates for each character.</span>
+<a name="l00334"></a>00334     <span class="comment">// This variable will store the set of candidates we&#39;re evaluating as we</span>
+<a name="l00335"></a>00335     <span class="comment">// do a breadth first search of the dictionary tree and allows us to</span>
+<a name="l00336"></a>00336     <span class="comment">// pull out the best candidates first for further evaluation.</span>
+<a name="l00337"></a>00337     var candidates = <span class="keyword">new</span> BoundedPriorityQueue(maxCandidates);
+<a name="l00338"></a>00338 
+<a name="l00339"></a>00339     <span class="comment">// This is where we store the best complete words we&#39;ve found so far.</span>
+<a name="l00340"></a>00340     var words = <span class="keyword">new</span> BoundedPriorityQueue(maxSuggestions);
+<a name="l00341"></a>00341 
+<a name="l00342"></a>00342     <span class="comment">// If the first letter of the input is a capital letter, then we</span>
+<a name="l00343"></a>00343     <span class="comment">// want to capitalize the first letter of all the suggested words.</span>
+<a name="l00344"></a>00344     <span class="comment">// We do this here rather than in latin.js so that we can filter out</span>
+<a name="l00345"></a>00345     <span class="comment">// repeated words that come in both upper and lowercase forms</span>
+<a name="l00346"></a>00346     var <a class="code" href="../../df/d12/latin__test_8js.html#a7093a43f51594c66dffb705ff2b0063d">capitalize</a> = (<a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>[0] === <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>[0].toUpperCase());
+<a name="l00347"></a>00347 
+<a name="l00348"></a>00348     <span class="comment">// This is the object we return. It allows the caller to abort a</span>
+<a name="l00349"></a>00349     <span class="comment">// prediction in progress.</span>
+<a name="l00350"></a>00350     var <a class="code" href="../../da/da1/communications_2contacts_2js_2utilities_2status_8js.html#a0818854fd36b9ae0fdfe5872464dae94">status</a> = {
+<a name="l00351"></a>00351       <a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a>: <span class="stringliteral">&#39;predicting&#39;</span>,
+<a name="l00352"></a>00352       <a class="code" href="../../d6/da5/libpinyin_8js.html#a14987c2daddbcdc724afc8b8c0492b85">abort</a>: <span class="keyword">function</span>() {
+<a name="l00353"></a>00353         <span class="keywordflow">if</span> (this.<a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a> !== <span class="stringliteral">&#39;done&#39;</span> &amp;&amp; this.<a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a> !== <span class="stringliteral">&#39;aborted&#39;</span>)
+<a name="l00354"></a>00354           this.<a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a> = <span class="stringliteral">&#39;aborting&#39;</span>;
+<a name="l00355"></a>00355       }
+<a name="l00356"></a>00356     };
+<a name="l00357"></a>00357 
+<a name="l00358"></a>00358     var cacheKey = <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a> +
+<a name="l00359"></a>00359       <span class="charliteral">&#39;,&#39;</span> + maxSuggestions +
+<a name="l00360"></a>00360       <span class="charliteral">&#39;,&#39;</span> + maxCandidates +
+<a name="l00361"></a>00361       <span class="charliteral">&#39;,&#39;</span> + maxCorrections;
+<a name="l00362"></a>00362 
+<a name="l00363"></a>00363     <span class="comment">// Start searching for words soon...</span>
+<a name="l00364"></a>00364     <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(getWords);
+<a name="l00365"></a>00365 
+<a name="l00366"></a>00366     <span class="comment">// But first, return the status object to the caller.</span>
+<a name="l00367"></a>00367     <span class="keywordflow">return</span> <a class="code" href="../../da/da1/communications_2contacts_2js_2utilities_2status_8js.html#a0818854fd36b9ae0fdfe5872464dae94">status</a>;
+<a name="l00368"></a>00368 
+<a name="l00369"></a>00369     <span class="comment">// We use this to check whether the user aborted the search and to</span>
+<a name="l00370"></a>00370     <span class="comment">// set the state property appropriately.</span>
+<a name="l00371"></a>00371     <span class="keyword">function</span> aborted() {
+<a name="l00372"></a>00372       <span class="keywordflow">if</span> (status.state === <span class="stringliteral">&#39;aborting&#39;</span>) {
+<a name="l00373"></a>00373         status.state = <span class="stringliteral">&#39;aborted&#39;</span>;
+<a name="l00374"></a>00374         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00375"></a>00375       }
+<a name="l00376"></a>00376       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00377"></a>00377     }
+<a name="l00378"></a>00378 
+<a name="l00379"></a>00379     <span class="keyword">function</span> getWords() {
+<a name="l00380"></a>00380       <span class="keywordflow">try</span> {
+<a name="l00381"></a>00381         <span class="comment">// Check the cache. If we&#39;ve seen this input recently we can return</span>
+<a name="l00382"></a>00382         <span class="comment">// suggestions right away.</span>
+<a name="l00383"></a>00383         var cached_suggestions = cache.get(cacheKey);
+<a name="l00384"></a>00384         <span class="keywordflow">if</span> (cached_suggestions) {
+<a name="l00385"></a>00385           status.state = <span class="stringliteral">&#39;done&#39;</span>;
+<a name="l00386"></a>00386           status.suggestions = cached_suggestions;
+<a name="l00387"></a>00387           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(status.suggestions);
+<a name="l00388"></a>00388           <span class="keywordflow">return</span>;
+<a name="l00389"></a>00389         }
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391         <span class="comment">// Check length and check for invalid characters. If the input is</span>
+<a name="l00392"></a>00392         <span class="comment">// bad, we can reject it right away.</span>
+<a name="l00393"></a>00393         <span class="keywordflow">if</span> (<a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>.length &gt; maxWordLength || !validChars(<a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>)) {
+<a name="l00394"></a>00394           status.state = <span class="stringliteral">&#39;done&#39;</span>;
+<a name="l00395"></a>00395           status.suggestions = [];
+<a name="l00396"></a>00396           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(status.suggestions);
+<a name="l00397"></a>00397           <span class="keywordflow">return</span>;
+<a name="l00398"></a>00398         }
+<a name="l00399"></a>00399 
+<a name="l00400"></a>00400         <span class="comment">// Start off with a single root candidate. The first argument is the</span>
+<a name="l00401"></a>00401         <span class="comment">// address of the root node of the tree</span>
+<a name="l00402"></a>00402         addCandidate(0, <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>, <span class="stringliteral">&#39;&#39;</span>, 1, 1, 0);
+<a name="l00403"></a>00403 
+<a name="l00404"></a>00404         <span class="comment">// And then process it. This will generate more candidates to</span>
+<a name="l00405"></a>00405         <span class="comment">// process. processCandidates() runs until all the words we want</span>
+<a name="l00406"></a>00406         <span class="comment">// have been found or until all possiblities have been tried. It</span>
+<a name="l00407"></a>00407         <span class="comment">// returns to the event loop with setTimeout() so the search can be</span>
+<a name="l00408"></a>00408         <span class="comment">// aborted, but arranges to resume. It calls the callback when done.</span>
+<a name="l00409"></a>00409         processCandidates();
+<a name="l00410"></a>00410       }
+<a name="l00411"></a>00411       <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00412"></a>00412         status.state = <span class="stringliteral">&#39;error&#39;</span>;
+<a name="l00413"></a>00413         status.error = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>;
+<a name="l00414"></a>00414         <a class="code" href="../../d4/d76/camera_2js_2filmstrip_8js.html#a9c95fb48715b0deb285f7bfd8f10df50">onerror</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.toString() + <span class="charliteral">&#39;\n&#39;</span> + <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.stack);
+<a name="l00415"></a>00415       }
+<a name="l00416"></a>00416     }
+<a name="l00417"></a>00417 
+<a name="l00418"></a>00418     <span class="comment">// Check whether all the characters of s appear in the dictionary or are</span>
+<a name="l00419"></a>00419     <span class="comment">// at least near characters that do. If we are passed a string that does</span>
+<a name="l00420"></a>00420     <span class="comment">// not pass this test then there is no way we will be able to offer</span>
+<a name="l00421"></a>00421     <span class="comment">// suggestions and it is not even worth searching.</span>
+<a name="l00422"></a>00422     <span class="keyword">function</span> validChars(<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>) {
+<a name="l00423"></a>00423       outer: <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0, <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a> = <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00424"></a>00424         var <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a> = <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>.charCodeAt(<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>);
+<a name="l00425"></a>00425         <span class="keywordflow">if</span> (characterTable.hasOwnProperty(c))  <span class="comment">// character is valid</span>
+<a name="l00426"></a>00426           <span class="keywordflow">continue</span>;
+<a name="l00427"></a>00427         <span class="comment">// If the character does not occur in this language, but there is</span>
+<a name="l00428"></a>00428         <span class="comment">// a nearby key that does occur, then maybe it is okay</span>
+<a name="l00429"></a>00429         <span class="keywordflow">if</span> (!nearbyKeys.hasOwnProperty(c))
+<a name="l00430"></a>00430           <span class="keywordflow">return</span> <span class="keyword">false</span>;  <span class="comment">// no nearby keys, so no suggestions possible</span>
+<a name="l00431"></a>00431         var nearby = nearbyKeys[<a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>];
+<a name="l00432"></a>00432         <span class="keywordflow">for</span> (c in nearby) {
+<a name="l00433"></a>00433           <span class="keywordflow">if</span> (characterTable.hasOwnProperty(c))
+<a name="l00434"></a>00434             <span class="keywordflow">continue</span> outer;
+<a name="l00435"></a>00435         }
+<a name="l00436"></a>00436         <span class="comment">// no nearby keys are in the dictionary, so no suggestions possible</span>
+<a name="l00437"></a>00437         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00438"></a>00438       }
+<a name="l00439"></a>00439 
+<a name="l00440"></a>00440       <span class="comment">// All the characters of s are valid</span>
+<a name="l00441"></a>00441       <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00442"></a>00442     }
+<a name="l00443"></a>00443 
+<a name="l00444"></a>00444     <span class="comment">// Add a candidate to the list of promising candidates if frequency *</span>
+<a name="l00445"></a>00445     <span class="comment">// multiplier is high enough. A candidate is a pointer (byte offset) to</span>
+<a name="l00446"></a>00446     <span class="comment">// a node in the tree, the portion of the user&#39;s input that has not yet</span>
+<a name="l00447"></a>00447     <span class="comment">// been considered, the output string that has been generated so far, a</span>
+<a name="l00448"></a>00448     <span class="comment">// number based on the highest frequency word that begins with the</span>
+<a name="l00449"></a>00449     <span class="comment">// output we&#39;ve generated, a multipler that adjusts that frequency based</span>
+<a name="l00450"></a>00450     <span class="comment">// on how much we&#39;ve modified the user&#39;s input, and a number that</span>
+<a name="l00451"></a>00451     <span class="comment">// indicates how many times we&#39;ve already corrected the user&#39;s input for</span>
+<a name="l00452"></a>00452     <span class="comment">// this candidate.</span>
+<a name="l00453"></a>00453     <span class="keyword">function</span> addCandidate(pointer, remaining, <a class="code" href="../../df/d12/latin__test_8js.html#a34687689873d42dec2c94cc27f36e1e9">output</a>,
+<a name="l00454"></a>00454                           multiplier, frequency, corrections)
+<a name="l00455"></a>00455     {
+<a name="l00456"></a>00456       var weight = frequency * multiplier;
+<a name="l00457"></a>00457 
+<a name="l00458"></a>00458       <span class="comment">// If no major corrections have been made to this candidate, then</span>
+<a name="l00459"></a>00459       <span class="comment">// artificially increase its weight so that it appears in the</span>
+<a name="l00460"></a>00460       <span class="comment">// candidates list before any corrected candidates. This should</span>
+<a name="l00461"></a>00461       <span class="comment">// ensure that if the user is typing an infrequent word we don&#39;t</span>
+<a name="l00462"></a>00462       <span class="comment">// bump the actual word off the list if there are lots of frequent</span>
+<a name="l00463"></a>00463       <span class="comment">// words that have similar spellings. The artificial weight does</span>
+<a name="l00464"></a>00464       <span class="comment">// not carry through to the list of words, so more frequent words may</span>
+<a name="l00465"></a>00465       <span class="comment">// still be predicted instead of the user&#39;s input when the user is</span>
+<a name="l00466"></a>00466       <span class="comment">// typing an infrequent word. But we shouldn&#39;t ever not be able to</span>
+<a name="l00467"></a>00467       <span class="comment">// find the user&#39;s input as a valid word.  Adding letters to the</span>
+<a name="l00468"></a>00468       <span class="comment">// end of partial input does not count as a correction so we also</span>
+<a name="l00469"></a>00469       <span class="comment">// test the multiplier so that we don&#39;t boost the weight of every</span>
+<a name="l00470"></a>00470       <span class="comment">// extension. But we do allow one letter to be added on and still</span>
+<a name="l00471"></a>00471       <span class="comment">// get the extra weight.</span>
+<a name="l00472"></a>00472       <span class="keywordflow">if</span> (corrections === 0 &amp;&amp;
+<a name="l00473"></a>00473           multiplier &gt; wordExtensionMultiplier * wordExtensionMultiplier) {
+<a name="l00474"></a>00474         weight += 100;
+<a name="l00475"></a>00475       }
+<a name="l00476"></a>00476 
+<a name="l00477"></a>00477       <span class="comment">// If this candidate could never become a word, don&#39;t add it</span>
+<a name="l00478"></a>00478       <span class="keywordflow">if</span> (weight &lt;= words.threshold)
+<a name="l00479"></a>00479         <span class="keywordflow">return</span>;
+<a name="l00480"></a>00480 
+<a name="l00481"></a>00481       candidates.add({
+<a name="l00482"></a>00482         pointer: pointer,
+<a name="l00483"></a>00483         <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>: remaining,
+<a name="l00484"></a>00484         <a class="code" href="../../df/d12/latin__test_8js.html#a34687689873d42dec2c94cc27f36e1e9">output</a>: <a class="code" href="../../df/d12/latin__test_8js.html#a34687689873d42dec2c94cc27f36e1e9">output</a>,
+<a name="l00485"></a>00485         multiplier: multiplier,
+<a name="l00486"></a>00486         weight: weight,
+<a name="l00487"></a>00487         corrections: corrections
+<a name="l00488"></a>00488       }, weight);
+<a name="l00489"></a>00489     }
+<a name="l00490"></a>00490 
+<a name="l00491"></a>00491     <span class="comment">// Add a word to the priority queue of words</span>
+<a name="l00492"></a>00492     <span class="keyword">function</span> addWord(word, weight) {
+<a name="l00493"></a>00493       <span class="comment">// If the input was capitalized, capitalize the word</span>
+<a name="l00494"></a>00494       <span class="keywordflow">if</span> (capitalize)
+<a name="l00495"></a>00495         word = word[0].toUpperCase() + word.substring(1);
+<a name="l00496"></a>00496 
+<a name="l00497"></a>00497       <span class="comment">// Make sure we don&#39;t already have the word in the queue</span>
+<a name="l00498"></a>00498       <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0, <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a> = words.items.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00499"></a>00499         <span class="keywordflow">if</span> (words.items[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>][0] === word) {
+<a name="l00500"></a>00500           <span class="comment">// If the version we already have has higher weight, skip this one</span>
+<a name="l00501"></a>00501           <span class="keywordflow">if</span> (words.priorities[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>] &gt;= weight)
+<a name="l00502"></a>00502             <span class="keywordflow">return</span>;
+<a name="l00503"></a>00503           <span class="keywordflow">else</span> <span class="comment">// otherwise, remove the existing lower-weight copy</span>
+<a name="l00504"></a>00504             words.removeItemAt(<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>);
+<a name="l00505"></a>00505           <span class="keywordflow">break</span>;
+<a name="l00506"></a>00506         }
+<a name="l00507"></a>00507       }
+<a name="l00508"></a>00508 
+<a name="l00509"></a>00509       words.add([word, weight], weight);
+<a name="l00510"></a>00510     }
+<a name="l00511"></a>00511 
+<a name="l00512"></a>00512     <span class="comment">// Take the highest-ranked candidate from the list of candidates and</span>
+<a name="l00513"></a>00513     <span class="comment">// process it. (This will often add more candidates to the list). After</span>
+<a name="l00514"></a>00514     <span class="comment">// we&#39;ve processed a batch of candidates this way, use setTimeout() to</span>
+<a name="l00515"></a>00515     <span class="comment">// schedule the processing of the next batch after returning to the</span>
+<a name="l00516"></a>00516     <span class="comment">// event loop. If there are no more candidates or if the highest ranked</span>
+<a name="l00517"></a>00517     <span class="comment">// one is not highly ranked enough, then we&#39;re done finding words.</span>
+<a name="l00518"></a>00518     <span class="keyword">function</span> processCandidates() {
+<a name="l00519"></a>00519       <span class="keywordflow">try</span> {
+<a name="l00520"></a>00520         <span class="keywordflow">if</span> (aborted())
+<a name="l00521"></a>00521           <span class="keywordflow">return</span>;
+<a name="l00522"></a>00522 
+<a name="l00523"></a>00523         <span class="keywordflow">for</span> (var <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a> = 0; <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a> &lt; candidatesPerBatch; <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>++) {
+<a name="l00524"></a>00524           var candidate = candidates.remove();
+<a name="l00525"></a>00525 
+<a name="l00526"></a>00526           <span class="comment">// If there are no more candidates, or if the weight isn&#39;t</span>
+<a name="l00527"></a>00527           <span class="comment">// high enough, we&#39;re done. Call the callback with the current</span>
+<a name="l00528"></a>00528           <span class="comment">// set of words.</span>
+<a name="l00529"></a>00529           <span class="keywordflow">if</span> (!candidate || candidate.weight &lt;= words.threshold) {
+<a name="l00530"></a>00530             status.state = <span class="stringliteral">&#39;done&#39;</span>;
+<a name="l00531"></a>00531             status.suggestions = words.items; <span class="comment">// the array in the word queue</span>
+<a name="l00532"></a>00532             cache.add(cacheKey, status.suggestions);
+<a name="l00533"></a>00533             <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(status.suggestions);
+<a name="l00534"></a>00534             <span class="keywordflow">return</span>;
+<a name="l00535"></a>00535           }
+<a name="l00536"></a>00536 
+<a name="l00537"></a>00537           <a class="code" href="../../db/d3b/vcard__parser_8js.html#a6f2ec0a8b53b1e2d7d68df633707f9ae">process</a>(candidate);
+<a name="l00538"></a>00538 
+<a name="l00539"></a>00539           <span class="comment">//</span>
+<a name="l00540"></a>00540           <span class="comment">// If the predicted words don&#39;t seem right, uncomment these lines</span>
+<a name="l00541"></a>00541           <span class="comment">// to see how the call to process() modifies the set of candiates</span>
+<a name="l00542"></a>00542           <span class="comment">// at each step. The output is verbose, but with careful study it</span>
+<a name="l00543"></a>00543           <span class="comment">// reveals what is going on in the algorithm.</span>
+<a name="l00544"></a>00544           <span class="comment">//</span>
+<a name="l00545"></a>00545           <span class="comment">// var s = &quot;&quot;;</span>
+<a name="l00546"></a>00546           <span class="comment">// for(var i = 0; i &lt; candidates.items.length; i++) {</span>
+<a name="l00547"></a>00547           <span class="comment">//   s += candidates.priorities[i].toPrecision(2) + &quot; &quot;</span>
+<a name="l00548"></a>00548           <span class="comment">//     + candidates.items[i].output + &quot; &quot; +</span>
+<a name="l00549"></a>00549           <span class="comment">//     + candidates.items[i].multiplier.toPrecision(2) + &quot;, &quot;;</span>
+<a name="l00550"></a>00550           <span class="comment">// }</span>
+<a name="l00551"></a>00551           <span class="comment">// log(input + &quot; Candidate &quot; + candidate.output +</span>
+<a name="l00552"></a>00552           <span class="comment">//     &quot; for &quot; + candidate.input[0] + &quot;: &quot; + s);</span>
+<a name="l00553"></a>00553         }
+<a name="l00554"></a>00554 
+<a name="l00555"></a>00555         <span class="comment">// After processing one batch of candidates, use setTimeout to</span>
+<a name="l00556"></a>00556         <span class="comment">// schedule another invocation of this function. This returns to</span>
+<a name="l00557"></a>00557         <span class="comment">// the event loop so we can process messages from the main thread</span>
+<a name="l00558"></a>00558         <span class="comment">// and allows us to abort the search if more input arrives.</span>
+<a name="l00559"></a>00559         <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(processCandidates);
+<a name="l00560"></a>00560       }
+<a name="l00561"></a>00561       <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00562"></a>00562         status.state = <span class="stringliteral">&#39;error&#39;</span>;
+<a name="l00563"></a>00563         status.error = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>;
+<a name="l00564"></a>00564         <a class="code" href="../../d4/d76/camera_2js_2filmstrip_8js.html#a9c95fb48715b0deb285f7bfd8f10df50">onerror</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.toString() + <span class="charliteral">&#39;\n&#39;</span> + <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.stack);
+<a name="l00565"></a>00565       }
+<a name="l00566"></a>00566     }
+<a name="l00567"></a>00567 
+<a name="l00568"></a>00568     <span class="comment">//</span>
+<a name="l00569"></a>00569     <span class="comment">// This function is the heart of the dictionary search algorithm. The</span>
+<a name="l00570"></a>00570     <span class="comment">// key to understanding it is that we do not traverse the dictionary</span>
+<a name="l00571"></a>00571     <span class="comment">// tree as we would when looking for an exact match. Instead, at each</span>
+<a name="l00572"></a>00572     <span class="comment">// level, we visit the nodes in frequency order, following the next</span>
+<a name="l00573"></a>00573     <span class="comment">// pointer. If we find nodes that loosely match the first character of</span>
+<a name="l00574"></a>00574     <span class="comment">// input, we use those nodes to generate new candidates for further</span>
+<a name="l00575"></a>00575     <span class="comment">// evaluation later. Note that by maintaining a list of candidates like</span>
+<a name="l00576"></a>00576     <span class="comment">// this, we&#39;re doing a breadth-first search rather than a depth-first</span>
+<a name="l00577"></a>00577     <span class="comment">// search. (But since we weight the candidates, it is not a pure</span>
+<a name="l00578"></a>00578     <span class="comment">// breadth-first search).</span>
+<a name="l00579"></a>00579     <span class="comment">//</span>
+<a name="l00580"></a>00580     <span class="comment">// The input candidate specifies a node in the dictionary tree, the next</span>
+<a name="l00581"></a>00581     <span class="comment">// character of the user&#39;s input, and the output generated so far. This</span>
+<a name="l00582"></a>00582     <span class="comment">// function uses the dictionary to loop through all possible characters</span>
+<a name="l00583"></a>00583     <span class="comment">// that could appear after the current output, and considers those</span>
+<a name="l00584"></a>00584     <span class="comment">// characters in most frequent to least frequent order. It compares each</span>
+<a name="l00585"></a>00585     <span class="comment">// character to the next character of the user&#39;s input and generates new</span>
+<a name="l00586"></a>00586     <span class="comment">// candidates based on that comparison.</span>
+<a name="l00587"></a>00587     <span class="comment">//</span>
+<a name="l00588"></a>00588     <span class="comment">// The candidate generation considers things such as accented characters</span>
+<a name="l00589"></a>00589     <span class="comment">// from the dictionary, nearby keys from the keyboard layout and the</span>
+<a name="l00590"></a>00590     <span class="comment">// possibility of user input errors such as transpositions and</span>
+<a name="l00591"></a>00591     <span class="comment">// omissions.</span>
+<a name="l00592"></a>00592     <span class="comment">//</span>
+<a name="l00593"></a>00593     <span class="keyword">function</span> <a class="code" href="../../db/d3b/vcard__parser_8js.html#a6f2ec0a8b53b1e2d7d68df633707f9ae">process</a>(candidate) {
+<a name="l00594"></a>00594       var remaining = candidate.input;
+<a name="l00595"></a>00595       var <a class="code" href="../../df/d12/latin__test_8js.html#a34687689873d42dec2c94cc27f36e1e9">output</a> = candidate.output;
+<a name="l00596"></a>00596       var multiplier = candidate.multiplier;
+<a name="l00597"></a>00597       var corrections = candidate.corrections;
+<a name="l00598"></a>00598       var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a> = {};
+<a name="l00599"></a>00599 
+<a name="l00600"></a>00600       <span class="comment">// The next character of the user&#39;s input</span>
+<a name="l00601"></a>00601       var char, <a class="code" href="../../d3/d4b/lockscreen_8js.html#a3bc1c2f8ec4ed34fc21f9f10eacbfa93">code</a>;
+<a name="l00602"></a>00602       <span class="keywordflow">if</span> (remaining.length &gt; 0) {
+<a name="l00603"></a>00603         <span class="keywordtype">char</span> = remaining[0];
+<a name="l00604"></a>00604         code = remaining.charCodeAt(0);
+<a name="l00605"></a>00605       }
+<a name="l00606"></a>00606 
+<a name="l00607"></a>00607       <span class="keywordflow">for</span> (var next = candidate.pointer; next !== -1; next = node.next) {
+<a name="l00608"></a>00608         readNode(next, node);
+<a name="l00609"></a>00609 
+<a name="l00610"></a>00610         <span class="comment">// How common is the most common word under this node?</span>
+<a name="l00611"></a>00611         var frequency = node.freq;
+<a name="l00612"></a>00612         var weight = frequency * multiplier;
+<a name="l00613"></a>00613 
+<a name="l00614"></a>00614         <span class="comment">// If this node does not have a high enough weight to make it into</span>
+<a name="l00615"></a>00615         <span class="comment">// the list of candidates, we don&#39;t need to continue. None of the</span>
+<a name="l00616"></a>00616         <span class="comment">// nodes that follow in the next pointer linked list will have a</span>
+<a name="l00617"></a>00617         <span class="comment">// higher weight than this one.</span>
+<a name="l00618"></a>00618         <span class="comment">// Note however, that we only use this shortcut if we&#39;ve already</span>
+<a name="l00619"></a>00619         <span class="comment">// made at least one correction because uncorrected matches are given</span>
+<a name="l00620"></a>00620         <span class="comment">// high weight by addCandidate.</span>
+<a name="l00621"></a>00621         <span class="keywordflow">if</span> (corrections &gt; 0 &amp;&amp; weight &lt;= candidates.threshold)
+<a name="l00622"></a>00622           <span class="keywordflow">break</span>;
+<a name="l00623"></a>00623 
+<a name="l00624"></a>00624         <span class="comment">// If we generate new candidates from this node, this is what</span>
+<a name="l00625"></a>00625         <span class="comment">// their output string will be</span>
+<a name="l00626"></a>00626         var newoutput = output + String.fromCharCode(node.ch);
+<a name="l00627"></a>00627 
+<a name="l00628"></a>00628         <span class="comment">// The various ways we can generate new candidates from this node</span>
+<a name="l00629"></a>00629         <span class="comment">// follow. Note that each one can have a different associated</span>
+<a name="l00630"></a>00630         <span class="comment">// multiplier. And note that some are considered &quot;corrections&quot;. To</span>
+<a name="l00631"></a>00631         <span class="comment">// prevent explosive growth in the number of candidates we limit the</span>
+<a name="l00632"></a>00632         <span class="comment">// number of corrections allowed on any candidate.</span>
+<a name="l00633"></a>00633 
+<a name="l00634"></a>00634         <span class="comment">// If there isn&#39;t any more input from the user, then we&#39;ll try to</span>
+<a name="l00635"></a>00635         <span class="comment">// extend the output we&#39;ve already got to find a complete word. But</span>
+<a name="l00636"></a>00636         <span class="comment">// we apply a penalty for each character we add so that shorter</span>
+<a name="l00637"></a>00637         <span class="comment">// completions are favored over longer completions</span>
+<a name="l00638"></a>00638         <span class="keywordflow">if</span> (remaining.length === 0) {
+<a name="l00639"></a>00639           <span class="comment">// If a word ends here, add it to the queue of words</span>
+<a name="l00640"></a>00640           <span class="keywordflow">if</span> (node.ch === 0) {
+<a name="l00641"></a>00641             <span class="comment">// Only suggest profane (freq == 1) words if the input is</span>
+<a name="l00642"></a>00642             <span class="comment">// already the same</span>
+<a name="l00643"></a>00643             <span class="keywordflow">if</span> (node.freq === 1 &amp;&amp;
+<a name="l00644"></a>00644                 <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>.toUpperCase() === output.toUpperCase()) {
+<a name="l00645"></a>00645               <span class="comment">// Profane words have very low frequency themselves.</span>
+<a name="l00646"></a>00646               <span class="comment">// To make sure they pop up we bump the frequency</span>
+<a name="l00647"></a>00647               addWord(output, profaneInputMatchWeight);
+<a name="l00648"></a>00648             }
+<a name="l00649"></a>00649             <span class="keywordflow">else</span> <span class="keywordflow">if</span> (node.freq !== 1) {
+<a name="l00650"></a>00650               addWord(output, weight);
+<a name="l00651"></a>00651             }
+<a name="l00652"></a>00652             <span class="keywordflow">continue</span>;
+<a name="l00653"></a>00653           }
+<a name="l00654"></a>00654 
+<a name="l00655"></a>00655           <span class="comment">// Otherwise, extend the candidate with the current node. We</span>
+<a name="l00656"></a>00656           <span class="comment">// reduce the multiplier but do not count this as a correction so</span>
+<a name="l00657"></a>00657           <span class="comment">// that we can extend candidates as far as needed to find words.</span>
+<a name="l00658"></a>00658           addCandidate(node.center,
+<a name="l00659"></a>00659                        remaining,  <span class="comment">// the empty string</span>
+<a name="l00660"></a>00660                        newoutput,
+<a name="l00661"></a>00661                        multiplier * wordExtensionMultiplier,
+<a name="l00662"></a>00662                        frequency, corrections);
+<a name="l00663"></a>00663 
+<a name="l00664"></a>00664           <span class="comment">// If there isn&#39;t any more input then we don&#39;t want to consider</span>
+<a name="l00665"></a>00665           <span class="comment">// any of the other possible corrections below.</span>
+<a name="l00666"></a>00666           <span class="keywordflow">continue</span>;
+<a name="l00667"></a>00667         }
+<a name="l00668"></a>00668 
+<a name="l00669"></a>00669         <span class="comment">// Handle the case where this node marks the end of a word.</span>
+<a name="l00670"></a>00670         <span class="keywordflow">if</span> (node.ch === 0) {
+<a name="l00671"></a>00671           <span class="comment">// If there is just one more character of user input remaining,</span>
+<a name="l00672"></a>00672           <span class="comment">// maybe the user accidentally typed an extra character at the</span>
+<a name="l00673"></a>00673           <span class="comment">// end, so try just dropping the last character. Note that this</span>
+<a name="l00674"></a>00674           <span class="comment">// case is unique in that instead of following the center pointer</span>
+<a name="l00675"></a>00675           <span class="comment">// it revisits the same node just without the one remaining</span>
+<a name="l00676"></a>00676           <span class="comment">// character of input.</span>
+<a name="l00677"></a>00677           <span class="keywordflow">if</span> (remaining.length === 1) {
+<a name="l00678"></a>00678             addCandidate(next,    <span class="comment">// stay at this same node</span>
+<a name="l00679"></a>00679                          <span class="stringliteral">&#39;&#39;</span>,      <span class="comment">// no more remaining characters</span>
+<a name="l00680"></a>00680                          output,  <span class="comment">// not newoutput</span>
+<a name="l00681"></a>00681                          multiplier * deletionMultiplier,
+<a name="l00682"></a>00682                          frequency, corrections + 1);
+<a name="l00683"></a>00683           }
+<a name="l00684"></a>00684           <span class="keywordflow">continue</span>;
+<a name="l00685"></a>00685         }
+<a name="l00686"></a>00686 
+<a name="l00687"></a>00687         <span class="comment">// If we get to here, we know that we&#39;re still processing the user&#39;s</span>
+<a name="l00688"></a>00688         <span class="comment">// input and that there is a character associated with this node.</span>
+<a name="l00689"></a>00689 
+<a name="l00690"></a>00690         <span class="comment">// These next few cases are all in an if/else chain. Each of them</span>
+<a name="l00691"></a>00691         <span class="comment">// match (or substitute) the character in the node with the next</span>
+<a name="l00692"></a>00692         <span class="comment">// character of the user&#39;s input: they all add the same candidate,</span>
+<a name="l00693"></a>00693         <span class="comment">// so it never makes sense for more than one of them to run. But</span>
+<a name="l00694"></a>00694         <span class="comment">// note that it is possible for the match to happen more than one</span>
+<a name="l00695"></a>00695         <span class="comment">// way, so we have to be sure to do the tests in highest to lowest</span>
+<a name="l00696"></a>00696         <span class="comment">// multiplier order.</span>
+<a name="l00697"></a>00697 
+<a name="l00698"></a>00698         <span class="keywordflow">if</span> (node.ch === code) {
+<a name="l00699"></a>00699           <span class="comment">// We found an exact match</span>
+<a name="l00700"></a>00700           addCandidate(node.center,
+<a name="l00701"></a>00701                        remaining.substring(1),
+<a name="l00702"></a>00702                        newoutput,
+<a name="l00703"></a>00703                        multiplier,
+<a name="l00704"></a>00704                        frequency, corrections);
+<a name="l00705"></a>00705         }
+<a name="l00706"></a>00706         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (variants[node.ch].indexOf(<span class="keywordtype">char</span>) !== -1) {
+<a name="l00707"></a>00707           <span class="comment">// The user&#39;s input is a variant form of the character in this</span>
+<a name="l00708"></a>00708           <span class="comment">// node, so we&#39;ll accept that input as a substitute for the node</span>
+<a name="l00709"></a>00709           <span class="comment">// character. This covers case differences and unaccented forms of</span>
+<a name="l00710"></a>00710           <span class="comment">// accented characters. (We don&#39;t accept accented forms typed by</span>
+<a name="l00711"></a>00711           <span class="comment">// the user as variants of unaccented characters in the</span>
+<a name="l00712"></a>00712           <span class="comment">// dictionary, however.)</span>
+<a name="l00713"></a>00713           addCandidate(node.center,
+<a name="l00714"></a>00714                        remaining.substring(1),
+<a name="l00715"></a>00715                        newoutput,
+<a name="l00716"></a>00716                        multiplier * variantFormMultiplier,
+<a name="l00717"></a>00717                        frequency, corrections);
+<a name="l00718"></a>00718         }
+<a name="l00719"></a>00719         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (corrections &lt; maxCorrections) {
+<a name="l00720"></a>00720           <span class="comment">// If we haven&#39;t made any corrections on this candidate yet, try</span>
+<a name="l00721"></a>00721           <span class="comment">// substituting the character from this node for the current</span>
+<a name="l00722"></a>00722           <span class="comment">// character in the user&#39;s input. If the two keys are near each</span>
+<a name="l00723"></a>00723           <span class="comment">// other on the keyboard, then we do this with higher weight than</span>
+<a name="l00724"></a>00724           <span class="comment">// if they are distant.</span>
+<a name="l00725"></a>00725           var <a class="code" href="../../d1/df9/apps_2email_2js_2ext_2mailapi_2activesync_2configurator_8js.html#a11a10a6834f3c54a5380f4ff04d002a9">root</a> = rootform[node.ch];
+<a name="l00726"></a>00726           var rootcode = rootform[<a class="code" href="../../d3/d4b/lockscreen_8js.html#a3bc1c2f8ec4ed34fc21f9f10eacbfa93">code</a>];
+<a name="l00727"></a>00727           var nearby = nearbyKeys[<a class="code" href="../../d1/df9/apps_2email_2js_2ext_2mailapi_2activesync_2configurator_8js.html#a11a10a6834f3c54a5380f4ff04d002a9">root</a>] ? nearbyKeys[<a class="code" href="../../d1/df9/apps_2email_2js_2ext_2mailapi_2activesync_2configurator_8js.html#a11a10a6834f3c54a5380f4ff04d002a9">root</a>][rootcode] : 0;
+<a name="l00728"></a>00728           <span class="keywordflow">if</span> (nearby) {
+<a name="l00729"></a>00729             var adjust =
+<a name="l00730"></a>00730               Math.max(nearby * nearbyKeyReplacementMultiplier,
+<a name="l00731"></a>00731                        substitutionMultiplier);
+<a name="l00732"></a>00732             <span class="comment">// If the node holds a character that is near the one the user</span>
+<a name="l00733"></a>00733             <span class="comment">// typed, try it, assuming that the user has fat fingers and</span>
+<a name="l00734"></a>00734             <span class="comment">// just missed the key. Note that we use a weight based on the</span>
+<a name="l00735"></a>00735             <span class="comment">// distance between the keys. (Keys on the same row are</span>
+<a name="l00736"></a>00736             <span class="comment">// generally closer together than keys above or below each</span>
+<a name="l00737"></a>00737             <span class="comment">// other)</span>
+<a name="l00738"></a>00738             addCandidate(node.center,
+<a name="l00739"></a>00739                          remaining.substring(1),
+<a name="l00740"></a>00740                          newoutput,
+<a name="l00741"></a>00741                          multiplier * adjust,
+<a name="l00742"></a>00742                          frequency, corrections + 1);
+<a name="l00743"></a>00743           }
+<a name="l00744"></a>00744           <span class="keywordflow">else</span> <span class="keywordflow">if</span> (output.length &gt; 0) {
+<a name="l00745"></a>00745             <span class="comment">// If it wasn&#39;t a nearby key, try substituting it anyway, but</span>
+<a name="l00746"></a>00746             <span class="comment">// with a much lower weight. This handles the case where the</span>
+<a name="l00747"></a>00747             <span class="comment">// user just doesn&#39;t know how to spell the word. We assume that</span>
+<a name="l00748"></a>00748             <span class="comment">// the user knows the correct first letter of the word.</span>
+<a name="l00749"></a>00749             addCandidate(node.center,
+<a name="l00750"></a>00750                          remaining.substring(1),
+<a name="l00751"></a>00751                          newoutput,
+<a name="l00752"></a>00752                          multiplier * substitutionMultiplier,
+<a name="l00753"></a>00753                          frequency, corrections + 1);
+<a name="l00754"></a>00754           }
+<a name="l00755"></a>00755         }
+<a name="l00756"></a>00756 
+<a name="l00757"></a>00757         <span class="comment">// Now we try some other tests that generate different candidates</span>
+<a name="l00758"></a>00758         <span class="comment">// than the above. These involve insertion, deletion or</span>
+<a name="l00759"></a>00759         <span class="comment">// transposition. Note that to avoid exponential blow-up of the</span>
+<a name="l00760"></a>00760         <span class="comment">// search space, we generally only allow maxCorrections (usually 1)</span>
+<a name="l00761"></a>00761         <span class="comment">// correction per candidate.</span>
+<a name="l00762"></a>00762 
+<a name="l00763"></a>00763         <span class="comment">// First, just try inserting this character. Maybe the user forgot</span>
+<a name="l00764"></a>00764         <span class="comment">// to type it or omitted punctuation on purpose. If this character</span>
+<a name="l00765"></a>00765         <span class="comment">// has no variants, then it is a punctuation character and we allow</span>
+<a name="l00766"></a>00766         <span class="comment">// it to be inserted with a high multiplier and no correction</span>
+<a name="l00767"></a>00767         <span class="comment">// penalty. If it is not word punctuation, then the insertion is</span>
+<a name="l00768"></a>00768         <span class="comment">// more costly. Also: assume that the user got the first character</span>
+<a name="l00769"></a>00769         <span class="comment">// correct and don&#39;t insert at position 0.</span>
+<a name="l00770"></a>00770         <span class="keywordflow">if</span> (!variants[node.ch]) {  <span class="comment">// If it is a punctuation character</span>
+<a name="l00771"></a>00771           addCandidate(node.center,
+<a name="l00772"></a>00772                        remaining, <span class="comment">// insertion, so no substring here</span>
+<a name="l00773"></a>00773                        newoutput,
+<a name="l00774"></a>00774                        multiplier * punctuationInsertionMultiplier,
+<a name="l00775"></a>00775                        frequency, corrections);
+<a name="l00776"></a>00776         }
+<a name="l00777"></a>00777         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (corrections &lt; maxCorrections &amp;&amp; output.length &gt; 0) {
+<a name="l00778"></a>00778           addCandidate(node.center,
+<a name="l00779"></a>00779                        remaining,
+<a name="l00780"></a>00780                        newoutput,
+<a name="l00781"></a>00781                        multiplier * insertionMultiplier,
+<a name="l00782"></a>00782                        frequency, corrections + 1);
+<a name="l00783"></a>00783         }
+<a name="l00784"></a>00784 
+<a name="l00785"></a>00785         <span class="comment">// If there is more input after this character, and if this node of</span>
+<a name="l00786"></a>00786         <span class="comment">// the tree matches the next character of the input, try deleting</span>
+<a name="l00787"></a>00787         <span class="comment">// the current character and try transposing the two. But assume</span>
+<a name="l00788"></a>00788         <span class="comment">// that the user got their first character correct and don&#39;t mess</span>
+<a name="l00789"></a>00789         <span class="comment">// with that.</span>
+<a name="l00790"></a>00790         <span class="keywordflow">if</span> (corrections &lt; maxCorrections &amp;&amp;
+<a name="l00791"></a>00791             remaining.length &gt; 1 &amp;&amp; output.length &gt; 0 &amp;&amp;
+<a name="l00792"></a>00792             (node.ch === remaining.charCodeAt(1) ||
+<a name="l00793"></a>00793              variants[node.ch].indexOf(remaining[1]) !== -1))
+<a name="l00794"></a>00794         {
+<a name="l00795"></a>00795           <span class="comment">// transpose</span>
+<a name="l00796"></a>00796           addCandidate(node.center,
+<a name="l00797"></a>00797                        remaining[0] + remaining.substring(2),
+<a name="l00798"></a>00798                        newoutput,
+<a name="l00799"></a>00799                        multiplier * transpositionMultiplier,
+<a name="l00800"></a>00800                        frequency, corrections + 1);
+<a name="l00801"></a>00801 
+<a name="l00802"></a>00802           <span class="comment">// delete</span>
+<a name="l00803"></a>00803           addCandidate(node.center,
+<a name="l00804"></a>00804                        remaining.substring(2),
+<a name="l00805"></a>00805                        newoutput,
+<a name="l00806"></a>00806                        multiplier * deletionMultiplier,
+<a name="l00807"></a>00807                        frequency, corrections + 1);
+<a name="l00808"></a>00808         }
+<a name="l00809"></a>00809       }
+<a name="l00810"></a>00810     }
+<a name="l00811"></a>00811   }
+<a name="l00812"></a>00812 
+<a name="l00813"></a>00813   <span class="comment">//</span>
+<a name="l00814"></a>00814   <span class="comment">// This function unpacks binary data from the dictionary and returns</span>
+<a name="l00815"></a>00815   <span class="comment">// the nodes of the dictionary tree in expanded form as JS objects.</span>
+<a name="l00816"></a>00816   <span class="comment">// See gaia/dictionaries/xml2dict.py for the corresponding code that</span>
+<a name="l00817"></a>00817   <span class="comment">// serializes the nodes of the tree into this binary format. Full</span>
+<a name="l00818"></a>00818   <span class="comment">// documentation of the binary format is in that file.</span>
+<a name="l00819"></a>00819   <span class="comment">//</span>
+<a name="l00820"></a>00820   <span class="keyword">function</span> readNode(<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>) {
+<a name="l00821"></a>00821     <span class="keywordflow">if</span> (<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a> === -1) {
+<a name="l00822"></a>00822       <span class="keywordflow">throw</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;Assertion error: followed invalid pointer&#39;</span>);
+<a name="l00823"></a>00823     }
+<a name="l00824"></a>00824 
+<a name="l00825"></a>00825     var firstbyte = tree[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>++];
+<a name="l00826"></a>00826     var haschar = firstbyte &amp; 0x80;
+<a name="l00827"></a>00827     var bigchar = firstbyte &amp; 0x40;
+<a name="l00828"></a>00828     var hasnext = firstbyte &amp; 0x20;
+<a name="l00829"></a>00829     <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.freq = (firstbyte &amp; 0x1F) + 1;  <span class="comment">// frequencies range from 1 to 32</span>
+<a name="l00830"></a>00830 
+<a name="l00831"></a>00831     <span class="keywordflow">if</span> (haschar) {
+<a name="l00832"></a>00832       <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.ch = tree[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>++];
+<a name="l00833"></a>00833       <span class="keywordflow">if</span> (bigchar)
+<a name="l00834"></a>00834         <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.ch = (<a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.ch &lt;&lt; 8) + tree[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>++];
+<a name="l00835"></a>00835     }
+<a name="l00836"></a>00836     <span class="keywordflow">else</span> {
+<a name="l00837"></a>00837       <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.ch = 0;
+<a name="l00838"></a>00838     }
+<a name="l00839"></a>00839 
+<a name="l00840"></a>00840     <span class="keywordflow">if</span> (hasnext) {
+<a name="l00841"></a>00841       <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.next =
+<a name="l00842"></a>00842         (tree[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>++] &lt;&lt; 16) +
+<a name="l00843"></a>00843         (tree[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>++] &lt;&lt; 8) +
+<a name="l00844"></a>00844         tree[<a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>++];
+<a name="l00845"></a>00845     }
+<a name="l00846"></a>00846     <span class="keywordflow">else</span> {
+<a name="l00847"></a>00847       <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.next = -1;
+<a name="l00848"></a>00848     }
+<a name="l00849"></a>00849 
+<a name="l00850"></a>00850     <span class="keywordflow">if</span> (haschar)
+<a name="l00851"></a>00851       <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.center = <a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>;
+<a name="l00852"></a>00852     <span class="keywordflow">else</span>
+<a name="l00853"></a>00853       <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.center = -1;
+<a name="l00854"></a>00854 
+<a name="l00855"></a>00855 <span class="comment">/*</span>
+<a name="l00856"></a>00856 <span class="comment">    log(&quot;readNode:&quot; +</span>
+<a name="l00857"></a>00857 <span class="comment">        &quot; haschar:&quot; + haschar +</span>
+<a name="l00858"></a>00858 <span class="comment">        &quot; bigchar:&quot; + bigchar +</span>
+<a name="l00859"></a>00859 <span class="comment">        &quot; hasnext:&quot; + hasnext +</span>
+<a name="l00860"></a>00860 <span class="comment">        &quot; freq:&quot; + node.freq +</span>
+<a name="l00861"></a>00861 <span class="comment">        &quot; char:&quot; + node.ch +</span>
+<a name="l00862"></a>00862 <span class="comment">        &quot; next:&quot; + node.next +</span>
+<a name="l00863"></a>00863 <span class="comment">        &quot; center:&quot; + node.center);</span>
+<a name="l00864"></a>00864 <span class="comment">*/</span>
+<a name="l00865"></a>00865   }
+<a name="l00866"></a>00866 
+<a name="l00867"></a>00867   <span class="comment">//</span>
+<a name="l00868"></a>00868   <span class="comment">// A priority queue with a maximum size.</span>
+<a name="l00869"></a>00869   <span class="comment">//</span>
+<a name="l00870"></a>00870   <span class="comment">// add() inserts an item at a position according to its priority. It</span>
+<a name="l00871"></a>00871   <span class="comment">// returns true if the item was inserted or false if the item&#39;s priority</span>
+<a name="l00872"></a>00872   <span class="comment">// was too low for a spot in the fixed-size queue.</span>
+<a name="l00873"></a>00873   <span class="comment">//</span>
+<a name="l00874"></a>00874   <span class="comment">// remove() removes and returns the highest priority item in the queue or</span>
+<a name="l00875"></a>00875   <span class="comment">// null if there are no items</span>
+<a name="l00876"></a>00876   <span class="comment">//</span>
+<a name="l00877"></a>00877   <span class="comment">// threshold is 0 if the queue is not yet full. Otherwise it is the</span>
+<a name="l00878"></a>00878   <span class="comment">// priority of the lowest-priority item in the queue. Items with</span>
+<a name="l00879"></a>00879   <span class="comment">// priorities higher lower than this will never be added to the queue.</span>
+<a name="l00880"></a>00880   <span class="comment">//</span>
+<a name="l00881"></a>00881   <span class="comment">// items is the sorted array of items, with the highest priority item</span>
+<a name="l00882"></a>00882   <span class="comment">// first.</span>
+<a name="l00883"></a>00883   <span class="comment">//</span>
+<a name="l00884"></a>00884   <span class="keyword">function</span> BoundedPriorityQueue(maxSize) {
+<a name="l00885"></a>00885     this.maxSize = maxSize;
+<a name="l00886"></a>00886     this.threshold = 0;
+<a name="l00887"></a>00887     this.items = [];
+<a name="l00888"></a>00888     this.priorities = [];
+<a name="l00889"></a>00889   }
+<a name="l00890"></a>00890 
+<a name="l00891"></a>00891   BoundedPriorityQueue.prototype.add = <span class="keyword">function</span> <a class="code" href="../../d3/d4a/mock__recipients_8js.html#a81b686bc164506c493dc722ce59d5b54">add</a>(item, <a class="code" href="../../d1/d70/prinit_8h.html#a4ad53c25565dabd85f99db07954d9eff">priority</a>) {
+<a name="l00892"></a>00892     <span class="comment">// If the array is full we have to reject this item or make room for it</span>
+<a name="l00893"></a>00893     <span class="keywordflow">if</span> (this.items.length === <span class="keyword">this</span>.maxSize) {
+<a name="l00894"></a>00894       <span class="keywordflow">if</span> (<a class="code" href="../../d1/d70/prinit_8h.html#a4ad53c25565dabd85f99db07954d9eff">priority</a> &lt;= this.threshold) { <span class="comment">// Reject the item.</span>
+<a name="l00895"></a>00895         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00896"></a>00896       }
+<a name="l00897"></a>00897       <span class="keywordflow">else</span> {                            <span class="comment">// Make room for it.</span>
+<a name="l00898"></a>00898         this.items.pop();
+<a name="l00899"></a>00899         this.priorities.pop();
+<a name="l00900"></a>00900       }
+<a name="l00901"></a>00901     }
+<a name="l00902"></a>00902 
+<a name="l00903"></a>00903     <span class="comment">// Search to find the insertion point for this new item</span>
+<a name="l00904"></a>00904     var <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>;
+<a name="l00905"></a>00905     <span class="keywordflow">if</span> (this.priorities.length &gt; 60) {
+<a name="l00906"></a>00906       <span class="comment">// Binary search only for relatively long arrays.</span>
+<a name="l00907"></a>00907       <span class="comment">// See http://jsperf.com/linear-or-binary-search for perf data.</span>
+<a name="l00908"></a>00908       var <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> = 0, <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a> = this.priorities.length;
+<a name="l00909"></a>00909       <span class="keywordflow">while</span> (start !== <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) {
+<a name="l00910"></a>00910         var mid = Math.floor((start + <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>) / 2);
+<a name="l00911"></a>00911         <span class="keywordflow">if</span> (<a class="code" href="../../d1/d70/prinit_8h.html#a4ad53c25565dabd85f99db07954d9eff">priority</a> &gt; this.priorities[mid]) {
+<a name="l00912"></a>00912           <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a> = mid;
+<a name="l00913"></a>00913         }
+<a name="l00914"></a>00914         <span class="keywordflow">else</span> {
+<a name="l00915"></a>00915           start = mid + 1;
+<a name="l00916"></a>00916         }
+<a name="l00917"></a>00917       }
+<a name="l00918"></a>00918       index = <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>;
+<a name="l00919"></a>00919     }
+<a name="l00920"></a>00920     <span class="keywordflow">else</span> {
+<a name="l00921"></a>00921       <span class="comment">// Linear search for small arrays</span>
+<a name="l00922"></a>00922       <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0, <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a> = this.priorities.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00923"></a>00923         <span class="keywordflow">if</span> (<a class="code" href="../../d1/d70/prinit_8h.html#a4ad53c25565dabd85f99db07954d9eff">priority</a> &gt; this.priorities[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>])
+<a name="l00924"></a>00924           <span class="keywordflow">break</span>;
+<a name="l00925"></a>00925       }
+<a name="l00926"></a>00926       index = <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>;
+<a name="l00927"></a>00927     }
+<a name="l00928"></a>00928 
+<a name="l00929"></a>00929     <span class="comment">// Insert the new item at that position</span>
+<a name="l00930"></a>00930     this.items.splice(index, 0, item);
+<a name="l00931"></a>00931     this.priorities.splice(index, 0, <a class="code" href="../../d1/d70/prinit_8h.html#a4ad53c25565dabd85f99db07954d9eff">priority</a>);
+<a name="l00932"></a>00932 
+<a name="l00933"></a>00933     <span class="comment">// Update the threshold</span>
+<a name="l00934"></a>00934     this.threshold = this.priorities[this.maxSize - 1] || 0;
+<a name="l00935"></a>00935   };
+<a name="l00936"></a>00936 
+<a name="l00937"></a>00937   BoundedPriorityQueue.prototype.remove = <span class="keyword">function</span> <span class="keyword">remove</span>() {
+<a name="l00938"></a>00938     <span class="keywordflow">if</span> (this.items.length === 0)
+<a name="l00939"></a>00939       <span class="keywordflow">return</span> <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00940"></a>00940     this.priorities.shift();
+<a name="l00941"></a>00941     this.threshold = this.priorities[this.maxSize - 1] || 0;
+<a name="l00942"></a>00942     <span class="keywordflow">return</span> this.items.shift();
+<a name="l00943"></a>00943   };
+<a name="l00944"></a>00944 
+<a name="l00945"></a>00945   BoundedPriorityQueue.prototype.removeItemAt = <span class="keyword">function</span> removeItemAt(<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>) {
+<a name="l00946"></a>00946     this.priorities.splice(<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>, 1);
+<a name="l00947"></a>00947     this.items.splice(<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>, 1);
+<a name="l00948"></a>00948     this.threshold = this.priorities[this.maxSize - 1] || 0;
+<a name="l00949"></a>00949   };
+<a name="l00950"></a>00950 
+<a name="l00951"></a>00951   <span class="comment">//</span>
+<a name="l00952"></a>00952   <span class="comment">// A very simple Least Recently Used cache. It depends on the fact that the</span>
+<a name="l00953"></a>00953   <span class="comment">// JavaScript for/in loop enumerates properties in order from least recently</span>
+<a name="l00954"></a>00954   <span class="comment">// to most recently added. (Note that this does not work for properties</span>
+<a name="l00955"></a>00955   <span class="comment">// that are numbers, however.)</span>
+<a name="l00956"></a>00956   <span class="comment">//</span>
+<a name="l00957"></a>00957   <span class="keyword">function</span> LRUCache(maxsize) {
+<a name="l00958"></a>00958     this.maxsize = maxsize;
+<a name="l00959"></a>00959     this.<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a> = 0;
+<a name="l00960"></a>00960     this.map = Object.create(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>); <span class="comment">// map keys to values</span>
+<a name="l00961"></a>00961   }
+<a name="l00962"></a>00962 
+<a name="l00963"></a>00963   <span class="comment">// Cache the key/value pair</span>
+<a name="l00964"></a>00964   LRUCache.prototype.add = <span class="keyword">function</span> <a class="code" href="../../d3/d4a/mock__recipients_8js.html#a81b686bc164506c493dc722ce59d5b54">add</a>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>, <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00965"></a>00965     <span class="comment">// If the key is already in the cache, adjust the size since we&#39;ll</span>
+<a name="l00966"></a>00966     <span class="comment">// be incrementing below</span>
+<a name="l00967"></a>00967     <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> in this.map) {
+<a name="l00968"></a>00968       this.<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>--;
+<a name="l00969"></a>00969     }
+<a name="l00970"></a>00970 
+<a name="l00971"></a>00971     <span class="comment">// Now insert the item</span>
+<a name="l00972"></a>00972     this.map[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>] = <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00973"></a>00973     this.<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>++;
+<a name="l00974"></a>00974 
+<a name="l00975"></a>00975     <span class="comment">// If the size is too big delete the first property returned by</span>
+<a name="l00976"></a>00976     <span class="comment">// for/in. This should be the least recently used because the get()</span>
+<a name="l00977"></a>00977     <span class="comment">// method deletes and reinserts</span>
+<a name="l00978"></a>00978     <span class="keywordflow">if</span> (this.<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a> &gt; this.maxsize) {
+<a name="l00979"></a>00979       <span class="keywordflow">for</span> (var <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> in this.map) {
+<a name="l00980"></a>00980         <span class="keyword">delete</span> this.map[<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>];
+<a name="l00981"></a>00981         <span class="keywordflow">break</span>;
+<a name="l00982"></a>00982       }
+<a name="l00983"></a>00983       this.<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>--;
+<a name="l00984"></a>00984     }
+<a name="l00985"></a>00985   };
+<a name="l00986"></a>00986 
+<a name="l00987"></a>00987   <span class="comment">// Look for a cached value matching the specified key</span>
+<a name="l00988"></a>00988   LRUCache.prototype.get = <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>) {
+<a name="l00989"></a>00989     <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> in this.map) {        <span class="comment">// If the key is in the cache</span>
+<a name="l00990"></a>00990       var <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = this.map[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>];  <span class="comment">// Get the value</span>
+<a name="l00991"></a>00991       <span class="keyword">delete</span> this.map[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>];       <span class="comment">// Delete the key/value mapping</span>
+<a name="l00992"></a>00992       this.map[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>] = <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;      <span class="comment">// And re-insert to make it most recent</span>
+<a name="l00993"></a>00993       <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;               <span class="comment">// Return the value</span>
+<a name="l00994"></a>00994     }
+<a name="l00995"></a>00995     <span class="keywordflow">return</span> <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00996"></a>00996   };
+<a name="l00997"></a>00997 
+<a name="l00998"></a>00998   <span class="comment">// This is the Predictions object that is the public API of this module.</span>
+<a name="l00999"></a>00999   <span class="keywordflow">return</span> {
+<a name="l01000"></a>01000     setDictionary: setDictionary,
+<a name="l01001"></a>01001     setNearbyKeys: setNearbyKeys,
+<a name="l01002"></a>01002     predict: predict
+<a name="l01003"></a>01003   };
+<a name="l01004"></a>01004 }();
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/df4/predictions_8js.html">predictions.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:54:48に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

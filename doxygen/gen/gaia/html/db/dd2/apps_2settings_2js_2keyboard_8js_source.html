@@ -1,0 +1,516 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: keyboard.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('db/dd2/apps_2settings_2js_2keyboard_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">keyboard.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: js; js-indent-level: 2; indent-tabs-mode: nil -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */</span>
+<a name="l00003"></a>00003 
+<a name="l00004"></a><a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#ae2475e10618961c050dcba04e8c42331">00004</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment"> * The script depends shared/js/keyboard_helper.js. KeyboardHelper helps on the</span>
+<a name="l00008"></a>00008 <span class="comment"> * following things:</span>
+<a name="l00009"></a>00009 <span class="comment"> * - Get all installed keyboard apps and layouts.</span>
+<a name="l00010"></a>00010 <span class="comment"> * - Enable or disable keyboard layouts.</span>
+<a name="l00011"></a>00011 <span class="comment"> * - Notify keyboard layout changes via the &#39;keyboardsrefresh&#39; event.</span>
+<a name="l00012"></a>00012 <span class="comment"> *</span>
+<a name="l00013"></a>00013 <span class="comment"> * This javascript file defines the following modules:</span>
+<a name="l00014"></a>00014 <span class="comment"> * - KeyboardContext</span>
+<a name="l00015"></a>00015 <span class="comment"> *   KeyboardContext provides lists of all installed keyboards and enabled</span>
+<a name="l00016"></a>00016 <span class="comment"> *   layouts. The lists are kept updated based on the events from</span>
+<a name="l00017"></a>00017 <span class="comment"> *   KeyboardHelper. KeyboardContext handles only data and does not involve in</span>
+<a name="l00018"></a>00018 <span class="comment"> *   any UI logic.</span>
+<a name="l00019"></a>00019 <span class="comment"> *</span>
+<a name="l00020"></a>00020 <span class="comment"> * - Panel</span>
+<a name="l00021"></a>00021 <span class="comment"> *   Panel is designed to be initialized with a panel ID, and reflects if it is</span>
+<a name="l00022"></a>00022 <span class="comment"> *   visible to users via the `visible` property.</span>
+<a name="l00023"></a>00023 <span class="comment"> *</span>
+<a name="l00024"></a>00024 <span class="comment"> * - KeyboardPanel</span>
+<a name="l00025"></a>00025 <span class="comment"> * - EnabledLayoutsPanel</span>
+<a name="l00026"></a>00026 <span class="comment"> * - InstalledLayoutsPanel</span>
+<a name="l00027"></a>00027 <span class="comment"> *   In the panels we initialize a ListView with the data provided by</span>
+<a name="l00028"></a>00028 <span class="comment"> *   KeyboardContext. Templates for generating UI elements are also defined</span>
+<a name="l00029"></a>00029 <span class="comment"> *   here. The three panel used Panel for observing the visibility change. Which</span>
+<a name="l00030"></a>00030 <span class="comment"> *   is for avoiding unnecessary UI changes when the panels are not visible to</span>
+<a name="l00031"></a>00031 <span class="comment"> *   users.</span>
+<a name="l00032"></a>00032 <span class="comment"> */</span>
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034 <span class="comment">/*</span>
+<a name="l00035"></a>00035 <span class="comment"> * KeyboardContext provides installed keyboard apps and enabled keyboard layouts</span>
+<a name="l00036"></a>00036 <span class="comment"> * in terms of ObservableArrays. It listens to the changes of installed apps</span>
+<a name="l00037"></a>00037 <span class="comment"> * and keyboard.enabled-layouts, and update the ObservableArrays.</span>
+<a name="l00038"></a>00038 <span class="comment"> */</span>
+<a name="l00039"></a><a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#abf5854d81a80496fb9699f9f94c69623">00039</a> var <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#abf5854d81a80496fb9699f9f94c69623">KeyboardContext</a> = (<span class="keyword">function</span>() {
+<a name="l00040"></a>00040   var _layoutDict = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>; <span class="comment">// stores layout indexed by appOrigin and layoutId</span>
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042   var _keyboards = <a class="code" href="../../df/d02/models_8js.html#a21aa2a937ecffb27f98514adc978ed00">ObservableArray</a>([]);
+<a name="l00043"></a>00043   var _enabledLayouts = <a class="code" href="../../df/d02/models_8js.html#a21aa2a937ecffb27f98514adc978ed00">ObservableArray</a>([]);
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045   var _isReady = <span class="keyword">false</span>;
+<a name="l00046"></a>00046   var _callbacks = [];
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048   var Keyboard = <span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <a class="code" href="../../dd/dc4/namespacesetup.html#a4ad612547892c74be7035043265eb65c">description</a>, launchPath, layouts, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a7b225fcb720e4d5ed2bbf60e28a25e6d">app</a>) {
+<a name="l00049"></a>00049     <span class="keywordflow">return</span> {
+<a name="l00050"></a>00050       <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>: <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>,
+<a name="l00051"></a>00051       description: <a class="code" href="../../dd/dc4/namespacesetup.html#a4ad612547892c74be7035043265eb65c">description</a>,
+<a name="l00052"></a>00052       launchPath: launchPath,
+<a name="l00053"></a>00053       layouts: layouts,
+<a name="l00054"></a>00054       <a class="code" href="../../d1/d04/app__install__manager_8js.html#a7b225fcb720e4d5ed2bbf60e28a25e6d">app</a>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a7b225fcb720e4d5ed2bbf60e28a25e6d">app</a>
+<a name="l00055"></a>00055     };
+<a name="l00056"></a>00056   };
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058   var Layout =
+<a name="l00059"></a>00059     <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9c89fb5ac9e7ad2b8b5e952b26a83577">appName</a>, appOrigin, <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <a class="code" href="../../dd/dc4/namespacesetup.html#a4ad612547892c74be7035043265eb65c">description</a>, <a class="code" href="../../df/d12/latin__test_8js.html#a9b2ffd3686cfee1e001186fb61e302a4">types</a>, <a class="code" href="../../d2/d7d/jsapi_8h.html#ad40d8437f6cf8675f077c4117119c8c0">enabled</a>) {
+<a name="l00060"></a>00060       var _observable = <a class="code" href="../../df/d02/models_8js.html#a41dada05c6544c037f1d3db19949bd48">Observable</a>({
+<a name="l00061"></a>00061         <span class="keywordtype">id</span>: <a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>,
+<a name="l00062"></a>00062         appName: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9c89fb5ac9e7ad2b8b5e952b26a83577">appName</a>,
+<a name="l00063"></a>00063         name: <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>,
+<a name="l00064"></a>00064         description: <a class="code" href="../../dd/dc4/namespacesetup.html#a4ad612547892c74be7035043265eb65c">description</a>,
+<a name="l00065"></a>00065         types: <a class="code" href="../../df/d12/latin__test_8js.html#a9b2ffd3686cfee1e001186fb61e302a4">types</a>,
+<a name="l00066"></a>00066         <a class="code" href="../../d2/d7d/jsapi_8h.html#ad40d8437f6cf8675f077c4117119c8c0">enabled</a>: <a class="code" href="../../d2/d7d/jsapi_8h.html#ad40d8437f6cf8675f077c4117119c8c0">enabled</a>
+<a name="l00067"></a>00067       });
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069       <span class="comment">// Layout enabled changed.</span>
+<a name="l00070"></a>00070       _observable.observe(<span class="stringliteral">&#39;enabled&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../dd/dfa/ns_i_d_o_m_storage_event_8idl.html#ae2d3f872ef6de235e7800c00038a4a55">newValue</a>, <a class="code" href="../../dd/dfa/ns_i_d_o_m_storage_event_8idl.html#af4907dbf2b18d0aaaa828069509c94ca">oldValue</a>) {
+<a name="l00071"></a>00071         <a class="code" href="../../de/dba/mock__keyboard__helper_8js.html#a89f4c4f9bc62c4af6d236a41027ade28">KeyboardHelper</a>.setLayoutEnabled(appOrigin, <span class="keywordtype">id</span>, <a class="code" href="../../dd/dfa/ns_i_d_o_m_storage_event_8idl.html#ae2d3f872ef6de235e7800c00038a4a55">newValue</a>);
+<a name="l00072"></a>00072       });
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074       <span class="keywordflow">return</span> _observable;
+<a name="l00075"></a>00075   };
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077   var _refreshEnabledLayouts = <span class="keyword">function</span>() {
+<a name="l00078"></a>00078     var enabledLayouts = [];
+<a name="l00079"></a>00079     var <a class="code" href="../../de/dba/mock__keyboard__helper_8js.html#a3b93ec8a1ab39af8e798bf9904e24811">keyboardSettings</a> = <a class="code" href="../../de/dba/mock__keyboard__helper_8js.html#a89f4c4f9bc62c4af6d236a41027ade28">KeyboardHelper</a>.keyboardSettings;
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081     <span class="keywordflow">if</span> (keyboardSettings) {
+<a name="l00082"></a>00082       keyboardSettings.forEach(<span class="keyword">function</span>(layoutSetting) {
+<a name="l00083"></a>00083         var keyboard, layout;
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085         keyboard = _layoutDict[layoutSetting.appOrigin];
+<a name="l00086"></a>00086         layout = keyboard ? keyboard[layoutSetting.layoutId] : <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088         <span class="keywordflow">if</span> (layout) {
+<a name="l00089"></a>00089           <span class="keywordflow">if</span> (layoutSetting.enabled) {
+<a name="l00090"></a>00090             enabledLayouts.push(layout);
+<a name="l00091"></a>00091           }
+<a name="l00092"></a>00092           layout.enabled = layoutSetting.enabled;
+<a name="l00093"></a>00093         }
+<a name="l00094"></a>00094       });
+<a name="l00095"></a>00095     }
+<a name="l00096"></a>00096     _enabledLayouts.reset(enabledLayouts);
+<a name="l00097"></a>00097   };
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099   var _refreshInstalledKeyboards = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00100"></a>00100     <a class="code" href="../../de/dba/mock__keyboard__helper_8js.html#a89f4c4f9bc62c4af6d236a41027ade28">KeyboardHelper</a>.getInstalledKeyboards(<span class="keyword">function</span>(allKeyboards) {
+<a name="l00101"></a>00101       _layoutDict = {};
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103       allKeyboards.forEach(<span class="keyword">function</span>(keyboardAppInstance) {
+<a name="l00104"></a>00104         <span class="comment">// get all layouts in a keyboard app</span>
+<a name="l00105"></a>00105         var keyboardManifest = <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(keyboardAppInstance.manifest);
+<a name="l00106"></a>00106         var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9779bb7220e7fd0e5347cae6ef11236f">entryPoints</a> = keyboardManifest.entry_points;
+<a name="l00107"></a>00107         var layouts = [];
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109         _layoutDict[keyboardAppInstance.origin] = {};
+<a name="l00110"></a>00110         <span class="keywordflow">for</span> (var <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> in entryPoints) {
+<a name="l00111"></a>00111           var layoutInstance = <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(entryPoints[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>]);
+<a name="l00112"></a>00112           <span class="keywordflow">if</span> (!entryPoints[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>].<a class="code" href="../../df/d12/latin__test_8js.html#a9b2ffd3686cfee1e001186fb61e302a4">types</a>) {
+<a name="l00113"></a>00113             <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;the keyboard app did not declare type.&#39;</span>);
+<a name="l00114"></a>00114             <span class="keywordflow">continue</span>;
+<a name="l00115"></a>00115           }
+<a name="l00116"></a>00116           var layout = Layout(<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>, keyboardManifest.name,
+<a name="l00117"></a>00117                               keyboardAppInstance.origin, layoutInstance.name,
+<a name="l00118"></a>00118                               layoutInstance.description,
+<a name="l00119"></a>00119                               layoutInstance.types, <span class="keyword">false</span>);
+<a name="l00120"></a>00120           layouts.push(layout);
+<a name="l00121"></a>00121           _layoutDict[keyboardAppInstance.origin][<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>] = layout;
+<a name="l00122"></a>00122         }
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124         _keyboards.push(Keyboard(keyboardManifest.name,
+<a name="l00125"></a>00125                                  keyboardManifest.description,
+<a name="l00126"></a>00126                                  keyboardManifest.launch_path,
+<a name="l00127"></a>00127                                  layouts, keyboardAppInstance));
+<a name="l00128"></a>00128       });
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130       <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>();
+<a name="l00131"></a>00131     });
+<a name="l00132"></a>00132   };
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134   var <a class="code" href="../../de/dba/mock__keyboard__helper_8js.html#a5c1f8f127ecb0433e33894376d015109">_init</a> = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00135"></a>00135     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;keyboardsrefresh&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00136"></a>00136       <span class="comment">/*</span>
+<a name="l00137"></a>00137 <span class="comment">       * XXX: The event contains information including layout enabled/disabled,</span>
+<a name="l00138"></a>00138 <span class="comment">       *      keyboard installed/uninstalled, and keyboard change. We should</span>
+<a name="l00139"></a>00139 <span class="comment">       *      have finer events in the future.</span>
+<a name="l00140"></a>00140 <span class="comment">       */</span>
+<a name="l00141"></a>00141       _refreshEnabledLayouts();
+<a name="l00142"></a>00142     });
+<a name="l00143"></a>00143     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;localized&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00144"></a>00144       <span class="comment">// refresh keyboard and layout in _keyboards</span>
+<a name="l00145"></a>00145       _keyboards.forEach(<span class="keyword">function</span>(keyboard) {
+<a name="l00146"></a>00146         var keyboardAppInstance = keyboard.app;
+<a name="l00147"></a>00147         var keyboardManifest = <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(keyboardAppInstance.manifest);
+<a name="l00148"></a>00148         var entryPoints = keyboardManifest.entry_points;
+<a name="l00149"></a>00149         keyboard.name = keyboardManifest.name;
+<a name="l00150"></a>00150         keyboard.description = keyboardManifest.description;
+<a name="l00151"></a>00151         keyboard.layouts.forEach(<span class="keyword">function</span>(layout) {
+<a name="l00152"></a>00152           var <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> = layout.id;
+<a name="l00153"></a>00153           var layoutInstance = <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(entryPoints[key]);
+<a name="l00154"></a>00154           layout.appName = keyboardManifest.name;
+<a name="l00155"></a>00155           layout.name = layoutInstance.name;
+<a name="l00156"></a>00156           layout.description = layoutInstance.description;
+<a name="l00157"></a>00157         });
+<a name="l00158"></a>00158       });
+<a name="l00159"></a>00159     });
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161     _refreshInstalledKeyboards(<span class="keyword">function</span>() {
+<a name="l00162"></a>00162       _refreshEnabledLayouts();
+<a name="l00163"></a>00163       <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>();
+<a name="l00164"></a>00164     });
+<a name="l00165"></a>00165   };
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167   var _ready = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00168"></a>00168     <span class="keywordflow">if</span> (!<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>)
+<a name="l00169"></a>00169       <span class="keywordflow">return</span>;
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171     <span class="keywordflow">if</span> (_isReady) {
+<a name="l00172"></a>00172       <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>();
+<a name="l00173"></a>00173     } <span class="keywordflow">else</span> {
+<a name="l00174"></a>00174       _callbacks.push(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>);
+<a name="l00175"></a>00175     }
+<a name="l00176"></a>00176   };
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178   <a class="code" href="../../de/dba/mock__keyboard__helper_8js.html#a5c1f8f127ecb0433e33894376d015109">_init</a>(<span class="keyword">function</span>() {
+<a name="l00179"></a>00179     _isReady = <span class="keyword">true</span>;
+<a name="l00180"></a>00180     _callbacks.forEach(<span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00181"></a>00181       <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>();
+<a name="l00182"></a>00182     });
+<a name="l00183"></a>00183   });
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185   <span class="keywordflow">return</span> {
+<a name="l00186"></a>00186     <a class="code" href="../../d1/d04/app__install__manager_8js.html#a46ec18bfbcc6f8198bef7d7d9a6148a3">keyboards</a>: <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00187"></a>00187       _ready(<span class="keyword">function</span>() {
+<a name="l00188"></a>00188         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(_keyboards);
+<a name="l00189"></a>00189       });
+<a name="l00190"></a>00190     },
+<a name="l00191"></a>00191     enabledLayouts: <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00192"></a>00192       _ready(<span class="keyword">function</span>() {
+<a name="l00193"></a>00193         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(_enabledLayouts);
+<a name="l00194"></a>00194       });
+<a name="l00195"></a>00195     }
+<a name="l00196"></a>00196   };
+<a name="l00197"></a>00197 })();
+<a name="l00198"></a>00198 
+<a name="l00199"></a><a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a2d1c0b71fb763e65619efa580e6d01ba">00199</a> var <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a2d1c0b71fb763e65619efa580e6d01ba">Panel</a> = <span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>) {
+<a name="l00200"></a>00200   var _id = <a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>;
+<a name="l00201"></a>00201   var _panel = <a class="code" href="../../df/d02/models_8js.html#a41dada05c6544c037f1d3db19949bd48">Observable</a>({
+<a name="l00202"></a>00202     <a class="code" href="../../d3/d4a/mock__recipients_8js.html#a6d342aea8f30c5f641ed5ff6e0f4de13">visible</a>: (_id === <a class="code" href="../../de/d5e/apps_2browser_2js_2settings_8js.html#a2f596332cd75ad3af3b5639f64da6573">Settings</a>.currentPanel)
+<a name="l00203"></a>00203   });
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205   <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;panelready&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00206"></a>00206     _panel.visible = (_id === <a class="code" href="../../de/d5e/apps_2browser_2js_2settings_8js.html#a2f596332cd75ad3af3b5639f64da6573">Settings</a>.currentPanel);
+<a name="l00207"></a>00207   });
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209   <span class="keywordflow">return</span> _panel;
+<a name="l00210"></a>00210 };
+<a name="l00211"></a>00211 
+<a name="l00212"></a><a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a5841179d827d3a11228463ae252fac8f">00212</a> var <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a5841179d827d3a11228463ae252fac8f">KeyboardPanel</a> = (<span class="keyword">function</span>() {
+<a name="l00213"></a>00213   var _panel = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00214"></a>00214   var _listView = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00215"></a>00215 
+<a name="l00216"></a>00216   <span class="comment">// A template function for generating an UI element for a keyboard object.</span>
+<a name="l00217"></a>00217   var _keyboardTemplate = <span class="keyword">function</span> kl_keyboardTemplate(keyboard, recycled) {
+<a name="l00218"></a>00218     var <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00219"></a>00219     var span;
+<a name="l00220"></a>00220     <span class="keywordflow">if</span> (recycled) {
+<a name="l00221"></a>00221       container = recycled;
+<a name="l00222"></a>00222       span = container.querySelector(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00223"></a>00223     } <span class="keywordflow">else</span> {
+<a name="l00224"></a>00224       container = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;li&#39;</span>);
+<a name="l00225"></a>00225       span = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227       container.classList.add(<span class="stringliteral">&#39;keyboard-menuItem&#39;</span>);
+<a name="l00228"></a>00228       container.appendChild(span);
+<a name="l00229"></a>00229     }
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231     container.onclick = <span class="keyword">function</span>() {
+<a name="l00232"></a>00232       keyboard.app.launch();
+<a name="l00233"></a>00233     };
+<a name="l00234"></a>00234     span.textContent = keyboard.name;
+<a name="l00235"></a>00235     <span class="keywordflow">return</span> <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>;
+<a name="l00236"></a>00236   };
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238   var _initAllKeyboardListView = <span class="keyword">function</span>() {
+<a name="l00239"></a>00239     <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#abf5854d81a80496fb9699f9f94c69623">KeyboardContext</a>.keyboards(<span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a46ec18bfbcc6f8198bef7d7d9a6148a3">keyboards</a>) {
+<a name="l00240"></a>00240       var ul = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;allKeyboardList&#39;</span>);
+<a name="l00241"></a>00241       ul.hidden = (<a class="code" href="../../d1/d04/app__install__manager_8js.html#a46ec18bfbcc6f8198bef7d7d9a6148a3">keyboards</a>.length == 0);
+<a name="l00242"></a>00242       _listView = <a class="code" href="../../de/db0/music_8js.html#a9ddb41baf7073bb0289a979deab97602">ListView</a>(ul, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a46ec18bfbcc6f8198bef7d7d9a6148a3">keyboards</a>, _keyboardTemplate);
+<a name="l00243"></a>00243       _listView.enabled = _panel.visible;
+<a name="l00244"></a>00244     });
+<a name="l00245"></a>00245   };
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247   var _visibilityChanged = <span class="keyword">function</span>(<a class="code" href="../../d3/d4a/mock__recipients_8js.html#a6d342aea8f30c5f641ed5ff6e0f4de13">visible</a>) {
+<a name="l00248"></a>00248     _listView.enabled = <a class="code" href="../../d3/d4a/mock__recipients_8js.html#a6d342aea8f30c5f641ed5ff6e0f4de13">visible</a>;
+<a name="l00249"></a>00249   };
+<a name="l00250"></a>00250 
+<a name="l00251"></a>00251   <span class="keywordflow">return</span> {
+<a name="l00252"></a>00252     <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>: <span class="keyword">function</span> kl_init(panelID) {
+<a name="l00253"></a>00253       _panel = <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a2d1c0b71fb763e65619efa580e6d01ba">Panel</a>(panelID);
+<a name="l00254"></a>00254       _panel.observe(<span class="stringliteral">&#39;visible&#39;</span>, _visibilityChanged);
+<a name="l00255"></a>00255       _initAllKeyboardListView();
+<a name="l00256"></a>00256     }
+<a name="l00257"></a>00257   };
+<a name="l00258"></a>00258 })();
+<a name="l00259"></a>00259 
+<a name="l00260"></a><a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#ad3936d26fd838febd72f2ba9936209af">00260</a> var <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#ad3936d26fd838febd72f2ba9936209af">EnabledLayoutsPanel</a> = (<span class="keyword">function</span>() {
+<a name="l00261"></a>00261   var _panel = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00262"></a>00262   var _listView = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264   <span class="comment">// A template function for generating an UI element for a layout object.</span>
+<a name="l00265"></a>00265   var _layoutTemplate = <span class="keyword">function</span> ks_layoutTemplate(layout, recycled) {
+<a name="l00266"></a>00266     var <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00267"></a>00267     var span;
+<a name="l00268"></a>00268     <span class="keywordflow">if</span> (recycled) {
+<a name="l00269"></a>00269       container = recycled;
+<a name="l00270"></a>00270       span = container.querySelector(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00271"></a>00271     } <span class="keywordflow">else</span> {
+<a name="l00272"></a>00272       container = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;li&#39;</span>);
+<a name="l00273"></a>00273       span = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00274"></a>00274       container.appendChild(span);
+<a name="l00275"></a>00275     }
+<a name="l00276"></a>00276     var refreshName = <span class="keyword">function</span>() {
+<a name="l00277"></a>00277       span.textContent = layout.appName + <span class="stringliteral">&#39;: &#39;</span> + layout.name;
+<a name="l00278"></a>00278     };
+<a name="l00279"></a>00279     refreshName();
+<a name="l00280"></a>00280     layout.observe(<span class="stringliteral">&#39;appName&#39;</span>, refreshName);
+<a name="l00281"></a>00281     layout.observe(<span class="stringliteral">&#39;name&#39;</span>, refreshName);
+<a name="l00282"></a>00282     <span class="keywordflow">return</span> <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>;
+<a name="l00283"></a>00283   };
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285   var _initEnabledLayoutListView = <span class="keyword">function</span>() {
+<a name="l00286"></a>00286     <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#abf5854d81a80496fb9699f9f94c69623">KeyboardContext</a>.enabledLayouts(<span class="keyword">function</span>(enabledLayouts) {
+<a name="l00287"></a>00287       var ul = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;enabledKeyboardList&#39;</span>);
+<a name="l00288"></a>00288       _listView = <a class="code" href="../../de/db0/music_8js.html#a9ddb41baf7073bb0289a979deab97602">ListView</a>(ul, enabledLayouts, _layoutTemplate);
+<a name="l00289"></a>00289       _listView.enabled = _panel.visible;
+<a name="l00290"></a>00290     });
+<a name="l00291"></a>00291   };
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293   var _visibilityChanged = <span class="keyword">function</span>(<a class="code" href="../../d3/d4a/mock__recipients_8js.html#a6d342aea8f30c5f641ed5ff6e0f4de13">visible</a>) {
+<a name="l00294"></a>00294     _listView.enabled = <a class="code" href="../../d3/d4a/mock__recipients_8js.html#a6d342aea8f30c5f641ed5ff6e0f4de13">visible</a>;
+<a name="l00295"></a>00295   };
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297   <span class="keywordflow">return</span> {
+<a name="l00298"></a>00298     <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>: <span class="keyword">function</span> ks_init(panelID) {
+<a name="l00299"></a>00299       _panel = <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a2d1c0b71fb763e65619efa580e6d01ba">Panel</a>(panelID);
+<a name="l00300"></a>00300       _panel.observe(<span class="stringliteral">&#39;visible&#39;</span>, _visibilityChanged);
+<a name="l00301"></a>00301       _initEnabledLayoutListView();
+<a name="l00302"></a>00302     }
+<a name="l00303"></a>00303   };
+<a name="l00304"></a>00304 })();
+<a name="l00305"></a>00305 
+<a name="l00306"></a><a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a7c6419c80eeecd9bd97564a904e9c850">00306</a> var <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a7c6419c80eeecd9bd97564a904e9c850">InstalledLayoutsPanel</a> = (<span class="keyword">function</span>() {
+<a name="l00307"></a>00307   var _panel = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00308"></a>00308   var _listView = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00309"></a>00309 
+<a name="l00310"></a>00310   <span class="comment">// A template function for generating an UI element for a layout object.</span>
+<a name="l00311"></a>00311   var _layoutTemplate = <span class="keyword">function</span> ksa_layoutTemplate(layout, recycled) {
+<a name="l00312"></a>00312     var <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00313"></a>00313     var layoutName, checkbox;
+<a name="l00314"></a>00314     <span class="keywordflow">if</span> (recycled) {
+<a name="l00315"></a>00315       container = recycled;
+<a name="l00316"></a>00316       checkbox = container.querySelector(<span class="stringliteral">&#39;input&#39;</span>);
+<a name="l00317"></a>00317       span = container.querySelector(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00318"></a>00318     } <span class="keywordflow">else</span> {
+<a name="l00319"></a>00319       container = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;li&#39;</span>);
+<a name="l00320"></a>00320       checkbox = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;input&#39;</span>);
+<a name="l00321"></a>00321       layoutName = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="charliteral">&#39;a&#39;</span>);
+<a name="l00322"></a>00322       var label = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;label&#39;</span>);
+<a name="l00323"></a>00323       var span = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;span&#39;</span>);
+<a name="l00324"></a>00324 
+<a name="l00325"></a>00325       label.className = <span class="stringliteral">&#39;pack-checkbox&#39;</span>;
+<a name="l00326"></a>00326       checkbox.type = <span class="stringliteral">&#39;checkbox&#39;</span>;
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328       label.appendChild(checkbox);
+<a name="l00329"></a>00329       label.appendChild(span);
+<a name="l00330"></a>00330 
+<a name="l00331"></a>00331       container.appendChild(label);
+<a name="l00332"></a>00332       container.appendChild(layoutName);
+<a name="l00333"></a>00333     }
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335     checkbox.onchange = <span class="keyword">function</span>() {
+<a name="l00336"></a>00336       layout.enabled = this.checked;
+<a name="l00337"></a>00337     };
+<a name="l00338"></a>00338 
+<a name="l00339"></a>00339     var refreshName = <span class="keyword">function</span>() {
+<a name="l00340"></a>00340       layoutName.textContent = layout.name;
+<a name="l00341"></a>00341     };
+<a name="l00342"></a>00342     refreshName();
+<a name="l00343"></a>00343     layout.observe(<span class="stringliteral">&#39;name&#39;</span>, refreshName);
+<a name="l00344"></a>00344     checkbox.checked = layout.enabled;
+<a name="l00345"></a>00345 
+<a name="l00346"></a>00346     <span class="keywordflow">return</span> <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a>;
+<a name="l00347"></a>00347   };
+<a name="l00348"></a>00348 
+<a name="l00349"></a>00349   var _initInstalledLayoutListView = <span class="keyword">function</span>() {
+<a name="l00350"></a>00350     <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#abf5854d81a80496fb9699f9f94c69623">KeyboardContext</a>.keyboards(<span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a46ec18bfbcc6f8198bef7d7d9a6148a3">keyboards</a>) {
+<a name="l00351"></a>00351       var <a class="code" href="../../da/dce/details__test_8js.html#a88e6efb757b9907baa46a5755484f2bd">container</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;keyboardAppContainer&#39;</span>);
+<a name="l00352"></a>00352       <a class="code" href="../../d1/d04/app__install__manager_8js.html#a46ec18bfbcc6f8198bef7d7d9a6148a3">keyboards</a>.forEach(<span class="keyword">function</span>(keyboard) {
+<a name="l00353"></a>00353         var <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;header&#39;</span>);
+<a name="l00354"></a>00354         var h2 = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;h2&#39;</span>);
+<a name="l00355"></a>00355         var ul = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;ul&#39;</span>);
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357         h2.textContent = keyboard.name;
+<a name="l00358"></a>00358         header.appendChild(h2);
+<a name="l00359"></a>00359         container.appendChild(header);
+<a name="l00360"></a>00360         container.appendChild(ul);
+<a name="l00361"></a>00361         _listView = <a class="code" href="../../de/db0/music_8js.html#a9ddb41baf7073bb0289a979deab97602">ListView</a>(ul, keyboard.layouts,
+<a name="l00362"></a>00362           _layoutTemplate);
+<a name="l00363"></a>00363         _listView.enabled = _panel.visible;
+<a name="l00364"></a>00364       });
+<a name="l00365"></a>00365     });
+<a name="l00366"></a>00366   };
+<a name="l00367"></a>00367 
+<a name="l00368"></a>00368   var _visibilityChanged = <span class="keyword">function</span>(<a class="code" href="../../d3/d4a/mock__recipients_8js.html#a6d342aea8f30c5f641ed5ff6e0f4de13">visible</a>) {
+<a name="l00369"></a>00369     _listView.enabled = <a class="code" href="../../d3/d4a/mock__recipients_8js.html#a6d342aea8f30c5f641ed5ff6e0f4de13">visible</a>;
+<a name="l00370"></a>00370   };
+<a name="l00371"></a>00371 
+<a name="l00372"></a>00372   <span class="keywordflow">return</span> {
+<a name="l00373"></a>00373     <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>: <span class="keyword">function</span> ksa_init(panelID) {
+<a name="l00374"></a>00374       _panel = <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a2d1c0b71fb763e65619efa580e6d01ba">Panel</a>(panelID);
+<a name="l00375"></a>00375       _panel.observe(<span class="stringliteral">&#39;visible&#39;</span>, _visibilityChanged);
+<a name="l00376"></a>00376       _initInstalledLayoutListView();
+<a name="l00377"></a>00377     }
+<a name="l00378"></a>00378   };
+<a name="l00379"></a>00379 })();
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381 <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.ready(<span class="keyword">function</span> keyboard_init() {
+<a name="l00382"></a>00382   KeyboardPanel.init(<span class="stringliteral">&#39;#keyboard&#39;</span>);
+<a name="l00383"></a>00383   EnabledLayoutsPanel.init(<span class="stringliteral">&#39;#keyboard-selection&#39;</span>);
+<a name="l00384"></a>00384   InstalledLayoutsPanel.init(<span class="stringliteral">&#39;#keyboard-selection-addMore&#39;</span>);
+<a name="l00385"></a>00385 });
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html">keyboard.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:30に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: message_handler.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d7/d08/message__handler_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">message_handler.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d7/d08/message__handler_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00002"></a>00002 (<span class="keyword">function</span>() {
+<a name="l00003"></a>00003 
+<a name="l00004"></a>00004   <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006   <span class="keyword">function</span> inStandAloneMode() {
+<a name="l00007"></a>00007     <span class="keywordflow">return</span> <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.parent.location.pathname === <span class="stringliteral">&#39;/message_handler.html&#39;</span>;
+<a name="l00008"></a>00008   }
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010   <span class="comment">// Redirect global objects to parent versions to avoid conflicts</span>
+<a name="l00011"></a>00011   <span class="keywordflow">if</span> (!inStandAloneMode()) {
+<a name="l00012"></a>00012     <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.parent.ConfigManager;
+<a name="l00013"></a>00013     <a class="code" href="../../d8/dcd/costcontrol_8js.html#a84c34297377b2094773e1b447cddbc07">CostControl</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.parent.CostControl;
+<a name="l00014"></a>00014   }
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016   <span class="comment">// XXX: This case implies that message handler triggered by system</span>
+<a name="l00017"></a>00017   <span class="comment">// (inStandAlone check) has replaced CC application (history&#39;s length check).</span>
+<a name="l00018"></a>00018   <span class="comment">//</span>
+<a name="l00019"></a>00019   <span class="comment">// This only occurs when the system (window manager) has detected there is</span>
+<a name="l00020"></a>00020   <span class="comment">// already an iframe for CC application, it is in background and it is</span>
+<a name="l00021"></a>00021   <span class="comment">// not the message handler. So, as the CC index.html uses the this file</span>
+<a name="l00022"></a>00022   <span class="comment">// inside an iframe (no standalone mode), all the messages should be attended</span>
+<a name="l00023"></a>00023   <span class="comment">// so we can conclude **there is nothing to do**.</span>
+<a name="l00024"></a>00024   <span class="keywordflow">if</span> (inStandAloneMode() &amp;&amp; <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.history.length &gt; 1) {
+<a name="l00025"></a>00025     <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Nothing to do in message handler, returning to app...&#39;</span>);
+<a name="l00026"></a>00026     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.history.back();
+<a name="l00027"></a>00027   }
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029   <span class="keyword">function</span> inApplicationMode() {
+<a name="l00030"></a>00030     <span class="keywordflow">return</span> <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.parent.location.pathname === <span class="stringliteral">&#39;/index.html&#39;</span>;
+<a name="l00031"></a>00031   }
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033   <span class="keyword">function</span> inWidgetMode() {
+<a name="l00034"></a>00034     <span class="keywordflow">return</span> <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.parent.location.pathname === <span class="stringliteral">&#39;/widget.html&#39;</span>;
+<a name="l00035"></a>00035   }
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037   <span class="comment">// Close if in standalone mode</span>
+<a name="l00038"></a>00038   var closing;
+<a name="l00039"></a>00039   <span class="keyword">function</span> closeIfProceeds() {
+<a name="l00040"></a>00040     <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Checking for closing...&#39;</span>);
+<a name="l00041"></a>00041     <span class="keywordflow">if</span> (inStandAloneMode()) {
+<a name="l00042"></a>00042       closing = <a class="code" href="../../d1/dd8/common_8js.html#a0e451198954b1481b93c5b290c748dfa">Common</a>.closeApplication();
+<a name="l00043"></a>00043     }
+<a name="l00044"></a>00044   }
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046   <span class="comment">// XXX: Remove from here when this is solved</span>
+<a name="l00047"></a>00047   <span class="comment">// https://bugzilla.mozilla.org/show_bug.cgi?id=800431</span>
+<a name="l00048"></a>00048   <span class="keyword">function</span> <a class="code" href="../../d1/dd8/common_8js.html#a1a583087f797b3913cd73df31fc52dab">addAlarmTimeout</a>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, <a class="code" href="../../d2/db9/newnotification_8js.html#ad26070262d4c1d2238051d300ac46a8b">delay</a>) {
+<a name="l00049"></a>00049     var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a> = <span class="keyword">new</span> Date();
+<a name="l00050"></a>00050     date.setTime(date.getTime() + <a class="code" href="../../d2/db9/newnotification_8js.html#ad26070262d4c1d2238051d300ac46a8b">delay</a>);
+<a name="l00051"></a>00051     var <a class="code" href="../../df/d44/permission__manager_8js.html#ad9abb423164fcb98d6ad9333893e4682">request</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.add(date, <span class="stringliteral">&#39;ignoreTimezone&#39;</span>, {<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>});
+<a name="l00052"></a>00052     <span class="keywordflow">return</span> <a class="code" href="../../df/d44/permission__manager_8js.html#ad9abb423164fcb98d6ad9333893e4682">request</a>;
+<a name="l00053"></a>00053   };
+<a name="l00054"></a>00054   <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addAlarmTimeout = <a class="code" href="../../d1/dd8/common_8js.html#a1a583087f797b3913cd73df31fc52dab">addAlarmTimeout</a>;
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056   <span class="comment">// XXX: Remove from here when this is solved</span>
+<a name="l00057"></a>00057   <span class="comment">// https://bugzilla.mozilla.org/show_bug.cgi?id=800431</span>
+<a name="l00058"></a>00058   <span class="keyword">function</span> <a class="code" href="../../d1/dd8/common_8js.html#af2386f92ad4f8471e53f00cfb4d87882">setNextReset</a>(when, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     <span class="comment">// XXX: This is not part of configuration by SIM so we bypass ConfigManager</span>
+<a name="l00061"></a>00061     <a class="code" href="../../d1/de6/build__stage_2email_2shared_2js_2async__storage_8js.html#a4107f01ea365b45d43bc83776b837ffa">asyncStorage</a>.getItem(<span class="stringliteral">&#39;nextResetAlarm&#39;</span>, <span class="keyword">function</span>(<span class="keywordtype">id</span>) {
+<a name="l00062"></a>00062       <span class="comment">// There is already an alarm, remove it</span>
+<a name="l00063"></a>00063       <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Current nextResetAlarm&#39;</span>, <span class="keywordtype">id</span> + <span class="charliteral">&#39;.&#39;</span>, <span class="keywordtype">id</span> ? <span class="stringliteral">&#39;Removing.&#39;</span> : <span class="stringliteral">&#39;&#39;</span>);
+<a name="l00064"></a>00064       <span class="keywordflow">if</span> (<span class="keywordtype">id</span>) {
+<a name="l00065"></a>00065         <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.remove(<span class="keywordtype">id</span>);
+<a name="l00066"></a>00066       }
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068       <span class="comment">// If no when, disable alarms passing null</span>
+<a name="l00069"></a>00069       <span class="keywordflow">if</span> (!when) {
+<a name="l00070"></a>00070         <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Automatic reset disabled&#39;</span>);
+<a name="l00071"></a>00071         updateResetAttributes(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>);
+<a name="l00072"></a>00072         <span class="keywordflow">return</span>;
+<a name="l00073"></a>00073       }
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075       <span class="comment">// If the alarm is in the past, fake it was launched</span>
+<a name="l00076"></a>00076       <span class="keywordflow">if</span> (when.getTime() &lt; Date.now()) {
+<a name="l00077"></a>00077         <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Faking a past reset alarm&#39;</span>);
+<a name="l00078"></a>00078         _onAlarm({ <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>: { <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <span class="stringliteral">&#39;nextReset&#39;</span> } });
+<a name="l00079"></a>00079         <span class="keywordflow">if</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00080"></a>00080           <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>);
+<a name="l00081"></a>00081         }
+<a name="l00082"></a>00082         <span class="keywordflow">return</span>;
+<a name="l00083"></a>00083       }
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085       <span class="comment">// If when is provided, request an alarm an set the new values</span>
+<a name="l00086"></a>00086       var alarms = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms;
+<a name="l00087"></a>00087       var request = alarms.add(when, <span class="stringliteral">&#39;ignoreTimezone&#39;</span>, {<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <span class="stringliteral">&#39;nextReset&#39;</span> });
+<a name="l00088"></a>00088       request.onsuccess = <span class="keyword">function</span> _onSuccess() {
+<a name="l00089"></a>00089         <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Setting nextResetAlarm&#39;</span>, request.result, <span class="stringliteral">&#39;to&#39;</span>, when);
+<a name="l00090"></a>00090         updateResetAttributes(request.result, when, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>);
+<a name="l00091"></a>00091       };
+<a name="l00092"></a>00092     });
+<a name="l00093"></a>00093   }
+<a name="l00094"></a>00094   <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setNextReset = <a class="code" href="../../d1/dd8/common_8js.html#af2386f92ad4f8471e53f00cfb4d87882">setNextReset</a>;
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096   <span class="keyword">function</span> <a class="code" href="../../d1/dd8/common_8js.html#a7e4ae864cac9e52122afadbc8d9b69ba">getTopUpTimeout</a>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00097"></a>00097     <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.requestSettings(<span class="keyword">function</span> _onSettings(settings) {
+<a name="l00098"></a>00098       var request = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.getAll();
+<a name="l00099"></a>00099       request.onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00100"></a>00100         var alarms = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.result;
+<a name="l00101"></a>00101         var <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a> = alarms.length;
+<a name="l00102"></a>00102         <span class="keywordflow">if</span> (!length) {
+<a name="l00103"></a>00103           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00104"></a>00104           <span class="keywordflow">return</span>;
+<a name="l00105"></a>00105         }
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107         var refId = settings.waitingForTopUp;
+<a name="l00108"></a>00108         var <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> = 0, alarm, found = <span class="keyword">false</span>;
+<a name="l00109"></a>00109         <span class="keywordflow">while</span> (index &lt; length &amp;&amp; !found) {
+<a name="l00110"></a>00110           alarm = alarms[<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>];
+<a name="l00111"></a>00111           found = (alarm.id === refId);
+<a name="l00112"></a>00112           index++;
+<a name="l00113"></a>00113         }
+<a name="l00114"></a>00114         <span class="keywordflow">if</span> (found) {
+<a name="l00115"></a>00115           <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;TopUp timeout found:&#39;</span>, alarm.date);
+<a name="l00116"></a>00116           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(alarm.date);
+<a name="l00117"></a>00117         } <span class="keywordflow">else</span> {
+<a name="l00118"></a>00118           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00119"></a>00119         }
+<a name="l00120"></a>00120       };
+<a name="l00121"></a>00121     });
+<a name="l00122"></a>00122   }
+<a name="l00123"></a>00123   <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.getTopUpTimeout = <a class="code" href="../../d1/dd8/common_8js.html#a7e4ae864cac9e52122afadbc8d9b69ba">getTopUpTimeout</a>;
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125   <span class="comment">// Update the nextResetAlarm and nextReset values and request for</span>
+<a name="l00126"></a>00126   <span class="comment">// synchronization.</span>
+<a name="l00127"></a>00127   <span class="keyword">function</span> updateResetAttributes(alarmId, date, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00128"></a>00128     <a class="code" href="../../d1/de6/build__stage_2email_2shared_2js_2async__storage_8js.html#a4107f01ea365b45d43bc83776b837ffa">asyncStorage</a>.setItem(<span class="stringliteral">&#39;nextResetAlarm&#39;</span>, alarmId, <span class="keyword">function</span> _updateOption() {
+<a name="l00129"></a>00129       <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption({ nextReset: date }, <span class="keyword">function</span> _sync() {
+<a name="l00130"></a>00130         localStorage[<span class="stringliteral">&#39;sync&#39;</span>] = <span class="stringliteral">&#39;nextReset#&#39;</span> + Math.random();
+<a name="l00131"></a>00131         <span class="keywordflow">if</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00132"></a>00132           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>();
+<a name="l00133"></a>00133         }
+<a name="l00134"></a>00134       });
+<a name="l00135"></a>00135     });
+<a name="l00136"></a>00136   }
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138   <span class="keyword">function</span> sendIncorrectTopUpNotification(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00139"></a>00139     <span class="comment">// XXX: Hack hiding the message class in the icon URL</span>
+<a name="l00140"></a>00140     <span class="comment">// Should use the tag element of the notification once the final spec</span>
+<a name="l00141"></a>00141     <span class="comment">// lands:</span>
+<a name="l00142"></a>00142     <span class="comment">// See: https://bugzilla.mozilla.org/show_bug.cgi?id=782211</span>
+<a name="l00143"></a>00143     <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozApps.getSelf().onsuccess = <span class="keyword">function</span> _onAppReady(evt) {
+<a name="l00144"></a>00144       var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a7b225fcb720e4d5ed2bbf60e28a25e6d">app</a> = evt.target.result;
+<a name="l00145"></a>00145       var iconURL = <a class="code" href="../../d0/dfe/build__stage_2email_2js_2mail__app_8js.html#ace607ad6a39fc866ed0cc75f0e085e04">NotificationHelper</a>.getIconURI(app);
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147       var goToTopUpCode;
+<a name="l00148"></a>00148       <span class="keywordflow">if</span> (!inStandAloneMode()) {
+<a name="l00149"></a>00149         goToTopUpCode = <span class="keyword">function</span> _goToTopUpCode() {
+<a name="l00150"></a>00150           app.launch();
+<a name="l00151"></a>00151           <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.parent.BalanceTab.topUpWithCode(<span class="keyword">true</span>);
+<a name="l00152"></a>00152         };
+<a name="l00153"></a>00153       }
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155       iconURL += <span class="stringliteral">&#39;?topUpError&#39;</span>;
+<a name="l00156"></a>00156       <a class="code" href="../../d0/dfe/build__stage_2email_2js_2mail__app_8js.html#ace607ad6a39fc866ed0cc75f0e085e04">NotificationHelper</a>.send(<a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;topup-incorrectcode-title2&#39;</span>),
+<a name="l00157"></a>00157                               <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;topup-incorrectcode-message3&#39;</span>), iconURL,
+<a name="l00158"></a>00158                               goToTopUpCode);
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160       <span class="keywordflow">if</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00161"></a>00161         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>();
+<a name="l00162"></a>00162       }
+<a name="l00163"></a>00163     };
+<a name="l00164"></a>00164   }
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166   <span class="keyword">function</span> sendBalanceThresholdNotification(remaining, settings, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00167"></a>00167     <span class="comment">// XXX: Hack hiding the message class in the icon URL</span>
+<a name="l00168"></a>00168     <span class="comment">// Should use the tag element of the notification once the final spec</span>
+<a name="l00169"></a>00169     <span class="comment">// lands:</span>
+<a name="l00170"></a>00170     <span class="comment">// See: https://bugzilla.mozilla.org/show_bug.cgi?id=782211</span>
+<a name="l00171"></a>00171     <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozApps.getSelf().onsuccess = <span class="keyword">function</span> _onAppReady(evt) {
+<a name="l00172"></a>00172       var app = evt.target.result;
+<a name="l00173"></a>00173       var iconURL = <a class="code" href="../../d0/dfe/build__stage_2email_2js_2mail__app_8js.html#ace607ad6a39fc866ed0cc75f0e085e04">NotificationHelper</a>.getIconURI(app);
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175       var goToBalance;
+<a name="l00176"></a>00176       <span class="keywordflow">if</span> (!inStandAloneMode()) {
+<a name="l00177"></a>00177         goToBalance = <span class="keyword">function</span> _goToBalance() {
+<a name="l00178"></a>00178           app.launch();
+<a name="l00179"></a>00179           <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.parent.CostControlApp.showBalanceTab();
+<a name="l00180"></a>00180         };
+<a name="l00181"></a>00181       }
+<a name="l00182"></a>00182 
+<a name="l00183"></a>00183       <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Low limit already notified:&#39;</span>, settings.lowLimitNotified);
+<a name="l00184"></a>00184       <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Zero balance already notified:&#39;</span>, settings.lowLimitNotified);
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186       <span class="comment">// Zero reached notification</span>
+<a name="l00187"></a>00187       var <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>;
+<a name="l00188"></a>00188       <span class="keywordflow">if</span> (remaining.balance === 0 &amp;&amp; !settings.zeroBalanceNotified) {
+<a name="l00189"></a>00189         type = <span class="stringliteral">&#39;zeroBalance&#39;</span>;
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191       <span class="comment">// There is a limit an we are below that limit and we did not notified yet</span>
+<a name="l00192"></a>00192       } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (settings.lowLimit &amp;&amp;
+<a name="l00193"></a>00193                  remaining.balance &lt; settings.lowLimitThreshold &amp;&amp;
+<a name="l00194"></a>00194                  !settings.lowLimitNotified) {
+<a name="l00195"></a>00195         type = <span class="stringliteral">&#39;lowBalance&#39;</span>;
+<a name="l00196"></a>00196 
+<a name="l00197"></a>00197       <span class="comment">// No need for notification</span>
+<a name="l00198"></a>00198       } <span class="keywordflow">else</span> {
+<a name="l00199"></a>00199         <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a> === <span class="stringliteral">&#39;function&#39;</span>) {
+<a name="l00200"></a>00200           <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>);
+<a name="l00201"></a>00201         }
+<a name="l00202"></a>00202         <span class="keywordflow">return</span>;
+<a name="l00203"></a>00203       }
+<a name="l00204"></a>00204       <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Notification type:&#39;</span>, type);
+<a name="l00205"></a>00205       iconURL += <span class="charliteral">&#39;?&#39;</span> + <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>;
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207       <span class="comment">// Get l10n for remaining balance</span>
+<a name="l00208"></a>00208       var remainingBalance = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;currency&#39;</span>, {
+<a name="l00209"></a>00209         currency: remaining.currency,
+<a name="l00210"></a>00210         <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>: remaining.balance
+<a name="l00211"></a>00211       });
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213       <span class="comment">// Compose notification and send it</span>
+<a name="l00214"></a>00214       var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a> = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;low-balance-notification-title&#39;</span>);
+<a name="l00215"></a>00215       var <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a> = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;low-balance-notification-text&#39;</span>,
+<a name="l00216"></a>00216                       { remaining: remainingBalance });
+<a name="l00217"></a>00217       <span class="keywordflow">if</span> (type === <span class="stringliteral">&#39;zeroBalance&#39;</span>) {
+<a name="l00218"></a>00218         title = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;usage&#39;</span>);
+<a name="l00219"></a>00219         message = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;zero-balance-message&#39;</span>);
+<a name="l00220"></a>00220       }
+<a name="l00221"></a>00221       <a class="code" href="../../d0/dfe/build__stage_2email_2js_2mail__app_8js.html#ace607ad6a39fc866ed0cc75f0e085e04">NotificationHelper</a>.send(title, message, iconURL, goToBalance);
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223       <span class="comment">// Finally mark the notification as sent</span>
+<a name="l00224"></a>00224       var <a class="code" href="../../dd/d6d/mock__spinner_8js.html#ab10b009b0da48f61217a18daf8e20cd8">update</a> = {};
+<a name="l00225"></a>00225       var notified = (type === <span class="stringliteral">&#39;lowBalance&#39;</span>) ? <span class="stringliteral">&#39;lowLimitNotified&#39;</span> :
+<a name="l00226"></a>00226                                                <span class="stringliteral">&#39;zeroBalanceNotified&#39;</span>;
+<a name="l00227"></a>00227       update[notified] = <span class="keyword">true</span>;
+<a name="l00228"></a>00228       <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption(update, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>);
+<a name="l00229"></a>00229     };
+<a name="l00230"></a>00230   }
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232   <span class="comment">// When receiving an alarm, differenciate by type and act</span>
+<a name="l00233"></a>00233   <span class="keyword">function</span> _onAlarm(alarm) {
+<a name="l00234"></a>00234     <a class="code" href="../../da/da1/timers_8js.html#ab37ff0db33a3bf80b0163adc40a58424">clearTimeout</a>(closing);
+<a name="l00235"></a>00235     <span class="keywordflow">switch</span> (alarm.data.type) {
+<a name="l00236"></a>00236       <span class="keywordflow">case</span> <span class="stringliteral">&#39;balanceTimeout&#39;</span>:
+<a name="l00237"></a>00237         <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.requestSettings(<span class="keyword">function</span> _onSettings(settings) {
+<a name="l00238"></a>00238           settings.errors[<span class="stringliteral">&#39;BALANCE_TIMEOUT&#39;</span>] = <span class="keyword">true</span>;
+<a name="l00239"></a>00239           <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption(
+<a name="l00240"></a>00240             { <span class="stringliteral">&#39;errors&#39;</span>: settings.errors, <span class="stringliteral">&#39;waitingForBalance&#39;</span>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a> },
+<a name="l00241"></a>00241             <span class="keyword">function</span> _onBalanceTimeout() {
+<a name="l00242"></a>00242               <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Timeout for balance&#39;</span>);
+<a name="l00243"></a>00243               <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Trying to synchronize!&#39;</span>);
+<a name="l00244"></a>00244               localStorage[<span class="stringliteral">&#39;sync&#39;</span>] = <span class="stringliteral">&#39;errors#&#39;</span> + Math.random();
+<a name="l00245"></a>00245               closeIfProceeds();
+<a name="l00246"></a>00246             }
+<a name="l00247"></a>00247           );
+<a name="l00248"></a>00248         });
+<a name="l00249"></a>00249         <span class="keywordflow">break</span>;
+<a name="l00250"></a>00250 
+<a name="l00251"></a>00251       <span class="keywordflow">case</span> <span class="stringliteral">&#39;topupTimeout&#39;</span>:
+<a name="l00252"></a>00252         <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.requestSettings(<span class="keyword">function</span> _onSettings(settings) {
+<a name="l00253"></a>00253           settings.errors[<span class="stringliteral">&#39;TOPUP_TIMEOUT&#39;</span>] = <span class="keyword">true</span>;
+<a name="l00254"></a>00254           <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption(
+<a name="l00255"></a>00255             { <span class="stringliteral">&#39;errors&#39;</span>: settings.errors, <span class="stringliteral">&#39;waitingForTopUp&#39;</span>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a> },
+<a name="l00256"></a>00256             <span class="keyword">function</span> _onBalanceTimeout() {
+<a name="l00257"></a>00257               <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Timeout for topup&#39;</span>);
+<a name="l00258"></a>00258               <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Trying to synchronize!&#39;</span>);
+<a name="l00259"></a>00259               localStorage[<span class="stringliteral">&#39;sync&#39;</span>] = <span class="stringliteral">&#39;errors#&#39;</span> + Math.random();
+<a name="l00260"></a>00260               closeIfProceeds();
+<a name="l00261"></a>00261             }
+<a name="l00262"></a>00262           );
+<a name="l00263"></a>00263         });
+<a name="l00264"></a>00264         <span class="keywordflow">break</span>;
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266       <span class="keywordflow">case</span> <span class="stringliteral">&#39;nextReset&#39;</span>:
+<a name="l00267"></a>00267         <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.requestSettings(<span class="keyword">function</span> _onSettings(settings) {
+<a name="l00268"></a>00268           <a class="code" href="../../d1/dd8/common_8js.html#a4a903bae518f8fe2ca522db867a024d0">resetAll</a>(<span class="keyword">function</span> updateNextResetAndClose() {
+<a name="l00269"></a>00269             <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a54a5f411a505e6a7ea23c7a86f39f121">updateNextReset</a>(
+<a name="l00270"></a>00270               settings.trackingPeriod, settings.resetTime,
+<a name="l00271"></a>00271               closeIfProceeds
+<a name="l00272"></a>00272             );
+<a name="l00273"></a>00273           });
+<a name="l00274"></a>00274         });
+<a name="l00275"></a>00275         <span class="keywordflow">break</span>;
+<a name="l00276"></a>00276     }
+<a name="l00277"></a>00277   }
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279   <span class="keyword">function</span> <a class="code" href="../../d1/dd8/common_8js.html#ab0f21e3043e50615f72107d7b1e14e71">checkDataUsageNotification</a>(settings, usage, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00280"></a>00280     <span class="comment">// XXX: Hack hiding the message class in the icon URL</span>
+<a name="l00281"></a>00281     <span class="comment">// Should use the tag element of the notification once the final spec</span>
+<a name="l00282"></a>00282     <span class="comment">// lands:</span>
+<a name="l00283"></a>00283     <span class="comment">// See: https://bugzilla.mozilla.org/show_bug.cgi?id=782211</span>
+<a name="l00284"></a>00284     <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozApps.getSelf().onsuccess = <span class="keyword">function</span> _onAppReady(evt) {
+<a name="l00285"></a>00285       var app = evt.target.result;
+<a name="l00286"></a>00286       var iconURL = <a class="code" href="../../d0/dfe/build__stage_2email_2js_2mail__app_8js.html#ace607ad6a39fc866ed0cc75f0e085e04">NotificationHelper</a>.getIconURI(app);
+<a name="l00287"></a>00287       iconURL += <span class="stringliteral">&#39;?dataUsage&#39;</span>;
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289       var goToDataUsage;
+<a name="l00290"></a>00290       <span class="keywordflow">if</span> (!inStandAloneMode()) {
+<a name="l00291"></a>00291         goToDataUsage = <span class="keyword">function</span> _goToDataUsage() {
+<a name="l00292"></a>00292           app.launch();
+<a name="l00293"></a>00293           <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.parent.CostControlApp.showDataUsageTab();
+<a name="l00294"></a>00294         };
+<a name="l00295"></a>00295       }
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297       var limit = <a class="code" href="../../d1/dd8/common_8js.html#a976c23f139b496264bd34ce174853f83">getDataLimit</a>(settings);
+<a name="l00298"></a>00298       <span class="keywordflow">if</span> (settings.dataLimit) {
+<a name="l00299"></a>00299         <span class="keywordflow">if</span> (usage &gt;= limit &amp;&amp; !settings.dataUsageNotified) {
+<a name="l00300"></a>00300           var limitText = <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a1efa2aee4567884b7b7b2530622e6266">formatData</a>(<a class="code" href="../../d8/d39/formatting_8js.html#a8ce17b6af1f05d7c5ec7809da1972947">smartRound</a>(limit));
+<a name="l00301"></a>00301           var title = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;data-limit-notification-title2&#39;</span>, { limit: limitText });
+<a name="l00302"></a>00302           var message = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;data-limit-notification-text2&#39;</span>);
+<a name="l00303"></a>00303           <a class="code" href="../../d0/dfe/build__stage_2email_2js_2mail__app_8js.html#ace607ad6a39fc866ed0cc75f0e085e04">NotificationHelper</a>.send(title, message, iconURL, goToDataUsage);
+<a name="l00304"></a>00304           <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption({ <span class="stringliteral">&#39;dataUsageNotified&#39;</span>: <span class="keyword">true</span> }, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>);
+<a name="l00305"></a>00305           <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (usage &lt; limit &amp;&amp; settings.dataUsageNotified) {
+<a name="l00308"></a>00308           <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption({ <span class="stringliteral">&#39;dataUsageNotified&#39;</span>: <span class="keyword">false</span> }, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>);
+<a name="l00309"></a>00309           <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00310"></a>00310         }
+<a name="l00311"></a>00311       }
+<a name="l00312"></a>00312 
+<a name="l00313"></a>00313       <span class="keywordflow">if</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00314"></a>00314         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>();
+<a name="l00315"></a>00315       }
+<a name="l00316"></a>00316       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00317"></a>00317     };
+<a name="l00318"></a>00318   }
+<a name="l00319"></a>00319   <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.checkDataUsageNotification = <a class="code" href="../../d1/dd8/common_8js.html#ab0f21e3043e50615f72107d7b1e14e71">checkDataUsageNotification</a>;
+<a name="l00320"></a>00320 
+<a name="l00321"></a>00321   <span class="comment">// Register in standalone or for application</span>
+<a name="l00322"></a>00322   var costcontrol;
+<a name="l00323"></a>00323   <a class="code" href="../../d8/dcd/costcontrol_8js.html#a84c34297377b2094773e1b447cddbc07">CostControl</a>.getInstance(<span class="keyword">function</span> _onCostControl(ccontrol) {
+<a name="l00324"></a>00324     costcontrol = ccontrol;
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326     <span class="keywordflow">if</span> (inStandAloneMode() || inWidgetMode()) {
+<a name="l00327"></a>00327       <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Installing handlers&#39;</span>);
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329       <span class="comment">// When receiving an SMS, recognize and parse</span>
+<a name="l00330"></a>00330       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozSetMessageHandler(<span class="stringliteral">&#39;sms-received&#39;</span>, <span class="keyword">function</span> _onSMS(sms) {
+<a name="l00331"></a>00331         <a class="code" href="../../da/da1/timers_8js.html#ab37ff0db33a3bf80b0163adc40a58424">clearTimeout</a>(closing);
+<a name="l00332"></a>00332         <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.requestAll(<span class="keyword">function</span> _onInfo(configuration, settings) {
+<a name="l00333"></a>00333 
+<a name="l00334"></a>00334           var isBalanceResponse =
+<a name="l00335"></a>00335             configuration.balance &amp;&amp;
+<a name="l00336"></a>00336             Array.isArray(configuration.balance.senders) &amp;&amp;
+<a name="l00337"></a>00337             configuration.balance.senders.indexOf(sms.sender) &gt; -1;
+<a name="l00338"></a>00338 
+<a name="l00339"></a>00339           var isTopupResponse =
+<a name="l00340"></a>00340             configuration.topup &amp;&amp;
+<a name="l00341"></a>00341             Array.isArray(configuration.topup.senders) &amp;&amp;
+<a name="l00342"></a>00342             configuration.topup.senders.indexOf(sms.sender) &gt; -1;
+<a name="l00343"></a>00343 
+<a name="l00344"></a>00344           <span class="comment">// Non expected SMS</span>
+<a name="l00345"></a>00345           <span class="keywordflow">if</span> (!isBalanceResponse &amp;&amp; !isTopupResponse) {
+<a name="l00346"></a>00346             closeIfProceeds();
+<a name="l00347"></a>00347             <span class="keywordflow">return</span>;
+<a name="l00348"></a>00348           }
+<a name="l00349"></a>00349 
+<a name="l00350"></a>00350           <span class="comment">// Parse the message</span>
+<a name="l00351"></a>00351           <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Parsing received SMS&#39;</span>);
+<a name="l00352"></a>00352           var isBalance, isConfirmation, isError;
+<a name="l00353"></a>00353           isBalance = isConfirmation = isError = <span class="keyword">false</span>;
+<a name="l00354"></a>00354 
+<a name="l00355"></a>00355           <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Trying to recognize balance SMS&#39;</span>);
+<a name="l00356"></a>00356           var <a class="code" href="../../dd/dc4/namespacesetup.html#a4ad612547892c74be7035043265eb65c">description</a> = <span class="keyword">new</span> RegExp(configuration.balance.regexp);
+<a name="l00357"></a>00357           var balanceData = sms.body.match(description);
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359           <span class="keywordflow">if</span> (!balanceData) {
+<a name="l00360"></a>00360             <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Trying to recognize zero balance SMS&#39;</span>);
+<a name="l00361"></a>00361             <span class="comment">// Some carriers use another response messages format</span>
+<a name="l00362"></a>00362             <span class="comment">// for zero balance</span>
+<a name="l00363"></a>00363             var zeroDescription = configuration.balance.zero_regexp ?
+<a name="l00364"></a>00364                           <span class="keyword">new</span> RegExp(configuration.balance.zero_regexp) : <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00365"></a>00365             <span class="keywordflow">if</span> (zeroDescription &amp;&amp; zeroDescription.test(sms.body)) {
+<a name="l00366"></a>00366               balanceData = [<span class="stringliteral">&#39;0.00&#39;</span>, <span class="charliteral">&#39;0&#39;</span>, <span class="charliteral">&#39;0&#39;</span>];
+<a name="l00367"></a>00367             }
+<a name="l00368"></a>00368           }
+<a name="l00369"></a>00369           isBalance = !!balanceData;
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371           <span class="keywordflow">if</span> (!isBalance || balanceData.length &lt; 2) {
+<a name="l00372"></a>00372             <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;Impossible to parse balance message.&#39;</span>);
+<a name="l00373"></a>00373 
+<a name="l00374"></a>00374             <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Trying to recognize TopUp confirmation SMS&#39;</span>);
+<a name="l00375"></a>00375             description = <span class="keyword">new</span> RegExp(configuration.topup.confirmation_regexp);
+<a name="l00376"></a>00376             isConfirmation = !!sms.body.match(description);
+<a name="l00377"></a>00377             <span class="keywordflow">if</span> (!isConfirmation) {
+<a name="l00378"></a>00378               <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;Impossible to parse TopUp confirmation message.&#39;</span>);
+<a name="l00379"></a>00379 
+<a name="l00380"></a>00380               <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Trying to recognize TopUp error SMS&#39;</span>);
+<a name="l00381"></a>00381               description =
+<a name="l00382"></a>00382                 <span class="keyword">new</span> RegExp(configuration.topup.incorrect_code_regexp);
+<a name="l00383"></a>00383               isError = !!sms.body.match(description);
+<a name="l00384"></a>00384               <span class="keywordflow">if</span> (!isError) {
+<a name="l00385"></a>00385                 <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;Impossible to parse TopUp confirmation message.&#39;</span>);
+<a name="l00386"></a>00386               }
+<a name="l00387"></a>00387             }
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389           }
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391           <span class="keywordflow">if</span> (!isBalance &amp;&amp; !isConfirmation &amp;&amp; !isError) {
+<a name="l00392"></a>00392             closeIfProceeds();
+<a name="l00393"></a>00393             <span class="keywordflow">return</span>;
+<a name="l00394"></a>00394           }
+<a name="l00395"></a>00395 
+<a name="l00396"></a>00396           <span class="comment">// TODO: Remove the SMS</span>
+<a name="l00397"></a>00397 
+<a name="l00398"></a>00398           <span class="keywordflow">if</span> (isBalance) {
+<a name="l00399"></a>00399             <span class="comment">// Compose new balance</span>
+<a name="l00400"></a>00400             var integer = balanceData[1].replace(/[^0-9]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&#39;&#39;</span>);
+<a name="l00401"></a>00401             var decimal = balanceData[2] || <span class="charliteral">&#39;0&#39;</span>;
+<a name="l00402"></a>00402             var newBalance = {
+<a name="l00403"></a>00403               balance: parseFloat(integer + <span class="charliteral">&#39;.&#39;</span> + decimal),
+<a name="l00404"></a>00404               currency: configuration.credit.currency,
+<a name="l00405"></a>00405               timestamp: <span class="keyword">new</span> Date()
+<a name="l00406"></a>00406             };
+<a name="l00407"></a>00407 
+<a name="l00408"></a>00408             <span class="comment">// Remove the timeout</span>
+<a name="l00409"></a>00409             <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.remove(settings.waitingForBalance);
+<a name="l00410"></a>00410             <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Balance timeout:&#39;</span>, settings.waitingForBalance, <span class="stringliteral">&#39;removed&#39;</span>);
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412             <span class="comment">// Store new balance and sync</span>
+<a name="l00413"></a>00413             <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption(
+<a name="l00414"></a>00414               { <span class="stringliteral">&#39;lastBalance&#39;</span>: newBalance, <span class="stringliteral">&#39;waitingForBalance&#39;</span>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a> },
+<a name="l00415"></a>00415               <span class="keyword">function</span> _onSet() {
+<a name="l00416"></a>00416                 <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Balance up to date and stored&#39;</span>);
+<a name="l00417"></a>00417                 <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Trying to synchronize!&#39;</span>);
+<a name="l00418"></a>00418                 localStorage[<span class="stringliteral">&#39;sync&#39;</span>] = <span class="stringliteral">&#39;lastBalance#&#39;</span> + Math.random();
+<a name="l00419"></a>00419                 sendBalanceThresholdNotification(newBalance, settings,
+<a name="l00420"></a>00420                                                  closeIfProceeds);
+<a name="l00421"></a>00421               }
+<a name="l00422"></a>00422             );
+<a name="l00423"></a>00423           } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isConfirmation) {
+<a name="l00424"></a>00424             <span class="comment">// Store SUCCESS for TopIp and sync</span>
+<a name="l00425"></a>00425             <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.remove(settings.waitingForTopUp);
+<a name="l00426"></a>00426             <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;TopUp timeout:&#39;</span>, settings.waitingForTopUp, <span class="stringliteral">&#39;removed&#39;</span>);
+<a name="l00427"></a>00427             <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption(
+<a name="l00428"></a>00428               {
+<a name="l00429"></a>00429                 <span class="stringliteral">&#39;waitingForTopUp&#39;</span>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00430"></a>00430                 <span class="stringliteral">&#39;lowLimitNotified&#39;</span>: <span class="keyword">false</span>,
+<a name="l00431"></a>00431                 <span class="stringliteral">&#39;zeroBalanceNotified&#39;</span>: <span class="keyword">false</span>
+<a name="l00432"></a>00432               },
+<a name="l00433"></a>00433               <span class="keyword">function</span> _onSet() {
+<a name="l00434"></a>00434                 <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;TopUp confirmed!&#39;</span>);
+<a name="l00435"></a>00435                 <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Trying to synchronize!&#39;</span>);
+<a name="l00436"></a>00436                 localStorage[<span class="stringliteral">&#39;sync&#39;</span>] = <span class="stringliteral">&#39;waitingForTopUp#&#39;</span> + Math.random();
+<a name="l00437"></a>00437                 closeIfProceeds();
+<a name="l00438"></a>00438               }
+<a name="l00439"></a>00439             );
+<a name="l00440"></a>00440           } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isError) {
+<a name="l00441"></a>00441             <span class="comment">// Store ERROR for TopUp and sync</span>
+<a name="l00442"></a>00442             settings.errors[<span class="stringliteral">&#39;INCORRECT_TOPUP_CODE&#39;</span>] = <span class="keyword">true</span>;
+<a name="l00443"></a>00443             <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozAlarms.remove(settings.waitingForTopUp);
+<a name="l00444"></a>00444             <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;TopUp timeout: &#39;</span>, settings.waitingForTopUp, <span class="stringliteral">&#39;removed&#39;</span>);
+<a name="l00445"></a>00445             <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption(
+<a name="l00446"></a>00446               {
+<a name="l00447"></a>00447                 <span class="stringliteral">&#39;errors&#39;</span>: settings.errors,
+<a name="l00448"></a>00448                 <span class="stringliteral">&#39;waitingForTopUp&#39;</span>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00449"></a>00449                 <span class="stringliteral">&#39;lowLimitNotified&#39;</span>: <span class="keyword">false</span>,
+<a name="l00450"></a>00450                 <span class="stringliteral">&#39;zeroBalanceNotified&#39;</span>: <span class="keyword">false</span>
+<a name="l00451"></a>00451               },
+<a name="l00452"></a>00452               <span class="keyword">function</span> _onSet() {
+<a name="l00453"></a>00453                 <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Balance up to date and stored&#39;</span>);
+<a name="l00454"></a>00454                 <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Trying to synchronize!&#39;</span>);
+<a name="l00455"></a>00455                 localStorage[<span class="stringliteral">&#39;sync&#39;</span>] = <span class="stringliteral">&#39;errors#&#39;</span> + Math.random();
+<a name="l00456"></a>00456                 sendIncorrectTopUpNotification(closeIfProceeds);
+<a name="l00457"></a>00457               }
+<a name="l00458"></a>00458             );
+<a name="l00459"></a>00459           }
+<a name="l00460"></a>00460         });
+<a name="l00461"></a>00461       });
+<a name="l00462"></a>00462 
+<a name="l00463"></a>00463 
+<a name="l00464"></a>00464       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozSetMessageHandler(<span class="stringliteral">&#39;alarm&#39;</span>, _onAlarm);
+<a name="l00465"></a>00465 
+<a name="l00466"></a>00466       <span class="comment">// Count a new SMS</span>
+<a name="l00467"></a>00467       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozSetMessageHandler(<span class="stringliteral">&#39;sms-sent&#39;</span>, <span class="keyword">function</span> _onSent(sms) {
+<a name="l00468"></a>00468         <a class="code" href="../../da/da1/timers_8js.html#ab37ff0db33a3bf80b0163adc40a58424">clearTimeout</a>(closing);
+<a name="l00469"></a>00469         <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;SMS sent!&#39;</span>);
+<a name="l00470"></a>00470 
+<a name="l00471"></a>00471         <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.requestAll(<span class="keyword">function</span> _onInfo(configuration, settings) {
+<a name="l00472"></a>00472           var <a class="code" href="../../d2/d7d/jsapi_8h.html#a5e94be9423b9de6b3ab4057aca59293f">mode</a> = <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.getApplicationMode();
+<a name="l00473"></a>00473           <span class="keywordflow">if</span> (mode === <span class="stringliteral">&#39;PREPAID&#39;</span> &amp;&amp;
+<a name="l00474"></a>00474               !costcontrol.isBalanceRequestSMS(sms, configuration)) {
+<a name="l00475"></a>00475             costcontrol.request({ type: <span class="stringliteral">&#39;balance&#39;</span> });
+<a name="l00476"></a>00476           }
+<a name="l00477"></a>00477 
+<a name="l00478"></a>00478           var mobileMessageManager = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.navigator.mozMobileMessage;
+<a name="l00479"></a>00479           var smsInfo = mobileMessageManager.getSegmentInfoForText(sms.body);
+<a name="l00480"></a>00480           var realCount = smsInfo.segments;
+<a name="l00481"></a>00481           settings.lastTelephonyActivity.timestamp = <span class="keyword">new</span> Date();
+<a name="l00482"></a>00482           settings.lastTelephonyActivity.smscount += realCount;
+<a name="l00483"></a>00483           <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption({
+<a name="l00484"></a>00484             lastTelephonyActivity: settings.lastTelephonyActivity
+<a name="l00485"></a>00485           }, <span class="keyword">function</span> _sync() {
+<a name="l00486"></a>00486             localStorage[<span class="stringliteral">&#39;sync&#39;</span>] = <span class="stringliteral">&#39;lastTelephonyActivity#&#39;</span> + Math.random();
+<a name="l00487"></a>00487             closeIfProceeds();
+<a name="l00488"></a>00488           });
+<a name="l00489"></a>00489         });
+<a name="l00490"></a>00490       });
+<a name="l00491"></a>00491 
+<a name="l00492"></a>00492       <span class="comment">// When a call ends</span>
+<a name="l00493"></a>00493       <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozSetMessageHandler(<span class="stringliteral">&#39;telephony-call-ended&#39;</span>,
+<a name="l00494"></a>00494         <span class="keyword">function</span> _onCall(tcall) {
+<a name="l00495"></a>00495           <a class="code" href="../../da/da1/timers_8js.html#ab37ff0db33a3bf80b0163adc40a58424">clearTimeout</a>(closing);
+<a name="l00496"></a>00496           <span class="keywordflow">if</span> (tcall.direction !== <span class="stringliteral">&#39;outgoing&#39;</span>) {
+<a name="l00497"></a>00497             closeIfProceeds();
+<a name="l00498"></a>00498             <span class="keywordflow">return</span>;
+<a name="l00499"></a>00499           }
+<a name="l00500"></a>00500           <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>(<span class="stringliteral">&#39;Outgoing call finished!&#39;</span>);
+<a name="l00501"></a>00501 
+<a name="l00502"></a>00502           <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.requestSettings(<span class="keyword">function</span> _onSettings(settings) {
+<a name="l00503"></a>00503             var mode = <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.getApplicationMode();
+<a name="l00504"></a>00504             <span class="keywordflow">if</span> (mode === <span class="stringliteral">&#39;PREPAID&#39;</span>) {
+<a name="l00505"></a>00505               costcontrol.request({ type: <span class="stringliteral">&#39;balance&#39;</span> });
+<a name="l00506"></a>00506             }
+<a name="l00507"></a>00507 
+<a name="l00508"></a>00508             settings.lastTelephonyActivity.timestamp = <span class="keyword">new</span> Date();
+<a name="l00509"></a>00509             settings.lastTelephonyActivity.calltime += tcall.duration;
+<a name="l00510"></a>00510             <a class="code" href="../../d5/d77/config__manager_8js.html#aab99fac678e2282e8aa3dad3fd0a296b">ConfigManager</a>.setOption({
+<a name="l00511"></a>00511               lastTelephonyActivity: settings.lastTelephonyActivity
+<a name="l00512"></a>00512             }, <span class="keyword">function</span> _sync() {
+<a name="l00513"></a>00513               localStorage[<span class="stringliteral">&#39;sync&#39;</span>] = <span class="stringliteral">&#39;lastTelephonyActivity#&#39;</span> + Math.random();
+<a name="l00514"></a>00514               closeIfProceeds();
+<a name="l00515"></a>00515             });
+<a name="l00516"></a>00516           });
+<a name="l00517"></a>00517         }
+<a name="l00518"></a>00518       );
+<a name="l00519"></a>00519 
+<a name="l00520"></a>00520     }
+<a name="l00521"></a>00521 
+<a name="l00522"></a>00522     <span class="comment">// Notify message handler is ready</span>
+<a name="l00523"></a>00523     var readyEvent = <span class="keyword">new</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a9a0643019c2e900911fe21538df95595">CustomEvent</a>(<span class="stringliteral">&#39;messagehandlerready&#39;</span>);
+<a name="l00524"></a>00524     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.parent.dispatchEvent(readyEvent);
+<a name="l00525"></a>00525   });
+<a name="l00526"></a>00526 
+<a name="l00527"></a>00527 }());
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d7/d08/message__handler_8js.html">message_handler.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:46に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

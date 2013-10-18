@@ -1,0 +1,655 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: xpt_struct.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/d81/xpt__struct_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">xpt_struct.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/d81/xpt__struct_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment"> * Structures matching the in-memory representation of typelib structures.</span>
+<a name="l00008"></a>00008 <span class="comment"> * http://www.mozilla.org/scriptable/typelib_file.html</span>
+<a name="l00009"></a>00009 <span class="comment"> */</span>
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="preprocessor">#ifndef __xpt_struct_h__</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span><span class="preprocessor">#define __xpt_struct_h__</span>
+<a name="l00013"></a>00013 <span class="preprocessor"></span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/df9/xpt__arena_8h.html">xpt_arena.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &lt;stdint.h&gt;</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l00018"></a>00018 <span class="preprocessor"></span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {
+<a name="l00019"></a>00019 <span class="preprocessor">#endif</span>
+<a name="l00020"></a>00020 <span class="preprocessor"></span>
+<a name="l00021"></a>00021 <span class="comment">/*</span>
+<a name="l00022"></a>00022 <span class="comment"> * Originally, I was going to have structures that exactly matched the on-disk</span>
+<a name="l00023"></a>00023 <span class="comment"> * representation, but that proved difficult: different compilers can pack</span>
+<a name="l00024"></a>00024 <span class="comment"> * their structs differently, and that makes overlaying them atop a</span>
+<a name="l00025"></a>00025 <span class="comment"> * read-from-disk byte buffer troublesome.  So now I just have some structures</span>
+<a name="l00026"></a>00026 <span class="comment"> * that are used in memory, and we&#39;re going to write a nice XDR library to</span>
+<a name="l00027"></a>00027 <span class="comment"> * write them to disk and stuff.  It is pure joy. -- shaver</span>
+<a name="l00028"></a>00028 <span class="comment"> */</span>
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="comment">/* Structures for the typelib components */</span>
+<a name="l00031"></a>00031 
+<a name="l00032"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0e96d6d377c98e17104d6617736e7454">00032</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d2/d34/struct_x_p_t_header.html">XPTHeader</a> <a class="code" href="../../d2/d34/struct_x_p_t_header.html">XPTHeader</a>;
+<a name="l00033"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#af652518a26b92f457fd46d5b2e73386e">00033</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html">XPTInterfaceDirectoryEntry</a> <a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html">XPTInterfaceDirectoryEntry</a>;
+<a name="l00034"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a2a3ac08339fc37bcb62435732fd48983">00034</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">XPTInterfaceDescriptor</a> <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">XPTInterfaceDescriptor</a>;
+<a name="l00035"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a3fdbade871daf08610912cba6de0fb3d">00035</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d7/deb/struct_x_p_t_const_descriptor.html">XPTConstDescriptor</a> <a class="code" href="../../d7/deb/struct_x_p_t_const_descriptor.html">XPTConstDescriptor</a>;
+<a name="l00036"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#abefb56f36aaf7d070df1da5174da1080">00036</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html">XPTMethodDescriptor</a> <a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html">XPTMethodDescriptor</a>;
+<a name="l00037"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a4f304ad460041c212136eccc797ae50a">00037</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html">XPTParamDescriptor</a> <a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html">XPTParamDescriptor</a>;
+<a name="l00038"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a1c853aaddc3bbbb286be977c031b7c97">00038</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html">XPTTypeDescriptor</a> <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html">XPTTypeDescriptor</a>;
+<a name="l00039"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ab1f35d92198ac8cbae62b1695a4602d1">00039</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../dd/d05/struct_x_p_t_type_descriptor_prefix.html">XPTTypeDescriptorPrefix</a> <a class="code" href="../../dd/d05/struct_x_p_t_type_descriptor_prefix.html">XPTTypeDescriptorPrefix</a>;
+<a name="l00040"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#acaacfea9d675449668c67ff4defe86a8">00040</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d7/ddb/struct_x_p_t_string.html">XPTString</a> <a class="code" href="../../d7/ddb/struct_x_p_t_string.html">XPTString</a>;
+<a name="l00041"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0024d6ca64ddca508d1735269ab54de3">00041</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d3/d71/struct_x_p_t_annotation.html">XPTAnnotation</a> <a class="code" href="../../d3/d71/struct_x_p_t_annotation.html">XPTAnnotation</a>;
+<a name="l00042"></a>00042 <span class="preprocessor">#ifndef nsID_h__</span>
+<a name="l00043"></a>00043 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00044"></a>00044 <span class="comment"> * We can&#39;t include nsID.h, because it&#39;s full of C++ goop and we&#39;re not doing</span>
+<a name="l00045"></a>00045 <span class="comment"> * C++ here, so we define our own minimal struct.  We protect against multiple</span>
+<a name="l00046"></a>00046 <span class="comment"> * definitions of this struct, though, and use the same field naming.</span>
+<a name="l00047"></a>00047 <span class="comment"> */</span>
+<a name="l00048"></a>00048 <span class="keyword">struct </span><a class="code" href="../../d4/d3d/structns_i_d.html">nsID</a> {
+<a name="l00049"></a>00049     uint32_t <a class="code" href="../../d4/d3d/structns_i_d.html#aca13b5b495b46cf231ef3ddd9648d360">m0</a>;
+<a name="l00050"></a>00050     uint16_t <a class="code" href="../../d4/d3d/structns_i_d.html#ab1402c72bb42d07c9b515878f0fe11f3">m1</a>;
+<a name="l00051"></a>00051     uint16_t <a class="code" href="../../d4/d3d/structns_i_d.html#a3e95d93bd55a1baee73c1948dc585a96">m2</a>;
+<a name="l00052"></a>00052     uint8_t  <a class="code" href="../../d4/d3d/structns_i_d.html#a8125faa57c0e4d6e012d387d44b86d57">m3</a>[8];
+<a name="l00053"></a>00053 };
+<a name="l00054"></a>00054 
+<a name="l00055"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a2cae80ba364702320ab93ae08e8f1d3d">00055</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d4/d3d/structns_i_d.html">nsID</a> <a class="code" href="../../d4/d3d/structns_i_d.html">nsID</a>;
+<a name="l00056"></a>00056 <span class="preprocessor">#endif</span>
+<a name="l00057"></a>00057 <span class="preprocessor"></span>
+<a name="l00058"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#af1ab79930df9a25ceba23e06ea655813">00058</a> <span class="preprocessor">#define XPT_COPY_IID(to, from)                                                \</span>
+<a name="l00059"></a>00059 <span class="preprocessor">  (to).m0 = (from).m0;                                                        \</span>
+<a name="l00060"></a>00060 <span class="preprocessor">  (to).m1 = (from).m1;                                                        \</span>
+<a name="l00061"></a>00061 <span class="preprocessor">  (to).m2 = (from).m2;                                                        \</span>
+<a name="l00062"></a>00062 <span class="preprocessor">  (to).m3[0] = (from).m3[0];                                                  \</span>
+<a name="l00063"></a>00063 <span class="preprocessor">  (to).m3[1] = (from).m3[1];                                                  \</span>
+<a name="l00064"></a>00064 <span class="preprocessor">  (to).m3[2] = (from).m3[2];                                                  \</span>
+<a name="l00065"></a>00065 <span class="preprocessor">  (to).m3[3] = (from).m3[3];                                                  \</span>
+<a name="l00066"></a>00066 <span class="preprocessor">  (to).m3[4] = (from).m3[4];                                                  \</span>
+<a name="l00067"></a>00067 <span class="preprocessor">  (to).m3[5] = (from).m3[5];                                                  \</span>
+<a name="l00068"></a>00068 <span class="preprocessor">  (to).m3[6] = (from).m3[6];                                                  \</span>
+<a name="l00069"></a>00069 <span class="preprocessor">  (to).m3[7] = (from).m3[7];</span>
+<a name="l00070"></a>00070 <span class="preprocessor"></span>
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072 <span class="comment">/*</span>
+<a name="l00073"></a>00073 <span class="comment"> * Every XPCOM typelib file begins with a header.</span>
+<a name="l00074"></a>00074 <span class="comment"> */</span>
+<a name="l00075"></a><a class="code" href="../../d2/d34/struct_x_p_t_header.html">00075</a> <span class="keyword">struct </span><a class="code" href="../../d2/d34/struct_x_p_t_header.html">XPTHeader</a> {
+<a name="l00076"></a><a class="code" href="../../d2/d34/struct_x_p_t_header.html#acf53efe2d1b2b766f0e724dfeb188627">00076</a>     uint8_t                     <a class="code" href="../../d2/d34/struct_x_p_t_header.html#acf53efe2d1b2b766f0e724dfeb188627">magic</a>[16];
+<a name="l00077"></a><a class="code" href="../../d2/d34/struct_x_p_t_header.html#a6a07f195e1084714b5e75e8d1b4f1178">00077</a>     uint8_t                     <a class="code" href="../../d2/d34/struct_x_p_t_header.html#a6a07f195e1084714b5e75e8d1b4f1178">major_version</a>;
+<a name="l00078"></a><a class="code" href="../../d2/d34/struct_x_p_t_header.html#ab9453862ce2dfb3d05aaf55bc62c128e">00078</a>     uint8_t                     <a class="code" href="../../d2/d34/struct_x_p_t_header.html#ab9453862ce2dfb3d05aaf55bc62c128e">minor_version</a>;
+<a name="l00079"></a><a class="code" href="../../d2/d34/struct_x_p_t_header.html#a5cdb5b80fbffece9672643fa2014f5d7">00079</a>     uint16_t                    <a class="code" href="../../d2/d34/struct_x_p_t_header.html#a5cdb5b80fbffece9672643fa2014f5d7">num_interfaces</a>;
+<a name="l00080"></a><a class="code" href="../../d2/d34/struct_x_p_t_header.html#aecbc7124a25508103139517b3248ea59">00080</a>     uint32_t                    <a class="code" href="../../d2/d34/struct_x_p_t_header.html#aecbc7124a25508103139517b3248ea59">file_length</a>;
+<a name="l00081"></a><a class="code" href="../../d2/d34/struct_x_p_t_header.html#a8adaabad5cb463323ebf303c79440ee0">00081</a>     <a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html">XPTInterfaceDirectoryEntry</a>  *<a class="code" href="../../d2/d34/struct_x_p_t_header.html#a8adaabad5cb463323ebf303c79440ee0">interface_directory</a>;
+<a name="l00082"></a><a class="code" href="../../d2/d34/struct_x_p_t_header.html#aa76dfa980d79970bcbb514fbf9aefb05">00082</a>     uint32_t                    <a class="code" href="../../d2/d34/struct_x_p_t_header.html#aa76dfa980d79970bcbb514fbf9aefb05">data_pool</a>;
+<a name="l00083"></a><a class="code" href="../../d2/d34/struct_x_p_t_header.html#a464b00e8c946bc33f272a648710b690c">00083</a>     <a class="code" href="../../d3/d71/struct_x_p_t_annotation.html">XPTAnnotation</a>               *<a class="code" href="../../d2/d34/struct_x_p_t_header.html#a464b00e8c946bc33f272a648710b690c">annotations</a>;
+<a name="l00084"></a>00084 };
+<a name="l00085"></a>00085 
+<a name="l00086"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#aa4f7e3bdcf654044d13b74576f617065">00086</a> <span class="preprocessor">#define XPT_MAGIC &quot;XPCOM\nTypeLib\r\n\032&quot;</span>
+<a name="l00087"></a>00087 <span class="preprocessor"></span><span class="comment">/* For error messages. */</span>
+<a name="l00088"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#addb3b1dd5234ff46936b215c16a5baa5">00088</a> <span class="preprocessor">#define XPT_MAGIC_STRING &quot;XPCOM\\nTypeLib\\r\\n\\032&quot;</span>
+<a name="l00089"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a016500224f6e4d4158c05ea8d07c8989">00089</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MAJOR_VERSION 0x01</span>
+<a name="l00090"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a4760a73bece5128eac51358b6168da96">00090</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MINOR_VERSION 0x02</span>
+<a name="l00091"></a>00091 <span class="preprocessor"></span>
+<a name="l00092"></a>00092 <span class="comment">/* Any file with a major version number of XPT_MAJOR_INCOMPATIBLE_VERSION </span>
+<a name="l00093"></a>00093 <span class="comment"> * or higher is to be considered incompatible by this version of xpt and</span>
+<a name="l00094"></a>00094 <span class="comment"> * we will refuse to read it. We will return a header with magic, major and</span>
+<a name="l00095"></a>00095 <span class="comment"> * minor versions set from the file. num_interfaces and file_length will be</span>
+<a name="l00096"></a>00096 <span class="comment"> * set to zero to confirm our inability to read the file; i.e. even if some</span>
+<a name="l00097"></a>00097 <span class="comment"> * client of this library gets out of sync with us regarding the agreed upon</span>
+<a name="l00098"></a>00098 <span class="comment"> * value for XPT_MAJOR_INCOMPATIBLE_VERSION, anytime num_interfaces and</span>
+<a name="l00099"></a>00099 <span class="comment"> * file_length are both zero we *know* that this library refused to read the </span>
+<a name="l00100"></a>00100 <span class="comment"> * file due to version imcompatibility.  </span>
+<a name="l00101"></a>00101 <span class="comment"> */</span>
+<a name="l00102"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a3f09e88331c6fb833c91fb39978df2b8">00102</a> <span class="preprocessor">#define XPT_MAJOR_INCOMPATIBLE_VERSION 0x02</span>
+<a name="l00103"></a>00103 <span class="preprocessor"></span>
+<a name="l00104"></a>00104 <span class="comment">/*</span>
+<a name="l00105"></a>00105 <span class="comment"> * The &quot;[-t version number]&quot; cmd line parameter to the XPIDL compiler and XPT</span>
+<a name="l00106"></a>00106 <span class="comment"> * linker specifies the major and minor version number of the output </span>
+<a name="l00107"></a>00107 <span class="comment"> * type library.</span>
+<a name="l00108"></a>00108 <span class="comment"> * </span>
+<a name="l00109"></a>00109 <span class="comment"> * The goal is for the compiler to check that the input IDL file only uses </span>
+<a name="l00110"></a>00110 <span class="comment"> * constructs that are supported in the version specified. The linker will</span>
+<a name="l00111"></a>00111 <span class="comment"> * check that all typelib files it reads are of the version specified or</span>
+<a name="l00112"></a>00112 <span class="comment"> * below.</span>
+<a name="l00113"></a>00113 <span class="comment"> * </span>
+<a name="l00114"></a>00114 <span class="comment"> * Both the compiler and the linker will report errors and abort if these</span>
+<a name="l00115"></a>00115 <span class="comment"> * checks fail.</span>
+<a name="l00116"></a>00116 <span class="comment"> * </span>
+<a name="l00117"></a>00117 <span class="comment"> * When you rev up major or minor versions of the type library in the future,</span>
+<a name="l00118"></a>00118 <span class="comment"> * think about the new stuff that you added to the type library and add checks</span>
+<a name="l00119"></a>00119 <span class="comment"> * to make sure that occurrences of that new &quot;stuff&quot; will get caught when [-t</span>
+<a name="l00120"></a>00120 <span class="comment"> * version number] is used with the compiler. Here&#39;s what you&#39;ll probably</span>
+<a name="l00121"></a>00121 <span class="comment"> * have to do each time you rev up major/minor versions:</span>
+<a name="l00122"></a>00122 <span class="comment"> * </span>
+<a name="l00123"></a>00123 <span class="comment"> *   1) Add the current version number string (before your change) to the</span>
+<a name="l00124"></a>00124 <span class="comment"> *   XPT_TYPELIB_VERSIONS list.</span>
+<a name="l00125"></a>00125 <span class="comment"> * </span>
+<a name="l00126"></a>00126 <span class="comment"> *   2) Do your changes add new features to XPIDL? Ensure that those new</span>
+<a name="l00127"></a>00127 <span class="comment"> *   features are rejected by the XPIDL compiler when any version number in</span>
+<a name="l00128"></a>00128 <span class="comment"> *   the XPT_TYPELIB_VERSIONS list is specified on the command line. The</span>
+<a name="l00129"></a>00129 <span class="comment"> *   one place that currently does this kind of error checking is the function</span>
+<a name="l00130"></a>00130 <span class="comment"> *   verify_type_fits_version() in xpidl_util.c. It currently checks</span>
+<a name="l00131"></a>00131 <span class="comment"> *   attribute types, parameter types, and return types. You&#39;ll probably have</span>
+<a name="l00132"></a>00132 <span class="comment"> *   to add to it or generalize it further based on what kind of changes you</span>
+<a name="l00133"></a>00133 <span class="comment"> *   are making.</span>
+<a name="l00134"></a>00134 <span class="comment"> *</span>
+<a name="l00135"></a>00135 <span class="comment"> *   3) You will probably NOT need to make any changes to the error checking</span>
+<a name="l00136"></a>00136 <span class="comment"> *   in the linker.</span>
+<a name="l00137"></a>00137 <span class="comment"> */</span>
+<a name="l00138"></a>00138   
+<a name="l00139"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a4c669580ffbeb64555e90c1089ce4386">00139</a> <span class="preprocessor">#define XPT_VERSION_UNKNOWN     0</span>
+<a name="l00140"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a802e38e7f258361acca7d711987a4c73">00140</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_VERSION_UNSUPPORTED 1</span>
+<a name="l00141"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a3cc3b3c0c4e22937c1964373a730768c">00141</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_VERSION_OLD         2</span>
+<a name="l00142"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a82388c09585b64d48440e1a35c47dcb6">00142</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_VERSION_CURRENT     3</span>
+<a name="l00143"></a>00143 <span class="preprocessor"></span>
+<a name="l00144"></a><a class="code" href="../../d6/d9b/struct_x_p_t___t_y_p_e_l_i_b___v_e_r_s_i_o_n_s___s_t_r_u_c_t.html">00144</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
+<a name="l00145"></a><a class="code" href="../../d6/d9b/struct_x_p_t___t_y_p_e_l_i_b___v_e_r_s_i_o_n_s___s_t_r_u_c_t.html#afce8fe8bef7d8046b2e4bfaf3e175d38">00145</a>     <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../d6/d9b/struct_x_p_t___t_y_p_e_l_i_b___v_e_r_s_i_o_n_s___s_t_r_u_c_t.html#afce8fe8bef7d8046b2e4bfaf3e175d38">str</a>;
+<a name="l00146"></a><a class="code" href="../../d6/d9b/struct_x_p_t___t_y_p_e_l_i_b___v_e_r_s_i_o_n_s___s_t_r_u_c_t.html#a4c324a7ec8f02f3b6c062157a72fab77">00146</a>     uint8_t     <a class="code" href="../../d6/d9b/struct_x_p_t___t_y_p_e_l_i_b___v_e_r_s_i_o_n_s___s_t_r_u_c_t.html#a4c324a7ec8f02f3b6c062157a72fab77">major</a>;
+<a name="l00147"></a><a class="code" href="../../d6/d9b/struct_x_p_t___t_y_p_e_l_i_b___v_e_r_s_i_o_n_s___s_t_r_u_c_t.html#aad29a28520f5c0d167d976afff0fe94d">00147</a>     uint8_t     <a class="code" href="../../d6/d9b/struct_x_p_t___t_y_p_e_l_i_b___v_e_r_s_i_o_n_s___s_t_r_u_c_t.html#aad29a28520f5c0d167d976afff0fe94d">minor</a>;
+<a name="l00148"></a><a class="code" href="../../d6/d9b/struct_x_p_t___t_y_p_e_l_i_b___v_e_r_s_i_o_n_s___s_t_r_u_c_t.html#afb6222af40a7da3d9c1f18e21c258498">00148</a>     uint16_t    <a class="code" href="../../d6/d9b/struct_x_p_t___t_y_p_e_l_i_b___v_e_r_s_i_o_n_s___s_t_r_u_c_t.html#afb6222af40a7da3d9c1f18e21c258498">code</a>;
+<a name="l00149"></a>00149 } <a class="code" href="../../d6/d9b/struct_x_p_t___t_y_p_e_l_i_b___v_e_r_s_i_o_n_s___s_t_r_u_c_t.html">XPT_TYPELIB_VERSIONS_STRUCT</a>; 
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151 <span class="comment">/* Currently accepted list of versions for typelibs */</span>
+<a name="l00152"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a6bcae70b5671c3201543e48e2e713d08">00152</a> <span class="preprocessor">#define XPT_TYPELIB_VERSIONS {                                                \</span>
+<a name="l00153"></a>00153 <span class="preprocessor">    {&quot;1.0&quot;, 1, 0, XPT_VERSION_UNSUPPORTED},                                   \</span>
+<a name="l00154"></a>00154 <span class="preprocessor">    {&quot;1.1&quot;, 1, 1, XPT_VERSION_OLD},                                           \</span>
+<a name="l00155"></a>00155 <span class="preprocessor">    {&quot;1.2&quot;, 1, 2, XPT_VERSION_CURRENT}                                        \</span>
+<a name="l00156"></a>00156 <span class="preprocessor">}</span>
+<a name="l00157"></a>00157 <span class="preprocessor"></span>
+<a name="l00158"></a>00158 <span class="keyword">extern</span> <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(uint16_t)
+<a name="l00159"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#aebbfb9973eeb4156748f9eee979973e6">00159</a> XPT_ParseVersionString(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>* <a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>, uint8_t* <a class="code" href="../../de/d81/xpt__struct_8h.html#a37839a581047452d71f0ed7d3f9cc434">major</a>, uint8_t* <a class="code" href="../../de/d81/xpt__struct_8h.html#aebbfb9973eeb4156748f9eee979973e6">minor</a>);
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../d2/d34/struct_x_p_t_header.html">XPTHeader</a> *)
+<a name="l00162"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a98672380aa34ab122787ca876cef75b9">00162</a> XPT_NewHeader(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, uint16_t <a class="code" href="../../de/d81/xpt__struct_8h.html#a98672380aa34ab122787ca876cef75b9">num_interfaces</a>, 
+<a name="l00163"></a>00163               uint8_t <a class="code" href="../../de/d81/xpt__struct_8h.html#a01b7b166bba6413994356d8904ae369a">major_version</a>, uint8_t <a class="code" href="../../de/d81/xpt__struct_8h.html#af835a6f69eb5f0c4efe84c8e1dfd3286">minor_version</a>);
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00166"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#af71186e73cea4bee641c417dca50fe45">00166</a> XPT_FreeHeader(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, <a class="code" href="../../d2/d34/struct_x_p_t_header.html">XPTHeader</a>* <a class="code" href="../../de/d81/xpt__struct_8h.html#af71186e73cea4bee641c417dca50fe45">aHeader</a>);
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168 <span class="comment">/* size of header and annotations */</span>
+<a name="l00169"></a>00169 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(uint32_t)
+<a name="l00170"></a>00170 XPT_SizeOfHeader(<a class="code" href="../../d2/d34/struct_x_p_t_header.html">XPTHeader</a> *<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>);
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172 <span class="comment">/* size of header and annotations and InterfaceDirectoryEntries */</span>
+<a name="l00173"></a>00173 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(uint32_t)
+<a name="l00174"></a>00174 XPT_SizeOfHeaderBlock(<a class="code" href="../../d2/d34/struct_x_p_t_header.html">XPTHeader</a> *header);
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176 <span class="comment">/*</span>
+<a name="l00177"></a>00177 <span class="comment"> * A contiguous array of fixed-size InterfaceDirectoryEntry records begins at </span>
+<a name="l00178"></a>00178 <span class="comment"> * the byte offset identified by the interface_directory field in the file </span>
+<a name="l00179"></a>00179 <span class="comment"> * header.  The array is used to quickly locate an interface description </span>
+<a name="l00180"></a>00180 <span class="comment"> * using its IID.  No interface should appear more than once in the array.</span>
+<a name="l00181"></a>00181 <span class="comment"> */</span>
+<a name="l00182"></a><a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html">00182</a> struct <a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html">XPTInterfaceDirectoryEntry</a> {
+<a name="l00183"></a><a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html#a9369a3724de4f430d22a2e6afbfa4dfe">00183</a>     <a class="code" href="../../d4/d3d/structns_i_d.html">nsID</a>                   <a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html#a9369a3724de4f430d22a2e6afbfa4dfe">iid</a>;
+<a name="l00184"></a><a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html#a22650b3c63c3fa76b6a853765fdf23b4">00184</a>     <span class="keywordtype">char</span>                   *<a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html#a22650b3c63c3fa76b6a853765fdf23b4">name</a>;
+<a name="l00185"></a><a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html#a62398c8e5f24dedc6b8e2df93b148193">00185</a>     <span class="keywordtype">char</span>                   *<a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html#a62398c8e5f24dedc6b8e2df93b148193">name_space</a>;
+<a name="l00186"></a><a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html#ace1e6ff206c0a946f26fc3248f69cf48">00186</a>     <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">XPTInterfaceDescriptor</a> *<a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html#ace1e6ff206c0a946f26fc3248f69cf48">interface_descriptor</a>;
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188 <span class="preprocessor">#if 0 </span><span class="comment">/* not yet */</span>
+<a name="l00189"></a>00189     <span class="comment">/* not stored on disk */</span>
+<a name="l00190"></a>00190     uint32_t                 <a class="code" href="../../da/d32/prio_8h.html#a894bdfa2d603d8343f8ef01dda6fcd23">offset</a>; <span class="comment">/* the offset for an ID still to be read */</span>
+<a name="l00191"></a>00191 <span class="preprocessor">#endif</span>
+<a name="l00192"></a>00192 <span class="preprocessor"></span>};
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194 <span class="keyword">extern</span> <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a>)
+<a name="l00195"></a>00195 XPT_FillInterfaceDirectoryEntry(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, 
+<a name="l00196"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">00196</a>                                 <a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html">XPTInterfaceDirectoryEntry</a> *<a class="code" href="../../de/d81/xpt__struct_8h.html#aa397f851fb913f70f663528e8e9cd687">ide</a>,
+<a name="l00197"></a>00197                                 <a class="code" href="../../d4/d3d/structns_i_d.html">nsID</a> *<a class="code" href="../../de/d81/xpt__struct_8h.html#a17e977c639876eb577a75d2596797bd4">iid</a>, <span class="keywordtype">char</span> *<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <span class="keywordtype">char</span> *<a class="code" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a>,
+<a name="l00198"></a>00198                                 <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">XPTInterfaceDescriptor</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a1207a417b47b08dec9e8da04d8b1e334">descriptor</a>);
+<a name="l00199"></a>00199 
+<a name="l00200"></a>00200 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00201"></a>00201 XPT_DestroyInterfaceDirectoryEntry(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, 
+<a name="l00202"></a>00202                                    <a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html">XPTInterfaceDirectoryEntry</a>* ide);
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204 <span class="comment">/*</span>
+<a name="l00205"></a>00205 <span class="comment"> * An InterfaceDescriptor is a variable-size record used to describe a </span>
+<a name="l00206"></a>00206 <span class="comment"> * single XPCOM interface, including all of its methods. </span>
+<a name="l00207"></a>00207 <span class="comment"> */</span>
+<a name="l00208"></a><a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">00208</a> struct <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">XPTInterfaceDescriptor</a> {
+<a name="l00209"></a>00209     <span class="comment">/* This field ordering minimizes the size of this struct.</span>
+<a name="l00210"></a>00210 <span class="comment">    *  The fields are serialized on disk in a different order.</span>
+<a name="l00211"></a>00211 <span class="comment">    *  See DoInterfaceDescriptor().</span>
+<a name="l00212"></a>00212 <span class="comment">    */</span>
+<a name="l00213"></a><a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a68e56896fb026422cd6c1711f83431e1">00213</a>     <a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html">XPTMethodDescriptor</a>     *<a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a68e56896fb026422cd6c1711f83431e1">method_descriptors</a>;
+<a name="l00214"></a><a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a41cc2e66d140aeb2936642c70a658bd0">00214</a>     <a class="code" href="../../d7/deb/struct_x_p_t_const_descriptor.html">XPTConstDescriptor</a>      *<a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a41cc2e66d140aeb2936642c70a658bd0">const_descriptors</a>;
+<a name="l00215"></a><a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a02c9d9c88ee143f9ceac6ffa17b11e2c">00215</a>     <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html">XPTTypeDescriptor</a>       *<a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a02c9d9c88ee143f9ceac6ffa17b11e2c">additional_types</a>;
+<a name="l00216"></a><a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#af8b14a4e592ffe02c63cb33fdf9061a3">00216</a>     uint16_t                <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#af8b14a4e592ffe02c63cb33fdf9061a3">parent_interface</a>;
+<a name="l00217"></a><a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a4b456a87b2ab0ea626d643f1b9b25c0d">00217</a>     uint16_t                <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a4b456a87b2ab0ea626d643f1b9b25c0d">num_methods</a>;
+<a name="l00218"></a><a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#ac7e8deaabba1b2ff48c9cc594087cd35">00218</a>     uint16_t                <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#ac7e8deaabba1b2ff48c9cc594087cd35">num_constants</a>;
+<a name="l00219"></a><a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a3cd0ee9c19779252b7fa1dbfce7253e0">00219</a>     uint8_t                 <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a3cd0ee9c19779252b7fa1dbfce7253e0">flags</a>;
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221     <span class="comment">/* additional_types are used for arrays where we may need multiple</span>
+<a name="l00222"></a>00222 <span class="comment">    *  XPTTypeDescriptors for a single XPTMethodDescriptor. Since we still</span>
+<a name="l00223"></a>00223 <span class="comment">    *  want to have a simple array of XPTMethodDescriptor (each with a single</span>
+<a name="l00224"></a>00224 <span class="comment">    *  embedded XPTTypeDescriptor), a XPTTypeDescriptor can have a reference</span>
+<a name="l00225"></a>00225 <span class="comment">    *  to an &#39;additional_type&#39;. That reference is an index in this </span>
+<a name="l00226"></a>00226 <span class="comment">    *  &quot;additional_types&quot; array. So a given XPTMethodDescriptor might have </span>
+<a name="l00227"></a>00227 <span class="comment">    *  a whole chain of these XPTTypeDescriptors to represent, say, a multi</span>
+<a name="l00228"></a>00228 <span class="comment">    *  dimensional array.</span>
+<a name="l00229"></a>00229 <span class="comment">    *</span>
+<a name="l00230"></a>00230 <span class="comment">    *  Note that in the typelib file these additional types are stored &#39;inline&#39;</span>
+<a name="l00231"></a>00231 <span class="comment">    *  in the MethodDescriptor. But, in the typelib MethodDescriptors can be </span>
+<a name="l00232"></a>00232 <span class="comment">    *  of varying sizes, where in XPT&#39;s in memory mapping of the data we want </span>
+<a name="l00233"></a>00233 <span class="comment">    *  them to be of fixed size. This additional_types scheme is here to allow </span>
+<a name="l00234"></a>00234 <span class="comment">    *  for that.</span>
+<a name="l00235"></a>00235 <span class="comment">    */</span>
+<a name="l00236"></a>00236 
+<a name="l00237"></a><a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a897d583a3620331923a486e2d12d5773">00237</a>     uint16_t                <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html#a897d583a3620331923a486e2d12d5773">num_additional_types</a>;
+<a name="l00238"></a>00238 };
+<a name="l00239"></a>00239 
+<a name="l00240"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#abb50c2a65f1871aa09856b2275a00f53">00240</a> <span class="preprocessor">#define XPT_ID_SCRIPTABLE           0x80</span>
+<a name="l00241"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a1af661b4ff0350e0d4f815bbe46f4ee9">00241</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_ID_FUNCTION             0x40</span>
+<a name="l00242"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a6e9a7d6ff3a4184f64d3eb6d9ff9d616">00242</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_ID_BUILTINCLASS         0x20</span>
+<a name="l00243"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a2bfd893a10b07084e18a39eea22fb8b9">00243</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_ID_FLAGMASK             0xe0</span>
+<a name="l00244"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ae7cf41ad4c5711ad71257d0280ae55fc">00244</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_ID_TAGMASK              (~XPT_ID_FLAGMASK)</span>
+<a name="l00245"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a60c26c57c0b37e8b28152441accf9228">00245</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_ID_TAG(id)              ((id).flags &amp; XPT_ID_TAGMASK)</span>
+<a name="l00246"></a>00246 <span class="preprocessor"></span>
+<a name="l00247"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ae0c4d6df55015c7fa4b7528e242411f3">00247</a> <span class="preprocessor">#define XPT_ID_IS_SCRIPTABLE(flags) (!!(flags &amp; XPT_ID_SCRIPTABLE))</span>
+<a name="l00248"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#aa9fc4e91ddceb7b67cb67954e0368d49">00248</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_ID_IS_FUNCTION(flags) (!!(flags &amp; XPT_ID_FUNCTION))</span>
+<a name="l00249"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#adc53ee69001289effaed2a4b19b88a6d">00249</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_ID_IS_BUILTINCLASS(flags) (!!(flags &amp; XPT_ID_BUILTINCLASS))</span>
+<a name="l00250"></a>00250 <span class="preprocessor"></span>
+<a name="l00251"></a>00251 <span class="keyword">extern</span> <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a>)
+<a name="l00252"></a>00252 XPT_GetInterfaceIndexByName(<a class="code" href="../../d1/d3f/struct_x_p_t_interface_directory_entry.html">XPTInterfaceDirectoryEntry</a> *ide_block,
+<a name="l00253"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ab7a0d6fc6c768f864d52af2e7297ba1d">00253</a>                             uint16_t <a class="code" href="../../de/d81/xpt__struct_8h.html#a98672380aa34ab122787ca876cef75b9">num_interfaces</a>, <span class="keywordtype">char</span> *<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, 
+<a name="l00254"></a>00254                             uint16_t *<a class="code" href="../../d2/d7d/jsapi_8h.html#a57aa00105fcba6fcdb2150dd2ab9cd6a">indexp</a>);
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">XPTInterfaceDescriptor</a> *)
+<a name="l00257"></a>00257 XPT_NewInterfaceDescriptor(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, 
+<a name="l00258"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#af9c8ba9ec84281f1d708db3885f98b8d">00258</a>                            uint16_t <a class="code" href="../../de/d81/xpt__struct_8h.html#af9c8ba9ec84281f1d708db3885f98b8d">parent_interface</a>, uint16_t <a class="code" href="../../de/d81/xpt__struct_8h.html#af29d880c7787f92de05e7f6d26ff72d2">num_methods</a>,
+<a name="l00259"></a>00259                            uint16_t <a class="code" href="../../de/d81/xpt__struct_8h.html#a50a172cb68343909966cb380f55899d9">num_constants</a>, uint8_t <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>);
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00262"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">00262</a> XPT_FreeInterfaceDescriptor(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">XPTInterfaceDescriptor</a>* <span class="keywordtype">id</span>);
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a>)
+<a name="l00265"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#af23ba264fc6071dcd37179d8a2b5440b">00265</a> XPT_InterfaceDescriptorAddTypes(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">XPTInterfaceDescriptor</a> *<span class="keywordtype">id</span>, 
+<a name="l00266"></a>00266                                 uint16_t <a class="code" href="../../de/d81/xpt__struct_8h.html#af23ba264fc6071dcd37179d8a2b5440b">num</a>);
+<a name="l00267"></a>00267 
+<a name="l00268"></a>00268 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a>)
+<a name="l00269"></a>00269 XPT_InterfaceDescriptorAddMethods(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">XPTInterfaceDescriptor</a> *<span class="keywordtype">id</span>, 
+<a name="l00270"></a>00270                                   uint16_t num);
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a>)
+<a name="l00273"></a>00273 XPT_InterfaceDescriptorAddConsts(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, <a class="code" href="../../d1/d0f/struct_x_p_t_interface_descriptor.html">XPTInterfaceDescriptor</a> *<span class="keywordtype">id</span>, 
+<a name="l00274"></a>00274                                  uint16_t num);
+<a name="l00275"></a>00275 
+<a name="l00276"></a>00276 <span class="comment">/*</span>
+<a name="l00277"></a>00277 <span class="comment"> * This is our special string struct with a length value associated with it,</span>
+<a name="l00278"></a>00278 <span class="comment"> * which means that it can contains embedded NULs.</span>
+<a name="l00279"></a>00279 <span class="comment"> */</span>
+<a name="l00280"></a><a class="code" href="../../d7/ddb/struct_x_p_t_string.html">00280</a> struct <a class="code" href="../../d7/ddb/struct_x_p_t_string.html">XPTString</a> {
+<a name="l00281"></a><a class="code" href="../../d7/ddb/struct_x_p_t_string.html#a5d162ee3d9a603208cc046c0a6359522">00281</a>     uint16_t <a class="code" href="../../d7/ddb/struct_x_p_t_string.html#a5d162ee3d9a603208cc046c0a6359522">length</a>;
+<a name="l00282"></a><a class="code" href="../../d7/ddb/struct_x_p_t_string.html#a1901fd098a4d1bc7476a155402316a1c">00282</a>     <span class="keywordtype">char</span>   *<a class="code" href="../../d7/ddb/struct_x_p_t_string.html#a1901fd098a4d1bc7476a155402316a1c">bytes</a>;
+<a name="l00283"></a>00283 };
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285 <span class="keyword">extern</span> <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../d7/ddb/struct_x_p_t_string.html">XPTString</a> *)
+<a name="l00286"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a1892eba2086d12ac2b09005aeb09ea3b">00286</a> XPT_NewString(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, uint16_t <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>, <span class="keywordtype">char</span> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a57d303dad1fd4039eecc9e7e5e8fd41f">bytes</a>);
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288 extern <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../d7/ddb/struct_x_p_t_string.html">XPTString</a> *)
+<a name="l00289"></a>00289 XPT_NewStringZ(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, <span class="keywordtype">char</span> *bytes);
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291 <span class="comment">/* </span>
+<a name="l00292"></a>00292 <span class="comment"> * A TypeDescriptor is a variable-size record used to identify the type of a </span>
+<a name="l00293"></a>00293 <span class="comment"> * method argument or return value. </span>
+<a name="l00294"></a>00294 <span class="comment"> *</span>
+<a name="l00295"></a>00295 <span class="comment"> * There are three types of TypeDescriptors:</span>
+<a name="l00296"></a>00296 <span class="comment"> *</span>
+<a name="l00297"></a>00297 <span class="comment"> * SimpleTypeDescriptor</span>
+<a name="l00298"></a>00298 <span class="comment"> * InterfaceTypeDescriptor</span>
+<a name="l00299"></a>00299 <span class="comment"> * InterfaceIsTypeDescriptor</span>
+<a name="l00300"></a>00300 <span class="comment"> *</span>
+<a name="l00301"></a>00301 <span class="comment"> * The tag field in the prefix indicates which of the variant TypeDescriptor </span>
+<a name="l00302"></a>00302 <span class="comment"> * records is being used, and hence the way any remaining fields should be </span>
+<a name="l00303"></a>00303 <span class="comment"> * parsed. Values from 0 to 17 refer to SimpleTypeDescriptors. The value 18 </span>
+<a name="l00304"></a>00304 <span class="comment"> * designates an InterfaceTypeDescriptor, while 19 represents an </span>
+<a name="l00305"></a>00305 <span class="comment"> * InterfaceIsTypeDescriptor.</span>
+<a name="l00306"></a>00306 <span class="comment"> */</span>
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308 <span class="comment">/* why bother with a struct?  - other code relies on this being a struct */</span>
+<a name="l00309"></a><a class="code" href="../../dd/d05/struct_x_p_t_type_descriptor_prefix.html">00309</a> struct <a class="code" href="../../dd/d05/struct_x_p_t_type_descriptor_prefix.html">XPTTypeDescriptorPrefix</a> {
+<a name="l00310"></a><a class="code" href="../../dd/d05/struct_x_p_t_type_descriptor_prefix.html#aab73a16a9219a3ca458cc9238c373f1a">00310</a>     uint8_t <a class="code" href="../../dd/d05/struct_x_p_t_type_descriptor_prefix.html#aab73a16a9219a3ca458cc9238c373f1a">flags</a>;
+<a name="l00311"></a>00311 };
+<a name="l00312"></a>00312 
+<a name="l00313"></a>00313 <span class="comment">/* flag bits -- fur and jband were right, I was miserably wrong */</span>
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315 <span class="comment">// THESE TWO FLAGS ARE DEPRECATED. DO NOT USE THEM. See bug 692342.</span>
+<a name="l00316"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a3c5ed6e6706c7e2b7fc6e50f857747f8">00316</a> <span class="preprocessor">#define XPT_TDP_POINTER          0x80</span>
+<a name="l00317"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a4c21f5ca18fd1073fcfa2e188ec65b86">00317</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_TDP_REFERENCE        0x20</span>
+<a name="l00318"></a>00318 <span class="preprocessor"></span>
+<a name="l00319"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a3f8a8f284ac800a2f43482426aad9ec7">00319</a> <span class="preprocessor">#define XPT_TDP_FLAGMASK         0xe0</span>
+<a name="l00320"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#abb50cf1636d72c82d6fd0eb6cf3c6dee">00320</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_TDP_TAGMASK          (~XPT_TDP_FLAGMASK)</span>
+<a name="l00321"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a4c08d01cda4f232b075a4e51d748b24c">00321</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_TDP_TAG(tdp)         ((tdp).flags &amp; XPT_TDP_TAGMASK)</span>
+<a name="l00322"></a>00322 <span class="preprocessor"></span>
+<a name="l00323"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ab97e10d36b6e14148f68de03241db589">00323</a> <span class="preprocessor">#define XPT_TDP_IS_POINTER(flags)        (flags &amp; XPT_TDP_POINTER)</span>
+<a name="l00324"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a05093e56d257e782ecdab79cfe1203c1">00324</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_TDP_IS_REFERENCE(flags)      (flags &amp; XPT_TDP_REFERENCE)</span>
+<a name="l00325"></a>00325 <span class="preprocessor"></span>
+<a name="l00326"></a>00326 <span class="comment">/* </span>
+<a name="l00327"></a>00327 <span class="comment"> * The following enum maps mnemonic names to the different numeric values </span>
+<a name="l00328"></a>00328 <span class="comment"> * of XPTTypeDescriptor-&gt;tag.</span>
+<a name="l00329"></a>00329 <span class="comment"> */</span>
+<a name="l00330"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4e">00330</a> <span class="keyword">enum</span> <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4e">XPTTypeDescriptorTags</a> {
+<a name="l00331"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea3d4a68b89bcc0e84f80095a7c24c3698">00331</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea3d4a68b89bcc0e84f80095a7c24c3698">TD_INT8</a>              = 0,
+<a name="l00332"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea6703d9f389456a9400a06872063ab3b6">00332</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea6703d9f389456a9400a06872063ab3b6">TD_INT16</a>             = 1,
+<a name="l00333"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eab8e5ad37bfc4635af6efe71dab75aa27">00333</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eab8e5ad37bfc4635af6efe71dab75aa27">TD_INT32</a>             = 2,
+<a name="l00334"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea714cc7b6c9aff8d372679be997fa53ad">00334</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea714cc7b6c9aff8d372679be997fa53ad">TD_INT64</a>             = 3,
+<a name="l00335"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eaa90c8b2fbf44c64d65638e10e8e1fc0f">00335</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eaa90c8b2fbf44c64d65638e10e8e1fc0f">TD_UINT8</a>             = 4,
+<a name="l00336"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ead6a1a3bc8e500c35909f8ed7b06219b9">00336</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ead6a1a3bc8e500c35909f8ed7b06219b9">TD_UINT16</a>            = 5,
+<a name="l00337"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea3558293a93a7f7933d87394878c4f4eb">00337</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea3558293a93a7f7933d87394878c4f4eb">TD_UINT32</a>            = 6,
+<a name="l00338"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea0f0c5d1349aab652096eebd5fc53599c">00338</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea0f0c5d1349aab652096eebd5fc53599c">TD_UINT64</a>            = 7,
+<a name="l00339"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea3eab1470c413c03d9f9526c6b0496271">00339</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea3eab1470c413c03d9f9526c6b0496271">TD_FLOAT</a>             = 8, 
+<a name="l00340"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea7517216a2e007b103627f328a5fcf421">00340</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea7517216a2e007b103627f328a5fcf421">TD_DOUBLE</a>            = 9,
+<a name="l00341"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eae04ef823235fb1d8242dcf4f21026b2d">00341</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eae04ef823235fb1d8242dcf4f21026b2d">TD_BOOL</a>              = 10,  
+<a name="l00342"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ead795746235f880189dd15b881a3bc03b">00342</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ead795746235f880189dd15b881a3bc03b">TD_CHAR</a>              = 11,  
+<a name="l00343"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eaf7489276b45d723981e4248bf7706c47">00343</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eaf7489276b45d723981e4248bf7706c47">TD_WCHAR</a>             = 12, 
+<a name="l00344"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea7952402d1819a18a67ba87da94b35df5">00344</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea7952402d1819a18a67ba87da94b35df5">TD_VOID</a>              = 13,  
+<a name="l00345"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea1a36c1a9d295895b103325736317a273">00345</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea1a36c1a9d295895b103325736317a273">TD_PNSIID</a>            = 14,
+<a name="l00346"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ead59960d10b544912f244c174ab59962f">00346</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ead59960d10b544912f244c174ab59962f">TD_DOMSTRING</a>         = 15,
+<a name="l00347"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea2e6e5cc9605ac34f504289b464ebeab6">00347</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea2e6e5cc9605ac34f504289b464ebeab6">TD_PSTRING</a>           = 16,
+<a name="l00348"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eaa2aabcd65cd72f1110cd88cbe7da364b">00348</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eaa2aabcd65cd72f1110cd88cbe7da364b">TD_PWSTRING</a>          = 17,
+<a name="l00349"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea8bbf24cab86f9c5ec6d68a5022f352b2">00349</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea8bbf24cab86f9c5ec6d68a5022f352b2">TD_INTERFACE_TYPE</a>    = 18,
+<a name="l00350"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eaa78b04c162326389074d7e3798c6ed83">00350</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eaa78b04c162326389074d7e3798c6ed83">TD_INTERFACE_IS_TYPE</a> = 19,
+<a name="l00351"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea37985cbc0438d50165e1dbe2360b56e9">00351</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea37985cbc0438d50165e1dbe2360b56e9">TD_ARRAY</a>             = 20,
+<a name="l00352"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea8ee65ca480f301054aaf0f7df5280e03">00352</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea8ee65ca480f301054aaf0f7df5280e03">TD_PSTRING_SIZE_IS</a>   = 21,
+<a name="l00353"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea784030dcfa5278de79c07fe0064f1383">00353</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea784030dcfa5278de79c07fe0064f1383">TD_PWSTRING_SIZE_IS</a>  = 22,
+<a name="l00354"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eadcd992ea1a3513f922cd9b01b6450e95">00354</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4eadcd992ea1a3513f922cd9b01b6450e95">TD_UTF8STRING</a>        = 23,
+<a name="l00355"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ead52a55fae5a861814fd594c04964ae5b">00355</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ead52a55fae5a861814fd594c04964ae5b">TD_CSTRING</a>           = 24,
+<a name="l00356"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea03b257cc5c30614ab128f35ef18cd981">00356</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea03b257cc5c30614ab128f35ef18cd981">TD_ASTRING</a>           = 25,
+<a name="l00357"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea2722278a2c5cc30497be05a8020a326f">00357</a>     <a class="code" href="../../de/d81/xpt__struct_8h.html#a0403d7032e25526cc586de7651dd9d4ea2722278a2c5cc30497be05a8020a326f">TD_JSVAL</a>             = 26
+<a name="l00358"></a>00358 };
+<a name="l00359"></a>00359 
+<a name="l00360"></a><a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html">00360</a> <span class="keyword">struct </span><a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html">XPTTypeDescriptor</a> {
+<a name="l00361"></a><a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#ae364616dd16c0ef054a161297087b3fc">00361</a>     <a class="code" href="../../dd/d05/struct_x_p_t_type_descriptor_prefix.html">XPTTypeDescriptorPrefix</a> <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#ae364616dd16c0ef054a161297087b3fc">prefix</a>;
+<a name="l00362"></a><a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#ad0e8688c76ad79c004a18c4c9ac53ec3">00362</a>     uint8_t <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#ad0e8688c76ad79c004a18c4c9ac53ec3">argnum</a>;                 <span class="comment">/* used for iid_is and size_is */</span>
+<a name="l00363"></a><a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#ae6c55fdebcf03d90316ce91604a69b3f">00363</a>     uint8_t <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#ae6c55fdebcf03d90316ce91604a69b3f">argnum2</a>;                <span class="comment">/* used for length_is */</span>
+<a name="l00364"></a>00364     <span class="keyword">union </span>{                         
+<a name="l00365"></a><a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#a084a3464c393120128557feed9386927">00365</a>         uint16_t <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#a084a3464c393120128557feed9386927">iface</a>;             <span class="comment">/* used for TD_INTERFACE_TYPE */</span>
+<a name="l00366"></a><a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#aea7e4b698face53f06aeaa1486a3ca5c">00366</a>         uint16_t <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#aea7e4b698face53f06aeaa1486a3ca5c">additional_type</a>;   <span class="comment">/* used for TD_ARRAY */</span>
+<a name="l00367"></a>00367     } <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html#a30b49ad53b85be71b892624c9b87f10b">type</a>;
+<a name="l00368"></a>00368 };
+<a name="l00369"></a>00369 
+<a name="l00370"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0dc215a9f9150c68e6e0d3e297176760">00370</a> <span class="preprocessor">#define XPT_COPY_TYPE(to, from)                                               \</span>
+<a name="l00371"></a>00371 <span class="preprocessor">  (to).prefix.flags = (from).prefix.flags;                                    \</span>
+<a name="l00372"></a>00372 <span class="preprocessor">  (to).argnum = (from).argnum;                                                \</span>
+<a name="l00373"></a>00373 <span class="preprocessor">  (to).argnum2 = (from).argnum2;                                              \</span>
+<a name="l00374"></a>00374 <span class="preprocessor">  (to).type.additional_type = (from).type.additional_type;</span>
+<a name="l00375"></a>00375 <span class="preprocessor"></span>
+<a name="l00376"></a>00376 <span class="comment">/*</span>
+<a name="l00377"></a>00377 <span class="comment"> * A ConstDescriptor is a variable-size record that records the name and </span>
+<a name="l00378"></a>00378 <span class="comment"> * value of a scoped interface constant. </span>
+<a name="l00379"></a>00379 <span class="comment"> *</span>
+<a name="l00380"></a>00380 <span class="comment"> * The types of the method parameter are restricted to the following subset </span>
+<a name="l00381"></a>00381 <span class="comment"> * of TypeDescriptors: </span>
+<a name="l00382"></a>00382 <span class="comment"> *</span>
+<a name="l00383"></a>00383 <span class="comment"> * int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, </span>
+<a name="l00384"></a>00384 <span class="comment"> * int64_t, uint64_t, wchar_t, char, string</span>
+<a name="l00385"></a>00385 <span class="comment"> * </span>
+<a name="l00386"></a>00386 <span class="comment"> * The type (and thus the size) of the value record is determined by the </span>
+<a name="l00387"></a>00387 <span class="comment"> * contents of the associated TypeDescriptor record. For instance, if type </span>
+<a name="l00388"></a>00388 <span class="comment"> * corresponds to int16_t, then value is a two-byte record consisting of a </span>
+<a name="l00389"></a>00389 <span class="comment"> * 16-bit signed integer.  For a ConstDescriptor type of string, the value </span>
+<a name="l00390"></a>00390 <span class="comment"> * record is of type String*, i.e. an offset within the data pool to a </span>
+<a name="l00391"></a>00391 <span class="comment"> * String record containing the constant string.</span>
+<a name="l00392"></a>00392 <span class="comment"> */</span>
+<a name="l00393"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html">00393</a> <span class="keyword">union </span><a class="code" href="../../db/d39/union_x_p_t_const_value.html">XPTConstValue</a> {
+<a name="l00394"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#aad5ec9e4dfa2e953fdcc35c5f605912b">00394</a>     int8_t    <a class="code" href="../../db/d39/union_x_p_t_const_value.html#aad5ec9e4dfa2e953fdcc35c5f605912b">i8</a>;
+<a name="l00395"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#acb90f77f2ce816d0d30092684cc55f5c">00395</a>     uint8_t   <a class="code" href="../../db/d39/union_x_p_t_const_value.html#acb90f77f2ce816d0d30092684cc55f5c">ui8</a>; 
+<a name="l00396"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#aa1fb02492583a0c7d6327cb3e5901f15">00396</a>     int16_t   <a class="code" href="../../db/d39/union_x_p_t_const_value.html#aa1fb02492583a0c7d6327cb3e5901f15">i16</a>; 
+<a name="l00397"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#acddef69ef1f4b0a2d83e4c4f5f00af65">00397</a>     uint16_t  <a class="code" href="../../db/d39/union_x_p_t_const_value.html#acddef69ef1f4b0a2d83e4c4f5f00af65">ui16</a>;
+<a name="l00398"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#ab76487012db90435357d450d7b473564">00398</a>     int32_t   <a class="code" href="../../db/d39/union_x_p_t_const_value.html#ab76487012db90435357d450d7b473564">i32</a>; 
+<a name="l00399"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#a66705314a16c7cea1999b2b65ed47349">00399</a>     uint32_t  <a class="code" href="../../db/d39/union_x_p_t_const_value.html#a66705314a16c7cea1999b2b65ed47349">ui32</a>;
+<a name="l00400"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#a91cb1c8b33cbe3f1865dafdfde983e19">00400</a>     int64_t   <a class="code" href="../../db/d39/union_x_p_t_const_value.html#a91cb1c8b33cbe3f1865dafdfde983e19">i64</a>; 
+<a name="l00401"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#a9875aa7ad949531bb665400285e80c47">00401</a>     uint64_t  <a class="code" href="../../db/d39/union_x_p_t_const_value.html#a9875aa7ad949531bb665400285e80c47">ui64</a>; 
+<a name="l00402"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#a805f7d1db4e75e1ba9ca50effba19aaa">00402</a>     <span class="keywordtype">float</span>     <a class="code" href="../../db/d39/union_x_p_t_const_value.html#a805f7d1db4e75e1ba9ca50effba19aaa">flt</a>;
+<a name="l00403"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#a89c0b820ca4a332b887bb2b5f88ca557">00403</a>     <span class="keywordtype">double</span>    <a class="code" href="../../db/d39/union_x_p_t_const_value.html#a89c0b820ca4a332b887bb2b5f88ca557">dbl</a>;
+<a name="l00404"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#a90b3547c4e2eed8569af75ab0bee3403">00404</a>     <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a>    <a class="code" href="../../db/d39/union_x_p_t_const_value.html#a90b3547c4e2eed8569af75ab0bee3403">bul</a>;
+<a name="l00405"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#ac021116629d6591076267f86816c78f0">00405</a>     <span class="keywordtype">char</span>      <a class="code" href="../../db/d39/union_x_p_t_const_value.html#ac021116629d6591076267f86816c78f0">ch</a>; 
+<a name="l00406"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#aee3fdb4e61c6f3a2350d66f09a382c1e">00406</a>     uint16_t  <a class="code" href="../../db/d39/union_x_p_t_const_value.html#aee3fdb4e61c6f3a2350d66f09a382c1e">wch</a>;
+<a name="l00407"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#a235e0129e3a0191e4f182495dc34f3c6">00407</a>     <a class="code" href="../../d4/d3d/structns_i_d.html">nsID</a>      *<a class="code" href="../../db/d39/union_x_p_t_const_value.html#a235e0129e3a0191e4f182495dc34f3c6">iid</a>;
+<a name="l00408"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#abf8269713d18d914c6cdd7fec73d4ae4">00408</a>     <a class="code" href="../../d7/ddb/struct_x_p_t_string.html">XPTString</a> *<a class="code" href="../../db/d39/union_x_p_t_const_value.html#abf8269713d18d914c6cdd7fec73d4ae4">string</a>;
+<a name="l00409"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#a3a9b0cbfb505d851745ba3d611c53442">00409</a>     <span class="keywordtype">char</span>      *<a class="code" href="../../db/d39/union_x_p_t_const_value.html#a3a9b0cbfb505d851745ba3d611c53442">str</a>;
+<a name="l00410"></a><a class="code" href="../../db/d39/union_x_p_t_const_value.html#aeea06adf0fa8e4cb6b03ec05f23b2a8e">00410</a>     uint16_t  *<a class="code" href="../../db/d39/union_x_p_t_const_value.html#aeea06adf0fa8e4cb6b03ec05f23b2a8e">wstr</a>;
+<a name="l00411"></a>00411 }; <span class="comment">/* varies according to type */</span>
+<a name="l00412"></a>00412 
+<a name="l00413"></a><a class="code" href="../../d7/deb/struct_x_p_t_const_descriptor.html">00413</a> <span class="keyword">struct </span><a class="code" href="../../d7/deb/struct_x_p_t_const_descriptor.html">XPTConstDescriptor</a> {
+<a name="l00414"></a><a class="code" href="../../d7/deb/struct_x_p_t_const_descriptor.html#a025dc08c1726cd0d1c29db0fdc6e02d3">00414</a>     <span class="keywordtype">char</span>                *<a class="code" href="../../d7/deb/struct_x_p_t_const_descriptor.html#a025dc08c1726cd0d1c29db0fdc6e02d3">name</a>;
+<a name="l00415"></a><a class="code" href="../../d7/deb/struct_x_p_t_const_descriptor.html#a71461775ccadae2a8950cd9ca98dd768">00415</a>     <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html">XPTTypeDescriptor</a>   <a class="code" href="../../d7/deb/struct_x_p_t_const_descriptor.html#a71461775ccadae2a8950cd9ca98dd768">type</a>;
+<a name="l00416"></a><a class="code" href="../../d7/deb/struct_x_p_t_const_descriptor.html#a4c32211e9c8b1748f7a2fa8a5d9abc08">00416</a>     <span class="keyword">union </span><a class="code" href="../../db/d39/union_x_p_t_const_value.html">XPTConstValue</a> <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00417"></a>00417 };
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419 <span class="comment">/*</span>
+<a name="l00420"></a>00420 <span class="comment"> * A ParamDescriptor is a variable-size record used to describe either a </span>
+<a name="l00421"></a>00421 <span class="comment"> * single argument to a method or a method&#39;s result.</span>
+<a name="l00422"></a>00422 <span class="comment"> */</span>
+<a name="l00423"></a><a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html">00423</a> <span class="keyword">struct </span><a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html">XPTParamDescriptor</a> {
+<a name="l00424"></a><a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html#a3b259a66f78fbea640463457db7524c8">00424</a>     uint8_t           <a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html#a3b259a66f78fbea640463457db7524c8">flags</a>;
+<a name="l00425"></a><a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html#a32f38b75fe4f26022e8828774e161d83">00425</a>     <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html">XPTTypeDescriptor</a> <a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html#a32f38b75fe4f26022e8828774e161d83">type</a>;
+<a name="l00426"></a>00426 };
+<a name="l00427"></a>00427 
+<a name="l00428"></a>00428 <span class="comment">/* flag bits -- jband and fur were right, and I was miserably wrong */</span>
+<a name="l00429"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a5b6a34faba565cf53a5aee37ac7b6d91">00429</a> <span class="preprocessor">#define XPT_PD_IN       0x80</span>
+<a name="l00430"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a5264d3fb4ac521de34e0537bc9ccbf97">00430</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_OUT      0x40</span>
+<a name="l00431"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a7c0587793254fe052ba0d68a44f6d958">00431</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_RETVAL   0x20</span>
+<a name="l00432"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#aa97267d85bbd7a19119122ddbc524b1f">00432</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_SHARED   0x10</span>
+<a name="l00433"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a3af3bd95ecee55884f5cb9f1ce0cabcb">00433</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_DIPPER   0x08</span>
+<a name="l00434"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ae9571e565c8b945c3c1cda1f1d30fdf5">00434</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_OPTIONAL 0x04</span>
+<a name="l00435"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a8e05b39517f5413b6a22e40dc013250a">00435</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_FLAGMASK 0xfc</span>
+<a name="l00436"></a>00436 <span class="preprocessor"></span>
+<a name="l00437"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ad44e84d3be6e1b0534aaec9cdcf419c4">00437</a> <span class="preprocessor">#define XPT_PD_IS_IN(flags)     (flags &amp; XPT_PD_IN)</span>
+<a name="l00438"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a01fae31cdffe7dbad2652dc66404122b">00438</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_IS_OUT(flags)    (flags &amp; XPT_PD_OUT)</span>
+<a name="l00439"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#add506593bddf0b1250639bb8bba77265">00439</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_IS_RETVAL(flags) (flags &amp; XPT_PD_RETVAL)</span>
+<a name="l00440"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a85747279aed507b1f4860a0670cc2778">00440</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_IS_SHARED(flags) (flags &amp; XPT_PD_SHARED)</span>
+<a name="l00441"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#af50f681645dcdb36bbf5b58bc7c39393">00441</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_IS_DIPPER(flags) (flags &amp; XPT_PD_DIPPER)</span>
+<a name="l00442"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#aff3fd5c9c72e528d580de53b2ba470bc">00442</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_PD_IS_OPTIONAL(flags) (flags &amp; XPT_PD_OPTIONAL)</span>
+<a name="l00443"></a>00443 <span class="preprocessor"></span>
+<a name="l00444"></a>00444 <span class="keyword">extern</span> <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a>)
+<a name="l00445"></a>00445 XPT_FillParamDescriptor(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, 
+<a name="l00446"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ac827fa5fbcdd05dd9ed05984a80679b8">00446</a>                         <a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html">XPTParamDescriptor</a> *<a class="code" href="../../de/d81/xpt__struct_8h.html#a6476f4a14e1822b5c35c2c5b51c0cfeb">pd</a>, uint8_t <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>,
+<a name="l00447"></a>00447                         <a class="code" href="../../dd/df7/struct_x_p_t_type_descriptor.html">XPTTypeDescriptor</a> *<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>);
+<a name="l00448"></a>00448 
+<a name="l00449"></a>00449 <span class="comment">/*</span>
+<a name="l00450"></a>00450 <span class="comment"> * A MethodDescriptor is a variable-size record used to describe a single </span>
+<a name="l00451"></a>00451 <span class="comment"> * interface method.</span>
+<a name="l00452"></a>00452 <span class="comment"> */</span>
+<a name="l00453"></a><a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html">00453</a> struct <a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html">XPTMethodDescriptor</a> {
+<a name="l00454"></a><a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html#a62095d8a2a2328f0b44f8cc531a9b0e3">00454</a>     <span class="keywordtype">char</span>                *<a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html#a62095d8a2a2328f0b44f8cc531a9b0e3">name</a>;
+<a name="l00455"></a><a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html#af1e321554b2524fbb01a83753e88fcee">00455</a>     <a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html">XPTParamDescriptor</a>  *<a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html#af1e321554b2524fbb01a83753e88fcee">params</a>;
+<a name="l00456"></a><a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html#abaf59220a44375b63d8c1953d429b545">00456</a>     <a class="code" href="../../de/dd2/struct_x_p_t_param_descriptor.html">XPTParamDescriptor</a>  <a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html#abaf59220a44375b63d8c1953d429b545">result</a>;
+<a name="l00457"></a><a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html#a27eac7806bf873d4457ae8d90dd7d8d5">00457</a>     uint8_t             <a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html#a27eac7806bf873d4457ae8d90dd7d8d5">flags</a>;
+<a name="l00458"></a><a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html#a96399142a2d7e578e31f450083967412">00458</a>     uint8_t             <a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html#a96399142a2d7e578e31f450083967412">num_args</a>;
+<a name="l00459"></a>00459 };
+<a name="l00460"></a>00460 
+<a name="l00461"></a>00461 <span class="comment">/* flag bits -- jband and fur were right, and I was miserably wrong */</span>
+<a name="l00462"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0e3ef365515d0109e14e5fb8379f113c">00462</a> <span class="preprocessor">#define XPT_MD_GETTER   0x80</span>
+<a name="l00463"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a53be2369698095dd629e9605db1f49e6">00463</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_SETTER   0x40</span>
+<a name="l00464"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a224a3b6088e93e8641eda3c223c34e54">00464</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_NOTXPCOM 0x20</span>
+<a name="l00465"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a23cec1a7701020562f4b1bdef64dd1fb">00465</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_CTOR     0x10</span>
+<a name="l00466"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a1711dd8f1b54dce4d8a0b12a37287263">00466</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_HIDDEN   0x08</span>
+<a name="l00467"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#aec376f8fc121db686a4bfbae44cdb309">00467</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_OPT_ARGC 0x04</span>
+<a name="l00468"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a9adff076093f486283cd127d1fb416a9">00468</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_CONTEXT  0x02</span>
+<a name="l00469"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a598e12ba198d42e606c96a82fad4403e">00469</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_FLAGMASK 0xfe</span>
+<a name="l00470"></a>00470 <span class="preprocessor"></span>
+<a name="l00471"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a4057ec27996dac162dadec21bca7e717">00471</a> <span class="preprocessor">#define XPT_MD_IS_GETTER(flags)      (flags &amp; XPT_MD_GETTER)</span>
+<a name="l00472"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a3b51209c04909091eb89766e353d4d95">00472</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_IS_SETTER(flags)      (flags &amp; XPT_MD_SETTER)</span>
+<a name="l00473"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a73c02578f433d6e2e9f107940a2ec2ce">00473</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_IS_NOTXPCOM(flags)    (flags &amp; XPT_MD_NOTXPCOM)</span>
+<a name="l00474"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a45f6cf205b2f1d24e32513a3a9efaa6e">00474</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_IS_CTOR(flags)        (flags &amp; XPT_MD_CTOR)</span>
+<a name="l00475"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ae8f04d838b495fe5c16a3c1c038e05d0">00475</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_IS_HIDDEN(flags)      (flags &amp; XPT_MD_HIDDEN)</span>
+<a name="l00476"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a340c5ac796f31e81de2a4253327715b1">00476</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_WANTS_OPT_ARGC(flags) (flags &amp; XPT_MD_OPT_ARGC)</span>
+<a name="l00477"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a0ba663b33e8383ea783e80f141c92c9b">00477</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_MD_WANTS_CONTEXT(flags)  (flags &amp; XPT_MD_CONTEXT)</span>
+<a name="l00478"></a>00478 <span class="preprocessor"></span>
+<a name="l00479"></a>00479 <span class="keyword">extern</span> <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a>)
+<a name="l00480"></a>00480 XPT_FillMethodDescriptor(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, 
+<a name="l00481"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a32f27c2be3560d0416e4624cfe69949c">00481</a>                          <a class="code" href="../../d1/d0f/struct_x_p_t_method_descriptor.html">XPTMethodDescriptor</a> *<a class="code" href="../../de/d81/xpt__struct_8h.html#ab0c24de0c106d676f76319f1e4ce3c88">meth</a>, uint8_t <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>, <span class="keywordtype">char</span> *<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>,
+<a name="l00482"></a>00482                          uint8_t <a class="code" href="../../de/d81/xpt__struct_8h.html#a32f27c2be3560d0416e4624cfe69949c">num_args</a>);
+<a name="l00483"></a>00483 
+<a name="l00484"></a>00484 <span class="comment">/*</span>
+<a name="l00485"></a>00485 <span class="comment"> * Annotation records are variable-size records used to store secondary </span>
+<a name="l00486"></a>00486 <span class="comment"> * information about the typelib, e.g. such as the name of the tool that </span>
+<a name="l00487"></a>00487 <span class="comment"> * generated the typelib file, the date it was generated, etc.  The </span>
+<a name="l00488"></a>00488 <span class="comment"> * information is stored with very loose format requirements so as to </span>
+<a name="l00489"></a>00489 <span class="comment"> * allow virtually any private data to be stored in the typelib.</span>
+<a name="l00490"></a>00490 <span class="comment"> *</span>
+<a name="l00491"></a>00491 <span class="comment"> * There are two types of Annotations:</span>
+<a name="l00492"></a>00492 <span class="comment"> *</span>
+<a name="l00493"></a>00493 <span class="comment"> * EmptyAnnotation</span>
+<a name="l00494"></a>00494 <span class="comment"> * PrivateAnnotation</span>
+<a name="l00495"></a>00495 <span class="comment"> *</span>
+<a name="l00496"></a>00496 <span class="comment"> * The tag field of the prefix discriminates among the variant record </span>
+<a name="l00497"></a>00497 <span class="comment"> * types for Annotation&#39;s.  If the tag is 0, this record is an </span>
+<a name="l00498"></a>00498 <span class="comment"> * EmptyAnnotation. EmptyAnnotation&#39;s are ignored - they&#39;re only used to </span>
+<a name="l00499"></a>00499 <span class="comment"> * indicate an array of Annotation&#39;s that&#39;s completely empty.  If the tag </span>
+<a name="l00500"></a>00500 <span class="comment"> * is 1, the record is a PrivateAnnotation. </span>
+<a name="l00501"></a>00501 <span class="comment"> */</span>
+<a name="l00502"></a>00502 
+<a name="l00503"></a><a class="code" href="../../d3/d71/struct_x_p_t_annotation.html">00503</a> struct <a class="code" href="../../d3/d71/struct_x_p_t_annotation.html">XPTAnnotation</a> {
+<a name="l00504"></a><a class="code" href="../../d3/d71/struct_x_p_t_annotation.html#a7ce144fd2a421f4b4c1a24309c285882">00504</a>     XPTAnnotation *<a class="code" href="../../d3/d71/struct_x_p_t_annotation.html#a7ce144fd2a421f4b4c1a24309c285882">next</a>;
+<a name="l00505"></a><a class="code" href="../../d3/d71/struct_x_p_t_annotation.html#af4595d3b552c5a63dc055bb2e13e3b53">00505</a>     uint8_t       <a class="code" href="../../d3/d71/struct_x_p_t_annotation.html#af4595d3b552c5a63dc055bb2e13e3b53">flags</a>;
+<a name="l00506"></a>00506     <span class="comment">/* remaining fields are present in typelib iff XPT_ANN_IS_PRIVATE */</span>
+<a name="l00507"></a><a class="code" href="../../d3/d71/struct_x_p_t_annotation.html#a8e4aacefe8346ffadf9ee1884dd0e068">00507</a>     <a class="code" href="../../d7/ddb/struct_x_p_t_string.html">XPTString</a>     *<a class="code" href="../../d3/d71/struct_x_p_t_annotation.html#a8e4aacefe8346ffadf9ee1884dd0e068">creator</a>;
+<a name="l00508"></a><a class="code" href="../../d3/d71/struct_x_p_t_annotation.html#accb5af2416f5370e6c841e344c8498f9">00508</a>     <a class="code" href="../../d7/ddb/struct_x_p_t_string.html">XPTString</a>     *<a class="code" href="../../d3/d71/struct_x_p_t_annotation.html#accb5af2416f5370e6c841e344c8498f9">private_data</a>;
+<a name="l00509"></a>00509 };
+<a name="l00510"></a>00510 
+<a name="l00511"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ac2db1a4de618328f49a9f96eecdaa5db">00511</a> <span class="preprocessor">#define XPT_ANN_LAST                    0x80</span>
+<a name="l00512"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ae11dd533d55454384a46cea661f32c3b">00512</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_ANN_IS_LAST(flags)          (flags &amp; XPT_ANN_LAST)</span>
+<a name="l00513"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#ac74617d092bec3a34c06bc572bf1df9d">00513</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_ANN_PRIVATE                 0x40</span>
+<a name="l00514"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#aeee5912e523d89ea7bd9843a1ba5213b">00514</a> <span class="preprocessor"></span><span class="preprocessor">#define XPT_ANN_IS_PRIVATE(flags)       (flags &amp; XPT_ANN_PRIVATE)</span>
+<a name="l00515"></a>00515 <span class="preprocessor"></span>
+<a name="l00516"></a>00516 <span class="keyword">extern</span> <a class="code" href="../../d0/df9/xpt__arena_8h.html#a26d145d7c0e6cab3190bd86700d6eba5">XPT_PUBLIC_API</a>(<a class="code" href="../../d3/d71/struct_x_p_t_annotation.html">XPTAnnotation</a> *)
+<a name="l00517"></a><a class="code" href="../../de/d81/xpt__struct_8h.html#a7cc4513c6ca436016568b310910d606a">00517</a> XPT_NewAnnotation(<a class="code" href="../../d0/df9/xpt__arena_8h.html#a6135620c807968e12814e0aca3fe105e">XPTArena</a> *arena, uint8_t <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>, <a class="code" href="../../d7/ddb/struct_x_p_t_string.html">XPTString</a> *<a class="code" href="../../de/d81/xpt__struct_8h.html#acf0e0ad6d55392187b6d0757334387e4">creator</a>, 
+<a name="l00518"></a>00518                   <a class="code" href="../../d7/ddb/struct_x_p_t_string.html">XPTString</a> *<a class="code" href="../../de/d81/xpt__struct_8h.html#a7cc4513c6ca436016568b310910d606a">private_data</a>);
+<a name="l00519"></a>00519 
+<a name="l00520"></a>00520 <span class="preprocessor">#ifdef __cplusplus</span>
+<a name="l00521"></a>00521 <span class="preprocessor"></span>}
+<a name="l00522"></a>00522 <span class="preprocessor">#endif</span>
+<a name="l00523"></a>00523 <span class="preprocessor"></span>
+<a name="l00524"></a>00524 <span class="preprocessor">#endif </span><span class="comment">/* __xpt_struct_h__ */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/d81/xpt__struct_8h.html">xpt_struct.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:40に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

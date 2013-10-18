@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_speech_recognition_result_list_01_4 =
+[
+    [ "NativeType", "d4/de5/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_speech_recognition_result_list_01_4.html#a18a43e984ca0be54a6a9f27744d96118", null ]
+];

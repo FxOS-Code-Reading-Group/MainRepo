@@ -1,0 +1,904 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: fb_contact.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dd/d8f/fb__contact_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">fb_contact.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dd/d8f/fb__contact_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../dd/d8f/fb__contact_8js.html#ae2475e10618961c050dcba04e8c42331">00001</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00002"></a>00002 
+<a name="l00003"></a><a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">00003</a> var <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.fb || {};
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">// Encapsulates all the logic to obtain the data for a FB contact</span>
+<a name="l00006"></a><a class="code" href="../../dd/d8f/fb__contact_8js.html#a36a2899594cf42a5dbf275fc28d80286">00006</a> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.Contact = <span class="keyword">function</span>(deviceContact, cid) {
+<a name="l00007"></a>00007   var contactData;
+<a name="l00008"></a>00008   var devContact = deviceContact;
+<a name="l00009"></a>00009   var contactid = cid;
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011   <span class="keyword">function</span> doGetFacebookUid(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>) {
+<a name="l00012"></a>00012     <span class="keywordflow">return</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.getFriendUid(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>);
+<a name="l00013"></a>00013   }
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015   <span class="keyword">function</span> <a class="code" href="../../de/dc4/fb__contact__utils_8js.html#a7a68a83b44d4fd2c1d9dd46510222810">getLinkedTo</a>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>) {
+<a name="l00016"></a>00016     <span class="keywordflow">return</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.getLinkedTo(<a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>);
+<a name="l00017"></a>00017   }
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019   <span class="keyword">function</span> getFacebookUid() {
+<a name="l00020"></a>00020     <span class="keywordflow">return</span> doGetFacebookUid(deviceContact);
+<a name="l00021"></a>00021   }
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023   <span class="keyword">function</span> setFacebookUid(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00024"></a>00024     doSetFacebookUid(deviceContact, <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00025"></a>00025   }
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027   <span class="keyword">function</span> doSetFacebookUid(dcontact, <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00028"></a>00028     <span class="keywordflow">if</span> (!dcontact.category) {
+<a name="l00029"></a>00029       dcontact.category = [];
+<a name="l00030"></a>00030     }
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032     <span class="keywordflow">if</span> (dcontact.category.indexOf(<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.CATEGORY) === -1) {
+<a name="l00033"></a>00033       markAsFb(dcontact);
+<a name="l00034"></a>00034     }
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036     var idx = dcontact.category.indexOf(<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.CATEGORY);
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038     dcontact.category[idx + 2] = <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00039"></a>00039   }
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041   <span class="keyword">function</span> markAsFb(dcontact) {
+<a name="l00042"></a>00042     <span class="keywordflow">if</span> (!dcontact.category) {
+<a name="l00043"></a>00043       dcontact.category = [];
+<a name="l00044"></a>00044     }
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     <span class="keywordflow">if</span> (dcontact.category.indexOf(<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.CATEGORY) === -1) {
+<a name="l00047"></a>00047       dcontact.category.push(<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.CATEGORY);
+<a name="l00048"></a>00048       dcontact.category.push(<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.NOT_LINKED);
+<a name="l00049"></a>00049     }
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051     <span class="keywordflow">return</span> dcontact;
+<a name="l00052"></a>00052   }
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054   <span class="comment">// Mark a mozContact (deviceContact) as linked to a FB contact (uid)</span>
+<a name="l00055"></a>00055   <span class="keyword">function</span> markAsLinked(dcontact, uid) {
+<a name="l00056"></a>00056     <span class="keywordflow">if</span> (!dcontact.category) {
+<a name="l00057"></a>00057       dcontact.category = [];
+<a name="l00058"></a>00058     }
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     <span class="keywordflow">if</span> (dcontact.category.indexOf(<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.LINKED) === -1) {
+<a name="l00061"></a>00061       dcontact.category.push(<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.CATEGORY);
+<a name="l00062"></a>00062       dcontact.category.push(<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.LINKED);
+<a name="l00063"></a>00063       dcontact.category.push(uid);
+<a name="l00064"></a>00064     }
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066     <span class="keywordflow">return</span> dcontact;
+<a name="l00067"></a>00067   }
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069   <span class="keyword">function</span> promoteToLinked(dcontact) {
+<a name="l00070"></a>00070     var idx = dcontact.category.indexOf(<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.NOT_LINKED);
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072     <span class="keywordflow">if</span> (idx != -1) {
+<a name="l00073"></a>00073       dcontact.category[idx] = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.LINKED;
+<a name="l00074"></a>00074     }
+<a name="l00075"></a>00075   }
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077   <span class="comment">// Sets the data for an imported FB Contact</span>
+<a name="l00078"></a>00078   this.setData = <span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>) {
+<a name="l00079"></a>00079     contactData = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>;
+<a name="l00080"></a>00080   };
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082   Object.defineProperty(<span class="keyword">this</span>, <span class="stringliteral">&#39;uid&#39;</span>, {
+<a name="l00083"></a>00083     <span class="keyword">get</span>: getFacebookUid,
+<a name="l00084"></a>00084     <span class="keyword">set</span>: setFacebookUid,
+<a name="l00085"></a>00085     enumerable: <span class="keyword">true</span>,
+<a name="l00086"></a>00086     configurable: <span class="keyword">false</span>
+<a name="l00087"></a>00087   });
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089   Object.defineProperty(<span class="keyword">this</span>, <span class="stringliteral">&#39;mozContact&#39;</span>, {
+<a name="l00090"></a>00090     <span class="keyword">get</span>: getDevContact
+<a name="l00091"></a>00091   });
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093   <span class="keyword">function</span> getDevContact() {
+<a name="l00094"></a>00094     <span class="keywordflow">return</span> devContact;
+<a name="l00095"></a>00095   }
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097   <span class="comment">// For saving an imported FB contact</span>
+<a name="l00098"></a>00098   this.<a class="code" href="../../db/d3b/vcard__parser_8js.html#a718354ac603e0a010374cb7b41badb94">save</a> = <span class="keyword">function</span>() {
+<a name="l00099"></a>00099     var outReq = <span class="keyword">new</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.Request();
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101     <span class="keywordflow">if</span> (contactData &amp;&amp; <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts) {
+<a name="l00102"></a>00102       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(<span class="keyword">function</span> save_do() {
+<a name="l00103"></a>00103         var photoList = contactData.fbInfo.photo;
+<a name="l00104"></a>00104         <span class="keywordflow">if</span> (photoList &amp;&amp; photoList.length &gt; 0 &amp;&amp; photoList[0]) {
+<a name="l00105"></a>00105           <a class="code" href="../../d0/df4/contacts__shortcuts_8js.html#a7b58b8887c6d26e09f79fbacfbda7f53">utils</a>.squareImage(photoList[0], <span class="keyword">function</span> squared(squared_image) {
+<a name="l00106"></a>00106             photoList[0] = squared_image;
+<a name="l00107"></a>00107             doSave(outReq);
+<a name="l00108"></a>00108           });
+<a name="l00109"></a>00109         }
+<a name="l00110"></a>00110         <span class="keywordflow">else</span> {
+<a name="l00111"></a>00111           doSave(outReq);
+<a name="l00112"></a>00112         }
+<a name="l00113"></a>00113       },0);
+<a name="l00114"></a>00114     }
+<a name="l00115"></a>00115     <span class="keywordflow">else</span> {
+<a name="l00116"></a>00116       <span class="keywordflow">throw</span> <span class="stringliteral">&#39;Data or mozContacts not available&#39;</span>;
+<a name="l00117"></a>00117     }
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119     <span class="keywordflow">return</span> outReq;
+<a name="l00120"></a>00120   };
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122   <span class="keyword">function</span> doSave(outReq) {
+<a name="l00123"></a>00123     var contactObj = <span class="keyword">new</span> <a class="code" href="../../d3/d4b/default__contacts__test_8js.html#a5d7e9bfd411c84e14795a997b9326d2f">mozContact</a>();
+<a name="l00124"></a>00124     <span class="comment">// Info to be saved on mozContacts</span>
+<a name="l00125"></a>00125     var contactInfo = {};
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127     <span class="comment">// Copying names to the mozContact</span>
+<a name="l00128"></a>00128     copyNames(contactData, contactInfo);
+<a name="l00129"></a>00129     <span class="comment">// URL (photo, etc) is stored also with the Device contact</span>
+<a name="l00130"></a>00130     <span class="keywordflow">if</span> (contactData.fbInfo.url) {
+<a name="l00131"></a>00131       contactInfo.url = contactData.fbInfo.url;
+<a name="l00132"></a>00132     }
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134     doSetFacebookUid(contactInfo, contactData.uid);
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136     contactObj.init(contactInfo);
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138     var fbReq = persistToFbCache(contactData);
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140     fbReq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00141"></a>00141       var mozContactsReq = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts.save(contactObj);
+<a name="l00142"></a>00142       mozContactsReq.onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00143"></a>00143         outReq.done(fbReq.result);
+<a name="l00144"></a>00144       };
+<a name="l00145"></a>00145       mozContactsReq.onerror = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00146"></a>00146         <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.console.error(<span class="stringliteral">&#39;FB: Error while saving on mozContacts&#39;</span>,
+<a name="l00147"></a>00147                                                         <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00148"></a>00148         outReq.failed(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00149"></a>00149       }; <span class="comment">// fbReq.onsuccess</span>
+<a name="l00150"></a>00150     };
+<a name="l00151"></a>00151     fbReq.onerror = <span class="keyword">function</span>() {
+<a name="l00152"></a>00152       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.console.error(<span class="stringliteral">&#39;FB: Error while saving on indexedDB&#39;</span>);
+<a name="l00153"></a>00153       outReq.failed(fbReq.error);
+<a name="l00154"></a>00154     };
+<a name="l00155"></a>00155   }
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157   <span class="comment">// Persists FB Friend Data to the FB cache</span>
+<a name="l00158"></a>00158   <span class="keyword">function</span> persistToFbCache(contactData) {
+<a name="l00159"></a>00159     var outReq = <span class="keyword">new</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.Request();
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(<span class="keyword">function</span> persist_fb_do() {
+<a name="l00162"></a>00162       <span class="comment">// now saving the FB-originated data to the &quot;private cache area&quot;</span>
+<a name="l00163"></a>00163       var <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a> = Object.create(contactData.fbInfo);
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165       data.tel = contactData.tel || [];
+<a name="l00166"></a>00166       data.email = contactData.email || [];
+<a name="l00167"></a>00167       data.uid = contactData.uid;
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169       Object.keys(contactData.fbInfo).forEach(<span class="keyword">function</span>(prop) {
+<a name="l00170"></a>00170         data[prop] = contactData.fbInfo[prop];
+<a name="l00171"></a>00171       });
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173       <span class="comment">// Names are also stored on indexedDB</span>
+<a name="l00174"></a>00174       <span class="comment">// thus restoring the contact (if unlinked) will be trivial</span>
+<a name="l00175"></a>00175       copyNames(contactData, data);
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177       var fbReq = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.contacts.save(data);
+<a name="l00178"></a>00178 
+<a name="l00179"></a>00179       fbReq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00180"></a>00180         outReq.done(fbReq.result);
+<a name="l00181"></a>00181       };
+<a name="l00182"></a>00182       fbReq.onerror = <span class="keyword">function</span>() {
+<a name="l00183"></a>00183         <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.console.error(<span class="stringliteral">&#39;FB: Error while saving on indexedDB&#39;</span>);
+<a name="l00184"></a>00184         outReq.failed(fbReq.error);
+<a name="l00185"></a>00185       };
+<a name="l00186"></a>00186     },0);
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188     <span class="keywordflow">return</span> outReq;
+<a name="l00189"></a>00189   }
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191   <span class="comment">// Updates a FB Contact</span>
+<a name="l00192"></a>00192   this.<a class="code" href="../../dd/d6d/mock__spinner_8js.html#ab10b009b0da48f61217a18daf8e20cd8">update</a> = <span class="keyword">function</span>(contactData) {
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194     <span class="comment">// Auxiliary function to do all the work for saving to the FB cache</span>
+<a name="l00195"></a>00195     <span class="keyword">function</span> auxDoUpdate(contactData, outReq) {
+<a name="l00196"></a>00196       <span class="comment">// If the photo was not updated it is needed to save it</span>
+<a name="l00197"></a>00197       <span class="keywordflow">if</span> (!contactData.fbInfo.photo) {
+<a name="l00198"></a>00198         var dataReq = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.contacts.get(contactData.uid);
+<a name="l00199"></a>00199         dataReq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00200"></a>00200           contactData.fbInfo.photo = dataReq.result.photo;
+<a name="l00201"></a>00201           auxCachePersist(contactData, outReq);
+<a name="l00202"></a>00202         };
+<a name="l00203"></a>00203         dataReq.onerror = <span class="keyword">function</span>() {
+<a name="l00204"></a>00204           <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.console.error(<span class="stringliteral">&#39;Error while retrieving existing photo for &#39;</span>,
+<a name="l00205"></a>00205                                contactData.uid, dataReq.error);
+<a name="l00206"></a>00206           outReq.failed(dataReq.error);
+<a name="l00207"></a>00207         };
+<a name="l00208"></a>00208       }
+<a name="l00209"></a>00209       <span class="keywordflow">else</span> {
+<a name="l00210"></a>00210         <a class="code" href="../../d0/df4/contacts__shortcuts_8js.html#a7b58b8887c6d26e09f79fbacfbda7f53">utils</a>.squareImage(contactData.fbInfo.photo[0],
+<a name="l00211"></a>00211           <span class="keyword">function</span> sq_img(squaredImg) {
+<a name="l00212"></a>00212             contactData.fbInfo.photo[0] = squaredImg;
+<a name="l00213"></a>00213             auxCachePersist(contactData, outReq);
+<a name="l00214"></a>00214           }
+<a name="l00215"></a>00215         );
+<a name="l00216"></a>00216       }
+<a name="l00217"></a>00217     }
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219     <span class="comment">// Persist the data to the FB Cache</span>
+<a name="l00220"></a>00220     <span class="keyword">function</span> auxCachePersist(contactData, outReq) {
+<a name="l00221"></a>00221       var fbReq = persistToFbCache(contactData);
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223       fbReq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00224"></a>00224         outReq.done(fbReq.result);
+<a name="l00225"></a>00225       };
+<a name="l00226"></a>00226       fbReq.onerror = <span class="keyword">function</span>() {
+<a name="l00227"></a>00227         <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.console.error(<span class="stringliteral">&#39;FB: Error while saving to FB cache: &#39;</span>,
+<a name="l00228"></a>00228                              contactData.uid, fbReq.error);
+<a name="l00229"></a>00229         outReq.failed(fbReq.error);
+<a name="l00230"></a>00230       };
+<a name="l00231"></a>00231     }
+<a name="l00232"></a>00232 
+<a name="l00233"></a>00233     <span class="comment">// Code starts here</span>
+<a name="l00234"></a>00234     var outReq = <span class="keyword">new</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.Request();
+<a name="l00235"></a>00235 
+<a name="l00236"></a>00236     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(<span class="keyword">function</span> update_do() {
+<a name="l00237"></a>00237       <span class="keywordflow">if</span> (!<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.isFbLinked(devContact)) {
+<a name="l00238"></a>00238         copyNames(contactData, devContact);
+<a name="l00239"></a>00239       } <span class="keywordflow">else</span> {
+<a name="l00240"></a>00240         <span class="comment">// We are going to update names if they are propagated</span>
+<a name="l00241"></a>00241         revisitPropagatedNames(contactData, devContact);
+<a name="l00242"></a>00242       }
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244       <span class="comment">// Check whether the photo has changed</span>
+<a name="l00245"></a>00245       <span class="keywordflow">if</span> (contactData.fbInfo.photo) {
+<a name="l00246"></a>00246         devContact.url = contactData.fbInfo.url;
+<a name="l00247"></a>00247       }
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249       var auxReq = <span class="keyword">new</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.Request();
+<a name="l00250"></a>00250       auxReq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00251"></a>00251         var mozContactsReq = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts.save(devContact);
+<a name="l00252"></a>00252         mozContactsReq.onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00253"></a>00253           outReq.done();
+<a name="l00254"></a>00254         };
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256         mozContactsReq.onerror = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00257"></a>00257           <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.console.error(<span class="stringliteral">&#39;FB: Error while saving mozContact: &#39;</span>,
+<a name="l00258"></a>00258                              devContact.id, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00259"></a>00259           outReq.failed(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00260"></a>00260         };
+<a name="l00261"></a>00261       };  <span class="comment">// auxReq.onsuccess</span>
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263       auxReq.onerror = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00264"></a>00264         outReq.failed(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00265"></a>00265       };  <span class="comment">// auxReq.onerror</span>
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267       <span class="comment">// And now doing the update</span>
+<a name="l00268"></a>00268       auxDoUpdate(contactData, auxReq);
+<a name="l00269"></a>00269     },0);
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271     <span class="keywordflow">return</span> outReq;
+<a name="l00272"></a>00272   };
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274   <span class="keyword">function</span> copyNames(source, destination) {
+<a name="l00275"></a>00275     destination.name = source.name;
+<a name="l00276"></a>00276     destination.givenName = source.givenName;
+<a name="l00277"></a>00277     destination.familyName = source.familyName;
+<a name="l00278"></a>00278     destination.additionalName = source.additionalName;
+<a name="l00279"></a>00279   }
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281   <span class="comment">/*</span>
+<a name="l00282"></a>00282 <span class="comment">   * Shallow copy from source to target object</span>
+<a name="l00283"></a>00283 <span class="comment">   */</span>
+<a name="l00284"></a>00284   <span class="keyword">function</span> populate(source, <a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">target</a>, propertyNames) {
+<a name="l00285"></a>00285     propertyNames.forEach(<span class="keyword">function</span>(property) {
+<a name="l00286"></a>00286       var propertyValue = source[property];
+<a name="l00287"></a>00287       <span class="keywordflow">if</span> (propertyValue) {
+<a name="l00288"></a>00288         <span class="keywordflow">if</span> (Array.isArray(propertyValue)) {
+<a name="l00289"></a>00289           <a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">target</a>[property] = propertyValue.slice(0, propertyValue.length);
+<a name="l00290"></a>00290         } <span class="keywordflow">else</span> {
+<a name="l00291"></a>00291           <a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">target</a>[property] = propertyValue;
+<a name="l00292"></a>00292         }
+<a name="l00293"></a>00293       }
+<a name="l00294"></a>00294     });
+<a name="l00295"></a>00295   }
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297   <span class="comment">// Merges mozContact data with Facebook data</span>
+<a name="l00298"></a>00298   this.merge = <span class="keyword">function</span>(fbdata) {
+<a name="l00299"></a>00299     var <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a> = devContact;
+<a name="l00300"></a>00300 
+<a name="l00301"></a>00301     <span class="keywordflow">if</span> (fbdata) {
+<a name="l00302"></a>00302       out = Object.create(devContact);
+<a name="l00303"></a>00303       out.updated = devContact.updated;
+<a name="l00304"></a>00304       out.published = devContact.published;
+<a name="l00305"></a>00305 
+<a name="l00306"></a>00306       <span class="comment">// The id comes from devContact and the rest of properties like</span>
+<a name="l00307"></a>00307       <span class="comment">// familyName, propertyName, etc... are defined in the prototype object</span>
+<a name="l00308"></a>00308       populate(devContact, out, Object.getOwnPropertyNames(devContact));
+<a name="l00309"></a>00309       populate(devContact, out,
+<a name="l00310"></a>00310                  Object.getOwnPropertyNames(Object.getPrototypeOf(devContact)));
+<a name="l00311"></a>00311 
+<a name="l00312"></a>00312       mergeFbData(out, fbdata);
+<a name="l00313"></a>00313     }
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315     <span class="keywordflow">return</span> <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00316"></a>00316   };
+<a name="l00317"></a>00317 
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319   <span class="comment">// Checks whether there is a duplicate for the field value</span>
+<a name="l00320"></a>00320   <span class="comment">// both in FB and in the local device Contact data</span>
+<a name="l00321"></a>00321   <span class="comment">// Returns an array with the values which are duplicated or empty if</span>
+<a name="l00322"></a>00322   <span class="comment">// no duplicates were found</span>
+<a name="l00323"></a>00323   <span class="comment">// Parameters are: field on which to search, the corresponding fbItem</span>
+<a name="l00324"></a>00324   <span class="comment">// the local device items, and extra FB Items which correspond to the short</span>
+<a name="l00325"></a>00325   <span class="comment">// telephone numbers allowing to filter out duplicates with intl-ed numbers</span>
+<a name="l00326"></a>00326   <span class="keyword">function</span> checkDuplicates(field, fbItem, devContactItems, extraFbItems) {
+<a name="l00327"></a>00327     var potentialDuplicatesFields = [<span class="stringliteral">&#39;email&#39;</span>, <span class="stringliteral">&#39;tel&#39;</span>];
+<a name="l00328"></a>00328     var out = [];
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330     <span class="keywordflow">if</span> (devContactItems &amp;&amp; potentialDuplicatesFields.indexOf(field) !== -1) {
+<a name="l00331"></a>00331       var <a class="code" href="../../da/ddf/ns_i_d_o_m_progress_event_8idl.html#ac3db248c35e11a75b4e99f0087d77c90">total</a> = devContactItems.length;
+<a name="l00332"></a>00332       <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../da/ddf/ns_i_d_o_m_progress_event_8idl.html#ac3db248c35e11a75b4e99f0087d77c90">total</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00333"></a>00333         var localValue = devContactItems[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>].value;
+<a name="l00334"></a>00334         var fbValue = fbItem.value;
+<a name="l00335"></a>00335         <span class="comment">// Checking for telephone international number matching</span>
+<a name="l00336"></a>00336         <span class="keywordflow">if</span> (localValue) {
+<a name="l00337"></a>00337           var trimedLocal = localValue.trim();
+<a name="l00338"></a>00338           <span class="keywordflow">if</span> (trimedLocal === fbValue ||
+<a name="l00339"></a>00339              (field === <span class="stringliteral">&#39;tel&#39;</span> &amp;&amp; Array.isArray(extraFbItems) &amp;&amp;
+<a name="l00340"></a>00340               extraFbItems.indexOf(trimedLocal) !== -1)) {
+<a name="l00341"></a>00341             out.push(trimedLocal);
+<a name="l00342"></a>00342             out.push(fbValue);
+<a name="l00343"></a>00343           }
+<a name="l00344"></a>00344         } <span class="comment">// if(localValue)</span>
+<a name="l00345"></a>00345       } <span class="comment">// for</span>
+<a name="l00346"></a>00346     } <span class="comment">// if(devContactItems)</span>
+<a name="l00347"></a>00347 
+<a name="l00348"></a>00348     <span class="keywordflow">return</span> <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00349"></a>00349   }
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351 
+<a name="l00352"></a>00352   <span class="keyword">function</span> mergeFbData(dcontact, fbdata) {
+<a name="l00353"></a>00353     var multipleFields = [<span class="stringliteral">&#39;email&#39;</span>, <span class="stringliteral">&#39;tel&#39;</span>, <span class="stringliteral">&#39;photo&#39;</span>, <span class="stringliteral">&#39;org&#39;</span>, <span class="stringliteral">&#39;adr&#39;</span>];
+<a name="l00354"></a>00354 
+<a name="l00355"></a>00355     multipleFields.forEach(<span class="keyword">function</span>(field) {
+<a name="l00356"></a>00356       <span class="keywordflow">if</span> (!dcontact[field]) {
+<a name="l00357"></a>00357         dcontact[field] = [];
+<a name="l00358"></a>00358       }
+<a name="l00359"></a>00359       var items = fbdata[field];
+<a name="l00360"></a>00360       <span class="keywordflow">if</span> (items) {
+<a name="l00361"></a>00361         items.forEach(<span class="keyword">function</span>(item) {
+<a name="l00362"></a>00362           <span class="comment">// If there are no duplicates the merge is done</span>
+<a name="l00363"></a>00363           var dupList = checkDuplicates(field, item, dcontact[field],
+<a name="l00364"></a>00364                                         fbdata.shortTelephone);
+<a name="l00365"></a>00365           <span class="keywordflow">if</span> (dupList.length === 0) {
+<a name="l00366"></a>00366             dcontact[field].push(item);
+<a name="l00367"></a>00367           }
+<a name="l00368"></a>00368         });
+<a name="l00369"></a>00369       }
+<a name="l00370"></a>00370     });
+<a name="l00371"></a>00371 
+<a name="l00372"></a>00372     var singleFields = [<span class="stringliteral">&#39;bday&#39;</span>];
+<a name="l00373"></a>00373     singleFields.forEach(<span class="keyword">function</span>(field) {
+<a name="l00374"></a>00374       dcontact[field] = fbdata[field];
+<a name="l00375"></a>00375     });
+<a name="l00376"></a>00376 
+<a name="l00377"></a>00377     <span class="comment">// To support the case in which the contact does not have a local name</span>
+<a name="l00378"></a>00378     <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.mergeNames(dcontact, fbdata);
+<a name="l00379"></a>00379   }
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381   <span class="comment">// Gets the data</span>
+<a name="l00382"></a>00382   this.getData = <span class="keyword">function</span>() {
+<a name="l00383"></a>00383 
+<a name="l00384"></a>00384     var outReq = <span class="keyword">new</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.Request();
+<a name="l00385"></a>00385 
+<a name="l00386"></a>00386     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(<span class="keyword">function</span> do_getData() {
+<a name="l00387"></a>00387       var uid = doGetFacebookUid(devContact);
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389       <span class="keywordflow">if</span> (uid) {
+<a name="l00390"></a>00390         var fbreq = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.contacts.get(uid);
+<a name="l00391"></a>00391 
+<a name="l00392"></a>00392         fbreq.onsuccess = (<span class="keyword">function</span>() {
+<a name="l00393"></a>00393           var fbdata = fbreq.result;
+<a name="l00394"></a>00394           var out = this.merge(fbdata);
+<a name="l00395"></a>00395           outReq.done(out);
+<a name="l00396"></a>00396 
+<a name="l00397"></a>00397         }).<a class="code" href="../../d3/d91/j3d_8js.html#a1ad2f17c038f79ef240a44e21a46ef14">bind</a>(<span class="keyword">this</span>);
+<a name="l00398"></a>00398 
+<a name="l00399"></a>00399         fbreq.onerror = <span class="keyword">function</span>() {
+<a name="l00400"></a>00400           outReq.failed(fbreq.error);
+<a name="l00401"></a>00401         };
+<a name="l00402"></a>00402       }
+<a name="l00403"></a>00403       <span class="keywordflow">else</span> {
+<a name="l00404"></a>00404         outReq.done(devContact);
+<a name="l00405"></a>00405       }
+<a name="l00406"></a>00406     }.bind(<span class="keyword">this</span>), 0);
+<a name="l00407"></a>00407 
+<a name="l00408"></a>00408     <span class="keywordflow">return</span> outReq;
+<a name="l00409"></a>00409   };
+<a name="l00410"></a>00410 
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412   this.getDataAndValues = <span class="keyword">function</span>() {
+<a name="l00413"></a>00413     var outReq = <span class="keyword">new</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.Request();
+<a name="l00414"></a>00414 
+<a name="l00415"></a>00415     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(<span class="keyword">function</span> do_getData() {
+<a name="l00416"></a>00416       var uid = doGetFacebookUid(devContact);
+<a name="l00417"></a>00417 
+<a name="l00418"></a>00418       <span class="keywordflow">if</span> (uid) {
+<a name="l00419"></a>00419         var fbreq = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.contacts.get(uid);
+<a name="l00420"></a>00420 
+<a name="l00421"></a>00421         fbreq.onsuccess = (<span class="keyword">function</span>() {
+<a name="l00422"></a>00422           var fbdata = fbreq.result;
+<a name="l00423"></a>00423 
+<a name="l00424"></a>00424           var out1 = this.merge(fbdata);
+<a name="l00425"></a>00425 
+<a name="l00426"></a>00426           var out2 = {};
+<a name="l00427"></a>00427 
+<a name="l00428"></a>00428           var duplicates = {};
+<a name="l00429"></a>00429           Object.keys(fbdata).forEach(<span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>) {
+<a name="l00430"></a>00430             var dataElement = fbdata[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>];
+<a name="l00431"></a>00431 
+<a name="l00432"></a>00432             <span class="keywordflow">if</span> (dataElement &amp;&amp; Array.isArray(dataElement) &amp;&amp; <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> !== <span class="stringliteral">&#39;photo&#39;</span>) {
+<a name="l00433"></a>00433               dataElement.forEach(<span class="keyword">function</span>(item) {
+<a name="l00434"></a>00434                 <span class="keywordflow">if</span> (item.value &amp;&amp; item.value.length &gt; 0) {
+<a name="l00435"></a>00435                   <span class="comment">// Check for duplicates. Those duplicates are annotated to</span>
+<a name="l00436"></a>00436                   <span class="comment">// be later removed from the out2 array</span>
+<a name="l00437"></a>00437                   var dupList = checkDuplicates(<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>, item, devContact[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>],
+<a name="l00438"></a>00438                                                       fbdata.shortTelephone);
+<a name="l00439"></a>00439                   dupList.forEach(<span class="keyword">function</span>(aDup) {
+<a name="l00440"></a>00440                     duplicates[aDup] = <span class="keyword">true</span>;
+<a name="l00441"></a>00441                   });
+<a name="l00442"></a>00442 
+<a name="l00443"></a>00443                   out2[item.value] = <span class="keyword">true</span>;
+<a name="l00444"></a>00444                 }
+<a name="l00445"></a>00445                 <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> item === <span class="stringliteral">&#39;string&#39;</span> &amp;&amp; item.length &gt; 0) {
+<a name="l00446"></a>00446                   out2[item] = <span class="keyword">true</span>;
+<a name="l00447"></a>00447                 }
+<a name="l00448"></a>00448                 <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> === <span class="stringliteral">&#39;adr&#39;</span>) {
+<a name="l00449"></a>00449                   <span class="keywordflow">if</span> (item.locality) {
+<a name="l00450"></a>00450                     out2[item.locality] = <span class="keyword">true</span>;
+<a name="l00451"></a>00451                   }
+<a name="l00452"></a>00452                   <span class="keywordflow">if</span> (item.countryName) {
+<a name="l00453"></a>00453                     out2[item.countryName] = <span class="keyword">true</span>;
+<a name="l00454"></a>00454                   }
+<a name="l00455"></a>00455                 }
+<a name="l00456"></a>00456               });
+<a name="l00457"></a>00457             }
+<a name="l00458"></a>00458             <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> === <span class="stringliteral">&#39;photo&#39;</span>) {
+<a name="l00459"></a>00459               out2[<span class="stringliteral">&#39;hasPhoto&#39;</span>] = <span class="keyword">true</span>;
+<a name="l00460"></a>00460             }
+<a name="l00461"></a>00461             <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dataElement) {
+<a name="l00462"></a>00462               out2[dataElement] = <span class="keyword">true</span>;
+<a name="l00463"></a>00463             }
+<a name="l00464"></a>00464           });
+<a name="l00465"></a>00465 
+<a name="l00466"></a>00466           Object.keys(duplicates).forEach(<span class="keyword">function</span>(aDup) {
+<a name="l00467"></a>00467             <span class="keyword">delete</span> out2[aDup];
+<a name="l00468"></a>00468           });
+<a name="l00469"></a>00469 
+<a name="l00470"></a>00470           outReq.done([out1, out2, fbdata]);
+<a name="l00471"></a>00471 
+<a name="l00472"></a>00472         }).<a class="code" href="../../d3/d91/j3d_8js.html#a1ad2f17c038f79ef240a44e21a46ef14">bind</a>(<span class="keyword">this</span>);
+<a name="l00473"></a>00473 
+<a name="l00474"></a>00474         fbreq.onerror = <span class="keyword">function</span>() {
+<a name="l00475"></a>00475           outReq.failed(fbreq.error);
+<a name="l00476"></a>00476         };
+<a name="l00477"></a>00477       }
+<a name="l00478"></a>00478       <span class="keywordflow">else</span> {
+<a name="l00479"></a>00479         outReq.done([devContact, {}]);
+<a name="l00480"></a>00480       }
+<a name="l00481"></a>00481     }.bind(<span class="keyword">this</span>), 0);
+<a name="l00482"></a>00482 
+<a name="l00483"></a>00483     <span class="keywordflow">return</span> outReq;
+<a name="l00484"></a>00484   };
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486   this.promoteToLinked = <span class="keyword">function</span>() {
+<a name="l00487"></a>00487     promoteToLinked(devContact);
+<a name="l00488"></a>00488   };
+<a name="l00489"></a>00489 
+<a name="l00490"></a>00490   this.linkTo = <span class="keyword">function</span>(fbFriend) {
+<a name="l00491"></a>00491     var out = <span class="keyword">new</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.Request();
+<a name="l00492"></a>00492 
+<a name="l00493"></a>00493     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(<span class="keyword">function</span> do_linkTo() {
+<a name="l00494"></a>00494       <span class="keywordflow">if</span> (!devContact) {
+<a name="l00495"></a>00495         <span class="comment">// We need to get the Contact data</span>
+<a name="l00496"></a>00496         var <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a42c43c76081a7df8ae2954f16ee9338b">req</a> = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.getContactData(contactid);
+<a name="l00497"></a>00497 
+<a name="l00498"></a>00498         req.onsuccess = <span class="keyword">function</span>() {
+<a name="l00499"></a>00499           devContact = req.result;
+<a name="l00500"></a>00500           doLink(devContact, fbFriend, out);
+<a name="l00501"></a>00501         }; <span class="comment">// req.onsuccess</span>
+<a name="l00502"></a>00502 
+<a name="l00503"></a>00503         req.onerror = <span class="keyword">function</span>() {
+<a name="l00504"></a>00504           <span class="keywordflow">throw</span> <span class="stringliteral">&#39;FB: Error while retrieving contact data&#39;</span>;
+<a name="l00505"></a>00505         };
+<a name="l00506"></a>00506       } <span class="comment">// devContact</span>
+<a name="l00507"></a>00507       <span class="keywordflow">else</span> {
+<a name="l00508"></a>00508         doLink(devContact, fbFriend, out);
+<a name="l00509"></a>00509       }
+<a name="l00510"></a>00510     },0);
+<a name="l00511"></a>00511 
+<a name="l00512"></a>00512     <span class="keywordflow">return</span> <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00513"></a>00513   };
+<a name="l00514"></a>00514 
+<a name="l00515"></a>00515   <span class="keyword">function</span> propagateField(field, from, <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>) {
+<a name="l00516"></a>00516     var copied = <span class="keyword">false</span>;
+<a name="l00517"></a>00517 
+<a name="l00518"></a>00518     <span class="comment">// The field is copied when it is undefined in the target object</span>
+<a name="l00519"></a>00519     <span class="keywordflow">if</span> (!Array.isArray(<a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>[field]) || !<a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>[field][0] || !<a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>[field][0].trim()) {
+<a name="l00520"></a>00520       <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>[field] = from[field];
+<a name="l00521"></a>00521       copied = <span class="keyword">true</span>;
+<a name="l00522"></a>00522     }
+<a name="l00523"></a>00523 
+<a name="l00524"></a>00524     <span class="keywordflow">return</span> copied;
+<a name="l00525"></a>00525   }
+<a name="l00526"></a>00526 
+<a name="l00527"></a>00527   <span class="keyword">function</span> createName(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>) {
+<a name="l00528"></a>00528     <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.name = [];
+<a name="l00529"></a>00529 
+<a name="l00530"></a>00530     <span class="keywordflow">if</span> (Array.isArray(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.givenName)) {
+<a name="l00531"></a>00531       <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.name[0] = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.givenName[0] + <span class="charliteral">&#39; &#39;</span>;
+<a name="l00532"></a>00532     }
+<a name="l00533"></a>00533 
+<a name="l00534"></a>00534     <span class="keywordflow">if</span> (Array.isArray(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.familyName))
+<a name="l00535"></a>00535       <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.name[0] += <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.familyName[0];
+<a name="l00536"></a>00536   }
+<a name="l00537"></a>00537 
+<a name="l00538"></a>00538   <span class="keyword">function</span> propagateNames(from, <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>) {
+<a name="l00539"></a>00539     var isGivenNamePropagated = propagateField(<span class="stringliteral">&#39;givenName&#39;</span>, from, <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>);
+<a name="l00540"></a>00540     var isFamilyNamePropagated = propagateField(<span class="stringliteral">&#39;familyName&#39;</span>, from, <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>);
+<a name="l00541"></a>00541 
+<a name="l00542"></a>00542     <span class="keywordflow">if</span> (isGivenNamePropagated || isFamilyNamePropagated) {
+<a name="l00543"></a>00543       <span class="comment">//  We are going to mark the propagation in the category field</span>
+<a name="l00544"></a>00544       <span class="keywordflow">if</span> (isGivenNamePropagated)
+<a name="l00545"></a>00545         <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.setPropagatedFlag(<span class="stringliteral">&#39;givenName&#39;</span>, <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>);
+<a name="l00546"></a>00546 
+<a name="l00547"></a>00547       <span class="keywordflow">if</span> (isFamilyNamePropagated)
+<a name="l00548"></a>00548         <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.setPropagatedFlag(<span class="stringliteral">&#39;familyName&#39;</span>, <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>);
+<a name="l00549"></a>00549 
+<a name="l00550"></a>00550       createName(<a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>);
+<a name="l00551"></a>00551     }
+<a name="l00552"></a>00552   }
+<a name="l00553"></a>00553 
+<a name="l00554"></a>00554   <span class="comment">// This method copies names to a contact when they are propagated from fb</span>
+<a name="l00555"></a>00555   <span class="keyword">function</span> revisitPropagatedNames(from, <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>) {
+<a name="l00556"></a>00556     <span class="keywordflow">if</span> (<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.isPropagated(<span class="stringliteral">&#39;givenName&#39;</span>, <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>))
+<a name="l00557"></a>00557       <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>[<span class="stringliteral">&#39;givenName&#39;</span>] = from[<span class="stringliteral">&#39;givenName&#39;</span>];
+<a name="l00558"></a>00558 
+<a name="l00559"></a>00559     <span class="keywordflow">if</span> (<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.isPropagated(<span class="stringliteral">&#39;familyName&#39;</span>, <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>))
+<a name="l00560"></a>00560       <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>[<span class="stringliteral">&#39;familyName&#39;</span>] = from[<span class="stringliteral">&#39;familyName&#39;</span>];
+<a name="l00561"></a>00561 
+<a name="l00562"></a>00562     createName(<a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>);
+<a name="l00563"></a>00563   }
+<a name="l00564"></a>00564 
+<a name="l00565"></a>00565   <span class="keyword">function</span> doLink(contactdata, fbFriend, out) {
+<a name="l00566"></a>00566     <span class="keywordflow">if</span> (contactdata) {
+<a name="l00567"></a>00567       <span class="keywordflow">if</span> (fbFriend.uid) {
+<a name="l00568"></a>00568         <span class="comment">// When marking as linked is needed to store a reference to the profile</span>
+<a name="l00569"></a>00569         <span class="comment">// picture URL</span>
+<a name="l00570"></a>00570         markAsLinked(contactdata, fbFriend.uid);
+<a name="l00571"></a>00571         <span class="keywordflow">if</span> (fbFriend.photoUrl) {
+<a name="l00572"></a>00572           <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.setFriendPictureUrl(contactdata, fbFriend.photoUrl);
+<a name="l00573"></a>00573         }
+<a name="l00574"></a>00574         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (fbFriend.mozContact) {
+<a name="l00575"></a>00575           contactdata.url = fbFriend.mozContact.url;
+<a name="l00576"></a>00576         }
+<a name="l00577"></a>00577       }
+<a name="l00578"></a>00578       <span class="keywordflow">else</span> <span class="keywordflow">if</span> (fbFriend.mozContact) {
+<a name="l00579"></a>00579         markAsLinked(contactdata, doGetFacebookUid(fbFriend.mozContact));
+<a name="l00580"></a>00580         contactdata.url = fbFriend.mozContact.url;
+<a name="l00581"></a>00581       }
+<a name="l00582"></a>00582 
+<a name="l00583"></a>00583       propagateNames(fbFriend.mozContact, contactdata);
+<a name="l00584"></a>00584       var mozContactsReq = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts.save(contactdata);
+<a name="l00585"></a>00585 
+<a name="l00586"></a>00586       mozContactsReq.onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00587"></a>00587         <span class="comment">// The FB contact on mozContacts needs to be removed</span>
+<a name="l00588"></a>00588         <span class="keywordflow">if</span> (fbFriend.mozContact &amp;&amp; !<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.isFbLinked(fbFriend.mozContact)) {
+<a name="l00589"></a>00589           var deleteReq = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts.remove(fbFriend.mozContact);
+<a name="l00590"></a>00590 
+<a name="l00591"></a>00591           deleteReq.onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00592"></a>00592             out.done(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.result);
+<a name="l00593"></a>00593           };
+<a name="l00594"></a>00594 
+<a name="l00595"></a>00595           deleteReq.onerror = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00596"></a>00596             <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.console.error(<span class="stringliteral">&#39;FB: Error while linking&#39;</span>);
+<a name="l00597"></a>00597             out.failed(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00598"></a>00598           };
+<a name="l00599"></a>00599         }
+<a name="l00600"></a>00600         <span class="keywordflow">else</span> {
+<a name="l00601"></a>00601           out.done(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.result);
+<a name="l00602"></a>00602         }
+<a name="l00603"></a>00603 
+<a name="l00604"></a>00604       }; <span class="comment">// mozContactsReq.onsuccess</span>
+<a name="l00605"></a>00605 
+<a name="l00606"></a>00606       mozContactsReq.onerror = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00607"></a>00607         out.failed(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00608"></a>00608       }; <span class="comment">// mozContactsReq.onerror</span>
+<a name="l00609"></a>00609     } <span class="comment">// if(dev.contact)</span>
+<a name="l00610"></a>00610     <span class="keywordflow">else</span> {
+<a name="l00611"></a>00611       <span class="keywordflow">throw</span> <span class="stringliteral">&#39;FB: Contact data not defined&#39;</span>;
+<a name="l00612"></a>00612     }
+<a name="l00613"></a>00613   }
+<a name="l00614"></a>00614 
+<a name="l00615"></a>00615   <span class="comment">// if type === &#39;hard&#39; the FB Friend is removed from the cache</span>
+<a name="l00616"></a>00616   this.unlink = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00617"></a>00617     var out = <span class="keyword">new</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.Request();
+<a name="l00618"></a>00618 
+<a name="l00619"></a>00619     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(<span class="keyword">function</span> do_unlink() {
+<a name="l00620"></a>00620       <span class="keywordflow">if</span> (!devContact) {
+<a name="l00621"></a>00621         <span class="comment">// We need to get the Contact data</span>
+<a name="l00622"></a>00622         var <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a42c43c76081a7df8ae2954f16ee9338b">req</a> = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.getContactData(contactid);
+<a name="l00623"></a>00623 
+<a name="l00624"></a>00624         req.onsuccess = <span class="keyword">function</span>() {
+<a name="l00625"></a>00625           devContact = req.result;
+<a name="l00626"></a>00626           doUnlink(devContact, out, <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>);
+<a name="l00627"></a>00627         }; <span class="comment">// req.onsuccess</span>
+<a name="l00628"></a>00628 
+<a name="l00629"></a>00629         req.onerror = <span class="keyword">function</span>() {
+<a name="l00630"></a>00630           <span class="keywordflow">throw</span> <span class="stringliteral">&#39;FB: Error while retrieving contact data&#39;</span>;
+<a name="l00631"></a>00631         };
+<a name="l00632"></a>00632       } <span class="comment">// devContact</span>
+<a name="l00633"></a>00633       <span class="keywordflow">else</span> {
+<a name="l00634"></a>00634         doUnlink(devContact, out, <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>);
+<a name="l00635"></a>00635       }
+<a name="l00636"></a>00636     }, 0);
+<a name="l00637"></a>00637 
+<a name="l00638"></a>00638     <span class="keywordflow">return</span> <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00639"></a>00639   };
+<a name="l00640"></a>00640 
+<a name="l00641"></a>00641   <span class="comment">// Reset givenName and familyName if it is needed after unlinking</span>
+<a name="l00642"></a>00642   <span class="keyword">function</span> resetNames(dContact) {
+<a name="l00643"></a>00643     <span class="keywordflow">if</span> (<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.isPropagated(<span class="stringliteral">&#39;givenName&#39;</span>, dContact)) {
+<a name="l00644"></a>00644       dContact.givenName = [<span class="stringliteral">&#39;&#39;</span>];
+<a name="l00645"></a>00645       <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.removePropagatedFlag(<span class="stringliteral">&#39;givenName&#39;</span>, dContact);
+<a name="l00646"></a>00646     }
+<a name="l00647"></a>00647 
+<a name="l00648"></a>00648     <span class="keywordflow">if</span> (<a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.isPropagated(<span class="stringliteral">&#39;familyName&#39;</span>, dContact)) {
+<a name="l00649"></a>00649       dContact.familyName = [<span class="stringliteral">&#39;&#39;</span>];
+<a name="l00650"></a>00650       <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.removePropagatedFlag(<span class="stringliteral">&#39;familyName&#39;</span>, dContact);
+<a name="l00651"></a>00651     }
+<a name="l00652"></a>00652 
+<a name="l00653"></a>00653     dContact.name = [dContact.givenName[0] + <span class="charliteral">&#39; &#39;</span> + dContact.familyName[0]];
+<a name="l00654"></a>00654   }
+<a name="l00655"></a>00655 
+<a name="l00656"></a>00656   <span class="keyword">function</span> doUnlink(dContact, out, <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00657"></a>00657     var theType = <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> || <span class="stringliteral">&#39;soft&#39;</span>;
+<a name="l00658"></a>00658     var uid = doGetFacebookUid(dContact);
+<a name="l00659"></a>00659 
+<a name="l00660"></a>00660     resetNames(dContact);
+<a name="l00661"></a>00661     <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.markAsUnlinked(dContact);
+<a name="l00662"></a>00662     var <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a42c43c76081a7df8ae2954f16ee9338b">req</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts.save(dContact);
+<a name="l00663"></a>00663 
+<a name="l00664"></a>00664     req.onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00665"></a>00665       <span class="keywordflow">if</span> (theType !== <span class="stringliteral">&#39;hard&#39;</span>) {
+<a name="l00666"></a>00666 
+<a name="l00667"></a>00667         <span class="comment">// Then the original FB imported contact is restored</span>
+<a name="l00668"></a>00668         var fbNumReq = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.getNumberMozContacts(uid);
+<a name="l00669"></a>00669 
+<a name="l00670"></a>00670         fbNumReq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00671"></a>00671           <span class="comment">// Because we have already unlinked one</span>
+<a name="l00672"></a>00672           <span class="keywordflow">if</span> (fbNumReq.result &gt;= 1) {
+<a name="l00673"></a>00673             out.done();
+<a name="l00674"></a>00674           } <span class="keywordflow">else</span> {
+<a name="l00675"></a>00675             var fbDataReq = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.contacts.get(uid);
+<a name="l00676"></a>00676 
+<a name="l00677"></a>00677             fbDataReq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00678"></a>00678               var imported = fbDataReq.result;
+<a name="l00679"></a>00679 
+<a name="l00680"></a>00680               var data = {};
+<a name="l00681"></a>00681               copyNames(imported, data);
+<a name="l00682"></a>00682               data.url = imported.url;
+<a name="l00683"></a>00683               doSetFacebookUid(data, uid);
+<a name="l00684"></a>00684 
+<a name="l00685"></a>00685               var mcontact = <span class="keyword">new</span> <a class="code" href="../../d3/d4b/default__contacts__test_8js.html#a5d7e9bfd411c84e14795a997b9326d2f">mozContact</a>();
+<a name="l00686"></a>00686               mcontact.init(data);
+<a name="l00687"></a>00687 
+<a name="l00688"></a>00688               <span class="comment">// The FB contact is restored</span>
+<a name="l00689"></a>00689               var reqRestore = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts.save(mcontact);
+<a name="l00690"></a>00690 
+<a name="l00691"></a>00691               reqRestore.onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00692"></a>00692                 out.done(mcontact.id);
+<a name="l00693"></a>00693               };
+<a name="l00694"></a>00694 
+<a name="l00695"></a>00695               reqRestore.onerror = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00696"></a>00696                 out.failed(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00697"></a>00697               };
+<a name="l00698"></a>00698             };
+<a name="l00699"></a>00699 
+<a name="l00700"></a>00700             fbDataReq.onerror = <span class="keyword">function</span>() {
+<a name="l00701"></a>00701               <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.console.error(<span class="stringliteral">&#39;FB: Error while unlinking contact data&#39;</span>);
+<a name="l00702"></a>00702               out.failed(fbDataReq.error);
+<a name="l00703"></a>00703             };
+<a name="l00704"></a>00704           }
+<a name="l00705"></a>00705         };
+<a name="l00706"></a>00706 
+<a name="l00707"></a>00707         fbNumReq.onerror = <span class="keyword">function</span>() {
+<a name="l00708"></a>00708           <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.console.error(<span class="stringliteral">&#39;FB: Error while unlinking contact data&#39;</span>);
+<a name="l00709"></a>00709           out.failed(fbDataReq.error);
+<a name="l00710"></a>00710         };
+<a name="l00711"></a>00711       }
+<a name="l00712"></a>00712       <span class="keywordflow">else</span> {
+<a name="l00713"></a>00713         <span class="comment">// FB Data is removed from the cache</span>
+<a name="l00714"></a>00714         var removeReq = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.contacts.remove(uid);
+<a name="l00715"></a>00715 
+<a name="l00716"></a>00716         removeReq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00717"></a>00717           out.done(removeReq.result);
+<a name="l00718"></a>00718         };
+<a name="l00719"></a>00719 
+<a name="l00720"></a>00720         removeReq.onerror = <span class="keyword">function</span>() {
+<a name="l00721"></a>00721           out.failed(removeReq.error);
+<a name="l00722"></a>00722         };
+<a name="l00723"></a>00723       }
+<a name="l00724"></a>00724     };
+<a name="l00725"></a>00725 
+<a name="l00726"></a>00726     req.onerror = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00727"></a>00727       out.failed(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00728"></a>00728     };
+<a name="l00729"></a>00729   }
+<a name="l00730"></a>00730 
+<a name="l00731"></a>00731   this.<span class="keyword">remove</span> = <span class="keyword">function</span>() {
+<a name="l00732"></a>00732     var out = <span class="keyword">new</span> <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.Request();
+<a name="l00733"></a>00733 
+<a name="l00734"></a>00734     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(<span class="keyword">function</span> do_remove() {
+<a name="l00735"></a>00735       var uid = doGetFacebookUid(devContact);
+<a name="l00736"></a>00736 
+<a name="l00737"></a>00737       var fbNumReq = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.utils.getNumberMozContacts(uid);
+<a name="l00738"></a>00738       fbNumReq.onsuccess = <span class="keyword">function</span> num_onsuccess() {
+<a name="l00739"></a>00739         <span class="comment">// If there is only one Device Contact associated</span>
+<a name="l00740"></a>00740         <span class="comment">// Then corresponding FB Data is removed otherwise only</span>
+<a name="l00741"></a>00741         <span class="comment">// the device contact is removed</span>
+<a name="l00742"></a>00742         <span class="keywordflow">if</span> (fbNumReq.result === 1) {
+<a name="l00743"></a>00743           var removeReq = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts.remove(devContact);
+<a name="l00744"></a>00744           removeReq.onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00745"></a>00745             var fbReq = <a class="code" href="../../dd/d8f/fb__contact_8js.html#aafb625a3c36a746ef1e919b1438c45bf">fb</a>.contacts.remove(uid);
+<a name="l00746"></a>00746             fbReq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00747"></a>00747               out.done(fbReq.result);
+<a name="l00748"></a>00748             };
+<a name="l00749"></a>00749 
+<a name="l00750"></a>00750             fbReq.onerror = <span class="keyword">function</span>() {
+<a name="l00751"></a>00751               out.failed(fbReq.error);
+<a name="l00752"></a>00752             };
+<a name="l00753"></a>00753           };
+<a name="l00754"></a>00754           removeReq.onerror = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00755"></a>00755             out.failed(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00756"></a>00756           };
+<a name="l00757"></a>00757         }
+<a name="l00758"></a>00758         <span class="keywordflow">else</span> {
+<a name="l00759"></a>00759           var removeReq = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts.remove(devContact);
+<a name="l00760"></a>00760           removeReq.onsuccess = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00761"></a>00761             out.done();
+<a name="l00762"></a>00762           };
+<a name="l00763"></a>00763           removeReq.onerror = <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00764"></a>00764             out.failed(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.target.error);
+<a name="l00765"></a>00765           };
+<a name="l00766"></a>00766         }
+<a name="l00767"></a>00767       };
+<a name="l00768"></a>00768     }, 0);
+<a name="l00769"></a>00769 
+<a name="l00770"></a>00770     <span class="keywordflow">return</span> <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00771"></a>00771   };
+<a name="l00772"></a>00772 
+<a name="l00773"></a>00773 }; <span class="comment">// fb.Contact</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dd/d8f/fb__contact_8js.html">fb_contact.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:00に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,741 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: secpkcs7.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d8/ddb/secpkcs7_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">secpkcs7.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d8/ddb/secpkcs7_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00002"></a>00002 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00003"></a>00003 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/*</span>
+<a name="l00006"></a>00006 <span class="comment"> * Interface to the PKCS7 implementation.</span>
+<a name="l00007"></a>00007 <span class="comment"> */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="preprocessor">#ifndef _SECPKCS7_H_</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="preprocessor">#define _SECPKCS7_H_</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/d39/seccomon_8h.html">seccomon.h</a>&quot;</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d47/secoidt_8h.html">secoidt.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/da5/certt_8h.html">certt.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d2e/keyt_8h.html">keyt.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d4/d73/hasht_8h.html">hasht.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/d64/pkcs7t_8h.html">pkcs7t.h</a>&quot;</span>
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="keyword">extern</span> <span class="keyword">const</span> <a class="code" href="../../dc/ddf/structsec___a_s_n1_template__struct.html">SEC_ASN1Template</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a578592c1f015288b8dc8e4ab2c2ea034">sec_PKCS7ContentInfoTemplate</a>[];
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="comment">/************************************************************************/</span>
+<a name="l00023"></a>00023 <a class="code" href="../../dc/d39/seccomon_8h.html#a9121b5ae18500cfab6add192c955730f">SEC_BEGIN_PROTOS</a>
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="comment">/************************************************************************</span>
+<a name="l00026"></a>00026 <span class="comment"> *  Miscellaneous</span>
+<a name="l00027"></a>00027 <span class="comment"> ************************************************************************/</span>
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="comment">/*</span>
+<a name="l00030"></a>00030 <span class="comment"> * Returns the content type of the given contentInfo.</span>
+<a name="l00031"></a>00031 <span class="comment"> */</span>
+<a name="l00032"></a>00032 <span class="keyword">extern</span> <a class="code" href="../../de/d47/secoidt_8h.html#a12df3d414e7f1d49862a0ceb68fce9d0">SECOidTag</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#ab35e3c3f4f58edc0c09e5a487e4dce7b">SEC_PKCS7ContentType</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034 <span class="comment">/*</span>
+<a name="l00035"></a>00035 <span class="comment"> * Destroy a PKCS7 contentInfo and all of its sub-pieces.</span>
+<a name="l00036"></a>00036 <span class="comment"> */</span>
+<a name="l00037"></a>00037 <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#aecb14ae151077e6b3d5d229218b114c5">SEC_PKCS7DestroyContentInfo</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *contentInfo);
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039 <span class="comment">/*</span>
+<a name="l00040"></a>00040 <span class="comment"> * Copy a PKCS7 contentInfo.  A Destroy is needed on *each* copy.</span>
+<a name="l00041"></a>00041 <span class="comment"> */</span>
+<a name="l00042"></a>00042 <span class="keyword">extern</span> <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *
+<a name="l00043"></a>00043 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a63043e2ae283743791f69140479313d3">SEC_PKCS7CopyContentInfo</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *contentInfo);
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045 <span class="comment">/*</span>
+<a name="l00046"></a>00046 <span class="comment"> * Return a pointer to the actual content.  In the case of those types</span>
+<a name="l00047"></a>00047 <span class="comment"> * which are encrypted, this returns the *plain* content.</span>
+<a name="l00048"></a>00048 <span class="comment"> */</span>
+<a name="l00049"></a>00049 <span class="keyword">extern</span> <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *<a class="code" href="../../d8/ddb/secpkcs7_8h.html#ad1f6193d59ab2b6b4d23f15fcce8ac11">SEC_PKCS7GetContent</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051 <span class="comment">/************************************************************************</span>
+<a name="l00052"></a>00052 <span class="comment"> *  PKCS7 Decoding, Verification, etc..</span>
+<a name="l00053"></a>00053 <span class="comment"> ************************************************************************/</span>
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 <span class="keyword">extern</span> <a class="code" href="../../dc/d64/pkcs7t_8h.html#a8f71d4fd736893089fe832ea7bee5f19">SEC_PKCS7DecoderContext</a> *
+<a name="l00056"></a>00056 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a02e07a23da27d3d3107a18006a0796bb">SEC_PKCS7DecoderStart</a>(<a class="code" href="../../dc/d64/pkcs7t_8h.html#acb12c5c4ca211478c938183c737cfc8c">SEC_PKCS7DecoderContentCallback</a> <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>,
+<a name="l00057"></a>00057               <span class="keywordtype">void</span> *callback_arg,
+<a name="l00058"></a>00058               <a class="code" href="../../dc/d64/pkcs7t_8h.html#a15376f5254affc8b3632ec7be592f7ff">SECKEYGetPasswordKey</a> pwfn, <span class="keywordtype">void</span> *pwfn_arg,
+<a name="l00059"></a>00059               <a class="code" href="../../dc/d64/pkcs7t_8h.html#a1fcc8ef0e35d3dd61560bbe86867713a">SEC_PKCS7GetDecryptKeyCallback</a> decrypt_key_cb, 
+<a name="l00060"></a>00060               <span class="keywordtype">void</span> *decrypt_key_cb_arg,
+<a name="l00061"></a>00061               <a class="code" href="../../dc/d64/pkcs7t_8h.html#ae44f182c0c3a6c3c31ecf7ecba3cfd7c">SEC_PKCS7DecryptionAllowedCallback</a> decrypt_allowed_cb);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a>
+<a name="l00064"></a>00064 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a9829abc681b93578672df7486b5197e0">SEC_PKCS7DecoderUpdate</a>(<a class="code" href="../../dc/d64/pkcs7t_8h.html#a8f71d4fd736893089fe832ea7bee5f19">SEC_PKCS7DecoderContext</a> *p7dcx,
+<a name="l00065"></a>00065                <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a>);
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 <span class="keyword">extern</span> <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *
+<a name="l00068"></a>00068 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#ac18d70321dd830d1cbbad036ccb8327c">SEC_PKCS7DecoderFinish</a>(<a class="code" href="../../dc/d64/pkcs7t_8h.html#a8f71d4fd736893089fe832ea7bee5f19">SEC_PKCS7DecoderContext</a> *p7dcx);
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071 <span class="comment">/*  Abort the underlying ASN.1 stream &amp; set an error  */</span>
+<a name="l00072"></a>00072 <span class="keywordtype">void</span> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a2b7bec3ed5c876e42a55dcffaebf2ffc">SEC_PKCS7DecoderAbort</a>(<a class="code" href="../../dc/d64/pkcs7t_8h.html#a8f71d4fd736893089fe832ea7bee5f19">SEC_PKCS7DecoderContext</a> *p7dcx, <span class="keywordtype">int</span> <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>);
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 <span class="keyword">extern</span> <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *
+<a name="l00075"></a>00075 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#ad869141d8501f402ccdd0b2460481112">SEC_PKCS7DecodeItem</a>(<a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *p7item,
+<a name="l00076"></a>00076             <a class="code" href="../../dc/d64/pkcs7t_8h.html#acb12c5c4ca211478c938183c737cfc8c">SEC_PKCS7DecoderContentCallback</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>, <span class="keywordtype">void</span> *cb_arg,
+<a name="l00077"></a>00077             <a class="code" href="../../dc/d64/pkcs7t_8h.html#a15376f5254affc8b3632ec7be592f7ff">SECKEYGetPasswordKey</a> pwfn, <span class="keywordtype">void</span> *pwfn_arg,
+<a name="l00078"></a>00078             <a class="code" href="../../dc/d64/pkcs7t_8h.html#a1fcc8ef0e35d3dd61560bbe86867713a">SEC_PKCS7GetDecryptKeyCallback</a> decrypt_key_cb, 
+<a name="l00079"></a>00079             <span class="keywordtype">void</span> *decrypt_key_cb_arg,
+<a name="l00080"></a>00080             <a class="code" href="../../dc/d64/pkcs7t_8h.html#ae44f182c0c3a6c3c31ecf7ecba3cfd7c">SEC_PKCS7DecryptionAllowedCallback</a> decrypt_allowed_cb);
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082 <span class="keyword">extern</span> <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#ad6a47c599b294c5f32cbd861846b6de7">SEC_PKCS7ContainsCertsOrCrls</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 <span class="comment">/* checks to see if the contents of the content info is</span>
+<a name="l00085"></a>00085 <span class="comment"> * empty.  it so, PR_TRUE is returned.  PR_FALSE, otherwise.</span>
+<a name="l00086"></a>00086 <span class="comment"> *</span>
+<a name="l00087"></a>00087 <span class="comment"> * minLen is used to specify a minimum size.  if content size &lt;= minLen,</span>
+<a name="l00088"></a>00088 <span class="comment"> * content is assumed empty.</span>
+<a name="l00089"></a>00089 <span class="comment"> */</span>
+<a name="l00090"></a>00090 <span class="keyword">extern</span> <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> 
+<a name="l00091"></a>00091 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a51eb6bbf88266338f377b3f7444ca263">SEC_PKCS7IsContentEmpty</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> minLen); 
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 <span class="keyword">extern</span> <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a964648c540e9061b93f57e46181e86f9">SEC_PKCS7ContentIsEncrypted</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095 <span class="comment">/*</span>
+<a name="l00096"></a>00096 <span class="comment"> * If the PKCS7 content has a signature (not just *could* have a signature)</span>
+<a name="l00097"></a>00097 <span class="comment"> * return true; false otherwise.  This can/should be called before calling</span>
+<a name="l00098"></a>00098 <span class="comment"> * VerifySignature, which will always indicate failure if no signature is</span>
+<a name="l00099"></a>00099 <span class="comment"> * present, but that does not mean there even was a signature!</span>
+<a name="l00100"></a>00100 <span class="comment"> * Note that the content itself can be empty (detached content was sent</span>
+<a name="l00101"></a>00101 <span class="comment"> * another way); it is the presence of the signature that matters.</span>
+<a name="l00102"></a>00102 <span class="comment"> */</span>
+<a name="l00103"></a>00103 <span class="keyword">extern</span> <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#aebc73da1ca405dd775e80934c8004054">SEC_PKCS7ContentIsSigned</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105 <span class="comment">/*</span>
+<a name="l00106"></a>00106 <span class="comment"> * SEC_PKCS7VerifySignature</span>
+<a name="l00107"></a>00107 <span class="comment"> *  Look at a PKCS7 contentInfo and check if the signature is good.</span>
+<a name="l00108"></a>00108 <span class="comment"> *  The verification checks that the signing cert is valid and trusted</span>
+<a name="l00109"></a>00109 <span class="comment"> *  for the purpose specified by &quot;certusage&quot;.</span>
+<a name="l00110"></a>00110 <span class="comment"> *</span>
+<a name="l00111"></a>00111 <span class="comment"> *  In addition, if &quot;keepcerts&quot; is true, add any new certificates found</span>
+<a name="l00112"></a>00112 <span class="comment"> *  into our local database.</span>
+<a name="l00113"></a>00113 <span class="comment"> */</span>
+<a name="l00114"></a>00114 <span class="keyword">extern</span> <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a8c60776b0128f2bbbee40a4d9f94dfae">SEC_PKCS7VerifySignature</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00115"></a>00115                        <a class="code" href="../../d6/da5/certt_8h.html#a7d5b69d8df3e11c4d59eb60bd8b85630">SECCertUsage</a> certusage,
+<a name="l00116"></a>00116                        <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> keepcerts);
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118 <span class="comment">/*</span>
+<a name="l00119"></a>00119 <span class="comment"> * SEC_PKCS7VerifyDetachedSignature</span>
+<a name="l00120"></a>00120 <span class="comment"> *  Look at a PKCS7 contentInfo and check if the signature matches</span>
+<a name="l00121"></a>00121 <span class="comment"> *  a passed-in digest (calculated, supposedly, from detached contents).</span>
+<a name="l00122"></a>00122 <span class="comment"> *  The verification checks that the signing cert is valid and trusted</span>
+<a name="l00123"></a>00123 <span class="comment"> *  for the purpose specified by &quot;certusage&quot;.</span>
+<a name="l00124"></a>00124 <span class="comment"> *</span>
+<a name="l00125"></a>00125 <span class="comment"> *  In addition, if &quot;keepcerts&quot; is true, add any new certificates found</span>
+<a name="l00126"></a>00126 <span class="comment"> *  into our local database.</span>
+<a name="l00127"></a>00127 <span class="comment"> */</span>
+<a name="l00128"></a>00128 <span class="keyword">extern</span> <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#ad83e33b5abf48c72a208c24ef14f3582">SEC_PKCS7VerifyDetachedSignature</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00129"></a>00129                            <a class="code" href="../../d6/da5/certt_8h.html#a7d5b69d8df3e11c4d59eb60bd8b85630">SECCertUsage</a> certusage,
+<a name="l00130"></a>00130                            <span class="keyword">const</span> <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *detached_digest,
+<a name="l00131"></a>00131                            <a class="code" href="../../d4/d73/hasht_8h.html#a7a28e77e812d7621d158f81caa0f2cef">HASH_HashType</a> digest_type,
+<a name="l00132"></a>00132                            <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> keepcerts);
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134 <span class="comment">/*</span>
+<a name="l00135"></a>00135 <span class="comment"> * SEC_PKCS7VerifyDetachedSignatureAtTime</span>
+<a name="l00136"></a>00136 <span class="comment"> *      Look at a PKCS7 contentInfo and check if the signature matches</span>
+<a name="l00137"></a>00137 <span class="comment"> *      a passed-in digest (calculated, supposedly, from detached contents).</span>
+<a name="l00138"></a>00138 <span class="comment"> *      The verification checks that the signing cert is valid and trusted</span>
+<a name="l00139"></a>00139 <span class="comment"> *      for the purpose specified by &quot;certusage&quot; at time &quot;atTime&quot;.</span>
+<a name="l00140"></a>00140 <span class="comment"> *</span>
+<a name="l00141"></a>00141 <span class="comment"> *  In addition, if &quot;keepcerts&quot; is true, add any new certificates found</span>
+<a name="l00142"></a>00142 <span class="comment"> *  into our local database.</span>
+<a name="l00143"></a>00143 <span class="comment"> */</span>
+<a name="l00144"></a>00144 <span class="keyword">extern</span> <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a>
+<a name="l00145"></a>00145 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#aa1739d4b2a4a9e7e5b08578c5b56b0c6">SEC_PKCS7VerifyDetachedSignatureAtTime</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00146"></a>00146                        <a class="code" href="../../d6/da5/certt_8h.html#a7d5b69d8df3e11c4d59eb60bd8b85630">SECCertUsage</a> certusage,
+<a name="l00147"></a>00147                        <span class="keyword">const</span> <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *detached_digest,
+<a name="l00148"></a>00148                        <a class="code" href="../../d4/d73/hasht_8h.html#a7a28e77e812d7621d158f81caa0f2cef">HASH_HashType</a> digest_type,
+<a name="l00149"></a>00149                        <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> keepcerts,
+<a name="l00150"></a>00150                        <a class="code" href="../../db/d12/nsrootidl_8idl.html#a72b6a1b9e3f0db9889388315f0c24ab2">PRTime</a> atTime);
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152 <span class="comment">/*</span>
+<a name="l00153"></a>00153 <span class="comment"> * SEC_PKCS7GetSignerCommonName, SEC_PKCS7GetSignerEmailAddress</span>
+<a name="l00154"></a>00154 <span class="comment"> *      The passed-in contentInfo is espected to be Signed, and these</span>
+<a name="l00155"></a>00155 <span class="comment"> *      functions return the specified portion of the full signer name.</span>
+<a name="l00156"></a>00156 <span class="comment"> *</span>
+<a name="l00157"></a>00157 <span class="comment"> *      Returns a pointer to allocated memory, which must be freed.</span>
+<a name="l00158"></a>00158 <span class="comment"> *      A NULL return value is an error.</span>
+<a name="l00159"></a>00159 <span class="comment"> */</span>
+<a name="l00160"></a>00160 <span class="keyword">extern</span> <span class="keywordtype">char</span> *<a class="code" href="../../d8/ddb/secpkcs7_8h.html#a0739ee8679b4838ed80698b3ff199605">SEC_PKCS7GetSignerCommonName</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00161"></a>00161 <span class="keyword">extern</span> <span class="keywordtype">char</span> *<a class="code" href="../../d8/ddb/secpkcs7_8h.html#aba171fb13c639bfac0606cc6c20faf5d">SEC_PKCS7GetSignerEmailAddress</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163 <span class="comment">/*</span>
+<a name="l00164"></a>00164 <span class="comment"> * Return the the signing time, in UTCTime format, of a PKCS7 contentInfo.</span>
+<a name="l00165"></a>00165 <span class="comment"> */</span>
+<a name="l00166"></a>00166 <span class="keyword">extern</span> <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *<a class="code" href="../../d8/ddb/secpkcs7_8h.html#ac26dd2dc96e5d883606a08270a46d9d3">SEC_PKCS7GetSigningTime</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169 <span class="comment">/************************************************************************</span>
+<a name="l00170"></a>00170 <span class="comment"> *  PKCS7 Creation and Encoding.</span>
+<a name="l00171"></a>00171 <span class="comment"> ************************************************************************/</span>
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173 <span class="comment">/*</span>
+<a name="l00174"></a>00174 <span class="comment"> * Start a PKCS7 signing context.</span>
+<a name="l00175"></a>00175 <span class="comment"> *</span>
+<a name="l00176"></a>00176 <span class="comment"> * &quot;cert&quot; is the cert that will be used to sign the data.  It will be</span>
+<a name="l00177"></a>00177 <span class="comment"> * checked for validity.</span>
+<a name="l00178"></a>00178 <span class="comment"> *</span>
+<a name="l00179"></a>00179 <span class="comment"> * &quot;certusage&quot; describes the signing usage (e.g. certUsageEmailSigner)</span>
+<a name="l00180"></a>00180 <span class="comment"> * XXX Maybe SECCertUsage should be split so that our caller just says</span>
+<a name="l00181"></a>00181 <span class="comment"> * &quot;email&quot; and *we* add the &quot;signing&quot; part -- otherwise our caller</span>
+<a name="l00182"></a>00182 <span class="comment"> * could be lying about the usage; we do not want to allow encryption</span>
+<a name="l00183"></a>00183 <span class="comment"> * certs for signing or vice versa.</span>
+<a name="l00184"></a>00184 <span class="comment"> *</span>
+<a name="l00185"></a>00185 <span class="comment"> * &quot;certdb&quot; is the cert database to use for verifying the cert.</span>
+<a name="l00186"></a>00186 <span class="comment"> * It can be NULL if a default database is available (like in the client).</span>
+<a name="l00187"></a>00187 <span class="comment"> * </span>
+<a name="l00188"></a>00188 <span class="comment"> * &quot;digestalg&quot; names the digest algorithm (e.g. SEC_OID_SHA1).</span>
+<a name="l00189"></a>00189 <span class="comment"> *</span>
+<a name="l00190"></a>00190 <span class="comment"> * &quot;digest&quot; is the actual digest of the data.  It must be provided in</span>
+<a name="l00191"></a>00191 <span class="comment"> * the case of detached data or NULL if the content will be included.</span>
+<a name="l00192"></a>00192 <span class="comment"> *</span>
+<a name="l00193"></a>00193 <span class="comment"> * The return value can be passed to functions which add things to</span>
+<a name="l00194"></a>00194 <span class="comment"> * it like attributes, then eventually to SEC_PKCS7Encode() or to</span>
+<a name="l00195"></a>00195 <span class="comment"> * SEC_PKCS7EncoderStart() to create the encoded data, and finally to</span>
+<a name="l00196"></a>00196 <span class="comment"> * SEC_PKCS7DestroyContentInfo().</span>
+<a name="l00197"></a>00197 <span class="comment"> *</span>
+<a name="l00198"></a>00198 <span class="comment"> * An error results in a return value of NULL and an error set.</span>
+<a name="l00199"></a>00199 <span class="comment"> * (Retrieve specific errors via PORT_GetError()/XP_GetError().)</span>
+<a name="l00200"></a>00200 <span class="comment"> */</span>
+<a name="l00201"></a>00201 <span class="keyword">extern</span> <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *
+<a name="l00202"></a>00202 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#aaf436090f0a42a4101892b715ad0ac14">SEC_PKCS7CreateSignedData</a> (<a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">CERTCertificate</a> *<a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">cert</a>,
+<a name="l00203"></a>00203                <a class="code" href="../../d6/da5/certt_8h.html#a7d5b69d8df3e11c4d59eb60bd8b85630">SECCertUsage</a> certusage,
+<a name="l00204"></a>00204                <a class="code" href="../../d6/da5/certt_8h.html#a2d9edb13f667da37205d81f3a0e33786">CERTCertDBHandle</a> *certdb,
+<a name="l00205"></a>00205                <a class="code" href="../../de/d47/secoidt_8h.html#a12df3d414e7f1d49862a0ceb68fce9d0">SECOidTag</a> digestalg,
+<a name="l00206"></a>00206                <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *digest,
+<a name="l00207"></a>00207                    <a class="code" href="../../dc/d64/pkcs7t_8h.html#a15376f5254affc8b3632ec7be592f7ff">SECKEYGetPasswordKey</a> pwfn, <span class="keywordtype">void</span> *pwfn_arg);
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209 <span class="comment">/*</span>
+<a name="l00210"></a>00210 <span class="comment"> * Create a PKCS7 certs-only container.</span>
+<a name="l00211"></a>00211 <span class="comment"> *</span>
+<a name="l00212"></a>00212 <span class="comment"> * &quot;cert&quot; is the (first) cert that will be included.</span>
+<a name="l00213"></a>00213 <span class="comment"> *</span>
+<a name="l00214"></a>00214 <span class="comment"> * &quot;include_chain&quot; specifies whether the entire chain for &quot;cert&quot; should</span>
+<a name="l00215"></a>00215 <span class="comment"> * be included.</span>
+<a name="l00216"></a>00216 <span class="comment"> *</span>
+<a name="l00217"></a>00217 <span class="comment"> * &quot;certdb&quot; is the cert database to use for finding the chain.</span>
+<a name="l00218"></a>00218 <span class="comment"> * It can be NULL in when &quot;include_chain&quot; is false, or when meaning</span>
+<a name="l00219"></a>00219 <span class="comment"> * use the default database.</span>
+<a name="l00220"></a>00220 <span class="comment"> *</span>
+<a name="l00221"></a>00221 <span class="comment"> * More certs and chains can be added via AddCertficate and AddCertChain.</span>
+<a name="l00222"></a>00222 <span class="comment"> *</span>
+<a name="l00223"></a>00223 <span class="comment"> * An error results in a return value of NULL and an error set.</span>
+<a name="l00224"></a>00224 <span class="comment"> * (Retrieve specific errors via PORT_GetError()/XP_GetError().)</span>
+<a name="l00225"></a>00225 <span class="comment"> */</span>
+<a name="l00226"></a>00226 <span class="keyword">extern</span> <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *
+<a name="l00227"></a>00227 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#aa5c13bf611f1cdace3e6e63592e101fd">SEC_PKCS7CreateCertsOnly</a> (<a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">CERTCertificate</a> *<a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">cert</a>,
+<a name="l00228"></a>00228               <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> include_chain,
+<a name="l00229"></a>00229               <a class="code" href="../../d6/da5/certt_8h.html#a2d9edb13f667da37205d81f3a0e33786">CERTCertDBHandle</a> *certdb);
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231 <span class="comment">/*</span>
+<a name="l00232"></a>00232 <span class="comment"> * Start a PKCS7 enveloping context.</span>
+<a name="l00233"></a>00233 <span class="comment"> *</span>
+<a name="l00234"></a>00234 <span class="comment"> * &quot;cert&quot; is the cert for the recipient.  It will be checked for validity.</span>
+<a name="l00235"></a>00235 <span class="comment"> *</span>
+<a name="l00236"></a>00236 <span class="comment"> * &quot;certusage&quot; describes the encryption usage (e.g. certUsageEmailRecipient)</span>
+<a name="l00237"></a>00237 <span class="comment"> * XXX Maybe SECCertUsage should be split so that our caller just says</span>
+<a name="l00238"></a>00238 <span class="comment"> * &quot;email&quot; and *we* add the &quot;recipient&quot; part -- otherwise our caller</span>
+<a name="l00239"></a>00239 <span class="comment"> * could be lying about the usage; we do not want to allow encryption</span>
+<a name="l00240"></a>00240 <span class="comment"> * certs for signing or vice versa.</span>
+<a name="l00241"></a>00241 <span class="comment"> *</span>
+<a name="l00242"></a>00242 <span class="comment"> * &quot;certdb&quot; is the cert database to use for verifying the cert.</span>
+<a name="l00243"></a>00243 <span class="comment"> * It can be NULL if a default database is available (like in the client).</span>
+<a name="l00244"></a>00244 <span class="comment"> *</span>
+<a name="l00245"></a>00245 <span class="comment"> * &quot;encalg&quot; specifies the bulk encryption algorithm to use (e.g. SEC_OID_RC2).</span>
+<a name="l00246"></a>00246 <span class="comment"> *</span>
+<a name="l00247"></a>00247 <span class="comment"> * &quot;keysize&quot; specifies the bulk encryption key size, in bits.</span>
+<a name="l00248"></a>00248 <span class="comment"> *</span>
+<a name="l00249"></a>00249 <span class="comment"> * The return value can be passed to functions which add things to</span>
+<a name="l00250"></a>00250 <span class="comment"> * it like more recipients, then eventually to SEC_PKCS7Encode() or to</span>
+<a name="l00251"></a>00251 <span class="comment"> * SEC_PKCS7EncoderStart() to create the encoded data, and finally to</span>
+<a name="l00252"></a>00252 <span class="comment"> * SEC_PKCS7DestroyContentInfo().</span>
+<a name="l00253"></a>00253 <span class="comment"> *</span>
+<a name="l00254"></a>00254 <span class="comment"> * An error results in a return value of NULL and an error set.</span>
+<a name="l00255"></a>00255 <span class="comment"> * (Retrieve specific errors via PORT_GetError()/XP_GetError().)</span>
+<a name="l00256"></a>00256 <span class="comment"> */</span>
+<a name="l00257"></a>00257 <span class="keyword">extern</span> <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *
+<a name="l00258"></a>00258 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a5500fe3b484186f99d4317c4dc20de67">SEC_PKCS7CreateEnvelopedData</a> (<a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">CERTCertificate</a> *<a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">cert</a>,
+<a name="l00259"></a>00259                   <a class="code" href="../../d6/da5/certt_8h.html#a7d5b69d8df3e11c4d59eb60bd8b85630">SECCertUsage</a> certusage,
+<a name="l00260"></a>00260                   <a class="code" href="../../d6/da5/certt_8h.html#a2d9edb13f667da37205d81f3a0e33786">CERTCertDBHandle</a> *certdb,
+<a name="l00261"></a>00261                   <a class="code" href="../../de/d47/secoidt_8h.html#a12df3d414e7f1d49862a0ceb68fce9d0">SECOidTag</a> encalg,
+<a name="l00262"></a>00262                   <span class="keywordtype">int</span> keysize,
+<a name="l00263"></a>00263                       <a class="code" href="../../dc/d64/pkcs7t_8h.html#a15376f5254affc8b3632ec7be592f7ff">SECKEYGetPasswordKey</a> pwfn, <span class="keywordtype">void</span> *pwfn_arg);
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265 <span class="comment">/*</span>
+<a name="l00266"></a>00266 <span class="comment"> * XXX There will be a similar routine for creating signedAndEnvelopedData.</span>
+<a name="l00267"></a>00267 <span class="comment"> * But its parameters will be different and I have no plans to implement</span>
+<a name="l00268"></a>00268 <span class="comment"> * it any time soon because we have no current need for it.</span>
+<a name="l00269"></a>00269 <span class="comment"> */</span>
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271 <span class="comment">/*</span>
+<a name="l00272"></a>00272 <span class="comment"> * Create an empty PKCS7 data content info.</span>
+<a name="l00273"></a>00273 <span class="comment"> *</span>
+<a name="l00274"></a>00274 <span class="comment"> * An error results in a return value of NULL and an error set.</span>
+<a name="l00275"></a>00275 <span class="comment"> * (Retrieve specific errors via PORT_GetError()/XP_GetError().)</span>
+<a name="l00276"></a>00276 <span class="comment"> */</span>
+<a name="l00277"></a>00277 <span class="keyword">extern</span> <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *<a class="code" href="../../d8/ddb/secpkcs7_8h.html#a12c60c8ea68352f5aac01384d76e0e28">SEC_PKCS7CreateData</a> (<span class="keywordtype">void</span>);
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279 <span class="comment">/*</span>
+<a name="l00280"></a>00280 <span class="comment"> * Create an empty PKCS7 encrypted content info.</span>
+<a name="l00281"></a>00281 <span class="comment"> *</span>
+<a name="l00282"></a>00282 <span class="comment"> * &quot;algorithm&quot; specifies the bulk encryption algorithm to use.</span>
+<a name="l00283"></a>00283 <span class="comment"> * </span>
+<a name="l00284"></a>00284 <span class="comment"> * An error results in a return value of NULL and an error set.</span>
+<a name="l00285"></a>00285 <span class="comment"> * (Retrieve specific errors via PORT_GetError()/XP_GetError().)</span>
+<a name="l00286"></a>00286 <span class="comment"> */</span>
+<a name="l00287"></a>00287 <span class="keyword">extern</span> <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *
+<a name="l00288"></a>00288 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a00b6bb8f89daf3f88800e4e9e7be3872">SEC_PKCS7CreateEncryptedData</a> (<a class="code" href="../../de/d47/secoidt_8h.html#a12df3d414e7f1d49862a0ceb68fce9d0">SECOidTag</a> algorithm, <span class="keywordtype">int</span> keysize,
+<a name="l00289"></a>00289                   <a class="code" href="../../dc/d64/pkcs7t_8h.html#a15376f5254affc8b3632ec7be592f7ff">SECKEYGetPasswordKey</a> pwfn, <span class="keywordtype">void</span> *pwfn_arg);
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291 <span class="comment">/*</span>
+<a name="l00292"></a>00292 <span class="comment"> * All of the following things return SECStatus to signal success or failure.</span>
+<a name="l00293"></a>00293 <span class="comment"> * Failure should have a more specific error status available via</span>
+<a name="l00294"></a>00294 <span class="comment"> * PORT_GetError()/XP_GetError().</span>
+<a name="l00295"></a>00295 <span class="comment"> */</span>
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297 <span class="comment">/*</span>
+<a name="l00298"></a>00298 <span class="comment"> * Add the specified attribute to the authenticated (i.e. signed) attributes</span>
+<a name="l00299"></a>00299 <span class="comment"> * of &quot;cinfo&quot; -- &quot;oidtag&quot; describes the attribute and &quot;value&quot; is the</span>
+<a name="l00300"></a>00300 <span class="comment"> * value to be associated with it.  NOTE! &quot;value&quot; must already be encoded;</span>
+<a name="l00301"></a>00301 <span class="comment"> * no interpretation of &quot;oidtag&quot; is done.  Also, it is assumed that this</span>
+<a name="l00302"></a>00302 <span class="comment"> * signedData has only one signer -- if we ever need to add attributes</span>
+<a name="l00303"></a>00303 <span class="comment"> * when there is more than one signature, we need a way to specify *which*</span>
+<a name="l00304"></a>00304 <span class="comment"> * signature should get the attribute.</span>
+<a name="l00305"></a>00305 <span class="comment"> *</span>
+<a name="l00306"></a>00306 <span class="comment"> * XXX Technically, a signed attribute can have multiple values; if/when</span>
+<a name="l00307"></a>00307 <span class="comment"> * we ever need to support an attribute which takes multiple values, we</span>
+<a name="l00308"></a>00308 <span class="comment"> * either need to change this interface or create an AddSignedAttributeValue</span>
+<a name="l00309"></a>00309 <span class="comment"> * which can be called subsequently, and would then append a value.</span>
+<a name="l00310"></a>00310 <span class="comment"> *</span>
+<a name="l00311"></a>00311 <span class="comment"> * &quot;cinfo&quot; should be of type signedData (the only kind of pkcs7 data</span>
+<a name="l00312"></a>00312 <span class="comment"> * that is allowed authenticated attributes); SECFailure will be returned</span>
+<a name="l00313"></a>00313 <span class="comment"> * if it is not.</span>
+<a name="l00314"></a>00314 <span class="comment"> */</span>
+<a name="l00315"></a>00315 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a2eac7f7f2957844e204e473dbad07d98">SEC_PKCS7AddSignedAttribute</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00316"></a>00316                           <a class="code" href="../../de/d47/secoidt_8h.html#a12df3d414e7f1d49862a0ceb68fce9d0">SECOidTag</a> oidtag,
+<a name="l00317"></a>00317                           <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319 <span class="comment">/*</span>
+<a name="l00320"></a>00320 <span class="comment"> * Add &quot;cert&quot; and its entire chain to the set of certs included in &quot;cinfo&quot;.</span>
+<a name="l00321"></a>00321 <span class="comment"> *</span>
+<a name="l00322"></a>00322 <span class="comment"> * &quot;certdb&quot; is the cert database to use for finding the chain.</span>
+<a name="l00323"></a>00323 <span class="comment"> * It can be NULL, meaning use the default database.</span>
+<a name="l00324"></a>00324 <span class="comment"> *</span>
+<a name="l00325"></a>00325 <span class="comment"> * &quot;cinfo&quot; should be of type signedData or signedAndEnvelopedData;</span>
+<a name="l00326"></a>00326 <span class="comment"> * SECFailure will be returned if it is not.</span>
+<a name="l00327"></a>00327 <span class="comment"> */</span>
+<a name="l00328"></a>00328 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#acfd2c2002095e2454a3e94c5908f4a03">SEC_PKCS7AddCertChain</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00329"></a>00329                     <a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">CERTCertificate</a> *<a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">cert</a>,
+<a name="l00330"></a>00330                     <a class="code" href="../../d6/da5/certt_8h.html#a2d9edb13f667da37205d81f3a0e33786">CERTCertDBHandle</a> *certdb);
+<a name="l00331"></a>00331 
+<a name="l00332"></a>00332 <span class="comment">/*</span>
+<a name="l00333"></a>00333 <span class="comment"> * Add &quot;cert&quot; to the set of certs included in &quot;cinfo&quot;.</span>
+<a name="l00334"></a>00334 <span class="comment"> *</span>
+<a name="l00335"></a>00335 <span class="comment"> * &quot;cinfo&quot; should be of type signedData or signedAndEnvelopedData;</span>
+<a name="l00336"></a>00336 <span class="comment"> * SECFailure will be returned if it is not.</span>
+<a name="l00337"></a>00337 <span class="comment"> */</span>
+<a name="l00338"></a>00338 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a6d46230f174bfce61aa338ae232cae3d">SEC_PKCS7AddCertificate</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00339"></a>00339                       <a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">CERTCertificate</a> *<a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">cert</a>);
+<a name="l00340"></a>00340 
+<a name="l00341"></a>00341 <span class="comment">/*</span>
+<a name="l00342"></a>00342 <span class="comment"> * Add another recipient to an encrypted message.</span>
+<a name="l00343"></a>00343 <span class="comment"> *</span>
+<a name="l00344"></a>00344 <span class="comment"> * &quot;cinfo&quot; should be of type envelopedData or signedAndEnvelopedData;</span>
+<a name="l00345"></a>00345 <span class="comment"> * SECFailure will be returned if it is not.</span>
+<a name="l00346"></a>00346 <span class="comment"> *</span>
+<a name="l00347"></a>00347 <span class="comment"> * &quot;cert&quot; is the cert for the recipient.  It will be checked for validity.</span>
+<a name="l00348"></a>00348 <span class="comment"> *</span>
+<a name="l00349"></a>00349 <span class="comment"> * &quot;certusage&quot; describes the encryption usage (e.g. certUsageEmailRecipient)</span>
+<a name="l00350"></a>00350 <span class="comment"> * XXX Maybe SECCertUsage should be split so that our caller just says</span>
+<a name="l00351"></a>00351 <span class="comment"> * &quot;email&quot; and *we* add the &quot;recipient&quot; part -- otherwise our caller</span>
+<a name="l00352"></a>00352 <span class="comment"> * could be lying about the usage; we do not want to allow encryption</span>
+<a name="l00353"></a>00353 <span class="comment"> * certs for signing or vice versa.</span>
+<a name="l00354"></a>00354 <span class="comment"> *</span>
+<a name="l00355"></a>00355 <span class="comment"> * &quot;certdb&quot; is the cert database to use for verifying the cert.</span>
+<a name="l00356"></a>00356 <span class="comment"> * It can be NULL if a default database is available (like in the client).</span>
+<a name="l00357"></a>00357 <span class="comment"> */</span>
+<a name="l00358"></a>00358 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#ab95f99a161d9a85581fdacdcded781d6">SEC_PKCS7AddRecipient</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00359"></a>00359                     <a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">CERTCertificate</a> *<a class="code" href="../../d8/d93/struct_c_e_r_t_certificate_str.html">cert</a>,
+<a name="l00360"></a>00360                     <a class="code" href="../../d6/da5/certt_8h.html#a7d5b69d8df3e11c4d59eb60bd8b85630">SECCertUsage</a> certusage,
+<a name="l00361"></a>00361                     <a class="code" href="../../d6/da5/certt_8h.html#a2d9edb13f667da37205d81f3a0e33786">CERTCertDBHandle</a> *certdb);
+<a name="l00362"></a>00362 
+<a name="l00363"></a>00363 <span class="comment">/*</span>
+<a name="l00364"></a>00364 <span class="comment"> * Add the signing time to the authenticated (i.e. signed) attributes</span>
+<a name="l00365"></a>00365 <span class="comment"> * of &quot;cinfo&quot;.  This is expected to be included in outgoing signed</span>
+<a name="l00366"></a>00366 <span class="comment"> * messages for email (S/MIME) but is likely useful in other situations.</span>
+<a name="l00367"></a>00367 <span class="comment"> *</span>
+<a name="l00368"></a>00368 <span class="comment"> * This should only be added once; a second call will either do</span>
+<a name="l00369"></a>00369 <span class="comment"> * nothing or replace an old signing time with a newer one.</span>
+<a name="l00370"></a>00370 <span class="comment"> *</span>
+<a name="l00371"></a>00371 <span class="comment"> * XXX This will probably just shove the current time into &quot;cinfo&quot;</span>
+<a name="l00372"></a>00372 <span class="comment"> * but it will not actually get signed until the entire item is</span>
+<a name="l00373"></a>00373 <span class="comment"> * processed for encoding.  Is this (expected to be small) delay okay?</span>
+<a name="l00374"></a>00374 <span class="comment"> *</span>
+<a name="l00375"></a>00375 <span class="comment"> * &quot;cinfo&quot; should be of type signedData (the only kind of pkcs7 data</span>
+<a name="l00376"></a>00376 <span class="comment"> * that is allowed authenticated attributes); SECFailure will be returned</span>
+<a name="l00377"></a>00377 <span class="comment"> * if it is not.</span>
+<a name="l00378"></a>00378 <span class="comment"> */</span>
+<a name="l00379"></a>00379 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#acc15ac625543c2511d78d0884c05249f">SEC_PKCS7AddSigningTime</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381 <span class="comment">/*</span>
+<a name="l00382"></a>00382 <span class="comment"> * Add the signer&#39;s symmetric capabilities to the authenticated</span>
+<a name="l00383"></a>00383 <span class="comment"> * (i.e. signed) attributes of &quot;cinfo&quot;.  This is expected to be</span>
+<a name="l00384"></a>00384 <span class="comment"> * included in outgoing signed messages for email (S/MIME).</span>
+<a name="l00385"></a>00385 <span class="comment"> *</span>
+<a name="l00386"></a>00386 <span class="comment"> * This can only be added once; a second call will return SECFailure.</span>
+<a name="l00387"></a>00387 <span class="comment"> *</span>
+<a name="l00388"></a>00388 <span class="comment"> * &quot;cinfo&quot; should be of type signedData or signedAndEnvelopedData;</span>
+<a name="l00389"></a>00389 <span class="comment"> * SECFailure will be returned if it is not.</span>
+<a name="l00390"></a>00390 <span class="comment"> */</span>
+<a name="l00391"></a>00391 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a3b90c9cc7aac3a3c4826d47111c0a3a6">SEC_PKCS7AddSymmetricCapabilities</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393 <span class="comment">/*</span>
+<a name="l00394"></a>00394 <span class="comment"> * Mark that the signer&#39;s certificate and its issuing chain should</span>
+<a name="l00395"></a>00395 <span class="comment"> * be included in the encoded data.  This is expected to be used</span>
+<a name="l00396"></a>00396 <span class="comment"> * in outgoing signed messages for email (S/MIME).</span>
+<a name="l00397"></a>00397 <span class="comment"> *</span>
+<a name="l00398"></a>00398 <span class="comment"> * &quot;certdb&quot; is the cert database to use for finding the chain.</span>
+<a name="l00399"></a>00399 <span class="comment"> * It can be NULL, meaning use the default database.</span>
+<a name="l00400"></a>00400 <span class="comment"> *</span>
+<a name="l00401"></a>00401 <span class="comment"> * &quot;cinfo&quot; should be of type signedData or signedAndEnvelopedData;</span>
+<a name="l00402"></a>00402 <span class="comment"> * SECFailure will be returned if it is not.</span>
+<a name="l00403"></a>00403 <span class="comment"> */</span>
+<a name="l00404"></a>00404 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#ab07dfa7e5cf51097bd10499de98aa939">SEC_PKCS7IncludeCertChain</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00405"></a>00405                         <a class="code" href="../../d6/da5/certt_8h.html#a2d9edb13f667da37205d81f3a0e33786">CERTCertDBHandle</a> *certdb);
+<a name="l00406"></a>00406 
+<a name="l00407"></a>00407 
+<a name="l00408"></a>00408 <span class="comment">/*</span>
+<a name="l00409"></a>00409 <span class="comment"> * Set the content; it will be included and also hashed and/or encrypted</span>
+<a name="l00410"></a>00410 <span class="comment"> * as appropriate.  This is for in-memory content (expected to be &quot;small&quot;)</span>
+<a name="l00411"></a>00411 <span class="comment"> * that will be included in the PKCS7 object.  All others should stream the</span>
+<a name="l00412"></a>00412 <span class="comment"> * content through when encoding (see SEC_PKCS7Encoder{Start,Update,Finish}).</span>
+<a name="l00413"></a>00413 <span class="comment"> *</span>
+<a name="l00414"></a>00414 <span class="comment"> * &quot;buf&quot; points to data of length &quot;len&quot;; it will be copied.</span>
+<a name="l00415"></a>00415 <span class="comment"> */</span>
+<a name="l00416"></a>00416 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a7e87a33da2d25e62747e62a3d28e1dcb">SEC_PKCS7SetContent</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00417"></a>00417                       <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a>);
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419 <span class="comment">/*</span>
+<a name="l00420"></a>00420 <span class="comment"> * Encode a PKCS7 object, in one shot.  All necessary components</span>
+<a name="l00421"></a>00421 <span class="comment"> * of the object must already be specified.  Either the data has</span>
+<a name="l00422"></a>00422 <span class="comment"> * already been included (via SetContent), or the data is detached,</span>
+<a name="l00423"></a>00423 <span class="comment"> * or there is no data at all (certs-only).</span>
+<a name="l00424"></a>00424 <span class="comment"> *</span>
+<a name="l00425"></a>00425 <span class="comment"> * &quot;cinfo&quot; specifies the object to be encoded.</span>
+<a name="l00426"></a>00426 <span class="comment"> *</span>
+<a name="l00427"></a>00427 <span class="comment"> * &quot;outputfn&quot; is where the encoded bytes will be passed.</span>
+<a name="l00428"></a>00428 <span class="comment"> *</span>
+<a name="l00429"></a>00429 <span class="comment"> * &quot;outputarg&quot; is an opaque argument to the above callback.</span>
+<a name="l00430"></a>00430 <span class="comment"> *</span>
+<a name="l00431"></a>00431 <span class="comment"> * &quot;bulkkey&quot; specifies the bulk encryption key to use.   This argument</span>
+<a name="l00432"></a>00432 <span class="comment"> * can be NULL if no encryption is being done, or if the bulk key should</span>
+<a name="l00433"></a>00433 <span class="comment"> * be generated internally (usually the case for EnvelopedData but never</span>
+<a name="l00434"></a>00434 <span class="comment"> * for EncryptedData, which *must* provide a bulk encryption key).</span>
+<a name="l00435"></a>00435 <span class="comment"> *</span>
+<a name="l00436"></a>00436 <span class="comment"> * &quot;pwfn&quot; is a callback for getting the password which protects the</span>
+<a name="l00437"></a>00437 <span class="comment"> * private key of the signer.  This argument can be NULL if it is known</span>
+<a name="l00438"></a>00438 <span class="comment"> * that no signing is going to be done.</span>
+<a name="l00439"></a>00439 <span class="comment"> *</span>
+<a name="l00440"></a>00440 <span class="comment"> * &quot;pwfnarg&quot; is an opaque argument to the above callback.</span>
+<a name="l00441"></a>00441 <span class="comment"> */</span>
+<a name="l00442"></a>00442 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a351693c15333c65d31da86547c240679">SEC_PKCS7Encode</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00443"></a>00443                   <a class="code" href="../../dc/d64/pkcs7t_8h.html#ad7af9e03667e65dded832677a6b193f0">SEC_PKCS7EncoderOutputCallback</a> outputfn,
+<a name="l00444"></a>00444                   <span class="keywordtype">void</span> *outputarg,
+<a name="l00445"></a>00445                   <a class="code" href="../../d6/dfa/secmodt_8h.html#a3b5d3f869df0d9a37bf99f7cdde966a2">PK11SymKey</a> *bulkkey,
+<a name="l00446"></a>00446                   <a class="code" href="../../dc/d64/pkcs7t_8h.html#a15376f5254affc8b3632ec7be592f7ff">SECKEYGetPasswordKey</a> pwfn,
+<a name="l00447"></a>00447                   <span class="keywordtype">void</span> *pwfnarg);
+<a name="l00448"></a>00448 
+<a name="l00449"></a>00449 <span class="comment">/*</span>
+<a name="l00450"></a>00450 <span class="comment"> * Encode a PKCS7 object, in one shot.  All necessary components</span>
+<a name="l00451"></a>00451 <span class="comment"> * of the object must already be specified.  Either the data has</span>
+<a name="l00452"></a>00452 <span class="comment"> * already been included (via SetContent), or the data is detached,</span>
+<a name="l00453"></a>00453 <span class="comment"> * or there is no data at all (certs-only).  The output, rather than</span>
+<a name="l00454"></a>00454 <span class="comment"> * being passed to an output function as is done above, is all put</span>
+<a name="l00455"></a>00455 <span class="comment"> * into a SECItem.</span>
+<a name="l00456"></a>00456 <span class="comment"> *</span>
+<a name="l00457"></a>00457 <span class="comment"> * &quot;pool&quot; specifies a pool from which to allocate the result.</span>
+<a name="l00458"></a>00458 <span class="comment"> * It can be NULL, in which case memory is allocated generically.</span>
+<a name="l00459"></a>00459 <span class="comment"> *</span>
+<a name="l00460"></a>00460 <span class="comment"> * &quot;dest&quot; specifies a SECItem in which to put the result data.</span>
+<a name="l00461"></a>00461 <span class="comment"> * It can be NULL, in which case the entire item is allocated, too.</span>
+<a name="l00462"></a>00462 <span class="comment"> *</span>
+<a name="l00463"></a>00463 <span class="comment"> * &quot;cinfo&quot; specifies the object to be encoded.</span>
+<a name="l00464"></a>00464 <span class="comment"> *</span>
+<a name="l00465"></a>00465 <span class="comment"> * &quot;bulkkey&quot; specifies the bulk encryption key to use.   This argument</span>
+<a name="l00466"></a>00466 <span class="comment"> * can be NULL if no encryption is being done, or if the bulk key should</span>
+<a name="l00467"></a>00467 <span class="comment"> * be generated internally (usually the case for EnvelopedData but never</span>
+<a name="l00468"></a>00468 <span class="comment"> * for EncryptedData, which *must* provide a bulk encryption key).</span>
+<a name="l00469"></a>00469 <span class="comment"> *</span>
+<a name="l00470"></a>00470 <span class="comment"> * &quot;pwfn&quot; is a callback for getting the password which protects the</span>
+<a name="l00471"></a>00471 <span class="comment"> * private key of the signer.  This argument can be NULL if it is known</span>
+<a name="l00472"></a>00472 <span class="comment"> * that no signing is going to be done.</span>
+<a name="l00473"></a>00473 <span class="comment"> *</span>
+<a name="l00474"></a>00474 <span class="comment"> * &quot;pwfnarg&quot; is an opaque argument to the above callback.</span>
+<a name="l00475"></a>00475 <span class="comment"> */</span>
+<a name="l00476"></a>00476 <span class="keyword">extern</span> <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *<a class="code" href="../../d8/ddb/secpkcs7_8h.html#abac36a8369f8479b185e2ebc145540b5">SEC_PKCS7EncodeItem</a> (<a class="code" href="../../df/db7/struct_p_l_arena_pool.html">PLArenaPool</a> *<a class="code" href="../../dc/d6a/xpt__xdr_8h.html#a81e3132401a4838d53a847439cd44d5c">pool</a>,
+<a name="l00477"></a>00477                      <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *dest,
+<a name="l00478"></a>00478                      <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00479"></a>00479                      <a class="code" href="../../d6/dfa/secmodt_8h.html#a3b5d3f869df0d9a37bf99f7cdde966a2">PK11SymKey</a> *bulkkey,
+<a name="l00480"></a>00480                      <a class="code" href="../../dc/d64/pkcs7t_8h.html#a15376f5254affc8b3632ec7be592f7ff">SECKEYGetPasswordKey</a> pwfn,
+<a name="l00481"></a>00481                      <span class="keywordtype">void</span> *pwfnarg);
+<a name="l00482"></a>00482 
+<a name="l00483"></a>00483 <span class="comment">/*</span>
+<a name="l00484"></a>00484 <span class="comment"> * For those who want to simply point to the pkcs7 contentInfo ASN.1</span>
+<a name="l00485"></a>00485 <span class="comment"> * template, and *not* call the encoding functions directly, the</span>
+<a name="l00486"></a>00486 <span class="comment"> * following function can be used -- after it is called, the entire</span>
+<a name="l00487"></a>00487 <span class="comment"> * PKCS7 contentInfo is ready to be encoded.</span>
+<a name="l00488"></a>00488 <span class="comment"> */</span>
+<a name="l00489"></a>00489 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a07c69854a15ef5e9c077a6153745b00c">SEC_PKCS7PrepareForEncode</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00490"></a>00490                         <a class="code" href="../../d6/dfa/secmodt_8h.html#a3b5d3f869df0d9a37bf99f7cdde966a2">PK11SymKey</a> *bulkkey,
+<a name="l00491"></a>00491                         <a class="code" href="../../dc/d64/pkcs7t_8h.html#a15376f5254affc8b3632ec7be592f7ff">SECKEYGetPasswordKey</a> pwfn,
+<a name="l00492"></a>00492                         <span class="keywordtype">void</span> *pwfnarg);
+<a name="l00493"></a>00493 
+<a name="l00494"></a>00494 <span class="comment">/*</span>
+<a name="l00495"></a>00495 <span class="comment"> * Start the process of encoding a PKCS7 object.  The first part of</span>
+<a name="l00496"></a>00496 <span class="comment"> * the encoded object will be passed to the output function right away;</span>
+<a name="l00497"></a>00497 <span class="comment"> * after that it is expected that SEC_PKCS7EncoderUpdate will be called,</span>
+<a name="l00498"></a>00498 <span class="comment"> * streaming in the actual content that is getting included as well as</span>
+<a name="l00499"></a>00499 <span class="comment"> * signed or encrypted (or both).</span>
+<a name="l00500"></a>00500 <span class="comment"> *</span>
+<a name="l00501"></a>00501 <span class="comment"> * &quot;cinfo&quot; specifies the object to be encoded.</span>
+<a name="l00502"></a>00502 <span class="comment"> *</span>
+<a name="l00503"></a>00503 <span class="comment"> * &quot;outputfn&quot; is where the encoded bytes will be passed.</span>
+<a name="l00504"></a>00504 <span class="comment"> *</span>
+<a name="l00505"></a>00505 <span class="comment"> * &quot;outputarg&quot; is an opaque argument to the above callback.</span>
+<a name="l00506"></a>00506 <span class="comment"> *</span>
+<a name="l00507"></a>00507 <span class="comment"> * &quot;bulkkey&quot; specifies the bulk encryption key to use.   This argument</span>
+<a name="l00508"></a>00508 <span class="comment"> * can be NULL if no encryption is being done, or if the bulk key should</span>
+<a name="l00509"></a>00509 <span class="comment"> * be generated internally (usually the case for EnvelopedData but never</span>
+<a name="l00510"></a>00510 <span class="comment"> * for EncryptedData, which *must* provide a bulk encryption key).</span>
+<a name="l00511"></a>00511 <span class="comment"> *</span>
+<a name="l00512"></a>00512 <span class="comment"> * Returns an object to be passed to EncoderUpdate and EncoderFinish.</span>
+<a name="l00513"></a>00513 <span class="comment"> */</span>
+<a name="l00514"></a>00514 <span class="keyword">extern</span> <a class="code" href="../../dc/d64/pkcs7t_8h.html#a0887bf79894c23d05b37573bc128a2e3">SEC_PKCS7EncoderContext</a> *
+<a name="l00515"></a>00515 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a9a2b7afaefbf35540224907d5604bdad">SEC_PKCS7EncoderStart</a> (<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo,
+<a name="l00516"></a>00516                <a class="code" href="../../dc/d64/pkcs7t_8h.html#ad7af9e03667e65dded832677a6b193f0">SEC_PKCS7EncoderOutputCallback</a> outputfn,
+<a name="l00517"></a>00517                <span class="keywordtype">void</span> *outputarg,
+<a name="l00518"></a>00518                <a class="code" href="../../d6/dfa/secmodt_8h.html#a3b5d3f869df0d9a37bf99f7cdde966a2">PK11SymKey</a> *bulkkey);
+<a name="l00519"></a>00519 
+<a name="l00520"></a>00520 <span class="comment">/*</span>
+<a name="l00521"></a>00521 <span class="comment"> * Encode more contents, hashing and/or encrypting along the way.</span>
+<a name="l00522"></a>00522 <span class="comment"> */</span>
+<a name="l00523"></a>00523 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a48c1dc938712983c7a9172daf65e2048">SEC_PKCS7EncoderUpdate</a> (<a class="code" href="../../dc/d64/pkcs7t_8h.html#a0887bf79894c23d05b37573bc128a2e3">SEC_PKCS7EncoderContext</a> *p7ecx,
+<a name="l00524"></a>00524                      <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>,
+<a name="l00525"></a>00525                      <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="../../d9/d04/expat_8h.html#a5df20ff5bc70fb664abe3912796e90df">len</a>);
+<a name="l00526"></a>00526 
+<a name="l00527"></a>00527 <span class="comment">/*</span>
+<a name="l00528"></a>00528 <span class="comment"> * No more contents; finish the signature creation, if appropriate,</span>
+<a name="l00529"></a>00529 <span class="comment"> * and then the encoding.</span>
+<a name="l00530"></a>00530 <span class="comment"> *</span>
+<a name="l00531"></a>00531 <span class="comment"> * &quot;pwfn&quot; is a callback for getting the password which protects the</span>
+<a name="l00532"></a>00532 <span class="comment"> * signer&#39;s private key.  This argument can be NULL if it is known</span>
+<a name="l00533"></a>00533 <span class="comment"> * that no signing is going to be done.</span>
+<a name="l00534"></a>00534 <span class="comment"> *</span>
+<a name="l00535"></a>00535 <span class="comment"> * &quot;pwfnarg&quot; is an opaque argument to the above callback.</span>
+<a name="l00536"></a>00536 <span class="comment"> */</span>
+<a name="l00537"></a>00537 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#aedb791f0b723515ac4922812b67b043b">SEC_PKCS7EncoderFinish</a> (<a class="code" href="../../dc/d64/pkcs7t_8h.html#a0887bf79894c23d05b37573bc128a2e3">SEC_PKCS7EncoderContext</a> *p7ecx,
+<a name="l00538"></a>00538                      <a class="code" href="../../dc/d64/pkcs7t_8h.html#a15376f5254affc8b3632ec7be592f7ff">SECKEYGetPasswordKey</a> pwfn,
+<a name="l00539"></a>00539                      <span class="keywordtype">void</span> *pwfnarg);
+<a name="l00540"></a>00540 
+<a name="l00541"></a>00541 <span class="comment">/*  Abort the underlying ASN.1 stream &amp; set an error  */</span>
+<a name="l00542"></a>00542 <span class="keywordtype">void</span> <a class="code" href="../../d8/ddb/secpkcs7_8h.html#ae8a899372df99b3ac99dc139c8e69723">SEC_PKCS7EncoderAbort</a>(<a class="code" href="../../dc/d64/pkcs7t_8h.html#a0887bf79894c23d05b37573bc128a2e3">SEC_PKCS7EncoderContext</a> *p7dcx, <span class="keywordtype">int</span> <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>);
+<a name="l00543"></a>00543 
+<a name="l00544"></a>00544 <span class="comment">/* retrieve the algorithm ID used to encrypt the content info</span>
+<a name="l00545"></a>00545 <span class="comment"> * for encrypted and enveloped data.  The SECAlgorithmID pointer</span>
+<a name="l00546"></a>00546 <span class="comment"> * returned needs to be freed as it is a copy of the algorithm</span>
+<a name="l00547"></a>00547 <span class="comment"> * id in the content info.</span>
+<a name="l00548"></a>00548 <span class="comment"> */</span> 
+<a name="l00549"></a>00549 <span class="keyword">extern</span> <a class="code" href="../../d9/dc8/struct_s_e_c_algorithm_i_d_str.html">SECAlgorithmID</a> *
+<a name="l00550"></a>00550 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#ac273d1f89d17da1acda381fe2805cfde">SEC_PKCS7GetEncryptionAlgorithm</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo); 
+<a name="l00551"></a>00551 
+<a name="l00552"></a>00552 <span class="comment">/* the content of an encrypted data content info is encrypted.</span>
+<a name="l00553"></a>00553 <span class="comment"> * it is assumed that for encrypted data, that the data has already</span>
+<a name="l00554"></a>00554 <span class="comment"> * been set and is in the &quot;plainContent&quot; field of the content info.</span>
+<a name="l00555"></a>00555 <span class="comment"> *</span>
+<a name="l00556"></a>00556 <span class="comment"> * cinfo is the content info to encrypt</span>
+<a name="l00557"></a>00557 <span class="comment"> *</span>
+<a name="l00558"></a>00558 <span class="comment"> * key is the key with which to perform the encryption.  if the</span>
+<a name="l00559"></a>00559 <span class="comment"> *     algorithm is a password based encryption algorithm, the</span>
+<a name="l00560"></a>00560 <span class="comment"> *     key is actually a password which will be processed per</span>
+<a name="l00561"></a>00561 <span class="comment"> *     PKCS #5.</span>
+<a name="l00562"></a>00562 <span class="comment"> * </span>
+<a name="l00563"></a>00563 <span class="comment"> * in the event of an error, SECFailure is returned.  SECSuccess</span>
+<a name="l00564"></a>00564 <span class="comment"> * indicates a success.</span>
+<a name="l00565"></a>00565 <span class="comment"> */</span>
+<a name="l00566"></a>00566 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> 
+<a name="l00567"></a>00567 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a302fe25f5ec517589dee0cc2fa385338">SEC_PKCS7EncryptContents</a>(<a class="code" href="../../df/db7/struct_p_l_arena_pool.html">PLArenaPool</a> *poolp,
+<a name="l00568"></a>00568              <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo, 
+<a name="l00569"></a>00569              <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>,
+<a name="l00570"></a>00570              <span class="keywordtype">void</span> *wincx); 
+<a name="l00571"></a>00571     
+<a name="l00572"></a>00572 <span class="comment">/* the content of an encrypted data content info is decrypted.</span>
+<a name="l00573"></a>00573 <span class="comment"> * it is assumed that for encrypted data, that the data has already</span>
+<a name="l00574"></a>00574 <span class="comment"> * been set and is in the &quot;encContent&quot; field of the content info.</span>
+<a name="l00575"></a>00575 <span class="comment"> *</span>
+<a name="l00576"></a>00576 <span class="comment"> * cinfo is the content info to decrypt</span>
+<a name="l00577"></a>00577 <span class="comment"> *</span>
+<a name="l00578"></a>00578 <span class="comment"> * key is the key with which to perform the decryption.  if the</span>
+<a name="l00579"></a>00579 <span class="comment"> *     algorithm is a password based encryption algorithm, the</span>
+<a name="l00580"></a>00580 <span class="comment"> *     key is actually a password which will be processed per</span>
+<a name="l00581"></a>00581 <span class="comment"> *     PKCS #5.</span>
+<a name="l00582"></a>00582 <span class="comment"> * </span>
+<a name="l00583"></a>00583 <span class="comment"> * in the event of an error, SECFailure is returned.  SECSuccess</span>
+<a name="l00584"></a>00584 <span class="comment"> * indicates a success.</span>
+<a name="l00585"></a>00585 <span class="comment"> */</span>
+<a name="l00586"></a>00586 <span class="keyword">extern</span> <a class="code" href="../../dc/d39/seccomon_8h.html#ae72b0946e3dc35a285c0a9f7c33bdab2">SECStatus</a> 
+<a name="l00587"></a>00587 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a14cb1c6fbded21c20a8890d419e27f19">SEC_PKCS7DecryptContents</a>(<a class="code" href="../../df/db7/struct_p_l_arena_pool.html">PLArenaPool</a> *poolp,
+<a name="l00588"></a>00588              <a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo, 
+<a name="l00589"></a>00589              <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>,
+<a name="l00590"></a>00590              <span class="keywordtype">void</span> *wincx); 
+<a name="l00591"></a>00591 
+<a name="l00592"></a>00592 <span class="comment">/* retrieve the certificate list from the content info.  the list</span>
+<a name="l00593"></a>00593 <span class="comment"> * is a pointer to the list in the content info.  this should not</span>
+<a name="l00594"></a>00594 <span class="comment"> * be deleted or freed in any way short of calling </span>
+<a name="l00595"></a>00595 <span class="comment"> * SEC_PKCS7DestroyContentInfo</span>
+<a name="l00596"></a>00596 <span class="comment"> */</span>
+<a name="l00597"></a>00597 <span class="keyword">extern</span> <a class="code" href="../../d2/d86/struct_s_e_c_item_str.html">SECItem</a> **
+<a name="l00598"></a>00598 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#a37d05eb083bd5b26268052be19f14458">SEC_PKCS7GetCertificateList</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00599"></a>00599 
+<a name="l00600"></a>00600 <span class="comment">/* Returns the key length (in bits) of the algorithm used to encrypt</span>
+<a name="l00601"></a>00601 <span class="comment">   this object.  Returns 0 if it&#39;s not encrypted, or the key length is</span>
+<a name="l00602"></a>00602 <span class="comment">   irrelevant. */</span>
+<a name="l00603"></a>00603 <span class="keyword">extern</span> <span class="keywordtype">int</span> 
+<a name="l00604"></a>00604 <a class="code" href="../../d8/ddb/secpkcs7_8h.html#af9f64c0fac0da165a927d5a08882e056">SEC_PKCS7GetKeyLength</a>(<a class="code" href="../../d7/db3/struct_s_e_c___p_k_c_s7_content_info_str.html">SEC_PKCS7ContentInfo</a> *cinfo);
+<a name="l00605"></a>00605  
+<a name="l00606"></a>00606 
+<a name="l00607"></a>00607 <span class="comment">/************************************************************************/</span>
+<a name="l00608"></a>00608 <a class="code" href="../../dc/d39/seccomon_8h.html#a0555b6f1e03b11506c9ef2d9803df396">SEC_END_PROTOS</a>
+<a name="l00609"></a>00609 
+<a name="l00610"></a>00610 <span class="preprocessor">#endif </span><span class="comment">/* _SECPKCS7_H_ */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d8/ddb/secpkcs7_8h.html">secpkcs7.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:07に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,602 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsEventListenerManager.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d7/d99/ns_event_listener_manager_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsEventListenerManager.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d7/d99/ns_event_listener_manager_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef nsEventListenerManager_h__</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define nsEventListenerManager_h__</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d7d/jsapi_8h.html">jsapi.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../df/da9/_event_listener_binding_8h.html">mozilla/dom/EventListenerBinding.h</a>&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d25/_event_target_8h.html">mozilla/dom/EventTarget.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6d/_memory_reporting_8h.html">mozilla/MemoryReporting.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/da8/ns_c_o_m_array_8h.html">nsCOMArray.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d34/ns_cx_pusher_8h.html">nsCxPusher.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d4f/ns_cycle_collection_participant_8h.html">nsCycleCollectionParticipant.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/dfa/ns_gk_atoms_8h.html">nsGkAtoms.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html">nsGUIEvent.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d64/ns_i_d_o_m_event_listener_8h.html">nsIDOMEventListener.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../df/de4/ns_i_j_s_event_listener_8h.html">nsIJSEventListener.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/d8d/ns_i_script_context_8h.html">nsIScriptContext.h</a>&quot;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../df/dc4/ns_t_observer_array_8h.html">nsTObserverArray.h</a>&quot;</span>
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="keyword">class </span><a class="code" href="../../d4/d5c/interfacens_i_d_o_m_event.html">nsIDOMEvent</a>;
+<a name="l00026"></a>00026 <span class="keyword">class </span><a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>;
+<a name="l00027"></a>00027 <span class="keyword">class </span><a class="code" href="../../d8/d93/classns_i_widget.html">nsIWidget</a>;
+<a name="l00028"></a>00028 <span class="keyword">struct </span><a class="code" href="../../d6/d7b/structns_point.html">nsPoint</a>;
+<a name="l00029"></a>00029 <span class="keyword">struct </span>EventTypeData;
+<a name="l00030"></a>00030 <span class="keyword">class </span>nsEventTargetChainItem;
+<a name="l00031"></a>00031 <span class="keyword">class </span><a class="code" href="../../d5/d4d/classns_p_i_d_o_m_window.html">nsPIDOMWindow</a>;
+<a name="l00032"></a>00032 <span class="keyword">class </span><a class="code" href="../../d7/d73/classns_cx_pusher.html">nsCxPusher</a>;
+<a name="l00033"></a>00033 <span class="keyword">class </span><a class="code" href="../../dd/de4/interfacens_i_event_listener_info.html">nsIEventListenerInfo</a>;
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 <span class="keyword">struct </span><a class="code" href="../../d7/dbb/structns_listener_struct.html">nsListenerStruct</a>;
+<a name="l00036"></a>00036 <span class="keyword">class </span><a class="code" href="../../d9/d4f/classns_event_listener_manager.html">nsEventListenerManager</a>;
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="keyword">namespace </span>mozilla {
+<a name="l00039"></a>00039 <span class="keyword">namespace </span><a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a> {
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="keyword">typedef</span> CallbackObjectHolder&lt;EventListener, nsIDOMEventListener&gt;
+<a name="l00042"></a><a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a23a9f77f8e3fa4d0b08a102306fa891b">00042</a>   <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a23a9f77f8e3fa4d0b08a102306fa891b">EventListenerHolder</a>;
+<a name="l00043"></a>00043 
+<a name="l00044"></a><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">00044</a> <span class="keyword">struct </span><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a>
+<a name="l00045"></a>00045 {
+<a name="l00046"></a><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ad496e7e76c509ddb929cf08aba20f8ca">00046</a>   <span class="keyword">friend</span> struct ::nsListenerStruct;
+<a name="l00047"></a><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af8524684061beda640c1d8a4f78116d5">00047</a>   <span class="keyword">friend</span> class  ::nsEventListenerManager;
+<a name="l00048"></a>00048 <span class="keyword">private</span>:
+<a name="l00049"></a>00049   <span class="comment">// If mListenerIsJSListener is true, the listener is implemented by JS.</span>
+<a name="l00050"></a>00050   <span class="comment">// Otherwise, it&#39;s implemented by native code or JS but it&#39;s wrapped.</span>
+<a name="l00051"></a>00051   <span class="keywordtype">bool</span> mListenerIsJSListener : 1;
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053 <span class="keyword">public</span>:
+<a name="l00054"></a>00054   <span class="comment">// If mCapture is true, it means the listener captures the event.  Otherwise,</span>
+<a name="l00055"></a>00055   <span class="comment">// it&#39;s listening at bubbling phase.</span>
+<a name="l00056"></a><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">00056</a>   <span class="keywordtype">bool</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> : 1;
+<a name="l00057"></a>00057   <span class="comment">// If mInSystemGroup is true, the listener is listening to the events in the</span>
+<a name="l00058"></a>00058   <span class="comment">// system group.</span>
+<a name="l00059"></a><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">00059</a>   <span class="keywordtype">bool</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> : 1;
+<a name="l00060"></a>00060   <span class="comment">// If mAllowUntrustedEvents is true, the listener is listening to the</span>
+<a name="l00061"></a>00061   <span class="comment">// untrusted events too.</span>
+<a name="l00062"></a><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">00062</a>   <span class="keywordtype">bool</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">mAllowUntrustedEvents</a> : 1;
+<a name="l00063"></a>00063 
+<a name="l00064"></a><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#a6ced1543e292871d78f3275264917679">00064</a>   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#a6ced1543e292871d78f3275264917679">EventListenerFlags</a>() :
+<a name="l00065"></a>00065     mListenerIsJSListener(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>),
+<a name="l00066"></a>00066     <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>), <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>), <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">mAllowUntrustedEvents</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00067"></a>00067   {
+<a name="l00068"></a>00068   }
+<a name="l00069"></a>00069 
+<a name="l00070"></a><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#a3e8ee1f19515676ad9ce2dbc18342a41">00070</a>   <span class="keywordtype">bool</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#a3e8ee1f19515676ad9ce2dbc18342a41">Equals</a>(<span class="keyword">const</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a>&amp; aOther)<span class="keyword"> const</span>
+<a name="l00071"></a>00071 <span class="keyword">  </span>{
+<a name="l00072"></a>00072     <span class="keywordflow">return</span> (<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> == aOther.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> &amp;&amp;
+<a name="l00073"></a>00073             <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> == aOther.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> &amp;&amp;
+<a name="l00074"></a>00074             mListenerIsJSListener == aOther.mListenerIsJSListener &amp;&amp;
+<a name="l00075"></a>00075             <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">mAllowUntrustedEvents</a> == aOther.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">mAllowUntrustedEvents</a>);
+<a name="l00076"></a>00076   }
+<a name="l00077"></a>00077 
+<a name="l00078"></a><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ad9b45e98efd21857dbe152fbb50456e3">00078</a>   <span class="keywordtype">bool</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ad9b45e98efd21857dbe152fbb50456e3">EqualsIgnoringTrustness</a>(<span class="keyword">const</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a>&amp; aOther)<span class="keyword"> const</span>
+<a name="l00079"></a>00079 <span class="keyword">  </span>{
+<a name="l00080"></a>00080     <span class="keywordflow">return</span> (<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> == aOther.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> &amp;&amp;
+<a name="l00081"></a>00081             <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> == aOther.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> &amp;&amp;
+<a name="l00082"></a>00082             mListenerIsJSListener == aOther.mListenerIsJSListener);
+<a name="l00083"></a>00083   }
+<a name="l00084"></a>00084 
+<a name="l00085"></a><a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#a5d03a5ea32b28177c3b388828645aec8">00085</a>   <span class="keywordtype">bool</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#a5d03a5ea32b28177c3b388828645aec8">operator==</a>(<span class="keyword">const</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a>&amp; aOther)<span class="keyword"> const</span>
+<a name="l00086"></a>00086 <span class="keyword">  </span>{
+<a name="l00087"></a>00087     <span class="keywordflow">return</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#a3e8ee1f19515676ad9ce2dbc18342a41">Equals</a>(aOther);
+<a name="l00088"></a>00088   }
+<a name="l00089"></a>00089 };
+<a name="l00090"></a>00090 
+<a name="l00091"></a><a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#ae57cbb0c5fb953353d63067f4cce863c">00091</a> <span class="keyword">inline</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#ae57cbb0c5fb953353d63067f4cce863c">TrustedEventsAtBubble</a>()
+<a name="l00092"></a>00092 {
+<a name="l00093"></a>00093   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00094"></a>00094   <span class="keywordflow">return</span> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00095"></a>00095 }
+<a name="l00096"></a>00096 
+<a name="l00097"></a><a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a733962e67608c84328cf96edb07c8a50">00097</a> <span class="keyword">inline</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a733962e67608c84328cf96edb07c8a50">TrustedEventsAtCapture</a>()
+<a name="l00098"></a>00098 {
+<a name="l00099"></a>00099   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00100"></a>00100   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> = <span class="keyword">true</span>;
+<a name="l00101"></a>00101   <span class="keywordflow">return</span> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00102"></a>00102 }
+<a name="l00103"></a>00103 
+<a name="l00104"></a><a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a9743d9848331acbff6e0ad2e04cc9db1">00104</a> <span class="keyword">inline</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a9743d9848331acbff6e0ad2e04cc9db1">AllEventsAtBubbe</a>()
+<a name="l00105"></a>00105 {
+<a name="l00106"></a>00106   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00107"></a>00107   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">mAllowUntrustedEvents</a> = <span class="keyword">true</span>;
+<a name="l00108"></a>00108   <span class="keywordflow">return</span> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00109"></a>00109 }
+<a name="l00110"></a>00110 
+<a name="l00111"></a><a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a106e5f5520627b5c56f3c07bcd30e847">00111</a> <span class="keyword">inline</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a106e5f5520627b5c56f3c07bcd30e847">AllEventsAtCapture</a>()
+<a name="l00112"></a>00112 {
+<a name="l00113"></a>00113   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00114"></a>00114   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> = <span class="keyword">true</span>;
+<a name="l00115"></a>00115   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">mAllowUntrustedEvents</a> = <span class="keyword">true</span>;
+<a name="l00116"></a>00116   <span class="keywordflow">return</span> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00117"></a>00117 }
+<a name="l00118"></a>00118 
+<a name="l00119"></a><a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#ad7e657456dd3fc46cf391c3bfd7df2a0">00119</a> <span class="keyword">inline</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#ad7e657456dd3fc46cf391c3bfd7df2a0">TrustedEventsAtSystemGroupBubble</a>()
+<a name="l00120"></a>00120 {
+<a name="l00121"></a>00121   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00122"></a>00122   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> = <span class="keyword">true</span>;
+<a name="l00123"></a>00123   <span class="keywordflow">return</span> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00124"></a>00124 }
+<a name="l00125"></a>00125 
+<a name="l00126"></a><a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#af2145c2ef152ef017cad38882200615d">00126</a> <span class="keyword">inline</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#af2145c2ef152ef017cad38882200615d">TrustedEventsAtSystemGroupCapture</a>()
+<a name="l00127"></a>00127 {
+<a name="l00128"></a>00128   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00129"></a>00129   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> = <span class="keyword">true</span>;
+<a name="l00130"></a>00130   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> = <span class="keyword">true</span>;
+<a name="l00131"></a>00131   <span class="keywordflow">return</span> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00132"></a>00132 }
+<a name="l00133"></a>00133 
+<a name="l00134"></a><a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#aefd7ababd2ed364503513e4052c54ec1">00134</a> <span class="keyword">inline</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#aefd7ababd2ed364503513e4052c54ec1">AllEventsAtSystemGroupBubble</a>()
+<a name="l00135"></a>00135 {
+<a name="l00136"></a>00136   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00137"></a>00137   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> = <span class="keyword">true</span>;
+<a name="l00138"></a>00138   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">mAllowUntrustedEvents</a> = <span class="keyword">true</span>;
+<a name="l00139"></a>00139   <span class="keywordflow">return</span> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00140"></a>00140 }
+<a name="l00141"></a>00141 
+<a name="l00142"></a><a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a622adc4b3c5d223e2c96fd3c686e563e">00142</a> <span class="keyword">inline</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a622adc4b3c5d223e2c96fd3c686e563e">AllEventsAtSystemGroupCapture</a>()
+<a name="l00143"></a>00143 {
+<a name="l00144"></a>00144   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">EventListenerFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00145"></a>00145   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> = <span class="keyword">true</span>;
+<a name="l00146"></a>00146   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> = <span class="keyword">true</span>;
+<a name="l00147"></a>00147   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">mAllowUntrustedEvents</a> = <span class="keyword">true</span>;
+<a name="l00148"></a>00148   <span class="keywordflow">return</span> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00149"></a>00149 }
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151 } <span class="comment">// namespace dom</span>
+<a name="l00152"></a>00152 } <span class="comment">// namespace mozilla</span>
+<a name="l00153"></a>00153 
+<a name="l00154"></a><a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57">00154</a> <span class="keyword">typedef</span> <span class="keyword">enum</span>
+<a name="l00155"></a>00155 {
+<a name="l00156"></a><a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a72228e6dc141a5b02d2ce977f823dc7b">00156</a>     <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a72228e6dc141a5b02d2ce977f823dc7b">eNativeListener</a> = 0,
+<a name="l00157"></a><a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57adcfc553cc7aaaebe2f079de0b314cd0a">00157</a>     <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57adcfc553cc7aaaebe2f079de0b314cd0a">eJSEventListener</a>,
+<a name="l00158"></a><a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a6d38ee373e628f123321b82d42c1be73">00158</a>     <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a6d38ee373e628f123321b82d42c1be73">eWrappedJSListener</a>,
+<a name="l00159"></a><a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a456357307437b5ee6d7c2c6932d5f3cd">00159</a>     <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a456357307437b5ee6d7c2c6932d5f3cd">eWebIDLListener</a>,
+<a name="l00160"></a><a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57ab2fae83d321cfb547208b7a0ebfec9b8">00160</a>     <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57ab2fae83d321cfb547208b7a0ebfec9b8">eListenerTypeCount</a>
+<a name="l00161"></a>00161 } <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57">nsListenerType</a>;
+<a name="l00162"></a>00162 
+<a name="l00163"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html">00163</a> <span class="keyword">struct </span><a class="code" href="../../d7/dbb/structns_listener_struct.html">nsListenerStruct</a>
+<a name="l00164"></a>00164 {
+<a name="l00165"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#abb1ccf44486d8ebcc27b566fc770cc83">00165</a>   <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a> <a class="code" href="../../d7/dbb/structns_listener_struct.html#abb1ccf44486d8ebcc27b566fc770cc83">mListener</a>;
+<a name="l00166"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#a769c8c85e97468a77087791e5b509036">00166</a>   nsCOMPtr&lt;nsIAtom&gt;             <a class="code" href="../../d7/dbb/structns_listener_struct.html#a769c8c85e97468a77087791e5b509036">mTypeAtom</a>;
+<a name="l00167"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#a2adbc69c827fe79b4db6578fdee49a62">00167</a>   uint32_t                      <a class="code" href="../../d7/dbb/structns_listener_struct.html#a2adbc69c827fe79b4db6578fdee49a62">mEventType</a>;
+<a name="l00168"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#ad2603f8591c2efcff5db70636d32ed5a">00168</a>   uint8_t                       <a class="code" href="../../d7/dbb/structns_listener_struct.html#ad2603f8591c2efcff5db70636d32ed5a">mListenerType</a>;
+<a name="l00169"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#a543e3edf18ca56ad2de4a86598d6e061">00169</a>   <span class="keywordtype">bool</span>                          <a class="code" href="../../d7/dbb/structns_listener_struct.html#a543e3edf18ca56ad2de4a86598d6e061">mListenerIsHandler</a> : 1;
+<a name="l00170"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#ad152f8bc45c688b415a9043f1bb9a156">00170</a>   <span class="keywordtype">bool</span>                          <a class="code" href="../../d7/dbb/structns_listener_struct.html#ad152f8bc45c688b415a9043f1bb9a156">mHandlerIsString</a> : 1;
+<a name="l00171"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#a8ee8aa2bbe29a99146cb6f9311f3a6a3">00171</a>   <span class="keywordtype">bool</span>                          <a class="code" href="../../d7/dbb/structns_listener_struct.html#a8ee8aa2bbe29a99146cb6f9311f3a6a3">mAllEvents</a> : 1;
+<a name="l00172"></a>00172 
+<a name="l00173"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#a1058f66fee1efcd023f5847080fcf650">00173</a>   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">mozilla::dom::EventListenerFlags</a> <a class="code" href="../../d7/dbb/structns_listener_struct.html#a1058f66fee1efcd023f5847080fcf650">mFlags</a>;
+<a name="l00174"></a>00174 
+<a name="l00175"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#afcb34e32044ceb0cb64e513165d00e67">00175</a>   <a class="code" href="../../de/d48/classns_i_j_s_event_listener.html">nsIJSEventListener</a>* <a class="code" href="../../d7/dbb/structns_listener_struct.html#afcb34e32044ceb0cb64e513165d00e67">GetJSListener</a>()<span class="keyword"> const </span>{
+<a name="l00176"></a>00176     <span class="keywordflow">return</span> (<a class="code" href="../../d7/dbb/structns_listener_struct.html#ad2603f8591c2efcff5db70636d32ed5a">mListenerType</a> == <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57adcfc553cc7aaaebe2f079de0b314cd0a">eJSEventListener</a>) ?
+<a name="l00177"></a>00177       <span class="keyword">static_cast&lt;</span><a class="code" href="../../de/d48/classns_i_j_s_event_listener.html">nsIJSEventListener</a> *<span class="keyword">&gt;</span>(<a class="code" href="../../d7/dbb/structns_listener_struct.html#abb1ccf44486d8ebcc27b566fc770cc83">mListener</a>.<a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html#acf0fa5ad86c9730b39f3b2878e76b9e6">GetXPCOMCallback</a>()) : <span class="keyword">nullptr</span>;
+<a name="l00178"></a>00178   }
+<a name="l00179"></a>00179 
+<a name="l00180"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#a425224bbf3a2e63e59f33347af016294">00180</a>   <a class="code" href="../../d7/dbb/structns_listener_struct.html#a425224bbf3a2e63e59f33347af016294">nsListenerStruct</a>()
+<a name="l00181"></a>00181   {
+<a name="l00182"></a>00182     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<span class="keyword">sizeof</span>(<a class="code" href="../../d7/dbb/structns_listener_struct.html#ad2603f8591c2efcff5db70636d32ed5a">mListenerType</a>) == 1);
+<a name="l00183"></a>00183     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57ab2fae83d321cfb547208b7a0ebfec9b8">eListenerTypeCount</a> &lt; 255);
+<a name="l00184"></a>00184   }
+<a name="l00185"></a>00185 
+<a name="l00186"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#a37fae70923d394259ae45ea36243e9c0">00186</a>   <a class="code" href="../../d7/dbb/structns_listener_struct.html#a37fae70923d394259ae45ea36243e9c0">~nsListenerStruct</a>()
+<a name="l00187"></a>00187   {
+<a name="l00188"></a>00188     <span class="keywordflow">if</span> ((<a class="code" href="../../d7/dbb/structns_listener_struct.html#ad2603f8591c2efcff5db70636d32ed5a">mListenerType</a> == <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57adcfc553cc7aaaebe2f079de0b314cd0a">eJSEventListener</a>) &amp;&amp; <a class="code" href="../../d7/dbb/structns_listener_struct.html#abb1ccf44486d8ebcc27b566fc770cc83">mListener</a>) {
+<a name="l00189"></a>00189       <span class="keyword">static_cast&lt;</span><a class="code" href="../../de/d48/classns_i_j_s_event_listener.html">nsIJSEventListener</a>*<span class="keyword">&gt;</span>(<a class="code" href="../../d7/dbb/structns_listener_struct.html#abb1ccf44486d8ebcc27b566fc770cc83">mListener</a>.<a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html#acf0fa5ad86c9730b39f3b2878e76b9e6">GetXPCOMCallback</a>())-&gt;Disconnect();
+<a name="l00190"></a>00190     }
+<a name="l00191"></a>00191   }
+<a name="l00192"></a>00192 
+<a name="l00193"></a><a class="code" href="../../d7/dbb/structns_listener_struct.html#ac386cd7c3d9894e588305007a4cb4179">00193</a>   <a class="code" href="../../d1/da8/_attributes_8h.html#ab78f6874a8f1b6966e76c674cde79e5d">MOZ_ALWAYS_INLINE</a> <span class="keywordtype">bool</span> <a class="code" href="../../d7/dbb/structns_listener_struct.html#ac386cd7c3d9894e588305007a4cb4179">IsListening</a>(<span class="keyword">const</span> <a class="code" href="../../dc/db1/classns_event.html">nsEvent</a>* <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#ab852bb16cdfba40e79c74669f9f7f2a2">aEvent</a>)<span class="keyword"> const</span>
+<a name="l00194"></a>00194 <span class="keyword">  </span>{
+<a name="l00195"></a>00195     <span class="keywordflow">if</span> (<a class="code" href="../../d7/dbb/structns_listener_struct.html#a1058f66fee1efcd023f5847080fcf650">mFlags</a>.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> != aEvent-&gt;<a class="code" href="../../dc/db1/classns_event.html#a378d013b18760d0b4093ff127a14632c">mFlags</a>.<a class="code" href="../../d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#ae02f512a022761572d7cdf2cd4d0e755">mInSystemGroup</a>) {
+<a name="l00196"></a>00196       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00197"></a>00197     }
+<a name="l00198"></a>00198     <span class="comment">// FIXME Should check !mFlags.mCapture when the event is in target</span>
+<a name="l00199"></a>00199     <span class="comment">//       phase because capture phase event listeners should not be fired.</span>
+<a name="l00200"></a>00200     <span class="comment">//       But it breaks at least &lt;xul:dialog&gt;&#39;s buttons. Bug 235441.</span>
+<a name="l00201"></a>00201     <span class="keywordflow">return</span> ((<a class="code" href="../../d7/dbb/structns_listener_struct.html#a1058f66fee1efcd023f5847080fcf650">mFlags</a>.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> &amp;&amp; aEvent-&gt;<a class="code" href="../../dc/db1/classns_event.html#a378d013b18760d0b4093ff127a14632c">mFlags</a>.<a class="code" href="../../d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a440fa7e91fb8dfc175b7647c2cd2fc1c">mInCapturePhase</a>) ||
+<a name="l00202"></a>00202             (!<a class="code" href="../../d7/dbb/structns_listener_struct.html#a1058f66fee1efcd023f5847080fcf650">mFlags</a>.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> &amp;&amp; aEvent-&gt;<a class="code" href="../../dc/db1/classns_event.html#a378d013b18760d0b4093ff127a14632c">mFlags</a>.<a class="code" href="../../d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a759c6c754810da8bdbe39462a20d64ac">mInBubblingPhase</a>));
+<a name="l00203"></a>00203   }
+<a name="l00204"></a>00204 };
+<a name="l00205"></a>00205 
+<a name="l00206"></a>00206 <span class="comment">/*</span>
+<a name="l00207"></a>00207 <span class="comment"> * Event listener manager</span>
+<a name="l00208"></a>00208 <span class="comment"> */</span>
+<a name="l00209"></a>00209 
+<a name="l00210"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html">00210</a> <span class="keyword">class </span><a class="code" href="../../d9/d4f/classns_event_listener_manager.html">nsEventListenerManager</a>
+<a name="l00211"></a>00211 {
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213 <span class="keyword">public</span>:
+<a name="l00214"></a>00214   <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a8c9362adda75c013270cdbb0112a1138">nsEventListenerManager</a>(<a class="code" href="../../da/da8/classmozilla_1_1dom_1_1_event_target.html">mozilla::dom::EventTarget</a>* aTarget);
+<a name="l00215"></a>00215   <span class="keyword">virtual</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#ada1fe98f9d118afd9f8d3664c7ed6536">~nsEventListenerManager</a>();
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#a2e490da386bb9054784a986931d8a4d9">NS_INLINE_DECL_CYCLE_COLLECTING_NATIVE_REFCOUNTING</a>(<a class="code" href="../../d9/d4f/classns_event_listener_manager.html">nsEventListenerManager</a>)
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219   <a class="code" href="../../d2/d4f/ns_cycle_collection_participant_8h.html#a3ad348bb8a8b9b3302c356d10ba81576">NS_DECL_CYCLE_COLLECTION_NATIVE_CLASS</a>(<a class="code" href="../../d9/d4f/classns_event_listener_manager.html">nsEventListenerManager</a>)
+<a name="l00220"></a>00220 
+<a name="l00221"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a5fede670aaf2c1765b5c609d908ce772">00221</a>   <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a5fede670aaf2c1765b5c609d908ce772">AddEventListener</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> nsAString&amp; <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00222"></a>00222                         <a class="code" href="../../dc/d6b/interfacens_i_d_o_m_event_listener.html">nsIDOMEventListener</a>* aListener,
+<a name="l00223"></a>00223                         <span class="keywordtype">bool</span> aUseCapture,
+<a name="l00224"></a>00224                         <span class="keywordtype">bool</span> aWantsUntrusted)
+<a name="l00225"></a>00225   {
+<a name="l00226"></a>00226     <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a> holder(aListener);
+<a name="l00227"></a>00227     <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a5fede670aaf2c1765b5c609d908ce772">AddEventListener</a>(aType, holder, aUseCapture, aWantsUntrusted);
+<a name="l00228"></a>00228   }
+<a name="l00229"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a1cd4a9fdcbe4a9012bfe0f57a30a7613">00229</a>   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a5fede670aaf2c1765b5c609d908ce772">AddEventListener</a>(<span class="keyword">const</span> nsAString&amp; <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00230"></a>00230                         <a class="code" href="../../d1/d37/classmozilla_1_1dom_1_1_event_listener.html">mozilla::dom::EventListener</a>* aListener,
+<a name="l00231"></a>00231                         <span class="keywordtype">bool</span> aUseCapture,
+<a name="l00232"></a>00232                         <span class="keywordtype">bool</span> aWantsUntrusted)
+<a name="l00233"></a>00233   {
+<a name="l00234"></a>00234     <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a> holder(aListener);
+<a name="l00235"></a>00235     <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a5fede670aaf2c1765b5c609d908ce772">AddEventListener</a>(aType, holder, aUseCapture, aWantsUntrusted);
+<a name="l00236"></a>00236   }
+<a name="l00237"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a9fdfa16a830c44fbdb4f7078b80f799c">00237</a>   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a9fdfa16a830c44fbdb4f7078b80f799c">RemoveEventListener</a>(<span class="keyword">const</span> nsAString&amp; <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00238"></a>00238                            <a class="code" href="../../dc/d6b/interfacens_i_d_o_m_event_listener.html">nsIDOMEventListener</a>* aListener,
+<a name="l00239"></a>00239                            <span class="keywordtype">bool</span> aUseCapture)
+<a name="l00240"></a>00240   {
+<a name="l00241"></a>00241     <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a> holder(aListener);
+<a name="l00242"></a>00242     <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a9fdfa16a830c44fbdb4f7078b80f799c">RemoveEventListener</a>(aType, holder, aUseCapture);
+<a name="l00243"></a>00243   }
+<a name="l00244"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#aff90f984c73afc8ec278c5fc1b19fa49">00244</a>   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a9fdfa16a830c44fbdb4f7078b80f799c">RemoveEventListener</a>(<span class="keyword">const</span> nsAString&amp; <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00245"></a>00245                            <a class="code" href="../../d1/d37/classmozilla_1_1dom_1_1_event_listener.html">mozilla::dom::EventListener</a>* aListener,
+<a name="l00246"></a>00246                            <span class="keywordtype">bool</span> aUseCapture)
+<a name="l00247"></a>00247   {
+<a name="l00248"></a>00248     <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a> holder(aListener);
+<a name="l00249"></a>00249     <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a9fdfa16a830c44fbdb4f7078b80f799c">RemoveEventListener</a>(aType, holder, aUseCapture);
+<a name="l00250"></a>00250   }
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a0aaa6a056134948b1677ca5d43a9efa7">AddListenerForAllEvents</a>(<a class="code" href="../../dc/d6b/interfacens_i_d_o_m_event_listener.html">nsIDOMEventListener</a>* aListener,
+<a name="l00253"></a>00253                                <span class="keywordtype">bool</span> aUseCapture,
+<a name="l00254"></a>00254                                <span class="keywordtype">bool</span> aWantsUntrusted,
+<a name="l00255"></a>00255                                <span class="keywordtype">bool</span> aSystemEventGroup);
+<a name="l00256"></a>00256   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a1229b4e1cdd104516da047da5ced4f3a">RemoveListenerForAllEvents</a>(<a class="code" href="../../dc/d6b/interfacens_i_d_o_m_event_listener.html">nsIDOMEventListener</a>* aListener,
+<a name="l00257"></a>00257                                   <span class="keywordtype">bool</span> aUseCapture,
+<a name="l00258"></a>00258                                   <span class="keywordtype">bool</span> aSystemEventGroup);
+<a name="l00259"></a>00259 
+<a name="l00264"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a2d277e26f9c10cfba066218c7fdad378">00264</a>   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a2d277e26f9c10cfba066218c7fdad378">AddEventListenerByType</a>(<a class="code" href="../../dc/d6b/interfacens_i_d_o_m_event_listener.html">nsIDOMEventListener</a> *aListener,
+<a name="l00265"></a>00265                               <span class="keyword">const</span> nsAString&amp; <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00266"></a>00266                               <span class="keyword">const</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">mozilla::dom::EventListenerFlags</a>&amp; aFlags)
+<a name="l00267"></a>00267   {
+<a name="l00268"></a>00268     <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a> holder(aListener);
+<a name="l00269"></a>00269     <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a2d277e26f9c10cfba066218c7fdad378">AddEventListenerByType</a>(holder, type, aFlags);
+<a name="l00270"></a>00270   }
+<a name="l00271"></a>00271   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a2d277e26f9c10cfba066218c7fdad378">AddEventListenerByType</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a>&amp; aListener,
+<a name="l00272"></a>00272                               <span class="keyword">const</span> nsAString&amp; <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00273"></a>00273                               <span class="keyword">const</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">mozilla::dom::EventListenerFlags</a>&amp; aFlags);
+<a name="l00274"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#aad6cc44d312d40d88014507837fbaad9">00274</a>   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#aad6cc44d312d40d88014507837fbaad9">RemoveEventListenerByType</a>(<a class="code" href="../../dc/d6b/interfacens_i_d_o_m_event_listener.html">nsIDOMEventListener</a> *aListener,
+<a name="l00275"></a>00275                                  <span class="keyword">const</span> nsAString&amp; <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00276"></a>00276                                  <span class="keyword">const</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">mozilla::dom::EventListenerFlags</a>&amp; aFlags)
+<a name="l00277"></a>00277   {
+<a name="l00278"></a>00278     <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a> holder(aListener);
+<a name="l00279"></a>00279     <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#aad6cc44d312d40d88014507837fbaad9">RemoveEventListenerByType</a>(holder, type, aFlags);
+<a name="l00280"></a>00280   }
+<a name="l00281"></a>00281   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#aad6cc44d312d40d88014507837fbaad9">RemoveEventListenerByType</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a>&amp; aListener,
+<a name="l00282"></a>00282                                  <span class="keyword">const</span> nsAString&amp; <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00283"></a>00283                                  <span class="keyword">const</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">mozilla::dom::EventListenerFlags</a>&amp; aFlags);
+<a name="l00284"></a>00284 
+<a name="l00291"></a>00291   <span class="comment">// XXXbz does that play correctly with nodes being adopted across</span>
+<a name="l00292"></a>00292   <span class="comment">// documents?  Need to double-check the spec here.</span>
+<a name="l00293"></a>00293   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#acbcdf8a52ddef99bb2368db48bbd4b70">SetEventHandler</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a> *aName,
+<a name="l00294"></a>00294                            <span class="keyword">const</span> nsAString&amp; aFunc,
+<a name="l00295"></a>00295                            uint32_t aLanguage,
+<a name="l00296"></a>00296                            <span class="keywordtype">bool</span> aDeferCompilation,
+<a name="l00297"></a>00297                            <span class="keywordtype">bool</span> aPermitUntrustedEvents);
+<a name="l00301"></a>00301   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#ad13f6ea09cabed3a11678002138d001a">RemoveEventHandler</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a> *aName);
+<a name="l00302"></a>00302 
+<a name="l00303"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#ac11865a46b48814a6b55b8043251314d">00303</a>   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#ac11865a46b48814a6b55b8043251314d">HandleEvent</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00304"></a>00304                    <a class="code" href="../../dc/db1/classns_event.html">nsEvent</a>* <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#ab852bb16cdfba40e79c74669f9f7f2a2">aEvent</a>, 
+<a name="l00305"></a>00305                    <a class="code" href="../../d4/d5c/interfacens_i_d_o_m_event.html">nsIDOMEvent</a>** aDOMEvent,
+<a name="l00306"></a>00306                    <a class="code" href="../../da/da8/classmozilla_1_1dom_1_1_event_target.html">mozilla::dom::EventTarget</a>* aCurrentTarget,
+<a name="l00307"></a>00307                    <a class="code" href="../../d7/dfb/ns_event_8h.html#a2561010f6e7e387df33ec5468140580b">nsEventStatus</a>* aEventStatus,
+<a name="l00308"></a>00308                    <a class="code" href="../../d7/d73/classns_cx_pusher.html">nsCxPusher</a>* aPusher)
+<a name="l00309"></a>00309   {
+<a name="l00310"></a>00310     <span class="keywordflow">if</span> (<a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a17bf0cf8509f678fdb11e920c17cede3">mListeners</a>.<a class="code" href="../../d6/d06/classns_auto_t_observer_array.html#a8a3e195849d6918a1640525fb98f8262">IsEmpty</a>() || aEvent-&gt;<a class="code" href="../../dc/db1/classns_event.html#a378d013b18760d0b4093ff127a14632c">mFlags</a>.<a class="code" href="../../d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a62f5a55cf95626da6db6a32e874c52b9">mPropagationStopped</a>) {
+<a name="l00311"></a>00311       <span class="keywordflow">return</span>;
+<a name="l00312"></a>00312     }
+<a name="l00313"></a>00313 
+<a name="l00314"></a>00314     <span class="keywordflow">if</span> (!<a class="code" href="../../d9/d4f/classns_event_listener_manager.html#adaf4797e369e898da03180a846c94625">mMayHaveCapturingListeners</a> &amp;&amp; !aEvent-&gt;<a class="code" href="../../dc/db1/classns_event.html#a378d013b18760d0b4093ff127a14632c">mFlags</a>.<a class="code" href="../../d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#a759c6c754810da8bdbe39462a20d64ac">mInBubblingPhase</a>) {
+<a name="l00315"></a>00315       <span class="keywordflow">return</span>;
+<a name="l00316"></a>00316     }
+<a name="l00317"></a>00317 
+<a name="l00318"></a>00318     <span class="keywordflow">if</span> (!<a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a609165272cecaaecdceeba3284c33098">mMayHaveSystemGroupListeners</a> &amp;&amp; aEvent-&gt;<a class="code" href="../../dc/db1/classns_event.html#a378d013b18760d0b4093ff127a14632c">mFlags</a>.<a class="code" href="../../d9/d49/structmozilla_1_1widget_1_1_base_event_flags.html#ae02f512a022761572d7cdf2cd4d0e755">mInSystemGroup</a>) {
+<a name="l00319"></a>00319       <span class="keywordflow">return</span>;
+<a name="l00320"></a>00320     }
+<a name="l00321"></a>00321 
+<a name="l00322"></a>00322     <span class="comment">// Check if we already know that there is no event listener for the event.</span>
+<a name="l00323"></a>00323     <span class="keywordflow">if</span> (<a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a48960f0a47f62c5ef7bef449945e492f">mNoListenerForEvent</a> == aEvent-&gt;<a class="code" href="../../dc/db1/classns_event.html#ac7b95ecfe3893737bac97fd57e9a5a53">message</a> &amp;&amp;
+<a name="l00324"></a>00324         (<a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a48960f0a47f62c5ef7bef449945e492f">mNoListenerForEvent</a> != <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ae1aae6e5387da83afb6409d62d090919">NS_USER_DEFINED_EVENT</a> ||
+<a name="l00325"></a>00325          <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a96655eb5608969956a66582bb0b7b10d">mNoListenerForEventAtom</a> == aEvent-&gt;<a class="code" href="../../dc/db1/classns_event.html#a7253cf1a223b7a8c0057ae5a5f1defff">userType</a>)) {
+<a name="l00326"></a>00326       <span class="keywordflow">return</span>;
+<a name="l00327"></a>00327     }
+<a name="l00328"></a>00328     <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a25d5450609613a6d1b1f70e7d48a7b0f">HandleEventInternal</a>(aPresContext, aEvent, aDOMEvent, aCurrentTarget,
+<a name="l00329"></a>00329                         aEventStatus, aPusher);
+<a name="l00330"></a>00330   }
+<a name="l00331"></a>00331 
+<a name="l00336"></a>00336   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#ae46c6272ad79821f5c3c0fd0a553067c">Disconnect</a>();
+<a name="l00337"></a>00337 
+<a name="l00341"></a>00341   <span class="keywordtype">bool</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a3b86d329d031c90db4a0458c3be9391c">HasMutationListeners</a>();
+<a name="l00342"></a>00342 
+<a name="l00347"></a>00347   <span class="keywordtype">bool</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#abfc7051d03202c02c4ddb5ecbf049d6e">HasUnloadListeners</a>();
+<a name="l00348"></a>00348 
+<a name="l00356"></a>00356   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#aa51f4f4dbe9c75c21c296a3b01192524">MutationListenerBits</a>();
+<a name="l00357"></a>00357 
+<a name="l00361"></a>00361   <span class="keywordtype">bool</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#aaa03ee1df8c8959e59fc112bc7e93bb3">HasListenersFor</a>(<span class="keyword">const</span> nsAString&amp; aEventName);
+<a name="l00362"></a>00362 
+<a name="l00367"></a>00367   <span class="keywordtype">bool</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#aaa03ee1df8c8959e59fc112bc7e93bb3">HasListenersFor</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aEventNameWithOn);
+<a name="l00368"></a>00368 
+<a name="l00372"></a>00372   <span class="keywordtype">bool</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#af66962720c15706ddedf206e6d7fb897">HasListeners</a>();
+<a name="l00373"></a>00373 
+<a name="l00378"></a>00378   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#abbea047c3bde6487f535eb5871eef3e9">GetListenerInfo</a>(<a class="code" href="../../d3/d4e/classns_c_o_m_array.html">nsCOMArray&lt;nsIEventListenerInfo&gt;</a>* aList);
+<a name="l00379"></a>00379 
+<a name="l00380"></a>00380   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a0d9e4ea7911ddd9153b6113ddf4bcbd6">GetIdentifierForEvent</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#ab852bb16cdfba40e79c74669f9f7f2a2">aEvent</a>);
+<a name="l00381"></a>00381 
+<a name="l00382"></a>00382   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#af1a6b878a84367ace9ff92b731570097">Shutdown</a>();
+<a name="l00383"></a>00383 
+<a name="l00388"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a8ba5a7a1ac82fe6178bd06cf4e08c888">00388</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a8ba5a7a1ac82fe6178bd06cf4e08c888">MayHavePaintEventListener</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a91a929ffc76efd3353455ab7b487ecb2">mMayHavePaintEventListener</a>; }
+<a name="l00389"></a>00389 
+<a name="l00394"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a917991fe9471db72863f056d1e6b4334">00394</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a917991fe9471db72863f056d1e6b4334">MayHaveAudioAvailableEventListener</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a8d7a22490a8dc7ae3a836c03d6c616d3">mMayHaveAudioAvailableEventListener</a>; }
+<a name="l00395"></a>00395 
+<a name="l00400"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a6a0b0d6583ed40956137bf0ee911e609">00400</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a6a0b0d6583ed40956137bf0ee911e609">MayHaveTouchEventListener</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a4e7a56fbc9191d38cbb363b65021e089">mMayHaveTouchEventListener</a>; }
+<a name="l00401"></a>00401 
+<a name="l00402"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a12bd5b4b9716baa087e45d2c275626ad">00402</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a12bd5b4b9716baa087e45d2c275626ad">MayHaveMouseEnterLeaveEventListener</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a47491a4bd87a1ae213cc3eb4e362621d">mMayHaveMouseEnterLeaveEventListener</a>; }
+<a name="l00403"></a>00403 
+<a name="l00404"></a>00404   <span class="keywordtype">size_t</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#afda5a8e012f44b85c12907618e249fca">SizeOfIncludingThis</a>(mozilla::MallocSizeOf aMallocSizeOf) <span class="keyword">const</span>;
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a299d17482ff298f89098bc06cce423ff">MarkForCC</a>();
+<a name="l00407"></a>00407 
+<a name="l00408"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#af2b73f762d0e69fb312d965417989e34">00408</a>   <a class="code" href="../../da/da8/classmozilla_1_1dom_1_1_event_target.html">mozilla::dom::EventTarget</a>* <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#af2b73f762d0e69fb312d965417989e34">GetTarget</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a34d25c54407a5988d60121162ac4245e">mTarget</a>; }
+<a name="l00409"></a>00409 <span class="keyword">protected</span>:
+<a name="l00410"></a>00410   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a25d5450609613a6d1b1f70e7d48a7b0f">HandleEventInternal</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00411"></a>00411                            <a class="code" href="../../dc/db1/classns_event.html">nsEvent</a>* <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#ab852bb16cdfba40e79c74669f9f7f2a2">aEvent</a>,
+<a name="l00412"></a>00412                            <a class="code" href="../../d4/d5c/interfacens_i_d_o_m_event.html">nsIDOMEvent</a>** aDOMEvent,
+<a name="l00413"></a>00413                            <a class="code" href="../../da/da8/classmozilla_1_1dom_1_1_event_target.html">mozilla::dom::EventTarget</a>* aCurrentTarget,
+<a name="l00414"></a>00414                            <a class="code" href="../../d7/dfb/ns_event_8h.html#a2561010f6e7e387df33ec5468140580b">nsEventStatus</a>* aEventStatus,
+<a name="l00415"></a>00415                            <a class="code" href="../../d7/d73/classns_cx_pusher.html">nsCxPusher</a>* aPusher);
+<a name="l00416"></a>00416 
+<a name="l00417"></a>00417   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a9ba854be07bf6d36ca233e7fa6e2c7df">HandleEventSubType</a>(<a class="code" href="../../d7/dbb/structns_listener_struct.html">nsListenerStruct</a>* aListenerStruct,
+<a name="l00418"></a>00418                               <span class="keyword">const</span> <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a>&amp; aListener,
+<a name="l00419"></a>00419                               <a class="code" href="../../d4/d5c/interfacens_i_d_o_m_event.html">nsIDOMEvent</a>* aDOMEvent,
+<a name="l00420"></a>00420                               <a class="code" href="../../da/da8/classmozilla_1_1dom_1_1_event_target.html">mozilla::dom::EventTarget</a>* aCurrentTarget,
+<a name="l00421"></a>00421                               <a class="code" href="../../d7/d73/classns_cx_pusher.html">nsCxPusher</a>* aPusher);
+<a name="l00422"></a>00422 
+<a name="l00428"></a>00428   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#abf2a6a54777175f272ce809a0cda7416">CompileEventHandlerInternal</a>(<a class="code" href="../../d7/dbb/structns_listener_struct.html">nsListenerStruct</a> *aListenerStruct,
+<a name="l00429"></a>00429                                        <span class="keywordtype">bool</span> aNeedsCxPush,
+<a name="l00430"></a>00430                                        <span class="keyword">const</span> nsAString* aBody);
+<a name="l00431"></a>00431 
+<a name="l00435"></a>00435   <a class="code" href="../../d7/dbb/structns_listener_struct.html">nsListenerStruct</a>* <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a3c828a1207dccac20fec06d62d6c1ce9">FindEventHandler</a>(uint32_t aEventType, <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aTypeAtom);
+<a name="l00436"></a>00436 
+<a name="l00445"></a>00445   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#abcd505af42c4fc56e2e1a5e80cef1e01">SetEventHandlerInternal</a>(<a class="code" href="../../dd/d63/classns_i_script_context.html">nsIScriptContext</a> *aContext,
+<a name="l00446"></a>00446                                    <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">JS::Handle&lt;JSObject*&gt;</a> aScopeGlobal,
+<a name="l00447"></a>00447                                    <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aName,
+<a name="l00448"></a>00448                                    <span class="keyword">const</span> <a class="code" href="../../d6/d7a/classns_event_handler.html">nsEventHandler</a>&amp; aHandler,
+<a name="l00449"></a>00449                                    <span class="keywordtype">bool</span> aPermitUntrustedEvents,
+<a name="l00450"></a>00450                                    <a class="code" href="../../d7/dbb/structns_listener_struct.html">nsListenerStruct</a> **aListenerStruct);
+<a name="l00451"></a>00451 
+<a name="l00452"></a>00452   <span class="keywordtype">bool</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a3144a9df7f79a5f29f2d6a9c0e4c6083">IsDeviceType</a>(uint32_t <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>);
+<a name="l00453"></a>00453   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a8489b9f46c69ef6b42e8968dfb19c138">EnableDevice</a>(uint32_t <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>);
+<a name="l00454"></a>00454   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#ae44b152366c0982b1d023e9f4849cab0">DisableDevice</a>(uint32_t <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>);
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456 <span class="keyword">public</span>:
+<a name="l00461"></a>00461   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#acbcdf8a52ddef99bb2368db48bbd4b70">SetEventHandler</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aEventName,
+<a name="l00462"></a>00462                            <a class="code" href="../../da/d5d/classmozilla_1_1dom_1_1_event_handler_non_null.html">mozilla::dom::EventHandlerNonNull</a>* aHandler);
+<a name="l00463"></a>00463   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#acbcdf8a52ddef99bb2368db48bbd4b70">SetEventHandler</a>(<a class="code" href="../../dc/d80/classmozilla_1_1dom_1_1_on_error_event_handler_non_null.html">mozilla::dom::OnErrorEventHandlerNonNull</a>* aHandler);
+<a name="l00464"></a>00464   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#acbcdf8a52ddef99bb2368db48bbd4b70">SetEventHandler</a>(<a class="code" href="../../d0/d2d/classmozilla_1_1dom_1_1_before_unload_event_handler_non_null.html">mozilla::dom::BeforeUnloadEventHandlerNonNull</a>* aHandler);
+<a name="l00465"></a>00465 
+<a name="l00475"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a67ed37d530fe56f6c5c810fe77d35f48">00475</a>   <a class="code" href="../../da/d5d/classmozilla_1_1dom_1_1_event_handler_non_null.html">mozilla::dom::EventHandlerNonNull</a>* <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a67ed37d530fe56f6c5c810fe77d35f48">GetEventHandler</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a> *aEventName)
+<a name="l00476"></a>00476   {
+<a name="l00477"></a>00477     <span class="keyword">const</span> <a class="code" href="../../d6/d7a/classns_event_handler.html">nsEventHandler</a>* <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a> = <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#afc792dda3f8abfe9549ae87769662a76">GetEventHandlerInternal</a>(aEventName);
+<a name="l00478"></a>00478     <span class="keywordflow">return</span> handler ? handler-&gt;<a class="code" href="../../d6/d7a/classns_event_handler.html#ad6d97b75c415fd60bf51f891577c30c0">EventHandler</a>() : <span class="keyword">nullptr</span>;
+<a name="l00479"></a>00479   }
+<a name="l00480"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a17e2e24f8180afa7c98cb3fff460e69a">00480</a>   <a class="code" href="../../dc/d80/classmozilla_1_1dom_1_1_on_error_event_handler_non_null.html">mozilla::dom::OnErrorEventHandlerNonNull</a>* <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a17e2e24f8180afa7c98cb3fff460e69a">GetOnErrorEventHandler</a>()
+<a name="l00481"></a>00481   {
+<a name="l00482"></a>00482     <span class="keyword">const</span> <a class="code" href="../../d6/d7a/classns_event_handler.html">nsEventHandler</a>* <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a> = <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#afc792dda3f8abfe9549ae87769662a76">GetEventHandlerInternal</a>(<a class="code" href="../../d4/d76/camera_2js_2filmstrip_8js.html#a9c95fb48715b0deb285f7bfd8f10df50">nsGkAtoms::onerror</a>);
+<a name="l00483"></a>00483     <span class="keywordflow">return</span> handler ? handler-&gt;<a class="code" href="../../d6/d7a/classns_event_handler.html#aa0b6d889cce762f2fbb77e0522ca959a">OnErrorEventHandler</a>() : <span class="keyword">nullptr</span>;
+<a name="l00484"></a>00484   }
+<a name="l00485"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#aad28fc7b74dc06c1941031bf7acd41b1">00485</a>   <a class="code" href="../../d0/d2d/classmozilla_1_1dom_1_1_before_unload_event_handler_non_null.html">mozilla::dom::BeforeUnloadEventHandlerNonNull</a>* <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#aad28fc7b74dc06c1941031bf7acd41b1">GetOnBeforeUnloadEventHandler</a>()
+<a name="l00486"></a>00486   {
+<a name="l00487"></a>00487     <span class="keyword">const</span> <a class="code" href="../../d6/d7a/classns_event_handler.html">nsEventHandler</a>* <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a> =
+<a name="l00488"></a>00488       <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#afc792dda3f8abfe9549ae87769662a76">GetEventHandlerInternal</a>(nsGkAtoms::onbeforeunload);
+<a name="l00489"></a>00489     <span class="keywordflow">return</span> handler ? handler-&gt;<a class="code" href="../../d6/d7a/classns_event_handler.html#af51070355d79ac16394572284a06d7e7">BeforeUnloadEventHandler</a>() : <span class="keyword">nullptr</span>;
+<a name="l00490"></a>00490   }
+<a name="l00491"></a>00491 
+<a name="l00492"></a>00492 <span class="keyword">protected</span>:
+<a name="l00497"></a>00497   <span class="keyword">const</span> <a class="code" href="../../d6/d7a/classns_event_handler.html">nsEventHandler</a>* <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#afc792dda3f8abfe9549ae87769662a76">GetEventHandlerInternal</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aEventName);
+<a name="l00498"></a>00498 
+<a name="l00499"></a>00499   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a5fede670aaf2c1765b5c609d908ce772">AddEventListener</a>(<span class="keyword">const</span> nsAString&amp; <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00500"></a>00500                         <span class="keyword">const</span> <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a>&amp; aListener,
+<a name="l00501"></a>00501                         <span class="keywordtype">bool</span> aUseCapture,
+<a name="l00502"></a>00502                         <span class="keywordtype">bool</span> aWantsUntrusted);
+<a name="l00503"></a>00503   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a9fdfa16a830c44fbdb4f7078b80f799c">RemoveEventListener</a>(<span class="keyword">const</span> nsAString&amp; <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00504"></a>00504                            <span class="keyword">const</span> <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a>&amp; aListener,
+<a name="l00505"></a>00505                            <span class="keywordtype">bool</span> aUseCapture);
+<a name="l00506"></a>00506 
+<a name="l00507"></a>00507   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a4b8be160592f0de14fc34ec2702b4c71">AddEventListenerInternal</a>(
+<a name="l00508"></a>00508          <span class="keyword">const</span> <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a>&amp; aListener,
+<a name="l00509"></a>00509          uint32_t <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00510"></a>00510          <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aTypeAtom,
+<a name="l00511"></a>00511          <span class="keyword">const</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">mozilla::dom::EventListenerFlags</a>&amp; aFlags,
+<a name="l00512"></a>00512          <span class="keywordtype">bool</span> aHandler = <span class="keyword">false</span>,
+<a name="l00513"></a>00513          <span class="keywordtype">bool</span> aAllEvents = <span class="keyword">false</span>);
+<a name="l00514"></a>00514   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#ad1d57696045fe68782cf7acfff109b5b">RemoveEventListenerInternal</a>(
+<a name="l00515"></a>00515          <span class="keyword">const</span> <a class="code" href="../../d4/d42/classmozilla_1_1dom_1_1_callback_object_holder.html">mozilla::dom::EventListenerHolder</a>&amp; aListener,
+<a name="l00516"></a>00516          uint32_t <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00517"></a>00517          <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aUserType,
+<a name="l00518"></a>00518          <span class="keyword">const</span> <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">mozilla::dom::EventListenerFlags</a>&amp; aFlags,
+<a name="l00519"></a>00519          <span class="keywordtype">bool</span> aAllEvents = <span class="keyword">false</span>);
+<a name="l00520"></a>00520   <span class="keywordtype">void</span> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#abecd15caf846106b7398a5d5053e257a">RemoveAllListeners</a>();
+<a name="l00521"></a>00521   <span class="keyword">const</span> EventTypeData* <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#ac3a23ee5033538032d74613540b0608a">GetTypeDataForIID</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d3d/structns_i_d.html">nsIID</a>&amp; aIID);
+<a name="l00522"></a>00522   <span class="keyword">const</span> EventTypeData* <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a18e2e2e6bdebe8ba851f4171c3ab41cf">GetTypeDataForEventName</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aName);
+<a name="l00523"></a>00523   <a class="code" href="../../d5/d4d/classns_p_i_d_o_m_window.html">nsPIDOMWindow</a>* <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a2e478092ef48334035ec12f9b43bae55">GetInnerWindowForTarget</a>();
+<a name="l00524"></a>00524   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsPIDOMWindow&gt;</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a335de76ab2c4eab6ac9f0ceb09ec33ea">GetTargetAsInnerWindow</a>() <span class="keyword">const</span>;
+<a name="l00525"></a>00525 
+<a name="l00526"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a91a929ffc76efd3353455ab7b487ecb2">00526</a>   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a91a929ffc76efd3353455ab7b487ecb2">mMayHavePaintEventListener</a> : 1;
+<a name="l00527"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a9853ae935601731f9cda3abd00be9e53">00527</a>   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a9853ae935601731f9cda3abd00be9e53">mMayHaveMutationListeners</a> : 1;
+<a name="l00528"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#adaf4797e369e898da03180a846c94625">00528</a>   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#adaf4797e369e898da03180a846c94625">mMayHaveCapturingListeners</a> : 1;
+<a name="l00529"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a609165272cecaaecdceeba3284c33098">00529</a>   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a609165272cecaaecdceeba3284c33098">mMayHaveSystemGroupListeners</a> : 1;
+<a name="l00530"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a8d7a22490a8dc7ae3a836c03d6c616d3">00530</a>   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a8d7a22490a8dc7ae3a836c03d6c616d3">mMayHaveAudioAvailableEventListener</a> : 1;
+<a name="l00531"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a4e7a56fbc9191d38cbb363b65021e089">00531</a>   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a4e7a56fbc9191d38cbb363b65021e089">mMayHaveTouchEventListener</a> : 1;
+<a name="l00532"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a47491a4bd87a1ae213cc3eb4e362621d">00532</a>   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a47491a4bd87a1ae213cc3eb4e362621d">mMayHaveMouseEnterLeaveEventListener</a> : 1;
+<a name="l00533"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a358103ebdcc240759569e961e1da8dfb">00533</a>   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a358103ebdcc240759569e961e1da8dfb">mClearingListeners</a> : 1;
+<a name="l00534"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a48960f0a47f62c5ef7bef449945e492f">00534</a>   uint32_t <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a48960f0a47f62c5ef7bef449945e492f">mNoListenerForEvent</a> : 24;
+<a name="l00535"></a>00535 
+<a name="l00536"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a17bf0cf8509f678fdb11e920c17cede3">00536</a>   <a class="code" href="../../d6/d06/classns_auto_t_observer_array.html">nsAutoTObserverArray&lt;nsListenerStruct, 2&gt;</a> <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a17bf0cf8509f678fdb11e920c17cede3">mListeners</a>;
+<a name="l00537"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a34d25c54407a5988d60121162ac4245e">00537</a>   <a class="code" href="../../da/da8/classmozilla_1_1dom_1_1_event_target.html">mozilla::dom::EventTarget</a>*                <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a34d25c54407a5988d60121162ac4245e">mTarget</a>;  <span class="comment">//WEAK</span>
+<a name="l00538"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a96655eb5608969956a66582bb0b7b10d">00538</a>   nsCOMPtr&lt;nsIAtom&gt;                         <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a96655eb5608969956a66582bb0b7b10d">mNoListenerForEventAtom</a>;
+<a name="l00539"></a>00539 
+<a name="l00540"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a879c12abfcdc49a820aa1e8e985ea9a3">00540</a>   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a879c12abfcdc49a820aa1e8e985ea9a3">ELMCreationDetector</a>;
+<a name="l00541"></a><a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a40f433c989648cccd7647d0e6d8dc515">00541</a>   <span class="keyword">static</span> uint32_t                           <a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a40f433c989648cccd7647d0e6d8dc515">sMainThreadCreatedCount</a>;
+<a name="l00542"></a>00542 };
+<a name="l00543"></a>00543 
+<a name="l00548"></a>00548 <span class="keyword">inline</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>
+<a name="l00549"></a><a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a87bb7515ba1ec0e9565000c562e54fb9">00549</a> <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a87bb7515ba1ec0e9565000c562e54fb9">NS_AddSystemEventListener</a>(<a class="code" href="../../da/da8/classmozilla_1_1dom_1_1_event_target.html">mozilla::dom::EventTarget</a>* aTarget,
+<a name="l00550"></a>00550                           <span class="keyword">const</span> nsAString&amp; <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00551"></a>00551                           <a class="code" href="../../dc/d6b/interfacens_i_d_o_m_event_listener.html">nsIDOMEventListener</a> *aListener,
+<a name="l00552"></a>00552                           <span class="keywordtype">bool</span> aUseCapture,
+<a name="l00553"></a>00553                           <span class="keywordtype">bool</span> aWantsUntrusted)
+<a name="l00554"></a>00554 {
+<a name="l00555"></a>00555   <a class="code" href="../../d9/d4f/classns_event_listener_manager.html">nsEventListenerManager</a>* listenerManager = aTarget-&gt;<a class="code" href="../../d9/ddf/interfacens_i_d_o_m_event_target.html#a7bda99abea8fb1c7dd47d41c072c5843">GetListenerManager</a>(<span class="keyword">true</span>);
+<a name="l00556"></a>00556   <a class="code" href="../../dc/d6d/ns_debug_8h.html#accb9eb7d056a54271f27d9d22be73d3a">NS_ENSURE_STATE</a>(listenerManager);
+<a name="l00557"></a>00557   <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">mozilla::dom::EventListenerFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+<a name="l00558"></a>00558   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> = <span class="keyword">true</span>;
+<a name="l00559"></a>00559   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> = aUseCapture;
+<a name="l00560"></a>00560   flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">mAllowUntrustedEvents</a> = aWantsUntrusted;
+<a name="l00561"></a>00561   listenerManager-&gt;<a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a2d277e26f9c10cfba066218c7fdad378">AddEventListenerByType</a>(aListener, aType, flags);
+<a name="l00562"></a>00562   <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a>;
+<a name="l00563"></a>00563 }
+<a name="l00564"></a>00564 
+<a name="l00565"></a>00565 <span class="preprocessor">#endif // nsEventListenerManager_h__</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html">nsEventListenerManager.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:00に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

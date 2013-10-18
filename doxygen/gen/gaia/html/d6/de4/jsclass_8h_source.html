@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: jsclass.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d6/de4/jsclass_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">jsclass.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d6/de4/jsclass_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * vim: set ts=8 sts=4 et sw=4 tw=99:</span>
+<a name="l00003"></a>00003 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="preprocessor">#ifndef jsclass_h</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor">#define jsclass_h</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00010"></a>00010 <span class="comment"> * A JSClass acts as a vtable for JS objects that allows JSAPI clients to</span>
+<a name="l00011"></a>00011 <span class="comment"> * control various aspects of the behavior of an object like property lookup.</span>
+<a name="l00012"></a>00012 <span class="comment"> * js::Class is an engine-private extension that allows more control over</span>
+<a name="l00013"></a>00013 <span class="comment"> * object behavior and, e.g., allows custom slow layout.</span>
+<a name="l00014"></a>00014 <span class="comment"> */</span>
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d7d/jsapi_8h.html">jsapi.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d15/jsprvtd_8h.html">jsprvtd.h</a>&quot;</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="keyword">namespace </span>js {
+<a name="l00020"></a>00020 
+<a name="l00021"></a>00021 <span class="keyword">class </span>PropertyName;
+<a name="l00022"></a>00022 <span class="keyword">class </span>SpecialId;
+<a name="l00023"></a>00023 <span class="keyword">class </span>PropertyId;
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="comment">// This is equal to JSFunction::class_.  Use it in places where you don&#39;t want</span>
+<a name="l00026"></a>00026 <span class="comment">// to #include jsfun.h.</span>
+<a name="l00027"></a>00027 <span class="keyword">extern</span> <a class="code" href="../../db/da2/namespacejs.html#a2f3290893fa71e97e79dcae8c3ada8a0">JS_FRIEND_DATA</a>(<a class="code" href="../../db/d81/structjs_1_1_class.html">js::Class</a>* <span class="keyword">const</span>) FunctionClassPtr;
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 static JS_ALWAYS_INLINE <a class="code" href="../../d9/d28/jspubtd_8h.html#aef24059798e67d63949ed53ad62f5312">jsid</a>
+<a name="l00030"></a>00030 SPECIALID_TO_JSID(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> SpecialId &amp;sid);
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="comment">/*</span>
+<a name="l00033"></a>00033 <span class="comment"> * We partition the ways to refer to a property into three: by an index</span>
+<a name="l00034"></a>00034 <span class="comment"> * (uint32_t); by a string whose characters do not represent an index</span>
+<a name="l00035"></a>00035 <span class="comment"> * (PropertyName, see vm/String.h); and by various special values.</span>
+<a name="l00036"></a>00036 <span class="comment"> *</span>
+<a name="l00037"></a>00037 <span class="comment"> * Special values are encoded using SpecialId, which is layout-compatible but</span>
+<a name="l00038"></a>00038 <span class="comment"> * non-interconvertible with jsid.  A SpecialId is used for JSID_VOID, which</span>
+<a name="l00039"></a>00039 <span class="comment"> * does not occur in JS scripts but may be used to indicate the absence of a</span>
+<a name="l00040"></a>00040 <span class="comment"> * valid identifier.  In the future, a SpecialId may also be an object used by</span>
+<a name="l00041"></a>00041 <span class="comment"> * Harmony-proposed private names.</span>
+<a name="l00042"></a>00042 <span class="comment"> */</span>
+<a name="l00043"></a><a class="code" href="../../d5/de0/classjs_1_1_special_id.html">00043</a> class <a class="code" href="../../d5/de0/classjs_1_1_special_id.html">SpecialId</a>
+<a name="l00044"></a>00044 {
+<a name="l00045"></a>00045     uintptr_t bits_;
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047     <span class="comment">/* Needs access to raw bits. */</span>
+<a name="l00048"></a>00048     <span class="keyword">friend</span> JS_ALWAYS_INLINE <a class="code" href="../../d9/d28/jspubtd_8h.html#aef24059798e67d63949ed53ad62f5312">jsid</a> SPECIALID_TO_JSID(<span class="keyword">const</span> SpecialId &amp;sid);
+<a name="l00049"></a><a class="code" href="../../d5/de0/classjs_1_1_special_id.html#af367ad4fd87d03d03601babdfc1470b3">00049</a>     <span class="keyword">friend</span> <span class="keyword">class </span>PropertyId;
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051     <span class="keyword">static</span> <span class="keyword">const</span> uintptr_t TYPE_VOID = <a class="code" href="../../d2/d7d/jsapi_8h.html#a239696c7f24c414a9446c5de7cd4eb0e">JSID_TYPE_VOID</a>;
+<a name="l00052"></a>00052     <span class="keyword">static</span> <span class="keyword">const</span> uintptr_t TYPE_OBJECT = <a class="code" href="../../d2/d7d/jsapi_8h.html#add776a22b3a1b0a40ed84810d53012b7">JSID_TYPE_OBJECT</a>;
+<a name="l00053"></a>00053     <span class="keyword">static</span> <span class="keyword">const</span> uintptr_t TYPE_MASK = <a class="code" href="../../d2/d7d/jsapi_8h.html#ac598e69d1bd03d39365820dc84f77c7f">JSID_TYPE_MASK</a>;
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055     SpecialId(uintptr_t bits) : bits_(bits) { }
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057   <span class="keyword">public</span>:
+<a name="l00058"></a><a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a2014c5608efe3abd90592a091102f66a">00058</a>     <a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a2014c5608efe3abd90592a091102f66a">SpecialId</a>() : bits_(TYPE_VOID) { }
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     <span class="comment">/* Object-valued */</span>
+<a name="l00061"></a>00061 
+<a name="l00062"></a><a class="code" href="../../d5/de0/classjs_1_1_special_id.html#ae1bce8ac9d4278e288c75505bb971702">00062</a>     SpecialId(JSObject &amp;<a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>)
+<a name="l00063"></a>00063       : bits_(uintptr_t(&amp;obj) | TYPE_OBJECT)
+<a name="l00064"></a>00064     {
+<a name="l00065"></a>00065         <a class="code" href="../../db/d2a/_utility_8h.html#a806452d73a088062220b0f84b77587fa">JS_ASSERT</a>(&amp;obj != <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>);
+<a name="l00066"></a>00066         <a class="code" href="../../db/d2a/_utility_8h.html#a806452d73a088062220b0f84b77587fa">JS_ASSERT</a>((uintptr_t(&amp;obj) &amp; TYPE_MASK) == 0);
+<a name="l00067"></a>00067     }
+<a name="l00068"></a>00068 
+<a name="l00069"></a><a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a36fa3219befadfb788968aa31efb5850">00069</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a36fa3219befadfb788968aa31efb5850">isObject</a>()<span class="keyword"> const </span>{
+<a name="l00070"></a>00070         <span class="keywordflow">return</span> (bits_ &amp; TYPE_MASK) == TYPE_OBJECT &amp;&amp; bits_ != TYPE_OBJECT;
+<a name="l00071"></a>00071     }
+<a name="l00072"></a>00072 
+<a name="l00073"></a><a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a24d2aa87063b8fe1a7eaae23eb07bbb5">00073</a>     JSObject *<a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a24d2aa87063b8fe1a7eaae23eb07bbb5">toObject</a>()<span class="keyword"> const </span>{
+<a name="l00074"></a>00074         <a class="code" href="../../db/d2a/_utility_8h.html#a806452d73a088062220b0f84b77587fa">JS_ASSERT</a>(isObject());
+<a name="l00075"></a>00075         <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span>JSObject *<span class="keyword">&gt;</span>(bits_ &amp; ~TYPE_MASK);
+<a name="l00076"></a>00076     }
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078     <span class="comment">/* Empty */</span>
+<a name="l00079"></a>00079 
+<a name="l00080"></a><a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a8ba346dfdfdde3fa3f5e5325a0eff624">00080</a>     <span class="keyword">static</span> SpecialId <a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a8ba346dfdfdde3fa3f5e5325a0eff624">empty</a>() {
+<a name="l00081"></a>00081         SpecialId sid(TYPE_OBJECT);
+<a name="l00082"></a>00082         <a class="code" href="../../db/d2a/_utility_8h.html#a806452d73a088062220b0f84b77587fa">JS_ASSERT</a>(sid.<a class="code" href="../../d5/de0/classjs_1_1_special_id.html#afac0f3ed69d860c96067a051c9640751">isEmpty</a>());
+<a name="l00083"></a>00083         <span class="keywordflow">return</span> sid;
+<a name="l00084"></a>00084     }
+<a name="l00085"></a>00085 
+<a name="l00086"></a><a class="code" href="../../d5/de0/classjs_1_1_special_id.html#afac0f3ed69d860c96067a051c9640751">00086</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d5/de0/classjs_1_1_special_id.html#afac0f3ed69d860c96067a051c9640751">isEmpty</a>()<span class="keyword"> const </span>{
+<a name="l00087"></a>00087         <span class="keywordflow">return</span> bits_ == TYPE_OBJECT;
+<a name="l00088"></a>00088     }
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090     <span class="comment">/* Void */</span>
+<a name="l00091"></a>00091 
+<a name="l00092"></a><a class="code" href="../../d5/de0/classjs_1_1_special_id.html#ac9a71079bf497d1119257c98b069d3a3">00092</a>     <span class="keyword">static</span> SpecialId <a class="code" href="../../d5/de0/classjs_1_1_special_id.html#ac9a71079bf497d1119257c98b069d3a3">voidId</a>() {
+<a name="l00093"></a>00093         SpecialId sid(TYPE_VOID);
+<a name="l00094"></a>00094         <a class="code" href="../../db/d2a/_utility_8h.html#a806452d73a088062220b0f84b77587fa">JS_ASSERT</a>(sid.<a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a7115b8ae77a4c3ce095b9591a36cf024">isVoid</a>());
+<a name="l00095"></a>00095         <span class="keywordflow">return</span> sid;
+<a name="l00096"></a>00096     }
+<a name="l00097"></a>00097 
+<a name="l00098"></a><a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a7115b8ae77a4c3ce095b9591a36cf024">00098</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a7115b8ae77a4c3ce095b9591a36cf024">isVoid</a>()<span class="keyword"> const </span>{
+<a name="l00099"></a>00099         <span class="keywordflow">return</span> bits_ == TYPE_VOID;
+<a name="l00100"></a>00100     }
+<a name="l00101"></a>00101 };
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103 <span class="keyword">static</span> JS_ALWAYS_INLINE <a class="code" href="../../d9/d28/jspubtd_8h.html#aef24059798e67d63949ed53ad62f5312">jsid</a>
+<a name="l00104"></a>00104 SPECIALID_TO_JSID(<span class="keyword">const</span> SpecialId &amp;sid)
+<a name="l00105"></a>00105 {
+<a name="l00106"></a>00106     <a class="code" href="../../d9/d28/jspubtd_8h.html#aef24059798e67d63949ed53ad62f5312">jsid</a> <a class="code" href="../../db/da2/namespacejs.html#a73ceeec0606f1e08dc9936d0a4b073c0">id</a>;
+<a name="l00107"></a>00107     <a class="code" href="../../d9/d28/jspubtd_8h.html#a0ad679b26727881bfa4628883a66dd0f">JSID_BITS</a>(<span class="keywordtype">id</span>) = sid.bits_;
+<a name="l00108"></a>00108     <a class="code" href="../../db/d2a/_utility_8h.html#a0e574d8e483561f9e279708d374145fe">JS_ASSERT_IF</a>(sid.isObject(), JSID_IS_OBJECT(<span class="keywordtype">id</span>) &amp;&amp; JSID_TO_OBJECT(<span class="keywordtype">id</span>) == sid.toObject());
+<a name="l00109"></a>00109     <a class="code" href="../../db/d2a/_utility_8h.html#a0e574d8e483561f9e279708d374145fe">JS_ASSERT_IF</a>(sid.isVoid(), JSID_IS_VOID(<span class="keywordtype">id</span>));
+<a name="l00110"></a>00110     <a class="code" href="../../db/d2a/_utility_8h.html#a0e574d8e483561f9e279708d374145fe">JS_ASSERT_IF</a>(sid.isEmpty(), JSID_IS_EMPTY(<span class="keywordtype">id</span>));
+<a name="l00111"></a>00111     <span class="keywordflow">return</span> <a class="code" href="../../db/da2/namespacejs.html#a73ceeec0606f1e08dc9936d0a4b073c0">id</a>;
+<a name="l00112"></a>00112 }
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 <span class="keyword">static</span> JS_ALWAYS_INLINE <span class="keywordtype">bool</span>
+<a name="l00115"></a>00115 JSID_IS_SPECIAL(<a class="code" href="../../d9/d28/jspubtd_8h.html#aef24059798e67d63949ed53ad62f5312">jsid</a> <span class="keywordtype">id</span>)
+<a name="l00116"></a>00116 {
+<a name="l00117"></a>00117     <span class="keywordflow">return</span> JSID_IS_OBJECT(<span class="keywordtype">id</span>) || JSID_IS_EMPTY(<span class="keywordtype">id</span>) || JSID_IS_VOID(<span class="keywordtype">id</span>);
+<a name="l00118"></a>00118 }
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120 <span class="keyword">static</span> JS_ALWAYS_INLINE SpecialId
+<a name="l00121"></a>00121 JSID_TO_SPECIALID(<a class="code" href="../../d9/d28/jspubtd_8h.html#aef24059798e67d63949ed53ad62f5312">jsid</a> <span class="keywordtype">id</span>)
+<a name="l00122"></a>00122 {
+<a name="l00123"></a>00123     <a class="code" href="../../db/d2a/_utility_8h.html#a806452d73a088062220b0f84b77587fa">JS_ASSERT</a>(JSID_IS_SPECIAL(<span class="keywordtype">id</span>));
+<a name="l00124"></a>00124     <span class="keywordflow">if</span> (JSID_IS_OBJECT(<span class="keywordtype">id</span>))
+<a name="l00125"></a>00125         <span class="keywordflow">return</span> SpecialId(*JSID_TO_OBJECT(<span class="keywordtype">id</span>));
+<a name="l00126"></a>00126     <span class="keywordflow">if</span> (JSID_IS_EMPTY(<span class="keywordtype">id</span>))
+<a name="l00127"></a>00127         <span class="keywordflow">return</span> <a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a8ba346dfdfdde3fa3f5e5325a0eff624">SpecialId::empty</a>();
+<a name="l00128"></a>00128     <a class="code" href="../../db/d2a/_utility_8h.html#a806452d73a088062220b0f84b77587fa">JS_ASSERT</a>(JSID_IS_VOID(<span class="keywordtype">id</span>));
+<a name="l00129"></a>00129     <span class="keywordflow">return</span> <a class="code" href="../../d5/de0/classjs_1_1_special_id.html#ac9a71079bf497d1119257c98b069d3a3">SpecialId::voidId</a>();
+<a name="l00130"></a>00130 }
+<a name="l00131"></a>00131 
+<a name="l00132"></a><a class="code" href="../../db/da2/namespacejs.html#a454fe1be813a6a1e249baa62c850afb3">00132</a> <span class="keyword">typedef</span> <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">JS::Handle&lt;SpecialId&gt;</a> <a class="code" href="../../db/da2/namespacejs.html#a454fe1be813a6a1e249baa62c850afb3">HandleSpecialId</a>;
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134 <span class="comment">/* js::Class operation signatures. */</span>
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00137"></a><a class="code" href="../../db/da2/namespacejs.html#a32f6b56cdd2c15906b21eba05a2f22c6">00137</a> (* <a class="code" href="../../db/da2/namespacejs.html#a32f6b56cdd2c15906b21eba05a2f22c6">LookupGenericOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3a21bbd1526caa6bd8cd8d7bdeb3f119">HandleId</a> <a class="code" href="../../db/da2/namespacejs.html#a73ceeec0606f1e08dc9936d0a4b073c0">id</a>,
+<a name="l00138"></a>00138                     <a class="code" href="../../da/d7b/namespace_j_s.html#ae1928b24f28263eb4671da639d098fa2">MutableHandleObject</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#ad8f01ba3048838e38636e8f370778f21">objp</a>, <a class="code" href="../../d1/d2f/class_j_s_1_1_mutable_handle.html">MutableHandleShape</a> propp);
+<a name="l00139"></a>00139 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00140"></a><a class="code" href="../../db/da2/namespacejs.html#a6620aa449d977230afca4ab248df68de">00140</a> (* <a class="code" href="../../db/da2/namespacejs.html#a6620aa449d977230afca4ab248df68de">LookupPropOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandlePropertyName</a> <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>,
+<a name="l00141"></a>00141                  <a class="code" href="../../da/d7b/namespace_j_s.html#ae1928b24f28263eb4671da639d098fa2">MutableHandleObject</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#ad8f01ba3048838e38636e8f370778f21">objp</a>, <a class="code" href="../../d1/d2f/class_j_s_1_1_mutable_handle.html">MutableHandleShape</a> propp);
+<a name="l00142"></a>00142 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00143"></a><a class="code" href="../../db/da2/namespacejs.html#aa13227917aeb9b9fd76efd65d72028b4">00143</a> (* <a class="code" href="../../db/da2/namespacejs.html#aa13227917aeb9b9fd76efd65d72028b4">LookupElementOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>,
+<a name="l00144"></a>00144                     <a class="code" href="../../da/d7b/namespace_j_s.html#ae1928b24f28263eb4671da639d098fa2">MutableHandleObject</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#ad8f01ba3048838e38636e8f370778f21">objp</a>, <a class="code" href="../../d1/d2f/class_j_s_1_1_mutable_handle.html">MutableHandleShape</a> propp);
+<a name="l00145"></a>00145 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00146"></a><a class="code" href="../../db/da2/namespacejs.html#a536d8a26e0b0c5a49bd3b06fd1bd541e">00146</a> (* <a class="code" href="../../db/da2/namespacejs.html#a536d8a26e0b0c5a49bd3b06fd1bd541e">LookupSpecialOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandleSpecialId</a> sid,
+<a name="l00147"></a>00147                     <a class="code" href="../../da/d7b/namespace_j_s.html#ae1928b24f28263eb4671da639d098fa2">MutableHandleObject</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#ad8f01ba3048838e38636e8f370778f21">objp</a>, <a class="code" href="../../d1/d2f/class_j_s_1_1_mutable_handle.html">MutableHandleShape</a> propp);
+<a name="l00148"></a>00148 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00149"></a><a class="code" href="../../db/da2/namespacejs.html#a1085bb0e2ea7b69e5ac9f3d727d95a12">00149</a> (* <a class="code" href="../../db/da2/namespacejs.html#a1085bb0e2ea7b69e5ac9f3d727d95a12">DefineGenericOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3a21bbd1526caa6bd8cd8d7bdeb3f119">HandleId</a> <a class="code" href="../../db/da2/namespacejs.html#a73ceeec0606f1e08dc9936d0a4b073c0">id</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#ad0f815dced139d94ef7a891f97e3bb2c">HandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#af8ce949a9cd336050cbf2f99934ac387">value</a>,
+<a name="l00150"></a>00150                     <a class="code" href="../../db/da2/namespacejs.html#adcf23ec721b24a3261765c41508ea798">PropertyOp</a> <a class="code" href="../../db/da2/namespacejs.html#aca6193c01c4a87836c8c8042913af5bf">getter</a>, <a class="code" href="../../db/da2/namespacejs.html#a6e1080fdef992326b4df6cb033155685">StrictPropertyOp</a> <a class="code" href="../../db/da2/namespacejs.html#add36e2029386006b5415e4d67384ceb8">setter</a>, <span class="keywordtype">unsigned</span> <a class="code" href="../../db/da2/namespacejs.html#a44e682a04143d6ecf295f26022e5d06f">attrs</a>);
+<a name="l00151"></a>00151 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00152"></a><a class="code" href="../../db/da2/namespacejs.html#aac1b246ce1980a38a1af6c28ea4f3283">00152</a> (* <a class="code" href="../../db/da2/namespacejs.html#aac1b246ce1980a38a1af6c28ea4f3283">DefinePropOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandlePropertyName</a> <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#ad0f815dced139d94ef7a891f97e3bb2c">HandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#af8ce949a9cd336050cbf2f99934ac387">value</a>,
+<a name="l00153"></a>00153                  <a class="code" href="../../db/da2/namespacejs.html#adcf23ec721b24a3261765c41508ea798">PropertyOp</a> <a class="code" href="../../db/da2/namespacejs.html#aca6193c01c4a87836c8c8042913af5bf">getter</a>, <a class="code" href="../../db/da2/namespacejs.html#a6e1080fdef992326b4df6cb033155685">StrictPropertyOp</a> <a class="code" href="../../db/da2/namespacejs.html#add36e2029386006b5415e4d67384ceb8">setter</a>, <span class="keywordtype">unsigned</span> <a class="code" href="../../db/da2/namespacejs.html#a44e682a04143d6ecf295f26022e5d06f">attrs</a>);
+<a name="l00154"></a>00154 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00155"></a><a class="code" href="../../db/da2/namespacejs.html#a49265cfcf39c830570a66497df1eb83e">00155</a> (* <a class="code" href="../../db/da2/namespacejs.html#a49265cfcf39c830570a66497df1eb83e">DefineElementOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#ad0f815dced139d94ef7a891f97e3bb2c">HandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#af8ce949a9cd336050cbf2f99934ac387">value</a>,
+<a name="l00156"></a>00156                     <a class="code" href="../../db/da2/namespacejs.html#adcf23ec721b24a3261765c41508ea798">PropertyOp</a> <a class="code" href="../../db/da2/namespacejs.html#aca6193c01c4a87836c8c8042913af5bf">getter</a>, <a class="code" href="../../db/da2/namespacejs.html#a6e1080fdef992326b4df6cb033155685">StrictPropertyOp</a> <a class="code" href="../../db/da2/namespacejs.html#add36e2029386006b5415e4d67384ceb8">setter</a>, <span class="keywordtype">unsigned</span> <a class="code" href="../../db/da2/namespacejs.html#a44e682a04143d6ecf295f26022e5d06f">attrs</a>);
+<a name="l00157"></a>00157 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00158"></a><a class="code" href="../../db/da2/namespacejs.html#a1d4292f5d210a14cb9963660f470b72e">00158</a> (* <a class="code" href="../../db/da2/namespacejs.html#a1d4292f5d210a14cb9963660f470b72e">DefineSpecialOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandleSpecialId</a> sid, <a class="code" href="../../da/d7b/namespace_j_s.html#ad0f815dced139d94ef7a891f97e3bb2c">HandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#af8ce949a9cd336050cbf2f99934ac387">value</a>,
+<a name="l00159"></a>00159                     <a class="code" href="../../db/da2/namespacejs.html#adcf23ec721b24a3261765c41508ea798">PropertyOp</a> <a class="code" href="../../db/da2/namespacejs.html#aca6193c01c4a87836c8c8042913af5bf">getter</a>, <a class="code" href="../../db/da2/namespacejs.html#a6e1080fdef992326b4df6cb033155685">StrictPropertyOp</a> <a class="code" href="../../db/da2/namespacejs.html#add36e2029386006b5415e4d67384ceb8">setter</a>, <span class="keywordtype">unsigned</span> <a class="code" href="../../db/da2/namespacejs.html#a44e682a04143d6ecf295f26022e5d06f">attrs</a>);
+<a name="l00160"></a>00160 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00161"></a><a class="code" href="../../db/da2/namespacejs.html#af12981712affbba02c6fb1f62526ebeb">00161</a> (* <a class="code" href="../../db/da2/namespacejs.html#af12981712affbba02c6fb1f62526ebeb">GenericIdOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> receiver, <a class="code" href="../../da/d7b/namespace_j_s.html#a3a21bbd1526caa6bd8cd8d7bdeb3f119">HandleId</a> <a class="code" href="../../db/da2/namespacejs.html#a73ceeec0606f1e08dc9936d0a4b073c0">id</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#a1b9567de4cd07dfdfba28b308819f705">vp</a>);
+<a name="l00162"></a>00162 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00163"></a><a class="code" href="../../db/da2/namespacejs.html#a909cec6138ca7a00fc0773463e78cfa9">00163</a> (* <a class="code" href="../../db/da2/namespacejs.html#a909cec6138ca7a00fc0773463e78cfa9">PropertyIdOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> receiver, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandlePropertyName</a> <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#a1b9567de4cd07dfdfba28b308819f705">vp</a>);
+<a name="l00164"></a>00164 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00165"></a><a class="code" href="../../db/da2/namespacejs.html#a6cc9ba069f2ddbe7131a74d49aa22fe2">00165</a> (* <a class="code" href="../../db/da2/namespacejs.html#a6cc9ba069f2ddbe7131a74d49aa22fe2">ElementIdOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> receiver, uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#a1b9567de4cd07dfdfba28b308819f705">vp</a>);
+<a name="l00166"></a>00166 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00167"></a><a class="code" href="../../db/da2/namespacejs.html#a32631423840733abfed2d13815503597">00167</a> (* <a class="code" href="../../db/da2/namespacejs.html#a32631423840733abfed2d13815503597">ElementIfPresentOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> receiver, uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#a1b9567de4cd07dfdfba28b308819f705">vp</a>, <span class="keywordtype">bool</span>* <a class="code" href="../../d2/d7d/jsapi_8h.html#acc0bd842c306223f94e6a78225bd19a3">present</a>);
+<a name="l00168"></a>00168 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00169"></a><a class="code" href="../../db/da2/namespacejs.html#a3b70be14ff44a49333bbb10b24cc484d">00169</a> (* <a class="code" href="../../db/da2/namespacejs.html#a3b70be14ff44a49333bbb10b24cc484d">SpecialIdOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> receiver, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandleSpecialId</a> sid, <a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#a1b9567de4cd07dfdfba28b308819f705">vp</a>);
+<a name="l00170"></a>00170 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00171"></a><a class="code" href="../../db/da2/namespacejs.html#a871ceac9d420669db31615ea7410e362">00171</a> (* <a class="code" href="../../db/da2/namespacejs.html#a871ceac9d420669db31615ea7410e362">StrictGenericIdOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3a21bbd1526caa6bd8cd8d7bdeb3f119">HandleId</a> <a class="code" href="../../db/da2/namespacejs.html#a73ceeec0606f1e08dc9936d0a4b073c0">id</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#a1b9567de4cd07dfdfba28b308819f705">vp</a>, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../dc/d42/device_list_8js.html#ae2475e10618961c050dcba04e8c42331">strict</a>);
+<a name="l00172"></a>00172 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00173"></a><a class="code" href="../../db/da2/namespacejs.html#a8bbfa496e64fa953dec7c2b5c645cd24">00173</a> (* <a class="code" href="../../db/da2/namespacejs.html#a8bbfa496e64fa953dec7c2b5c645cd24">StrictPropertyIdOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandlePropertyName</a> <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#a1b9567de4cd07dfdfba28b308819f705">vp</a>, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../dc/d42/device_list_8js.html#ae2475e10618961c050dcba04e8c42331">strict</a>);
+<a name="l00174"></a>00174 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00175"></a><a class="code" href="../../db/da2/namespacejs.html#ac88cbcfe1849cc5eeffcd28783bc57ec">00175</a> (* <a class="code" href="../../db/da2/namespacejs.html#ac88cbcfe1849cc5eeffcd28783bc57ec">StrictElementIdOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#a1b9567de4cd07dfdfba28b308819f705">vp</a>, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../dc/d42/device_list_8js.html#ae2475e10618961c050dcba04e8c42331">strict</a>);
+<a name="l00176"></a>00176 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00177"></a><a class="code" href="../../db/da2/namespacejs.html#adce7dd29424dede618db3f8dc8f05e1c">00177</a> (* <a class="code" href="../../db/da2/namespacejs.html#adce7dd29424dede618db3f8dc8f05e1c">StrictSpecialIdOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandleSpecialId</a> sid, <a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> <a class="code" href="../../db/da2/namespacejs.html#a1b9567de4cd07dfdfba28b308819f705">vp</a>, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../dc/d42/device_list_8js.html#ae2475e10618961c050dcba04e8c42331">strict</a>);
+<a name="l00178"></a>00178 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00179"></a><a class="code" href="../../db/da2/namespacejs.html#a8f4bc2fb03ee5a40147df974a0b60a66">00179</a> (* <a class="code" href="../../db/da2/namespacejs.html#a8f4bc2fb03ee5a40147df974a0b60a66">GenericAttributesOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a3a21bbd1526caa6bd8cd8d7bdeb3f119">HandleId</a> <a class="code" href="../../db/da2/namespacejs.html#a73ceeec0606f1e08dc9936d0a4b073c0">id</a>, <span class="keywordtype">unsigned</span> *<a class="code" href="../../d2/d7d/jsapi_8h.html#af5296b370e890171c200dae6d57105cc">attrsp</a>);
+<a name="l00180"></a>00180 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00181"></a><a class="code" href="../../db/da2/namespacejs.html#a0782fb214d9200c020d2ffd4fcedd8fc">00181</a> (* <a class="code" href="../../db/da2/namespacejs.html#a0782fb214d9200c020d2ffd4fcedd8fc">PropertyAttributesOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandlePropertyName</a> <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <span class="keywordtype">unsigned</span> *<a class="code" href="../../d2/d7d/jsapi_8h.html#af5296b370e890171c200dae6d57105cc">attrsp</a>);
+<a name="l00182"></a>00182 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00183"></a><a class="code" href="../../db/da2/namespacejs.html#a5c549664674507b86a696a945d4ca270">00183</a> (* <a class="code" href="../../db/da2/namespacejs.html#a5c549664674507b86a696a945d4ca270">ElementAttributesOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>, <span class="keywordtype">unsigned</span> *<a class="code" href="../../d2/d7d/jsapi_8h.html#af5296b370e890171c200dae6d57105cc">attrsp</a>);
+<a name="l00184"></a>00184 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00185"></a><a class="code" href="../../db/da2/namespacejs.html#a2839e6fd64a73bdb3bc11b844e6d9af2">00185</a> (* <a class="code" href="../../db/da2/namespacejs.html#a2839e6fd64a73bdb3bc11b844e6d9af2">SpecialAttributesOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandleSpecialId</a> sid, <span class="keywordtype">unsigned</span> *<a class="code" href="../../d2/d7d/jsapi_8h.html#af5296b370e890171c200dae6d57105cc">attrsp</a>);
+<a name="l00186"></a>00186 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00187"></a><a class="code" href="../../db/da2/namespacejs.html#a906652bc1826a9262805c620c10fe7a3">00187</a> (* <a class="code" href="../../db/da2/namespacejs.html#a906652bc1826a9262805c620c10fe7a3">DeletePropertyOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandlePropertyName</a> <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#aab768b4377a152e966251e2f159b3d5e">succeeded</a>);
+<a name="l00188"></a>00188 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00189"></a><a class="code" href="../../db/da2/namespacejs.html#a3a83cc8f504e4e9bf63cbe6731f1e692">00189</a> (* <a class="code" href="../../db/da2/namespacejs.html#a3a83cc8f504e4e9bf63cbe6731f1e692">DeleteElementOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#aab768b4377a152e966251e2f159b3d5e">succeeded</a>);
+<a name="l00190"></a>00190 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00191"></a><a class="code" href="../../db/da2/namespacejs.html#a8046334223b8776467184d45c96438bb">00191</a> (* <a class="code" href="../../db/da2/namespacejs.html#a8046334223b8776467184d45c96438bb">DeleteSpecialOp</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">HandleSpecialId</a> sid, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#aab768b4377a152e966251e2f159b3d5e">succeeded</a>);
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194 <span class="keyword">typedef</span> JSObject *
+<a name="l00195"></a><a class="code" href="../../db/da2/namespacejs.html#aa6a744a402e519c0258a784b3cd44d0a">00195</a> (* ObjectOp)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../da/d7b/namespace_j_s.html#a27fbe8d507bcc80ecf65d4dfa346936e">HandleObject</a> <a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>);
+<a name="l00196"></a>00196 <span class="keyword">typedef</span> <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a>
+<a name="l00197"></a><a class="code" href="../../db/da2/namespacejs.html#ab90b8299a59adadcefdd66073799c16e">00197</a> (* <a class="code" href="../../db/da2/namespacejs.html#ab90b8299a59adadcefdd66073799c16e">FinalizeOp</a>)(FreeOp *<a class="code" href="../../de/d8f/jsdebug_8h.html#a630fc409c25f21ada0becdc353549c30">fop</a>, JSObject *<a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>);
+<a name="l00198"></a>00198 
+<a name="l00199"></a><a class="code" href="../../d6/de4/jsclass_8h.html#a500976bd3c372e3c1fff14b35d724096">00199</a> <span class="preprocessor">#define JS_CLASS_MEMBERS                                                      \</span>
+<a name="l00200"></a>00200 <span class="preprocessor">    const char          *name;                                                \</span>
+<a name="l00201"></a>00201 <span class="preprocessor">    uint32_t            flags;                                                \</span>
+<a name="l00202"></a>00202 <span class="preprocessor">                                                                              \</span>
+<a name="l00203"></a>00203 <span class="preprocessor">    </span><span class="comment">/* Mandatory function pointer members. */</span>                                 \
+<a name="l00204"></a>00204     JSPropertyOp        addProperty;                                          \
+<a name="l00205"></a>00205     JSDeletePropertyOp  delProperty;                                          \
+<a name="l00206"></a>00206     JSPropertyOp        getProperty;                                          \
+<a name="l00207"></a>00207     JSStrictPropertyOp  setProperty;                                          \
+<a name="l00208"></a>00208     JSEnumerateOp       enumerate;                                            \
+<a name="l00209"></a>00209     JSResolveOp         resolve;                                              \
+<a name="l00210"></a>00210     JSConvertOp         convert;                                              \
+<a name="l00211"></a>00211                                                                               \
+<a name="l00212"></a>00212     <span class="comment">/* Optional members (may be null). */</span>                                     \
+<a name="l00213"></a>00213     FinalizeOp          finalize;                                             \
+<a name="l00214"></a>00214     JSCheckAccessOp     checkAccess;                                          \
+<a name="l00215"></a>00215     JSNative            call;                                                 \
+<a name="l00216"></a>00216     JSHasInstanceOp     hasInstance;                                          \
+<a name="l00217"></a>00217     JSNative            construct;                                            \
+<a name="l00218"></a>00218     JSTraceOp           trace
+<a name="l00219"></a>00219 
+<a name="l00220"></a>00220 <span class="comment">/*</span>
+<a name="l00221"></a>00221 <span class="comment"> * The helper struct to measure the size of JS_CLASS_MEMBERS to know how much</span>
+<a name="l00222"></a>00222 <span class="comment"> * we have to pad js::Class to match the size of JSClass.</span>
+<a name="l00223"></a>00223 <span class="comment"> */</span>
+<a name="l00224"></a><a class="code" href="../../dd/dc9/structjs_1_1_class_size_measurement.html">00224</a> <span class="keyword">struct </span><a class="code" href="../../dd/dc9/structjs_1_1_class_size_measurement.html">ClassSizeMeasurement</a>
+<a name="l00225"></a>00225 {
+<a name="l00226"></a><a class="code" href="../../dd/dc9/structjs_1_1_class_size_measurement.html#a3db270fb62b974db607c1ade8704b698">00226</a>     <a class="code" href="../../dd/dc9/structjs_1_1_class_size_measurement.html#a3db270fb62b974db607c1ade8704b698">JS_CLASS_MEMBERS</a>;
+<a name="l00227"></a>00227 };
+<a name="l00228"></a>00228 
+<a name="l00229"></a><a class="code" href="../../d9/db1/structjs_1_1_class_extension.html">00229</a> <span class="keyword">struct </span><a class="code" href="../../d9/db1/structjs_1_1_class_extension.html">ClassExtension</a>
+<a name="l00230"></a>00230 {
+<a name="l00231"></a><a class="code" href="../../d9/db1/structjs_1_1_class_extension.html#a6d26c7e097d9a532935c0cdfcccb7883">00231</a>     <a class="code" href="../../d0/d15/jsprvtd_8h.html#a796821bf4d11935b58742be77d1e8a3f">JSObjectOp</a>          <a class="code" href="../../d9/db1/structjs_1_1_class_extension.html#a6d26c7e097d9a532935c0cdfcccb7883">outerObject</a>;
+<a name="l00232"></a><a class="code" href="../../d9/db1/structjs_1_1_class_extension.html#aeef49c8f71709e6a1dff8b23f3931367">00232</a>     <a class="code" href="../../d0/d15/jsprvtd_8h.html#a796821bf4d11935b58742be77d1e8a3f">JSObjectOp</a>          <a class="code" href="../../d9/db1/structjs_1_1_class_extension.html#aeef49c8f71709e6a1dff8b23f3931367">innerObject</a>;
+<a name="l00233"></a><a class="code" href="../../d9/db1/structjs_1_1_class_extension.html#ada7bac4cc32f7b1a5029ffb665dea27d">00233</a>     <a class="code" href="../../d0/d15/jsprvtd_8h.html#a85392ffd7a5a250b79db9112c41830e0">JSIteratorOp</a>        <a class="code" href="../../d9/db1/structjs_1_1_class_extension.html#ada7bac4cc32f7b1a5029ffb665dea27d">iteratorObject</a>;
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235     <span class="comment">/*</span>
+<a name="l00236"></a>00236 <span class="comment">     * isWrappedNative is true only if the class is an XPCWrappedNative.</span>
+<a name="l00237"></a>00237 <span class="comment">     * WeakMaps use this to override the wrapper disposal optimization.</span>
+<a name="l00238"></a>00238 <span class="comment">     */</span>
+<a name="l00239"></a><a class="code" href="../../d9/db1/structjs_1_1_class_extension.html#a8571466e3ce16d6aaae73650f26f66f4">00239</a>     <span class="keywordtype">bool</span>                <a class="code" href="../../d9/db1/structjs_1_1_class_extension.html#a8571466e3ce16d6aaae73650f26f66f4">isWrappedNative</a>;
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241     <span class="comment">/*</span>
+<a name="l00242"></a>00242 <span class="comment">     * If an object is used as a key in a weakmap, it may be desirable for the</span>
+<a name="l00243"></a>00243 <span class="comment">     * garbage collector to keep that object around longer than it otherwise</span>
+<a name="l00244"></a>00244 <span class="comment">     * would. A common case is when the key is a wrapper around an object in</span>
+<a name="l00245"></a>00245 <span class="comment">     * another compartment, and we want to avoid collecting the wrapper (and</span>
+<a name="l00246"></a>00246 <span class="comment">     * removing the weakmap entry) as long as the wrapped object is alive. In</span>
+<a name="l00247"></a>00247 <span class="comment">     * that case, the wrapped object is returned by the wrapper&#39;s</span>
+<a name="l00248"></a>00248 <span class="comment">     * weakmapKeyDelegateOp hook. As long as the wrapper is used as a weakmap</span>
+<a name="l00249"></a>00249 <span class="comment">     * key, it will not be collected (and remain in the weakmap) until the</span>
+<a name="l00250"></a>00250 <span class="comment">     * wrapped object is collected.</span>
+<a name="l00251"></a>00251 <span class="comment">     */</span>
+<a name="l00252"></a><a class="code" href="../../d9/db1/structjs_1_1_class_extension.html#a3913bea82097ff0245e3bf1042ef3ca8">00252</a>     <a class="code" href="../../d2/d7d/jsapi_8h.html#abb0741b723293ff014de28c6ac5f06bd">JSWeakmapKeyDelegateOp</a> <a class="code" href="../../d9/db1/structjs_1_1_class_extension.html#a3913bea82097ff0245e3bf1042ef3ca8">weakmapKeyDelegateOp</a>;
+<a name="l00253"></a>00253 };
+<a name="l00254"></a>00254 
+<a name="l00255"></a><a class="code" href="../../d6/de4/jsclass_8h.html#a3caeb65f52ebe1e5cafdbb52209fe7bd">00255</a> <span class="preprocessor">#define JS_NULL_CLASS_EXT   {NULL,NULL,NULL,false,NULL}</span>
+<a name="l00256"></a>00256 <span class="preprocessor"></span>
+<a name="l00257"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html">00257</a> <span class="keyword">struct </span><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html">ObjectOps</a>
+<a name="l00258"></a>00258 {
+<a name="l00259"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a00676ec03855b7cda1dfe5cb1e678182">00259</a>     <a class="code" href="../../db/da2/namespacejs.html#a32f6b56cdd2c15906b21eba05a2f22c6">LookupGenericOp</a>     <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a00676ec03855b7cda1dfe5cb1e678182">lookupGeneric</a>;
+<a name="l00260"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a7ebc41f509636385253e4b661c61b23b">00260</a>     <a class="code" href="../../db/da2/namespacejs.html#a6620aa449d977230afca4ab248df68de">LookupPropOp</a>        <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a7ebc41f509636385253e4b661c61b23b">lookupProperty</a>;
+<a name="l00261"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#afa8cc55590db929e2c5cc125906c528b">00261</a>     <a class="code" href="../../db/da2/namespacejs.html#aa13227917aeb9b9fd76efd65d72028b4">LookupElementOp</a>     <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#afa8cc55590db929e2c5cc125906c528b">lookupElement</a>;
+<a name="l00262"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a8a1b8800a9f4a666c86b643ce43d8553">00262</a>     <a class="code" href="../../db/da2/namespacejs.html#a536d8a26e0b0c5a49bd3b06fd1bd541e">LookupSpecialOp</a>     <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a8a1b8800a9f4a666c86b643ce43d8553">lookupSpecial</a>;
+<a name="l00263"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a673994675e908c04e23281c996fd727f">00263</a>     <a class="code" href="../../db/da2/namespacejs.html#a1085bb0e2ea7b69e5ac9f3d727d95a12">DefineGenericOp</a>     <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a673994675e908c04e23281c996fd727f">defineGeneric</a>;
+<a name="l00264"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a98cc7b21892328b2ec9d2d2e4b4ceb3b">00264</a>     <a class="code" href="../../db/da2/namespacejs.html#aac1b246ce1980a38a1af6c28ea4f3283">DefinePropOp</a>        <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a98cc7b21892328b2ec9d2d2e4b4ceb3b">defineProperty</a>;
+<a name="l00265"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#aca198a08eb86a8802bc4ec1f1e49b155">00265</a>     <a class="code" href="../../db/da2/namespacejs.html#a49265cfcf39c830570a66497df1eb83e">DefineElementOp</a>     <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#aca198a08eb86a8802bc4ec1f1e49b155">defineElement</a>;
+<a name="l00266"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a57382962badea31ed7a8893a8c30d29f">00266</a>     <a class="code" href="../../db/da2/namespacejs.html#a1d4292f5d210a14cb9963660f470b72e">DefineSpecialOp</a>     <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a57382962badea31ed7a8893a8c30d29f">defineSpecial</a>;
+<a name="l00267"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ac117a490380e76307b761fd0c69b0060">00267</a>     <a class="code" href="../../db/da2/namespacejs.html#af12981712affbba02c6fb1f62526ebeb">GenericIdOp</a>         <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ac117a490380e76307b761fd0c69b0060">getGeneric</a>;
+<a name="l00268"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ad6cde6a7a6a765417c51ef1f1dc64f50">00268</a>     <a class="code" href="../../db/da2/namespacejs.html#a909cec6138ca7a00fc0773463e78cfa9">PropertyIdOp</a>        <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ad6cde6a7a6a765417c51ef1f1dc64f50">getProperty</a>;
+<a name="l00269"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a5d41c35aad57aa907c2b35c207b40ff6">00269</a>     <a class="code" href="../../db/da2/namespacejs.html#a6cc9ba069f2ddbe7131a74d49aa22fe2">ElementIdOp</a>         <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a5d41c35aad57aa907c2b35c207b40ff6">getElement</a>;
+<a name="l00270"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a501a5033b2df55729b461f07e2120c4c">00270</a>     <a class="code" href="../../db/da2/namespacejs.html#a32631423840733abfed2d13815503597">ElementIfPresentOp</a>  <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a501a5033b2df55729b461f07e2120c4c">getElementIfPresent</a>; <span class="comment">/* can be null */</span>
+<a name="l00271"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a0064b4d8c4d2408b31cb35f2a3fe0fda">00271</a>     <a class="code" href="../../db/da2/namespacejs.html#a3b70be14ff44a49333bbb10b24cc484d">SpecialIdOp</a>         <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a0064b4d8c4d2408b31cb35f2a3fe0fda">getSpecial</a>;
+<a name="l00272"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ade9cc324bf95590d6381b53c4a65ef1f">00272</a>     <a class="code" href="../../db/da2/namespacejs.html#a871ceac9d420669db31615ea7410e362">StrictGenericIdOp</a>   <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ade9cc324bf95590d6381b53c4a65ef1f">setGeneric</a>;
+<a name="l00273"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a507829c04f311dd83e5e6c99f5932aec">00273</a>     <a class="code" href="../../db/da2/namespacejs.html#a8bbfa496e64fa953dec7c2b5c645cd24">StrictPropertyIdOp</a>  <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a507829c04f311dd83e5e6c99f5932aec">setProperty</a>;
+<a name="l00274"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a00ea5a569828c030ac21e25927e9db78">00274</a>     <a class="code" href="../../db/da2/namespacejs.html#ac88cbcfe1849cc5eeffcd28783bc57ec">StrictElementIdOp</a>   <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a00ea5a569828c030ac21e25927e9db78">setElement</a>;
+<a name="l00275"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a6e05d7861d24bdb4e1404bfb7340bf7c">00275</a>     <a class="code" href="../../db/da2/namespacejs.html#adce7dd29424dede618db3f8dc8f05e1c">StrictSpecialIdOp</a>   <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a6e05d7861d24bdb4e1404bfb7340bf7c">setSpecial</a>;
+<a name="l00276"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a4e7ee75ad144ddcdfc5e5ce0859798b2">00276</a>     <a class="code" href="../../db/da2/namespacejs.html#a8f4bc2fb03ee5a40147df974a0b60a66">GenericAttributesOp</a> <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a4e7ee75ad144ddcdfc5e5ce0859798b2">getGenericAttributes</a>;
+<a name="l00277"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a29ae9329628a7b849ebb2d0c28f34b37">00277</a>     <a class="code" href="../../db/da2/namespacejs.html#a0782fb214d9200c020d2ffd4fcedd8fc">PropertyAttributesOp</a> <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a29ae9329628a7b849ebb2d0c28f34b37">getPropertyAttributes</a>;
+<a name="l00278"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a5e85389abd7438ef8358be05acd2cd1f">00278</a>     <a class="code" href="../../db/da2/namespacejs.html#a5c549664674507b86a696a945d4ca270">ElementAttributesOp</a> <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a5e85389abd7438ef8358be05acd2cd1f">getElementAttributes</a>;
+<a name="l00279"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ac9a981f99bf193b5a7ba1d23bb6aa4ca">00279</a>     <a class="code" href="../../db/da2/namespacejs.html#a2839e6fd64a73bdb3bc11b844e6d9af2">SpecialAttributesOp</a> <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ac9a981f99bf193b5a7ba1d23bb6aa4ca">getSpecialAttributes</a>;
+<a name="l00280"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a41f7280b75504200048335295d24bf55">00280</a>     <a class="code" href="../../db/da2/namespacejs.html#a8f4bc2fb03ee5a40147df974a0b60a66">GenericAttributesOp</a> <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a41f7280b75504200048335295d24bf55">setGenericAttributes</a>;
+<a name="l00281"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a0db77f06bce15d6e903518f092dd947d">00281</a>     <a class="code" href="../../db/da2/namespacejs.html#a0782fb214d9200c020d2ffd4fcedd8fc">PropertyAttributesOp</a> <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a0db77f06bce15d6e903518f092dd947d">setPropertyAttributes</a>;
+<a name="l00282"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ae062170ff737ad936c23f0ec9aa6d145">00282</a>     <a class="code" href="../../db/da2/namespacejs.html#a5c549664674507b86a696a945d4ca270">ElementAttributesOp</a> <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ae062170ff737ad936c23f0ec9aa6d145">setElementAttributes</a>;
+<a name="l00283"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ac19f55fe2c13ca29b2041ff7e3170a7c">00283</a>     <a class="code" href="../../db/da2/namespacejs.html#a2839e6fd64a73bdb3bc11b844e6d9af2">SpecialAttributesOp</a> <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#ac19f55fe2c13ca29b2041ff7e3170a7c">setSpecialAttributes</a>;
+<a name="l00284"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#af42aa08c5128861a40ef4fc738df4f51">00284</a>     <a class="code" href="../../db/da2/namespacejs.html#a906652bc1826a9262805c620c10fe7a3">DeletePropertyOp</a>    <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#af42aa08c5128861a40ef4fc738df4f51">deleteProperty</a>;
+<a name="l00285"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a31d383541bd12a51e74800243216c148">00285</a>     <a class="code" href="../../db/da2/namespacejs.html#a3a83cc8f504e4e9bf63cbe6731f1e692">DeleteElementOp</a>     <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#a31d383541bd12a51e74800243216c148">deleteElement</a>;
+<a name="l00286"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#afe82ee152597b45f684c15403373686a">00286</a>     <a class="code" href="../../db/da2/namespacejs.html#a8046334223b8776467184d45c96438bb">DeleteSpecialOp</a>     <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#afe82ee152597b45f684c15403373686a">deleteSpecial</a>;
+<a name="l00287"></a>00287 
+<a name="l00288"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#abaa1c39ed4eefeeece63235831645d94">00288</a>     <a class="code" href="../../d2/d7d/jsapi_8h.html#af0eedda0ec498e5c5bcf29954cf59bdb">JSNewEnumerateOp</a>    <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#abaa1c39ed4eefeeece63235831645d94">enumerate</a>;
+<a name="l00289"></a><a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#af499e13cee57f8d3d09210098fb4d5f6">00289</a>     <a class="code" href="../../db/da2/namespacejs.html#aa6a744a402e519c0258a784b3cd44d0a">ObjectOp</a>            <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html#af499e13cee57f8d3d09210098fb4d5f6">thisObject</a>;
+<a name="l00290"></a>00290 };
+<a name="l00291"></a>00291 
+<a name="l00292"></a><a class="code" href="../../d6/de4/jsclass_8h.html#a30ec19e18d0ecbd8f3f4ae1d368fbcab">00292</a> <span class="preprocessor">#define JS_NULL_OBJECT_OPS                                                    \</span>
+<a name="l00293"></a>00293 <span class="preprocessor">    {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,   \</span>
+<a name="l00294"></a>00294 <span class="preprocessor">     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,        \</span>
+<a name="l00295"></a>00295 <span class="preprocessor">     NULL,NULL,NULL}</span>
+<a name="l00296"></a>00296 <span class="preprocessor"></span>
+<a name="l00297"></a><a class="code" href="../../db/d81/structjs_1_1_class.html">00297</a> <span class="keyword">struct </span><a class="code" href="../../db/d81/structjs_1_1_class.html">Class</a>
+<a name="l00298"></a>00298 {
+<a name="l00299"></a><a class="code" href="../../db/d81/structjs_1_1_class.html#ac1c1a3fa638dc3f2cdaddb539150331e">00299</a>     <a class="code" href="../../db/d81/structjs_1_1_class.html#ac1c1a3fa638dc3f2cdaddb539150331e">JS_CLASS_MEMBERS</a>;
+<a name="l00300"></a><a class="code" href="../../db/d81/structjs_1_1_class.html#a5cae9fdd8ccab8c3e8cb41bf42ce8ef0">00300</a>     <a class="code" href="../../d9/db1/structjs_1_1_class_extension.html">ClassExtension</a>      <a class="code" href="../../db/d81/structjs_1_1_class.html#a5cae9fdd8ccab8c3e8cb41bf42ce8ef0">ext</a>;
+<a name="l00301"></a><a class="code" href="../../db/d81/structjs_1_1_class.html#a12bbf638312539e2f4f6670e198912a7">00301</a>     <a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html">ObjectOps</a>           <a class="code" href="../../db/d81/structjs_1_1_class.html#a12bbf638312539e2f4f6670e198912a7">ops</a>;
+<a name="l00302"></a>00302     uint8_t             <a class="code" href="../../db/d81/structjs_1_1_class.html#af948ff2d891c73af63564dbedba0fe7a">pad</a>[<span class="keyword">sizeof</span>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a72b62aefa3dd4aa55a10657efaad849f">JSClass</a>) - <span class="keyword">sizeof</span>(<a class="code" href="../../dd/dc9/structjs_1_1_class_size_measurement.html">ClassSizeMeasurement</a>) -
+<a name="l00303"></a><a class="code" href="../../db/d81/structjs_1_1_class.html#af948ff2d891c73af63564dbedba0fe7a">00303</a>                             <span class="keyword">sizeof</span>(<a class="code" href="../../d9/db1/structjs_1_1_class_extension.html">ClassExtension</a>) - <span class="keyword">sizeof</span>(<a class="code" href="../../d9/d5c/structjs_1_1_object_ops.html">ObjectOps</a>)];
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305     <span class="comment">/* Class is not native and its map is not a scope. */</span>
+<a name="l00306"></a><a class="code" href="../../db/d81/structjs_1_1_class.html#a907f2c055703091638c5e85b5e148018">00306</a>     <span class="keyword">static</span> <span class="keyword">const</span> uint32_t <a class="code" href="../../db/d81/structjs_1_1_class.html#a907f2c055703091638c5e85b5e148018">NON_NATIVE</a> = <a class="code" href="../../d2/d7d/jsapi_8h.html#a0d335245ad71b29d959d9c87951bdb97">JSCLASS_INTERNAL_FLAG2</a>;
+<a name="l00307"></a>00307 
+<a name="l00308"></a><a class="code" href="../../db/d81/structjs_1_1_class.html#a152bb5085dc2d6a0741c8ef05b30dd44">00308</a>     <span class="keywordtype">bool</span> <a class="code" href="../../db/d81/structjs_1_1_class.html#a152bb5085dc2d6a0741c8ef05b30dd44">isNative</a>()<span class="keyword"> const </span>{
+<a name="l00309"></a>00309         <span class="keywordflow">return</span> !(<a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a> &amp; <a class="code" href="../../db/d81/structjs_1_1_class.html#a907f2c055703091638c5e85b5e148018">NON_NATIVE</a>);
+<a name="l00310"></a>00310     }
+<a name="l00311"></a>00311 
+<a name="l00312"></a><a class="code" href="../../db/d81/structjs_1_1_class.html#a5386f850783777bc2dd51d1149eb71b1">00312</a>     <span class="keywordtype">bool</span> <a class="code" href="../../db/d81/structjs_1_1_class.html#a5386f850783777bc2dd51d1149eb71b1">hasPrivate</a>()<span class="keyword"> const </span>{
+<a name="l00313"></a>00313         <span class="keywordflow">return</span> !!(<a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a> &amp; <a class="code" href="../../d2/d7d/jsapi_8h.html#a09acb126ea3c2ce577d82e668439d097">JSCLASS_HAS_PRIVATE</a>);
+<a name="l00314"></a>00314     }
+<a name="l00315"></a>00315 
+<a name="l00316"></a><a class="code" href="../../db/d81/structjs_1_1_class.html#a3a0f740fde9cdc3e848fe29846eb607f">00316</a>     <span class="keywordtype">bool</span> <a class="code" href="../../db/d81/structjs_1_1_class.html#a3a0f740fde9cdc3e848fe29846eb607f">emulatesUndefined</a>()<span class="keyword"> const </span>{
+<a name="l00317"></a>00317         <span class="keywordflow">return</span> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a> &amp; <a class="code" href="../../d2/d7d/jsapi_8h.html#a69849f986d9926e77c67345e2d165f28">JSCLASS_EMULATES_UNDEFINED</a>;
+<a name="l00318"></a>00318     }
+<a name="l00319"></a>00319 
+<a name="l00320"></a><a class="code" href="../../db/d81/structjs_1_1_class.html#a3ee156cc57ec3f4b39e76abc484ce864">00320</a>     <span class="keywordtype">bool</span> <a class="code" href="../../db/d81/structjs_1_1_class.html#a3ee156cc57ec3f4b39e76abc484ce864">isCallable</a>()<span class="keyword"> const </span>{
+<a name="l00321"></a>00321         <span class="keywordflow">return</span> <span class="keyword">this</span> == js::FunctionClassPtr || <a class="code" href="../../d3/d4b/lockscreen_8js.html#a8b146780469f40ff2867e5067d0d33f5">call</a>;
+<a name="l00322"></a>00322     }
+<a name="l00323"></a>00323 
+<a name="l00324"></a><a class="code" href="../../db/d81/structjs_1_1_class.html#a49e58e702aadb3322611069c633f13ec">00324</a>     <span class="keyword">static</span> <span class="keywordtype">size_t</span> <a class="code" href="../../db/d81/structjs_1_1_class.html#a49e58e702aadb3322611069c633f13ec">offsetOfFlags</a>() { <span class="keywordflow">return</span> <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../db/d81/structjs_1_1_class.html">Class</a>, <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>); }
+<a name="l00325"></a>00325 };
+<a name="l00326"></a>00326 
+<a name="l00327"></a>00327 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>));
+<a name="l00328"></a>00328 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>));
+<a name="l00329"></a>00329 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, addProperty) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, addProperty));
+<a name="l00330"></a>00330 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, delProperty) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, delProperty));
+<a name="l00331"></a>00331 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, getProperty) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, getProperty));
+<a name="l00332"></a>00332 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, setProperty) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, setProperty));
+<a name="l00333"></a>00333 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, enumerate) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, enumerate));
+<a name="l00334"></a>00334 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, <a class="code" href="../../de/d11/path_8js.html#a66effdfa7ca77e99cb780166fdb957ca">resolve</a>) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, <a class="code" href="../../de/d11/path_8js.html#a66effdfa7ca77e99cb780166fdb957ca">resolve</a>));
+<a name="l00335"></a>00335 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, <a class="code" href="../../d1/d5b/namespacejcconv.html#a4d7154383cca30c97dfdcbcde09f3c49">convert</a>) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, <a class="code" href="../../d1/d5b/namespacejcconv.html#a4d7154383cca30c97dfdcbcde09f3c49">convert</a>));
+<a name="l00336"></a>00336 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, finalize) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, finalize));
+<a name="l00337"></a>00337 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, checkAccess) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, checkAccess));
+<a name="l00338"></a>00338 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, <a class="code" href="../../d3/d4b/lockscreen_8js.html#a8b146780469f40ff2867e5067d0d33f5">call</a>) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, <a class="code" href="../../d3/d4b/lockscreen_8js.html#a8b146780469f40ff2867e5067d0d33f5">call</a>));
+<a name="l00339"></a>00339 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, construct) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, construct));
+<a name="l00340"></a>00340 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, hasInstance) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, hasInstance));
+<a name="l00341"></a>00341 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>, trace) == <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#a47e433676bb6902977b7a50bfe31f5fc">offsetof</a>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>, trace));
+<a name="l00342"></a>00342 <a class="code" href="../../db/da2/namespacejs.html#aed0b4a573790b801d0f9c180a7ee9aac">JS_STATIC_ASSERT</a>(<span class="keyword">sizeof</span>(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a>) == <span class="keyword">sizeof</span>(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a>));
+<a name="l00343"></a>00343 
+<a name="l00344"></a>00344 <span class="keyword">static</span> JS_ALWAYS_INLINE <a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a> *
+<a name="l00345"></a>00345 Jsvalify(<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>)
+<a name="l00346"></a>00346 {
+<a name="l00347"></a>00347     <span class="keywordflow">return</span> (<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a> *)<a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>;
+<a name="l00348"></a>00348 }
+<a name="l00349"></a>00349 <span class="keyword">static</span> JS_ALWAYS_INLINE <span class="keyword">const</span> <a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a> *
+<a name="l00350"></a>00350 Jsvalify(<span class="keyword">const</span> <a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a> *c)
+<a name="l00351"></a>00351 {
+<a name="l00352"></a>00352     <span class="keywordflow">return</span> (<span class="keyword">const</span> <a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a> *)<a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>;
+<a name="l00353"></a>00353 }
+<a name="l00354"></a>00354 
+<a name="l00355"></a>00355 <span class="keyword">static</span> JS_ALWAYS_INLINE <a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a> *
+<a name="l00356"></a>00356 Valueify(<a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a> *c)
+<a name="l00357"></a>00357 {
+<a name="l00358"></a>00358     <span class="keywordflow">return</span> (<a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a> *)<a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>;
+<a name="l00359"></a>00359 }
+<a name="l00360"></a>00360 <span class="keyword">static</span> JS_ALWAYS_INLINE <span class="keyword">const</span> <a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a> *
+<a name="l00361"></a>00361 Valueify(<span class="keyword">const</span> <a class="code" href="../../d2/dd1/struct_j_s_class.html">JSClass</a> *c)
+<a name="l00362"></a>00362 {
+<a name="l00363"></a>00363     <span class="keywordflow">return</span> (<span class="keyword">const</span> <a class="code" href="../../dc/d00/namespacemozilla_1_1dom_1_1_analyser_node_binding.html#a146b502b5cb5700cee67d7d16d6a981c">Class</a> *)<a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>;
+<a name="l00364"></a>00364 }
+<a name="l00365"></a>00365 
+<a name="l00366"></a>00366 <span class="comment">/*</span>
+<a name="l00367"></a>00367 <span class="comment"> * Enumeration describing possible values of the [[Class]] internal property</span>
+<a name="l00368"></a>00368 <span class="comment"> * value of objects.</span>
+<a name="l00369"></a>00369 <span class="comment"> */</span>
+<a name="l00370"></a><a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721a">00370</a> <span class="keyword">enum</span> <a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721a">ESClassValue</a> {
+<a name="l00371"></a><a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721aafbbb7b313e276e16f616f902a9c6e96a">00371</a>     <a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721aa601c0968ac2401e80bb7f6dd94987ce1">ESClass_Array</a>, <a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721aac902c9bd99b50ffdad8d35dc7000bec5">ESClass_Number</a>, <a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721aafbbb7b313e276e16f616f902a9c6e96a">ESClass_String</a>, <a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721aa84c8c0389c3778d290dfa4feeeba0741">ESClass_Boolean</a>,
+<a name="l00372"></a><a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721aa36b369044867760723e07ece0b71be80">00372</a>     <a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721aa36b369044867760723e07ece0b71be80">ESClass_RegExp</a>, <a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721aaea5ba9df5a455e5945ef054eb91a5259">ESClass_ArrayBuffer</a>, <a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721aa62e750a956e8ab74ac25a800f6e86f6c">ESClass_Date</a>
+<a name="l00373"></a>00373 };
+<a name="l00374"></a>00374 
+<a name="l00375"></a>00375 <span class="comment">/*</span>
+<a name="l00376"></a>00376 <span class="comment"> * Return whether the given object has the given [[Class]] internal property</span>
+<a name="l00377"></a>00377 <span class="comment"> * value. Beware, this query says nothing about the js::Class of the JSObject</span>
+<a name="l00378"></a>00378 <span class="comment"> * so the caller must not assume anything about obj&#39;s representation (e.g., obj</span>
+<a name="l00379"></a>00379 <span class="comment"> * may be a proxy).</span>
+<a name="l00380"></a>00380 <span class="comment"> */</span>
+<a name="l00381"></a>00381 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00382"></a>00382 <a class="code" href="../../db/da2/namespacejs.html#a85253c0109342e0e55534b2e5aa8d572">ObjectClassIs</a>(JSObject &amp;<a class="code" href="../../db/da2/namespacejs.html#afa0a750ea3f8b66dbedcde0b48e88d24">obj</a>, <a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721a">ESClassValue</a> classValue, <a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>);
+<a name="l00383"></a>00383 
+<a name="l00384"></a>00384 <span class="comment">/* Just a helper that checks v.isObject before calling ObjectClassIs. */</span>
+<a name="l00385"></a>00385 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00386"></a>00386 <a class="code" href="../../db/da2/namespacejs.html#af2761e6717d35740bf29907d51bcbb4a">IsObjectWithClass</a>(<span class="keyword">const</span> Value &amp;<a class="code" href="../../db/da2/namespacejs.html#a275c4f237481d5a4aeb0350f354aeeb0">v</a>, <a class="code" href="../../db/da2/namespacejs.html#ac7a780ef65af04e42fc68e3a45eb721a">ESClassValue</a> classValue, <a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>);
+<a name="l00387"></a>00387 
+<a name="l00388"></a>00388 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00389"></a><a class="code" href="../../db/da2/namespacejs.html#a8a1c63a1eeaa577385309aebca2e1d97">00389</a> <a class="code" href="../../db/da2/namespacejs.html#a8a1c63a1eeaa577385309aebca2e1d97">IsPoisonedSpecialId</a>(<a class="code" href="../../d5/de0/classjs_1_1_special_id.html">js::SpecialId</a> iden)
+<a name="l00390"></a>00390 {
+<a name="l00391"></a>00391     <span class="keywordflow">if</span> (iden.<a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a36fa3219befadfb788968aa31efb5850">isObject</a>())
+<a name="l00392"></a>00392         <span class="keywordflow">return</span> <a class="code" href="../../da/d7b/namespace_j_s.html#a5f3ab236563114ba05aad0fec919edbb">IsPoisonedPtr</a>(iden.<a class="code" href="../../d5/de0/classjs_1_1_special_id.html#a24d2aa87063b8fe1a7eaae23eb07bbb5">toObject</a>());
+<a name="l00393"></a>00393     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00394"></a>00394 }
+<a name="l00395"></a>00395 
+<a name="l00396"></a><a class="code" href="../../d7/d16/structjs_1_1_g_c_methods_3_01_special_id_01_4.html">00396</a> <span class="keyword">template</span> &lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d2/d74/structjs_1_1_g_c_methods.html">GCMethods</a>&lt;<a class="code" href="../../d5/de0/classjs_1_1_special_id.html">SpecialId</a>&gt;
+<a name="l00397"></a>00397 {
+<a name="l00398"></a><a class="code" href="../../d7/d16/structjs_1_1_g_c_methods_3_01_special_id_01_4.html#a81b915683b8e2f441f4eddae10cc0a8b">00398</a>     <span class="keyword">static</span> <a class="code" href="../../d5/de0/classjs_1_1_special_id.html">SpecialId</a> <a class="code" href="../../d7/d16/structjs_1_1_g_c_methods_3_01_special_id_01_4.html#a81b915683b8e2f441f4eddae10cc0a8b">initial</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d5/de0/classjs_1_1_special_id.html">SpecialId</a>(); }
+<a name="l00399"></a><a class="code" href="../../d7/d16/structjs_1_1_g_c_methods_3_01_special_id_01_4.html#ae1a15129c130c5c8410c53bf6fee3d88">00399</a>     <span class="keyword">static</span> <a class="code" href="../../db/da2/namespacejs.html#aa5d49315248633a3172d03f50fd69250">ThingRootKind</a> <a class="code" href="../../d7/d16/structjs_1_1_g_c_methods_3_01_special_id_01_4.html#ae1a15129c130c5c8410c53bf6fee3d88">kind</a>() { <span class="keywordflow">return</span> <a class="code" href="../../db/da2/namespacejs.html#aa5d49315248633a3172d03f50fd69250a0a01b10b44c8cd6af78e076f30f73210">THING_ROOT_ID</a>; }
+<a name="l00400"></a><a class="code" href="../../d7/d16/structjs_1_1_g_c_methods_3_01_special_id_01_4.html#a97487c7a4a5fc443b1c53f5bde410158">00400</a>     <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d7/d16/structjs_1_1_g_c_methods_3_01_special_id_01_4.html#a97487c7a4a5fc443b1c53f5bde410158">poisoned</a>(<a class="code" href="../../d5/de0/classjs_1_1_special_id.html">SpecialId</a> <span class="keywordtype">id</span>) { <span class="keywordflow">return</span> <a class="code" href="../../db/da2/namespacejs.html#a8a1c63a1eeaa577385309aebca2e1d97">IsPoisonedSpecialId</a>(<span class="keywordtype">id</span>); }
+<a name="l00401"></a>00401 };
+<a name="l00402"></a>00402 
+<a name="l00403"></a>00403 }  <span class="comment">/* namespace js */</span>
+<a name="l00404"></a>00404 
+<a name="l00405"></a>00405 <span class="preprocessor">#endif  </span><span class="comment">/* jsclass_h */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d6/de4/jsclass_8h.html">jsclass.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:29に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

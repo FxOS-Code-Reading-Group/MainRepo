@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsHttpAtomList.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d2/d3b/ns_http_atom_list_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsHttpAtomList.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d2/d3b/ns_http_atom_list_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/******</span>
+<a name="l00007"></a>00007 <span class="comment">  This file contains the list of all HTTP atoms</span>
+<a name="l00008"></a>00008 <span class="comment">  See nsHttp.h for access to the atoms.</span>
+<a name="l00009"></a>00009 <span class="comment"></span>
+<a name="l00010"></a>00010 <span class="comment">  It is designed to be used as inline input to nsHttp.cpp *only*</span>
+<a name="l00011"></a>00011 <span class="comment">  through the magic of C preprocessing.</span>
+<a name="l00012"></a>00012 <span class="comment"></span>
+<a name="l00013"></a>00013 <span class="comment">  All entries must be enclosed in the macro HTTP_ATOM which will have cruel</span>
+<a name="l00014"></a>00014 <span class="comment">  and unusual things done to it.</span>
+<a name="l00015"></a>00015 <span class="comment"></span>
+<a name="l00016"></a>00016 <span class="comment">  The first argument to HTTP_ATOM is the C++ name of the atom.</span>
+<a name="l00017"></a>00017 <span class="comment">  The second argument to HTTP_ATOM is the string value of the atom.</span>
+<a name="l00018"></a>00018 <span class="comment"> ******/</span>
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Accept,                    <span class="stringliteral">&quot;Accept&quot;</span>)
+<a name="l00021"></a>00021 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Accept_Encoding,           &quot;Accept-Encoding&quot;)
+<a name="l00022"></a>00022 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Accept_Language,           &quot;Accept-Language&quot;)
+<a name="l00023"></a>00023 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Accept_Ranges,             &quot;Accept-Ranges&quot;)
+<a name="l00024"></a>00024 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Age,                       &quot;Age&quot;)
+<a name="l00025"></a>00025 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Allow,                     &quot;Allow&quot;)
+<a name="l00026"></a>00026 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Assoc_Req,                 &quot;Assoc-Req&quot;)
+<a name="l00027"></a>00027 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Authentication,            &quot;Authentication&quot;)
+<a name="l00028"></a>00028 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Authorization,             &quot;Authorization&quot;)
+<a name="l00029"></a>00029 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Cache_Control,             &quot;<a class="code" href="../../df/dc7/viewer_8js.html#a76d318f343f9767b7d460700a7d01e39">Cache</a>-Control&quot;)
+<a name="l00030"></a>00030 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Connection,                &quot;Connection&quot;)
+<a name="l00031"></a>00031 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Content_Disposition,       &quot;<a class="code" href="../../d9/dfa/_storage_privilege_8h.html#aee5d6d25a3414dc252082125b8ecc1a2a467d2aac50ff4e1325f3a2e9d9f7079d">Content</a>-Disposition&quot;)
+<a name="l00032"></a>00032 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Content_Encoding,          &quot;<a class="code" href="../../d9/dfa/_storage_privilege_8h.html#aee5d6d25a3414dc252082125b8ecc1a2a467d2aac50ff4e1325f3a2e9d9f7079d">Content</a>-Encoding&quot;)
+<a name="l00033"></a>00033 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Content_Language,          &quot;<a class="code" href="../../d9/dfa/_storage_privilege_8h.html#aee5d6d25a3414dc252082125b8ecc1a2a467d2aac50ff4e1325f3a2e9d9f7079d">Content</a>-Language&quot;)
+<a name="l00034"></a>00034 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Content_Length,            &quot;<a class="code" href="../../d9/dfa/_storage_privilege_8h.html#aee5d6d25a3414dc252082125b8ecc1a2a467d2aac50ff4e1325f3a2e9d9f7079d">Content</a>-Length&quot;)
+<a name="l00035"></a>00035 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Content_Location,          &quot;<a class="code" href="../../d9/dfa/_storage_privilege_8h.html#aee5d6d25a3414dc252082125b8ecc1a2a467d2aac50ff4e1325f3a2e9d9f7079d">Content</a>-<a class="code" href="../../db/d58/_location_8js.html#a7366a814bfa5054e86e9064d6b20e058">Location</a>&quot;)
+<a name="l00036"></a>00036 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Content_MD5,               &quot;<a class="code" href="../../d9/dfa/_storage_privilege_8h.html#aee5d6d25a3414dc252082125b8ecc1a2a467d2aac50ff4e1325f3a2e9d9f7079d">Content</a>-MD5&quot;)
+<a name="l00037"></a>00037 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Content_Range,             &quot;<a class="code" href="../../d9/dfa/_storage_privilege_8h.html#aee5d6d25a3414dc252082125b8ecc1a2a467d2aac50ff4e1325f3a2e9d9f7079d">Content</a>-<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a613dc03693abce1debd83ef11ea83237">Range</a>&quot;)
+<a name="l00038"></a>00038 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Content_Type,              &quot;<a class="code" href="../../d9/dfa/_storage_privilege_8h.html#aee5d6d25a3414dc252082125b8ecc1a2a467d2aac50ff4e1325f3a2e9d9f7079d">Content</a>-<a class="code" href="../../d3/d0f/ns_display_item_types_8h.html#a1d1cfd8ffb84e947f82999c682b666a7">Type</a>&quot;)
+<a name="l00039"></a>00039 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Cookie,                    &quot;Cookie&quot;)
+<a name="l00040"></a>00040 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Date,                      &quot;Date&quot;)
+<a name="l00041"></a>00041 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(DAV,                       &quot;DAV&quot;)
+<a name="l00042"></a>00042 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Depth,                     &quot;Depth&quot;)
+<a name="l00043"></a>00043 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Destination,               &quot;Destination&quot;)
+<a name="l00044"></a>00044 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(DoNotTrack,                &quot;DNT&quot;)
+<a name="l00045"></a>00045 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(ETag,                      &quot;Etag&quot;)
+<a name="l00046"></a>00046 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Expect,                    &quot;Expect&quot;)
+<a name="l00047"></a>00047 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Expires,                   &quot;Expires&quot;)
+<a name="l00048"></a>00048 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(From,                      &quot;From&quot;)
+<a name="l00049"></a>00049 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Host,                      &quot;Host&quot;)
+<a name="l00050"></a>00050 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(If,                        &quot;If&quot;)
+<a name="l00051"></a>00051 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(If_Match,                  &quot;If-Match&quot;)
+<a name="l00052"></a>00052 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(If_Modified_Since,         &quot;If-Modified-Since&quot;)
+<a name="l00053"></a>00053 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(If_None_Match,             &quot;If-None-Match&quot;)
+<a name="l00054"></a>00054 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(If_None_Match_Any,         &quot;If-None-Match-Any&quot;)
+<a name="l00055"></a>00055 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(If_Range,                  &quot;If-<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a613dc03693abce1debd83ef11ea83237">Range</a>&quot;)
+<a name="l00056"></a>00056 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(If_Unmodified_Since,       &quot;If-Unmodified-Since&quot;)
+<a name="l00057"></a>00057 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Keep_Alive,                &quot;Keep-Alive&quot;)
+<a name="l00058"></a>00058 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Last_Modified,             &quot;Last-Modified&quot;)
+<a name="l00059"></a>00059 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Lock_Token,                &quot;Lock-<a class="code" href="../../d8/dcf/namespaceply_1_1lex.html#aee2b1137fcb3024668ea8397102cfa32">Token</a>&quot;)
+<a name="l00060"></a>00060 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Link,                      &quot;Link&quot;)
+<a name="l00061"></a>00061 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(<a class="code" href="../../db/d58/_location_8js.html#a7366a814bfa5054e86e9064d6b20e058">Location</a>,                  &quot;Location&quot;)
+<a name="l00062"></a>00062 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Max_Forwards,              &quot;<a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a1defcac221da2bcc23efe704013c5097">Max</a>-Forwards&quot;)
+<a name="l00063"></a>00063 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Overwrite,                 &quot;Overwrite&quot;)
+<a name="l00064"></a>00064 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Pragma,                    &quot;Pragma&quot;)
+<a name="l00065"></a>00065 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Proxy_Authenticate,        &quot;<a class="code" href="../../d6/d51/namespacemozilla_1_1plugins.html#a55a06f6daa19ce25e9e2577db78f52b8ab858621edc8a5130eafcdf16b10e5b1d">Proxy</a>-Authenticate&quot;)
+<a name="l00066"></a>00066 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Proxy_Authorization,       &quot;<a class="code" href="../../d6/d51/namespacemozilla_1_1plugins.html#a55a06f6daa19ce25e9e2577db78f52b8ab858621edc8a5130eafcdf16b10e5b1d">Proxy</a>-Authorization&quot;)
+<a name="l00067"></a>00067 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Proxy_Connection,          &quot;<a class="code" href="../../d6/d51/namespacemozilla_1_1plugins.html#a55a06f6daa19ce25e9e2577db78f52b8ab858621edc8a5130eafcdf16b10e5b1d">Proxy</a>-Connection&quot;)
+<a name="l00068"></a>00068 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a613dc03693abce1debd83ef11ea83237">Range</a>,                     &quot;Range&quot;)
+<a name="l00069"></a>00069 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Referer,                   &quot;Referer&quot;)
+<a name="l00070"></a>00070 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Retry_After,               &quot;Retry-After&quot;)
+<a name="l00071"></a>00071 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(<a class="code" href="../../d2/d66/browser_2test_2marionette_2contextmenu__test_8js.html#a71ac23e84e03ab1e133ce636bd4d602d">Server</a>,                    &quot;Server&quot;)
+<a name="l00072"></a>00072 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Set_Cookie,                &quot;<a class="code" href="../../d3/df6/namespacemozilla_1_1layers_1_1_compositable_map.html#ae5daaaa149c87001fc1f934f80127072">Set</a>-Cookie&quot;)
+<a name="l00073"></a>00073 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Set_Cookie2,               &quot;<a class="code" href="../../d3/df6/namespacemozilla_1_1layers_1_1_compositable_map.html#ae5daaaa149c87001fc1f934f80127072">Set</a>-Cookie2&quot;)
+<a name="l00074"></a>00074 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Status_URI,                &quot;<a class="code" href="../../d5/d76/_worker_feature_8h.html#a67a0db04d321a74b7e7fcfd3f1a3f70b">Status</a>-URI&quot;)
+<a name="l00075"></a>00075 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(TE,                        &quot;TE&quot;)
+<a name="l00076"></a>00076 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Title,                     &quot;Title&quot;)
+<a name="l00077"></a>00077 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Timeout,                   &quot;Timeout&quot;)
+<a name="l00078"></a>00078 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Trailer,                   &quot;Trailer&quot;)
+<a name="l00079"></a>00079 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Transfer_Encoding,         &quot;Transfer-Encoding&quot;)
+<a name="l00080"></a>00080 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(URI,                       &quot;URI&quot;)
+<a name="l00081"></a>00081 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Upgrade,                   &quot;Upgrade&quot;)
+<a name="l00082"></a>00082 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(User_Agent,                &quot;User-<a class="code" href="../../d7/d1b/test-agent-server_8js.html#af7f241e7f27352d5b357396d002aa46d">Agent</a>&quot;)
+<a name="l00083"></a>00083 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Vary,                      &quot;Vary&quot;)
+<a name="l00084"></a>00084 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Version,                   &quot;Version&quot;)
+<a name="l00085"></a>00085 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(WWW_Authenticate,          &quot;WWW-Authenticate&quot;)
+<a name="l00086"></a>00086 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Warning,                   &quot;Warning&quot;)
+<a name="l00087"></a>00087 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(X_Firefox_Spdy,            &quot;<a class="code" href="../../da/d7d/sylvester_8js.html#af2f144226eef01a80d1ad95fc2c088d8">X</a>-Firefox-Spdy&quot;)
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 <span class="comment">// methods are atoms too.</span>
+<a name="l00090"></a>00090 <span class="comment">//</span>
+<a name="l00091"></a>00091 <span class="comment">// Note: winnt.h defines DELETE macro, so we&#39;ll just keep the methods mixedcase</span>
+<a name="l00092"></a>00092 <span class="comment">// even though they&#39;re normally written all uppercase. -- darin</span>
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Connect,                   &quot;CONNECT&quot;)
+<a name="l00095"></a>00095 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Copy,                      &quot;COPY&quot;)
+<a name="l00096"></a>00096 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Delete,                    &quot;DELETE&quot;)
+<a name="l00097"></a>00097 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(<a class="code" href="../../d3/df6/namespacemozilla_1_1layers_1_1_compositable_map.html#aa1ea1d81077f56e64cb786155c96cb45">Get</a>,                       &quot;GET&quot;)
+<a name="l00098"></a>00098 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Head,                      &quot;HEAD&quot;)
+<a name="l00099"></a>00099 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Index,                     &quot;INDEX&quot;)
+<a name="l00100"></a>00100 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Lock,                      &quot;LOCK&quot;)
+<a name="l00101"></a>00101 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(M_Post,                    &quot;M-POST&quot;)
+<a name="l00102"></a>00102 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Mkcol,                     &quot;MKCOL&quot;)
+<a name="l00103"></a>00103 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#aff4754243ccc78444027ffa55c6762da">Move</a>,                      &quot;MOVE&quot;)
+<a name="l00104"></a>00104 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Options,                   &quot;OPTIONS&quot;)
+<a name="l00105"></a>00105 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Post,                      &quot;POST&quot;)
+<a name="l00106"></a>00106 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Propfind,                  &quot;PROPFIND&quot;)
+<a name="l00107"></a>00107 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Proppatch,                 &quot;PROPPATCH&quot;)
+<a name="l00108"></a>00108 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Put,                       &quot;PUT&quot;)
+<a name="l00109"></a>00109 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Report,                    &quot;REPORT&quot;)
+<a name="l00110"></a>00110 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(<a class="code" href="../../d2/d19/search_8js.html#af286cfd823c69bc9fc04dca05e633a40">Search</a>,                    &quot;SEARCH&quot;)
+<a name="l00111"></a>00111 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Trace,                     &quot;TRACE&quot;)
+<a name="l00112"></a>00112 <a class="code" href="../../d5/dd5/ns_http_8h.html#a99bff1c9749280d46c830ce5584fa3d7">HTTP_ATOM</a>(Unlock,                    &quot;UNLOCK&quot;)
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d2/d3b/ns_http_atom_list_8h.html">nsHttpAtomList.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:10に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

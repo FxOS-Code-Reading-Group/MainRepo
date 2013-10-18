@@ -1,0 +1,27 @@
+var classmozilla_1_1dom_1_1_x_b_l_children_element =
+[
+    [ "XBLChildrenElement", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a7bbf5e0b6423d8f5dfd2381b6b98c263", null ],
+    [ "~XBLChildrenElement", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a4bdfcad3d3430ad4a144f8fb15d3b43e", null ],
+    [ "AppendInsertedChild", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a71aeae8f0e795fec30a6d8ebd996b99d", null ],
+    [ "AsDOMNode", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#ac5714df43e74f8b1ecc0e6b5e6b867ea", null ],
+    [ "ClearInsertedChildren", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#aa73d608dd75884b20c2f3c6a7cf3a011", null ],
+    [ "ClearInsertedChildrenAndInsertionParents", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a0c6bb8d44682d3f387fb68c6864f9951", null ],
+    [ "Clone", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a70ff02dc0ad4443bbb433cbdccd6b9cf", null ],
+    [ "DoGetID", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a6380d98001f5ae1e2883c61702cd926a", null ],
+    [ "GetClassInfo", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a4824a463047857dabfeaabce4ee8a2f3", null ],
+    [ "GetIDAttributeName", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#ad7f307631451ff8dd08157fde50fb82a", null ],
+    [ "HasInsertedChildren", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a53b87d211c02d6aef2791c486e1b30d7", null ],
+    [ "Includes", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#af2044c240e3cefe4ed44ec8ed0b46b66", null ],
+    [ "IndexOfInsertedChild", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a08815349587cf531f6867fde105056e2", null ],
+    [ "InsertedChildrenLength", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#ab2929a9d88c3e93645d000ca7cae2baa", null ],
+    [ "InsertInsertedChildAt", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a8bde480ed0f440f07ba57755b8647c12", null ],
+    [ "IsDefaultInsertion", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a95beccfa2b55b52949472ea0a9d026be", null ],
+    [ "MaybeRemoveDefaultContent", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a0c6725c6bb7baec0f01b0ee420cebb1b", null ],
+    [ "MaybeSetupDefaultContent", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a0c00cf213a873c68c01f72e9850e7574", null ],
+    [ "ParseAttribute", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#ad33f6519722ce4291c57b4d59f8547ce", null ],
+    [ "RemoveInsertedChild", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a4de64e6c01666580d4d17b2664391ec6", null ],
+    [ "UnsetAttr", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#acc53915668ff1ab6186f15be93fcc932", null ],
+    [ "mozilla::dom::ExplicitChildIterator", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#accdb596394ccd6769b73fa859b172989", null ],
+    [ "nsAnonymousContentList", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a1133f749d5a95588a1752a822462f1c2", null ],
+    [ "mInsertedChildren", "d6/d47/classmozilla_1_1dom_1_1_x_b_l_children_element.html#a5ef446b25bcc81970b09ecba164b2519", null ]
+];

@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_device_storage_change_event_init_initializer =
+[
+    [ "DeviceStorageChangeEventInitInitializer", "d8/d1a/structmozilla_1_1dom_1_1_device_storage_change_event_init_initializer.html#a1a7e5456a9f5fa4764ac15ed921cc17e", null ]
+];

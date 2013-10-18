@@ -1,0 +1,1239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: MediaDecoder.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('db/d29/_media_decoder_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">MediaDecoder.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../db/d29/_media_decoder_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim:set ts=2 sw=2 sts=2 et cindent: */</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment">Each video element based on MediaDecoder has a state machine to manage</span>
+<a name="l00008"></a>00008 <span class="comment">its play state and keep the current frame up to date. All state machines</span>
+<a name="l00009"></a>00009 <span class="comment">share time in a single shared thread. Each decoder also has one thread</span>
+<a name="l00010"></a>00010 <span class="comment">dedicated to decoding audio and video data. This thread is shutdown when</span>
+<a name="l00011"></a>00011 <span class="comment">playback is paused. Each decoder also has a thread to push decoded audio</span>
+<a name="l00012"></a>00012 <span class="comment">to the hardware. This thread is not created until playback starts, but</span>
+<a name="l00013"></a>00013 <span class="comment">currently is not destroyed when paused, only when playback ends.</span>
+<a name="l00014"></a>00014 <span class="comment"></span>
+<a name="l00015"></a>00015 <span class="comment">The decoder owns the resources for downloading the media file, and the</span>
+<a name="l00016"></a>00016 <span class="comment">high level state. It holds an owning reference to the state machine that</span>
+<a name="l00017"></a>00017 <span class="comment">owns all the resources related to decoding data, and manages the low level</span>
+<a name="l00018"></a>00018 <span class="comment">decoding operations and A/V sync.</span>
+<a name="l00019"></a>00019 <span class="comment"></span>
+<a name="l00020"></a>00020 <span class="comment">Each state machine runs on the shared state machine thread. Every time some</span>
+<a name="l00021"></a>00021 <span class="comment">action is required for a state machine, it is scheduled to run on the shared</span>
+<a name="l00022"></a>00022 <span class="comment">the state machine thread. The state machine runs one &quot;cycle&quot; on the state</span>
+<a name="l00023"></a>00023 <span class="comment">machine thread, and then returns. If necessary, it will schedule itself to</span>
+<a name="l00024"></a>00024 <span class="comment">run again in future. While running this cycle, it must not block the</span>
+<a name="l00025"></a>00025 <span class="comment">thread, as other state machines&#39; events may need to run. State shared</span>
+<a name="l00026"></a>00026 <span class="comment">between a state machine&#39;s threads is synchronised via the monitor owned</span>
+<a name="l00027"></a>00027 <span class="comment">by its MediaDecoder object.</span>
+<a name="l00028"></a>00028 <span class="comment"></span>
+<a name="l00029"></a>00029 <span class="comment">The Main thread controls the decode state machine by setting the value</span>
+<a name="l00030"></a>00030 <span class="comment">of a mPlayState variable and notifying on the monitor based on the</span>
+<a name="l00031"></a>00031 <span class="comment">high level player actions required (Seek, Pause, Play, etc).</span>
+<a name="l00032"></a>00032 <span class="comment"></span>
+<a name="l00033"></a>00033 <span class="comment">The player states are the states requested by the client through the</span>
+<a name="l00034"></a>00034 <span class="comment">DOM API.  They represent the desired state of the player, while the</span>
+<a name="l00035"></a>00035 <span class="comment">decoder&#39;s state represents the actual state of the decoder.</span>
+<a name="l00036"></a>00036 <span class="comment"></span>
+<a name="l00037"></a>00037 <span class="comment">The high level state of the player is maintained via a PlayState value.</span>
+<a name="l00038"></a>00038 <span class="comment">It can have the following states:</span>
+<a name="l00039"></a>00039 <span class="comment"></span>
+<a name="l00040"></a>00040 <span class="comment">START</span>
+<a name="l00041"></a>00041 <span class="comment">  The decoder has been initialized but has no resource loaded.</span>
+<a name="l00042"></a>00042 <span class="comment">PAUSED</span>
+<a name="l00043"></a>00043 <span class="comment">  A request via the API has been received to pause playback.</span>
+<a name="l00044"></a>00044 <span class="comment">LOADING</span>
+<a name="l00045"></a>00045 <span class="comment">  A request via the API has been received to load a resource.</span>
+<a name="l00046"></a>00046 <span class="comment">PLAYING</span>
+<a name="l00047"></a>00047 <span class="comment">  A request via the API has been received to start playback.</span>
+<a name="l00048"></a>00048 <span class="comment">SEEKING</span>
+<a name="l00049"></a>00049 <span class="comment">  A request via the API has been received to start seeking.</span>
+<a name="l00050"></a>00050 <span class="comment">COMPLETED</span>
+<a name="l00051"></a>00051 <span class="comment">  Playback has completed.</span>
+<a name="l00052"></a>00052 <span class="comment">SHUTDOWN</span>
+<a name="l00053"></a>00053 <span class="comment">  The decoder is about to be destroyed.</span>
+<a name="l00054"></a>00054 <span class="comment"></span>
+<a name="l00055"></a>00055 <span class="comment">State transition occurs when the Media Element calls the Play, Seek,</span>
+<a name="l00056"></a>00056 <span class="comment">etc methods on the MediaDecoder object. When the transition</span>
+<a name="l00057"></a>00057 <span class="comment">occurs MediaDecoder then calls the methods on the decoder state</span>
+<a name="l00058"></a>00058 <span class="comment">machine object to cause it to behave as required by the play state.</span>
+<a name="l00059"></a>00059 <span class="comment">State transitions will likely schedule the state machine to run to</span>
+<a name="l00060"></a>00060 <span class="comment">affect the change.</span>
+<a name="l00061"></a>00061 <span class="comment"></span>
+<a name="l00062"></a>00062 <span class="comment">An implementation of the MediaDecoderStateMachine class is the event</span>
+<a name="l00063"></a>00063 <span class="comment">that gets dispatched to the state machine thread. Each time the event is run,</span>
+<a name="l00064"></a>00064 <span class="comment">the state machine must cycle the state machine once, and then return.</span>
+<a name="l00065"></a>00065 <span class="comment"></span>
+<a name="l00066"></a>00066 <span class="comment">The state machine has the following states:</span>
+<a name="l00067"></a>00067 <span class="comment"></span>
+<a name="l00068"></a>00068 <span class="comment">DECODING_METADATA</span>
+<a name="l00069"></a>00069 <span class="comment">  The media headers are being loaded, and things like framerate, etc are</span>
+<a name="l00070"></a>00070 <span class="comment">  being determined, and the first frame of audio/video data is being decoded.</span>
+<a name="l00071"></a>00071 <span class="comment">DECODING</span>
+<a name="l00072"></a>00072 <span class="comment">  The decode has started. If the PlayState is PLAYING, the decode thread</span>
+<a name="l00073"></a>00073 <span class="comment">  should be alive and decoding video and audio frame, the audio thread</span>
+<a name="l00074"></a>00074 <span class="comment">  should be playing audio, and the state machine should run periodically</span>
+<a name="l00075"></a>00075 <span class="comment">  to update the video frames being displayed.</span>
+<a name="l00076"></a>00076 <span class="comment">SEEKING</span>
+<a name="l00077"></a>00077 <span class="comment">  A seek operation is in progress. The decode thread should be seeking.</span>
+<a name="l00078"></a>00078 <span class="comment">BUFFERING</span>
+<a name="l00079"></a>00079 <span class="comment">  Decoding is paused while data is buffered for smooth playback. If playback</span>
+<a name="l00080"></a>00080 <span class="comment">  is paused (PlayState transitions to PAUSED) we&#39;ll destory the decode thread.</span>
+<a name="l00081"></a>00081 <span class="comment">COMPLETED</span>
+<a name="l00082"></a>00082 <span class="comment">  The resource has completed decoding, but possibly not finished playback.</span>
+<a name="l00083"></a>00083 <span class="comment">  The decode thread will be destroyed. Once playback finished, the audio</span>
+<a name="l00084"></a>00084 <span class="comment">  thread will also be destroyed.</span>
+<a name="l00085"></a>00085 <span class="comment">SHUTDOWN</span>
+<a name="l00086"></a>00086 <span class="comment">  The decoder object and its state machine are about to be destroyed.</span>
+<a name="l00087"></a>00087 <span class="comment">  Once the last state machine has been destroyed, the shared state machine</span>
+<a name="l00088"></a>00088 <span class="comment">  thread will also be destroyed. It will be recreated later if needed.</span>
+<a name="l00089"></a>00089 <span class="comment"></span>
+<a name="l00090"></a>00090 <span class="comment">The following result in state transitions.</span>
+<a name="l00091"></a>00091 <span class="comment"></span>
+<a name="l00092"></a>00092 <span class="comment">Shutdown()</span>
+<a name="l00093"></a>00093 <span class="comment">  Clean up any resources the MediaDecoderStateMachine owns.</span>
+<a name="l00094"></a>00094 <span class="comment">Play()</span>
+<a name="l00095"></a>00095 <span class="comment">  Start decoding and playback of media data.</span>
+<a name="l00096"></a>00096 <span class="comment">Buffer</span>
+<a name="l00097"></a>00097 <span class="comment">  This is not user initiated. It occurs when the</span>
+<a name="l00098"></a>00098 <span class="comment">  available data in the stream drops below a certain point.</span>
+<a name="l00099"></a>00099 <span class="comment">Complete</span>
+<a name="l00100"></a>00100 <span class="comment">  This is not user initiated. It occurs when the</span>
+<a name="l00101"></a>00101 <span class="comment">  stream is completely decoded.</span>
+<a name="l00102"></a>00102 <span class="comment">Seek(double)</span>
+<a name="l00103"></a>00103 <span class="comment">  Seek to the time position given in the resource.</span>
+<a name="l00104"></a>00104 <span class="comment"></span>
+<a name="l00105"></a>00105 <span class="comment">A state transition diagram:</span>
+<a name="l00106"></a>00106 <span class="comment"></span>
+<a name="l00107"></a>00107 <span class="comment">DECODING_METADATA</span>
+<a name="l00108"></a>00108 <span class="comment">  |      |</span>
+<a name="l00109"></a>00109 <span class="comment">  v      | Shutdown()</span>
+<a name="l00110"></a>00110 <span class="comment">  |      |</span>
+<a name="l00111"></a>00111 <span class="comment">  v      --&gt;--------------------&gt;--------------------------|</span>
+<a name="l00112"></a>00112 <span class="comment">  |----------------&gt;-----&gt;------------------------|        v</span>
+<a name="l00113"></a>00113 <span class="comment">DECODING             |          |  |              |        |</span>
+<a name="l00114"></a>00114 <span class="comment">  ^                  v Seek(t)  |  |              |        |</span>
+<a name="l00115"></a>00115 <span class="comment">  |         Play()   |          v  |              |        |</span>
+<a name="l00116"></a>00116 <span class="comment">  ^-----------&lt;----SEEKING      |  v Complete     v        v</span>
+<a name="l00117"></a>00117 <span class="comment">  |                  |          |  |              |        |</span>
+<a name="l00118"></a>00118 <span class="comment">  |                  |          |  COMPLETED    SHUTDOWN-&lt;-|</span>
+<a name="l00119"></a>00119 <span class="comment">  ^                  ^          |  |Shutdown()    |</span>
+<a name="l00120"></a>00120 <span class="comment">  |                  |          |  &gt;--------&gt;-----^</span>
+<a name="l00121"></a>00121 <span class="comment">  |          Play()  |Seek(t)   |Buffer()         |</span>
+<a name="l00122"></a>00122 <span class="comment">  -----------&lt;--------&lt;-------BUFFERING           |</span>
+<a name="l00123"></a>00123 <span class="comment">                                |                 ^</span>
+<a name="l00124"></a>00124 <span class="comment">                                v Shutdown()      |</span>
+<a name="l00125"></a>00125 <span class="comment">                                |                 |</span>
+<a name="l00126"></a>00126 <span class="comment">                                ------------&gt;-----|</span>
+<a name="l00127"></a>00127 <span class="comment"></span>
+<a name="l00128"></a>00128 <span class="comment">The following represents the states that the MediaDecoder object</span>
+<a name="l00129"></a>00129 <span class="comment">can be in, and the valid states the MediaDecoderStateMachine can be in at that</span>
+<a name="l00130"></a>00130 <span class="comment">time:</span>
+<a name="l00131"></a>00131 <span class="comment"></span>
+<a name="l00132"></a>00132 <span class="comment">player LOADING   decoder DECODING_METADATA</span>
+<a name="l00133"></a>00133 <span class="comment">player PLAYING   decoder DECODING, BUFFERING, SEEKING, COMPLETED</span>
+<a name="l00134"></a>00134 <span class="comment">player PAUSED    decoder DECODING, BUFFERING, SEEKING, COMPLETED</span>
+<a name="l00135"></a>00135 <span class="comment">player SEEKING   decoder SEEKING</span>
+<a name="l00136"></a>00136 <span class="comment">player COMPLETED decoder SHUTDOWN</span>
+<a name="l00137"></a>00137 <span class="comment">player SHUTDOWN  decoder SHUTDOWN</span>
+<a name="l00138"></a>00138 <span class="comment"></span>
+<a name="l00139"></a>00139 <span class="comment">The general sequence of events is:</span>
+<a name="l00140"></a>00140 <span class="comment"></span>
+<a name="l00141"></a>00141 <span class="comment">1) The video element calls Load on MediaDecoder. This creates the</span>
+<a name="l00142"></a>00142 <span class="comment">   state machine and starts the channel for downloading the</span>
+<a name="l00143"></a>00143 <span class="comment">   file. It instantiates and schedules the MediaDecoderStateMachine. The</span>
+<a name="l00144"></a>00144 <span class="comment">   high level LOADING state is entered, which results in the decode</span>
+<a name="l00145"></a>00145 <span class="comment">   thread being created and starting to decode metadata. These are</span>
+<a name="l00146"></a>00146 <span class="comment">   the headers that give the video size, framerate, etc. Load() returns</span>
+<a name="l00147"></a>00147 <span class="comment">   immediately to the calling video element.</span>
+<a name="l00148"></a>00148 <span class="comment"></span>
+<a name="l00149"></a>00149 <span class="comment">2) When the metadata has been loaded by the decode thread, the state machine</span>
+<a name="l00150"></a>00150 <span class="comment">   will call a method on the video element object to inform it that this</span>
+<a name="l00151"></a>00151 <span class="comment">   step is done, so it can do the things required by the video specification</span>
+<a name="l00152"></a>00152 <span class="comment">   at this stage. The decode thread then continues to decode the first frame</span>
+<a name="l00153"></a>00153 <span class="comment">   of data.</span>
+<a name="l00154"></a>00154 <span class="comment"></span>
+<a name="l00155"></a>00155 <span class="comment">3) When the first frame of data has been successfully decoded the state</span>
+<a name="l00156"></a>00156 <span class="comment">   machine calls a method on the video element object to inform it that</span>
+<a name="l00157"></a>00157 <span class="comment">   this step has been done, once again so it can do the required things</span>
+<a name="l00158"></a>00158 <span class="comment">   by the video specification at this stage.</span>
+<a name="l00159"></a>00159 <span class="comment"></span>
+<a name="l00160"></a>00160 <span class="comment">   This results in the high level state changing to PLAYING or PAUSED</span>
+<a name="l00161"></a>00161 <span class="comment">   depending on any user action that may have occurred.</span>
+<a name="l00162"></a>00162 <span class="comment"></span>
+<a name="l00163"></a>00163 <span class="comment">   While the play state is PLAYING, the decode thread will decode</span>
+<a name="l00164"></a>00164 <span class="comment">   data, and the audio thread will push audio data to the hardware to</span>
+<a name="l00165"></a>00165 <span class="comment">   be played. The state machine will run periodically on the shared</span>
+<a name="l00166"></a>00166 <span class="comment">   state machine thread to ensure video frames are played at the</span>
+<a name="l00167"></a>00167 <span class="comment">   correct time; i.e. the state machine manages A/V sync.</span>
+<a name="l00168"></a>00168 <span class="comment"></span>
+<a name="l00169"></a>00169 <span class="comment">The Shutdown method on MediaDecoder closes the download channel, and</span>
+<a name="l00170"></a>00170 <span class="comment">signals to the state machine that it should shutdown. The state machine</span>
+<a name="l00171"></a>00171 <span class="comment">shuts down asynchronously, and will release the owning reference to the</span>
+<a name="l00172"></a>00172 <span class="comment">state machine once its threads are shutdown.</span>
+<a name="l00173"></a>00173 <span class="comment"></span>
+<a name="l00174"></a>00174 <span class="comment">The owning object of a MediaDecoder object *MUST* call Shutdown when</span>
+<a name="l00175"></a>00175 <span class="comment">destroying the MediaDecoder object.</span>
+<a name="l00176"></a>00176 <span class="comment"></span>
+<a name="l00177"></a>00177 <span class="comment">*/</span>
+<a name="l00178"></a>00178 <span class="preprocessor">#if !defined(MediaDecoder_h_)</span>
+<a name="l00179"></a>00179 <span class="preprocessor"></span><span class="preprocessor">#define MediaDecoder_h_</span>
+<a name="l00180"></a>00180 <span class="preprocessor"></span>
+<a name="l00181"></a>00181 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d5a/ns_i_supports_8h.html">nsISupports.h</a>&quot;</span>
+<a name="l00182"></a>00182 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00183"></a>00183 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d24/ns_i_thread_8h.html">nsIThread.h</a>&quot;</span>
+<a name="l00184"></a>00184 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d65/ns_i_channel_8h.html">nsIChannel.h</a>&quot;</span>
+<a name="l00185"></a>00185 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d73/ns_i_observer_8h.html">nsIObserver.h</a>&quot;</span>
+<a name="l00186"></a>00186 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00187"></a>00187 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/ddf/ns_size_8h.html">nsSize.h</a>&quot;</span>
+<a name="l00188"></a>00188 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6e/prlog_8h.html">prlog.h</a>&quot;</span>
+<a name="l00189"></a>00189 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d92/gfx_context_8h.html">gfxContext.h</a>&quot;</span>
+<a name="l00190"></a>00190 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/dab/gfx_rect_8h.html">gfxRect.h</a>&quot;</span>
+<a name="l00191"></a>00191 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d94/_media_resource_8h.html">MediaResource.h</a>&quot;</span>
+<a name="l00192"></a>00192 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d51/_reentrant_monitor_8h.html">mozilla/ReentrantMonitor.h</a>&quot;</span>
+<a name="l00193"></a>00193 <span class="preprocessor">#include &quot;<a class="code" href="../../de/df8/_media_stream_graph_8h.html">MediaStreamGraph.h</a>&quot;</span>
+<a name="l00194"></a>00194 <span class="preprocessor">#include &quot;<a class="code" href="../../d8/dd8/_media_decoder_owner_8h.html">MediaDecoderOwner.h</a>&quot;</span>
+<a name="l00195"></a>00195 <span class="preprocessor">#include &quot;<a class="code" href="../../d8/d39/_audio_channel_common_8h.html">AudioChannelCommon.h</a>&quot;</span>
+<a name="l00196"></a>00196 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d3b/_abstract_media_decoder_8h.html">AbstractMediaDecoder.h</a>&quot;</span>
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198 <span class="keyword">class </span><a class="code" href="../../d5/d6e/interfacens_i_stream_listener.html">nsIStreamListener</a>;
+<a name="l00199"></a>00199 <span class="keyword">class </span><a class="code" href="../../db/de2/interfacens_i_memory_reporter.html">nsIMemoryReporter</a>;
+<a name="l00200"></a>00200 <span class="keyword">class </span><a class="code" href="../../d5/d7f/interfacens_i_principal.html">nsIPrincipal</a>;
+<a name="l00201"></a>00201 <span class="keyword">class </span><a class="code" href="../../de/da2/interfacens_i_timer.html">nsITimer</a>;
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203 <span class="keyword">namespace </span>mozilla {
+<a name="l00204"></a>00204 <span class="keyword">namespace </span><a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a> {
+<a name="l00205"></a>00205 <span class="keyword">class </span><a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a4e0d20ad73401845f8354a296526ef83">TimeRanges</a>;
+<a name="l00206"></a>00206 }
+<a name="l00207"></a>00207 }
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209 <span class="keyword">using namespace </span><a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">mozilla::dom</a>;
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211 <span class="keyword">namespace </span>mozilla {
+<a name="l00212"></a>00212 <span class="keyword">namespace </span>layers {
+<a name="l00213"></a>00213 <span class="keyword">class </span>Image;
+<a name="l00214"></a>00214 } <span class="comment">//namespace layers</span>
+<a name="l00215"></a>00215 
+<a name="l00216"></a>00216 <span class="keyword">class </span>MediaByteRange;
+<a name="l00217"></a>00217 <span class="keyword">class </span>VideoFrameContainer;
+<a name="l00218"></a>00218 <span class="keyword">class </span>AudioStream;
+<a name="l00219"></a>00219 <span class="keyword">class </span>MediaDecoderStateMachine;
+<a name="l00220"></a>00220 <span class="keyword">class </span>MediaDecoderOwner;
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222 <span class="comment">// The size to use for audio data frames in MozAudioAvailable events.</span>
+<a name="l00223"></a>00223 <span class="comment">// This value is per channel, and is chosen to give ~43 fps of events,</span>
+<a name="l00224"></a>00224 <span class="comment">// for example, 44100 with 2 channels, 2*1024 = 2048.</span>
+<a name="l00225"></a>00225 <span class="keyword">static</span> <span class="keyword">const</span> uint32_t FRAMEBUFFER_LENGTH_PER_CHANNEL = 1024;
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227 <span class="comment">// The total size of the framebuffer used for MozAudioAvailable events</span>
+<a name="l00228"></a>00228 <span class="comment">// has to be within the following range.</span>
+<a name="l00229"></a>00229 <span class="keyword">static</span> <span class="keyword">const</span> uint32_t FRAMEBUFFER_LENGTH_MIN = 512;
+<a name="l00230"></a>00230 <span class="keyword">static</span> <span class="keyword">const</span> uint32_t FRAMEBUFFER_LENGTH_MAX = 16384;
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232 <span class="comment">// GetCurrentTime is defined in winbase.h as zero argument macro forwarding to</span>
+<a name="l00233"></a>00233 <span class="comment">// GetTickCount() and conflicts with MediaDecoder::GetCurrentTime implementation.</span>
+<a name="l00234"></a>00234 <span class="preprocessor">#ifdef GetCurrentTime</span>
+<a name="l00235"></a>00235 <span class="preprocessor"></span><span class="preprocessor">#undef GetCurrentTime</span>
+<a name="l00236"></a>00236 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00237"></a>00237 <span class="preprocessor"></span>
+<a name="l00238"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html">00238</a> <span class="keyword">class </span><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html">MediaDecoder</a> : <span class="keyword">public</span> <a class="code" href="../../d5/d6a/interfacens_i_observer.html">nsIObserver</a>,
+<a name="l00239"></a>00239                      <span class="keyword">public</span> <a class="code" href="../../de/dad/classmozilla_1_1_abstract_media_decoder.html">AbstractMediaDecoder</a>
+<a name="l00240"></a>00240 {
+<a name="l00241"></a>00241 <span class="keyword">public</span>:
+<a name="l00242"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a5337510cff90dce6f82f852faa6d3e4e">00242</a>   <span class="keyword">typedef</span> <a class="code" href="../../d8/d56/classmozilla_1_1layers_1_1_image.html">mozilla::layers::Image</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a5337510cff90dce6f82f852faa6d3e4e">Image</a>;
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#adc7f4e7f315cf8145f2c1312234d960b">NS_DECL_THREADSAFE_ISUPPORTS</a>
+<a name="l00245"></a>00245   <a class="code" href="../../de/d73/ns_i_observer_8h.html#a4f37c2b66a7d85e0ab2297b9d81301bb">NS_DECL_NSIOBSERVER</a>
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247   <span class="comment">// Enumeration for the valid play states (see mPlayState)</span>
+<a name="l00248"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79">00248</a>   <span class="keyword">enum</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79">PlayState</a> {
+<a name="l00249"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79a3b9b960be50800e6bd30e123272a3b24">00249</a>     <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79a3b9b960be50800e6bd30e123272a3b24">PLAY_STATE_START</a>,
+<a name="l00250"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79a9b201668b38c1e9b9635f4be7008fd4f">00250</a>     <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79a9b201668b38c1e9b9635f4be7008fd4f">PLAY_STATE_LOADING</a>,
+<a name="l00251"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79a0f021f1aab5345b9830fd9eba3986af9">00251</a>     <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79a0f021f1aab5345b9830fd9eba3986af9">PLAY_STATE_PAUSED</a>,
+<a name="l00252"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79aa34e0996bdf8fe6aeb33dc01226bb465">00252</a>     <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79aa34e0996bdf8fe6aeb33dc01226bb465">PLAY_STATE_PLAYING</a>,
+<a name="l00253"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79adcdcffb5fad9fa35d8dce5f8cef7bf05">00253</a>     <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79adcdcffb5fad9fa35d8dce5f8cef7bf05">PLAY_STATE_SEEKING</a>,
+<a name="l00254"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79af1478006be3327b099408683d6139b8f">00254</a>     <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79af1478006be3327b099408683d6139b8f">PLAY_STATE_ENDED</a>,
+<a name="l00255"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79a587720d3537601e23df74217cb553fc1">00255</a>     PLAY_STATE_SHUTDOWN
+<a name="l00256"></a>00256   };
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258   <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html">MediaDecoder</a>();
+<a name="l00259"></a>00259   <span class="keyword">virtual</span> ~<a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html">MediaDecoder</a>();
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261   <span class="comment">// Create a new decoder of the same type as this one.</span>
+<a name="l00262"></a>00262   <span class="comment">// Subclasses must implement this.</span>
+<a name="l00263"></a>00263   <span class="keyword">virtual</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html">MediaDecoder</a>* Clone() = 0;
+<a name="l00264"></a>00264   <span class="comment">// Create a new state machine to run this decoder.</span>
+<a name="l00265"></a>00265   <span class="comment">// Subclasses must implement this.</span>
+<a name="l00266"></a>00266   <span class="keyword">virtual</span> <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html">MediaDecoderStateMachine</a>* CreateStateMachine() = 0;
+<a name="l00267"></a>00267 
+<a name="l00268"></a>00268   <span class="comment">// Call on the main thread only.</span>
+<a name="l00269"></a>00269   <span class="comment">// Perform any initialization required for the decoder.</span>
+<a name="l00270"></a>00270   <span class="comment">// Return true on successful initialisation, false</span>
+<a name="l00271"></a>00271   <span class="comment">// on failure.</span>
+<a name="l00272"></a>00272   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../de/d79/namespacemozilla_1_1_available_memory_tracker.html#adb9d7dd5b6bb0a630490b2a4e7ef588e">Init</a>(<a class="code" href="../../d2/d9b/classmozilla_1_1_media_decoder_owner.html">MediaDecoderOwner</a>* aOwner);
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274   <span class="comment">// Cleanup internal data structures. Must be called on the main</span>
+<a name="l00275"></a>00275   <span class="comment">// thread by the owning object before that object disposes of this object.</span>
+<a name="l00276"></a>00276   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../da/d5e/namespacemozilla_1_1_hang_monitor.html#a091d1602e707e37271b31cecc2244fe2">Shutdown</a>();
+<a name="l00277"></a>00277 
+<a name="l00278"></a>00278   <span class="comment">// Start downloading the media. Decode the downloaded data up to the</span>
+<a name="l00279"></a>00279   <span class="comment">// point of the first frame of data.</span>
+<a name="l00280"></a>00280   <span class="comment">// aResource is the media stream to use. Ownership of aResource passes to</span>
+<a name="l00281"></a>00281   <span class="comment">// the decoder, even if Load returns an error.</span>
+<a name="l00282"></a>00282   <span class="comment">// This is called at most once per decoder, after Init().</span>
+<a name="l00283"></a>00283   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> Load(<a class="code" href="../../d6/d57/classmozilla_1_1_media_resource.html">MediaResource</a>* aResource,
+<a name="l00284"></a>00284                         <a class="code" href="../../d5/d6e/interfacens_i_stream_listener.html">nsIStreamListener</a>** aListener,
+<a name="l00285"></a>00285                         <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html">MediaDecoder</a>* aCloneDonor);
+<a name="l00286"></a>00286 
+<a name="l00287"></a>00287   <span class="comment">// Called in |Load| to open the media resource.</span>
+<a name="l00288"></a>00288   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> OpenResource(<a class="code" href="../../d6/d57/classmozilla_1_1_media_resource.html">MediaResource</a>* aResource,
+<a name="l00289"></a>00289                         <a class="code" href="../../d5/d6e/interfacens_i_stream_listener.html">nsIStreamListener</a>** aStreamListener);
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291   <span class="comment">// Called when the video file has completed downloading.</span>
+<a name="l00292"></a>00292   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ResourceLoaded();
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294   <span class="comment">// Called if the media file encounters a network error.</span>
+<a name="l00295"></a>00295   <span class="keyword">virtual</span> <span class="keywordtype">void</span> NetworkError();
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297   <span class="comment">// Get the current MediaResource being used. Its URI will be returned</span>
+<a name="l00298"></a>00298   <span class="comment">// by currentSrc. Returns what was passed to Load(), if Load() has been called.</span>
+<a name="l00299"></a>00299   <span class="comment">// Note: The MediaResource is refcounted, but it outlives the MediaDecoder,</span>
+<a name="l00300"></a>00300   <span class="comment">// so it&#39;s OK to use the reference returned by this function without</span>
+<a name="l00301"></a>00301   <span class="comment">// refcounting, *unless* you need to store and use the reference after the</span>
+<a name="l00302"></a>00302   <span class="comment">// MediaDecoder has been destroyed. You might need to do this if you&#39;re</span>
+<a name="l00303"></a>00303   <span class="comment">// wrapping the MediaResource in some kind of byte stream interface to be</span>
+<a name="l00304"></a>00304   <span class="comment">// passed to a platform decoder.</span>
+<a name="l00305"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a041b5f5912718b99082b85002ff276a8">00305</a>   <a class="code" href="../../d6/d57/classmozilla_1_1_media_resource.html">MediaResource</a>* GetResource() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE
+<a name="l00306"></a>00306   {
+<a name="l00307"></a>00307     <span class="keywordflow">return</span> mResource;
+<a name="l00308"></a>00308   }
+<a name="l00309"></a>00309 
+<a name="l00310"></a>00310   <span class="comment">// Return the principal of the current URI being played or downloaded.</span>
+<a name="l00311"></a>00311   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsIPrincipal&gt;</a> GetCurrentPrincipal();
+<a name="l00312"></a>00312 
+<a name="l00313"></a>00313   <span class="comment">// Return the time position in the video stream being</span>
+<a name="l00314"></a>00314   <span class="comment">// played measured in seconds.</span>
+<a name="l00315"></a>00315   <span class="keyword">virtual</span> <span class="keywordtype">double</span> GetCurrentTime();
+<a name="l00316"></a>00316 
+<a name="l00317"></a>00317   <span class="comment">// Seek to the time position in (seconds) from the start of the video.</span>
+<a name="l00318"></a>00318   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> Seek(<span class="keywordtype">double</span> aTime);
+<a name="l00319"></a>00319 
+<a name="l00320"></a>00320   <span class="comment">// Enables decoders to supply an enclosing byte range for a seek offset.</span>
+<a name="l00321"></a>00321   <span class="comment">// E.g. used by ChannelMediaResource to download a whole cluster for</span>
+<a name="l00322"></a>00322   <span class="comment">// DASH-WebM.</span>
+<a name="l00323"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ab9fc525981d674037f4453b0b214b7ce">00323</a>   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> GetByteRangeForSeek(int64_t <span class="keyword">const</span> aOffset,
+<a name="l00324"></a>00324                                        <a class="code" href="../../de/d39/classmozilla_1_1_media_byte_range.html">MediaByteRange</a> &amp;aByteRange) {
+<a name="l00325"></a>00325     <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#add557738778e863a1381883ae4864c6d">NS_ERROR_NOT_AVAILABLE</a>;
+<a name="l00326"></a>00326   }
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328   <span class="comment">// Initialize state machine and schedule it.</span>
+<a name="l00329"></a>00329   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> InitializeStateMachine(<a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html">MediaDecoder</a>* aCloneDonor);
+<a name="l00330"></a>00330 
+<a name="l00331"></a>00331   <span class="comment">// Start playback of a video. &#39;Load&#39; must have previously been</span>
+<a name="l00332"></a>00332   <span class="comment">// called.</span>
+<a name="l00333"></a>00333   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> Play();
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335   <span class="comment">// Set/Unset dormant state if necessary.</span>
+<a name="l00336"></a>00336   <span class="comment">// Dormant state is a state to free all scarce media resources</span>
+<a name="l00337"></a>00337   <span class="comment">//  (like hw video codec), did not decoding and stay dormant.</span>
+<a name="l00338"></a>00338   <span class="comment">// It is used to share scarece media resources in system.</span>
+<a name="l00339"></a>00339   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetDormantIfNecessary(<span class="keywordtype">bool</span> aDormant);
+<a name="l00340"></a>00340 
+<a name="l00341"></a>00341   <span class="comment">// Pause video playback.</span>
+<a name="l00342"></a>00342   <span class="keyword">virtual</span> <span class="keywordtype">void</span> Pause();
+<a name="l00343"></a>00343   <span class="comment">// Adjust the speed of the playback, optionally with pitch correction,</span>
+<a name="l00344"></a>00344   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetVolume(<span class="keywordtype">double</span> aVolume);
+<a name="l00345"></a>00345   <span class="comment">// Sets whether audio is being captured. If it is, we won&#39;t play any</span>
+<a name="l00346"></a>00346   <span class="comment">// of our audio.</span>
+<a name="l00347"></a>00347   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetAudioCaptured(<span class="keywordtype">bool</span> aCaptured);
+<a name="l00348"></a>00348 
+<a name="l00349"></a>00349   <span class="keywordtype">void</span> SetPlaybackRate(<span class="keywordtype">double</span> aPlaybackRate);
+<a name="l00350"></a>00350   <span class="keywordtype">void</span> SetPreservesPitch(<span class="keywordtype">bool</span> aPreservesPitch);
+<a name="l00351"></a>00351 
+<a name="l00352"></a>00352   <span class="comment">// All MediaStream-related data is protected by mReentrantMonitor.</span>
+<a name="l00353"></a>00353   <span class="comment">// We have at most one DecodedStreamData per MediaDecoder. Its stream</span>
+<a name="l00354"></a>00354   <span class="comment">// is used as the input for each ProcessedMediaStream created by calls to</span>
+<a name="l00355"></a>00355   <span class="comment">// captureStream(UntilEnded). Seeking creates a new source stream, as does</span>
+<a name="l00356"></a>00356   <span class="comment">// replaying after the input as ended. In the latter case, the new source is</span>
+<a name="l00357"></a>00357   <span class="comment">// not connected to streams created by captureStreamUntilEnded.</span>
+<a name="l00358"></a>00358 
+<a name="l00359"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html">00359</a>   <span class="keyword">struct </span>DecodedStreamData <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> : <span class="keyword">public</span> <a class="code" href="../../da/d5c/classmozilla_1_1_main_thread_media_stream_listener.html">MainThreadMediaStreamListener</a> {
+<a name="l00360"></a>00360     DecodedStreamData(<a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html">MediaDecoder</a>* aDecoder,
+<a name="l00361"></a>00361                       int64_t aInitialTime, <a class="code" href="../../dc/dd0/classmozilla_1_1_source_media_stream.html">SourceMediaStream</a>* aStream);
+<a name="l00362"></a>00362     ~DecodedStreamData();
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364     <span class="comment">// The following group of fields are protected by the decoder&#39;s monitor</span>
+<a name="l00365"></a>00365     <span class="comment">// and can be read or written on any thread.</span>
+<a name="l00366"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a64e81da6e71091545a79d9788610ec43">00366</a>     int64_t <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a64e81da6e71091545a79d9788610ec43">mLastAudioPacketTime</a>; <span class="comment">// microseconds</span>
+<a name="l00367"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#aadae3c7bccfc41c63aeebbfd63c57736">00367</a>     int64_t <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#aadae3c7bccfc41c63aeebbfd63c57736">mLastAudioPacketEndTime</a>; <span class="comment">// microseconds</span>
+<a name="l00368"></a>00368     <span class="comment">// Count of audio frames written to the stream</span>
+<a name="l00369"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#ad782743173d48fe6431917a11dc2a622">00369</a>     int64_t <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#ad782743173d48fe6431917a11dc2a622">mAudioFramesWritten</a>;
+<a name="l00370"></a>00370     <span class="comment">// Saved value of aInitialTime. Timestamp of the first audio and/or</span>
+<a name="l00371"></a>00371     <span class="comment">// video packet written.</span>
+<a name="l00372"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a7ceb007d416e25b779e92e7d9475c1c7">00372</a>     int64_t <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a7ceb007d416e25b779e92e7d9475c1c7">mInitialTime</a>; <span class="comment">// microseconds</span>
+<a name="l00373"></a>00373     <span class="comment">// mNextVideoTime is the end timestamp for the last packet sent to the stream.</span>
+<a name="l00374"></a>00374     <span class="comment">// Therefore video packets starting at or after this time need to be copied</span>
+<a name="l00375"></a>00375     <span class="comment">// to the output stream.</span>
+<a name="l00376"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a9d73f0033a5d18a25b2ac363be9767f6">00376</a>     int64_t <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a9d73f0033a5d18a25b2ac363be9767f6">mNextVideoTime</a>; <span class="comment">// microseconds</span>
+<a name="l00377"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#ab7afdc686a1ccb1710504c6b4e35f0d9">00377</a>     <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html">MediaDecoder</a>* <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#ab7afdc686a1ccb1710504c6b4e35f0d9">mDecoder</a>;
+<a name="l00378"></a>00378     <span class="comment">// The last video image sent to the stream. Useful if we need to replicate</span>
+<a name="l00379"></a>00379     <span class="comment">// the image.</span>
+<a name="l00380"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#aff5547940cc4734ab979480e22c3611b">00380</a>     <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;Image&gt;</a> <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#aff5547940cc4734ab979480e22c3611b">mLastVideoImage</a>;
+<a name="l00381"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a4ac57e491a17db92165ce839c028be0b">00381</a>     <a class="code" href="../../dc/d43/structns_int_size.html">gfxIntSize</a> <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a4ac57e491a17db92165ce839c028be0b">mLastVideoImageDisplaySize</a>;
+<a name="l00382"></a>00382     <span class="comment">// This is set to true when the stream is initialized (audio and</span>
+<a name="l00383"></a>00383     <span class="comment">// video tracks added).</span>
+<a name="l00384"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a21ad7e480efb9273d0f0ecefec800433">00384</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a21ad7e480efb9273d0f0ecefec800433">mStreamInitialized</a>;
+<a name="l00385"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#ac924a592c62f03bd1eff8c8f631cfdeb">00385</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#ac924a592c62f03bd1eff8c8f631cfdeb">mHaveSentFinish</a>;
+<a name="l00386"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#aff2cb08e029f5d141355b2524f5f4f1f">00386</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#aff2cb08e029f5d141355b2524f5f4f1f">mHaveSentFinishAudio</a>;
+<a name="l00387"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#abb68e8760c36e12df47a1f0ed3e7f333">00387</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#abb68e8760c36e12df47a1f0ed3e7f333">mHaveSentFinishVideo</a>;
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389     <span class="comment">// The decoder is responsible for calling Destroy() on this stream.</span>
+<a name="l00390"></a>00390     <span class="comment">// Can be read from any thread.</span>
+<a name="l00391"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#ab8dd014311573bb7a8ccbec3a8590c6d">00391</a>     <span class="keyword">const</span> <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;SourceMediaStream&gt;</a> <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#ab8dd014311573bb7a8ccbec3a8590c6d">mStream</a>;
+<a name="l00392"></a>00392     <span class="comment">// True when we&#39;ve explicitly blocked this stream because we&#39;re</span>
+<a name="l00393"></a>00393     <span class="comment">// not in PLAY_STATE_PLAYING. Used on the main thread only.</span>
+<a name="l00394"></a><a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a0ec57348333a600db5b0f95215320f2a">00394</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html#a0ec57348333a600db5b0f95215320f2a">mHaveBlockedForPlayState</a>;
+<a name="l00395"></a>00395 
+<a name="l00396"></a>00396     <span class="keyword">virtual</span> <span class="keywordtype">void</span> NotifyMainThreadStateChanged() MOZ_OVERRIDE;
+<a name="l00397"></a>00397   };
+<a name="l00398"></a><a class="code" href="../../d7/d01/structmozilla_1_1_media_decoder_1_1_output_stream_data.html">00398</a>   struct <a class="code" href="../../d7/d01/structmozilla_1_1_media_decoder_1_1_output_stream_data.html">OutputStreamData</a> {
+<a name="l00399"></a><a class="code" href="../../d7/d01/structmozilla_1_1_media_decoder_1_1_output_stream_data.html#ae8210191a9d19fa603cb58a9a1987a0c">00399</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d79/namespacemozilla_1_1_available_memory_tracker.html#adb9d7dd5b6bb0a630490b2a4e7ef588e">Init</a>(<a class="code" href="../../da/d9c/classmozilla_1_1_processed_media_stream.html">ProcessedMediaStream</a>* aStream, <span class="keywordtype">bool</span> aFinishWhenEnded)
+<a name="l00400"></a>00400     {
+<a name="l00401"></a>00401       mStream = aStream;
+<a name="l00402"></a>00402       mFinishWhenEnded = aFinishWhenEnded;
+<a name="l00403"></a>00403     }
+<a name="l00404"></a><a class="code" href="../../d7/d01/structmozilla_1_1_media_decoder_1_1_output_stream_data.html#ae4b001b98fbde8b8701151e07bd80108">00404</a>     <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;ProcessedMediaStream&gt;</a> <a class="code" href="../../d7/d01/structmozilla_1_1_media_decoder_1_1_output_stream_data.html#ae4b001b98fbde8b8701151e07bd80108">mStream</a>;
+<a name="l00405"></a>00405     <span class="comment">// mPort connects mDecodedStream-&gt;mStream to our mStream.</span>
+<a name="l00406"></a><a class="code" href="../../d7/d01/structmozilla_1_1_media_decoder_1_1_output_stream_data.html#a2fce96dcc943f2c6144733585198543d">00406</a>     <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;MediaInputPort&gt;</a> <a class="code" href="../../d7/d01/structmozilla_1_1_media_decoder_1_1_output_stream_data.html#a2fce96dcc943f2c6144733585198543d">mPort</a>;
+<a name="l00407"></a><a class="code" href="../../d7/d01/structmozilla_1_1_media_decoder_1_1_output_stream_data.html#ae33b49b3ccd1facef98ee40ef865564c">00407</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d7/d01/structmozilla_1_1_media_decoder_1_1_output_stream_data.html#ae33b49b3ccd1facef98ee40ef865564c">mFinishWhenEnded</a>;
+<a name="l00408"></a>00408   };
+<a name="l00412"></a>00412   <span class="keywordtype">void</span> ConnectDecodedStreamToOutputStream(<a class="code" href="../../d7/d01/structmozilla_1_1_media_decoder_1_1_output_stream_data.html">OutputStreamData</a>* aStream);
+<a name="l00417"></a>00417   <span class="keywordtype">void</span> DestroyDecodedStream();
+<a name="l00423"></a>00423   <span class="keywordtype">void</span> RecreateDecodedStream(int64_t aStartTimeUSecs);
+<a name="l00429"></a>00429   <span class="keywordtype">void</span> NotifyDecodedStreamMainThreadStateChanged();
+<a name="l00430"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aa4798a4164d1945aa8cbcd6403b08372">00430</a>   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;OutputStreamData&gt;</a>&amp; OutputStreams()
+<a name="l00431"></a>00431   {
+<a name="l00432"></a>00432     GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00433"></a>00433     <span class="keywordflow">return</span> mOutputStreams;
+<a name="l00434"></a>00434   }
+<a name="l00435"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a1511d5375e7ee5a67de63bdd30c10e3c">00435</a>   DecodedStreamData* GetDecodedStream()
+<a name="l00436"></a>00436   {
+<a name="l00437"></a>00437     GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00438"></a>00438     <span class="keywordflow">return</span> mDecodedStream;
+<a name="l00439"></a>00439   }
+<a name="l00440"></a>00440 
+<a name="l00441"></a>00441   <span class="comment">// Add an output stream. All decoder output will be sent to the stream.</span>
+<a name="l00442"></a>00442   <span class="comment">// The stream is initially blocked. The decoder is responsible for unblocking</span>
+<a name="l00443"></a>00443   <span class="comment">// it while it is playing back.</span>
+<a name="l00444"></a>00444   <span class="keyword">virtual</span> <span class="keywordtype">void</span> AddOutputStream(<a class="code" href="../../da/d9c/classmozilla_1_1_processed_media_stream.html">ProcessedMediaStream</a>* aStream, <span class="keywordtype">bool</span> aFinishWhenEnded);
+<a name="l00445"></a>00445 
+<a name="l00446"></a>00446   <span class="comment">// Return the duration of the video in seconds.</span>
+<a name="l00447"></a>00447   <span class="keyword">virtual</span> <span class="keywordtype">double</span> GetDuration();
+<a name="l00448"></a>00448 
+<a name="l00449"></a>00449   <span class="comment">// Return the duration of the video in seconds.</span>
+<a name="l00450"></a>00450   int64_t GetMediaDuration() <a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE;
+<a name="l00451"></a>00451 
+<a name="l00452"></a>00452   <span class="comment">// A media stream is assumed to be infinite if the metadata doesn&#39;t</span>
+<a name="l00453"></a>00453   <span class="comment">// contain the duration, and range requests are not supported, and</span>
+<a name="l00454"></a>00454   <span class="comment">// no headers give a hint of a possible duration (Content-Length,</span>
+<a name="l00455"></a>00455   <span class="comment">// Content-Duration, and variants), and we cannot seek in the media</span>
+<a name="l00456"></a>00456   <span class="comment">// stream to determine the duration.</span>
+<a name="l00457"></a>00457   <span class="comment">//</span>
+<a name="l00458"></a>00458   <span class="comment">// When the media stream ends, we can know the duration, thus the stream is</span>
+<a name="l00459"></a>00459   <span class="comment">// no longer considered to be infinite.</span>
+<a name="l00460"></a>00460   virtual <span class="keywordtype">void</span> SetInfinite(<span class="keywordtype">bool</span> aInfinite);
+<a name="l00461"></a>00461 
+<a name="l00462"></a>00462   <span class="comment">// Return true if the stream is infinite (see SetInfinite).</span>
+<a name="l00463"></a>00463   virtual <span class="keywordtype">bool</span> IsInfinite();
+<a name="l00464"></a>00464 
+<a name="l00465"></a>00465   <span class="comment">// Called by MediaResource when the &quot;cache suspended&quot; status changes.</span>
+<a name="l00466"></a>00466   <span class="comment">// If MediaResource::IsSuspendedByCache returns true, then the decoder</span>
+<a name="l00467"></a>00467   <span class="comment">// should stop buffering or otherwise waiting for download progress and</span>
+<a name="l00468"></a>00468   <span class="comment">// start consuming data, if possible, because the cache is full.</span>
+<a name="l00469"></a>00469   virtual <span class="keywordtype">void</span> NotifySuspendedStatusChanged();
+<a name="l00470"></a>00470 
+<a name="l00471"></a>00471   <span class="comment">// Called by MediaResource when some data has been received.</span>
+<a name="l00472"></a>00472   <span class="comment">// Call on the main thread only.</span>
+<a name="l00473"></a>00473   virtual <span class="keywordtype">void</span> NotifyBytesDownloaded();
+<a name="l00474"></a>00474 
+<a name="l00475"></a>00475   <span class="comment">// Called by nsChannelToPipeListener or MediaResource when the</span>
+<a name="l00476"></a>00476   <span class="comment">// download has ended. Called on the main thread only. aStatus is</span>
+<a name="l00477"></a>00477   <span class="comment">// the result from OnStopRequest.</span>
+<a name="l00478"></a>00478   virtual <span class="keywordtype">void</span> NotifyDownloadEnded(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> aStatus);
+<a name="l00479"></a>00479 
+<a name="l00480"></a>00480   <span class="comment">// Called as data arrives on the stream and is read into the cache.  Called</span>
+<a name="l00481"></a>00481   <span class="comment">// on the main thread only.</span>
+<a name="l00482"></a>00482   virtual <span class="keywordtype">void</span> NotifyDataArrived(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>* aBuffer, uint32_t aLength, int64_t aOffset);
+<a name="l00483"></a>00483 
+<a name="l00484"></a>00484   <span class="comment">// Called by MediaResource when the principal of the resource has</span>
+<a name="l00485"></a>00485   <span class="comment">// changed. Called on main thread only.</span>
+<a name="l00486"></a>00486   virtual <span class="keywordtype">void</span> NotifyPrincipalChanged();
+<a name="l00487"></a>00487 
+<a name="l00488"></a>00488   <span class="comment">// Called by the decode thread to keep track of the number of bytes read</span>
+<a name="l00489"></a>00489   <span class="comment">// from the resource.</span>
+<a name="l00490"></a>00490   <span class="keywordtype">void</span> NotifyBytesConsumed(int64_t aBytes) <a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE;
+<a name="l00491"></a>00491 
+<a name="l00492"></a>00492   int64_t GetEndMediaTime() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE;
+<a name="l00493"></a>00493 
+<a name="l00494"></a>00494   <span class="comment">// Return true if we are currently seeking in the media resource.</span>
+<a name="l00495"></a>00495   <span class="comment">// Call on the main thread only.</span>
+<a name="l00496"></a>00496   virtual <span class="keywordtype">bool</span> IsSeeking() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a>;
+<a name="l00497"></a>00497 
+<a name="l00498"></a>00498   <span class="comment">// Return true if the decoder has reached the end of playback.</span>
+<a name="l00499"></a>00499   <span class="comment">// Call on the main thread only.</span>
+<a name="l00500"></a>00500   virtual <span class="keywordtype">bool</span> IsEnded() const;
+<a name="l00501"></a>00501 
+<a name="l00502"></a>00502   <span class="comment">// Set the duration of the media resource in units of seconds.</span>
+<a name="l00503"></a>00503   <span class="comment">// This is called via a channel listener if it can pick up the duration</span>
+<a name="l00504"></a>00504   <span class="comment">// from a content header. Must be called from the main thread only.</span>
+<a name="l00505"></a>00505   virtual <span class="keywordtype">void</span> SetDuration(<span class="keywordtype">double</span> aDuration);
+<a name="l00506"></a>00506 
+<a name="l00507"></a>00507   <span class="keywordtype">void</span> SetMediaDuration(int64_t aDuration) MOZ_OVERRIDE;
+<a name="l00508"></a>00508 
+<a name="l00509"></a>00509   <span class="comment">// Set a flag indicating whether seeking is supported</span>
+<a name="l00510"></a>00510   virtual <span class="keywordtype">void</span> SetMediaSeekable(<span class="keywordtype">bool</span> aMediaSeekable) MOZ_OVERRIDE;
+<a name="l00511"></a>00511   virtual <span class="keywordtype">void</span> SetTransportSeekable(<span class="keywordtype">bool</span> aTransportSeekable) <a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE;
+<a name="l00512"></a>00512   <span class="comment">// Returns true if this media supports seeking. False for example for WebM</span>
+<a name="l00513"></a>00513   <span class="comment">// files without an index and chained ogg files.</span>
+<a name="l00514"></a>00514   virtual <span class="keywordtype">bool</span> IsMediaSeekable() <a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE;
+<a name="l00515"></a>00515   <span class="comment">// Returns true if seeking is supported on a transport level (e.g. the server</span>
+<a name="l00516"></a>00516   <span class="comment">// supports range requests, we are playing a file, etc.).</span>
+<a name="l00517"></a>00517   virtual <span class="keywordtype">bool</span> IsTransportSeekable();
+<a name="l00518"></a>00518 
+<a name="l00519"></a>00519   <span class="comment">// Return the time ranges that can be seeked into.</span>
+<a name="l00520"></a>00520   virtual <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> GetSeekable(<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a4e0d20ad73401845f8354a296526ef83">TimeRanges</a>* aSeekable);
+<a name="l00521"></a>00521 
+<a name="l00522"></a>00522   <span class="comment">// Set the end time of the media resource. When playback reaches</span>
+<a name="l00523"></a>00523   <span class="comment">// this point the media pauses. aTime is in seconds.</span>
+<a name="l00524"></a>00524   virtual <span class="keywordtype">void</span> SetFragmentEndTime(<span class="keywordtype">double</span> aTime);
+<a name="l00525"></a>00525 
+<a name="l00526"></a>00526   <span class="comment">// Set the end time of the media. aTime is in microseconds.</span>
+<a name="l00527"></a>00527   <span class="keywordtype">void</span> SetMediaEndTime(int64_t aTime) <a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE;
+<a name="l00528"></a>00528 
+<a name="l00529"></a>00529   <span class="comment">// Invalidate the frame.</span>
+<a name="l00530"></a>00530   <span class="keywordtype">void</span> Invalidate();
+<a name="l00531"></a>00531 
+<a name="l00532"></a>00532   <span class="comment">// Suspend any media downloads that are in progress. Called by the</span>
+<a name="l00533"></a>00533   <span class="comment">// media element when it is sent to the bfcache, or when we need</span>
+<a name="l00534"></a>00534   <span class="comment">// to throttle the download. Call on the main thread only. This can</span>
+<a name="l00535"></a>00535   <span class="comment">// be called multiple times, there&#39;s an internal &quot;suspend count&quot;.</span>
+<a name="l00536"></a>00536   virtual <span class="keywordtype">void</span> <a class="code" href="../../da/d5e/namespacemozilla_1_1_hang_monitor.html#ab3df06cfeefa1617aefecdbef19bde9a">Suspend</a>();
+<a name="l00537"></a>00537 
+<a name="l00538"></a>00538   <span class="comment">// Resume any media downloads that have been suspended. Called by the</span>
+<a name="l00539"></a>00539   <span class="comment">// media element when it is restored from the bfcache, or when we need</span>
+<a name="l00540"></a>00540   <span class="comment">// to stop throttling the download. Call on the main thread only.</span>
+<a name="l00541"></a>00541   <span class="comment">// The download will only actually resume once as many Resume calls</span>
+<a name="l00542"></a>00542   <span class="comment">// have been made as Suspend calls. When aForceBuffering is true,</span>
+<a name="l00543"></a>00543   <span class="comment">// we force the decoder to go into buffering state before resuming</span>
+<a name="l00544"></a>00544   <span class="comment">// playback.</span>
+<a name="l00545"></a>00545   virtual <span class="keywordtype">void</span> Resume(<span class="keywordtype">bool</span> aForceBuffering);
+<a name="l00546"></a>00546 
+<a name="l00547"></a>00547   <span class="comment">// Moves any existing channel loads into the background, so that they don&#39;t</span>
+<a name="l00548"></a>00548   <span class="comment">// block the load event. This is called when we stop delaying the load</span>
+<a name="l00549"></a>00549   <span class="comment">// event. Any new loads initiated (for example to seek) will also be in the</span>
+<a name="l00550"></a>00550   <span class="comment">// background. Implementations of this must call MoveLoadsToBackground() on</span>
+<a name="l00551"></a>00551   <span class="comment">// their MediaResource.</span>
+<a name="l00552"></a>00552   virtual <span class="keywordtype">void</span> MoveLoadsToBackground();
+<a name="l00553"></a>00553 
+<a name="l00554"></a>00554   <span class="comment">// Returns a weak reference to the media decoder owner.</span>
+<a name="l00555"></a>00555   mozilla::<a class="code" href="../../d2/d9b/classmozilla_1_1_media_decoder_owner.html">MediaDecoderOwner</a>* GetMediaOwner() const;
+<a name="l00556"></a>00556 
+<a name="l00557"></a>00557   <span class="comment">// Returns the current size of the framebuffer used in</span>
+<a name="l00558"></a>00558   <span class="comment">// MozAudioAvailable events.</span>
+<a name="l00559"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ac889f67ebc7a3d527fad2779b931a853">00559</a>   uint32_t GetFrameBufferLength() { <span class="keywordflow">return</span> mFrameBufferLength; }
+<a name="l00560"></a>00560 
+<a name="l00561"></a>00561   <span class="keywordtype">void</span> AudioAvailable(<span class="keywordtype">float</span>* aFrameBuffer, uint32_t aFrameBufferLength, <span class="keywordtype">float</span> aTime);
+<a name="l00562"></a>00562 
+<a name="l00563"></a>00563   <span class="comment">// Called by the state machine to notify the decoder that the duration</span>
+<a name="l00564"></a>00564   <span class="comment">// has changed.</span>
+<a name="l00565"></a>00565   <span class="keywordtype">void</span> DurationChanged();
+<a name="l00566"></a>00566 
+<a name="l00567"></a>00567   <span class="keywordtype">bool</span> OnStateMachineThread() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00568"></a>00568 
+<a name="l00569"></a>00569   <span class="keywordtype">bool</span> OnDecodeThread() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00570"></a>00570 
+<a name="l00571"></a>00571   <span class="comment">// Returns the monitor for other threads to synchronise access to</span>
+<a name="l00572"></a>00572   <span class="comment">// state.</span>
+<a name="l00573"></a>00573   <a class="code" href="../../dc/d74/classmozilla_1_1_reentrant_monitor.html">ReentrantMonitor</a>&amp; GetReentrantMonitor() MOZ_OVERRIDE;
+<a name="l00574"></a>00574 
+<a name="l00575"></a>00575   <span class="comment">// Returns true if the decoder is shut down</span>
+<a name="l00576"></a>00576   <span class="keywordtype">bool</span> IsShutdown() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE;
+<a name="l00577"></a>00577 
+<a name="l00578"></a>00578   <span class="comment">// Constructs the time ranges representing what segments of the media</span>
+<a name="l00579"></a>00579   <span class="comment">// are buffered and playable.</span>
+<a name="l00580"></a>00580   virtual <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> GetBuffered(<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a4e0d20ad73401845f8354a296526ef83">TimeRanges</a>* aBuffered);
+<a name="l00581"></a>00581 
+<a name="l00582"></a>00582   <span class="comment">// Returns the size, in bytes, of the heap memory used by the currently</span>
+<a name="l00583"></a>00583   <span class="comment">// queued decoded video and audio data.</span>
+<a name="l00584"></a>00584   virtual int64_t VideoQueueMemoryInUse();
+<a name="l00585"></a>00585   virtual int64_t AudioQueueMemoryInUse();
+<a name="l00586"></a>00586 
+<a name="l00587"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a0d6268ba39c40fcd653b9311f1ff3737">00587</a>   <a class="code" href="../../d7/dca/classmozilla_1_1_video_frame_container.html">VideoFrameContainer</a>* GetVideoFrameContainer() <a class="code" href="../../d9/d1f/structmozilla_1_1_media_decoder_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE
+<a name="l00588"></a>00588   {
+<a name="l00589"></a>00589     <span class="keywordflow">return</span> mVideoFrameContainer;
+<a name="l00590"></a>00590   }
+<a name="l00591"></a>00591   <a class="code" href="../../d0/d62/classmozilla_1_1layers_1_1_image_container.html">mozilla::layers::ImageContainer</a>* GetImageContainer() MOZ_OVERRIDE;
+<a name="l00592"></a>00592 
+<a name="l00593"></a>00593   <span class="comment">// Sets the length of the framebuffer used in MozAudioAvailable events.</span>
+<a name="l00594"></a>00594   <span class="comment">// The new size must be between 512 and 16384.</span>
+<a name="l00595"></a>00595   virtual <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> RequestFrameBufferLength(uint32_t aLength);
+<a name="l00596"></a>00596 
+<a name="l00597"></a>00597   <span class="comment">// Return the current state. Can be called on any thread. If called from</span>
+<a name="l00598"></a>00598   <span class="comment">// a non-main thread, the decoder monitor must be held.</span>
+<a name="l00599"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ac644d2604de022fb87c4f0319dd71fd2">00599</a>   <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79">PlayState</a> GetState() {
+<a name="l00600"></a>00600     <span class="keywordflow">return</span> mPlayState;
+<a name="l00601"></a>00601   }
+<a name="l00602"></a>00602 
+<a name="l00603"></a>00603   <span class="comment">// Fire progress events if needed according to the time and byte</span>
+<a name="l00604"></a>00604   <span class="comment">// constraints outlined in the specification. aTimer is true</span>
+<a name="l00605"></a>00605   <span class="comment">// if the method is called as a result of the progress timer rather</span>
+<a name="l00606"></a>00606   <span class="comment">// than the result of downloaded data.</span>
+<a name="l00607"></a>00607   <span class="keywordtype">void</span> Progress(<span class="keywordtype">bool</span> aTimer);
+<a name="l00608"></a>00608 
+<a name="l00609"></a>00609   <span class="comment">// Fire timeupdate events if needed according to the time constraints</span>
+<a name="l00610"></a>00610   <span class="comment">// outlined in the specification.</span>
+<a name="l00611"></a>00611   <span class="keywordtype">void</span> FireTimeUpdate();
+<a name="l00612"></a>00612 
+<a name="l00613"></a>00613   <span class="comment">// Stop updating the bytes downloaded for progress notifications. Called</span>
+<a name="l00614"></a>00614   <span class="comment">// when seeking to prevent wild changes to the progress notification.</span>
+<a name="l00615"></a>00615   <span class="comment">// Must be called with the decoder monitor held.</span>
+<a name="l00616"></a>00616   <span class="keyword">virtual</span> <span class="keywordtype">void</span> StopProgressUpdates();
+<a name="l00617"></a>00617 
+<a name="l00618"></a>00618   <span class="comment">// Allow updating the bytes downloaded for progress notifications. Must</span>
+<a name="l00619"></a>00619   <span class="comment">// be called with the decoder monitor held.</span>
+<a name="l00620"></a>00620   <span class="keyword">virtual</span> <span class="keywordtype">void</span> StartProgressUpdates();
+<a name="l00621"></a>00621 
+<a name="l00622"></a>00622   <span class="comment">// Something has changed that could affect the computed playback rate,</span>
+<a name="l00623"></a>00623   <span class="comment">// so recompute it. The monitor must be held.</span>
+<a name="l00624"></a>00624   <span class="keyword">virtual</span> <span class="keywordtype">void</span> UpdatePlaybackRate();
+<a name="l00625"></a>00625 
+<a name="l00626"></a>00626   <span class="comment">// Used to estimate rates of data passing through the decoder&#39;s channel.</span>
+<a name="l00627"></a>00627   <span class="comment">// Records activity stopping on the channel. The monitor must be held.</span>
+<a name="l00628"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a1818a1c061e7722b8ea534466fe56369">00628</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a1818a1c061e7722b8ea534466fe56369">NotifyPlaybackStarted</a>() {
+<a name="l00629"></a>00629     GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00630"></a>00630     mPlaybackStatistics.Start();
+<a name="l00631"></a>00631   }
+<a name="l00632"></a>00632 
+<a name="l00633"></a>00633   <span class="comment">// Used to estimate rates of data passing through the decoder&#39;s channel.</span>
+<a name="l00634"></a>00634   <span class="comment">// Records activity stopping on the channel. The monitor must be held.</span>
+<a name="l00635"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a77103fefb742feb9509cc9397faa9a10">00635</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a77103fefb742feb9509cc9397faa9a10">NotifyPlaybackStopped</a>() {
+<a name="l00636"></a>00636     GetReentrantMonitor().AssertCurrentThreadIn();
+<a name="l00637"></a>00637     mPlaybackStatistics.Stop();
+<a name="l00638"></a>00638   }
+<a name="l00639"></a>00639 
+<a name="l00640"></a>00640   <span class="comment">// The actual playback rate computation. The monitor must be held.</span>
+<a name="l00641"></a>00641   <span class="keyword">virtual</span> <span class="keywordtype">double</span> ComputePlaybackRate(<span class="keywordtype">bool</span>* aReliable);
+<a name="l00642"></a>00642 
+<a name="l00643"></a>00643   <span class="comment">// Returns true if we can play the entire media through without stopping</span>
+<a name="l00644"></a>00644   <span class="comment">// to buffer, given the current download and playback rates.</span>
+<a name="l00645"></a>00645   <span class="keywordtype">bool</span> CanPlayThrough();
+<a name="l00646"></a>00646 
+<a name="l00647"></a>00647   <span class="comment">// Make the decoder state machine update the playback position. Called by</span>
+<a name="l00648"></a>00648   <span class="comment">// the reader on the decoder thread (Assertions for this checked by</span>
+<a name="l00649"></a>00649   <span class="comment">// mDecoderStateMachine). This must be called with the decode monitor</span>
+<a name="l00650"></a>00650   <span class="comment">// held.</span>
+<a name="l00651"></a>00651   <span class="keywordtype">void</span> UpdatePlaybackPosition(int64_t aTime) <a class="code" href="../../df/d19/structmozilla_1_1_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE;
+<a name="l00652"></a>00652 
+<a name="l00653"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a390ab9bbb547951f0278d6b3135c6864">00653</a>   <span class="keywordtype">void</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a390ab9bbb547951f0278d6b3135c6864">SetAudioChannelType</a>(<a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#acdf723c83f4a96fc4c3e32f2b89b0f42">AudioChannelType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>) { mAudioChannelType = <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>; }
+<a name="l00654"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a48dd2b83edc27fcfc962e28c5b4e89f8">00654</a>   <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#acdf723c83f4a96fc4c3e32f2b89b0f42">AudioChannelType</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a48dd2b83edc27fcfc962e28c5b4e89f8">GetAudioChannelType</a>() { <span class="keywordflow">return</span> mAudioChannelType; }
+<a name="l00655"></a>00655 
+<a name="l00656"></a>00656   <span class="comment">// Send a new set of metadata to the state machine, to be dispatched to the</span>
+<a name="l00657"></a>00657   <span class="comment">// main thread to be presented when the |currentTime| of the media is greater</span>
+<a name="l00658"></a>00658   <span class="comment">// or equal to aPublishTime.</span>
+<a name="l00659"></a>00659   <span class="keywordtype">void</span> QueueMetadata(int64_t aPublishTime,
+<a name="l00660"></a>00660                      <span class="keywordtype">int</span> aChannels,
+<a name="l00661"></a>00661                      <span class="keywordtype">int</span> aRate,
+<a name="l00662"></a>00662                      <span class="keywordtype">bool</span> aHasAudio,
+<a name="l00663"></a>00663                      <span class="keywordtype">bool</span> aHasVideo,
+<a name="l00664"></a>00664                      <a class="code" href="../../d4/dfc/classns_data_hashtable.html">MetadataTags</a>* aTags);
+<a name="l00665"></a>00665 
+<a name="l00666"></a>00666   <span class="comment">/******</span>
+<a name="l00667"></a>00667 <span class="comment">   * The following methods must only be called on the main</span>
+<a name="l00668"></a>00668 <span class="comment">   * thread.</span>
+<a name="l00669"></a>00669 <span class="comment">   ******/</span>
+<a name="l00670"></a>00670 
+<a name="l00671"></a>00671   <span class="comment">// Change to a new play state. This updates the mState variable and</span>
+<a name="l00672"></a>00672   <span class="comment">// notifies any thread blocking on this object&#39;s monitor of the</span>
+<a name="l00673"></a>00673   <span class="comment">// change. Call on the main thread only.</span>
+<a name="l00674"></a>00674   <span class="keywordtype">void</span> ChangeState(PlayState aState);
+<a name="l00675"></a>00675 
+<a name="l00676"></a>00676   <span class="comment">// May be called by the reader to notify this decoder that the metadata from</span>
+<a name="l00677"></a>00677   <span class="comment">// the media file has been read. Call on the decode thread only.</span>
+<a name="l00678"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aa54f1e45c080fcdb7a7ea167e1f714cb">00678</a>   <span class="keywordtype">void</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aa54f1e45c080fcdb7a7ea167e1f714cb">OnReadMetadataCompleted</a>() MOZ_OVERRIDE { }
+<a name="l00679"></a>00679 
+<a name="l00680"></a>00680   <span class="comment">// Called when the metadata from the media file has been loaded by the</span>
+<a name="l00681"></a>00681   <span class="comment">// state machine. Call on the main thread only.</span>
+<a name="l00682"></a>00682   <span class="keywordtype">void</span> MetadataLoaded(<span class="keywordtype">int</span> aChannels, <span class="keywordtype">int</span> aRate, <span class="keywordtype">bool</span> aHasAudio, <span class="keywordtype">bool</span> aHasVideo, <a class="code" href="../../d4/dfc/classns_data_hashtable.html">MetadataTags</a>* aTags);
+<a name="l00683"></a>00683 
+<a name="l00684"></a>00684   <span class="comment">// Called when the first frame has been loaded.</span>
+<a name="l00685"></a>00685   <span class="comment">// Call on the main thread only.</span>
+<a name="l00686"></a>00686   <span class="keywordtype">void</span> FirstFrameLoaded();
+<a name="l00687"></a>00687 
+<a name="l00688"></a>00688   <span class="comment">// Returns true if the resource has been loaded. Must be in monitor.</span>
+<a name="l00689"></a>00689   <span class="comment">// Call from any thread.</span>
+<a name="l00690"></a>00690   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> IsDataCachedToEndOfResource();
+<a name="l00691"></a>00691 
+<a name="l00692"></a>00692   <span class="comment">// Called when the video has completed playing.</span>
+<a name="l00693"></a>00693   <span class="comment">// Call on the main thread only.</span>
+<a name="l00694"></a>00694   <span class="keywordtype">void</span> PlaybackEnded();
+<a name="l00695"></a>00695 
+<a name="l00696"></a>00696   <span class="comment">// Seeking has stopped. Inform the element on the main</span>
+<a name="l00697"></a>00697   <span class="comment">// thread.</span>
+<a name="l00698"></a>00698   <span class="keywordtype">void</span> SeekingStopped();
+<a name="l00699"></a>00699 
+<a name="l00700"></a>00700   <span class="comment">// Seeking has stopped at the end of the resource. Inform the element on the main</span>
+<a name="l00701"></a>00701   <span class="comment">// thread.</span>
+<a name="l00702"></a>00702   <span class="keywordtype">void</span> SeekingStoppedAtEnd();
+<a name="l00703"></a>00703 
+<a name="l00704"></a>00704   <span class="comment">// Seeking has started. Inform the element on the main</span>
+<a name="l00705"></a>00705   <span class="comment">// thread.</span>
+<a name="l00706"></a>00706   <span class="keywordtype">void</span> SeekingStarted();
+<a name="l00707"></a>00707 
+<a name="l00708"></a>00708   <span class="comment">// Called when the backend has changed the current playback</span>
+<a name="l00709"></a>00709   <span class="comment">// position. It dispatches a timeupdate event and invalidates the frame.</span>
+<a name="l00710"></a>00710   <span class="comment">// This must be called on the main thread only.</span>
+<a name="l00711"></a>00711   <span class="keywordtype">void</span> PlaybackPositionChanged();
+<a name="l00712"></a>00712 
+<a name="l00713"></a>00713   <span class="comment">// Calls mElement-&gt;UpdateReadyStateForData, telling it whether we have</span>
+<a name="l00714"></a>00714   <span class="comment">// data for the next frame and if we&#39;re buffering. Main thread only.</span>
+<a name="l00715"></a>00715   <span class="keywordtype">void</span> UpdateReadyStateForData();
+<a name="l00716"></a>00716 
+<a name="l00717"></a>00717   <span class="comment">// Find the end of the cached data starting at the current decoder</span>
+<a name="l00718"></a>00718   <span class="comment">// position.</span>
+<a name="l00719"></a>00719   int64_t GetDownloadPosition();
+<a name="l00720"></a>00720 
+<a name="l00721"></a>00721   <span class="comment">// Updates the approximate byte offset which playback has reached. This is</span>
+<a name="l00722"></a>00722   <span class="comment">// used to calculate the readyState transitions.</span>
+<a name="l00723"></a>00723   <span class="keywordtype">void</span> UpdatePlaybackOffset(int64_t aOffset);
+<a name="l00724"></a>00724 
+<a name="l00725"></a>00725   <span class="comment">// Provide access to the state machine object</span>
+<a name="l00726"></a>00726   <a class="code" href="../../d1/d34/classmozilla_1_1_media_decoder_state_machine.html">MediaDecoderStateMachine</a>* GetStateMachine() <span class="keyword">const</span>;
+<a name="l00727"></a>00727 
+<a name="l00728"></a>00728   <span class="comment">// Drop reference to state machine.  Only called during shutdown dance.</span>
+<a name="l00729"></a>00729   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ReleaseStateMachine();
+<a name="l00730"></a>00730 
+<a name="l00731"></a>00731   <span class="comment">// Called when a &quot;MozAudioAvailable&quot; event listener is added. This enables</span>
+<a name="l00732"></a>00732   <span class="comment">// the decoder to only dispatch &quot;MozAudioAvailable&quot; events when a</span>
+<a name="l00733"></a>00733   <span class="comment">// handler exists, reducing overhead. Called on the main thread.</span>
+<a name="l00734"></a>00734   <span class="keyword">virtual</span> <span class="keywordtype">void</span> NotifyAudioAvailableListener();
+<a name="l00735"></a>00735 
+<a name="l00736"></a>00736   <span class="comment">// Notifies the element that decoding has failed.</span>
+<a name="l00737"></a>00737   <span class="keyword">virtual</span> <span class="keywordtype">void</span> DecodeError();
+<a name="l00738"></a>00738 
+<a name="l00739"></a>00739   <a class="code" href="../../d2/d9b/classmozilla_1_1_media_decoder_owner.html">MediaDecoderOwner</a>* GetOwner() MOZ_OVERRIDE;
+<a name="l00740"></a>00740 
+<a name="l00741"></a>00741 <span class="preprocessor">#ifdef MOZ_RAW</span>
+<a name="l00742"></a>00742 <span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> IsRawEnabled();
+<a name="l00743"></a>00743 <span class="preprocessor">#endif</span>
+<a name="l00744"></a>00744 <span class="preprocessor"></span>
+<a name="l00745"></a>00745 <span class="preprocessor">#ifdef MOZ_OGG</span>
+<a name="l00746"></a>00746 <span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> IsOggEnabled();
+<a name="l00747"></a>00747   <span class="keyword">static</span> <span class="keywordtype">bool</span> IsOpusEnabled();
+<a name="l00748"></a>00748 <span class="preprocessor">#endif</span>
+<a name="l00749"></a>00749 <span class="preprocessor"></span>
+<a name="l00750"></a>00750 <span class="preprocessor">#ifdef MOZ_WAVE</span>
+<a name="l00751"></a>00751 <span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> IsWaveEnabled();
+<a name="l00752"></a>00752 <span class="preprocessor">#endif</span>
+<a name="l00753"></a>00753 <span class="preprocessor"></span>
+<a name="l00754"></a>00754 <span class="preprocessor">#ifdef MOZ_WEBM</span>
+<a name="l00755"></a>00755 <span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> IsWebMEnabled();
+<a name="l00756"></a>00756 <span class="preprocessor">#endif</span>
+<a name="l00757"></a>00757 <span class="preprocessor"></span>
+<a name="l00758"></a>00758 <span class="preprocessor">#ifdef MOZ_GSTREAMER</span>
+<a name="l00759"></a>00759 <span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> IsGStreamerEnabled();
+<a name="l00760"></a>00760 <span class="preprocessor">#endif</span>
+<a name="l00761"></a>00761 <span class="preprocessor"></span>
+<a name="l00762"></a>00762 <span class="preprocessor">#ifdef MOZ_OMX_DECODER</span>
+<a name="l00763"></a>00763 <span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> IsOmxEnabled();
+<a name="l00764"></a>00764 <span class="preprocessor">#endif</span>
+<a name="l00765"></a>00765 <span class="preprocessor"></span>
+<a name="l00766"></a>00766 <span class="preprocessor">#ifdef MOZ_MEDIA_PLUGINS</span>
+<a name="l00767"></a>00767 <span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> IsMediaPluginsEnabled();
+<a name="l00768"></a>00768 <span class="preprocessor">#endif</span>
+<a name="l00769"></a>00769 <span class="preprocessor"></span>
+<a name="l00770"></a>00770 <span class="preprocessor">#ifdef MOZ_DASH</span>
+<a name="l00771"></a>00771 <span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> IsDASHEnabled();
+<a name="l00772"></a>00772 <span class="preprocessor">#endif</span>
+<a name="l00773"></a>00773 <span class="preprocessor"></span>
+<a name="l00774"></a>00774 <span class="preprocessor">#ifdef MOZ_WMF</span>
+<a name="l00775"></a>00775 <span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">bool</span> IsWMFEnabled();
+<a name="l00776"></a>00776 <span class="preprocessor">#endif</span>
+<a name="l00777"></a>00777 <span class="preprocessor"></span>
+<a name="l00778"></a>00778   <span class="comment">// Schedules the state machine to run one cycle on the shared state</span>
+<a name="l00779"></a>00779   <span class="comment">// machine thread. Main thread only.</span>
+<a name="l00780"></a>00780   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> ScheduleStateMachineThread();
+<a name="l00781"></a>00781 
+<a name="l00782"></a><a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html">00782</a>   <span class="keyword">struct </span><a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html">Statistics</a> {
+<a name="l00783"></a>00783     <span class="comment">// Estimate of the current playback rate (bytes/second).</span>
+<a name="l00784"></a><a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#aaf146b812111327548448c3801194c92">00784</a>     <span class="keywordtype">double</span> <a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#aaf146b812111327548448c3801194c92">mPlaybackRate</a>;
+<a name="l00785"></a>00785     <span class="comment">// Estimate of the current download rate (bytes/second). This</span>
+<a name="l00786"></a>00786     <span class="comment">// ignores time that the channel was paused by Gecko.</span>
+<a name="l00787"></a><a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#af7bea5b597d5cb0c7daf63eb5c332420">00787</a>     <span class="keywordtype">double</span> <a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#af7bea5b597d5cb0c7daf63eb5c332420">mDownloadRate</a>;
+<a name="l00788"></a>00788     <span class="comment">// Total length of media stream in bytes; -1 if not known</span>
+<a name="l00789"></a><a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a19ee03bc72fc01f3ea7cc382ad3eee7c">00789</a>     int64_t <a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a19ee03bc72fc01f3ea7cc382ad3eee7c">mTotalBytes</a>;
+<a name="l00790"></a>00790     <span class="comment">// Current position of the download, in bytes. This is the offset of</span>
+<a name="l00791"></a>00791     <span class="comment">// the first uncached byte after the decoder position.</span>
+<a name="l00792"></a><a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a6762dc6a677cdd6ef075ba05b69599fe">00792</a>     int64_t <a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a6762dc6a677cdd6ef075ba05b69599fe">mDownloadPosition</a>;
+<a name="l00793"></a>00793     <span class="comment">// Current position of decoding, in bytes (how much of the stream</span>
+<a name="l00794"></a>00794     <span class="comment">// has been consumed)</span>
+<a name="l00795"></a><a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a4a63cb405054b5b5b9d3b9b06643d291">00795</a>     int64_t <a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a4a63cb405054b5b5b9d3b9b06643d291">mDecoderPosition</a>;
+<a name="l00796"></a>00796     <span class="comment">// Current position of playback, in bytes</span>
+<a name="l00797"></a><a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a387b9a53e700f6f79aaab310dff801f4">00797</a>     int64_t <a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a387b9a53e700f6f79aaab310dff801f4">mPlaybackPosition</a>;
+<a name="l00798"></a>00798     <span class="comment">// If false, then mDownloadRate cannot be considered a reliable</span>
+<a name="l00799"></a>00799     <span class="comment">// estimate (probably because the download has only been running</span>
+<a name="l00800"></a>00800     <span class="comment">// a short time).</span>
+<a name="l00801"></a><a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a47d7383ea6508f6a7f539dfc73dd4e4f">00801</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a47d7383ea6508f6a7f539dfc73dd4e4f">mDownloadRateReliable</a>;
+<a name="l00802"></a>00802     <span class="comment">// If false, then mPlaybackRate cannot be considered a reliable</span>
+<a name="l00803"></a>00803     <span class="comment">// estimate (probably because playback has only been running</span>
+<a name="l00804"></a>00804     <span class="comment">// a short time).</span>
+<a name="l00805"></a><a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a384813f5f722926d9e117c0c0bd3cc30">00805</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html#a384813f5f722926d9e117c0c0bd3cc30">mPlaybackRateReliable</a>;
+<a name="l00806"></a>00806   };
+<a name="l00807"></a>00807 
+<a name="l00808"></a>00808   <span class="comment">// Return statistics. This is used for progress events and other things.</span>
+<a name="l00809"></a>00809   <span class="comment">// This can be called from any thread. It&#39;s only a snapshot of the</span>
+<a name="l00810"></a>00810   <span class="comment">// current state, since other threads might be changing the state</span>
+<a name="l00811"></a>00811   <span class="comment">// at any time.</span>
+<a name="l00812"></a>00812   <span class="keyword">virtual</span> <a class="code" href="../../d5/dd4/structmozilla_1_1_media_decoder_1_1_statistics.html">Statistics</a> GetStatistics();
+<a name="l00813"></a>00813 
+<a name="l00814"></a>00814   <span class="comment">// Frame decoding/painting related performance counters.</span>
+<a name="l00815"></a>00815   <span class="comment">// Threadsafe.</span>
+<a name="l00816"></a><a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html">00816</a>   <span class="keyword">class </span><a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html">FrameStatistics</a> {
+<a name="l00817"></a>00817   <span class="keyword">public</span>:
+<a name="l00818"></a>00818 
+<a name="l00819"></a><a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#aaa78a6661f01e2c7b84b2c8bebafb1bb">00819</a>     <a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html">FrameStatistics</a>() :
+<a name="l00820"></a>00820         mReentrantMonitor(<span class="stringliteral">&quot;MediaDecoder::FrameStats&quot;</span>),
+<a name="l00821"></a>00821         mTotalFrameDelay(0.0),
+<a name="l00822"></a>00822         mParsedFrames(0),
+<a name="l00823"></a>00823         mDecodedFrames(0),
+<a name="l00824"></a>00824         mPresentedFrames(0) {}
+<a name="l00825"></a>00825 
+<a name="l00826"></a>00826     <span class="comment">// Returns number of frames which have been parsed from the media.</span>
+<a name="l00827"></a>00827     <span class="comment">// Can be called on any thread.</span>
+<a name="l00828"></a><a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#aa43801fcb76aa187a50b8a367b5e60be">00828</a>     uint32_t <a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#aa43801fcb76aa187a50b8a367b5e60be">GetParsedFrames</a>() {
+<a name="l00829"></a>00829       <a class="code" href="../../dc/d3f/classmozilla_1_1_reentrant_monitor_auto_enter.html">ReentrantMonitorAutoEnter</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#abe83542d27fc89c7227bd04c8da1670c">mon</a>(mReentrantMonitor);
+<a name="l00830"></a>00830       <span class="keywordflow">return</span> mParsedFrames;
+<a name="l00831"></a>00831     }
+<a name="l00832"></a>00832 
+<a name="l00833"></a>00833     <span class="comment">// Returns the number of parsed frames which have been decoded.</span>
+<a name="l00834"></a>00834     <span class="comment">// Can be called on any thread.</span>
+<a name="l00835"></a><a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#a8eeea2949abd8413d327be540e6bbd98">00835</a>     uint32_t <a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#a8eeea2949abd8413d327be540e6bbd98">GetDecodedFrames</a>() {
+<a name="l00836"></a>00836       <a class="code" href="../../dc/d3f/classmozilla_1_1_reentrant_monitor_auto_enter.html">ReentrantMonitorAutoEnter</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#abe83542d27fc89c7227bd04c8da1670c">mon</a>(mReentrantMonitor);
+<a name="l00837"></a>00837       <span class="keywordflow">return</span> mDecodedFrames;
+<a name="l00838"></a>00838     }
+<a name="l00839"></a>00839 
+<a name="l00840"></a>00840     <span class="comment">// Returns the number of decoded frames which have been sent to the rendering</span>
+<a name="l00841"></a>00841     <span class="comment">// pipeline for painting (&quot;presented&quot;).</span>
+<a name="l00842"></a>00842     <span class="comment">// Can be called on any thread.</span>
+<a name="l00843"></a><a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#a485b0a10c9b2c7d7c32d98c1a7524c21">00843</a>     uint32_t <a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#a485b0a10c9b2c7d7c32d98c1a7524c21">GetPresentedFrames</a>() {
+<a name="l00844"></a>00844       <a class="code" href="../../dc/d3f/classmozilla_1_1_reentrant_monitor_auto_enter.html">ReentrantMonitorAutoEnter</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#abe83542d27fc89c7227bd04c8da1670c">mon</a>(mReentrantMonitor);
+<a name="l00845"></a>00845       <span class="keywordflow">return</span> mPresentedFrames;
+<a name="l00846"></a>00846     }
+<a name="l00847"></a>00847 
+<a name="l00848"></a><a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#af0bd9dfe6ce438580e0f65ebd43ad7d8">00848</a>     <span class="keywordtype">double</span> <a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#af0bd9dfe6ce438580e0f65ebd43ad7d8">GetTotalFrameDelay</a>() {
+<a name="l00849"></a>00849       <a class="code" href="../../dc/d3f/classmozilla_1_1_reentrant_monitor_auto_enter.html">ReentrantMonitorAutoEnter</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#abe83542d27fc89c7227bd04c8da1670c">mon</a>(mReentrantMonitor);
+<a name="l00850"></a>00850       <span class="keywordflow">return</span> mTotalFrameDelay;
+<a name="l00851"></a>00851     }
+<a name="l00852"></a>00852 
+<a name="l00853"></a>00853     <span class="comment">// Increments the parsed and decoded frame counters by the passed in counts.</span>
+<a name="l00854"></a>00854     <span class="comment">// Can be called on any thread.</span>
+<a name="l00855"></a><a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#ac240f424bdbd72df499bbb7741532ad9">00855</a>     <span class="keywordtype">void</span> <a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#ac240f424bdbd72df499bbb7741532ad9">NotifyDecodedFrames</a>(uint32_t aParsed, uint32_t aDecoded) {
+<a name="l00856"></a>00856       <span class="keywordflow">if</span> (aParsed == 0 &amp;&amp; aDecoded == 0)
+<a name="l00857"></a>00857         <span class="keywordflow">return</span>;
+<a name="l00858"></a>00858       <a class="code" href="../../dc/d3f/classmozilla_1_1_reentrant_monitor_auto_enter.html">ReentrantMonitorAutoEnter</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#abe83542d27fc89c7227bd04c8da1670c">mon</a>(mReentrantMonitor);
+<a name="l00859"></a>00859       mParsedFrames += aParsed;
+<a name="l00860"></a>00860       mDecodedFrames += aDecoded;
+<a name="l00861"></a>00861     }
+<a name="l00862"></a>00862 
+<a name="l00863"></a>00863     <span class="comment">// Increments the presented frame counters.</span>
+<a name="l00864"></a>00864     <span class="comment">// Can be called on any thread.</span>
+<a name="l00865"></a><a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#a902c78656a9c6c9405339da81cc3d605">00865</a>     <span class="keywordtype">void</span> <a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#a902c78656a9c6c9405339da81cc3d605">NotifyPresentedFrame</a>() {
+<a name="l00866"></a>00866       <a class="code" href="../../dc/d3f/classmozilla_1_1_reentrant_monitor_auto_enter.html">ReentrantMonitorAutoEnter</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#abe83542d27fc89c7227bd04c8da1670c">mon</a>(mReentrantMonitor);
+<a name="l00867"></a>00867       ++mPresentedFrames;
+<a name="l00868"></a>00868     }
+<a name="l00869"></a>00869 
+<a name="l00870"></a>00870     <span class="comment">// Tracks the sum of display delay.</span>
+<a name="l00871"></a>00871     <span class="comment">// Can be called on any thread.</span>
+<a name="l00872"></a><a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#abd72438de469789706073e7ab808d7a1">00872</a>     <span class="keywordtype">void</span> <a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#abd72438de469789706073e7ab808d7a1">NotifyFrameDelay</a>(<span class="keywordtype">double</span> aFrameDelay) {
+<a name="l00873"></a>00873       <a class="code" href="../../dc/d3f/classmozilla_1_1_reentrant_monitor_auto_enter.html">ReentrantMonitorAutoEnter</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#abe83542d27fc89c7227bd04c8da1670c">mon</a>(mReentrantMonitor);
+<a name="l00874"></a>00874       mTotalFrameDelay += aFrameDelay;
+<a name="l00875"></a>00875     }
+<a name="l00876"></a>00876 
+<a name="l00877"></a>00877   <span class="keyword">private</span>:
+<a name="l00878"></a>00878 
+<a name="l00879"></a>00879     <span class="comment">// ReentrantMonitor to protect access of playback statistics.</span>
+<a name="l00880"></a>00880     <a class="code" href="../../dc/d74/classmozilla_1_1_reentrant_monitor.html">ReentrantMonitor</a> mReentrantMonitor;
+<a name="l00881"></a>00881 
+<a name="l00882"></a>00882     <span class="comment">// Sum of displayed frame delays.</span>
+<a name="l00883"></a>00883     <span class="comment">// Access protected by mReentrantMonitor.</span>
+<a name="l00884"></a>00884     <span class="keywordtype">double</span> mTotalFrameDelay;
+<a name="l00885"></a>00885 
+<a name="l00886"></a>00886     <span class="comment">// Number of frames parsed and demuxed from media.</span>
+<a name="l00887"></a>00887     <span class="comment">// Access protected by mReentrantMonitor.</span>
+<a name="l00888"></a>00888     uint32_t mParsedFrames;
+<a name="l00889"></a>00889 
+<a name="l00890"></a>00890     <span class="comment">// Number of parsed frames which were actually decoded.</span>
+<a name="l00891"></a>00891     <span class="comment">// Access protected by mReentrantMonitor.</span>
+<a name="l00892"></a>00892     uint32_t mDecodedFrames;
+<a name="l00893"></a>00893 
+<a name="l00894"></a>00894     <span class="comment">// Number of decoded frames which were actually sent down the rendering</span>
+<a name="l00895"></a>00895     <span class="comment">// pipeline to be painted (&quot;presented&quot;). Access protected by mReentrantMonitor.</span>
+<a name="l00896"></a>00896     uint32_t mPresentedFrames;
+<a name="l00897"></a>00897   };
+<a name="l00898"></a>00898 
+<a name="l00899"></a>00899   <span class="comment">// Return the frame decode/paint related statistics.</span>
+<a name="l00900"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ae9e78f845ef1a37cb04cddeaf9811d4f">00900</a>   <a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html">FrameStatistics</a>&amp; <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ae9e78f845ef1a37cb04cddeaf9811d4f">GetFrameStatistics</a>() { <span class="keywordflow">return</span> mFrameStats; }
+<a name="l00901"></a>00901 
+<a name="l00902"></a>00902   <span class="comment">// Increments the parsed and decoded frame counters by the passed in counts.</span>
+<a name="l00903"></a>00903   <span class="comment">// Can be called on any thread.</span>
+<a name="l00904"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a0d2f8818bf088920f0b0fd32a40ac5a2">00904</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> NotifyDecodedFrames(uint32_t aParsed, uint32_t aDecoded) MOZ_OVERRIDE
+<a name="l00905"></a>00905   {
+<a name="l00906"></a>00906     GetFrameStatistics().<a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html#ac240f424bdbd72df499bbb7741532ad9">NotifyDecodedFrames</a>(aParsed, aDecoded);
+<a name="l00907"></a>00907   }
+<a name="l00908"></a>00908 
+<a name="l00909"></a>00909   <span class="comment">/******</span>
+<a name="l00910"></a>00910 <span class="comment">   * The following members should be accessed with the decoder lock held.</span>
+<a name="l00911"></a>00911 <span class="comment">   ******/</span>
+<a name="l00912"></a>00912 
+<a name="l00913"></a>00913   <span class="comment">// Current decoding position in the stream. This is where the decoder</span>
+<a name="l00914"></a>00914   <span class="comment">// is up to consuming the stream. This is not adjusted during decoder</span>
+<a name="l00915"></a>00915   <span class="comment">// seek operations, but it&#39;s updated at the end when we start playing</span>
+<a name="l00916"></a>00916   <span class="comment">// back again.</span>
+<a name="l00917"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a8e93bf4c30f4aa14fda7e6446442d0e2">00917</a>   int64_t <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a8e93bf4c30f4aa14fda7e6446442d0e2">mDecoderPosition</a>;
+<a name="l00918"></a>00918   <span class="comment">// Current playback position in the stream. This is (approximately)</span>
+<a name="l00919"></a>00919   <span class="comment">// where we&#39;re up to playing back the stream. This is not adjusted</span>
+<a name="l00920"></a>00920   <span class="comment">// during decoder seek operations, but it&#39;s updated at the end when we</span>
+<a name="l00921"></a>00921   <span class="comment">// start playing back again.</span>
+<a name="l00922"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a0dc0e12c28ef7c4e4bdcac78635838ad">00922</a>   int64_t <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a0dc0e12c28ef7c4e4bdcac78635838ad">mPlaybackPosition</a>;
+<a name="l00923"></a>00923 
+<a name="l00924"></a>00924   <span class="comment">// The current playback position of the media resource in units of</span>
+<a name="l00925"></a>00925   <span class="comment">// seconds. This is updated approximately at the framerate of the</span>
+<a name="l00926"></a>00926   <span class="comment">// video (if it is a video) or the callback period of the audio.</span>
+<a name="l00927"></a>00927   <span class="comment">// It is read and written from the main thread only.</span>
+<a name="l00928"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a02c7c4c3b631cb47abb460de4dc13f10">00928</a>   <span class="keywordtype">double</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a02c7c4c3b631cb47abb460de4dc13f10">mCurrentTime</a>;
+<a name="l00929"></a>00929 
+<a name="l00930"></a>00930   <span class="comment">// Volume that playback should start at.  0.0 = muted. 1.0 = full</span>
+<a name="l00931"></a>00931   <span class="comment">// volume.  Readable/Writeable from the main thread.</span>
+<a name="l00932"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a7992162fe439a67f5d29478f3a4a0e47">00932</a>   <span class="keywordtype">double</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a7992162fe439a67f5d29478f3a4a0e47">mInitialVolume</a>;
+<a name="l00933"></a>00933 
+<a name="l00934"></a>00934   <span class="comment">// PlaybackRate and pitch preservation status we should start at.</span>
+<a name="l00935"></a>00935   <span class="comment">// Readable/Writeable from the main thread.</span>
+<a name="l00936"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ab9f10096abb96d27f2ce6200336053a9">00936</a>   <span class="keywordtype">double</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ab9f10096abb96d27f2ce6200336053a9">mInitialPlaybackRate</a>;
+<a name="l00937"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ad9ed3de00985c5c03a69cfb920d695be">00937</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ad9ed3de00985c5c03a69cfb920d695be">mInitialPreservesPitch</a>;
+<a name="l00938"></a>00938 
+<a name="l00939"></a>00939   <span class="comment">// Position to seek to when the seek notification is received by the</span>
+<a name="l00940"></a>00940   <span class="comment">// decode thread. Written by the main thread and read via the</span>
+<a name="l00941"></a>00941   <span class="comment">// decode thread. Synchronised using mReentrantMonitor. If the</span>
+<a name="l00942"></a>00942   <span class="comment">// value is negative then no seek has been requested. When a seek is</span>
+<a name="l00943"></a>00943   <span class="comment">// started this is reset to negative.</span>
+<a name="l00944"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a664e5b8f4cf24ae32fb8b6378b1112f9">00944</a>   <span class="keywordtype">double</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a664e5b8f4cf24ae32fb8b6378b1112f9">mRequestedSeekTime</a>;
+<a name="l00945"></a>00945 
+<a name="l00946"></a>00946   <span class="comment">// Duration of the media resource. Set to -1 if unknown.</span>
+<a name="l00947"></a>00947   <span class="comment">// Set when the metadata is loaded. Accessed on the main thread</span>
+<a name="l00948"></a>00948   <span class="comment">// only.</span>
+<a name="l00949"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a6f6a7212de5b6df0b54244831c3e9920">00949</a>   int64_t <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a6f6a7212de5b6df0b54244831c3e9920">mDuration</a>;
+<a name="l00950"></a>00950 
+<a name="l00951"></a>00951   <span class="comment">// True when playback should start with audio captured (not playing).</span>
+<a name="l00952"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aa1c6f8e4e36ee1cb9934319a8b7277ca">00952</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aa1c6f8e4e36ee1cb9934319a8b7277ca">mInitialAudioCaptured</a>;
+<a name="l00953"></a>00953 
+<a name="l00954"></a>00954   <span class="comment">// True if the resource is seekable at a transport level (server supports byte</span>
+<a name="l00955"></a>00955   <span class="comment">// range requests, local file, etc.).</span>
+<a name="l00956"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a1380fff1d39009eeb9dd89bf637f4918">00956</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a1380fff1d39009eeb9dd89bf637f4918">mTransportSeekable</a>;
+<a name="l00957"></a>00957 
+<a name="l00958"></a>00958   <span class="comment">// True if the media is seekable (i.e. supports random access).</span>
+<a name="l00959"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aafeb19ebf74832224d1b3cd5c0067ffb">00959</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aafeb19ebf74832224d1b3cd5c0067ffb">mMediaSeekable</a>;
+<a name="l00960"></a>00960 
+<a name="l00961"></a>00961   <span class="comment">/******</span>
+<a name="l00962"></a>00962 <span class="comment">   * The following member variables can be accessed from any thread.</span>
+<a name="l00963"></a>00963 <span class="comment">   ******/</span>
+<a name="l00964"></a>00964 
+<a name="l00965"></a>00965   <span class="comment">// The state machine object for handling the decoding. It is safe to</span>
+<a name="l00966"></a>00966   <span class="comment">// call methods of this object from other threads. Its internal data</span>
+<a name="l00967"></a>00967   <span class="comment">// is synchronised on a monitor. The lifetime of this object is</span>
+<a name="l00968"></a>00968   <span class="comment">// after mPlayState is LOADING and before mPlayState is SHUTDOWN. It</span>
+<a name="l00969"></a>00969   <span class="comment">// is safe to access it during this period.</span>
+<a name="l00970"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a53449d6ef6b5a266adce777d47fdc637">00970</a>   nsCOMPtr&lt;MediaDecoderStateMachine&gt; <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a53449d6ef6b5a266adce777d47fdc637">mDecoderStateMachine</a>;
+<a name="l00971"></a>00971 
+<a name="l00972"></a>00972   <span class="comment">// Media data resource.</span>
+<a name="l00973"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a26fa373f4906d6faae6dea3278267a83">00973</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;MediaResource&gt;</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a26fa373f4906d6faae6dea3278267a83">mResource</a>;
+<a name="l00974"></a>00974 
+<a name="l00975"></a>00975   <span class="comment">// |ReentrantMonitor| for detecting when the video play state changes. A call</span>
+<a name="l00976"></a>00976   <span class="comment">// to |Wait| on this monitor will block the thread until the next state</span>
+<a name="l00977"></a>00977   <span class="comment">// change.</span>
+<a name="l00978"></a>00978   <span class="comment">// Using a wrapper class to restrict direct access to the |ReentrantMonitor|</span>
+<a name="l00979"></a>00979   <span class="comment">// object. Subclasses may override |MediaDecoder|::|GetReentrantMonitor|</span>
+<a name="l00980"></a>00980   <span class="comment">// e.g. |DASHRepDecoder|::|GetReentrantMonitor| returns the monitor in the</span>
+<a name="l00981"></a>00981   <span class="comment">// main |DASHDecoder| object. In this case, directly accessing the</span>
+<a name="l00982"></a>00982   <span class="comment">// member variable mReentrantMonitor in |DASHRepDecoder| is wrong.</span>
+<a name="l00983"></a>00983   <span class="comment">// The wrapper |RestrictedAccessMonitor| restricts use to the getter</span>
+<a name="l00984"></a>00984   <span class="comment">// function rather than the object itself.</span>
+<a name="l00985"></a>00985 <span class="keyword">private</span>:
+<a name="l00986"></a>00986   <span class="keyword">class </span>RestrictedAccessMonitor
+<a name="l00987"></a>00987   {
+<a name="l00988"></a>00988   <span class="keyword">public</span>:
+<a name="l00989"></a>00989     RestrictedAccessMonitor(<span class="keyword">const</span> <span class="keywordtype">char</span>* aName) :
+<a name="l00990"></a>00990       mReentrantMonitor(aName)
+<a name="l00991"></a>00991     {
+<a name="l00992"></a>00992       <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#aa7716d29a6749d766b19b8b880b448f1">MOZ_COUNT_CTOR</a>(RestrictedAccessMonitor);
+<a name="l00993"></a>00993     }
+<a name="l00994"></a>00994     ~RestrictedAccessMonitor()
+<a name="l00995"></a>00995     {
+<a name="l00996"></a>00996       <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#a8a91532bfafbc5b73fad1b4127faf725">MOZ_COUNT_DTOR</a>(RestrictedAccessMonitor);
+<a name="l00997"></a>00997     }
+<a name="l00998"></a>00998 
+<a name="l00999"></a>00999     <span class="comment">// Returns a ref to the reentrant monitor</span>
+<a name="l01000"></a>01000     <a class="code" href="../../dc/d74/classmozilla_1_1_reentrant_monitor.html">ReentrantMonitor</a>&amp; GetReentrantMonitor() {
+<a name="l01001"></a>01001       <span class="keywordflow">return</span> mReentrantMonitor;
+<a name="l01002"></a>01002     }
+<a name="l01003"></a>01003   <span class="keyword">private</span>:
+<a name="l01004"></a>01004     <a class="code" href="../../dc/d74/classmozilla_1_1_reentrant_monitor.html">ReentrantMonitor</a> mReentrantMonitor;
+<a name="l01005"></a>01005   };
+<a name="l01006"></a>01006 
+<a name="l01007"></a>01007   <span class="comment">// The |RestrictedAccessMonitor| member object.</span>
+<a name="l01008"></a>01008   RestrictedAccessMonitor mReentrantMonitor;
+<a name="l01009"></a>01009 
+<a name="l01010"></a>01010 <span class="keyword">public</span>:
+<a name="l01011"></a>01011   <span class="comment">// Data about MediaStreams that are being fed by this decoder.</span>
+<a name="l01012"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a56ccc4cd067040202351ec61508788a5">01012</a>   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;OutputStreamData&gt;</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a56ccc4cd067040202351ec61508788a5">mOutputStreams</a>;
+<a name="l01013"></a>01013   <span class="comment">// The SourceMediaStream we are using to feed the mOutputStreams. This stream</span>
+<a name="l01014"></a>01014   <span class="comment">// is never exposed outside the decoder.</span>
+<a name="l01015"></a>01015   <span class="comment">// Only written on the main thread while holding the monitor. Therefore it</span>
+<a name="l01016"></a>01016   <span class="comment">// can be read on any thread while holding the monitor, or on the main thread</span>
+<a name="l01017"></a>01017   <span class="comment">// without holding the monitor.</span>
+<a name="l01018"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aa581c15b9b003c3f0c31087d2592a96c">01018</a>   <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;DecodedStreamData&gt;</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aa581c15b9b003c3f0c31087d2592a96c">mDecodedStream</a>;
+<a name="l01019"></a>01019 
+<a name="l01020"></a>01020   <span class="comment">// True if this decoder is in dormant state.</span>
+<a name="l01021"></a>01021   <span class="comment">// Should be true only when PlayState is PLAY_STATE_LOADING.</span>
+<a name="l01022"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a1b8f42827eae1777d55e10aadfe91fda">01022</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a1b8f42827eae1777d55e10aadfe91fda">mIsDormant</a>;
+<a name="l01023"></a>01023 
+<a name="l01024"></a>01024   <span class="comment">// Set to one of the valid play states.</span>
+<a name="l01025"></a>01025   <span class="comment">// This can only be changed on the main thread while holding the decoder</span>
+<a name="l01026"></a>01026   <span class="comment">// monitor. Thus, it can be safely read while holding the decoder monitor</span>
+<a name="l01027"></a>01027   <span class="comment">// OR on the main thread.</span>
+<a name="l01028"></a>01028   <span class="comment">// Any change to the state on the main thread must call NotifyAll on the</span>
+<a name="l01029"></a>01029   <span class="comment">// monitor so the decode thread can wake up.</span>
+<a name="l01030"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#af1cb95c3aadc58085aafc9a236c72d22">01030</a>   <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79">PlayState</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#af1cb95c3aadc58085aafc9a236c72d22">mPlayState</a>;
+<a name="l01031"></a>01031 
+<a name="l01032"></a>01032   <span class="comment">// The state to change to after a seek or load operation.</span>
+<a name="l01033"></a>01033   <span class="comment">// This can only be changed on the main thread while holding the decoder</span>
+<a name="l01034"></a>01034   <span class="comment">// monitor. Thus, it can be safely read while holding the decoder monitor</span>
+<a name="l01035"></a>01035   <span class="comment">// OR on the main thread.</span>
+<a name="l01036"></a>01036   <span class="comment">// Any change to the state must call NotifyAll on the monitor.</span>
+<a name="l01037"></a>01037   <span class="comment">// This can only be PLAY_STATE_PAUSED or PLAY_STATE_PLAYING.</span>
+<a name="l01038"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a04aa113d5332a81f10e49645e7ab0005">01038</a>   <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a3c7ff514e6fcc7bd0ac0793a296a8f79">PlayState</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a04aa113d5332a81f10e49645e7ab0005">mNextState</a>;
+<a name="l01039"></a>01039 
+<a name="l01040"></a>01040   <span class="comment">// True when we have fully loaded the resource and reported that</span>
+<a name="l01041"></a>01041   <span class="comment">// to the element (i.e. reached NETWORK_LOADED state).</span>
+<a name="l01042"></a>01042   <span class="comment">// Accessed on the main thread only.</span>
+<a name="l01043"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a4f02487f395ae60b2c921cdc82025bc9">01043</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a4f02487f395ae60b2c921cdc82025bc9">mCalledResourceLoaded</a>;
+<a name="l01044"></a>01044 
+<a name="l01045"></a>01045   <span class="comment">// True when seeking or otherwise moving the play position around in</span>
+<a name="l01046"></a>01046   <span class="comment">// such a manner that progress event data is inaccurate. This is set</span>
+<a name="l01047"></a>01047   <span class="comment">// during seek and duration operations to prevent the progress indicator</span>
+<a name="l01048"></a>01048   <span class="comment">// from jumping around. Read/Write from any thread. Must have decode monitor</span>
+<a name="l01049"></a>01049   <span class="comment">// locked before accessing.</span>
+<a name="l01050"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ad8db32fe60a31ed613f77e3b04102019">01050</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ad8db32fe60a31ed613f77e3b04102019">mIgnoreProgressData</a>;
+<a name="l01051"></a>01051 
+<a name="l01052"></a>01052   <span class="comment">// True if the stream is infinite (e.g. a webradio).</span>
+<a name="l01053"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ae5779ccb27b305ff38c34ff25181490e">01053</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ae5779ccb27b305ff38c34ff25181490e">mInfiniteStream</a>;
+<a name="l01054"></a>01054 
+<a name="l01055"></a>01055   <span class="comment">// True if NotifyDecodedStreamMainThreadStateChanged should retrigger</span>
+<a name="l01056"></a>01056   <span class="comment">// PlaybackEnded when mDecodedStream-&gt;mStream finishes.</span>
+<a name="l01057"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aeaf29aefb2f3104e9c5b7785000aa608">01057</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aeaf29aefb2f3104e9c5b7785000aa608">mTriggerPlaybackEndedWhenSourceStreamFinishes</a>;
+<a name="l01058"></a>01058 
+<a name="l01059"></a>01059 <span class="keyword">protected</span>:
+<a name="l01060"></a>01060 
+<a name="l01061"></a>01061   <span class="comment">// Start timer to update download progress information.</span>
+<a name="l01062"></a>01062   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> StartProgress();
+<a name="l01063"></a>01063 
+<a name="l01064"></a>01064   <span class="comment">// Stop progress information timer.</span>
+<a name="l01065"></a>01065   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> StopProgress();
+<a name="l01066"></a>01066 
+<a name="l01067"></a>01067   <span class="comment">// Ensures our media stream has been pinned.</span>
+<a name="l01068"></a>01068   <span class="keywordtype">void</span> PinForSeek();
+<a name="l01069"></a>01069 
+<a name="l01070"></a>01070   <span class="comment">// Ensures our media stream has been unpinned.</span>
+<a name="l01071"></a>01071   <span class="keywordtype">void</span> UnpinForSeek();
+<a name="l01072"></a>01072 
+<a name="l01073"></a>01073   <span class="comment">// Timer used for updating progress events</span>
+<a name="l01074"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#afb9065f70f262a3cc63b950f3d4900ff">01074</a>   nsCOMPtr&lt;nsITimer&gt; <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#afb9065f70f262a3cc63b950f3d4900ff">mProgressTimer</a>;
+<a name="l01075"></a>01075 
+<a name="l01076"></a>01076   <span class="comment">// This should only ever be accessed from the main thread.</span>
+<a name="l01077"></a>01077   <span class="comment">// It is set in Init and cleared in Shutdown when the element goes away.</span>
+<a name="l01078"></a>01078   <span class="comment">// The decoder does not add a reference the element.</span>
+<a name="l01079"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#afd984df84f14c9d06c6bacdf4b39cb1b">01079</a>   <a class="code" href="../../d2/d9b/classmozilla_1_1_media_decoder_owner.html">MediaDecoderOwner</a>* <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#afd984df84f14c9d06c6bacdf4b39cb1b">mOwner</a>;
+<a name="l01080"></a>01080 
+<a name="l01081"></a>01081   <span class="comment">// Counters related to decode and presentation of frames.</span>
+<a name="l01082"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aaf283250897133410f0783dd93f7629b">01082</a>   <a class="code" href="../../d1/da1/classmozilla_1_1_media_decoder_1_1_frame_statistics.html">FrameStatistics</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aaf283250897133410f0783dd93f7629b">mFrameStats</a>;
+<a name="l01083"></a>01083 
+<a name="l01084"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a14ac9cf60ba1895aef843e124b768971">01084</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;VideoFrameContainer&gt;</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a14ac9cf60ba1895aef843e124b768971">mVideoFrameContainer</a>;
+<a name="l01085"></a>01085 
+<a name="l01086"></a>01086   <span class="comment">// Time that the last progress event was fired. Read/Write from the</span>
+<a name="l01087"></a>01087   <span class="comment">// main thread only.</span>
+<a name="l01088"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a94071905406f534a6fdb3f3f36485d64">01088</a>   <a class="code" href="../../d0/d76/classmozilla_1_1_time_stamp.html">TimeStamp</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a94071905406f534a6fdb3f3f36485d64">mProgressTime</a>;
+<a name="l01089"></a>01089 
+<a name="l01090"></a>01090   <span class="comment">// Time that data was last read from the media resource. Used for</span>
+<a name="l01091"></a>01091   <span class="comment">// computing if the download has stalled and to rate limit progress events</span>
+<a name="l01092"></a>01092   <span class="comment">// when data is arriving slower than PROGRESS_MS. A value of null indicates</span>
+<a name="l01093"></a>01093   <span class="comment">// that a stall event has already fired and not to fire another one until</span>
+<a name="l01094"></a>01094   <span class="comment">// more data is received. Read/Write from the main thread only.</span>
+<a name="l01095"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ab60b39f353305c70e981250d0d611916">01095</a>   <a class="code" href="../../d0/d76/classmozilla_1_1_time_stamp.html">TimeStamp</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#ab60b39f353305c70e981250d0d611916">mDataTime</a>;
+<a name="l01096"></a>01096 
+<a name="l01097"></a>01097   <span class="comment">// Data needed to estimate playback data rate. The timeline used for</span>
+<a name="l01098"></a>01098   <span class="comment">// this estimate is &quot;decode time&quot; (where the &quot;current time&quot; is the</span>
+<a name="l01099"></a>01099   <span class="comment">// time of the last decoded video frame).</span>
+<a name="l01100"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a175df7f3febac0f9ac6960e31db56361">01100</a>   <a class="code" href="../../d9/dca/classmozilla_1_1_media_channel_statistics.html">MediaChannelStatistics</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a175df7f3febac0f9ac6960e31db56361">mPlaybackStatistics</a>;
+<a name="l01101"></a>01101 
+<a name="l01102"></a>01102   <span class="comment">// The framebuffer size to use for audioavailable events.</span>
+<a name="l01103"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a51efb4f9be3ff3ff52e6f482847445f4">01103</a>   uint32_t <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a51efb4f9be3ff3ff52e6f482847445f4">mFrameBufferLength</a>;
+<a name="l01104"></a>01104 
+<a name="l01105"></a>01105   <span class="comment">// True when our media stream has been pinned. We pin the stream</span>
+<a name="l01106"></a>01106   <span class="comment">// while seeking.</span>
+<a name="l01107"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aaa4c2b7c0159440b364e6eab310e26f3">01107</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#aaa4c2b7c0159440b364e6eab310e26f3">mPinnedForSeek</a>;
+<a name="l01108"></a>01108 
+<a name="l01109"></a>01109   <span class="comment">// True if the decoder is being shutdown. At this point all events that</span>
+<a name="l01110"></a>01110   <span class="comment">// are currently queued need to return immediately to prevent javascript</span>
+<a name="l01111"></a>01111   <span class="comment">// being run that operates on the element and decoder during shutdown.</span>
+<a name="l01112"></a>01112   <span class="comment">// Read/Write from the main thread only.</span>
+<a name="l01113"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#abac88f084e860e5a8bee813a94b93ce1">01113</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#abac88f084e860e5a8bee813a94b93ce1">mShuttingDown</a>;
+<a name="l01114"></a>01114 
+<a name="l01115"></a>01115   <span class="comment">// True if the playback is paused because the playback rate member is 0.0.</span>
+<a name="l01116"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a23c539e8f67099cfa29be54a4aad878c">01116</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a23c539e8f67099cfa29be54a4aad878c">mPausedForPlaybackRateNull</a>;
+<a name="l01117"></a>01117 
+<a name="l01118"></a>01118   <span class="comment">// Be assigned from media element during the initialization and pass to</span>
+<a name="l01119"></a>01119   <span class="comment">// AudioStream Class.</span>
+<a name="l01120"></a><a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a9fcdbee2fc1a7630a4c21c72898e031b">01120</a>   <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#acdf723c83f4a96fc4c3e32f2b89b0f42">AudioChannelType</a> <a class="code" href="../../d5/d38/classmozilla_1_1_media_decoder.html#a9fcdbee2fc1a7630a4c21c72898e031b">mAudioChannelType</a>;
+<a name="l01121"></a>01121 };
+<a name="l01122"></a>01122 
+<a name="l01123"></a>01123 } <span class="comment">// namespace mozilla</span>
+<a name="l01124"></a>01124 
+<a name="l01125"></a>01125 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../db/d29/_media_decoder_8h.html">MediaDecoder.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:45に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

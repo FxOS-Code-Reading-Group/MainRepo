@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: ImageLoader.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dd/d5b/_image_loader_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">ImageLoader.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dd/d5b/_image_loader_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00002"></a>00002 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this file,</span>
+<a name="l00003"></a>00003 <span class="comment"> * You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">// A class that handles style system image loads (other image loads are handled</span>
+<a name="l00006"></a>00006 <span class="comment">// by the nodes in the content tree).</span>
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="preprocessor">#ifndef mozilla_css_ImageLoader_h___</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span><span class="preprocessor">#define mozilla_css_ImageLoader_h___</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../db/dc2/ns_class_hashtable_8h.html">nsClassHashtable.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../d8/dcf/ns_hash_keys_8h.html">nsHashKeys.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d8d/ns_c_s_s_value_8h.html">nsCSSValue.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/d33/img_i_request_8h.html">imgIRequest.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d8/db1/img_i_onload_blocker_8h.html">imgIOnloadBlocker.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d29/img_i_notification_observer_8h.html">imgINotificationObserver.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/da8/_attributes_8h.html">mozilla/Attributes.h</a>&quot;</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="keyword">class </span><a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>;
+<a name="l00020"></a>00020 <span class="keyword">class </span><a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>;
+<a name="l00021"></a>00021 <span class="keyword">class </span><a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>;
+<a name="l00022"></a>00022 <span class="keyword">class </span><a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>;
+<a name="l00023"></a>00023 <span class="keyword">class </span><a class="code" href="../../d5/d7f/interfacens_i_principal.html">nsIPrincipal</a>;
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="keyword">namespace </span>mozilla {
+<a name="l00026"></a>00026 <span class="keyword">namespace </span>css {
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 <span class="keyword">class </span>ImageLoader <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> : <span class="keyword">public</span> <a class="code" href="../../d5/deb/interfaceimg_i_notification_observer.html">imgINotificationObserver</a>,
+<a name="l00029"></a>00029                               <span class="keyword">public</span> <a class="code" href="../../d2/d5b/interfaceimg_i_onload_blocker.html">imgIOnloadBlocker</a> {
+<a name="l00030"></a>00030 <span class="keyword">public</span>:
+<a name="l00031"></a><a class="code" href="../../d4/dc9/classmozilla_1_1css_1_1_m_o_z___f_i_n_a_l.html#a40de058f25f29ae082060c345c70e85f">00031</a>   <span class="keyword">typedef</span> <a class="code" href="../../df/dca/structmozilla_1_1css_1_1_image_value.html">mozilla::css::ImageValue</a> <a class="code" href="../../d4/dc9/classmozilla_1_1css_1_1_m_o_z___f_i_n_a_l.html#a40de058f25f29ae082060c345c70e85f">Image</a>;
+<a name="l00032"></a>00032 
+<a name="l00033"></a><a class="code" href="../../d4/dc9/classmozilla_1_1css_1_1_m_o_z___f_i_n_a_l.html#a32dbfeb1d42ce1db21ea9ad1bc70dce8">00033</a>   ImageLoader(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument)
+<a name="l00034"></a>00034   : mDocument(aDocument),
+<a name="l00035"></a>00035     mInClone(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00036"></a>00036   {
+<a name="l00037"></a>00037     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(mDocument);
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039     mRequestToFrameMap.Init();
+<a name="l00040"></a>00040     mFrameToRequestMap.Init();
+<a name="l00041"></a>00041     mImages.Init();
+<a name="l00042"></a>00042   }
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#a5084fc0869a6c828efdca6b17f8b5374">NS_DECL_ISUPPORTS</a>
+<a name="l00045"></a>00045   <a class="code" href="../../d8/db1/img_i_onload_blocker_8h.html#a0407f2b0d2d5349b0c1cf40a495d364c">NS_DECL_IMGIONLOADBLOCKER</a>
+<a name="l00046"></a>00046   <a class="code" href="../../d5/d29/img_i_notification_observer_8h.html#ad60611dd5385c580c6c690323ca28a5a">NS_DECL_IMGINOTIFICATIONOBSERVER</a>
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048   <span class="keywordtype">void</span> DropDocumentReference();
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050   <span class="keywordtype">void</span> MaybeRegisterCSSImage(Image* aImage);
+<a name="l00051"></a>00051   <span class="keywordtype">void</span> DeregisterCSSImage(Image* aImage);
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053   <span class="keywordtype">void</span> AssociateRequestToFrame(<a class="code" href="../../d6/d84/interfaceimg_i_request.html">imgIRequest</a>* aRequest,
+<a name="l00054"></a>00054                                <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame);
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056   <span class="keywordtype">void</span> DisassociateRequestFromFrame(<a class="code" href="../../d6/d84/interfaceimg_i_request.html">imgIRequest</a>* aRequest,
+<a name="l00057"></a>00057                                     <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame);
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059   <span class="keywordtype">void</span> DropRequestsForFrame(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame);
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061   <span class="keywordtype">void</span> SetAnimationMode(uint16_t aMode);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063   <span class="keywordtype">void</span> ClearFrames();
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065   <span class="keywordtype">void</span> LoadImage(<a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>* aURI, <a class="code" href="../../d5/d7f/interfacens_i_principal.html">nsIPrincipal</a>* aPrincipal, <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>* aReferrer,
+<a name="l00066"></a>00066                  Image* aCSSValue);
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068   <span class="keywordtype">void</span> DestroyRequest(<a class="code" href="../../d6/d84/interfaceimg_i_request.html">imgIRequest</a>* aRequest);
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 <span class="keyword">private</span>:
+<a name="l00071"></a>00071   <span class="comment">// We need to be able to look up the frames associated with a request (for</span>
+<a name="l00072"></a>00072   <span class="comment">// delivering notifications) and the requests associated with a frame (when</span>
+<a name="l00073"></a>00073   <span class="comment">// the frame goes away). Thus we maintain hashtables going both ways.  These</span>
+<a name="l00074"></a>00074   <span class="comment">// should always be in sync.</span>
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076   <span class="keyword">typedef</span> <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsIFrame*&gt;</a> FrameSet;
+<a name="l00077"></a>00077   <span class="keyword">typedef</span> <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsCOMPtr&lt;imgIRequest&gt;</a> &gt; RequestSet;
+<a name="l00078"></a>00078   <span class="keyword">typedef</span> <a class="code" href="../../d5/dc3/classns_t_hashtable.html">nsTHashtable&lt;nsPtrHashKey&lt;Image&gt;</a> &gt; ImageHashSet;
+<a name="l00079"></a>00079   <span class="keyword">typedef</span> <a class="code" href="../../d3/d72/classns_class_hashtable.html">nsClassHashtable</a>&lt;<a class="code" href="../../df/d42/classns_i_supports_hash_key.html">nsISupportsHashKey</a>,
+<a name="l00080"></a>00080                            FrameSet&gt; RequestToFrameMap;
+<a name="l00081"></a>00081   <span class="keyword">typedef</span> <a class="code" href="../../d3/d72/classns_class_hashtable.html">nsClassHashtable&lt;nsPtrHashKey&lt;nsIFrame&gt;</a>,
+<a name="l00082"></a>00082                            RequestSet&gt; FrameToRequestMap;
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084   <span class="keywordtype">void</span> AddImage(Image* aCSSImage);
+<a name="l00085"></a>00085   <span class="keywordtype">void</span> RemoveImage(Image* aCSSImage);
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087   <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* GetPresContext();
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089   <span class="keywordtype">void</span> DoRedraw(FrameSet* aFrameSet);
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091   <span class="keyword">static</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519">PLDHashOperator</a>
+<a name="l00092"></a>00092   SetAnimationModeEnumerator(<a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a>* aKey, FrameSet* aValue,
+<a name="l00093"></a>00093                              <span class="keywordtype">void</span>* aClosure);
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> OnStartContainer(<a class="code" href="../../d6/d84/interfaceimg_i_request.html">imgIRequest</a> *aRequest, <a class="code" href="../../d7/da7/interfaceimg_i_container.html">imgIContainer</a>* aImage);
+<a name="l00096"></a>00096   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> OnStopFrame(<a class="code" href="../../d6/d84/interfaceimg_i_request.html">imgIRequest</a> *aRequest);
+<a name="l00097"></a>00097   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> OnImageIsAnimated(<a class="code" href="../../d6/d84/interfaceimg_i_request.html">imgIRequest</a> *aRequest);
+<a name="l00098"></a>00098   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> FrameChanged(<a class="code" href="../../d6/d84/interfaceimg_i_request.html">imgIRequest</a>* aRequest);
+<a name="l00099"></a>00099   <span class="comment">// Do not override OnDataAvailable since background images are not</span>
+<a name="l00100"></a>00100   <span class="comment">// displayed incrementally; they are displayed after the entire image</span>
+<a name="l00101"></a>00101   <span class="comment">// has been loaded.</span>
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103   <span class="comment">// A map of imgIRequests to the nsIFrames that are using them.</span>
+<a name="l00104"></a>00104   RequestToFrameMap mRequestToFrameMap;
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106   <span class="comment">// A map of nsIFrames to the imgIRequests they use.</span>
+<a name="l00107"></a>00107   FrameToRequestMap mFrameToRequestMap;
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109   <span class="comment">// A weak pointer to our document. Nulled out by DropDocumentReference.</span>
+<a name="l00110"></a>00110   <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* mDocument;
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112   <span class="comment">// The set of all nsCSSValue::Images (whether they&#39;re associated a frame or</span>
+<a name="l00113"></a>00113   <span class="comment">// not).  We&#39;ll need this when we go away to remove any requests associated</span>
+<a name="l00114"></a>00114   <span class="comment">// with our document from those Images.</span>
+<a name="l00115"></a>00115   ImageHashSet mImages;
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117   <span class="comment">// Are we cloning?  If so, ignore any notifications we get.</span>
+<a name="l00118"></a>00118   <span class="keywordtype">bool</span> mInClone;
+<a name="l00119"></a>00119 };
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121 } <span class="comment">// namespace css</span>
+<a name="l00122"></a>00122 } <span class="comment">// namespace mozilla</span>
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124 <span class="preprocessor">#endif </span><span class="comment">/* mozilla_css_ImageLoader_h___ */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dd/d5b/_image_loader_8h.html">ImageLoader.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:25に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

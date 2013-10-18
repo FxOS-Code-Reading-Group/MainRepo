@@ -1,0 +1,27 @@
+var interfacens_i_g_conf_service =
+[
+    [ "getAppForProtocol", "de/d71/interfacens_i_g_conf_service.html#ab80030a30cfb25e70d62afc666feba3b", null ],
+    [ "GetAppForProtocol", "de/d71/interfacens_i_g_conf_service.html#ae04aa5b6495ba01287882632a92f9634", null ],
+    [ "getBool", "de/d71/interfacens_i_g_conf_service.html#a518e89f577c335306b7c93e4b8114802", null ],
+    [ "GetBool", "de/d71/interfacens_i_g_conf_service.html#ab069f9c7997deb186161fe3e111b92b9", null ],
+    [ "getFloat", "de/d71/interfacens_i_g_conf_service.html#ac465286791e75f1b9822a4e220954b62", null ],
+    [ "GetFloat", "de/d71/interfacens_i_g_conf_service.html#a5406efdbcb9f3346f9a398d49291da65", null ],
+    [ "getInt", "de/d71/interfacens_i_g_conf_service.html#a22c7913896acb4f6e7895e15e45ee0a0", null ],
+    [ "GetInt", "de/d71/interfacens_i_g_conf_service.html#adbab5da28aa75197b91e76b7754ef1b6", null ],
+    [ "getString", "de/d71/interfacens_i_g_conf_service.html#a5d8b8b5260aca8414d7a8251d91399ca", null ],
+    [ "GetString", "de/d71/interfacens_i_g_conf_service.html#aeb4deeb96c5c18a219bcf49237d25a42", null ],
+    [ "getStringList", "de/d71/interfacens_i_g_conf_service.html#aa3dd6ee2e5c8fcddec7d031dc194a821", null ],
+    [ "GetStringList", "de/d71/interfacens_i_g_conf_service.html#a14c757666b98bd5a764df6cfefce19aa", null ],
+    [ "handlerRequiresTerminal", "de/d71/interfacens_i_g_conf_service.html#a4caef35c8952b571eaf322c59636c0d5", null ],
+    [ "HandlerRequiresTerminal", "de/d71/interfacens_i_g_conf_service.html#a8e8a89d201ca47877aaf6527c99a8dc2", null ],
+    [ "setAppForProtocol", "de/d71/interfacens_i_g_conf_service.html#a881ec204b4ade0df35a28efcddc929ea", null ],
+    [ "SetAppForProtocol", "de/d71/interfacens_i_g_conf_service.html#adbb246187f5fbbc84b38948725981a30", null ],
+    [ "setBool", "de/d71/interfacens_i_g_conf_service.html#a303b908711e603c14b1096b418d588d5", null ],
+    [ "SetBool", "de/d71/interfacens_i_g_conf_service.html#ad3fcf7882269ca6da16898be7bda36ae", null ],
+    [ "setFloat", "de/d71/interfacens_i_g_conf_service.html#a022c4dac8b800e38fa18d3f983907e81", null ],
+    [ "SetFloat", "de/d71/interfacens_i_g_conf_service.html#aa3804dd44ea5a5c4a9d237dc2f7f86c8", null ],
+    [ "setInt", "de/d71/interfacens_i_g_conf_service.html#a4bc0af097f50aea4cd1316ffa0f37134", null ],
+    [ "SetInt", "de/d71/interfacens_i_g_conf_service.html#aefdff01103427bf33f33ac6b4310b73e", null ],
+    [ "setString", "de/d71/interfacens_i_g_conf_service.html#aeeec858afe70b84490710d9e37d441aa", null ],
+    [ "SetString", "de/d71/interfacens_i_g_conf_service.html#a4dc91cde3a77c9b3a65c021fdf5c54ef", null ]
+];

@@ -1,0 +1,587 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: jsdbgapi.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/deb/jsdbgapi_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">jsdbgapi.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/deb/jsdbgapi_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * vim: set ts=8 sts=4 et sw=4 tw=99:</span>
+<a name="l00003"></a>00003 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="preprocessor">#ifndef jsdbgapi_h</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor">#define jsdbgapi_h</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00010"></a>00010 <span class="comment"> * JS debugger API.</span>
+<a name="l00011"></a>00011 <span class="comment"> */</span>
+<a name="l00012"></a>00012 
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d15/jsprvtd_8h.html">jsprvtd.h</a>&quot;</span>
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="keyword">namespace </span>JS {
+<a name="l00016"></a>00016 
+<a name="l00017"></a><a class="code" href="../../d5/d03/struct_j_s_1_1_frame_description.html">00017</a> <span class="keyword">struct </span><a class="code" href="../../d5/d03/struct_j_s_1_1_frame_description.html">FrameDescription</a>
+<a name="l00018"></a>00018 {
+<a name="l00019"></a><a class="code" href="../../d5/d03/struct_j_s_1_1_frame_description.html#a73aa1abfac0e1e069fcd1c387d5f6d4e">00019</a>     JSScript *<a class="code" href="../../d5/d03/struct_j_s_1_1_frame_description.html#a73aa1abfac0e1e069fcd1c387d5f6d4e">script</a>;
+<a name="l00020"></a><a class="code" href="../../d5/d03/struct_j_s_1_1_frame_description.html#ad584f71d7d4788d98328d6fbaa535e18">00020</a>     <span class="keywordtype">unsigned</span> <a class="code" href="../../d5/d03/struct_j_s_1_1_frame_description.html#ad584f71d7d4788d98328d6fbaa535e18">lineno</a>;
+<a name="l00021"></a><a class="code" href="../../d5/d03/struct_j_s_1_1_frame_description.html#a6e82cc6e029a824a3224664dac4c063c">00021</a>     JSFunction *<a class="code" href="../../d5/d03/struct_j_s_1_1_frame_description.html#a6e82cc6e029a824a3224664dac4c063c">fun</a>;
+<a name="l00022"></a>00022 };
+<a name="l00023"></a>00023 
+<a name="l00024"></a><a class="code" href="../../d9/d47/struct_j_s_1_1_stack_description.html">00024</a> <span class="keyword">struct </span><a class="code" href="../../d9/d47/struct_j_s_1_1_stack_description.html">StackDescription</a>
+<a name="l00025"></a>00025 {
+<a name="l00026"></a><a class="code" href="../../d9/d47/struct_j_s_1_1_stack_description.html#aa50ff0bf9d60aa9a9a359590c7646863">00026</a>     <span class="keywordtype">unsigned</span> <a class="code" href="../../d9/d47/struct_j_s_1_1_stack_description.html#aa50ff0bf9d60aa9a9a359590c7646863">nframes</a>;
+<a name="l00027"></a><a class="code" href="../../d9/d47/struct_j_s_1_1_stack_description.html#a1c9cd158645d025b5ff798c25a645aea">00027</a>     <a class="code" href="../../d5/d03/struct_j_s_1_1_frame_description.html">FrameDescription</a> *<a class="code" href="../../d9/d47/struct_j_s_1_1_stack_description.html#a1c9cd158645d025b5ff798c25a645aea">frames</a>;
+<a name="l00028"></a>00028 };
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="keyword">extern</span> <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d47/struct_j_s_1_1_stack_description.html">StackDescription</a> *)
+<a name="l00031"></a><a class="code" href="../../da/d7b/namespace_j_s.html#abf8b9d19b8d071a02bc3599a57dbd1f6">00031</a> DescribeStack(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <span class="keywordtype">unsigned</span> <a class="code" href="../../da/d7b/namespace_j_s.html#abf8b9d19b8d071a02bc3599a57dbd1f6">maxFrames</a>);
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00034"></a><a class="code" href="../../da/d7b/namespace_j_s.html#aee88f23e540831a966040d73300f4008">00034</a> FreeStackDescription(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, <a class="code" href="../../d9/d47/struct_j_s_1_1_stack_description.html">StackDescription</a> *<a class="code" href="../../da/d7b/namespace_j_s.html#aee88f23e540831a966040d73300f4008">desc</a>);
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">char</span> *)
+<a name="l00037"></a><a class="code" href="../../da/d7b/namespace_j_s.html#a20d3b71b399a2fe0b6acb56fe52757ba">00037</a> FormatStackDump(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, <span class="keywordtype">char</span> *<a class="code" href="../../da/d32/prio_8h.html#ac14417684334d01b4e1e807a19d92816">buf</a>,
+<a name="l00038"></a>00038                     <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../da/d7b/namespace_j_s.html#a04f8575f941dc209c3ce368921b57af5">showArgs</a>, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../da/d7b/namespace_j_s.html#a95e021a20d192b3d3a4dc5dacfff507a">showLocals</a>,
+<a name="l00039"></a>00039                     <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../da/d7b/namespace_j_s.html#a20d3b71b399a2fe0b6acb56fe52757ba">showThisProps</a>);
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 }
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 <span class="preprocessor"># ifdef DEBUG</span>
+<a name="l00044"></a>00044 <span class="preprocessor"></span><a class="code" href="../../da/d7b/namespace_j_s.html#a2e605e903794faf0e672f343d0205d99">JS_FRIEND_API</a>(<span class="keywordtype">void</span>) js_DumpValue(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> js::<a class="code" href="../../d1/d94/class_j_s_1_1_value.html">Value</a> &amp;<a class="code" href="../../d7/d27/jpeglib_8h.html#abde23394a8cafaa525be2efd5c6d4b2e">val</a>);
+<a name="l00045"></a>00045 <a class="code" href="../../da/d7b/namespace_j_s.html#a2e605e903794faf0e672f343d0205d99">JS_FRIEND_API</a>(<span class="keywordtype">void</span>) js_DumpId(<a class="code" href="../../d9/d28/jspubtd_8h.html#aef24059798e67d63949ed53ad62f5312">jsid</a> <span class="keywordtype">id</span>);
+<a name="l00046"></a>00046 <a class="code" href="../../da/d7b/namespace_j_s.html#a2e605e903794faf0e672f343d0205d99">JS_FRIEND_API</a>(<span class="keywordtype">void</span>) js_DumpStackFrame(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, js::StackFrame *<a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> = <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>);
+<a name="l00047"></a>00047 <span class="preprocessor"># endif</span>
+<a name="l00048"></a>00048 <span class="preprocessor"></span>
+<a name="l00049"></a>00049 <a class="code" href="../../da/d7b/namespace_j_s.html#a2e605e903794faf0e672f343d0205d99">JS_FRIEND_API</a>(<span class="keywordtype">void</span>)
+<a name="l00050"></a>00050 <a class="code" href="../../de/deb/jsdbgapi_8h.html#ad8ca91e91c67ac0b248e4d23d022020d">js_DumpBacktrace</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx);
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#af62a61874ffa4eae34a8b4b694f64d8c">JSCompartment</a> *)
+<a name="l00053"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a5e01859be31bb2d208885fc63c9331e8">00053</a> JS_EnterCompartmentOfScript(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *<a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">target</a>);
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(JSString *)
+<a name="l00056"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a988f7f564247275a5caf8c4e40c7d8d7">00056</a> JS_DecompileScript(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *<a class="code" href="../../d2/d7d/jsapi_8h.html#a31bd60a30b08f545ac3bb2e4c17c4d97">script</a>, <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <span class="keywordtype">unsigned</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a1690d53859da68596cb443452d57672c">indent</a>);
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 <span class="comment">/*</span>
+<a name="l00059"></a>00059 <span class="comment"> * Currently, we only support runtime-wide debugging. In the future, we should</span>
+<a name="l00060"></a>00060 <span class="comment"> * be able to support compartment-wide debugging.</span>
+<a name="l00061"></a>00061 <span class="comment"> */</span>
+<a name="l00062"></a>00062 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00063"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#aec5609e2dcd4026a3899014566f5a954">00063</a> JS_SetRuntimeDebugMode(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a3ba489a976915ca6161baede3c439066">rt</a>, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../d8/d0e/apps_2costcontrol_2js_2settings_2settings_8js.html#a651046067579e48d7f0d03ce38dc7cf8">debug</a>);
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065 <span class="comment">/*</span>
+<a name="l00066"></a>00066 <span class="comment"> * Debug mode is a compartment-wide mode that enables a debugger to attach</span>
+<a name="l00067"></a>00067 <span class="comment"> * to and interact with running methodjit-ed frames. In particular, it causes</span>
+<a name="l00068"></a>00068 <span class="comment"> * every function to be compiled as if an eval was present (so eval-in-frame)</span>
+<a name="l00069"></a>00069 <span class="comment"> * can work, and it ensures that functions can be re-JITed for other debug</span>
+<a name="l00070"></a>00070 <span class="comment"> * features. In general, it is not safe to interact with frames that were live</span>
+<a name="l00071"></a>00071 <span class="comment"> * before debug mode was enabled. For this reason, it is also not safe to</span>
+<a name="l00072"></a>00072 <span class="comment"> * enable debug mode while frames are live.</span>
+<a name="l00073"></a>00073 <span class="comment"> */</span>
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 <span class="comment">/* Get current state of debugging mode. */</span>
+<a name="l00076"></a>00076 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00077"></a>00077 JS_GetDebugMode(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx);
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 <span class="comment">/*</span>
+<a name="l00080"></a>00080 <span class="comment"> * Turn on/off debugging mode for all compartments. This returns false if any code</span>
+<a name="l00081"></a>00081 <span class="comment"> * from any of the runtime&#39;s compartments is running or on the stack.</span>
+<a name="l00082"></a>00082 <span class="comment"> */</span>
+<a name="l00083"></a>00083 <a class="code" href="../../da/d7b/namespace_j_s.html#a2e605e903794faf0e672f343d0205d99">JS_FRIEND_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00084"></a>00084 <a class="code" href="../../de/deb/jsdbgapi_8h.html#af0bee03f6ae69fa52194ddb34d030ddb">JS_SetDebugModeForAllCompartments</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> debug);
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086 <span class="comment">/*</span>
+<a name="l00087"></a>00087 <span class="comment"> * Turn on/off debugging mode for a single compartment. This should only be</span>
+<a name="l00088"></a>00088 <span class="comment"> * used when no code from this compartment is running or on the stack in any</span>
+<a name="l00089"></a>00089 <span class="comment"> * thread.</span>
+<a name="l00090"></a>00090 <span class="comment"> */</span>
+<a name="l00091"></a>00091 <a class="code" href="../../da/d7b/namespace_j_s.html#a2e605e903794faf0e672f343d0205d99">JS_FRIEND_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00092"></a>00092 <a class="code" href="../../de/deb/jsdbgapi_8h.html#a312fe23ea1cd289783e96ba72885b488">JS_SetDebugModeForCompartment</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, <a class="code" href="../../d9/d28/jspubtd_8h.html#af62a61874ffa4eae34a8b4b694f64d8c">JSCompartment</a> *comp, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> debug);
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094 <span class="comment">/*</span>
+<a name="l00095"></a>00095 <span class="comment"> * Turn on/off debugging mode for a context&#39;s compartment.</span>
+<a name="l00096"></a>00096 <span class="comment"> */</span>
+<a name="l00097"></a>00097 <a class="code" href="../../da/d7b/namespace_j_s.html#a2e605e903794faf0e672f343d0205d99">JS_FRIEND_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00098"></a>00098 <a class="code" href="../../de/deb/jsdbgapi_8h.html#a4913920beb41ad90e00e3f196634fb5d">JS_SetDebugMode</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> debug);
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="comment">/* Turn on single step mode. */</span>
+<a name="l00101"></a>00101 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00102"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a65d411dad8ad453800a76c2af7bd7dc3">00102</a> JS_SetSingleStepMode(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a65d411dad8ad453800a76c2af7bd7dc3">singleStep</a>);
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="comment">/* The closure argument will be marked. */</span>
+<a name="l00105"></a>00105 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00106"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a8771985c525e6da4ec7acbc045daa845">00106</a> JS_SetTrap(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script, <a class="code" href="../../d0/d15/jsprvtd_8h.html#ab8ac898def28608bf1c412195169b6ad">jsbytecode</a> *<a class="code" href="../../de/deb/jsdbgapi_8h.html#a8771985c525e6da4ec7acbc045daa845">pc</a>,
+<a name="l00107"></a>00107            <a class="code" href="../../d0/d15/jsprvtd_8h.html#a4dffe9ff9f484534cf78c593a97db08e">JSTrapHandler</a> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>, <a class="code" href="../../d1/d94/class_j_s_1_1_value.html">jsval</a> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a04ae7e854091164fecb61c733824c62d">closure</a>);
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00110"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#ad045d294ad16b0f7e76e6ec0edbedbcb">00110</a> JS_ClearTrap(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script, <a class="code" href="../../d0/d15/jsprvtd_8h.html#ab8ac898def28608bf1c412195169b6ad">jsbytecode</a> *pc,
+<a name="l00111"></a>00111              <a class="code" href="../../d0/d15/jsprvtd_8h.html#a4dffe9ff9f484534cf78c593a97db08e">JSTrapHandler</a> *<a class="code" href="../../de/deb/jsdbgapi_8h.html#ad045d294ad16b0f7e76e6ec0edbedbcb">handlerp</a>, <a class="code" href="../../d1/d94/class_j_s_1_1_value.html">jsval</a> *<a class="code" href="../../de/deb/jsdbgapi_8h.html#ab5832b453b6698bdc724fc52ff75beb1">closurep</a>);
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00114"></a>00114 JS_ClearScriptTraps(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, JSScript *script);
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00117"></a>00117 JS_ClearAllTrapsForCompartment(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx);
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00120"></a>00120 JS_SetInterrupt(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, <a class="code" href="../../d0/d15/jsprvtd_8h.html#aaec8c31666aa61fe345189de43c1e283">JSInterruptHook</a> handler, <span class="keywordtype">void</span> *closure);
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00123"></a>00123 JS_ClearInterrupt(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, <a class="code" href="../../d0/d15/jsprvtd_8h.html#aaec8c31666aa61fe345189de43c1e283">JSInterruptHook</a> *handlerp, <span class="keywordtype">void</span> **closurep);
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 <span class="comment">/************************************************************************/</span>
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00128"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a37c7267545378f11a6ff10555b8704ab">00128</a> JS_SetWatchPoint(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSObject *<a class="code" href="../../da/d7b/namespace_j_s.html#a0842d82cd8a06e877277bf8e90de77d5">obj</a>, <a class="code" href="../../d9/d28/jspubtd_8h.html#aef24059798e67d63949ed53ad62f5312">jsid</a> <span class="keywordtype">id</span>,
+<a name="l00129"></a>00129                  <a class="code" href="../../d0/d15/jsprvtd_8h.html#a9620bb5bdd621d03592a7ca2ebd65a5d">JSWatchPointHandler</a> handler, JSObject *closure);
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00132"></a>00132 JS_ClearWatchPoint(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSObject *obj, <a class="code" href="../../d9/d28/jspubtd_8h.html#aef24059798e67d63949ed53ad62f5312">jsid</a> <span class="keywordtype">id</span>,
+<a name="l00133"></a>00133                    <a class="code" href="../../d0/d15/jsprvtd_8h.html#a9620bb5bdd621d03592a7ca2ebd65a5d">JSWatchPointHandler</a> *handlerp, JSObject **closurep);
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00136"></a>00136 JS_ClearWatchPointsForObject(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSObject *obj);
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00139"></a>00139 JS_ClearAllWatchPoints(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx);
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141 <span class="comment">/************************************************************************/</span>
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143 <span class="comment">// Raw JSScript* because this needs to be callable from a signal handler.</span>
+<a name="l00144"></a>00144 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00145"></a>00145 JS_PCToLineNumber(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script, <a class="code" href="../../d0/d15/jsprvtd_8h.html#ab8ac898def28608bf1c412195169b6ad">jsbytecode</a> *pc);
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d0/d15/jsprvtd_8h.html#ab8ac898def28608bf1c412195169b6ad">jsbytecode</a> *)
+<a name="l00148"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#ab0cb24a647dc40ba6f75fe5f5a128192">00148</a> JS_LineNumberToPC(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script, <span class="keywordtype">unsigned</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a960df79821128ba97ef5c6bbac8f3028">lineno</a>);
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d0/d15/jsprvtd_8h.html#ab8ac898def28608bf1c412195169b6ad">jsbytecode</a> *)
+<a name="l00151"></a>00151 JS_EndPC(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script);
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00154"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a44dbc80a98709fbc71ee9b4d624041f8">00154</a> JS_GetLinePCs(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script,
+<a name="l00155"></a>00155               <span class="keywordtype">unsigned</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a44dbc80a98709fbc71ee9b4d624041f8">startLine</a>, <span class="keywordtype">unsigned</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#aa6bbcf494cafd6f9ce17df0c62ac09bd">maxLines</a>,
+<a name="l00156"></a>00156               <span class="keywordtype">unsigned</span>* <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>, <span class="keywordtype">unsigned</span>** <a class="code" href="../../de/deb/jsdbgapi_8h.html#a8e2960b7346236feeabed4635c5d39d6">lines</a>, <a class="code" href="../../d0/d15/jsprvtd_8h.html#ab8ac898def28608bf1c412195169b6ad">jsbytecode</a>*** <a class="code" href="../../de/deb/jsdbgapi_8h.html#a28900fb4199491bb2a8efd139ac06e0d">pcs</a>);
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00159"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a4ff8b4ae72c658a70335edd21bd9695d">00159</a> JS_GetFunctionArgumentCount(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSFunction *<a class="code" href="../../da/d7b/namespace_j_s.html#abaef7afeefb2fe948d21fea4e453fd29">fun</a>);
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00162"></a>00162 JS_FunctionHasLocalNames(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSFunction *fun);
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164 <span class="comment">/*</span>
+<a name="l00165"></a>00165 <span class="comment"> * N.B. The mark is in the context temp pool and thus the caller must take care</span>
+<a name="l00166"></a>00166 <span class="comment"> * to call JS_ReleaseFunctionLocalNameArray in a LIFO manner (wrt to any other</span>
+<a name="l00167"></a>00167 <span class="comment"> * call that may use the temp pool.</span>
+<a name="l00168"></a>00168 <span class="comment"> */</span>
+<a name="l00169"></a>00169 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(uintptr_t *)
+<a name="l00170"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a776fb62b435e2879935a2bf386a02e40">00170</a> JS_GetFunctionLocalNameArray(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSFunction *fun, <span class="keywordtype">void</span> **<a class="code" href="../../de/deb/jsdbgapi_8h.html#a776fb62b435e2879935a2bf386a02e40">markp</a>);
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(JSAtom *)
+<a name="l00173"></a>00173 JS_LocalNameToAtom(uintptr_t w);
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(JSString *)
+<a name="l00176"></a>00176 JS_AtomKey(JSAtom *atom);
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00179"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a5781cac7f8ba493eaa5d1d9b2deac5aa">00179</a> JS_ReleaseFunctionLocalNameArray(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, <span class="keywordtype">void</span> *<a class="code" href="../../de/deb/jsdbgapi_8h.html#a5781cac7f8ba493eaa5d1d9b2deac5aa">mark</a>);
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(JSScript *)
+<a name="l00182"></a>00182 JS_GetFunctionScript(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSFunction *fun);
+<a name="l00183"></a>00183 
+<a name="l00184"></a>00184 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../de/dd6/_call_args_8h.html#ac6c8261787c2bcffab1c48fabda84342">JSNative</a>)
+<a name="l00185"></a>00185 JS_GetFunctionNative(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSFunction *fun);
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d7/d69/struct_j_s_principals.html">JSPrincipals</a> *)
+<a name="l00188"></a>00188 JS_GetScriptPrincipals(JSScript *script);
+<a name="l00189"></a>00189 
+<a name="l00190"></a>00190 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d7/d69/struct_j_s_principals.html">JSPrincipals</a> *)
+<a name="l00191"></a>00191 JS_GetScriptOriginPrincipals(JSScript *script);
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193 <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(JSFunction *)
+<a name="l00194"></a>00194 <a class="code" href="../../de/deb/jsdbgapi_8h.html#a79249aa11f07519c115f98b4523474eb">JS_GetScriptFunction</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script);
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(JSObject *)
+<a name="l00197"></a>00197 JS_GetParentOrScopeChain(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSObject *obj);
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199 <span class="comment">/************************************************************************/</span>
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201 <span class="comment">/*</span>
+<a name="l00202"></a>00202 <span class="comment"> * This is almost JS_GetClass(obj)-&gt;name except that certain debug-only</span>
+<a name="l00203"></a>00203 <span class="comment"> * proxies are made transparent. In particular, this function turns the class</span>
+<a name="l00204"></a>00204 <span class="comment"> * of any scope (returned via JS_GetFrameScopeChain or JS_GetFrameCalleeObject)</span>
+<a name="l00205"></a>00205 <span class="comment"> * from &quot;Proxy&quot; to &quot;Call&quot;, &quot;Block&quot;, &quot;With&quot; etc.</span>
+<a name="l00206"></a>00206 <span class="comment"> */</span>
+<a name="l00207"></a>00207 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *)
+<a name="l00208"></a>00208 JS_GetDebugClassName(JSObject *obj);
+<a name="l00209"></a>00209 
+<a name="l00210"></a>00210 <span class="comment">/************************************************************************/</span>
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *)
+<a name="l00213"></a>00213 JS_GetScriptFilename(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script);
+<a name="l00214"></a>00214 
+<a name="l00215"></a>00215 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d9/d28/jspubtd_8h.html#a402ffb3c791d4197e0bf8f3aaeaf1779">jschar</a> *)
+<a name="l00216"></a>00216 JS_GetScriptSourceMap(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script);
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00219"></a>00219 JS_GetScriptBaseLineNumber(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script);
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00222"></a>00222 JS_GetScriptLineExtent(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script);
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#ade6c7929666b23f4c77f0529635a4fe5">JSVersion</a>)
+<a name="l00225"></a>00225 JS_GetScriptVersion(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script);
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">bool</span>)
+<a name="l00228"></a>00228 JS_GetScriptIsSelfHosted(JSScript *script);
+<a name="l00229"></a>00229 
+<a name="l00230"></a>00230 <span class="comment">/************************************************************************/</span>
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232 <span class="comment">/*</span>
+<a name="l00233"></a>00233 <span class="comment"> * Hook setters for script creation and destruction, see jsprvtd.h for the</span>
+<a name="l00234"></a>00234 <span class="comment"> * typedefs.  These macros provide binary compatibility and newer, shorter</span>
+<a name="l00235"></a>00235 <span class="comment"> * synonyms.</span>
+<a name="l00236"></a>00236 <span class="comment"> */</span>
+<a name="l00237"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a7230bf8c2a08220e53960dadf23c36de">00237</a> <span class="preprocessor">#define JS_SetNewScriptHook     JS_SetNewScriptHookProc</span>
+<a name="l00238"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a41da5cab70e9c40a804b709b5a562828">00238</a> <span class="preprocessor"></span><span class="preprocessor">#define JS_SetDestroyScriptHook JS_SetDestroyScriptHookProc</span>
+<a name="l00239"></a>00239 <span class="preprocessor"></span>
+<a name="l00240"></a>00240 <span class="keyword">extern</span> <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00241"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a0709a3421ddc7fcae33d277721a9f702">00241</a> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a7230bf8c2a08220e53960dadf23c36de">JS_SetNewScriptHook</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, <a class="code" href="../../d0/d15/jsprvtd_8h.html#af8ae74ad009f9397b576dc53b6428e7f">JSNewScriptHook</a> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a0709a3421ddc7fcae33d277721a9f702">hook</a>, <span class="keywordtype">void</span> *<a class="code" href="../../de/deb/jsdbgapi_8h.html#ab79c9575868b474842b632a7489d927d">callerdata</a>);
+<a name="l00242"></a>00242 
+<a name="l00243"></a>00243 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00244"></a>00244 <a class="code" href="../../de/deb/jsdbgapi_8h.html#a41da5cab70e9c40a804b709b5a562828">JS_SetDestroyScriptHook</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, <a class="code" href="../../d0/d15/jsprvtd_8h.html#a5d9584b573852e5cbb975f51409b4928">JSDestroyScriptHook</a> hook,
+<a name="l00245"></a>00245                         <span class="keywordtype">void</span> *callerdata);
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247 <span class="comment">/************************************************************************/</span>
+<a name="l00248"></a>00248 
+<a name="l00249"></a><a class="code" href="../../d7/d76/struct_j_s_property_desc.html">00249</a> typedef struct <a class="code" href="../../d7/d76/struct_j_s_property_desc.html">JSPropertyDesc</a> {
+<a name="l00250"></a><a class="code" href="../../d7/d76/struct_j_s_property_desc.html#a9b837ea3cbb15382312e0a976869fd86">00250</a>     <a class="code" href="../../d1/d94/class_j_s_1_1_value.html">jsval</a>           <a class="code" href="../../d7/d76/struct_j_s_property_desc.html#a9b837ea3cbb15382312e0a976869fd86">id</a>;         <span class="comment">/* primary id, atomized string, or int */</span>
+<a name="l00251"></a><a class="code" href="../../d7/d76/struct_j_s_property_desc.html#a348869ff5afff1c1617b1f40059e9b12">00251</a>     <a class="code" href="../../d1/d94/class_j_s_1_1_value.html">jsval</a>           <a class="code" href="../../d7/d76/struct_j_s_property_desc.html#a348869ff5afff1c1617b1f40059e9b12">value</a>;      <span class="comment">/* property value */</span>
+<a name="l00252"></a><a class="code" href="../../d7/d76/struct_j_s_property_desc.html#ad9341e20e3a01a2fc2cfa585b73de586">00252</a>     uint8_t         <a class="code" href="../../d7/d76/struct_j_s_property_desc.html#ad9341e20e3a01a2fc2cfa585b73de586">flags</a>;      <span class="comment">/* flags, see below */</span>
+<a name="l00253"></a><a class="code" href="../../d7/d76/struct_j_s_property_desc.html#a5f1499e77b3231b517e5c6300ad10243">00253</a>     uint8_t         <a class="code" href="../../d7/d76/struct_j_s_property_desc.html#a5f1499e77b3231b517e5c6300ad10243">spare</a>;      <span class="comment">/* unused */</span>
+<a name="l00254"></a><a class="code" href="../../d7/d76/struct_j_s_property_desc.html#a2aeeaa999547f50d25f210627410007b">00254</a>     <a class="code" href="../../d1/d94/class_j_s_1_1_value.html">jsval</a>           <a class="code" href="../../d7/d76/struct_j_s_property_desc.html#a2aeeaa999547f50d25f210627410007b">alias</a>;      <span class="comment">/* alias id if JSPD_ALIAS flag */</span>
+<a name="l00255"></a>00255 } <a class="code" href="../../de/deb/jsdbgapi_8h.html#a891196848b9e27b85463303f9f07c785">JSPropertyDesc</a>;
+<a name="l00256"></a>00256 
+<a name="l00257"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a229ab348e9e4547b4dbcdb005ae27c33">00257</a> <span class="preprocessor">#define JSPD_ENUMERATE  0x01    </span><span class="comment">/* visible to for/in loop */</span>
+<a name="l00258"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a2dd5906a4dc9cf6b26a4dfd710d76913">00258</a> <span class="preprocessor">#define JSPD_READONLY   0x02    </span><span class="comment">/* assignment is error */</span>
+<a name="l00259"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a43557276a0db83694d4e7db24f50f34a">00259</a> <span class="preprocessor">#define JSPD_PERMANENT  0x04    </span><span class="comment">/* property cannot be deleted */</span>
+<a name="l00260"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a226c7b5f0c377890111ba353762856b9">00260</a> <span class="preprocessor">#define JSPD_ALIAS      0x08    </span><span class="comment">/* property has an alias id */</span>
+<a name="l00261"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a9212fc150fd7af470d0549d410df7e42">00261</a> <span class="preprocessor">#define JSPD_EXCEPTION  0x40    </span><span class="comment">/* exception occurred fetching the property, */</span>
+<a name="l00262"></a>00262                                 <span class="comment">/* value is exception */</span>
+<a name="l00263"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a2a9f1622d10bec03965252d105e74edc">00263</a> <span class="preprocessor">#define JSPD_ERROR      0x80    </span><span class="comment">/* native getter returned JS_FALSE without */</span>
+<a name="l00264"></a>00264                                 <span class="comment">/* throwing an exception */</span>
+<a name="l00265"></a>00265 
+<a name="l00266"></a><a class="code" href="../../d3/d56/struct_j_s_property_desc_array.html">00266</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d3/d56/struct_j_s_property_desc_array.html">JSPropertyDescArray</a> {
+<a name="l00267"></a><a class="code" href="../../d3/d56/struct_j_s_property_desc_array.html#a6d8168a0b984849806ad05d6a30ae615">00267</a>     uint32_t        <a class="code" href="../../d3/d56/struct_j_s_property_desc_array.html#a6d8168a0b984849806ad05d6a30ae615">length</a>;     <span class="comment">/* number of elements in array */</span>
+<a name="l00268"></a><a class="code" href="../../d3/d56/struct_j_s_property_desc_array.html#a40ceecd78cf22f05af27bf297b39c4a2">00268</a>     <a class="code" href="../../d7/d76/struct_j_s_property_desc.html">JSPropertyDesc</a>  *<a class="code" href="../../d3/d56/struct_j_s_property_desc_array.html#a40ceecd78cf22f05af27bf297b39c4a2">array</a>;     <span class="comment">/* alloc&#39;d by Get, freed by Put */</span>
+<a name="l00269"></a>00269 } <a class="code" href="../../de/deb/jsdbgapi_8h.html#a038755909e6d62f6854f84dd86d50c51">JSPropertyDescArray</a>;
+<a name="l00270"></a>00270 
+<a name="l00271"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a67c4770c716102ee79da42c5a2ff1ade">00271</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../de/deb/jsdbgapi_8h.html#a67c4770c716102ee79da42c5a2ff1ade">JSScopeProperty</a> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a67c4770c716102ee79da42c5a2ff1ade">JSScopeProperty</a>;
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273 <span class="keyword">extern</span> <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00274"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a81ce92337ae6a51804f4ea05c548c80d">00274</a> JS_GetPropertyDescArray(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSObject *obj, <a class="code" href="../../d3/d56/struct_j_s_property_desc_array.html">JSPropertyDescArray</a> *<a class="code" href="../../de/deb/jsdbgapi_8h.html#a81ce92337ae6a51804f4ea05c548c80d">pda</a>);
+<a name="l00275"></a>00275 
+<a name="l00276"></a>00276 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00277"></a>00277 JS_PutPropertyDescArray(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, <a class="code" href="../../d3/d56/struct_j_s_property_desc_array.html">JSPropertyDescArray</a> *pda);
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279 <span class="comment">/************************************************************************/</span>
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281 <span class="comment">/*</span>
+<a name="l00282"></a>00282 <span class="comment"> * JSAbstractFramePtr is the public version of AbstractFramePtr, a pointer to a</span>
+<a name="l00283"></a>00283 <span class="comment"> * StackFrame or baseline JIT frame.</span>
+<a name="l00284"></a>00284 <span class="comment"> */</span>
+<a name="l00285"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a77d68639e268d8f4d177ee2503865740">00285</a> class <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(JSAbstractFramePtr)
+<a name="l00286"></a>00286 {
+<a name="l00287"></a>00287     uintptr_t ptr_;
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289   <span class="keyword">protected</span>:
+<a name="l00290"></a>00290     JSAbstractFramePtr()
+<a name="l00291"></a>00291       : ptr_(0)
+<a name="l00292"></a>00292     { }
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294   <span class="keyword">public</span>:
+<a name="l00295"></a>00295     <span class="keyword">explicit</span> JSAbstractFramePtr(<span class="keywordtype">void</span> *raw);
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297     uintptr_t raw()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> ptr_; }
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299     operator bool()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> !!ptr_; }
+<a name="l00300"></a>00300 
+<a name="l00301"></a>00301     JSObject *scopeChain(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx);
+<a name="l00302"></a>00302     JSObject *callObject(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx);
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304     JSFunction *maybeFun();
+<a name="l00305"></a>00305     JSScript *<a class="code" href="../../d2/d7d/jsapi_8h.html#a31bd60a30b08f545ac3bb2e4c17c4d97">script</a>();
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307     <span class="keywordtype">bool</span> getThisValue(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, <a class="code" href="../../d1/d2f/class_j_s_1_1_mutable_handle.html">JS::MutableHandleValue</a> <a class="code" href="../../da/d7b/namespace_j_s.html#a4b3b84b01a80ad905d42fda2a39195ab">thisv</a>);
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309     <span class="keywordtype">bool</span> isDebuggerFrame();
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311     <span class="keywordtype">bool</span> evaluateInStackFrame(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx,
+<a name="l00312"></a>00312                               <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../da/d7b/namespace_j_s.html#a8ce97c540623ccaef287dc043d4479ac">bytes</a>, <span class="keywordtype">unsigned</span> <a class="code" href="../../da/d7b/namespace_j_s.html#a3389a931de293e3e8b6dd2062ab473b4">length</a>,
+<a name="l00313"></a>00313                               <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../da/d7b/namespace_j_s.html#a35bca69fecd54f07b0a03972a069510d">filename</a>, <span class="keywordtype">unsigned</span> lineno,
+<a name="l00314"></a>00314                               <a class="code" href="../../d1/d2f/class_j_s_1_1_mutable_handle.html">JS::MutableHandleValue</a> <a class="code" href="../../da/d7b/namespace_j_s.html#a8533f220b0c4a4573f70096d5d33bda4">rval</a>);
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316     <span class="keywordtype">bool</span> evaluateUCInStackFrame(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx,
+<a name="l00317"></a>00317                                 <span class="keyword">const</span> <a class="code" href="../../d9/d28/jspubtd_8h.html#a402ffb3c791d4197e0bf8f3aaeaf1779">jschar</a> *<a class="code" href="../../da/d7b/namespace_j_s.html#a81a7d8b6e3a954fa08207b5d05e89df0">chars</a>, <span class="keywordtype">unsigned</span> length,
+<a name="l00318"></a>00318                                 <span class="keyword">const</span> <span class="keywordtype">char</span> *filename, <span class="keywordtype">unsigned</span> lineno,
+<a name="l00319"></a>00319                                 <a class="code" href="../../d1/d2f/class_j_s_1_1_mutable_handle.html">JS::MutableHandleValue</a> rval);
+<a name="l00320"></a>00320 };
+<a name="l00321"></a>00321 
+<a name="l00322"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#ab5e103c7f7c70e070d3b5e511fc85fcf">00322</a> <span class="keyword">class </span><a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(JSNullFramePtr) : <span class="keyword">public</span> JSAbstractFramePtr
+<a name="l00323"></a>00323 {
+<a name="l00324"></a>00324   <span class="keyword">public</span>:
+<a name="l00325"></a>00325     JSNullFramePtr()
+<a name="l00326"></a>00326       : JSAbstractFramePtr()
+<a name="l00327"></a>00327     {}
+<a name="l00328"></a>00328 };
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330 <span class="comment">/*</span>
+<a name="l00331"></a>00331 <span class="comment"> * This class does not work when IonMonkey is active. It&#39;s only used by jsd,</span>
+<a name="l00332"></a>00332 <span class="comment"> * which can only be used when IonMonkey is disabled.</span>
+<a name="l00333"></a>00333 <span class="comment"> *</span>
+<a name="l00334"></a>00334 <span class="comment"> * To find the calling script and line number, use JS_DescribeSciptedCaller.</span>
+<a name="l00335"></a>00335 <span class="comment"> * To summarize the call stack, use JS::DescribeStack.</span>
+<a name="l00336"></a>00336 <span class="comment"> */</span>
+<a name="l00337"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a7bbd11c3fd13bac8bbf7cf0861f9c5e1">00337</a> <span class="keyword">class </span><a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(JSBrokenFrameIterator)
+<a name="l00338"></a>00338 {
+<a name="l00339"></a>00339     <span class="keywordtype">void</span> *data_;
+<a name="l00340"></a>00340 
+<a name="l00341"></a>00341   <span class="keyword">public</span>:
+<a name="l00342"></a>00342     JSBrokenFrameIterator(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx);
+<a name="l00343"></a>00343     ~JSBrokenFrameIterator();
+<a name="l00344"></a>00344 
+<a name="l00345"></a>00345     <span class="keywordtype">bool</span> <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>() <span class="keyword">const</span>;
+<a name="l00346"></a>00346     JSBrokenFrameIterator&amp; operator++();
+<a name="l00347"></a>00347 
+<a name="l00348"></a>00348     JSAbstractFramePtr abstractFramePtr() <span class="keyword">const</span>;
+<a name="l00349"></a>00349     <a class="code" href="../../d0/d15/jsprvtd_8h.html#ab8ac898def28608bf1c412195169b6ad">jsbytecode</a> *<a class="code" href="../../de/deb/jsdbgapi_8h.html#a8771985c525e6da4ec7acbc045daa845">pc</a>() <span class="keyword">const</span>;
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351     <span class="keywordtype">bool</span> isConstructing() <span class="keyword">const</span>;
+<a name="l00352"></a>00352 };
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354 <span class="comment">/*</span>
+<a name="l00355"></a>00355 <span class="comment"> * This hook captures high level script execution and function calls (JS or</span>
+<a name="l00356"></a>00356 <span class="comment"> * native).  It is used by JS_SetExecuteHook to hook top level scripts and by</span>
+<a name="l00357"></a>00357 <span class="comment"> * JS_SetCallHook to hook function calls.  It will get called twice per script</span>
+<a name="l00358"></a>00358 <span class="comment"> * or function call: just before execution begins and just after it finishes.</span>
+<a name="l00359"></a>00359 <span class="comment"> * In both cases the &#39;current&#39; frame is that of the executing code.</span>
+<a name="l00360"></a>00360 <span class="comment"> *</span>
+<a name="l00361"></a>00361 <span class="comment"> * The &#39;before&#39; param is JS_TRUE for the hook invocation before the execution</span>
+<a name="l00362"></a>00362 <span class="comment"> * and JS_FALSE for the invocation after the code has run.</span>
+<a name="l00363"></a>00363 <span class="comment"> *</span>
+<a name="l00364"></a>00364 <span class="comment"> * The &#39;ok&#39; param is significant only on the post execution invocation to</span>
+<a name="l00365"></a>00365 <span class="comment"> * signify whether or not the code completed &#39;normally&#39;.</span>
+<a name="l00366"></a>00366 <span class="comment"> *</span>
+<a name="l00367"></a>00367 <span class="comment"> * The &#39;closure&#39; param is as passed to JS_SetExecuteHook or JS_SetCallHook</span>
+<a name="l00368"></a>00368 <span class="comment"> * for the &#39;before&#39;invocation, but is whatever value is returned from that</span>
+<a name="l00369"></a>00369 <span class="comment"> * invocation for the &#39;after&#39; invocation. Thus, the hook implementor *could*</span>
+<a name="l00370"></a>00370 <span class="comment"> * allocate a structure in the &#39;before&#39; invocation and return a pointer to that</span>
+<a name="l00371"></a>00371 <span class="comment"> * structure. The pointer would then be handed to the hook for the &#39;after&#39;</span>
+<a name="l00372"></a>00372 <span class="comment"> * invocation. Alternately, the &#39;before&#39; could just return the same value as</span>
+<a name="l00373"></a>00373 <span class="comment"> * in &#39;closure&#39; to cause the &#39;after&#39; invocation to be called with the same</span>
+<a name="l00374"></a>00374 <span class="comment"> * &#39;closure&#39; value as the &#39;before&#39;.</span>
+<a name="l00375"></a>00375 <span class="comment"> *</span>
+<a name="l00376"></a>00376 <span class="comment"> * Returning NULL in the &#39;before&#39; hook will cause the &#39;after&#39; hook *not* to</span>
+<a name="l00377"></a>00377 <span class="comment"> * be called.</span>
+<a name="l00378"></a>00378 <span class="comment"> */</span>
+<a name="l00379"></a>00379 <span class="keyword">typedef</span> <span class="keywordtype">void</span> *
+<a name="l00380"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a5b8ceb519245dfa4a5f39daf5dc662f5">00380</a> (* JSInterpreterHook)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, JSAbstractFramePtr frame, <span class="keywordtype">bool</span> isConstructing,
+<a name="l00381"></a>00381                       <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> before, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> *<a class="code" href="../../da/ded/ds-test_8js.html#a96c639e17949eb5b6031072207d80575">ok</a>, <span class="keywordtype">void</span> *<a class="code" href="../../de/deb/jsdbgapi_8h.html#a04ae7e854091164fecb61c733824c62d">closure</a>);
+<a name="l00382"></a>00382 
+<a name="l00383"></a>00383 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00384"></a><a class="code" href="../../de/deb/jsdbgapi_8h.html#a924251857ac4e93af7e448b58f116201">00384</a> (* <a class="code" href="../../de/deb/jsdbgapi_8h.html#a924251857ac4e93af7e448b58f116201">JSDebugErrorHook</a>)(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>, <a class="code" href="../../da/d90/struct_j_s_error_report.html">JSErrorReport</a> *<a class="code" href="../../da/ded/ds-test_8js.html#a3965fca7088910bf330fb0212a125cbb">report</a>,
+<a name="l00385"></a>00385                      <span class="keywordtype">void</span> *<a class="code" href="../../de/deb/jsdbgapi_8h.html#a04ae7e854091164fecb61c733824c62d">closure</a>);
+<a name="l00386"></a>00386 
+<a name="l00387"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html">00387</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html">JSDebugHooks</a> {
+<a name="l00388"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a4be1f28e900c1127b41e3c0ae8a37eef">00388</a>     <a class="code" href="../../d0/d15/jsprvtd_8h.html#aaec8c31666aa61fe345189de43c1e283">JSInterruptHook</a>     <a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a4be1f28e900c1127b41e3c0ae8a37eef">interruptHook</a>;
+<a name="l00389"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a2675430b1c9947984fab4d6e6121b8b9">00389</a>     <span class="keywordtype">void</span>                *<a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a2675430b1c9947984fab4d6e6121b8b9">interruptHookData</a>;
+<a name="l00390"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a0985a15f78a49f30de7f6f6ad7d9e3e0">00390</a>     <a class="code" href="../../d0/d15/jsprvtd_8h.html#af8ae74ad009f9397b576dc53b6428e7f">JSNewScriptHook</a>     <a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a0985a15f78a49f30de7f6f6ad7d9e3e0">newScriptHook</a>;
+<a name="l00391"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#ae62d67d73772078b3003db0ca90cd1ea">00391</a>     <span class="keywordtype">void</span>                *<a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#ae62d67d73772078b3003db0ca90cd1ea">newScriptHookData</a>;
+<a name="l00392"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#ab6181e610b84a666d99fda502eaaa5a9">00392</a>     <a class="code" href="../../d0/d15/jsprvtd_8h.html#a5d9584b573852e5cbb975f51409b4928">JSDestroyScriptHook</a> <a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#ab6181e610b84a666d99fda502eaaa5a9">destroyScriptHook</a>;
+<a name="l00393"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a5410fe3bccd0ee399ac6b90721c0b97c">00393</a>     <span class="keywordtype">void</span>                *<a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a5410fe3bccd0ee399ac6b90721c0b97c">destroyScriptHookData</a>;
+<a name="l00394"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#aa809b261de188dbb827d4086626b636c">00394</a>     <a class="code" href="../../d0/d15/jsprvtd_8h.html#a983cf9faebb561de0c84fc52772e3ade">JSDebuggerHandler</a>   <a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#aa809b261de188dbb827d4086626b636c">debuggerHandler</a>;
+<a name="l00395"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a2bf11215f99a0b637725a10c6765d1dc">00395</a>     <span class="keywordtype">void</span>                *<a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a2bf11215f99a0b637725a10c6765d1dc">debuggerHandlerData</a>;
+<a name="l00396"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a5c4c07ea74a6d6b6781c506601c5d15c">00396</a>     <a class="code" href="../../d0/d15/jsprvtd_8h.html#a293844bd1bb6711966e7e75356ff10f1">JSSourceHandler</a>     <a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a5c4c07ea74a6d6b6781c506601c5d15c">sourceHandler</a>;
+<a name="l00397"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a26bc30f7a1a8287904529dc42b2cc0b7">00397</a>     <span class="keywordtype">void</span>                *<a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a26bc30f7a1a8287904529dc42b2cc0b7">sourceHandlerData</a>;
+<a name="l00398"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a17647bb715a98c01d90f5584ec4da4d0">00398</a>     <a class="code" href="../../de/deb/jsdbgapi_8h.html#a5b8ceb519245dfa4a5f39daf5dc662f5">JSInterpreterHook</a>   <a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a17647bb715a98c01d90f5584ec4da4d0">executeHook</a>;
+<a name="l00399"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a7a7b99ce3c8754cd951bbaf5c2acbf70">00399</a>     <span class="keywordtype">void</span>                *<a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a7a7b99ce3c8754cd951bbaf5c2acbf70">executeHookData</a>;
+<a name="l00400"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a0d0f34686222cdb110e311319af83418">00400</a>     <a class="code" href="../../de/deb/jsdbgapi_8h.html#a5b8ceb519245dfa4a5f39daf5dc662f5">JSInterpreterHook</a>   <a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a0d0f34686222cdb110e311319af83418">callHook</a>;
+<a name="l00401"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a6438690abe7c7e9ac53fd04e21483301">00401</a>     <span class="keywordtype">void</span>                *<a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a6438690abe7c7e9ac53fd04e21483301">callHookData</a>;
+<a name="l00402"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#aaa364bb846d9d403ea9ad525f657da85">00402</a>     <a class="code" href="../../d0/d15/jsprvtd_8h.html#a0130c46dd239899d21cbc1b7c9d2658e">JSThrowHook</a>         <a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#aaa364bb846d9d403ea9ad525f657da85">throwHook</a>;
+<a name="l00403"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a17cd14b0247535262bb522251fef8e5c">00403</a>     <span class="keywordtype">void</span>                *<a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a17cd14b0247535262bb522251fef8e5c">throwHookData</a>;
+<a name="l00404"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a699bde84091c404da1659a6f3af4a1b3">00404</a>     <a class="code" href="../../de/deb/jsdbgapi_8h.html#a924251857ac4e93af7e448b58f116201">JSDebugErrorHook</a>    <a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a699bde84091c404da1659a6f3af4a1b3">debugErrorHook</a>;
+<a name="l00405"></a><a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a242fde42972ee0188514c56bb71d2bad">00405</a>     <span class="keywordtype">void</span>                *<a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html#a242fde42972ee0188514c56bb71d2bad">debugErrorHookData</a>;
+<a name="l00406"></a>00406 } <a class="code" href="../../de/deb/jsdbgapi_8h.html#a6d91b755abcb90fb306ed5ba4547ee02">JSDebugHooks</a>;
+<a name="l00407"></a>00407 
+<a name="l00408"></a>00408 <span class="comment">/************************************************************************/</span>
+<a name="l00409"></a>00409 
+<a name="l00410"></a>00410 <span class="keyword">extern</span> <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00411"></a>00411 JS_SetDebuggerHandler(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, <a class="code" href="../../d0/d15/jsprvtd_8h.html#a983cf9faebb561de0c84fc52772e3ade">JSDebuggerHandler</a> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a0709a3421ddc7fcae33d277721a9f702">hook</a>, <span class="keywordtype">void</span> *closure);
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00414"></a>00414 JS_SetSourceHandler(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, <a class="code" href="../../d0/d15/jsprvtd_8h.html#a293844bd1bb6711966e7e75356ff10f1">JSSourceHandler</a> handler, <span class="keywordtype">void</span> *closure);
+<a name="l00415"></a>00415 
+<a name="l00416"></a>00416 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00417"></a>00417 JS_SetExecuteHook(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, <a class="code" href="../../de/deb/jsdbgapi_8h.html#a5b8ceb519245dfa4a5f39daf5dc662f5">JSInterpreterHook</a> hook, <span class="keywordtype">void</span> *closure);
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00420"></a>00420 JS_SetCallHook(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, <a class="code" href="../../de/deb/jsdbgapi_8h.html#a5b8ceb519245dfa4a5f39daf5dc662f5">JSInterpreterHook</a> hook, <span class="keywordtype">void</span> *closure);
+<a name="l00421"></a>00421 
+<a name="l00422"></a>00422 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00423"></a>00423 JS_SetThrowHook(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, <a class="code" href="../../d0/d15/jsprvtd_8h.html#a0130c46dd239899d21cbc1b7c9d2658e">JSThrowHook</a> hook, <span class="keywordtype">void</span> *closure);
+<a name="l00424"></a>00424 
+<a name="l00425"></a>00425 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00426"></a>00426 JS_SetDebugErrorHook(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt, <a class="code" href="../../de/deb/jsdbgapi_8h.html#a924251857ac4e93af7e448b58f116201">JSDebugErrorHook</a> hook, <span class="keywordtype">void</span> *closure);
+<a name="l00427"></a>00427 
+<a name="l00428"></a>00428 <span class="comment">/************************************************************************/</span>
+<a name="l00429"></a>00429 
+<a name="l00430"></a>00430 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../db/d7d/struct_j_s_debug_hooks.html">JSDebugHooks</a> *)
+<a name="l00431"></a>00431 JS_GetGlobalDebugHooks(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *rt);
+<a name="l00432"></a>00432 
+<a name="l00436"></a>00436 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00437"></a>00437 JS_DefineProfilingFunctions(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSObject *obj);
+<a name="l00438"></a>00438 
+<a name="l00439"></a>00439 <span class="comment">/* Defined in vm/Debugger.cpp. */</span>
+<a name="l00440"></a>00440 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00441"></a>00441 JS_DefineDebuggerObject(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSObject *obj);
+<a name="l00442"></a>00442 
+<a name="l00443"></a>00443 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00444"></a>00444 JS_DumpBytecode(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script);
+<a name="l00445"></a>00445 
+<a name="l00446"></a>00446 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00447"></a>00447 JS_DumpCompartmentBytecode(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx);
+<a name="l00448"></a>00448 
+<a name="l00449"></a>00449 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00450"></a>00450 JS_DumpPCCounts(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx, JSScript *script);
+<a name="l00451"></a>00451 
+<a name="l00452"></a>00452 extern <a class="code" href="../../da/d7b/namespace_j_s.html#af066ac8d16defce202733c71cbc1970f">JS_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00453"></a>00453 JS_DumpCompartmentPCCounts(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx);
+<a name="l00454"></a>00454 
+<a name="l00455"></a>00455 <span class="comment">/* Call the context debug handler on the topmost scripted frame. */</span>
+<a name="l00456"></a>00456 extern <a class="code" href="../../da/d7b/namespace_j_s.html#a2e605e903794faf0e672f343d0205d99">JS_FRIEND_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00457"></a>00457 js_CallContextDebugHandler(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *cx);
+<a name="l00458"></a>00458 
+<a name="l00459"></a>00459 <span class="preprocessor">#endif </span><span class="comment">/* jsdbgapi_h */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/deb/jsdbgapi_8h.html">jsdbgapi.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:29に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

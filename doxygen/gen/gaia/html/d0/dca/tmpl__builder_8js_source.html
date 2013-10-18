@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: tmpl_builder.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d0/dca/tmpl__builder_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">tmpl_builder.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d0/dca/tmpl__builder_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">//MODIFIED requirejs text plugin, that just changes the write function</span>
+<a name="l00002"></a>00002 <span class="comment">//to write out a &#39;tmpl!&#39;-based resource instead, and removes writeFile.</span>
+<a name="l00003"></a>00003 
+<a name="l00009"></a>00009 <span class="comment">/*jslint regexp: true */</span>
+<a name="l00010"></a>00010 <span class="comment">/*global require, XMLHttpRequest, ActiveXObject,</span>
+<a name="l00011"></a>00011 <span class="comment">  define, window, process, Packages,</span>
+<a name="l00012"></a>00012 <span class="comment">  java, location, Components, FileUtils */</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <a class="code" href="../../d9/d2e/alameda_8js.html#a8a3a5595e65e7e2a2cf64c08ba74833f">define</a>([<span class="stringliteral">&#39;module&#39;</span>], <span class="keyword">function</span> (<a class="code" href="../../dc/dd7/ext_2caldav_8js.html#a84770557f73663cbea2a9e12e7d45257">module</a>) {
+<a name="l00015"></a>00015     <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017     var <a class="code" href="../../db/de5/namespacedefault__timezones.html#ae7928ec4a8ba39a389a278ef371587b8">text</a>, <a class="code" href="../../dd/dfd/build__stage_2email_2shared_2test_2integration_2profile__builder_8js.html#a229733b8ea40200fae09e883376030bf">fs</a>, <a class="code" href="../../d8/d30/xpcshell-commonjs_8js.html#aaab345ebd6e7cd0de0e09fa6bef9ee3e">Cc</a>, <a class="code" href="../../d8/d30/xpcshell-commonjs_8js.html#aac1d98f24c3f892b7cb5e32a4b8f4689">Ci</a>, xpcIsWindows,
+<a name="l00018"></a>00018         progIds = [<span class="stringliteral">&#39;Msxml2.XMLHTTP&#39;</span>, <span class="stringliteral">&#39;Microsoft.XMLHTTP&#39;</span>, <span class="stringliteral">&#39;Msxml2.XMLHTTP.4.0&#39;</span>],
+<a name="l00019"></a>00019         xmlRegExp = /^\s*&lt;\?xml(\<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>)+<a class="code" href="../../d9/d04/expat_8h.html#aa323a7729fa99ab75ae910c7267ac071">version</a>=[\<span class="stringliteral">&#39;\&quot;](\d)*.(\d)*[\&#39;\&quot;](\s)*\?&gt;/im,</span>
+<a name="l00020"></a>00020 <span class="stringliteral">        bodyRegExp = /&lt;body[^&gt;]*&gt;\s*([\s\S]+)\s*&lt;\/body&gt;/im,</span>
+<a name="l00021"></a>00021 <span class="stringliteral">        hasLocation = typeof location !== &#39;</span>undefined<span class="stringliteral">&#39; &amp;&amp; location.href,</span>
+<a name="l00022"></a>00022 <span class="stringliteral">        defaultProtocol = hasLocation &amp;&amp; location.protocol &amp;&amp; location.protocol.replace(/\:/, &#39;</span><span class="stringliteral">&#39;),</span>
+<a name="l00023"></a>00023 <span class="stringliteral">        defaultHostName = hasLocation &amp;&amp; location.hostname,</span>
+<a name="l00024"></a>00024 <span class="stringliteral">        defaultPort = hasLocation &amp;&amp; (location.port || undefined),</span>
+<a name="l00025"></a>00025 <span class="stringliteral">        buildMap = {},</span>
+<a name="l00026"></a>00026 <span class="stringliteral">        masterConfig = (module.config &amp;&amp; module.config()) || {};</span>
+<a name="l00027"></a>00027 <span class="stringliteral"></span>
+<a name="l00028"></a>00028 <span class="stringliteral">    text = {</span>
+<a name="l00029"></a>00029 <span class="stringliteral">        version: &#39;</span>2.0.8<span class="stringliteral">&#39;,</span>
+<a name="l00030"></a>00030 <span class="stringliteral"></span>
+<a name="l00031"></a>00031 <span class="stringliteral">        strip: function (content) {</span>
+<a name="l00032"></a>00032 <span class="stringliteral">            //Strips &lt;?xml ...?&gt; declarations so that external SVG and XML</span>
+<a name="l00033"></a>00033 <span class="stringliteral">            //documents can be added to a document without worry. Also, if the string</span>
+<a name="l00034"></a>00034 <span class="stringliteral">            //is an HTML document, only the part inside the body tag is returned.</span>
+<a name="l00035"></a>00035 <span class="stringliteral">            if (content) {</span>
+<a name="l00036"></a>00036 <span class="stringliteral">                content = content.replace(xmlRegExp, &quot;&quot;);</span>
+<a name="l00037"></a>00037 <span class="stringliteral">                var matches = content.match(bodyRegExp);</span>
+<a name="l00038"></a>00038 <span class="stringliteral">                if (matches) {</span>
+<a name="l00039"></a>00039 <span class="stringliteral">                    content = matches[1];</span>
+<a name="l00040"></a>00040 <span class="stringliteral">                }</span>
+<a name="l00041"></a>00041 <span class="stringliteral">            } else {</span>
+<a name="l00042"></a>00042 <span class="stringliteral">                content = &quot;&quot;;</span>
+<a name="l00043"></a>00043 <span class="stringliteral">            }</span>
+<a name="l00044"></a>00044 <span class="stringliteral">            return content;</span>
+<a name="l00045"></a>00045 <span class="stringliteral">        },</span>
+<a name="l00046"></a>00046 <span class="stringliteral"></span>
+<a name="l00047"></a>00047 <span class="stringliteral">        jsEscape: function (content) {</span>
+<a name="l00048"></a>00048 <span class="stringliteral">            return content.replace(/([&#39;</span>\\])/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&#39;\\$1&#39;</span>)
+<a name="l00049"></a>00049                 .replace(/[\<a class="code" href="../../d3/d4b/lockscreen_8js.html#a9cf09a2972472098a4c689fd988f4dfc">f</a>]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&quot;\\f&quot;</span>)
+<a name="l00050"></a>00050                 .replace(/[\<a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&quot;\\b&quot;</span>)
+<a name="l00051"></a>00051                 .replace(/[\<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&quot;\\n&quot;</span>)
+<a name="l00052"></a>00052                 .replace(/[\t]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&quot;\\t&quot;</span>)
+<a name="l00053"></a>00053                 .replace(/[\r]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&quot;\\r&quot;</span>)
+<a name="l00054"></a>00054                 .replace(/[\u2028]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&quot;\\u2028&quot;</span>)
+<a name="l00055"></a>00055                 .replace(/[\u2029]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&quot;\\u2029&quot;</span>);
+<a name="l00056"></a>00056         },
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058         createXhr: masterConfig.createXhr || <span class="keyword">function</span> () {
+<a name="l00059"></a>00059             <span class="comment">//Would love to dump the ActiveX crap in here. Need IE 6 to die first.</span>
+<a name="l00060"></a>00060             var <a class="code" href="../../da/d84/openvideo_8js.html#a329f2008ea05312f90696aa4401250ed">xhr</a>, <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>, progId;
+<a name="l00061"></a>00061             <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> <a class="code" href="../../d9/d0a/class_x_m_l_http_request.html">XMLHttpRequest</a> !== <span class="stringliteral">&quot;undefined&quot;</span>) {
+<a name="l00062"></a>00062                 <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a2619068a621e6b22d7995161b2cea021">XMLHttpRequest</a>();
+<a name="l00063"></a>00063             } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> ActiveXObject !== <span class="stringliteral">&quot;undefined&quot;</span>) {
+<a name="l00064"></a>00064                 <span class="keywordflow">for</span> (i = 0; i &lt; 3; i += 1) {
+<a name="l00065"></a>00065                     progId = progIds[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00066"></a>00066                     <span class="keywordflow">try</span> {
+<a name="l00067"></a>00067                         xhr = <span class="keyword">new</span> ActiveXObject(progId);
+<a name="l00068"></a>00068                     } <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {}
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070                     <span class="keywordflow">if</span> (xhr) {
+<a name="l00071"></a>00071                         progIds = [progId];  <span class="comment">// so faster next time</span>
+<a name="l00072"></a>00072                         <span class="keywordflow">break</span>;
+<a name="l00073"></a>00073                     }
+<a name="l00074"></a>00074                 }
+<a name="l00075"></a>00075             }
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077             <span class="keywordflow">return</span> <a class="code" href="../../da/d84/openvideo_8js.html#a329f2008ea05312f90696aa4401250ed">xhr</a>;
+<a name="l00078"></a>00078         },
+<a name="l00079"></a>00079 
+<a name="l00088"></a>00088         parseName: <span class="keyword">function</span> (<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>) {
+<a name="l00089"></a>00089             var modName, ext, temp,
+<a name="l00090"></a>00090                 strip = <span class="keyword">false</span>,
+<a name="l00091"></a>00091                 <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> = <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>.indexOf(<span class="stringliteral">&quot;.&quot;</span>),
+<a name="l00092"></a>00092                 isRelative = <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>.indexOf(<span class="stringliteral">&#39;./&#39;</span>) === 0 ||
+<a name="l00093"></a>00093                              <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>.indexOf(<span class="stringliteral">&#39;../&#39;</span>) === 0;
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095             <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> !== -1 &amp;&amp; (!isRelative || <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> &gt; 1)) {
+<a name="l00096"></a>00096                 modName = <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>.substring(0, <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>);
+<a name="l00097"></a>00097                 ext = <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>.substring(<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> + 1, <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>.length);
+<a name="l00098"></a>00098             } <span class="keywordflow">else</span> {
+<a name="l00099"></a>00099                 modName = <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>;
+<a name="l00100"></a>00100             }
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102             temp = ext || modName;
+<a name="l00103"></a>00103             <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> = temp.indexOf(<span class="stringliteral">&quot;!&quot;</span>);
+<a name="l00104"></a>00104             <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> !== -1) {
+<a name="l00105"></a>00105                 <span class="comment">//Pull off the strip arg.</span>
+<a name="l00106"></a>00106                 strip = temp.substring(<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> + 1) === <span class="stringliteral">&quot;strip&quot;</span>;
+<a name="l00107"></a>00107                 temp = temp.substring(0, <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>);
+<a name="l00108"></a>00108                 <span class="keywordflow">if</span> (ext) {
+<a name="l00109"></a>00109                     ext = temp;
+<a name="l00110"></a>00110                 } <span class="keywordflow">else</span> {
+<a name="l00111"></a>00111                     modName = temp;
+<a name="l00112"></a>00112                 }
+<a name="l00113"></a>00113             }
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115             <span class="keywordflow">return</span> {
+<a name="l00116"></a>00116                 moduleName: modName,
+<a name="l00117"></a>00117                 ext: ext,
+<a name="l00118"></a>00118                 strip: strip
+<a name="l00119"></a>00119             };
+<a name="l00120"></a>00120         },
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122         xdRegExp: /^((\w+)\:)?\/\/([^\/\\]+)/,
+<a name="l00123"></a>00123 
+<a name="l00132"></a>00132         useXhr: <span class="keyword">function</span> (<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, protocol, hostname, <a class="code" href="../../df/d9e/prnetdb_8h.html#a2442718810e8bab593a8ef904979ca72">port</a>) {
+<a name="l00133"></a>00133             var uProtocol, uHostName, uPort,
+<a name="l00134"></a>00134                 <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a> = <a class="code" href="../../dd/dfa/classtext.html">text</a>.xdRegExp.exec(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>);
+<a name="l00135"></a>00135             <span class="keywordflow">if</span> (!match) {
+<a name="l00136"></a>00136                 <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00137"></a>00137             }
+<a name="l00138"></a>00138             uProtocol = match[2];
+<a name="l00139"></a>00139             uHostName = match[3];
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141             uHostName = uHostName.split(<span class="charliteral">&#39;:&#39;</span>);
+<a name="l00142"></a>00142             uPort = uHostName[1];
+<a name="l00143"></a>00143             uHostName = uHostName[0];
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145             <span class="keywordflow">return</span> (!uProtocol || uProtocol === protocol) &amp;&amp;
+<a name="l00146"></a>00146                    (!uHostName || uHostName.toLowerCase() === hostname.toLowerCase()) &amp;&amp;
+<a name="l00147"></a>00147                    ((!uPort &amp;&amp; !uHostName) || uPort === <a class="code" href="../../df/d9e/prnetdb_8h.html#a2442718810e8bab593a8ef904979ca72">port</a>);
+<a name="l00148"></a>00148         },
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150         finishLoad: <span class="keyword">function</span> (<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, strip, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a4a1b5640b674da15d6f1b87899e53789">content</a>, onLoad) {
+<a name="l00151"></a>00151             content = strip ? <a class="code" href="../../dd/dfa/classtext.html">text</a>.strip(content) : <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a4a1b5640b674da15d6f1b87899e53789">content</a>;
+<a name="l00152"></a>00152             <span class="keywordflow">if</span> (masterConfig.isBuild) {
+<a name="l00153"></a>00153                 buildMap[<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>] = <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a4a1b5640b674da15d6f1b87899e53789">content</a>;
+<a name="l00154"></a>00154             }
+<a name="l00155"></a>00155             onLoad(content);
+<a name="l00156"></a>00156         },
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158         <a class="code" href="../../db/d6b/make__gaia__shared_8js.html#ac5aa547163f784b68be607a47eb170b1">load</a>: <span class="keyword">function</span> (<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a42c43c76081a7df8ae2954f16ee9338b">req</a>, onLoad, <a class="code" href="../../d1/d0b/fb__init_8js.html#aeac120c9ce32d189166215752b0b1a76">config</a>) {
+<a name="l00159"></a>00159             <span class="comment">//Name has format: some.module.filext!strip</span>
+<a name="l00160"></a>00160             <span class="comment">//The strip part is optional.</span>
+<a name="l00161"></a>00161             <span class="comment">//if strip is present, then that means only get the string contents</span>
+<a name="l00162"></a>00162             <span class="comment">//inside a body tag in an HTML string. For XML/SVG content it means</span>
+<a name="l00163"></a>00163             <span class="comment">//removing the &lt;?xml ...?&gt; declarations so the content can be inserted</span>
+<a name="l00164"></a>00164             <span class="comment">//into the current doc without problems.</span>
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166             <span class="comment">// Do not bother with the work if a build and text will</span>
+<a name="l00167"></a>00167             <span class="comment">// not be inlined.</span>
+<a name="l00168"></a>00168             <span class="keywordflow">if</span> (<a class="code" href="../../d1/d0b/fb__init_8js.html#aeac120c9ce32d189166215752b0b1a76">config</a>.isBuild &amp;&amp; !<a class="code" href="../../d1/d0b/fb__init_8js.html#aeac120c9ce32d189166215752b0b1a76">config</a>.inlineText) {
+<a name="l00169"></a>00169                 onLoad();
+<a name="l00170"></a>00170                 <span class="keywordflow">return</span>;
+<a name="l00171"></a>00171             }
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173             masterConfig.isBuild = <a class="code" href="../../d1/d0b/fb__init_8js.html#aeac120c9ce32d189166215752b0b1a76">config</a>.isBuild;
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175             var <a class="code" href="../../dc/d89/wappush_2js_2message_8js.html#aff20ba08f7d492b66afd68fb3b3ff5d1">parsed</a> = <a class="code" href="../../dd/dfa/classtext.html">text</a>.parseName(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>),
+<a name="l00176"></a>00176                 nonStripName = parsed.moduleName +
+<a name="l00177"></a>00177                     (parsed.ext ? <span class="charliteral">&#39;.&#39;</span> + parsed.ext : <span class="stringliteral">&#39;&#39;</span>),
+<a name="l00178"></a>00178                 <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> = req.toUrl(nonStripName),
+<a name="l00179"></a>00179                 useXhr = (masterConfig.useXhr) ||
+<a name="l00180"></a>00180                          <a class="code" href="../../dd/dfa/classtext.html">text</a>.useXhr;
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182             <span class="comment">//Load the text. Use XHR if possible and in a browser.</span>
+<a name="l00183"></a>00183             <a class="code" href="../../d6/d52/js_2browser_8js.html#a7321fd84345f4f9455f25996b932b8fd">if</a> (!hasLocation || useXhr(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, defaultProtocol, defaultHostName, defaultPort)) {
+<a name="l00184"></a>00184                 <a class="code" href="../../dd/dfa/classtext.html">text</a>.get(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, <span class="keyword">function</span> (content) {
+<a name="l00185"></a>00185                     <a class="code" href="../../dd/dfa/classtext.html">text</a>.finishLoad(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, parsed.strip, content, onLoad);
+<a name="l00186"></a>00186                 }, <span class="keyword">function</span> (err) {
+<a name="l00187"></a>00187                     <span class="keywordflow">if</span> (onLoad.error) {
+<a name="l00188"></a>00188                         onLoad.error(err);
+<a name="l00189"></a>00189                     }
+<a name="l00190"></a>00190                 });
+<a name="l00191"></a>00191             } <span class="keywordflow">else</span> {
+<a name="l00192"></a>00192                 <span class="comment">//Need to fetch the resource across domains. Assume</span>
+<a name="l00193"></a>00193                 <span class="comment">//the resource has been optimized into a JS module. Fetch</span>
+<a name="l00194"></a>00194                 <span class="comment">//by the module name + extension, but do not include the</span>
+<a name="l00196"></a>00196 <span class="comment"></span>                <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a42c43c76081a7df8ae2954f16ee9338b">req</a>([nonStripName], <span class="keyword">function</span> (content) {
+<a name="l00197"></a>00197                     <a class="code" href="../../dd/dfa/classtext.html">text</a>.finishLoad(parsed.moduleName + <span class="charliteral">&#39;.&#39;</span> + parsed.ext,
+<a name="l00198"></a>00198                                     parsed.strip, content, onLoad);
+<a name="l00199"></a>00199                 });
+<a name="l00200"></a>00200             }
+<a name="l00201"></a>00201         },
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203         write: <span class="keyword">function</span> (pluginName, moduleName, write, <a class="code" href="../../d1/d0b/fb__init_8js.html#aeac120c9ce32d189166215752b0b1a76">config</a>) {
+<a name="l00204"></a>00204             <span class="keywordflow">if</span> (buildMap.hasOwnProperty(moduleName)) {
+<a name="l00205"></a>00205                 var content = <a class="code" href="../../dd/dfa/classtext.html">text</a>.jsEscape(buildMap[moduleName]);
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207                 write.asModule(pluginName + <span class="charliteral">&#39;!&#39;</span> + moduleName,
+<a name="l00208"></a>00208                     <span class="stringliteral">&quot;define([&#39;tmpl&#39;], function (tmpl) { return tmpl.toDom(&#39;&quot;</span> +
+<a name="l00209"></a>00209                     content +
+<a name="l00210"></a>00210                     <span class="stringliteral">&quot;&#39;); });\n&quot;</span>);
+<a name="l00211"></a>00211             }
+<a name="l00212"></a>00212         }
+<a name="l00213"></a>00213     };
+<a name="l00214"></a>00214 
+<a name="l00215"></a>00215     <span class="keywordflow">if</span> (masterConfig.env === <span class="stringliteral">&#39;node&#39;</span> || (!masterConfig.env &amp;&amp;
+<a name="l00216"></a>00216             <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> <a class="code" href="../../db/d3b/vcard__parser_8js.html#a6f2ec0a8b53b1e2d7d68df633707f9ae">process</a> !== <span class="stringliteral">&quot;undefined&quot;</span> &amp;&amp;
+<a name="l00217"></a>00217             <a class="code" href="../../db/d3b/vcard__parser_8js.html#a6f2ec0a8b53b1e2d7d68df633707f9ae">process</a>.versions &amp;&amp;
+<a name="l00218"></a>00218             !!<a class="code" href="../../db/d3b/vcard__parser_8js.html#a6f2ec0a8b53b1e2d7d68df633707f9ae">process</a>.versions.node)) {
+<a name="l00219"></a>00219         <span class="comment">//Using special require.nodeRequire, something added by r.js.</span>
+<a name="l00220"></a>00220         <a class="code" href="../../dd/dfd/build__stage_2email_2shared_2test_2integration_2profile__builder_8js.html#a229733b8ea40200fae09e883376030bf">fs</a> = <a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>.nodeRequire(<span class="stringliteral">&#39;fs&#39;</span>);
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222         <a class="code" href="../../dd/dfa/classtext.html">text</a>.get = <span class="keyword">function</span> (<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>, errback) {
+<a name="l00223"></a>00223             <span class="keywordflow">try</span> {
+<a name="l00224"></a>00224                 var <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a> = <a class="code" href="../../dd/dfd/build__stage_2email_2shared_2test_2integration_2profile__builder_8js.html#a229733b8ea40200fae09e883376030bf">fs</a>.readFileSync(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, <span class="stringliteral">&#39;utf8&#39;</span>);
+<a name="l00225"></a>00225                 <span class="comment">//Remove BOM (Byte Mark Order) from utf8 files if it is there.</span>
+<a name="l00226"></a>00226                 <span class="keywordflow">if</span> (file.indexOf(<span class="stringliteral">&#39;\uFEFF&#39;</span>) === 0) {
+<a name="l00227"></a>00227                     file = file.substring(1);
+<a name="l00228"></a>00228                 }
+<a name="l00229"></a>00229                 <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(file);
+<a name="l00230"></a>00230             } <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00231"></a>00231                 errback(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00232"></a>00232             }
+<a name="l00233"></a>00233         };
+<a name="l00234"></a>00234     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (masterConfig.env === <span class="stringliteral">&#39;xhr&#39;</span> || (!masterConfig.env &amp;&amp;
+<a name="l00235"></a>00235             <a class="code" href="../../dd/dfa/classtext.html">text</a>.createXhr())) {
+<a name="l00236"></a>00236         <a class="code" href="../../dd/dfa/classtext.html">text</a>.get = <span class="keyword">function</span> (<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>, errback, <a class="code" href="../../da/d32/prio_8h.html#ae514094796205f27cbccab72be2e8826">headers</a>) {
+<a name="l00237"></a>00237             var xhr = <a class="code" href="../../dd/dfa/classtext.html">text</a>.createXhr(), <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>;
+<a name="l00238"></a>00238             xhr.open(<span class="stringliteral">&#39;GET&#39;</span>, <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, <span class="keyword">true</span>);
+<a name="l00239"></a>00239 
+<a name="l00240"></a>00240             <span class="comment">//Allow plugins direct access to xhr headers</span>
+<a name="l00241"></a>00241             <span class="keywordflow">if</span> (<a class="code" href="../../da/d32/prio_8h.html#ae514094796205f27cbccab72be2e8826">headers</a>) {
+<a name="l00242"></a>00242                 <span class="keywordflow">for</span> (<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a> in <a class="code" href="../../da/d32/prio_8h.html#ae514094796205f27cbccab72be2e8826">headers</a>) {
+<a name="l00243"></a>00243                     <span class="keywordflow">if</span> (headers.hasOwnProperty(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>)) {
+<a name="l00244"></a>00244                         xhr.setRequestHeader(<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>.toLowerCase(), headers[<a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>]);
+<a name="l00245"></a>00245                     }
+<a name="l00246"></a>00246                 }
+<a name="l00247"></a>00247             }
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249             <span class="comment">//Allow overrides specified in config</span>
+<a name="l00250"></a>00250             <span class="keywordflow">if</span> (masterConfig.onXhr) {
+<a name="l00251"></a>00251                 masterConfig.onXhr(xhr, <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>);
+<a name="l00252"></a>00252             }
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254             xhr.onreadystatechange = <span class="keyword">function</span> (evt) {
+<a name="l00255"></a>00255                 var <a class="code" href="../../da/da1/communications_2contacts_2js_2utilities_2status_8js.html#a0818854fd36b9ae0fdfe5872464dae94">status</a>, err;
+<a name="l00256"></a>00256                 <span class="comment">//Do not explicitly handle errors, those should be</span>
+<a name="l00257"></a>00257                 <span class="comment">//visible via console output in the browser.</span>
+<a name="l00258"></a>00258                 <span class="keywordflow">if</span> (xhr.readyState === 4) {
+<a name="l00259"></a>00259                     status = xhr.status;
+<a name="l00260"></a>00260                     <span class="keywordflow">if</span> (status &gt; 399 &amp;&amp; status &lt; 600) {
+<a name="l00261"></a>00261                         <span class="comment">//An http 4xx or 5xx error. Signal an error.</span>
+<a name="l00262"></a>00262                         err = <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> + <span class="stringliteral">&#39; HTTP status: &#39;</span> + status);
+<a name="l00263"></a>00263                         err.xhr = <a class="code" href="../../da/d84/openvideo_8js.html#a329f2008ea05312f90696aa4401250ed">xhr</a>;
+<a name="l00264"></a>00264                         errback(err);
+<a name="l00265"></a>00265                     } <span class="keywordflow">else</span> {
+<a name="l00266"></a>00266                         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(xhr.responseText);
+<a name="l00267"></a>00267                     }
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269                     <span class="keywordflow">if</span> (masterConfig.onXhrComplete) {
+<a name="l00270"></a>00270                         masterConfig.onXhrComplete(xhr, <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>);
+<a name="l00271"></a>00271                     }
+<a name="l00272"></a>00272                 }
+<a name="l00273"></a>00273             };
+<a name="l00274"></a>00274             xhr.send(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00275"></a>00275         };
+<a name="l00276"></a>00276     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (masterConfig.env === <span class="stringliteral">&#39;rhino&#39;</span> || (!masterConfig.env &amp;&amp;
+<a name="l00277"></a>00277             <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> Packages !== <span class="stringliteral">&#39;undefined&#39;</span> &amp;&amp; <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> java !== <span class="stringliteral">&#39;undefined&#39;</span>)) {
+<a name="l00278"></a>00278         <span class="comment">//Why Java, why is this so awkward?</span>
+<a name="l00279"></a>00279         <a class="code" href="../../dd/dfa/classtext.html">text</a>.get = <span class="keyword">function</span> (<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00280"></a>00280             var stringBuffer, <a class="code" href="../../da/d7d/cook_8js.html#ae379b8c31475b8ad7712b7ead5ce1173">line</a>,
+<a name="l00281"></a>00281                 <a class="code" href="../../d9/d04/expat_8h.html#a4dfeb87c47b4dde2571b24c1a6798056">encoding</a> = <span class="stringliteral">&quot;utf-8&quot;</span>,
+<a name="l00282"></a>00282                 file = <span class="keyword">new</span> java.io.File(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>),
+<a name="l00283"></a>00283                 lineSeparator = java.lang.System.getProperty(<span class="stringliteral">&quot;line.separator&quot;</span>),
+<a name="l00284"></a>00284                 <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a> = <span class="keyword">new</span> java.io.BufferedReader(<span class="keyword">new</span> java.io.InputStreamReader(<span class="keyword">new</span> java.io.FileInputStream(file), <a class="code" href="../../d9/d04/expat_8h.html#a4dfeb87c47b4dde2571b24c1a6798056">encoding</a>)),
+<a name="l00285"></a>00285                 content = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00286"></a>00286             <span class="keywordflow">try</span> {
+<a name="l00287"></a>00287                 stringBuffer = <span class="keyword">new</span> java.lang.StringBuffer();
+<a name="l00288"></a>00288                 line = <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>.readLine();
+<a name="l00289"></a>00289 
+<a name="l00290"></a>00290                 <span class="comment">// Byte Order Mark (BOM) - The Unicode Standard, version 3.0, page 324</span>
+<a name="l00291"></a>00291                 <span class="comment">// http://www.unicode.org/faq/utf_bom.html</span>
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293                 <span class="comment">// Note that when we use utf-8, the BOM should appear as &quot;EF BB BF&quot;, but it doesn&#39;t due to this bug in the JDK:</span>
+<a name="l00294"></a>00294                 <span class="comment">// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4508058</span>
+<a name="l00295"></a>00295                 <span class="keywordflow">if</span> (line &amp;&amp; line.length() &amp;&amp; line.charAt(0) === 0xfeff) {
+<a name="l00296"></a>00296                     <span class="comment">// Eat the BOM, since we&#39;ve already found the encoding on this file,</span>
+<a name="l00297"></a>00297                     <span class="comment">// and we plan to concatenating this buffer with others; the BOM should</span>
+<a name="l00298"></a>00298                     <span class="comment">// only appear at the top of a file.</span>
+<a name="l00299"></a>00299                     line = line.substring(1);
+<a name="l00300"></a>00300                 }
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302                 <span class="keywordflow">if</span> (line !== <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00303"></a>00303                     stringBuffer.append(line);
+<a name="l00304"></a>00304                 }
+<a name="l00305"></a>00305 
+<a name="l00306"></a>00306                 <span class="keywordflow">while</span> ((line = <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>.readLine()) !== <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00307"></a>00307                     stringBuffer.append(lineSeparator);
+<a name="l00308"></a>00308                     stringBuffer.append(line);
+<a name="l00309"></a>00309                 }
+<a name="l00310"></a>00310                 <span class="comment">//Make sure we return a JavaScript string and not a Java string.</span>
+<a name="l00311"></a>00311                 content = String(stringBuffer.toString()); <span class="comment">//String</span>
+<a name="l00312"></a>00312             } <span class="keywordflow">finally</span> {
+<a name="l00313"></a>00313                 <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>.close();
+<a name="l00314"></a>00314             }
+<a name="l00315"></a>00315             <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(content);
+<a name="l00316"></a>00316         };
+<a name="l00317"></a>00317     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (masterConfig.env === <span class="stringliteral">&#39;xpconnect&#39;</span> || (!masterConfig.env &amp;&amp;
+<a name="l00318"></a>00318             <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> Components !== <span class="stringliteral">&#39;undefined&#39;</span> &amp;&amp; Components.classes &amp;&amp;
+<a name="l00319"></a>00319             Components.interfaces)) {
+<a name="l00320"></a>00320         <span class="comment">//Avert your gaze!</span>
+<a name="l00321"></a>00321         <a class="code" href="../../d8/d30/xpcshell-commonjs_8js.html#aaab345ebd6e7cd0de0e09fa6bef9ee3e">Cc</a> = Components.classes,
+<a name="l00322"></a>00322         <a class="code" href="../../d8/d30/xpcshell-commonjs_8js.html#aac1d98f24c3f892b7cb5e32a4b8f4689">Ci</a> = Components.interfaces;
+<a name="l00323"></a>00323         Components.utils[<span class="stringliteral">&#39;import&#39;</span>](<span class="stringliteral">&#39;resource://gre/modules/FileUtils.jsm&#39;</span>);
+<a name="l00324"></a>00324         xpcIsWindows = (<span class="stringliteral">&#39;@mozilla.org/windows-registry-key;1&#39;</span> in <a class="code" href="../../d8/d30/xpcshell-commonjs_8js.html#aaab345ebd6e7cd0de0e09fa6bef9ee3e">Cc</a>);
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326         <a class="code" href="../../dd/dfa/classtext.html">text</a>.get = <span class="keyword">function</span> (<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00327"></a>00327             var inStream, convertStream, fileObj,
+<a name="l00328"></a>00328                 readData = {};
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330             <span class="keywordflow">if</span> (xpcIsWindows) {
+<a name="l00331"></a>00331                 <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>.replace(/\<span class="comment">//g, &#39;\\&#39;);</span>
+<a name="l00332"></a>00332             }
+<a name="l00333"></a>00333 
+<a name="l00334"></a>00334             fileObj = <span class="keyword">new</span> FileUtils.File(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>);
+<a name="l00335"></a>00335 
+<a name="l00336"></a>00336             <span class="comment">//XPCOM, you so crazy</span>
+<a name="l00337"></a>00337             <span class="keywordflow">try</span> {
+<a name="l00338"></a>00338                 inStream = <a class="code" href="../../d8/d30/xpcshell-commonjs_8js.html#aaab345ebd6e7cd0de0e09fa6bef9ee3e">Cc</a>[<span class="stringliteral">&#39;@mozilla.org/network/file-input-stream;1&#39;</span>]
+<a name="l00339"></a>00339                            .createInstance(<a class="code" href="../../d8/d30/xpcshell-commonjs_8js.html#aac1d98f24c3f892b7cb5e32a4b8f4689">Ci</a>.nsIFileInputStream);
+<a name="l00340"></a>00340                 inStream.init(fileObj, 1, 0, <span class="keyword">false</span>);
+<a name="l00341"></a>00341 
+<a name="l00342"></a>00342                 convertStream = <a class="code" href="../../d8/d30/xpcshell-commonjs_8js.html#aaab345ebd6e7cd0de0e09fa6bef9ee3e">Cc</a>[<span class="stringliteral">&#39;@mozilla.org/intl/converter-input-stream;1&#39;</span>]
+<a name="l00343"></a>00343                                 .createInstance(<a class="code" href="../../d8/d30/xpcshell-commonjs_8js.html#aac1d98f24c3f892b7cb5e32a4b8f4689">Ci</a>.nsIConverterInputStream);
+<a name="l00344"></a>00344                 convertStream.init(inStream, <span class="stringliteral">&quot;utf-8&quot;</span>, inStream.available(),
+<a name="l00345"></a>00345                 <a class="code" href="../../d8/d30/xpcshell-commonjs_8js.html#aac1d98f24c3f892b7cb5e32a4b8f4689">Ci</a>.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER);
+<a name="l00346"></a>00346 
+<a name="l00347"></a>00347                 convertStream.readString(inStream.available(), readData);
+<a name="l00348"></a>00348                 convertStream.close();
+<a name="l00349"></a>00349                 inStream.close();
+<a name="l00350"></a>00350                 <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(readData.value);
+<a name="l00351"></a>00351             } <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00352"></a>00352                 <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>((fileObj &amp;&amp; fileObj.path || <span class="stringliteral">&#39;&#39;</span>) + <span class="stringliteral">&#39;: &#39;</span> + <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00353"></a>00353             }
+<a name="l00354"></a>00354         };
+<a name="l00355"></a>00355     }
+<a name="l00356"></a>00356     <span class="keywordflow">return</span> <a class="code" href="../../db/de5/namespacedefault__timezones.html#ae7928ec4a8ba39a389a278ef371587b8">text</a>;
+<a name="l00357"></a>00357 });
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d0/dca/tmpl__builder_8js.html">tmpl_builder.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:25に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

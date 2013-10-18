@@ -1,0 +1,26 @@
+var classmozilla_1_1gfx_1_1_shared_surface =
+[
+    [ "SharedSurface", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a5c224eccec82050877edea3c6f0bbfaf", null ],
+    [ "~SharedSurface", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a778da51c700b03f62ebc779747de9abb", null ],
+    [ "APIType", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a6f7fab7968e937404c32db7082d4fb5b", null ],
+    [ "AttachType", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a2681f77e7508389bdb53972afd14b588", null ],
+    [ "Copy", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a52c70596452dcdcddc6bfe22c7ff3b2c", null ],
+    [ "Fence", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#abbb4c8cd6708970215f2b5701e5a91b5", null ],
+    [ "HasAlpha", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a2b7f5bdef0127085e401ca42ec118ce5", null ],
+    [ "LockProd", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a9c607a9137fe3d9e8821e5cce28476f5", null ],
+    [ "LockProdImpl", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a230d2e1c5f4f72e8d3176e3afe8b842b", null ],
+    [ "Renderbuffer", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#aca77f51f517484071776dbbd6e8bdffa", null ],
+    [ "Size", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#ad30ed68250f1750fe480c723b3679f9e", null ],
+    [ "Texture", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#ad912b7435d1545988946fec5a6307730", null ],
+    [ "TextureTarget", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a6492f47c5d6d320ff766a825631e2087", null ],
+    [ "Type", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#ab0a78c8817918e0f5750e5badcc2817f", null ],
+    [ "UnlockProd", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a060e3d2fc90a53e10f709576924240b9", null ],
+    [ "UnlockProdImpl", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#af01363e2de41002dcaea7ad1177624dc", null ],
+    [ "WaitSync", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a83fcf68aff9bf940f642d173b53ac092", null ],
+    [ "mAPI", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a884414e288f144a71a5d0157004d3a6b", null ],
+    [ "mAttachType", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#a477bfd0b395b838595e6c75195d16b56", null ],
+    [ "mHasAlpha", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#ad6f6482c5fa3b1f0a2f27ef5d6743e39", null ],
+    [ "mIsLocked", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#ad71297bb782e895599475c0a24ee5b65", null ],
+    [ "mSize", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#aff60fb61176f766977c5ad8a5794fe38", null ],
+    [ "mType", "d6/d88/classmozilla_1_1gfx_1_1_shared_surface.html#ac41f45225af727e449ac87eac45072ea", null ]
+];

@@ -1,0 +1,1062 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsEventNameList.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d6/d5a/ns_event_name_list_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsEventNameList.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d6/d5a/ns_event_name_list_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment"> * This file contains the list of event names that are exposed via IDL</span>
+<a name="l00008"></a>00008 <span class="comment"> * on various objects.  It is designed to be used as inline input to</span>
+<a name="l00009"></a>00009 <span class="comment"> * various consumers through the magic of C preprocessing.</span>
+<a name="l00010"></a>00010 <span class="comment"> *</span>
+<a name="l00011"></a>00011 <span class="comment"> * Each entry consists of 4 pieces of information:</span>
+<a name="l00012"></a>00012 <span class="comment"> * 1) The name of the event</span>
+<a name="l00013"></a>00013 <span class="comment"> * 2) The event ID (see nsGUIEvent.h)</span>
+<a name="l00014"></a>00014 <span class="comment"> * 3) The event type (see the EventNameType enum in nsContentUtils.h)</span>
+<a name="l00015"></a>00015 <span class="comment"> * 4) The event struct type for this event.</span>
+<a name="l00016"></a>00016 <span class="comment"> * Items 2-4 might be empty strings for events for which they don&#39;t make sense.</span>
+<a name="l00017"></a>00017 <span class="comment"> *</span>
+<a name="l00018"></a>00018 <span class="comment"> * Event names that are exposed as content attributes on HTML elements</span>
+<a name="l00019"></a>00019 <span class="comment"> * and as IDL attributes on Elements, Documents and Windows and have</span>
+<a name="l00020"></a>00020 <span class="comment"> * no forwarding behavior should be enclosed in the EVENT macro.</span>
+<a name="l00021"></a>00021 <span class="comment"> *</span>
+<a name="l00022"></a>00022 <span class="comment"> * Event names that are exposed as content attributes on HTML elements</span>
+<a name="l00023"></a>00023 <span class="comment"> * and as IDL attributes on Elements, Documents and Windows and are</span>
+<a name="l00024"></a>00024 <span class="comment"> * forwarded from &lt;body&gt; and &lt;frameset&gt; to the Window should be</span>
+<a name="l00025"></a>00025 <span class="comment"> * enclosed in the FORWARDED_EVENT macro.  If this macro is not</span>
+<a name="l00026"></a>00026 <span class="comment"> * defined, it will be defined to be equivalent to EVENT.</span>
+<a name="l00027"></a>00027 <span class="comment"> *</span>
+<a name="l00028"></a>00028 <span class="comment"> * Event names that are exposed as IDL attributes on Windows only</span>
+<a name="l00029"></a>00029 <span class="comment"> * should be enclosed in the WINDOW_ONLY_EVENT macro.  If this macro</span>
+<a name="l00030"></a>00030 <span class="comment"> * is not defined, it will be defined to the empty string.</span>
+<a name="l00031"></a>00031 <span class="comment"> *</span>
+<a name="l00032"></a>00032 <span class="comment"> * Event names that are exposed as content and IDL attributes on</span>
+<a name="l00033"></a>00033 <span class="comment"> * &lt;body&gt; and &lt;frameset&gt;, which forward them to the Window, and are</span>
+<a name="l00034"></a>00034 <span class="comment"> * exposed as IDL attributes on the Window should be enclosed in the</span>
+<a name="l00035"></a>00035 <span class="comment"> * WINDOW_EVENT macro.  If this macro is not defined, it will be</span>
+<a name="l00036"></a>00036 <span class="comment"> * defined to be equivalent to WINDOW_ONLY_EVENT.</span>
+<a name="l00037"></a>00037 <span class="comment"> *</span>
+<a name="l00038"></a>00038 <span class="comment"> * Touch-specific event names should be enclosed in TOUCH_EVENT.  They</span>
+<a name="l00039"></a>00039 <span class="comment"> * are otherwise equivalent to those enclosed in EVENT.  If</span>
+<a name="l00040"></a>00040 <span class="comment"> * TOUCH_EVENT is not defined, it will be defined to the empty string.</span>
+<a name="l00041"></a>00041 <span class="comment"> *</span>
+<a name="l00042"></a>00042 <span class="comment"> * Event names that are only exposed as IDL attributes on Documents</span>
+<a name="l00043"></a>00043 <span class="comment"> * should be enclosed in the DOCUMENT_ONLY_EVENT macro.  If this macro is</span>
+<a name="l00044"></a>00044 <span class="comment"> * not defined, it will be defined to the empty string.</span>
+<a name="l00045"></a>00045 <span class="comment"> *</span>
+<a name="l00046"></a>00046 <span class="comment"> * Event names that are not exposed as IDL attributes at all should be</span>
+<a name="l00047"></a>00047 <span class="comment"> * enclosed in NON_IDL_EVENT.  If NON_IDL_EVENT is not defined, it</span>
+<a name="l00048"></a>00048 <span class="comment"> * will be defined to the empty string.</span>
+<a name="l00049"></a>00049 <span class="comment"> *</span>
+<a name="l00050"></a>00050 <span class="comment"> * If you change which macros event names are enclosed in, please</span>
+<a name="l00051"></a>00051 <span class="comment"> * update the tests for bug 689564 and bug 659350 as needed.</span>
+<a name="l00052"></a>00052 <span class="comment"> */</span>
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054 <span class="preprocessor">#ifdef ID_TO_EVENT</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span><span class="preprocessor">#ifdef EVENT</span>
+<a name="l00056"></a>00056 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define EVENT&quot;</span>
+<a name="l00057"></a>00057 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* EVENT */</span>
+<a name="l00058"></a>00058 <span class="preprocessor">#ifdef WINDOW_ONLY_EVENT</span>
+<a name="l00059"></a>00059 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define WINDOW_ONLY_EVENT&quot;</span>
+<a name="l00060"></a>00060 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* WINDOW_ONLY_EVENT */</span>
+<a name="l00061"></a>00061 <span class="preprocessor">#ifdef TOUCH_EVENT</span>
+<a name="l00062"></a>00062 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define TOUCH_EVENT&quot;</span>
+<a name="l00063"></a>00063 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* TOUCH_EVENT */</span>
+<a name="l00064"></a>00064 <span class="preprocessor">#ifdef DOCUMENT_ONLY_EVENT</span>
+<a name="l00065"></a>00065 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define DOCUMENT_ONLY_EVENT&quot;</span>
+<a name="l00066"></a>00066 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DOCUMENT_ONLY_EVENT */</span>
+<a name="l00067"></a>00067 <span class="preprocessor">#ifdef NON_IDL_EVENT</span>
+<a name="l00068"></a>00068 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define NON_IDL_EVENT&quot;</span>
+<a name="l00069"></a>00069 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* NON_IDL_EVENT */</span>
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071 <span class="preprocessor">#define EVENT ID_TO_EVENT</span>
+<a name="l00072"></a>00072 <span class="preprocessor"></span><span class="preprocessor">#define WINDOW_ONLY_EVENT ID_TO_EVENT</span>
+<a name="l00073"></a>00073 <span class="preprocessor"></span><span class="preprocessor">#define TOUCH_EVENT ID_TO_EVENT</span>
+<a name="l00074"></a>00074 <span class="preprocessor"></span><span class="preprocessor">#define DOCUMENT_ONLY_EVENT ID_TO_EVENT</span>
+<a name="l00075"></a>00075 <span class="preprocessor"></span><span class="preprocessor">#define NON_IDL_EVENT ID_TO_EVENT</span>
+<a name="l00076"></a>00076 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00077"></a>00077 <span class="preprocessor"></span>
+<a name="l00078"></a>00078 <span class="preprocessor">#ifdef DEFINED_FORWARDED_EVENT</span>
+<a name="l00079"></a>00079 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define DEFINED_FORWARDED_EVENT&quot;</span>
+<a name="l00080"></a>00080 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_FORWARDED_EVENT */</span>
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082 <span class="preprocessor">#ifndef FORWARDED_EVENT</span>
+<a name="l00083"></a>00083 <span class="preprocessor"></span><span class="preprocessor">#define FORWARDED_EVENT EVENT</span>
+<a name="l00084"></a>00084 <span class="preprocessor"></span><span class="preprocessor">#define DEFINED_FORWARDED_EVENT</span>
+<a name="l00085"></a>00085 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* FORWARDED_EVENT */</span>
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 <span class="preprocessor">#ifdef DEFINED_WINDOW_ONLY_EVENT</span>
+<a name="l00088"></a>00088 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define DEFINED_WINDOW_ONLY_EVENT&quot;</span>
+<a name="l00089"></a>00089 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_WINDOW_ONLY_EVENT */</span>
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091 <span class="preprocessor">#ifndef WINDOW_ONLY_EVENT</span>
+<a name="l00092"></a>00092 <span class="preprocessor"></span><span class="preprocessor">#define WINDOW_ONLY_EVENT(_name, _id, _type, _struct)</span>
+<a name="l00093"></a>00093 <span class="preprocessor"></span><span class="preprocessor">#define DEFINED_WINDOW_ONLY_EVENT</span>
+<a name="l00094"></a>00094 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* WINDOW_ONLY_EVENT */</span>
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="preprocessor">#ifdef DEFINED_WINDOW_EVENT</span>
+<a name="l00097"></a>00097 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define DEFINED_WINDOW_EVENT&quot;</span>
+<a name="l00098"></a>00098 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_WINDOW_EVENT */</span>
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="preprocessor">#ifndef WINDOW_EVENT</span>
+<a name="l00101"></a>00101 <span class="preprocessor"></span><span class="preprocessor">#define WINDOW_EVENT WINDOW_ONLY_EVENT</span>
+<a name="l00102"></a>00102 <span class="preprocessor"></span><span class="preprocessor">#define DEFINED_WINDOW_EVENT</span>
+<a name="l00103"></a>00103 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* WINDOW_EVENT */</span>
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105 <span class="preprocessor">#ifdef DEFINED_TOUCH_EVENT</span>
+<a name="l00106"></a>00106 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define DEFINED_TOUCH_EVENT&quot;</span>
+<a name="l00107"></a>00107 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_TOUCH_EVENT */</span>
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109 <span class="preprocessor">#ifndef TOUCH_EVENT</span>
+<a name="l00110"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2a6353ced37e26c3377ea92241d93b24">00110</a> <span class="preprocessor"></span><span class="preprocessor">#define TOUCH_EVENT(_name, _id, _type, _struct)</span>
+<a name="l00111"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#af6761789d86657a8113498bdfb785b8d">00111</a> <span class="preprocessor"></span><span class="preprocessor">#define DEFINED_TOUCH_EVENT</span>
+<a name="l00112"></a>00112 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* TOUCH_EVENT */</span>
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 <span class="preprocessor">#ifdef DEFINED_DOCUMENT_ONLY_EVENT</span>
+<a name="l00115"></a>00115 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define DEFINED_DOCUMENT_ONLY_EVENT&quot;</span>
+<a name="l00116"></a>00116 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_DOCUMENT_ONLY_EVENT */</span>
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118 <span class="preprocessor">#ifndef DOCUMENT_ONLY_EVENT</span>
+<a name="l00119"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#abf0773450b391726788080b71bdd347f">00119</a> <span class="preprocessor"></span><span class="preprocessor">#define DOCUMENT_ONLY_EVENT(_name, _id, _type, _struct)</span>
+<a name="l00120"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a9c92aade1cea408ab69d115925ec9215">00120</a> <span class="preprocessor"></span><span class="preprocessor">#define DEFINED_DOCUMENT_ONLY_EVENT</span>
+<a name="l00121"></a>00121 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DOCUMENT_ONLY_EVENT */</span>
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123 <span class="preprocessor">#ifdef DEFINED_NON_IDL_EVENT</span>
+<a name="l00124"></a>00124 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define DEFINED_NON_IDL_EVENT&quot;</span>
+<a name="l00125"></a>00125 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_NON_IDL_EVENT */</span>
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127 <span class="preprocessor">#ifndef NON_IDL_EVENT</span>
+<a name="l00128"></a>00128 <span class="preprocessor"></span><span class="preprocessor">#define NON_IDL_EVENT(_name, _id, _type, _struct)</span>
+<a name="l00129"></a>00129 <span class="preprocessor"></span><span class="preprocessor">#define DEFINED_NON_IDL_EVENT</span>
+<a name="l00130"></a>00130 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* NON_IDL_EVENT */</span>
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132 <span class="preprocessor">#ifdef DEFINED_ERROR_EVENT</span>
+<a name="l00133"></a>00133 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define DEFINED_ERROR_EVENT&quot;</span>
+<a name="l00134"></a>00134 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_ERROR_EVENT */</span>
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136 <span class="preprocessor">#ifndef ERROR_EVENT</span>
+<a name="l00137"></a>00137 <span class="preprocessor"></span><span class="preprocessor">#define ERROR_EVENT FORWARDED_EVENT</span>
+<a name="l00138"></a>00138 <span class="preprocessor"></span><span class="preprocessor">#define DEFINED_ERROR_EVENT</span>
+<a name="l00139"></a>00139 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* ERROR_EVENT */</span>
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141 <span class="preprocessor">#ifdef DEFINED_BEFOREUNLOAD_EVENT</span>
+<a name="l00142"></a>00142 <span class="preprocessor"></span><span class="preprocessor">#error &quot;Don&#39;t define DEFINED_BEFOREUNLOAD_EVENT&quot;</span>
+<a name="l00143"></a>00143 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_BEFOREUNLOAD_EVENT */</span>
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145 <span class="preprocessor">#ifndef BEFOREUNLOAD_EVENT</span>
+<a name="l00146"></a>00146 <span class="preprocessor"></span><span class="preprocessor">#define BEFOREUNLOAD_EVENT WINDOW_EVENT</span>
+<a name="l00147"></a>00147 <span class="preprocessor"></span><span class="preprocessor">#define DEFINED_BEFOREUNLOAD_EVENT</span>
+<a name="l00148"></a>00148 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* BEFOREUNLOAD_EVENT */</span>
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(<a class="code" href="../../d6/da5/libpinyin_8js.html#a14987c2daddbcdc724afc8b8c0492b85">abort</a>,
+<a name="l00151"></a>00151       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a29944ec85c35218d9fbd286e8c48976c">NS_IMAGE_ABORT</a>,
+<a name="l00152"></a>00152       (<a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3ba952882143c567b10d31eebe94b45b704">EventNameType_HTMLXUL</a> | <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3ba00644f099e5481307f7f1f939ab6614f">EventNameType_SVGSVG</a>),
+<a name="l00153"></a>00153       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00154"></a>00154 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(canplay,
+<a name="l00155"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ad94ffebeff44991f18038a7ff4a467df">00155</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ad94ffebeff44991f18038a7ff4a467df">NS_CANPLAY</a>,
+<a name="l00156"></a>00156       <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3ba81e4810344a2421bf767fc562197a8c3">EventNameType_HTML</a>,
+<a name="l00157"></a>00157       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00158"></a>00158 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(canplaythrough,
+<a name="l00159"></a>00159       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ad205a2d78133ebcdde29e1c2a3b51978">NS_CANPLAYTHROUGH</a>,
+<a name="l00160"></a>00160       <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3ba81e4810344a2421bf767fc562197a8c3">EventNameType_HTML</a>,
+<a name="l00161"></a>00161       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a> )
+<a name="l00162"></a>00162 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(<a class="code" href="../../d9/dd6/_r_e_a_d_m_e_8md.html#ac1934db4e0289fcc2a08b0c7de017cf2">change</a>,
+<a name="l00163"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a527c226b78689264c9ff81748d4442bb">00163</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a527c226b78689264c9ff81748d4442bb">NS_FORM_CHANGE</a>,
+<a name="l00164"></a>00164       <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3ba952882143c567b10d31eebe94b45b704">EventNameType_HTMLXUL</a>,
+<a name="l00165"></a>00165       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a> )
+<a name="l00166"></a>00166 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(click,
+<a name="l00167"></a>00167       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a892bcf218c7183f04840ebe5d364cf0b">NS_MOUSE_CLICK</a>,
+<a name="l00168"></a>00168       <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3baefefffe74d2d35078fc409d5be997f83">EventNameType_All</a>,
+<a name="l00169"></a>00169       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00170"></a>00170 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(contextmenu,
+<a name="l00171"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a346abc5ced9f8a1528b34064307b3725">00171</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a346abc5ced9f8a1528b34064307b3725">NS_CONTEXTMENU</a>,
+<a name="l00172"></a>00172       <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3ba952882143c567b10d31eebe94b45b704">EventNameType_HTMLXUL</a>,
+<a name="l00173"></a>00173       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00174"></a>00174 <span class="comment">// Not supported yet</span>
+<a name="l00175"></a>00175 <span class="comment">// EVENT(cuechange)</span>
+<a name="l00176"></a>00176 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(dblclick,
+<a name="l00177"></a>00177       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a4c406b74d42d59948637961b1492b8db">NS_MOUSE_DOUBLECLICK</a>,
+<a name="l00178"></a>00178       <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3ba952882143c567b10d31eebe94b45b704">EventNameType_HTMLXUL</a>,
+<a name="l00179"></a>00179       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00180"></a>00180 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(drag,
+<a name="l00181"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a3b20d22406fe523f64a61e4f4ca4c39c">00181</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a3b20d22406fe523f64a61e4f4ca4c39c">NS_DRAGDROP_DRAG</a>,
+<a name="l00182"></a>00182       EventNameType_HTMLXUL,
+<a name="l00183"></a>00183       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a9937b3d7e3fccd778f2ce5a71f3a2ad7">NS_DRAG_EVENT</a>)
+<a name="l00184"></a>00184 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(dragend,
+<a name="l00185"></a>00185       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a08bcd246c69d366257713dbbba194aae">NS_DRAGDROP_END</a>,
+<a name="l00186"></a>00186       EventNameType_HTMLXUL,
+<a name="l00187"></a>00187       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a9937b3d7e3fccd778f2ce5a71f3a2ad7">NS_DRAG_EVENT</a>)
+<a name="l00188"></a>00188 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(dragenter,
+<a name="l00189"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a9513bd17d48b14c3c4290cbc00d36487">00189</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a9513bd17d48b14c3c4290cbc00d36487">NS_DRAGDROP_ENTER</a>,
+<a name="l00190"></a>00190       EventNameType_HTMLXUL,
+<a name="l00191"></a>00191       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a9937b3d7e3fccd778f2ce5a71f3a2ad7">NS_DRAG_EVENT</a>)
+<a name="l00192"></a>00192 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(dragleave,
+<a name="l00193"></a>00193       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a5cf057d8ffd85b07e7963d429f4c0dfd">NS_DRAGDROP_LEAVE_SYNTH</a>,
+<a name="l00194"></a>00194       EventNameType_HTMLXUL,
+<a name="l00195"></a>00195       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a9937b3d7e3fccd778f2ce5a71f3a2ad7">NS_DRAG_EVENT</a>)
+<a name="l00196"></a>00196 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(dragover,
+<a name="l00197"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a4e6ac99516065c2966d5d8bfe3152c2b">00197</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a4e6ac99516065c2966d5d8bfe3152c2b">NS_DRAGDROP_OVER_SYNTH</a>,
+<a name="l00198"></a>00198       EventNameType_HTMLXUL,
+<a name="l00199"></a>00199       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a9937b3d7e3fccd778f2ce5a71f3a2ad7">NS_DRAG_EVENT</a>)
+<a name="l00200"></a>00200 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(dragstart,
+<a name="l00201"></a>00201       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a6c8de97e65aceca5ad109ac7871c7f21">NS_DRAGDROP_START</a>,
+<a name="l00202"></a>00202       EventNameType_HTMLXUL,
+<a name="l00203"></a>00203       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a9937b3d7e3fccd778f2ce5a71f3a2ad7">NS_DRAG_EVENT</a>)
+<a name="l00204"></a>00204 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(drop,
+<a name="l00205"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ae416c77ea3fc357579d61e85c3f35b80">00205</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ae416c77ea3fc357579d61e85c3f35b80">NS_DRAGDROP_DROP</a>,
+<a name="l00206"></a>00206       EventNameType_HTMLXUL,
+<a name="l00207"></a>00207       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a9937b3d7e3fccd778f2ce5a71f3a2ad7">NS_DRAG_EVENT</a>)
+<a name="l00208"></a>00208 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(durationchange,
+<a name="l00209"></a>00209       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ab167fdfc196144f6786493053496d281">NS_DURATIONCHANGE</a>,
+<a name="l00210"></a>00210       EventNameType_HTML,
+<a name="l00211"></a>00211       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00212"></a>00212 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(emptied,
+<a name="l00213"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8f36f9cf5952b23d41489f970cdd8cb4">00213</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8f36f9cf5952b23d41489f970cdd8cb4">NS_EMPTIED</a>,
+<a name="l00214"></a>00214       EventNameType_HTML,
+<a name="l00215"></a>00215       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00216"></a>00216 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(ended,
+<a name="l00217"></a>00217       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a526fb5397e753f1b0116028d4f4fc2fb">NS_ENDED</a>,
+<a name="l00218"></a>00218       EventNameType_HTML,
+<a name="l00219"></a>00219       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00220"></a>00220 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(<a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>,
+<a name="l00221"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a7a9c4a2267b79cb1354413e323fa567d">00221</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a7a9c4a2267b79cb1354413e323fa567d">NS_FORM_INPUT</a>,
+<a name="l00222"></a>00222       EventNameType_HTMLXUL,
+<a name="l00223"></a>00223       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a7df2e1dd5b7a782bea85c9268abd6b02">NS_UI_EVENT</a>)
+<a name="l00224"></a>00224 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(invalid,
+<a name="l00225"></a>00225       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a2e2cc350e1cd687d839c57cfb72fac11">NS_FORM_INVALID</a>,
+<a name="l00226"></a>00226       EventNameType_HTMLXUL,
+<a name="l00227"></a>00227       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00228"></a>00228 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(keydown,
+<a name="l00229"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a503220f3b804f6e9eb15763fdf714878">00229</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a503220f3b804f6e9eb15763fdf714878">NS_KEY_DOWN</a>,
+<a name="l00230"></a>00230       EventNameType_HTMLXUL,
+<a name="l00231"></a>00231       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a8b803771416b803a4aed4b1f99c55834">NS_KEY_EVENT</a>)
+<a name="l00232"></a>00232 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(keypress,
+<a name="l00233"></a>00233       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ae43fc1be0142a58795a4467fb5e6185a">NS_KEY_PRESS</a>,
+<a name="l00234"></a>00234       EventNameType_HTMLXUL,
+<a name="l00235"></a>00235       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a8b803771416b803a4aed4b1f99c55834">NS_KEY_EVENT</a>)
+<a name="l00236"></a>00236 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(keyup,
+<a name="l00237"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a73fede8d29767d700b88458d6289fc22">00237</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a73fede8d29767d700b88458d6289fc22">NS_KEY_UP</a>,
+<a name="l00238"></a>00238       EventNameType_HTMLXUL,
+<a name="l00239"></a>00239       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a8b803771416b803a4aed4b1f99c55834">NS_KEY_EVENT</a>)
+<a name="l00240"></a>00240 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(loadeddata,
+<a name="l00241"></a>00241       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a2793ea105f25d83b97107c18a3213109">NS_LOADEDDATA</a>,
+<a name="l00242"></a>00242       EventNameType_HTML,
+<a name="l00243"></a>00243       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00244"></a>00244 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(loadedmetadata,
+<a name="l00245"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2d575fe623c1684ad641f22dbc6f218b">00245</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2d575fe623c1684ad641f22dbc6f218b">NS_LOADEDMETADATA</a>,
+<a name="l00246"></a>00246       EventNameType_HTML,
+<a name="l00247"></a>00247       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00248"></a>00248 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(loadstart,
+<a name="l00249"></a>00249       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#af432c605a1bba17ec64d057011ce02f9">NS_LOADSTART</a>,
+<a name="l00250"></a>00250       EventNameType_HTML,
+<a name="l00251"></a>00251       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00252"></a>00252 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mousedown,
+<a name="l00253"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a054d0e5c73ffaf376301e8cb4fa765da">00253</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a054d0e5c73ffaf376301e8cb4fa765da">NS_MOUSE_BUTTON_DOWN</a>,
+<a name="l00254"></a>00254       EventNameType_All,
+<a name="l00255"></a>00255       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00256"></a>00256 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mouseenter,
+<a name="l00257"></a>00257       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ad875b165247f58fb7d4c290a69f3a21a">NS_MOUSEENTER</a>,
+<a name="l00258"></a>00258       EventNameType_All,
+<a name="l00259"></a>00259       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00260"></a>00260 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mouseleave,
+<a name="l00261"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a61ff171101ccfd36d6399e7fb03d42fe">00261</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a61ff171101ccfd36d6399e7fb03d42fe">NS_MOUSELEAVE</a>,
+<a name="l00262"></a>00262       EventNameType_All,
+<a name="l00263"></a>00263       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00264"></a>00264 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mousemove,
+<a name="l00265"></a>00265       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a392570c76bf128491bcd31d0eb056b73">NS_MOUSE_MOVE</a>,
+<a name="l00266"></a>00266       EventNameType_All,
+<a name="l00267"></a>00267       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00268"></a>00268 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mouseout,
+<a name="l00269"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a3495fb1c5c9489f907365d898b5af965">00269</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a3495fb1c5c9489f907365d898b5af965">NS_MOUSE_EXIT_SYNTH</a>,
+<a name="l00270"></a>00270       EventNameType_All,
+<a name="l00271"></a>00271       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00272"></a>00272 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mouseover,
+<a name="l00273"></a>00273       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a839b4af52e26f8e5447fd3ca2f9c7313">NS_MOUSE_ENTER_SYNTH</a>,
+<a name="l00274"></a>00274       EventNameType_All,
+<a name="l00275"></a>00275       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00276"></a>00276 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mouseup,
+<a name="l00277"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa2a9cf199f5ea0fb642f847362336476">00277</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa2a9cf199f5ea0fb642f847362336476">NS_MOUSE_BUTTON_UP</a>,
+<a name="l00278"></a>00278       EventNameType_All,
+<a name="l00279"></a>00279       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00280"></a>00280 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mozfullscreenchange,
+<a name="l00281"></a>00281       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#afec1216714967ac65cb08485190c151c">NS_FULLSCREENCHANGE</a>,
+<a name="l00282"></a>00282       EventNameType_HTML,
+<a name="l00283"></a>00283       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00284"></a>00284 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mozfullscreenerror,
+<a name="l00285"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a6db502746c136cf8cae75c357eb04e5e">00285</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a6db502746c136cf8cae75c357eb04e5e">NS_FULLSCREENERROR</a>,
+<a name="l00286"></a>00286       EventNameType_HTML,
+<a name="l00287"></a>00287       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00288"></a>00288 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mozpointerlockchange,
+<a name="l00289"></a>00289       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#aa4de9ea3026365108e1f1a52613e179d">NS_POINTERLOCKCHANGE</a>,
+<a name="l00290"></a>00290       EventNameType_HTML,
+<a name="l00291"></a>00291       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00292"></a>00292 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(mozpointerlockerror,
+<a name="l00293"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a0f7c0d5dbc39f3418bc0960eaea43435">00293</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a0f7c0d5dbc39f3418bc0960eaea43435">NS_POINTERLOCKERROR</a>,
+<a name="l00294"></a>00294       EventNameType_HTML,
+<a name="l00295"></a>00295       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00296"></a>00296 <span class="comment">// Not supported yet; probably never because &quot;wheel&quot; is a better idea.</span>
+<a name="l00297"></a>00297 <span class="comment">// EVENT(mousewheel)</span>
+<a name="l00298"></a>00298 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(<a class="code" href="../../d2/da5/camera_2test_2unit_2mock__audio_8js.html#a5816189df258fa7e9c0632313e8c1fdb">pause</a>,
+<a name="l00299"></a>00299       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#aac7e728cd800a144b8430201d7a6dc2c">NS_PAUSE</a>,
+<a name="l00300"></a>00300       EventNameType_HTML,
+<a name="l00301"></a>00301       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00302"></a>00302 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(<a class="code" href="../../d2/da5/camera_2test_2unit_2mock__audio_8js.html#a7ee333c65a8edcc0df04e817ffc9cb5c">play</a>,
+<a name="l00303"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a347ee8c716b89ea08921ea6597d4f42e">00303</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a347ee8c716b89ea08921ea6597d4f42e">NS_PLAY</a>,
+<a name="l00304"></a>00304       EventNameType_HTML,
+<a name="l00305"></a>00305       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00306"></a>00306 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(<a class="code" href="../../dd/d85/video_8js.html#a94c97cb13c4f819c09fd655f35f2df55">playing</a>,
+<a name="l00307"></a>00307       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#aa982a12e45e7963618ae76ed0f03c3d0">NS_PLAYING</a>,
+<a name="l00308"></a>00308       EventNameType_HTML,
+<a name="l00309"></a>00309       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00310"></a>00310 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(progress,
+<a name="l00311"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a7789fe34659a275534a127be1013165a">00311</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a7789fe34659a275534a127be1013165a">NS_PROGRESS</a>,
+<a name="l00312"></a>00312       EventNameType_HTML,
+<a name="l00313"></a>00313       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00314"></a>00314 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(ratechange,
+<a name="l00315"></a>00315       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a80ac20ab7ec2f1b94a8bdc455654d0e1">NS_RATECHANGE</a>,
+<a name="l00316"></a>00316       EventNameType_HTML,
+<a name="l00317"></a>00317       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00318"></a>00318 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(<a class="code" href="../../db/dac/mock__picker_8js.html#aed26045338f591d889d2a8bf699451ef">reset</a>,
+<a name="l00319"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a499e4265226e8fea78cdd7ff8cf69a6d">00319</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a499e4265226e8fea78cdd7ff8cf69a6d">NS_FORM_RESET</a>,
+<a name="l00320"></a>00320       EventNameType_HTMLXUL,
+<a name="l00321"></a>00321       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00322"></a>00322 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(seeked,
+<a name="l00323"></a>00323       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a1e8c4526931ae4ec017c113ceda4e408">NS_SEEKED</a>,
+<a name="l00324"></a>00324       EventNameType_HTML,
+<a name="l00325"></a>00325       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00326"></a>00326 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(seeking,
+<a name="l00327"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8af6650a19bf289e2a0d79cc16e85b25">00327</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8af6650a19bf289e2a0d79cc16e85b25">NS_SEEKING</a>,
+<a name="l00328"></a>00328       EventNameType_HTML,
+<a name="l00329"></a>00329       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00330"></a>00330 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(<a class="code" href="../../dd/d6d/mock__spinner_8js.html#acbaa526812f5b09f5e4582d5b59adf8b">select</a>,
+<a name="l00331"></a>00331       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a7efd2d365cdc640ab3d4f8125867864a">NS_FORM_SELECTED</a>,
+<a name="l00332"></a>00332       EventNameType_HTMLXUL,
+<a name="l00333"></a>00333       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00334"></a>00334 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(<a class="code" href="../../d4/dc5/handled__call_8js.html#a849945b83cbf2e6fcd68a90c133c1824">show</a>,
+<a name="l00335"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#adb4385a0c1ae9a9e5959d18c06cfa3ec">00335</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#adb4385a0c1ae9a9e5959d18c06cfa3ec">NS_SHOW_EVENT</a>,
+<a name="l00336"></a>00336       EventNameType_HTML,
+<a name="l00337"></a>00337       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00338"></a>00338 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(stalled,
+<a name="l00339"></a>00339       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#afac9658c4f502548c945bae3c920bc7e">NS_STALLED</a>,
+<a name="l00340"></a>00340       EventNameType_HTML,
+<a name="l00341"></a>00341       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00342"></a>00342 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(submit,
+<a name="l00343"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8e54fa48beb7406e6eb7e56b127de6b2">00343</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8e54fa48beb7406e6eb7e56b127de6b2">NS_FORM_SUBMIT</a>,
+<a name="l00344"></a>00344       EventNameType_HTMLXUL,
+<a name="l00345"></a>00345       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00346"></a>00346 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(suspend,
+<a name="l00347"></a>00347       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ada245207346dafb223b12b4c7ae13bd4">NS_SUSPEND</a>,
+<a name="l00348"></a>00348       EventNameType_HTML,
+<a name="l00349"></a>00349       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00350"></a>00350 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(timeupdate,
+<a name="l00351"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ac6e87d3a11276cf77abb495e779c48da">00351</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ac6e87d3a11276cf77abb495e779c48da">NS_TIMEUPDATE</a>,
+<a name="l00352"></a>00352       EventNameType_HTML,
+<a name="l00353"></a>00353       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00354"></a>00354 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(volumechange,
+<a name="l00355"></a>00355       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a75f925f7c74cf40ab97050898eed737a">NS_VOLUMECHANGE</a>,
+<a name="l00356"></a>00356       EventNameType_HTML,
+<a name="l00357"></a>00357       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00358"></a>00358 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(waiting,
+<a name="l00359"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a98b07a5b76786acab9274f9f71603e52">00359</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a98b07a5b76786acab9274f9f71603e52">NS_WAITING</a>,
+<a name="l00360"></a>00360       EventNameType_HTML,
+<a name="l00361"></a>00361       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00362"></a>00362 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(wheel,
+<a name="l00363"></a>00363       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a9fdd49c2ebdcb4a0307cfb0ebb9a5256">NS_WHEEL_WHEEL</a>,
+<a name="l00364"></a>00364       EventNameType_All,
+<a name="l00365"></a>00365       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a7dc955b712ef2775b9282e401f71c569">NS_WHEEL_EVENT</a>)
+<a name="l00366"></a>00366 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(<a class="code" href="../../dc/d5e/apps_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#a262add591dbf3cb720cb49ac89edcf02">copy</a>,
+<a name="l00367"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ad280da464ae1a2e623924c553aa85ca1">00367</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ad280da464ae1a2e623924c553aa85ca1">NS_COPY</a>,
+<a name="l00368"></a>00368       EventNameType_HTMLXUL,
+<a name="l00369"></a>00369       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a5e74a52aa3fc48874acd78d07df99a2d">NS_CLIPBOARD_EVENT</a>)
+<a name="l00370"></a>00370 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(cut,
+<a name="l00371"></a>00371       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ae5c4a7aede240b3dc3e8960d16224f15">NS_CUT</a>,
+<a name="l00372"></a>00372       EventNameType_HTMLXUL,
+<a name="l00373"></a>00373       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a5e74a52aa3fc48874acd78d07df99a2d">NS_CLIPBOARD_EVENT</a>)
+<a name="l00374"></a>00374 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(paste,
+<a name="l00375"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ad0800c13d9bd7d72d9d10074ffb98df3">00375</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ad0800c13d9bd7d72d9d10074ffb98df3">NS_PASTE</a>,
+<a name="l00376"></a>00376       EventNameType_HTMLXUL,
+<a name="l00377"></a>00377       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a5e74a52aa3fc48874acd78d07df99a2d">NS_CLIPBOARD_EVENT</a>)
+<a name="l00378"></a>00378 <span class="comment">// Gecko-specific extensions that apply to elements</span>
+<a name="l00379"></a>00379 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(beforescriptexecute,
+<a name="l00380"></a>00380       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a39f99d64e818e98739a9ab0426c6d84c">NS_BEFORE_SCRIPT_EXECUTE</a>,
+<a name="l00381"></a>00381       EventNameType_HTMLXUL,
+<a name="l00382"></a>00382       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00383"></a>00383 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a1cff66881b6823b344b03e4fcbfffd12">EVENT</a>(afterscriptexecute,
+<a name="l00384"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ae0dd8b82069a52630f80b4035af03ff5">00384</a>       <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ae0dd8b82069a52630f80b4035af03ff5">NS_AFTER_SCRIPT_EXECUTE</a>,
+<a name="l00385"></a>00385       EventNameType_HTMLXUL,
+<a name="l00386"></a>00386       <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00387"></a>00387 
+<a name="l00388"></a>00388 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a20098cb3557e2ceb8153ffabfeffd0e6">FORWARDED_EVENT</a>(blur,
+<a name="l00389"></a>00389                 <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a01510ee6d2ec3e7b08a561689713db53">NS_BLUR_CONTENT</a>,
+<a name="l00390"></a>00390                 EventNameType_HTMLXUL,
+<a name="l00391"></a>00391                 <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a68010c4407697dfa85f05cb7afbe6fd8">NS_FOCUS_EVENT</a>)
+<a name="l00392"></a>00392 <a class="code" href="../../d9/dd1/ns_generic_h_t_m_l_element_8h.html#a14b1794e4a1f3b42f59c85e669edc948">ERROR_EVENT</a>(<a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>,
+<a name="l00393"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a492157c7bc818e0529486b9935d396ef">00393</a>             <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a492157c7bc818e0529486b9935d396ef">NS_LOAD_ERROR</a>,
+<a name="l00394"></a>00394             (EventNameType_HTMLXUL | <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3ba00644f099e5481307f7f1f939ab6614f">EventNameType_SVGSVG</a>),
+<a name="l00395"></a>00395             <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00396"></a>00396 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a20098cb3557e2ceb8153ffabfeffd0e6">FORWARDED_EVENT</a>(<a class="code" href="../../d3/d4a/mock__recipients_8js.html#a872ddc88b9ec9139cb46823219ad16c8">focus</a>,
+<a name="l00397"></a>00397                 <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a6bcc08de8133b064834335c0a35d00e7">NS_FOCUS_CONTENT</a>,
+<a name="l00398"></a>00398                 EventNameType_HTMLXUL,
+<a name="l00399"></a>00399                 <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a68010c4407697dfa85f05cb7afbe6fd8">NS_FOCUS_EVENT</a>)
+<a name="l00400"></a>00400 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a20098cb3557e2ceb8153ffabfeffd0e6">FORWARDED_EVENT</a>(<a class="code" href="../../db/d6b/make__gaia__shared_8js.html#ac5aa547163f784b68be607a47eb170b1">load</a>,
+<a name="l00401"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a65a0428d24ec5ad3ca9689241b0cda31">00401</a>                 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a65a0428d24ec5ad3ca9689241b0cda31">NS_LOAD</a>,
+<a name="l00402"></a>00402                 EventNameType_All,
+<a name="l00403"></a>00403                 <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00404"></a>00404 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a20098cb3557e2ceb8153ffabfeffd0e6">FORWARDED_EVENT</a>(scroll,
+<a name="l00405"></a>00405                 <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ad029310286e599d075168ebabac77f11">NS_SCROLL_EVENT</a>,
+<a name="l00406"></a>00406                 (EventNameType_HTMLXUL | EventNameType_SVGSVG),
+<a name="l00407"></a>00407                 <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00408"></a>00408 
+<a name="l00409"></a>00409 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(afterprint,
+<a name="l00410"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aba07ebef2ff0e76c6df605de6b73fb5b">00410</a>              <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aba07ebef2ff0e76c6df605de6b73fb5b">NS_AFTERPRINT</a>,
+<a name="l00411"></a>00411              <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a> | <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bab7db062d9a627304e51a77c9354d066f">EventNameType_HTMLBodyOrFramesetOnly</a>,
+<a name="l00412"></a>00412              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00413"></a>00413 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(beforeprint,
+<a name="l00414"></a>00414              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a5afaa8b54a4bb87cf9aebd181570c79e">NS_BEFOREPRINT</a>,
+<a name="l00415"></a>00415              <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a> | EventNameType_HTMLBodyOrFramesetOnly,
+<a name="l00416"></a>00416              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00417"></a>00417 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#ad89265dc05b32c1604fa179275b32795">BEFOREUNLOAD_EVENT</a>(beforeunload,
+<a name="l00418"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#acc61b2a259700215ae56552fa035166d">00418</a>                    <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#acc61b2a259700215ae56552fa035166d">NS_BEFORE_PAGE_UNLOAD</a>,
+<a name="l00419"></a>00419                    <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a> | EventNameType_HTMLBodyOrFramesetOnly,
+<a name="l00420"></a>00420                    <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00421"></a>00421 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(hashchange,
+<a name="l00422"></a>00422              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a95a99d0e2aafe4aa20da7fe4c2b4318b">NS_HASHCHANGE</a>,
+<a name="l00423"></a>00423              <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a> | EventNameType_HTMLBodyOrFramesetOnly,
+<a name="l00424"></a>00424              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00425"></a>00425 <span class="comment">// XXXbz Should the onmessage attribute on &lt;body&gt; really not work?  If so, do we</span>
+<a name="l00426"></a>00426 <span class="comment">// need a different macro to flag things like that (IDL, but not content</span>
+<a name="l00427"></a>00427 <span class="comment">// attributes on body/frameset), or is just using EventNameType_None enough?</span>
+<a name="l00428"></a>00428 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>,
+<a name="l00429"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a5a3d35070bb33e5c4b21477e82bf73af">00429</a>              <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a5a3d35070bb33e5c4b21477e82bf73af">NS_MESSAGE</a>,
+<a name="l00430"></a>00430              <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3baa96836a3b2346335821f443798dd54a0">EventNameType_None</a>,
+<a name="l00431"></a>00431              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00432"></a>00432 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(offline,
+<a name="l00433"></a>00433              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a142cba5ed2be226d6a2ffdb6d536c6fe">NS_OFFLINE</a>,
+<a name="l00434"></a>00434              <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a> | EventNameType_HTMLBodyOrFramesetOnly,
+<a name="l00435"></a>00435              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00436"></a>00436 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(online,
+<a name="l00437"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a1bea44fd39ff41a393120654c5e20b7c">00437</a>              <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a1bea44fd39ff41a393120654c5e20b7c">NS_ONLINE</a>,
+<a name="l00438"></a>00438              <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a> | EventNameType_HTMLBodyOrFramesetOnly,
+<a name="l00439"></a>00439              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00440"></a>00440 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(pagehide,
+<a name="l00441"></a>00441              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#aab4654ade70d572e3afeff01df2df4b8">NS_PAGE_HIDE</a>,
+<a name="l00442"></a>00442              EventNameType_HTMLBodyOrFramesetOnly,
+<a name="l00443"></a>00443              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00444"></a>00444 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(pageshow,
+<a name="l00445"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8f81443c218369505423fa36247d1cca">00445</a>              <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8f81443c218369505423fa36247d1cca">NS_PAGE_SHOW</a>,
+<a name="l00446"></a>00446              EventNameType_HTMLBodyOrFramesetOnly,
+<a name="l00447"></a>00447              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00448"></a>00448 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(popstate,
+<a name="l00449"></a>00449              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ad65af7e6addb4212e2b832a67560298b">NS_POPSTATE</a>,
+<a name="l00450"></a>00450              <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a> | EventNameType_HTMLBodyOrFramesetOnly,
+<a name="l00451"></a>00451              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00452"></a>00452 <span class="comment">// Not supported yet</span>
+<a name="l00453"></a>00453 <span class="comment">// WINDOW_EVENT(redo)</span>
+<a name="l00454"></a>00454 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(<a class="code" href="../../db/d0b/_image_editor_8js.html#adab1da9beef71bb79edbfe07f16b1172">resize</a>,
+<a name="l00455"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#afd9641f7392d8855870d9d25634fe52c">00455</a>              <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#afd9641f7392d8855870d9d25634fe52c">NS_RESIZE_EVENT</a>,
+<a name="l00456"></a>00456              (<a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a> | EventNameType_SVGSVG |
+<a name="l00457"></a>00457               EventNameType_HTMLBodyOrFramesetOnly),
+<a name="l00458"></a>00458              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00459"></a>00459 <span class="comment">// Not supported yet</span>
+<a name="l00460"></a>00460 <span class="comment">// WINDOW_EVENT(storage)</span>
+<a name="l00461"></a>00461 <span class="comment">// Not supported yet</span>
+<a name="l00462"></a>00462 <span class="comment">// WINDOW_EVENT(undo)</span>
+<a name="l00463"></a>00463 <a class="code" href="../../dd/d48/_h_t_m_l_body_element_8h.html#a00631a32ebb617e7c6dd7c7594a7e12f">WINDOW_EVENT</a>(unload,
+<a name="l00464"></a>00464              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a578dc6b08049afba5020519381f3fee3">NS_PAGE_UNLOAD</a>,
+<a name="l00465"></a>00465              (<a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a> | EventNameType_SVGSVG |
+<a name="l00466"></a>00466               EventNameType_HTMLBodyOrFramesetOnly),
+<a name="l00467"></a>00467              <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00468"></a>00468 
+<a name="l00469"></a>00469 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa09de2cc663523de42da50ede652b5ac">WINDOW_ONLY_EVENT</a>(devicemotion,
+<a name="l00470"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a7d785b9302f6a13cfa48400f22706dd3">00470</a>                   <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a7d785b9302f6a13cfa48400f22706dd3">NS_DEVICE_MOTION</a>,
+<a name="l00471"></a>00471                   <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3baa96836a3b2346335821f443798dd54a0">EventNameType_None</a>,
+<a name="l00472"></a>00472                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00473"></a>00473 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa09de2cc663523de42da50ede652b5ac">WINDOW_ONLY_EVENT</a>(deviceorientation,
+<a name="l00474"></a>00474                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#aa641c8c867edefe3dbfa4bc7763f985f">NS_DEVICE_ORIENTATION</a>,
+<a name="l00475"></a>00475                   <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3baa96836a3b2346335821f443798dd54a0">EventNameType_None</a>,
+<a name="l00476"></a>00476                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00477"></a>00477 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa09de2cc663523de42da50ede652b5ac">WINDOW_ONLY_EVENT</a>(deviceproximity,
+<a name="l00478"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#acf220644251a4040509ecd108f4d0fa9">00478</a>                   <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#acf220644251a4040509ecd108f4d0fa9">NS_DEVICE_PROXIMITY</a>,
+<a name="l00479"></a>00479                   EventNameType_None,
+<a name="l00480"></a>00480                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00481"></a>00481 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa09de2cc663523de42da50ede652b5ac">WINDOW_ONLY_EVENT</a>(userproximity,
+<a name="l00482"></a>00482                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a1b1962727df664705a9f21236b5f2cb3">NS_USER_PROXIMITY</a>,
+<a name="l00483"></a>00483                   EventNameType_None,
+<a name="l00484"></a>00484                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00485"></a>00485 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa09de2cc663523de42da50ede652b5ac">WINDOW_ONLY_EVENT</a>(devicelight,
+<a name="l00486"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8e88ea35e68b1525cf829040b7e7cd7c">00486</a>                   <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8e88ea35e68b1525cf829040b7e7cd7c">NS_DEVICE_LIGHT</a>,
+<a name="l00487"></a>00487                   EventNameType_None,
+<a name="l00488"></a>00488                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00489"></a>00489 
+<a name="l00490"></a>00490 <span class="preprocessor">#ifdef MOZ_B2G</span>
+<a name="l00491"></a>00491 <span class="preprocessor"></span><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa09de2cc663523de42da50ede652b5ac">WINDOW_ONLY_EVENT</a>(moztimechange,
+<a name="l00492"></a>00492                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ad1e47612b822bba41843b7eb5207d9e7">NS_MOZ_TIME_CHANGE_EVENT</a>,
+<a name="l00493"></a>00493                   EventNameType_None,
+<a name="l00494"></a>00494                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00495"></a>00495 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa09de2cc663523de42da50ede652b5ac">WINDOW_ONLY_EVENT</a>(moznetworkupload,
+<a name="l00496"></a>00496                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a9955acdf0b7c6cdfe354f2ec024fc4d3">NS_NETWORK_UPLOAD_EVENT</a>,
+<a name="l00497"></a>00497                   EventNameType_None,
+<a name="l00498"></a>00498                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00499"></a>00499 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa09de2cc663523de42da50ede652b5ac">WINDOW_ONLY_EVENT</a>(moznetworkdownload,
+<a name="l00500"></a>00500                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a88d994ce31f87fffd1f036122f4e1569">NS_NETWORK_DOWNLOAD_EVENT</a>,
+<a name="l00501"></a>00501                   EventNameType_None,
+<a name="l00502"></a>00502                   <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00503"></a>00503 <span class="preprocessor">#endif // MOZ_B2G</span>
+<a name="l00504"></a>00504 <span class="preprocessor"></span>
+<a name="l00505"></a>00505 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2a6353ced37e26c3377ea92241d93b24">TOUCH_EVENT</a>(touchstart,
+<a name="l00506"></a>00506             <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a6f5d0fb4b757562e11dff2d44c370699">NS_TOUCH_START</a>,
+<a name="l00507"></a>00507             EventNameType_All,
+<a name="l00508"></a>00508             <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae21b85761238f117545a2d384e466bfe">NS_TOUCH_EVENT</a>)
+<a name="l00509"></a>00509 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2a6353ced37e26c3377ea92241d93b24">TOUCH_EVENT</a>(touchend,
+<a name="l00510"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ac4542f92532258357ea9b9cd262a3a88">00510</a>             <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ac4542f92532258357ea9b9cd262a3a88">NS_TOUCH_END</a>,
+<a name="l00511"></a>00511             EventNameType_All,
+<a name="l00512"></a>00512             <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae21b85761238f117545a2d384e466bfe">NS_TOUCH_EVENT</a>)
+<a name="l00513"></a>00513 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2a6353ced37e26c3377ea92241d93b24">TOUCH_EVENT</a>(touchmove,
+<a name="l00514"></a>00514             <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a8a03ed3df1e4de09797e83c094bafb9f">NS_TOUCH_MOVE</a>,
+<a name="l00515"></a>00515             EventNameType_All,
+<a name="l00516"></a>00516             <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae21b85761238f117545a2d384e466bfe">NS_TOUCH_EVENT</a> )
+<a name="l00517"></a>00517 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2a6353ced37e26c3377ea92241d93b24">TOUCH_EVENT</a>(touchenter,
+<a name="l00518"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a66ca48d1fb5bcb363c7404d874c6bcc8">00518</a>             <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a66ca48d1fb5bcb363c7404d874c6bcc8">NS_TOUCH_ENTER</a>,
+<a name="l00519"></a>00519             EventNameType_All,
+<a name="l00520"></a>00520             <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae21b85761238f117545a2d384e466bfe">NS_TOUCH_EVENT</a> )
+<a name="l00521"></a>00521 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2a6353ced37e26c3377ea92241d93b24">TOUCH_EVENT</a>(touchleave,
+<a name="l00522"></a>00522             <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#aeb4b7efea4181e581e4e2ec5807919de">NS_TOUCH_LEAVE</a>,
+<a name="l00523"></a>00523             EventNameType_All,
+<a name="l00524"></a>00524             <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae21b85761238f117545a2d384e466bfe">NS_TOUCH_EVENT</a>)
+<a name="l00525"></a>00525 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2a6353ced37e26c3377ea92241d93b24">TOUCH_EVENT</a>(touchcancel,
+<a name="l00526"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#afcd925c837424ab22d6b9b6e796a4b35">00526</a>             <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#afcd925c837424ab22d6b9b6e796a4b35">NS_TOUCH_CANCEL</a>,
+<a name="l00527"></a>00527             EventNameType_All,
+<a name="l00528"></a>00528             <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae21b85761238f117545a2d384e466bfe">NS_TOUCH_EVENT</a>)
+<a name="l00529"></a>00529 
+<a name="l00530"></a>00530 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#abf0773450b391726788080b71bdd347f">DOCUMENT_ONLY_EVENT</a>(readystatechange,
+<a name="l00531"></a>00531                     <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a2e81fca6d2dcea240750da26cc4ab61e">NS_READYSTATECHANGE</a>,
+<a name="l00532"></a>00532                     EventNameType_HTMLXUL,
+<a name="l00533"></a>00533                     <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00534"></a>00534 
+<a name="l00535"></a>00535 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozMouseHittest,
+<a name="l00536"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a32b988f6e47986d91c4603b52e4170b2">00536</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a32b988f6e47986d91c4603b52e4170b2">NS_MOUSE_MOZHITTEST</a>,
+<a name="l00537"></a>00537               EventNameType_None,
+<a name="l00538"></a>00538               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ae9a2433281d9c3affd9b4af12c6580b5">NS_MOUSE_EVENT</a>)
+<a name="l00539"></a>00539 
+<a name="l00540"></a>00540 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMAttrModified,
+<a name="l00541"></a>00541               <a class="code" href="../../da/da6/ns_mutation_event_8h.html#adf3a43cfe0f6b5fd8af62af9f75fc295">NS_MUTATION_ATTRMODIFIED</a>,
+<a name="l00542"></a>00542               EventNameType_HTMLXUL,
+<a name="l00543"></a>00543               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53afe7b57fae036291ada73a3df0d3aab80">NS_MUTATION_EVENT</a>)
+<a name="l00544"></a>00544 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMCharacterDataModified,
+<a name="l00545"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8270dcee12436e4c5409be2b1022ddc7">00545</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8270dcee12436e4c5409be2b1022ddc7">NS_MUTATION_CHARACTERDATAMODIFIED</a>,
+<a name="l00546"></a>00546               EventNameType_HTMLXUL,
+<a name="l00547"></a>00547               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53afe7b57fae036291ada73a3df0d3aab80">NS_MUTATION_EVENT</a>)
+<a name="l00548"></a>00548 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMNodeInserted,
+<a name="l00549"></a>00549               <a class="code" href="../../da/da6/ns_mutation_event_8h.html#a63143ee45379f16187296ad3dd8b65d5">NS_MUTATION_NODEINSERTED</a>,
+<a name="l00550"></a>00550               EventNameType_HTMLXUL,
+<a name="l00551"></a>00551               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53afe7b57fae036291ada73a3df0d3aab80">NS_MUTATION_EVENT</a>)
+<a name="l00552"></a>00552 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMNodeRemoved,
+<a name="l00553"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aeae535c4e57344af3590498f907074f0">00553</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aeae535c4e57344af3590498f907074f0">NS_MUTATION_NODEREMOVED</a>,
+<a name="l00554"></a>00554               EventNameType_HTMLXUL,
+<a name="l00555"></a>00555               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53afe7b57fae036291ada73a3df0d3aab80">NS_MUTATION_EVENT</a>)
+<a name="l00556"></a>00556 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMNodeInsertedIntoDocument,
+<a name="l00557"></a>00557               <a class="code" href="../../da/da6/ns_mutation_event_8h.html#a7cabd0b9b49d9af7036e651bb42e6843">NS_MUTATION_NODEINSERTEDINTODOCUMENT</a>,
+<a name="l00558"></a>00558               EventNameType_HTMLXUL,
+<a name="l00559"></a>00559               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53afe7b57fae036291ada73a3df0d3aab80">NS_MUTATION_EVENT</a>)
+<a name="l00560"></a>00560 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMNodeRemovedFromDocument,
+<a name="l00561"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a58a29427f750cee3a0104c7a29fb3dd6">00561</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a58a29427f750cee3a0104c7a29fb3dd6">NS_MUTATION_NODEREMOVEDFROMDOCUMENT</a>,
+<a name="l00562"></a>00562               EventNameType_HTMLXUL,
+<a name="l00563"></a>00563               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53afe7b57fae036291ada73a3df0d3aab80">NS_MUTATION_EVENT</a>)
+<a name="l00564"></a>00564 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMSubtreeModified,
+<a name="l00565"></a>00565               <a class="code" href="../../da/da6/ns_mutation_event_8h.html#a291d9182ccdcd690bc135f3108c2a67e">NS_MUTATION_SUBTREEMODIFIED</a>,
+<a name="l00566"></a>00566               EventNameType_HTMLXUL,
+<a name="l00567"></a>00567               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53afe7b57fae036291ada73a3df0d3aab80">NS_MUTATION_EVENT</a>)
+<a name="l00568"></a>00568 
+<a name="l00569"></a>00569 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMActivate,
+<a name="l00570"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a254aae2c08f685db7220516ff1c4b749">00570</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a254aae2c08f685db7220516ff1c4b749">NS_UI_ACTIVATE</a>,
+<a name="l00571"></a>00571               EventNameType_HTMLXUL,
+<a name="l00572"></a>00572               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a7df2e1dd5b7a782bea85c9268abd6b02">NS_UI_EVENT</a>)
+<a name="l00573"></a>00573 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMFocusIn,
+<a name="l00574"></a>00574               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a470337e0b5cf7f004919ab57f8ab1f94">NS_UI_FOCUSIN</a>,
+<a name="l00575"></a>00575               EventNameType_HTMLXUL,
+<a name="l00576"></a>00576               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a7df2e1dd5b7a782bea85c9268abd6b02">NS_UI_EVENT</a>)
+<a name="l00577"></a>00577 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMFocusOut,
+<a name="l00578"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ab01ab1c687b23c4756eedc6d34895b96">00578</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ab01ab1c687b23c4756eedc6d34895b96">NS_UI_FOCUSOUT</a>,
+<a name="l00579"></a>00579               EventNameType_HTMLXUL,
+<a name="l00580"></a>00580               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a7df2e1dd5b7a782bea85c9268abd6b02">NS_UI_EVENT</a>)
+<a name="l00581"></a>00581                                   
+<a name="l00582"></a>00582 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(DOMMouseScroll,
+<a name="l00583"></a>00583               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ada43368f27aac6d8bf8100eef8ee7690">NS_MOUSE_SCROLL</a>,
+<a name="l00584"></a>00584               EventNameType_HTMLXUL,
+<a name="l00585"></a>00585               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a86f53b9aca028422bd5fb4b07ad54f99">NS_MOUSE_SCROLL_EVENT</a>)
+<a name="l00586"></a>00586 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozMousePixelScroll,
+<a name="l00587"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a807be41533e06764e77eef1d03269d79">00587</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a807be41533e06764e77eef1d03269d79">NS_MOUSE_PIXEL_SCROLL</a>,
+<a name="l00588"></a>00588               EventNameType_HTMLXUL,
+<a name="l00589"></a>00589               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a86f53b9aca028422bd5fb4b07ad54f99">NS_MOUSE_SCROLL_EVENT</a>)
+<a name="l00590"></a>00590                                                 
+<a name="l00591"></a>00591 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozBeforeResize,
+<a name="l00592"></a>00592               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a441f4f6b425bf0ea851d7a028d4b8aac">NS_BEFORERESIZE_EVENT</a>,
+<a name="l00593"></a>00593               EventNameType_None,
+<a name="l00594"></a>00594               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00595"></a>00595 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(<a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>,
+<a name="l00596"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a42d2dc41cd35c5d75116e2431cc7d781">00596</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a42d2dc41cd35c5d75116e2431cc7d781">NS_OPEN</a>,
+<a name="l00597"></a>00597               EventNameType_None,
+<a name="l00598"></a>00598               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00599"></a>00599 
+<a name="l00600"></a>00600 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(dataavailable,
+<a name="l00601"></a>00601               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a57d910eeab4baa93807aac14dc9c63b4">NS_MEDIARECORDER_DATAAVAILABLE</a>,
+<a name="l00602"></a>00602               EventNameType_None,
+<a name="l00603"></a>00603               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00604"></a>00604 
+<a name="l00605"></a>00605 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(stop,
+<a name="l00606"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ac0b153ccebdf61dbd9b8d5c73cc4af56">00606</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ac0b153ccebdf61dbd9b8d5c73cc4af56">NS_MEDIARECORDER_STOP</a>,
+<a name="l00607"></a>00607               EventNameType_None,
+<a name="l00608"></a>00608               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00609"></a>00609 
+<a name="l00610"></a>00610 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(warning,
+<a name="l00611"></a>00611               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#aaa1a369fea8600d3b6bedeb0c4c4e2e4">NS_MEDIARECORDER_WARNING</a>,
+<a name="l00612"></a>00612               EventNameType_None,
+<a name="l00613"></a>00613               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00614"></a>00614 
+<a name="l00615"></a>00615 <span class="comment">// Events that only have on* attributes on XUL elements</span>
+<a name="l00616"></a>00616 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(<a class="code" href="../../dd/dfa/classtext.html">text</a>,
+<a name="l00617"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#acb82c4b6322bce00f191c7b56a20e385">00617</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#acb82c4b6322bce00f191c7b56a20e385">NS_TEXT_TEXT</a>,
+<a name="l00618"></a>00618               <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a>,
+<a name="l00619"></a>00619               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00620"></a>00620 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(compositionstart,
+<a name="l00621"></a>00621               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56e9943ac26b844a0807987e7e29c226">NS_COMPOSITION_START</a>,
+<a name="l00622"></a>00622               <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3bae673d3735ec21661c77350b88b44adcb">EventNameType_XUL</a>,
+<a name="l00623"></a>00623               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a1a5829a4a19bb88f88da27f5f2d8c6aa">NS_COMPOSITION_EVENT</a>)
+<a name="l00624"></a>00624 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(compositionupdate,
+<a name="l00625"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a916ebe1603618ae0dad7ac498afb7a69">00625</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a916ebe1603618ae0dad7ac498afb7a69">NS_COMPOSITION_UPDATE</a>,
+<a name="l00626"></a>00626               EventNameType_XUL,
+<a name="l00627"></a>00627               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a1a5829a4a19bb88f88da27f5f2d8c6aa">NS_COMPOSITION_EVENT</a>)
+<a name="l00628"></a>00628 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(compositionend,
+<a name="l00629"></a>00629               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a0cbf39ab53c33929fad2b570b6939e83">NS_COMPOSITION_END</a>,
+<a name="l00630"></a>00630               EventNameType_XUL,
+<a name="l00631"></a>00631               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a1a5829a4a19bb88f88da27f5f2d8c6aa">NS_COMPOSITION_EVENT</a>)
+<a name="l00632"></a>00632 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(command,
+<a name="l00633"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a6364d7d03fa2033494e7183f0e977c53">00633</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a6364d7d03fa2033494e7183f0e977c53">NS_XUL_COMMAND</a>,
+<a name="l00634"></a>00634               EventNameType_XUL,
+<a name="l00635"></a>00635               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a00ac4968bdc7902425045b096839de34">NS_INPUT_EVENT</a>)
+<a name="l00636"></a>00636 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(<a class="code" href="../../dd/df0/dialogs__end__init_8js.html#acdb1449d11a5550a30ee4a18b9c7f133">close</a>,
+<a name="l00637"></a>00637               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a4d7f7369033a6ff0acf3c58f518e68de">NS_XUL_CLOSE</a>,
+<a name="l00638"></a>00638               EventNameType_XUL,
+<a name="l00639"></a>00639               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00640"></a>00640 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(popupshowing,
+<a name="l00641"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2bbc3e071828831adce4326f7bf951b6">00641</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2bbc3e071828831adce4326f7bf951b6">NS_XUL_POPUP_SHOWING</a>,
+<a name="l00642"></a>00642               EventNameType_XUL,
+<a name="l00643"></a>00643               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00644"></a>00644 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(popupshown,
+<a name="l00645"></a>00645               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a23478fc2c0b939ce194fc44aef5ccd5e">NS_XUL_POPUP_SHOWN</a>,
+<a name="l00646"></a>00646               EventNameType_XUL,
+<a name="l00647"></a>00647               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00648"></a>00648 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(popuphiding,
+<a name="l00649"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa6b9e504b38fdbcfab15b8b521109ed4">00649</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa6b9e504b38fdbcfab15b8b521109ed4">NS_XUL_POPUP_HIDING</a>,
+<a name="l00650"></a>00650               EventNameType_XUL,
+<a name="l00651"></a>00651               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00652"></a>00652 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(popuphidden,
+<a name="l00653"></a>00653               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#aa4800deddc32f49b5a09e8695f9e9f11">NS_XUL_POPUP_HIDDEN</a>,
+<a name="l00654"></a>00654               EventNameType_XUL,
+<a name="l00655"></a>00655               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00656"></a>00656 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(broadcast,
+<a name="l00657"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a03036387b321593a7222f8e3b70df8b1">00657</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a03036387b321593a7222f8e3b70df8b1">NS_XUL_BROADCAST</a>,
+<a name="l00658"></a>00658               EventNameType_XUL,
+<a name="l00659"></a>00659               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00660"></a>00660 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(commandupdate,
+<a name="l00661"></a>00661               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a54a18f049c09d10c1e1400fa57e3eb5a">NS_XUL_COMMAND_UPDATE</a>,
+<a name="l00662"></a>00662               EventNameType_XUL,
+<a name="l00663"></a>00663               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00664"></a>00664 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(dragexit,
+<a name="l00665"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa7000beb99b64771c76573a8c47ea3b8">00665</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aa7000beb99b64771c76573a8c47ea3b8">NS_DRAGDROP_EXIT_SYNTH</a>,
+<a name="l00666"></a>00666               EventNameType_XUL,
+<a name="l00667"></a>00667               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a9937b3d7e3fccd778f2ce5a71f3a2ad7">NS_DRAG_EVENT</a>)
+<a name="l00668"></a>00668 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(dragdrop,
+<a name="l00669"></a>00669               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#abfe36c88db103fb83b68596b6f915191">NS_DRAGDROP_DRAGDROP</a>,
+<a name="l00670"></a>00670               EventNameType_XUL,
+<a name="l00671"></a>00671               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a9937b3d7e3fccd778f2ce5a71f3a2ad7">NS_DRAG_EVENT</a>)
+<a name="l00672"></a>00672 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(draggesture,
+<a name="l00673"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a578eca7d005d584fca257289ab172a6c">00673</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a578eca7d005d584fca257289ab172a6c">NS_DRAGDROP_GESTURE</a>,
+<a name="l00674"></a>00674               EventNameType_XUL,
+<a name="l00675"></a>00675               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a9937b3d7e3fccd778f2ce5a71f3a2ad7">NS_DRAG_EVENT</a>)
+<a name="l00676"></a>00676 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(overflow,
+<a name="l00677"></a>00677               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a07f7d038af53cac6c4bd4b7f59ac1efe">NS_SCROLLPORT_OVERFLOW</a>,
+<a name="l00678"></a>00678               EventNameType_XUL,
+<a name="l00679"></a>00679               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00680"></a>00680 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(underflow,
+<a name="l00681"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aaa66771467c0be53f4dc786b35c7b04d">00681</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aaa66771467c0be53f4dc786b35c7b04d">NS_SCROLLPORT_UNDERFLOW</a>,
+<a name="l00682"></a>00682               EventNameType_XUL,
+<a name="l00683"></a>00683               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00684"></a>00684 
+<a name="l00685"></a>00685 <span class="comment">// Various SVG events</span>
+<a name="l00686"></a>00686 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(SVGLoad,
+<a name="l00687"></a>00687               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a814ca62f1d601aedf6515e0676d5e498">NS_SVG_LOAD</a>,
+<a name="l00688"></a>00688               EventNameType_None,
+<a name="l00689"></a>00689               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00690"></a>00690 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(SVGUnload,
+<a name="l00691"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2d747a56fc9b287e24aac15430d2e4c8">00691</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a2d747a56fc9b287e24aac15430d2e4c8">NS_SVG_UNLOAD</a>,
+<a name="l00692"></a>00692               EventNameType_None,
+<a name="l00693"></a>00693               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00694"></a>00694 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(SVGAbort,
+<a name="l00695"></a>00695               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#afa187420750dca0344f3e286d336cd9d">NS_SVG_ABORT</a>,
+<a name="l00696"></a>00696               EventNameType_None,
+<a name="l00697"></a>00697               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00698"></a>00698 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(SVGError,
+<a name="l00699"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aeb3038607e80d6b47960aae0d8c964b4">00699</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#aeb3038607e80d6b47960aae0d8c964b4">NS_SVG_ERROR</a>,
+<a name="l00700"></a>00700               EventNameType_None,
+<a name="l00701"></a>00701               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00702"></a>00702 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(SVGResize,
+<a name="l00703"></a>00703               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a989ff4e7c6ba9d4ae759540ffde321ac">NS_SVG_RESIZE</a>,
+<a name="l00704"></a>00704               EventNameType_None,
+<a name="l00705"></a>00705               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00706"></a>00706 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(SVGScroll,
+<a name="l00707"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#af0f3366b78de8b0f096dfd5d9b2d8a26">00707</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#af0f3366b78de8b0f096dfd5d9b2d8a26">NS_SVG_SCROLL</a>,
+<a name="l00708"></a>00708               EventNameType_None,
+<a name="l00709"></a>00709               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00710"></a>00710 
+<a name="l00711"></a>00711 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(SVGZoom,
+<a name="l00712"></a>00712               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a62622b0bdcca0546c049cd35ca1f54ec">NS_SVG_ZOOM</a>,
+<a name="l00713"></a>00713               EventNameType_None,
+<a name="l00714"></a>00714               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a68e5e6bd8bebb67e53097ec77877bbf4">NS_SVGZOOM_EVENT</a>)
+<a name="l00715"></a>00715 
+<a name="l00716"></a>00716 <span class="comment">// Only map the ID to the real event name when ID_TO_EVENT is defined.</span>
+<a name="l00717"></a>00717 <span class="preprocessor">#ifndef ID_TO_EVENT</span>
+<a name="l00718"></a>00718 <span class="preprocessor"></span><span class="comment">// This is a bit hackish, but SVG&#39;s event names are weird.</span>
+<a name="l00719"></a>00719 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(<a class="code" href="../../d6/d40/build__stage_2email_2shared_2js_2media_2media__frame_8js.html#ae363035d715009a6834763cfdb2e0c71">zoom</a>,
+<a name="l00720"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a62622b0bdcca0546c049cd35ca1f54ec">00720</a>               NS_SVG_ZOOM,
+<a name="l00721"></a>00721               EventNameType_SVGSVG,
+<a name="l00722"></a>00722               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00723"></a>00723 <span class="preprocessor">#endif</span>
+<a name="l00724"></a>00724 <span class="preprocessor"></span><span class="comment">// Only map the ID to the real event name when ID_TO_EVENT is defined.</span>
+<a name="l00725"></a>00725 <span class="preprocessor">#ifndef ID_TO_EVENT</span>
+<a name="l00726"></a>00726 <span class="preprocessor"></span><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(begin,
+<a name="l00727"></a>00727               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a07d404b7eb769a865f4f5d1b8c7fe9f1">NS_SMIL_BEGIN</a>,
+<a name="l00728"></a>00728               <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3baf9eef06f83a1a95f009cb5f6164782cb">EventNameType_SMIL</a>,
+<a name="l00729"></a>00729               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00730"></a>00730 <span class="preprocessor">#endif</span>
+<a name="l00731"></a>00731 <span class="preprocessor"></span><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(beginEvent,
+<a name="l00732"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a07d404b7eb769a865f4f5d1b8c7fe9f1">00732</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a07d404b7eb769a865f4f5d1b8c7fe9f1">NS_SMIL_BEGIN</a>,
+<a name="l00733"></a>00733               EventNameType_None,
+<a name="l00734"></a>00734               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a2a73827493ea1c0f07738a4a34506258">NS_SMIL_TIME_EVENT</a>)
+<a name="l00735"></a>00735 <span class="comment">// Only map the ID to the real event name when ID_TO_EVENT is defined.</span>
+<a name="l00736"></a>00736 <span class="preprocessor">#ifndef ID_TO_EVENT</span>
+<a name="l00737"></a>00737 <span class="preprocessor"></span><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(<a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>,
+<a name="l00738"></a>00738               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ae568d7b66a82a7e008976c30da01dff2">NS_SMIL_END</a>,
+<a name="l00739"></a>00739               <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3baf9eef06f83a1a95f009cb5f6164782cb">EventNameType_SMIL</a>,
+<a name="l00740"></a>00740               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00741"></a>00741 <span class="preprocessor">#endif</span>
+<a name="l00742"></a>00742 <span class="preprocessor"></span><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(endEvent,
+<a name="l00743"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ae568d7b66a82a7e008976c30da01dff2">00743</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ae568d7b66a82a7e008976c30da01dff2">NS_SMIL_END</a>,
+<a name="l00744"></a>00744               EventNameType_None,
+<a name="l00745"></a>00745               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a2a73827493ea1c0f07738a4a34506258">NS_SMIL_TIME_EVENT</a>)
+<a name="l00746"></a>00746 <span class="comment">// Only map the ID to the real event name when ID_TO_EVENT is defined.</span>
+<a name="l00747"></a>00747 <span class="preprocessor">#ifndef ID_TO_EVENT</span>
+<a name="l00748"></a>00748 <span class="preprocessor"></span><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(repeat,
+<a name="l00749"></a>00749               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a622e490054d59aa87447badef4e29534">NS_SMIL_REPEAT</a>,
+<a name="l00750"></a>00750               <a class="code" href="../../d8/db1/ns_content_utils_8h.html#afe9874bf9adfbf44163d8df0b244fd3baf9eef06f83a1a95f009cb5f6164782cb">EventNameType_SMIL</a>,
+<a name="l00751"></a>00751               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00752"></a>00752 <span class="preprocessor">#endif</span>
+<a name="l00753"></a>00753 <span class="preprocessor"></span><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(repeatEvent,
+<a name="l00754"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a622e490054d59aa87447badef4e29534">00754</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a622e490054d59aa87447badef4e29534">NS_SMIL_REPEAT</a>,
+<a name="l00755"></a>00755               EventNameType_None,
+<a name="l00756"></a>00756               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a2a73827493ea1c0f07738a4a34506258">NS_SMIL_TIME_EVENT</a>)
+<a name="l00757"></a>00757 
+<a name="l00758"></a>00758 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozAudioAvailable,
+<a name="l00759"></a>00759               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a787935bfa1a928bee8369f0b7cb7f24b">NS_MOZAUDIOAVAILABLE</a>,
+<a name="l00760"></a>00760               EventNameType_None,
+<a name="l00761"></a>00761               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00762"></a>00762 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozAfterPaint,
+<a name="l00763"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#adf9074dcb713b0f34c7672a142edbf23">00763</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#adf9074dcb713b0f34c7672a142edbf23">NS_AFTERPAINT</a>,
+<a name="l00764"></a>00764               EventNameType_None,
+<a name="l00765"></a>00765               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00766"></a>00766 
+<a name="l00767"></a>00767 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozScrolledAreaChanged,
+<a name="l00768"></a>00768               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a46e50c12a09c81ad821ade17a26d30e4">NS_SCROLLEDAREACHANGED</a>,
+<a name="l00769"></a>00769               EventNameType_None,
+<a name="l00770"></a>00770               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a484d03e97328c6e669c0ac7fc405d2dd">NS_SCROLLAREA_EVENT</a>)
+<a name="l00771"></a>00771 
+<a name="l00772"></a>00772 <span class="preprocessor">#ifdef MOZ_GAMEPAD</span>
+<a name="l00773"></a>00773 <span class="preprocessor"></span><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(gamepadbuttondown,
+<a name="l00774"></a>00774               NS_GAMEPAD_BUTTONDOWN,
+<a name="l00775"></a>00775               EventNameType_None,
+<a name="l00776"></a>00776               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00777"></a>00777 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(gamepadbuttonup,
+<a name="l00778"></a>00778               NS_GAMEPAD_BUTTONUP,
+<a name="l00779"></a>00779               EventNameType_None,
+<a name="l00780"></a>00780               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00781"></a>00781 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(gamepadaxismove,
+<a name="l00782"></a>00782               NS_GAMEPAD_AXISMOVE,
+<a name="l00783"></a>00783               EventNameType_None,
+<a name="l00784"></a>00784               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00785"></a>00785 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(gamepadconnected,
+<a name="l00786"></a>00786               NS_GAMEPAD_CONNECTED,
+<a name="l00787"></a>00787               EventNameType_None,
+<a name="l00788"></a>00788               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00789"></a>00789 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(gamepaddisconnected,
+<a name="l00790"></a>00790               NS_GAMEPAD_DISCONNECTED,
+<a name="l00791"></a>00791               EventNameType_None,
+<a name="l00792"></a>00792               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a56b77d9de0c9f8472d03a9e5c06a88bd">NS_EVENT_NULL</a>)
+<a name="l00793"></a>00793 <span class="preprocessor">#endif</span>
+<a name="l00794"></a>00794 <span class="preprocessor"></span>
+<a name="l00795"></a>00795 <span class="comment">// Simple gesture events</span>
+<a name="l00796"></a>00796 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozSwipeGestureStart,
+<a name="l00797"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8bbff71139f1f4a75fa63b5250ab3820">00797</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8bbff71139f1f4a75fa63b5250ab3820">NS_SIMPLE_GESTURE_SWIPE_START</a>,
+<a name="l00798"></a>00798               EventNameType_None,
+<a name="l00799"></a>00799               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00800"></a>00800 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozSwipeGestureUpdate,
+<a name="l00801"></a>00801               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a6f02c5c284ebbe2c02596a85177e972f">NS_SIMPLE_GESTURE_SWIPE_UPDATE</a>,
+<a name="l00802"></a>00802               EventNameType_None,
+<a name="l00803"></a>00803               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00804"></a>00804 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozSwipeGestureEnd,
+<a name="l00805"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ad45afdbde84c7889c3264ad5957ce9d8">00805</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#ad45afdbde84c7889c3264ad5957ce9d8">NS_SIMPLE_GESTURE_SWIPE_END</a>,
+<a name="l00806"></a>00806               EventNameType_None,
+<a name="l00807"></a>00807               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00808"></a>00808 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozSwipeGesture,
+<a name="l00809"></a>00809               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a51d7579fc2a26cb45cb289d5c2b89852">NS_SIMPLE_GESTURE_SWIPE</a>,
+<a name="l00810"></a>00810               EventNameType_None,
+<a name="l00811"></a>00811               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00812"></a>00812 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozMagnifyGestureStart,
+<a name="l00813"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a007c40ac6d82d8b875badabbf00ff70c">00813</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a007c40ac6d82d8b875badabbf00ff70c">NS_SIMPLE_GESTURE_MAGNIFY_START</a>,
+<a name="l00814"></a>00814               EventNameType_None,
+<a name="l00815"></a>00815               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00816"></a>00816 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozMagnifyGestureUpdate,
+<a name="l00817"></a>00817               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a2e8eb08bc1c6417cca36ed1e3f773b6d">NS_SIMPLE_GESTURE_MAGNIFY_UPDATE</a>,
+<a name="l00818"></a>00818               EventNameType_None,
+<a name="l00819"></a>00819               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00820"></a>00820 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozMagnifyGesture,
+<a name="l00821"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a7ce0e34b5212468ff8e983cc2c554cf5">00821</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a7ce0e34b5212468ff8e983cc2c554cf5">NS_SIMPLE_GESTURE_MAGNIFY</a>,
+<a name="l00822"></a>00822               EventNameType_None,
+<a name="l00823"></a>00823               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00824"></a>00824 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozRotateGestureStart,
+<a name="l00825"></a>00825               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a9b0abb536ce5771757f273325f4ea1c4">NS_SIMPLE_GESTURE_ROTATE_START</a>,
+<a name="l00826"></a>00826               EventNameType_None,
+<a name="l00827"></a>00827               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00828"></a>00828 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozRotateGestureUpdate,
+<a name="l00829"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#acd13c45d16352128f7eed1f42241a7cf">00829</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#acd13c45d16352128f7eed1f42241a7cf">NS_SIMPLE_GESTURE_ROTATE_UPDATE</a>,
+<a name="l00830"></a>00830               EventNameType_None,
+<a name="l00831"></a>00831               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00832"></a>00832 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozRotateGesture,
+<a name="l00833"></a>00833               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a02b74854fce0361ef2d154c950dc6262">NS_SIMPLE_GESTURE_ROTATE</a>,
+<a name="l00834"></a>00834               EventNameType_None,
+<a name="l00835"></a>00835               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00836"></a>00836 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozTapGesture,
+<a name="l00837"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a854629557f77fface287369f61a6acad">00837</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a854629557f77fface287369f61a6acad">NS_SIMPLE_GESTURE_TAP</a>,
+<a name="l00838"></a>00838               EventNameType_None,
+<a name="l00839"></a>00839               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00840"></a>00840 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozPressTapGesture,
+<a name="l00841"></a>00841               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a2a6c1fee5f06bc9b59b9b2698dc7b3da">NS_SIMPLE_GESTURE_PRESSTAP</a>,
+<a name="l00842"></a>00842               EventNameType_None,
+<a name="l00843"></a>00843               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00844"></a>00844 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozEdgeUIStarted,
+<a name="l00845"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a66e580d3843b174afe549a0c282d6f41">00845</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a66e580d3843b174afe549a0c282d6f41">NS_SIMPLE_GESTURE_EDGE_STARTED</a>,
+<a name="l00846"></a>00846               EventNameType_None,
+<a name="l00847"></a>00847               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00848"></a>00848 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozEdgeUICanceled,
+<a name="l00849"></a>00849               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a599caf8c9cf7b0bc6be133c49ccfa0f6">NS_SIMPLE_GESTURE_EDGE_CANCELED</a>,
+<a name="l00850"></a>00850               EventNameType_None,
+<a name="l00851"></a>00851               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00852"></a>00852 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(MozEdgeUICompleted,
+<a name="l00853"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a1a02aaae502f4388fc8fa512295361e5">00853</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a1a02aaae502f4388fc8fa512295361e5">NS_SIMPLE_GESTURE_EDGE_COMPLETED</a>,
+<a name="l00854"></a>00854               EventNameType_None,
+<a name="l00855"></a>00855               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53ad1c5c616fcff7cca1f7135436234fe92">NS_SIMPLE_GESTURE_EVENT</a>)
+<a name="l00856"></a>00856 
+<a name="l00857"></a>00857 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(<a class="code" href="../../d3/d4b/lockscreen_8js.html#aae2729b0c5f5af6ba028b7d59f550e47">transitionend</a>,
+<a name="l00858"></a>00858               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a971cc7f7960dfdb289d17624304e55df">NS_TRANSITION_END</a>,
+<a name="l00859"></a>00859               EventNameType_None,
+<a name="l00860"></a>00860               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a0ac6dcdfeba2fed1ed3719b9b69b09a4">NS_TRANSITION_EVENT</a>)
+<a name="l00861"></a>00861 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(animationstart,
+<a name="l00862"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8ee9f268d6f0fab9603aa78b362251b3">00862</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a8ee9f268d6f0fab9603aa78b362251b3">NS_ANIMATION_START</a>,
+<a name="l00863"></a>00863               EventNameType_None,
+<a name="l00864"></a>00864               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a7cfc6f7153bf410f52a7fb22d822acfc">NS_ANIMATION_EVENT</a>)
+<a name="l00865"></a>00865 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(animationend,
+<a name="l00866"></a>00866               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#ab1b2a94ba1415f1a3dcab5479a6f97bf">NS_ANIMATION_END</a>,
+<a name="l00867"></a>00867               EventNameType_None,
+<a name="l00868"></a>00868               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a7cfc6f7153bf410f52a7fb22d822acfc">NS_ANIMATION_EVENT</a>)
+<a name="l00869"></a>00869 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(animationiteration,
+<a name="l00870"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a7110dc89ad7db3817eacc346c9546b51">00870</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a7110dc89ad7db3817eacc346c9546b51">NS_ANIMATION_ITERATION</a>,
+<a name="l00871"></a>00871               EventNameType_None,
+<a name="l00872"></a>00872               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a7cfc6f7153bf410f52a7fb22d822acfc">NS_ANIMATION_EVENT</a>)
+<a name="l00873"></a>00873 
+<a name="l00874"></a>00874 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(audioprocess,
+<a name="l00875"></a>00875               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#adf2e2c0d424361787c7b032eb0f40c05">NS_AUDIO_PROCESS</a>,
+<a name="l00876"></a>00876               EventNameType_None,
+<a name="l00877"></a>00877               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00878"></a>00878 
+<a name="l00879"></a>00879 <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#a447c570f577472414b848f85f795edd8">NON_IDL_EVENT</a>(complete,
+<a name="l00880"></a><a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#acc4a21a385aa90b09cda6d851bff49fb">00880</a>               <a class="code" href="../../d6/d5a/ns_event_name_list_8h.html#acc4a21a385aa90b09cda6d851bff49fb">NS_AUDIO_COMPLETE</a>,
+<a name="l00881"></a>00881               EventNameType_None,
+<a name="l00882"></a>00882               <a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html#a78652a32429943f23f6509d74d956c53a46a4e7dee9d714a4acf755f2119fc97c">NS_EVENT</a>)
+<a name="l00883"></a>00883 
+<a name="l00884"></a>00884 <span class="preprocessor">#ifdef DEFINED_FORWARDED_EVENT</span>
+<a name="l00885"></a>00885 <span class="preprocessor"></span><span class="preprocessor">#undef DEFINED_FORWARDED_EVENT</span>
+<a name="l00886"></a>00886 <span class="preprocessor"></span><span class="preprocessor">#undef FORWARDED_EVENT</span>
+<a name="l00887"></a>00887 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_FORWARDED_EVENT */</span>
+<a name="l00888"></a>00888 
+<a name="l00889"></a>00889 <span class="preprocessor">#ifdef DEFINED_WINDOW_EVENT</span>
+<a name="l00890"></a>00890 <span class="preprocessor"></span><span class="preprocessor">#undef DEFINED_WINDOW_EVENT</span>
+<a name="l00891"></a>00891 <span class="preprocessor"></span><span class="preprocessor">#undef WINDOW_EVENT</span>
+<a name="l00892"></a>00892 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_WINDOW_EVENT */</span>
+<a name="l00893"></a>00893 
+<a name="l00894"></a>00894 <span class="preprocessor">#ifdef DEFINED_WINDOW_ONLY_EVENT</span>
+<a name="l00895"></a>00895 <span class="preprocessor"></span><span class="preprocessor">#undef DEFINED_WINDOW_ONLY_EVENT</span>
+<a name="l00896"></a>00896 <span class="preprocessor"></span><span class="preprocessor">#undef WINDOW_ONLY_EVENT</span>
+<a name="l00897"></a>00897 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_WINDOW_ONLY_EVENT */</span>
+<a name="l00898"></a>00898 
+<a name="l00899"></a>00899 <span class="preprocessor">#ifdef DEFINED_TOUCH_EVENT</span>
+<a name="l00900"></a>00900 <span class="preprocessor"></span><span class="preprocessor">#undef DEFINED_TOUCH_EVENT</span>
+<a name="l00901"></a>00901 <span class="preprocessor"></span><span class="preprocessor">#undef TOUCH_EVENT</span>
+<a name="l00902"></a>00902 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_TOUCH_EVENT */</span>
+<a name="l00903"></a>00903 
+<a name="l00904"></a>00904 <span class="preprocessor">#ifdef DEFINED_DOCUMENT_ONLY_EVENT</span>
+<a name="l00905"></a>00905 <span class="preprocessor"></span><span class="preprocessor">#undef DEFINED_DOCUMENT_ONLY_EVENT</span>
+<a name="l00906"></a>00906 <span class="preprocessor"></span><span class="preprocessor">#undef DOCUMENT_ONLY_EVENT</span>
+<a name="l00907"></a>00907 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_DOCUMENT_ONLY_EVENT */</span>
+<a name="l00908"></a>00908 
+<a name="l00909"></a>00909 <span class="preprocessor">#ifdef DEFINED_NON_IDL_EVENT</span>
+<a name="l00910"></a>00910 <span class="preprocessor"></span><span class="preprocessor">#undef DEFINED_NON_IDL_EVENT</span>
+<a name="l00911"></a>00911 <span class="preprocessor"></span><span class="preprocessor">#undef NON_IDL_EVENT</span>
+<a name="l00912"></a>00912 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_NON_IDL_EVENT */</span>
+<a name="l00913"></a>00913 
+<a name="l00914"></a>00914 <span class="preprocessor">#ifdef DEFINED_ERROR_EVENT</span>
+<a name="l00915"></a>00915 <span class="preprocessor"></span><span class="preprocessor">#undef DEFINED_ERROR_EVENT</span>
+<a name="l00916"></a>00916 <span class="preprocessor"></span><span class="preprocessor">#undef ERROR_EVENT</span>
+<a name="l00917"></a>00917 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* DEFINED_ERROR_EVENT */</span>
+<a name="l00918"></a>00918 
+<a name="l00919"></a>00919 <span class="preprocessor">#ifdef DEFINED_BEFOREUNLOAD_EVENT</span>
+<a name="l00920"></a>00920 <span class="preprocessor"></span><span class="preprocessor">#undef DEFINED_BEFOREUNLOAD_EVENT</span>
+<a name="l00921"></a>00921 <span class="preprocessor"></span><span class="preprocessor">#undef BEFOREUNLOAD_EVENT</span>
+<a name="l00922"></a>00922 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* BEFOREUNLOAD_EVENT */</span>
+<a name="l00923"></a>00923 
+<a name="l00924"></a>00924 <span class="preprocessor">#ifdef ID_TO_EVENT</span>
+<a name="l00925"></a>00925 <span class="preprocessor"></span><span class="preprocessor">#undef EVENT</span>
+<a name="l00926"></a>00926 <span class="preprocessor"></span><span class="preprocessor">#undef WINDOW_ONLY_EVENT</span>
+<a name="l00927"></a>00927 <span class="preprocessor"></span><span class="preprocessor">#undef TOUCH_EVENT</span>
+<a name="l00928"></a>00928 <span class="preprocessor"></span><span class="preprocessor">#undef DOCUMENT_ONLY_EVENT</span>
+<a name="l00929"></a>00929 <span class="preprocessor"></span><span class="preprocessor">#undef NON_IDL_EVENT</span>
+<a name="l00930"></a>00930 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* ID_TO_EVENT */</span>
+<a name="l00931"></a>00931 
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d6/d5a/ns_event_name_list_8h.html">nsEventNameList.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:01に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

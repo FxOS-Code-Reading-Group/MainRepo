@@ -1,0 +1,609 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: frames.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d8/df0/frames_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">frames.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d8/df0/frames_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">// This file contains Gallery code related to the fullscreen view</span>
+<a name="l00002"></a>00002 
+<a name="l00003"></a><a class="code" href="../../d8/df0/frames_8js.html#ae2475e10618961c050dcba04e8c42331">00003</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00004"></a>00004 
+<a name="l00005"></a><a class="code" href="../../d8/df0/frames_8js.html#aa4b20d1ccb4713cd1de75d236b5e9211">00005</a> var <a class="code" href="../../d8/df0/frames_8js.html#aa4b20d1ccb4713cd1de75d236b5e9211">frames</a> = $(<span class="stringliteral">&#39;frames&#39;</span>);
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">// These three objects are holders for the previous, current and next</span>
+<a name="l00008"></a>00008 <span class="comment">// photos or videos to be displayed. They get swapped around and</span>
+<a name="l00009"></a>00009 <span class="comment">// reused when we pan to the next or previous photo: next becomes</span>
+<a name="l00010"></a>00010 <span class="comment">// current, current becomes previous etc.  See nextFile() and</span>
+<a name="l00011"></a>00011 <span class="comment">// previousFile().  Note also that the Frame object is not a DOM</span>
+<a name="l00012"></a>00012 <span class="comment">// element.  Use currentFrame.container to refer to the div</span>
+<a name="l00013"></a>00013 <span class="comment">// element. The frame constructor creates an &lt;img&gt; element, a &lt;video&gt;</span>
+<a name="l00014"></a>00014 <span class="comment">// element, and video player controls within the div, and you can refer to</span>
+<a name="l00015"></a>00015 <span class="comment">// those as currentFrame.image and currentFrame.video.player and</span>
+<a name="l00016"></a>00016 <span class="comment">// currentFrame.video.controls.</span>
+<a name="l00017"></a><a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">00017</a> var <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a> = <span class="keyword">new</span> <a class="code" href="../../d6/d40/build__stage_2email_2shared_2js_2media_2media__frame_8js.html#a369a818079f25867bf624967bbc86bf7">MediaFrame</a>($(<span class="stringliteral">&#39;frame1&#39;</span>));
+<a name="l00018"></a><a class="code" href="../../d8/df0/frames_8js.html#a35a1d5b2c11c745f050a319c2940c383">00018</a> var <a class="code" href="../../d8/df0/frames_8js.html#a35a1d5b2c11c745f050a319c2940c383">currentFrame</a> = <span class="keyword">new</span> <a class="code" href="../../d6/d40/build__stage_2email_2shared_2js_2media_2media__frame_8js.html#a369a818079f25867bf624967bbc86bf7">MediaFrame</a>($(<span class="stringliteral">&#39;frame2&#39;</span>));
+<a name="l00019"></a><a class="code" href="../../d8/df0/frames_8js.html#a007e837054378566ec403efc4d177e58">00019</a> var <a class="code" href="../../d8/df0/frames_8js.html#a007e837054378566ec403efc4d177e58">nextFrame</a> = <span class="keyword">new</span> <a class="code" href="../../d6/d40/build__stage_2email_2shared_2js_2media_2media__frame_8js.html#a369a818079f25867bf624967bbc86bf7">MediaFrame</a>($(<span class="stringliteral">&#39;frame3&#39;</span>));
+<a name="l00020"></a>00020 
+<a name="l00021"></a>00021 <span class="comment">// When this variable is set to true, we ignore any user gestures</span>
+<a name="l00022"></a>00022 <span class="comment">// so we don&#39;t try to pan or zoom during a frame transition.</span>
+<a name="l00023"></a><a class="code" href="../../d8/df0/frames_8js.html#a6dd335ba65f38ed72cb9599732a2ce52">00023</a> var <a class="code" href="../../d8/df0/frames_8js.html#a6dd335ba65f38ed72cb9599732a2ce52">transitioning</a> = <span class="keyword">false</span>;
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="comment">// Clicking on the back button goes back to the thumbnail view</span>
+<a name="l00026"></a><a class="code" href="../../d8/df0/frames_8js.html#a2581b031a10db324ce49c6a804c5f20a">00026</a> $(<span class="stringliteral">&#39;fullscreen-back-button&#39;</span>).<a class="code" href="../../d8/df0/frames_8js.html#a2581b031a10db324ce49c6a804c5f20a">onclick</a> = <a class="code" href="../../d0/da2/gallery_8js.html#a87c564c1396bcdba1067fd5afa2a9815">setView</a>.bind(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>, <a class="code" href="../../d0/da2/gallery_8js.html#a3698d255731771347d7f847313d8aa7f">thumbnailListView</a>);
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 <span class="comment">// Clicking the delete button while viewing a single item deletes that item</span>
+<a name="l00029"></a>00029 $(<span class="stringliteral">&#39;fullscreen-delete-button&#39;</span>).<a class="code" href="../../d8/df0/frames_8js.html#a2581b031a10db324ce49c6a804c5f20a">onclick</a> = <a class="code" href="../../d8/df0/frames_8js.html#ae82d4471f0a3ddd4d7dde2a10e7b6857">deleteSingleItem</a>;
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="comment">// Clicking the Edit button while viewing a photo switches to edit mode</span>
+<a name="l00032"></a>00032 $(<span class="stringliteral">&#39;fullscreen-edit-button&#39;</span>).<a class="code" href="../../d8/df0/frames_8js.html#a2581b031a10db324ce49c6a804c5f20a">onclick</a> = <span class="keyword">function</span>() {
+<a name="l00033"></a>00033   <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a78601e1f2fe929d6470d82a205ad2382">loader</a>.load(<span class="stringliteral">&#39;js/ImageEditor.js&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00034"></a>00034     <a class="code" href="../../db/d0b/_image_editor_8js.html#acd058f2b5b35e5443cc4e6a485ba0bde">editPhotoIfCardNotFull</a>(<a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a>);
+<a name="l00035"></a>00035   });
+<a name="l00036"></a>00036 };
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="comment">// In fullscreen mode, the share button shares the current item</span>
+<a name="l00039"></a>00039 $(<span class="stringliteral">&#39;fullscreen-share-button&#39;</span>).<a class="code" href="../../d8/df0/frames_8js.html#a2581b031a10db324ce49c6a804c5f20a">onclick</a> = <a class="code" href="../../d8/df0/frames_8js.html#aa343e1612db36a59da6bb36f1d689b02">shareSingleItem</a>;
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="comment">// Use the GestureDetector.js library to handle gestures.</span>
+<a name="l00042"></a>00042 <span class="comment">// This will generate tap, pan, swipe and transform events</span>
+<a name="l00043"></a>00043 <span class="keyword">new</span> <a class="code" href="../../d8/df0/frames_8js.html#a050c35bd1ae66a249cd6c3554661e24a">GestureDetector</a>(<a class="code" href="../../d8/df0/frames_8js.html#aa4b20d1ccb4713cd1de75d236b5e9211">frames</a>).startDetecting();
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045 <span class="comment">// Handle gesture events</span>
+<a name="l00046"></a>00046 <a class="code" href="../../d8/df0/frames_8js.html#aa4b20d1ccb4713cd1de75d236b5e9211">frames</a>.addEventListener(<span class="stringliteral">&#39;tap&#39;</span>, <a class="code" href="../../d8/df0/frames_8js.html#ae31edd530b9d6d637f28f0c5d870a041">tapHandler</a>);
+<a name="l00047"></a>00047 <a class="code" href="../../d8/df0/frames_8js.html#aa4b20d1ccb4713cd1de75d236b5e9211">frames</a>.addEventListener(<span class="stringliteral">&#39;dbltap&#39;</span>, <a class="code" href="../../d8/df0/frames_8js.html#a05881f0379b775fcee0369ac1b833127">dblTapHandler</a>);
+<a name="l00048"></a>00048 <a class="code" href="../../d8/df0/frames_8js.html#aa4b20d1ccb4713cd1de75d236b5e9211">frames</a>.addEventListener(<span class="stringliteral">&#39;pan&#39;</span>, <a class="code" href="../../d8/df0/frames_8js.html#a0bace378c552e99ff6419193cec6ebb8">panHandler</a>);
+<a name="l00049"></a>00049 <a class="code" href="../../d8/df0/frames_8js.html#aa4b20d1ccb4713cd1de75d236b5e9211">frames</a>.addEventListener(<span class="stringliteral">&#39;swipe&#39;</span>, <a class="code" href="../../d8/df0/frames_8js.html#ad9665f9301f7f2377544509ce6c50b19">swipeHandler</a>);
+<a name="l00050"></a>00050 <a class="code" href="../../d8/df0/frames_8js.html#aa4b20d1ccb4713cd1de75d236b5e9211">frames</a>.addEventListener(<span class="stringliteral">&#39;transform&#39;</span>, <a class="code" href="../../d8/df0/frames_8js.html#a8078be94a625f6eb369ac4b46d230254">transformHandler</a>);
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052 <span class="comment">// When displaying a photo or video, a tap hides or shows the toolbar.</span>
+<a name="l00053"></a>00053 <span class="comment">// The video player has its own toolbar, so when a video starts playing</span>
+<a name="l00054"></a>00054 <span class="comment">// we want to hide the gallery toolbar. And then restore it on pause.</span>
+<a name="l00055"></a>00055 <span class="comment">// All three players need this pair of event handlers.</span>
+<a name="l00056"></a>00056 <span class="comment">// Note that we&#39;re using the onplaying/onpaused fake handlers the</span>
+<a name="l00057"></a>00057 <span class="comment">// VideoPlayer object, not the real onplay/onpause handlers of the &lt;video&gt;</span>
+<a name="l00058"></a>00058 <span class="comment">// element. This is because VideoPlayer pauses and plays the &lt;video&gt; when</span>
+<a name="l00059"></a>00059 <span class="comment">// the user drags on the slider, and we don&#39;t want to trigger these handlers</span>
+<a name="l00060"></a>00060 <span class="comment">// in that case.</span>
+<a name="l00061"></a><a class="code" href="../../d8/df0/frames_8js.html#ab48698037688f9874f2cc4d31bbf3c87">00061</a> currentFrame.video.onplaying =
+<a name="l00062"></a>00062   <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>.video.onplaying =
+<a name="l00063"></a>00063   nextFrame.video.onplaying =
+<a name="l00064"></a>00064   <span class="keyword">function</span> hideToolbarOnPlay() {
+<a name="l00065"></a>00065     this.toolbarWasHidden =
+<a name="l00066"></a>00066       <a class="code" href="../../d0/da2/gallery_8js.html#a495a99b2d5539eb2ef1cebea1d91710c">fullscreenView</a>.classList.contains(<span class="stringliteral">&#39;toolbarhidden&#39;</span>);
+<a name="l00067"></a>00067     <span class="keywordflow">if</span> (!this.isToolbarHidden)
+<a name="l00068"></a>00068       <a class="code" href="../../d0/da2/gallery_8js.html#a495a99b2d5539eb2ef1cebea1d91710c">fullscreenView</a>.classList.add(<span class="stringliteral">&#39;toolbarhidden&#39;</span>);
+<a name="l00069"></a>00069   };
+<a name="l00070"></a>00070 
+<a name="l00071"></a><a class="code" href="../../d8/df0/frames_8js.html#ac0b05bd6affaca2ff2591510eb1c54eb">00071</a> currentFrame.video.onpaused =
+<a name="l00072"></a>00072   <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>.video.onpaused =
+<a name="l00073"></a>00073   nextFrame.video.onpaused =
+<a name="l00074"></a>00074   <span class="keyword">function</span> restoreToolbarOnPause() {
+<a name="l00075"></a>00075     <span class="keywordflow">if</span> (this.toolbarWasHidden === <span class="keyword">false</span>)
+<a name="l00076"></a>00076       <a class="code" href="../../d0/da2/gallery_8js.html#a495a99b2d5539eb2ef1cebea1d91710c">fullscreenView</a>.classList.remove(<span class="stringliteral">&#39;toolbarhidden&#39;</span>);
+<a name="l00077"></a>00077     <span class="keyword">delete</span> this.toolbarWasHidden;
+<a name="l00078"></a>00078   };
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080 <span class="comment">// Each of the Frame container elements may be subject to animated</span>
+<a name="l00081"></a>00081 <span class="comment">// transitions. So give them transitionend event handlers that</span>
+<a name="l00082"></a>00082 <span class="comment">// remove the transition style property when the transition ends.</span>
+<a name="l00083"></a>00083 <span class="comment">// This helps prevent unexpected transitions.</span>
+<a name="l00084"></a><a class="code" href="../../d8/df0/frames_8js.html#a840e168d670ba0ccb74cb0a6156b220f">00084</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#a840e168d670ba0ccb74cb0a6156b220f">removeTransition</a>(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00085"></a>00085   <span class="keyword">event</span>.target.style.transition = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00086"></a>00086 }
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088 <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>.container.addEventListener(<span class="stringliteral">&#39;transitionend&#39;</span>, <a class="code" href="../../d8/df0/frames_8js.html#a840e168d670ba0ccb74cb0a6156b220f">removeTransition</a>);
+<a name="l00089"></a>00089 currentFrame.container.addEventListener(<span class="stringliteral">&#39;transitionend&#39;</span>, <a class="code" href="../../d8/df0/frames_8js.html#a840e168d670ba0ccb74cb0a6156b220f">removeTransition</a>);
+<a name="l00090"></a>00090 nextFrame.container.addEventListener(<span class="stringliteral">&#39;transitionend&#39;</span>, <a class="code" href="../../d8/df0/frames_8js.html#a840e168d670ba0ccb74cb0a6156b220f">removeTransition</a>);
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 <span class="comment">// Clicking the delete button while viewing a single item deletes that item</span>
+<a name="l00093"></a><a class="code" href="../../d8/df0/frames_8js.html#ae82d4471f0a3ddd4d7dde2a10e7b6857">00093</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#ae82d4471f0a3ddd4d7dde2a10e7b6857">deleteSingleItem</a>() {
+<a name="l00094"></a>00094   var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>;
+<a name="l00095"></a>00095   <span class="keywordflow">if</span> (<a class="code" href="../../d0/da2/gallery_8js.html#a0742cac2750bccc2d88ac080fb9daa22">files</a>[<a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a>].metadata.video) {
+<a name="l00096"></a>00096     msg = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get(<span class="stringliteral">&#39;delete-video?&#39;</span>);
+<a name="l00097"></a>00097   }
+<a name="l00098"></a>00098   <span class="keywordflow">else</span> {
+<a name="l00099"></a>00099     msg = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get(<span class="stringliteral">&#39;delete-photo?&#39;</span>);
+<a name="l00100"></a>00100   }
+<a name="l00101"></a>00101   <span class="keywordflow">if</span> (<a class="code" href="../../d5/d62/build__stage_2email_2shared_2style_2_r_e_a_d_m_e_8md.html#ab77aa8c2fa705d45d7ff1db3a11306ae">confirm</a>(msg)) {
+<a name="l00102"></a>00102     <span class="comment">// disable delete and share button to prevent operations while delete item</span>
+<a name="l00103"></a>00103     $(<span class="stringliteral">&#39;fullscreen-delete-button&#39;</span>).classList.add(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00104"></a>00104     $(<span class="stringliteral">&#39;fullscreen-share-button&#39;</span>).classList.add(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106     <a class="code" href="../../d0/da2/gallery_8js.html#a1d34740c9f45587facea86c15f99a2c6">deleteFile</a>(currentFileIndex);
+<a name="l00107"></a>00107   }
+<a name="l00108"></a>00108 }
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110 <span class="comment">// In fullscreen mode, the share button shares the current item</span>
+<a name="l00111"></a><a class="code" href="../../d8/df0/frames_8js.html#aa343e1612db36a59da6bb36f1d689b02">00111</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#aa343e1612db36a59da6bb36f1d689b02">shareSingleItem</a>() {
+<a name="l00112"></a>00112   <a class="code" href="../../dd/d85/video_8js.html#a1adf7471b1bc968b8517bf786fffa94d">share</a>([currentFrame.imageblob || currentFrame.videoblob]);
+<a name="l00113"></a>00113 }
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 <span class="comment">// In order to distinguish single taps from double taps, we have to</span>
+<a name="l00116"></a>00116 <span class="comment">// wait after a tap arrives to make sure that a dbltap event isn&#39;t</span>
+<a name="l00117"></a>00117 <span class="comment">// coming soon.</span>
+<a name="l00118"></a><a class="code" href="../../d8/df0/frames_8js.html#a03181923cb507c8a5e60d94a0962cb46">00118</a> var <a class="code" href="../../d8/df0/frames_8js.html#a03181923cb507c8a5e60d94a0962cb46">taptimer</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00119"></a><a class="code" href="../../d8/df0/frames_8js.html#ae31edd530b9d6d637f28f0c5d870a041">00119</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#ae31edd530b9d6d637f28f0c5d870a041">tapHandler</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00120"></a>00120   <span class="comment">// If there is already a timer set, then this is is the second tap</span>
+<a name="l00121"></a>00121   <span class="comment">// and we&#39;re about to get a dbl tap event, so ignore this one</span>
+<a name="l00122"></a>00122   <span class="keywordflow">if</span> (taptimer)
+<a name="l00123"></a>00123     <span class="keywordflow">return</span>;
+<a name="l00124"></a>00124   <span class="comment">// If we don&#39;t get a second tap soon, then treat this as a single tap</span>
+<a name="l00125"></a>00125   taptimer = <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span>() {
+<a name="l00126"></a>00126     taptimer = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00127"></a>00127     <a class="code" href="../../d8/df0/frames_8js.html#a5921ceb00f11d9b2e84c57c6d370654a">singletap</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00128"></a>00128   }, <a class="code" href="../../d8/df0/frames_8js.html#a050c35bd1ae66a249cd6c3554661e24a">GestureDetector</a>.DOUBLE_TAP_TIME);
+<a name="l00129"></a>00129 }
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131 <span class="comment">// Dispatch double tap events, but only when displaying a photo</span>
+<a name="l00132"></a><a class="code" href="../../d8/df0/frames_8js.html#a05881f0379b775fcee0369ac1b833127">00132</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#a05881f0379b775fcee0369ac1b833127">dblTapHandler</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00133"></a>00133   <span class="keywordflow">if</span> (currentFrame.displayingVideo)
+<a name="l00134"></a>00134     <span class="keywordflow">return</span>;
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136   <a class="code" href="../../da/da1/timers_8js.html#ab37ff0db33a3bf80b0163adc40a58424">clearTimeout</a>(taptimer);
+<a name="l00137"></a>00137   taptimer = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00138"></a>00138   <a class="code" href="../../d8/df0/frames_8js.html#ac6b5053b91e30f919d71257a5dee51b5">doubletapOnPhoto</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00139"></a>00139 }
+<a name="l00140"></a>00140 
+<a name="l00141"></a><a class="code" href="../../d8/df0/frames_8js.html#a5921ceb00f11d9b2e84c57c6d370654a">00141</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#a5921ceb00f11d9b2e84c57c6d370654a">singletap</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00142"></a>00142   <span class="keywordflow">if</span> (<a class="code" href="../../d0/da2/gallery_8js.html#a08af05bd40494df0acb6c7ecf8fb25f7">currentView</a> === <a class="code" href="../../d0/da2/gallery_8js.html#a495a99b2d5539eb2ef1cebea1d91710c">fullscreenView</a>) {
+<a name="l00143"></a>00143     <span class="keywordflow">if</span> (currentFrame.displayingImage || currentFrame.video.player.paused) {
+<a name="l00144"></a>00144       <a class="code" href="../../d0/da2/gallery_8js.html#a495a99b2d5539eb2ef1cebea1d91710c">fullscreenView</a>.classList.toggle(<span class="stringliteral">&#39;toolbarhidden&#39;</span>);
+<a name="l00145"></a>00145     }
+<a name="l00146"></a>00146   }
+<a name="l00147"></a>00147 }
+<a name="l00148"></a>00148 
+<a name="l00149"></a>00149 <span class="comment">// Quick zoom in and out with dbltap events</span>
+<a name="l00150"></a><a class="code" href="../../d8/df0/frames_8js.html#ac6b5053b91e30f919d71257a5dee51b5">00150</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#ac6b5053b91e30f919d71257a5dee51b5">doubletapOnPhoto</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00151"></a>00151   <span class="comment">// Don&#39;t allow zooming while we&#39;re still scanning for photos and</span>
+<a name="l00152"></a>00152   <span class="comment">// have found large photos without previews on the card.  Zooming in</span>
+<a name="l00153"></a>00153   <span class="comment">// decodes the full-size version of the photo and that can cause OOM</span>
+<a name="l00154"></a>00154   <span class="comment">// errors if there is also metadata scanning going on with large images.</span>
+<a name="l00155"></a>00155   <span class="comment">// XXX: Remove this when bug 854795 is fixed.</span>
+<a name="l00156"></a>00156   <span class="keywordflow">if</span> (<a class="code" href="../../d0/da2/gallery_8js.html#ae763c70dbeeb5adce20b1e06f0cd1a9a">photodb</a>.parsingBigFiles)
+<a name="l00157"></a>00157     <span class="keywordflow">return</span>;
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159   var <a class="code" href="../../d3/d91/j3d_8js.html#a72467d06af86da2230d0bd24ace66356">scale</a>;
+<a name="l00160"></a>00160   <span class="keywordflow">if</span> (currentFrame.fit.scale &gt; currentFrame.fit.baseScale)   <span class="comment">// If zoomed in</span>
+<a name="l00161"></a>00161     scale = currentFrame.fit.baseScale / currentFrame.fit.scale; <span class="comment">// zoom out</span>
+<a name="l00162"></a>00162   <span class="keywordflow">else</span>                                                       <span class="comment">// Otherwise</span>
+<a name="l00163"></a>00163     scale = 2;                                                   <span class="comment">// zoom in</span>
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165   currentFrame.zoom(scale, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.clientX, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.clientY, 200);
+<a name="l00166"></a>00166 }
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168 <span class="comment">// Pan the item sideways when the user moves their finger across the screen</span>
+<a name="l00169"></a><a class="code" href="../../d8/df0/frames_8js.html#a0bace378c552e99ff6419193cec6ebb8">00169</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#a0bace378c552e99ff6419193cec6ebb8">panHandler</a>(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00170"></a>00170   <span class="keywordflow">if</span> (transitioning)
+<a name="l00171"></a>00171     <span class="keywordflow">return</span>;
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173   var dx = <span class="keyword">event</span>.detail.relative.dx;
+<a name="l00174"></a>00174   var dy = <span class="keyword">event</span>.detail.relative.dy;
+<a name="l00175"></a>00175   var oldFrameOffset = <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a>;
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177   <span class="comment">// If the frames are already being shifted in the same direction as</span>
+<a name="l00178"></a>00178   <span class="comment">// dx then this just continues the shift.  Otherwise, dx might shift</span>
+<a name="l00179"></a>00179   <span class="comment">// them back toward the center. If the frames are unshifted to begin</span>
+<a name="l00180"></a>00180   <span class="comment">// with or become unshifted after applying dx, then we have got to</span>
+<a name="l00181"></a>00181   <span class="comment">// pass dx to the pan() method of the frame, because it might pan</span>
+<a name="l00182"></a>00182   <span class="comment">// the image within the frame. But that method returns any dx it</span>
+<a name="l00183"></a>00183   <span class="comment">// can&#39;t use, and we apply that to shifting the frames.</span>
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185   <span class="comment">// If the frames are already shifted and dx is in the same direction, or</span>
+<a name="l00186"></a>00186   <span class="comment">// if dx is in the opposite direction but isn&#39;t big enough to bring</span>
+<a name="l00187"></a>00187   <span class="comment">// the frames back to the center, just adjust the frame positions.</span>
+<a name="l00188"></a>00188   <span class="comment">// There is no need to pan the content of the frame in this case.</span>
+<a name="l00189"></a>00189   <span class="keywordflow">if</span> ((<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> &gt; 0 &amp;&amp; dx &gt; 0) ||
+<a name="l00190"></a>00190       (<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> &lt; 0 &amp;&amp; dx &lt; 0) ||
+<a name="l00191"></a>00191       (<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> !== 0 &amp;&amp; <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> &gt; -dx)) {
+<a name="l00192"></a>00192     <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> += dx;
+<a name="l00193"></a>00193   }
+<a name="l00194"></a>00194   <span class="keywordflow">else</span> {
+<a name="l00195"></a>00195     <span class="comment">// If the frame is shifted, this dx brings it back to center</span>
+<a name="l00196"></a>00196     <span class="keywordflow">if</span> (<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> !== 0) {
+<a name="l00197"></a>00197       dx += <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a>;
+<a name="l00198"></a>00198       <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> = 0;
+<a name="l00199"></a>00199     }
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201     <span class="comment">// Now let the frame pan its content, and add any dx that it doesn&#39;t use</span>
+<a name="l00202"></a>00202     <span class="comment">// to the frame offset</span>
+<a name="l00203"></a>00203     <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> += currentFrame.pan(dx, dy);
+<a name="l00204"></a>00204   }
+<a name="l00205"></a>00205 
+<a name="l00206"></a>00206   <span class="comment">// Don&#39;t swipe past the end of the last item or past the start of the first</span>
+<a name="l00207"></a>00207   <span class="keywordflow">if</span> ((<a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a> === 0 &amp;&amp; <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> &gt; 0) ||
+<a name="l00208"></a>00208       (<a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a> === <a class="code" href="../../d0/da2/gallery_8js.html#a0742cac2750bccc2d88ac080fb9daa22">files</a>.length - 1 &amp;&amp; <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> &lt; 0)) {
+<a name="l00209"></a>00209     <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> = 0;
+<a name="l00210"></a>00210   }
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212   <span class="comment">// If the frameOffset has changed since we started, reposition the frames</span>
+<a name="l00213"></a>00213   <span class="keywordflow">if</span> (<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> !== oldFrameOffset)
+<a name="l00214"></a>00214     <a class="code" href="../../d8/df0/frames_8js.html#a1e990ee9315d596bcab04e06af23ceea">setFramesPosition</a>();
+<a name="l00215"></a>00215 }
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217 <span class="comment">// When the user lifts their finger after panning we get this event</span>
+<a name="l00218"></a><a class="code" href="../../d8/df0/frames_8js.html#ad9665f9301f7f2377544509ce6c50b19">00218</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#ad9665f9301f7f2377544509ce6c50b19">swipeHandler</a>(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00219"></a>00219   <span class="comment">// If we just panned within a zoomed-in photo, and the frames are not</span>
+<a name="l00220"></a>00220   <span class="comment">// shifted at all, then we don&#39;t have to do anything here.</span>
+<a name="l00221"></a>00221   <span class="keywordflow">if</span> (<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> === 0)
+<a name="l00222"></a>00222     <span class="keywordflow">return</span>;
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224   <span class="comment">// 1 means we&#39;re going to the next item -1 means the previous</span>
+<a name="l00225"></a>00225   var <a class="code" href="../../d3/d91/j3d_8js.html#ad0dea711cdf3eaf35d6e1dfde0f163b3">direction</a> = (<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> &lt; 0) ? 1 : -1;
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227   <span class="comment">// If we&#39;re in a right-to-left locale, reverse those directions</span>
+<a name="l00228"></a>00228   <span class="keywordflow">if</span> (<a class="code" href="../../d0/da2/gallery_8js.html#a82bac0ea52a4192fdf6f4ad005ef687d">languageDirection</a> === <span class="stringliteral">&#39;rtl&#39;</span>)
+<a name="l00229"></a>00229     direction *= -1;
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231   <span class="comment">// Did we pan far enough or swipe fast enough to transition to</span>
+<a name="l00232"></a>00232   <span class="comment">// a different item?</span>
+<a name="l00233"></a>00233   var farenough =
+<a name="l00234"></a>00234     Math.abs(<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a>) &gt; <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.innerWidth * <a class="code" href="../../d0/da2/gallery_8js.html#a473a610b53b4a3ebf03fb3ffc7dd43b4">TRANSITION_FRACTION</a>;
+<a name="l00235"></a>00235   var velocity = <span class="keyword">event</span>.detail.vx;
+<a name="l00236"></a>00236   var fastenough = Math.abs(velocity) &gt; <a class="code" href="../../d0/da2/gallery_8js.html#ad8d2e967e68a60d54c588d6823984541">TRANSITION_SPEED</a>;
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238   <span class="comment">// Make sure that that the speed and pan amount are in the same direction</span>
+<a name="l00239"></a>00239   var samedirection = velocity === 0 || <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> / velocity &gt;= 0;
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241   <span class="comment">// Is there a next or previous item to transition to?</span>
+<a name="l00242"></a>00242   var fileexists =
+<a name="l00243"></a>00243     (direction === 1 &amp;&amp; <a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a> + 1 &lt; <a class="code" href="../../d0/da2/gallery_8js.html#a0742cac2750bccc2d88ac080fb9daa22">files</a>.length) ||
+<a name="l00244"></a>00244     (direction === -1 &amp;&amp; <a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a> &gt; 0);
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246   <span class="comment">// If all of these conditions hold, then we&#39;ll transition to the</span>
+<a name="l00247"></a>00247   <span class="comment">// next photo or the previous photo</span>
+<a name="l00248"></a>00248   <span class="keywordflow">if</span> (direction !== 0 &amp;&amp; (farenough || fastenough) &amp;&amp;
+<a name="l00249"></a>00249       samedirection &amp;&amp; fileexists) {
+<a name="l00250"></a>00250 
+<a name="l00251"></a>00251     <span class="comment">// Compute how long the transition should take based on the velocity</span>
+<a name="l00252"></a>00252     var speed = Math.max(Math.abs(velocity), <a class="code" href="../../d0/da2/gallery_8js.html#ad8d2e967e68a60d54c588d6823984541">TRANSITION_SPEED</a>);
+<a name="l00253"></a>00253     var <a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a> = (<a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.innerWidth - Math.abs(<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a>)) / speed;
+<a name="l00254"></a>00254 
+<a name="l00255"></a>00255     <span class="comment">// Transition frames in the appropriate direction</span>
+<a name="l00256"></a>00256     <span class="keywordflow">if</span> (direction === 1)
+<a name="l00257"></a>00257       <a class="code" href="../../d8/df0/frames_8js.html#a54115720eddd216055dc110c3ab8b7f4">nextFile</a>(time);
+<a name="l00258"></a>00258     <span class="keywordflow">else</span>
+<a name="l00259"></a>00259       <a class="code" href="../../d8/df0/frames_8js.html#a631221a1a1b95efdcd1cb92386f83131">previousFile</a>(time);
+<a name="l00260"></a>00260   }
+<a name="l00261"></a>00261   <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> !== 0) {
+<a name="l00262"></a>00262     <span class="comment">// Otherwise, just restore the current item by undoing</span>
+<a name="l00263"></a>00263     <span class="comment">// the translations we added during panning</span>
+<a name="l00264"></a>00264     var <a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a> = Math.abs(<a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a>) / <a class="code" href="../../d0/da2/gallery_8js.html#ad8d2e967e68a60d54c588d6823984541">TRANSITION_SPEED</a>;
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266     currentFrame.container.style.transition =
+<a name="l00267"></a>00267       nextFrame.container.style.transition =
+<a name="l00268"></a>00268       <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>.container.style.transition =
+<a name="l00269"></a>00269       <span class="stringliteral">&#39;transform &#39;</span> + time + <span class="stringliteral">&#39;ms ease&#39;</span>;
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271     <a class="code" href="../../d8/df0/frames_8js.html#aa95a0e33ee54ea6e80e6ca47df7ecf96">resetFramesPosition</a>();
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273     <span class="comment">// Ignore  pan and zoom gestures while the transition happens</span>
+<a name="l00274"></a>00274     transitioning = <span class="keyword">true</span>;
+<a name="l00275"></a>00275     <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span>() { transitioning = <span class="keyword">false</span>; }, <a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>);
+<a name="l00276"></a>00276   }
+<a name="l00277"></a>00277 }
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279 <span class="comment">// We also support pinch-to-zoom</span>
+<a name="l00280"></a><a class="code" href="../../d8/df0/frames_8js.html#a8078be94a625f6eb369ac4b46d230254">00280</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#a8078be94a625f6eb369ac4b46d230254">transformHandler</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00281"></a>00281   <span class="keywordflow">if</span> (transitioning)
+<a name="l00282"></a>00282     <span class="keywordflow">return</span>;
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284   <span class="comment">// Don&#39;t allow zooming while we&#39;re still scanning for photos and</span>
+<a name="l00285"></a>00285   <span class="comment">// have found large photos without previews on the card.  Zooming in</span>
+<a name="l00286"></a>00286   <span class="comment">// decodes the full-size version of the photo and that can cause OOM</span>
+<a name="l00287"></a>00287   <span class="comment">// errors if there is also metadata scanning going on with large images.</span>
+<a name="l00288"></a>00288   <span class="comment">// XXX: Remove this when bug 854795 is fixed.</span>
+<a name="l00289"></a>00289   <span class="keywordflow">if</span> (<a class="code" href="../../d0/da2/gallery_8js.html#ae763c70dbeeb5adce20b1e06f0cd1a9a">photodb</a>.parsingBigFiles)
+<a name="l00290"></a>00290     <span class="keywordflow">return</span>;
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292   currentFrame.zoom(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.relative.scale,
+<a name="l00293"></a>00293                     <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.midpoint.clientX,
+<a name="l00294"></a>00294                     <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.midpoint.clientY);
+<a name="l00295"></a>00295 }
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297 <span class="comment">// A utility function to display the nth image or video in the specified frame</span>
+<a name="l00298"></a>00298 <span class="comment">// Used in showFile(), nextFile() and previousFile().</span>
+<a name="l00299"></a><a class="code" href="../../d8/df0/frames_8js.html#a9da97cccdb118a001a04c6062ff6c31f">00299</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#a9da97cccdb118a001a04c6062ff6c31f">setupFrameContent</a>(<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>, frame) {
+<a name="l00300"></a>00300   <span class="comment">// Make sure n is in range</span>
+<a name="l00301"></a>00301   <span class="keywordflow">if</span> (n &lt; 0 || n &gt;= <a class="code" href="../../d0/da2/gallery_8js.html#a0742cac2750bccc2d88ac080fb9daa22">files</a>.length) {
+<a name="l00302"></a>00302     frame.clear();
+<a name="l00303"></a>00303     <span class="keyword">delete</span> frame.filename;
+<a name="l00304"></a>00304     <span class="keywordflow">return</span>;
+<a name="l00305"></a>00305   }
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307   var fileinfo = <a class="code" href="../../d0/da2/gallery_8js.html#a0742cac2750bccc2d88ac080fb9daa22">files</a>[<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>];
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309   <span class="comment">// If we&#39;re already displaying this file in this frame, then do nothing</span>
+<a name="l00310"></a>00310   <span class="keywordflow">if</span> (fileinfo.name === frame.filename)
+<a name="l00311"></a>00311     <span class="keywordflow">return</span>;
+<a name="l00312"></a>00312 
+<a name="l00313"></a>00313   <span class="comment">// Remember what file we&#39;re going to display</span>
+<a name="l00314"></a>00314   frame.filename = fileinfo.name;
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316   <a class="code" href="../../d0/da2/gallery_8js.html#ae763c70dbeeb5adce20b1e06f0cd1a9a">photodb</a>.getFile(fileinfo.name, <span class="keyword">function</span>(imagefile) {
+<a name="l00317"></a>00317     <a class="code" href="../../d6/d52/js_2browser_8js.html#a7321fd84345f4f9455f25996b932b8fd">if</a> (fileinfo.metadata.video) {
+<a name="l00318"></a>00318       <span class="comment">// If this is a video, then the file we just got is the poster image</span>
+<a name="l00319"></a>00319       <span class="comment">// and we still have to fetch the actual video</span>
+<a name="l00320"></a>00320       <a class="code" href="../../d0/da2/gallery_8js.html#a377c40257a942d42736eccd490acfec4">getVideoFile</a>(fileinfo.metadata.video, <span class="keyword">function</span>(videofile) {
+<a name="l00321"></a>00321         frame.displayVideo(videofile, imagefile,
+<a name="l00322"></a>00322                            fileinfo.metadata.width,
+<a name="l00323"></a>00323                            fileinfo.metadata.height,
+<a name="l00324"></a>00324                            fileinfo.metadata.rotation || 0);
+<a name="l00325"></a>00325       });
+<a name="l00326"></a>00326     }
+<a name="l00327"></a>00327     <span class="keywordflow">else</span> {
+<a name="l00328"></a>00328       <span class="comment">// Otherwise, just display the image</span>
+<a name="l00329"></a>00329       frame.displayImage(
+<a name="l00330"></a>00330         imagefile,
+<a name="l00331"></a>00331         fileinfo.metadata.width,
+<a name="l00332"></a>00332         fileinfo.metadata.height,
+<a name="l00333"></a>00333         fileinfo.metadata.preview,
+<a name="l00334"></a>00334         fileinfo.metadata.rotation,
+<a name="l00335"></a>00335         fileinfo.metadata.mirrored);
+<a name="l00336"></a>00336     }
+<a name="l00337"></a>00337   });
+<a name="l00338"></a>00338 }
+<a name="l00339"></a>00339 
+<a name="l00340"></a><a class="code" href="../../d8/df0/frames_8js.html#a77049356895d3318ab88c979e2609cbb">00340</a> var <a class="code" href="../../d8/df0/frames_8js.html#a77049356895d3318ab88c979e2609cbb">FRAME_BORDER_WIDTH</a> = 3;
+<a name="l00341"></a><a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">00341</a> var <a class="code" href="../../d8/df0/frames_8js.html#afab17aea44ce63fa9af1a13fc2ab7564">frameOffset</a> = 0; <span class="comment">// how far are the frames swiped side-to-side?</span>
+<a name="l00342"></a>00342 
+<a name="l00343"></a><a class="code" href="../../d8/df0/frames_8js.html#a1e990ee9315d596bcab04e06af23ceea">00343</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#a1e990ee9315d596bcab04e06af23ceea">setFramesPosition</a>() {
+<a name="l00344"></a>00344   <span class="comment">// XXX for RTL languages we should swap next and previous sides</span>
+<a name="l00345"></a>00345   var <a class="code" href="../../d4/d8c/viewphoto_8js.html#adb90f9ed3668a895cc5b90a19bcdee13">width</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.innerWidth + <a class="code" href="../../d8/df0/frames_8js.html#a77049356895d3318ab88c979e2609cbb">FRAME_BORDER_WIDTH</a>;
+<a name="l00346"></a>00346   currentFrame.container.style.transform =
+<a name="l00347"></a>00347     <span class="stringliteral">&#39;translateX(&#39;</span> + frameOffset + <span class="stringliteral">&#39;px)&#39;</span>;
+<a name="l00348"></a>00348   nextFrame.container.style.transform =
+<a name="l00349"></a>00349     <span class="stringliteral">&#39;translateX(&#39;</span> + (frameOffset + <a class="code" href="../../d4/d8c/viewphoto_8js.html#adb90f9ed3668a895cc5b90a19bcdee13">width</a>) + <span class="stringliteral">&#39;px)&#39;</span>;
+<a name="l00350"></a>00350   <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>.container.style.transform =
+<a name="l00351"></a>00351     <span class="stringliteral">&#39;translateX(&#39;</span> + (frameOffset - <a class="code" href="../../d4/d8c/viewphoto_8js.html#adb90f9ed3668a895cc5b90a19bcdee13">width</a>) + <span class="stringliteral">&#39;px)&#39;</span>;
+<a name="l00352"></a>00352 }
+<a name="l00353"></a>00353 
+<a name="l00354"></a><a class="code" href="../../d8/df0/frames_8js.html#aa95a0e33ee54ea6e80e6ca47df7ecf96">00354</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#aa95a0e33ee54ea6e80e6ca47df7ecf96">resetFramesPosition</a>() {
+<a name="l00355"></a>00355   frameOffset = 0;
+<a name="l00356"></a>00356   <a class="code" href="../../d8/df0/frames_8js.html#a1e990ee9315d596bcab04e06af23ceea">setFramesPosition</a>();
+<a name="l00357"></a>00357 }
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359 <span class="comment">// Switch from thumbnail list view to single-picture fullscreen view</span>
+<a name="l00360"></a>00360 <span class="comment">// and display the specified file</span>
+<a name="l00361"></a><a class="code" href="../../d8/df0/frames_8js.html#acca2cb5dc9247f573a21f61583c8d81d">00361</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#acca2cb5dc9247f573a21f61583c8d81d">showFile</a>(<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>) {
+<a name="l00362"></a>00362   <a class="code" href="../../d0/da2/gallery_8js.html#a87c564c1396bcdba1067fd5afa2a9815">setView</a>(<a class="code" href="../../d0/da2/gallery_8js.html#a495a99b2d5539eb2ef1cebea1d91710c">fullscreenView</a>); <span class="comment">// Switch to fullscreen mode if not already there</span>
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364   <a class="code" href="../../d8/df0/frames_8js.html#a9da97cccdb118a001a04c6062ff6c31f">setupFrameContent</a>(<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a> - 1, <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>);
+<a name="l00365"></a>00365   <a class="code" href="../../d8/df0/frames_8js.html#a9da97cccdb118a001a04c6062ff6c31f">setupFrameContent</a>(<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>, currentFrame);
+<a name="l00366"></a>00366   <a class="code" href="../../d8/df0/frames_8js.html#a9da97cccdb118a001a04c6062ff6c31f">setupFrameContent</a>(<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a> + 1, nextFrame);
+<a name="l00367"></a>00367   <a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a> = <a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>;
+<a name="l00368"></a>00368 
+<a name="l00369"></a>00369   <a class="code" href="../../d8/df0/frames_8js.html#aa95a0e33ee54ea6e80e6ca47df7ecf96">resetFramesPosition</a>();
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371   <span class="comment">// Disable the edit button if this is a video, and enable otherwise</span>
+<a name="l00372"></a>00372   <span class="keywordflow">if</span> (<a class="code" href="../../d0/da2/gallery_8js.html#a0742cac2750bccc2d88ac080fb9daa22">files</a>[<a class="code" href="../../d2/d7d/jsapi_8h.html#aa5a8b9a2d5edc8e2e7ba67d7e2ee4e69">n</a>].metadata.video)
+<a name="l00373"></a>00373     $(<span class="stringliteral">&#39;fullscreen-edit-button&#39;</span>).classList.add(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00374"></a>00374   <span class="keywordflow">else</span>
+<a name="l00375"></a>00375     $(<span class="stringliteral">&#39;fullscreen-edit-button&#39;</span>).classList.remove(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00376"></a>00376   <span class="comment">// Always bring delete and share button back after show file</span>
+<a name="l00377"></a>00377   $(<span class="stringliteral">&#39;fullscreen-delete-button&#39;</span>).classList.remove(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00378"></a>00378   $(<span class="stringliteral">&#39;fullscreen-share-button&#39;</span>).classList.remove(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00379"></a>00379 }
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381 <span class="comment">// Transition to the next file, animating it over the specified time (ms).</span>
+<a name="l00382"></a>00382 <span class="comment">// This is used when the user pans.</span>
+<a name="l00383"></a><a class="code" href="../../d8/df0/frames_8js.html#a54115720eddd216055dc110c3ab8b7f4">00383</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#a54115720eddd216055dc110c3ab8b7f4">nextFile</a>(<a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>) {
+<a name="l00384"></a>00384   <span class="comment">// If already displaying the last one, do nothing.</span>
+<a name="l00385"></a>00385   <span class="keywordflow">if</span> (<a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a> === <a class="code" href="../../d0/da2/gallery_8js.html#a0742cac2750bccc2d88ac080fb9daa22">files</a>.length - 1)
+<a name="l00386"></a>00386     <span class="keywordflow">return</span>;
+<a name="l00387"></a>00387 
+<a name="l00388"></a>00388   <span class="comment">// If the current frame is using a &lt;video&gt; element instead of just</span>
+<a name="l00389"></a>00389   <span class="comment">// displaying a poster image, reset it back to just the image</span>
+<a name="l00390"></a>00390   <span class="keywordflow">if</span> (currentFrame.displayingVideo &amp;&amp; currentFrame.video.playerShowing)
+<a name="l00391"></a>00391     currentFrame.video.init();
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393   <span class="comment">// Set a flag to ignore pan and zoom gestures during the transition.</span>
+<a name="l00394"></a>00394   transitioning = <span class="keyword">true</span>;
+<a name="l00395"></a>00395   <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span>() { transitioning = <span class="keyword">false</span>; }, <a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>);
+<a name="l00396"></a>00396 
+<a name="l00397"></a>00397   <span class="comment">// Set transitions for the visible frames</span>
+<a name="l00398"></a>00398   var transition = <span class="stringliteral">&#39;transform &#39;</span> + <a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a> + <span class="stringliteral">&#39;ms ease&#39;</span>;
+<a name="l00399"></a>00399   currentFrame.container.style.transition = transition;
+<a name="l00400"></a>00400   nextFrame.container.style.transition = transition;
+<a name="l00401"></a>00401 
+<a name="l00402"></a>00402   <span class="comment">// Cycle the three frames so next becomes current,</span>
+<a name="l00403"></a>00403   <span class="comment">// current becomes previous, and previous becomes next.</span>
+<a name="l00404"></a>00404   var <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a> = <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>;
+<a name="l00405"></a>00405   <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a> = <a class="code" href="../../d8/df0/frames_8js.html#a35a1d5b2c11c745f050a319c2940c383">currentFrame</a>;
+<a name="l00406"></a>00406   currentFrame = <a class="code" href="../../d8/df0/frames_8js.html#a007e837054378566ec403efc4d177e58">nextFrame</a>;
+<a name="l00407"></a>00407   nextFrame = <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>;
+<a name="l00408"></a>00408   <a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a>++;
+<a name="l00409"></a>00409 
+<a name="l00410"></a>00410   <span class="comment">// Move (transition) the frames to their new position</span>
+<a name="l00411"></a>00411   <a class="code" href="../../d8/df0/frames_8js.html#aa95a0e33ee54ea6e80e6ca47df7ecf96">resetFramesPosition</a>();
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413   <span class="comment">// Update the frame for the new next item</span>
+<a name="l00414"></a>00414   <a class="code" href="../../d8/df0/frames_8js.html#a9da97cccdb118a001a04c6062ff6c31f">setupFrameContent</a>(<a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a> + 1, nextFrame);
+<a name="l00415"></a>00415 
+<a name="l00416"></a>00416   <span class="comment">// When the transition is done, cleanup</span>
+<a name="l00417"></a>00417   currentFrame.container.addEventListener(<span class="stringliteral">&#39;transitionend&#39;</span>, <span class="keyword">function</span> <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00418"></a>00418     this.<a class="code" href="../../df/d44/permission__manager_8js.html#acf9987ef04ab3791e7ff8b28d748ebcc">removeEventListener</a>(<span class="stringliteral">&#39;transitionend&#39;</span>, <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>);
+<a name="l00419"></a>00419 
+<a name="l00420"></a>00420     <span class="comment">// Reposition the item that just transitioned off the screen</span>
+<a name="l00421"></a>00421     <span class="comment">// to reset any zooming and panning</span>
+<a name="l00422"></a>00422     <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>.reset();
+<a name="l00423"></a>00423   });
+<a name="l00424"></a>00424 
+<a name="l00425"></a>00425   <span class="comment">// Disable the edit button if we&#39;re now viewing a video, and enable otherwise</span>
+<a name="l00426"></a>00426   <span class="keywordflow">if</span> (currentFrame.displayingVideo)
+<a name="l00427"></a>00427     $(<span class="stringliteral">&#39;fullscreen-edit-button&#39;</span>).classList.add(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00428"></a>00428   <span class="keywordflow">else</span>
+<a name="l00429"></a>00429     $(<span class="stringliteral">&#39;fullscreen-edit-button&#39;</span>).classList.remove(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00430"></a>00430 }
+<a name="l00431"></a>00431 
+<a name="l00432"></a>00432 <span class="comment">// Just like nextFile() but in the other direction</span>
+<a name="l00433"></a><a class="code" href="../../d8/df0/frames_8js.html#a631221a1a1b95efdcd1cb92386f83131">00433</a> <span class="keyword">function</span> <a class="code" href="../../d8/df0/frames_8js.html#a631221a1a1b95efdcd1cb92386f83131">previousFile</a>(<a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>) {
+<a name="l00434"></a>00434   <span class="comment">// if already displaying the first one, do nothing.</span>
+<a name="l00435"></a>00435   <span class="keywordflow">if</span> (<a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a> === 0)
+<a name="l00436"></a>00436     <span class="keywordflow">return</span>;
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438   <span class="comment">// If the current frame is using a &lt;video&gt; element instead of just</span>
+<a name="l00439"></a>00439   <span class="comment">// displaying a poster image, reset it back to just the image.</span>
+<a name="l00440"></a>00440   <span class="keywordflow">if</span> (currentFrame.displayingVideo &amp;&amp; currentFrame.video.playerShowing)
+<a name="l00441"></a>00441     currentFrame.video.init();
+<a name="l00442"></a>00442 
+<a name="l00443"></a>00443   <span class="comment">// Set a flag to ignore pan and zoom gestures during the transition.</span>
+<a name="l00444"></a>00444   transitioning = <span class="keyword">true</span>;
+<a name="l00445"></a>00445   <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span>() { transitioning = <span class="keyword">false</span>; }, <a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>);
+<a name="l00446"></a>00446 
+<a name="l00447"></a>00447   <span class="comment">// Set transitions for the visible frames</span>
+<a name="l00448"></a>00448   var transition = <span class="stringliteral">&#39;transform &#39;</span> + <a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a> + <span class="stringliteral">&#39;ms ease&#39;</span>;
+<a name="l00449"></a>00449   <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>.container.style.transition = transition;
+<a name="l00450"></a>00450   currentFrame.container.style.transition = transition;
+<a name="l00451"></a>00451 
+<a name="l00452"></a>00452   <span class="comment">// Transition to the previous item: previous becomes current, current</span>
+<a name="l00453"></a>00453   <span class="comment">// becomes next, etc.</span>
+<a name="l00454"></a>00454   var <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a> = <a class="code" href="../../d8/df0/frames_8js.html#a007e837054378566ec403efc4d177e58">nextFrame</a>;
+<a name="l00455"></a>00455   nextFrame = <a class="code" href="../../d8/df0/frames_8js.html#a35a1d5b2c11c745f050a319c2940c383">currentFrame</a>;
+<a name="l00456"></a>00456   currentFrame = <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>;
+<a name="l00457"></a>00457   <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a> = <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>;
+<a name="l00458"></a>00458   <a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a>--;
+<a name="l00459"></a>00459 
+<a name="l00460"></a>00460   <span class="comment">// Move (transition) the frames to their new position</span>
+<a name="l00461"></a>00461   <a class="code" href="../../d8/df0/frames_8js.html#aa95a0e33ee54ea6e80e6ca47df7ecf96">resetFramesPosition</a>();
+<a name="l00462"></a>00462 
+<a name="l00463"></a>00463   <span class="comment">// Preload the new previous item</span>
+<a name="l00464"></a>00464   <a class="code" href="../../d8/df0/frames_8js.html#a9da97cccdb118a001a04c6062ff6c31f">setupFrameContent</a>(<a class="code" href="../../d0/da2/gallery_8js.html#a4c3a1c4e1efc6022bf003bb077daca89">currentFileIndex</a> - 1, <a class="code" href="../../d8/df0/frames_8js.html#a5d60985775a23d0a9fc6afa50e245ddc">previousFrame</a>);
+<a name="l00465"></a>00465 
+<a name="l00466"></a>00466   <span class="comment">// When the transition is done do some cleanup</span>
+<a name="l00467"></a>00467   currentFrame.container.addEventListener(<span class="stringliteral">&#39;transitionend&#39;</span>, <span class="keyword">function</span> <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00468"></a>00468     this.<a class="code" href="../../df/d44/permission__manager_8js.html#acf9987ef04ab3791e7ff8b28d748ebcc">removeEventListener</a>(<span class="stringliteral">&#39;transitionend&#39;</span>, <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>);
+<a name="l00469"></a>00469     <span class="comment">// Reset the size and position of the item that just panned off</span>
+<a name="l00470"></a>00470     nextFrame.reset();
+<a name="l00471"></a>00471   });
+<a name="l00472"></a>00472 
+<a name="l00473"></a>00473   <span class="comment">// Disable the edit button if we&#39;re now viewing a video, and enable otherwise</span>
+<a name="l00474"></a>00474   <span class="keywordflow">if</span> (currentFrame.displayingVideo)
+<a name="l00475"></a>00475     $(<span class="stringliteral">&#39;fullscreen-edit-button&#39;</span>).classList.add(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00476"></a>00476   <span class="keywordflow">else</span>
+<a name="l00477"></a>00477     $(<span class="stringliteral">&#39;fullscreen-edit-button&#39;</span>).classList.remove(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00478"></a>00478 }
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d8/df0/frames_8js.html">frames.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:02に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

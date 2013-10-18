@@ -1,0 +1,26 @@
+var classns_d_o_m_file_base =
+[
+    [ "FileInfo", "db/d6f/classns_d_o_m_file_base.html#a3c3e6ab3f699aec79cbb50c614d26074", null ],
+    [ "nsDOMFileBase", "db/d6f/classns_d_o_m_file_base.html#ae6a38583df883382e8a631743b60a8b5", null ],
+    [ "nsDOMFileBase", "db/d6f/classns_d_o_m_file_base.html#a5dd6301db681ec3a4c2dd706a93de25e", null ],
+    [ "nsDOMFileBase", "db/d6f/classns_d_o_m_file_base.html#aa15a4e49128c61d87406a0424220de09", null ],
+    [ "nsDOMFileBase", "db/d6f/classns_d_o_m_file_base.html#a42b88dd19d1fbeed1edcc8be864a62c1", null ],
+    [ "~nsDOMFileBase", "db/d6f/classns_d_o_m_file_base.html#ac7fc608e5cd82b6ec7c5dd6b0b045503", null ],
+    [ "CreateSlice", "db/d6f/classns_d_o_m_file_base.html#ac38748ac42be1f55a28ddc8bfd63e969", null ],
+    [ "GetFileInfo", "db/d6f/classns_d_o_m_file_base.html#acdea67e8e05c9f7f3582a87c7a2c7842", null ],
+    [ "GetSubBlobs", "db/d6f/classns_d_o_m_file_base.html#ae250df21250f003c37b67b96b3213e63", null ],
+    [ "IsDateUnknown", "db/d6f/classns_d_o_m_file_base.html#adfaa24c6509ac928608f750d56f192c2", null ],
+    [ "IsSizeUnknown", "db/d6f/classns_d_o_m_file_base.html#ab59e2111364589d3e4db0b78d5a2dbe1", null ],
+    [ "IsSnapshot", "db/d6f/classns_d_o_m_file_base.html#a534c0c6fe714fabdb811cae706f8717c", null ],
+    [ "IsStoredFile", "db/d6f/classns_d_o_m_file_base.html#ad5c352fae4ca33b749328510765e992e", null ],
+    [ "IsWholeFile", "db/d6f/classns_d_o_m_file_base.html#ab4ec7f5a8a0634345f5a581a4504be5c", null ],
+    [ "SetLazyData", "db/d6f/classns_d_o_m_file_base.html#ab7cc610d3dcd190a224570aa1ace81ae", null ],
+    [ "mContentType", "db/d6f/classns_d_o_m_file_base.html#aa6dda46f451880d6c162ad1a5ac338c2", null ],
+    [ "mFileInfos", "db/d6f/classns_d_o_m_file_base.html#a6939420f498dd4d5f646a226acdf3f5a", null ],
+    [ "mImmutable", "db/d6f/classns_d_o_m_file_base.html#a4679921efa6f1e01554ee0e8d77daf21", null ],
+    [ "mIsFile", "db/d6f/classns_d_o_m_file_base.html#ad7c686685c02d15ef09a4fe46f7e862a", null ],
+    [ "mLastModificationDate", "db/d6f/classns_d_o_m_file_base.html#a73034d3db9005b0181f3122b0cc28477", null ],
+    [ "mLength", "db/d6f/classns_d_o_m_file_base.html#aa95b59ea0f7d7a12aa2febb5aeb8dff7", null ],
+    [ "mName", "db/d6f/classns_d_o_m_file_base.html#af13d1d6f86b0ba6c929b481c3f173ecc", null ],
+    [ "mStart", "db/d6f/classns_d_o_m_file_base.html#a142ed4dfd519780336d163f9e4ac2c24", null ]
+];

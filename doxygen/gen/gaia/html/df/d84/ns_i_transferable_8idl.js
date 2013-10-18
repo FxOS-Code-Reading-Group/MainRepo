@@ -1,0 +1,25 @@
+var ns_i_transferable_8idl =
+[
+    [ "kAOLMailMime", "df/d84/ns_i_transferable_8idl.html#a8870dcd31d2dc81bf309c7bb8de0c974", null ],
+    [ "kFileMime", "df/d84/ns_i_transferable_8idl.html#a9e26cf1729309bfd55e8717521d88c7b", null ],
+    [ "kFilePromiseDestFilename", "df/d84/ns_i_transferable_8idl.html#a3c8b0be46eea95d9eb681763d53f3f79", null ],
+    [ "kFilePromiseDirectoryMime", "df/d84/ns_i_transferable_8idl.html#a2cf27c575c9dcbe0fd46d571d88341fd", null ],
+    [ "kFilePromiseMime", "df/d84/ns_i_transferable_8idl.html#a2b22b01478849aea79891f2d4899d39b", null ],
+    [ "kFilePromiseURLMime", "df/d84/ns_i_transferable_8idl.html#aeed1cd30b8b46f28c58fdfafc1818f0d", null ],
+    [ "kGIFImageMime", "df/d84/ns_i_transferable_8idl.html#acd465a11dbf7c0cbeb52b8058e74115b", null ],
+    [ "kHTMLContext", "df/d84/ns_i_transferable_8idl.html#a53a27ce8493b1c3e545d5b6ad571d7e3", null ],
+    [ "kHTMLInfo", "df/d84/ns_i_transferable_8idl.html#ade0fd53fb128a66b622dec4340d05f8a", null ],
+    [ "kHTMLMime", "df/d84/ns_i_transferable_8idl.html#a3ac740178db7f393e033661956723ffd", null ],
+    [ "kJPEGImageMime", "df/d84/ns_i_transferable_8idl.html#ab8baeab9565df5ba9c7637cccfad4c68", null ],
+    [ "kJPGImageMime", "df/d84/ns_i_transferable_8idl.html#a3cc5017518c56c45bc0a18a18f052a91", null ],
+    [ "kMozTextInternal", "df/d84/ns_i_transferable_8idl.html#a432201e24d46b87626b03750610d5e05", null ],
+    [ "kNativeHTMLMime", "df/d84/ns_i_transferable_8idl.html#ae2e037cdd0cbad73e30c93ce6b645e80", null ],
+    [ "kNativeImageMime", "df/d84/ns_i_transferable_8idl.html#a0e94f33e0d5d779294f2147678a0031d", null ],
+    [ "kPNGImageMime", "df/d84/ns_i_transferable_8idl.html#abce84c07f1d92d94259204826025b0bf", null ],
+    [ "kTextMime", "df/d84/ns_i_transferable_8idl.html#a79a7d3d3bcce27863f6a0d75caffb0f3", null ],
+    [ "kUnicodeMime", "df/d84/ns_i_transferable_8idl.html#add9094ff72c658f5389d0b1104b0440c", null ],
+    [ "kURLDataMime", "df/d84/ns_i_transferable_8idl.html#a67c640e5f1fbadc483dd9f4c05168486", null ],
+    [ "kURLDescriptionMime", "df/d84/ns_i_transferable_8idl.html#a2fed87392f66f789bdbf28df26913731", null ],
+    [ "kURLMime", "df/d84/ns_i_transferable_8idl.html#a1b58dc7a4a0985944a49bbf5f55ebbd4", null ],
+    [ "kURLPrivateMime", "df/d84/ns_i_transferable_8idl.html#a59d8ccf35ab3b32df53ebd3b869e0034", null ]
+];

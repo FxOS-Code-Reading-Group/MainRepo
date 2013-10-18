@@ -1,0 +1,28 @@
+var interfacens_i_transferable =
+[
+    [ "AddDataFlavor", "db/d1a/interfacens_i_transferable.html#a67e5afbc754d3e96453b675a7b57e7de", null ],
+    [ "addDataFlavor", "db/d1a/interfacens_i_transferable.html#a340a833b024f439e03bc68abb0acb3c3", null ],
+    [ "flavorsTransferableCanExport", "db/d1a/interfacens_i_transferable.html#a7bc31b5e8a65a6cb22642f49fe2efb71", null ],
+    [ "FlavorsTransferableCanExport", "db/d1a/interfacens_i_transferable.html#a58ea3befe46d69885b3e4d3b1fe96523", null ],
+    [ "flavorsTransferableCanImport", "db/d1a/interfacens_i_transferable.html#a386559ed08e3686a499413e233bbc720", null ],
+    [ "FlavorsTransferableCanImport", "db/d1a/interfacens_i_transferable.html#a85c8fc6c33df88bc407d631bd29959b1", null ],
+    [ "getAnyTransferData", "db/d1a/interfacens_i_transferable.html#aaf44540503cf2eae2ee7cc53dfb410b7", null ],
+    [ "GetAnyTransferData", "db/d1a/interfacens_i_transferable.html#ad718edf8b85bc5f95d497a244bd03f31", null ],
+    [ "GetConverter", "db/d1a/interfacens_i_transferable.html#ad1b73b071af650e61c0197ac6e735715", null ],
+    [ "GetIsPrivateData", "db/d1a/interfacens_i_transferable.html#a0d22f6c8307d545de81157f52619afe2", null ],
+    [ "getTransferData", "db/d1a/interfacens_i_transferable.html#a833570c66e92d0619b73a022f3608107", null ],
+    [ "GetTransferData", "db/d1a/interfacens_i_transferable.html#a23c7e9ab85dacaa160b9004fadc2a1a0", null ],
+    [ "init", "db/d1a/interfacens_i_transferable.html#ab4a04b709f5df37430002ffac4dcd5f3", null ],
+    [ "Init", "db/d1a/interfacens_i_transferable.html#aaba00f425bce49ae4d086af42fb1818a", null ],
+    [ "isLargeDataSet", "db/d1a/interfacens_i_transferable.html#a7fc3b24a553ecfd938c46f89074822f1", null ],
+    [ "IsLargeDataSet", "db/d1a/interfacens_i_transferable.html#adb2d240c8bda5962d4a73984e2482e01", null ],
+    [ "RemoveDataFlavor", "db/d1a/interfacens_i_transferable.html#aabd1d0214e7747a7166bccab00c0ca58", null ],
+    [ "removeDataFlavor", "db/d1a/interfacens_i_transferable.html#a622810febf632fc8c90c9c8cb2701278", null ],
+    [ "SetConverter", "db/d1a/interfacens_i_transferable.html#af007021dc4424db417c5f0afcd021400", null ],
+    [ "SetIsPrivateData", "db/d1a/interfacens_i_transferable.html#a5649f60748795e689759b71982b93e74", null ],
+    [ "setTransferData", "db/d1a/interfacens_i_transferable.html#a786cccbf965721b8331af8048322ddd8", null ],
+    [ "SetTransferData", "db/d1a/interfacens_i_transferable.html#ac5a262f05ab77d4bf6a0e16926bd2b07", null ],
+    [ "converter", "db/d1a/interfacens_i_transferable.html#a4ef3d3b750a6883c1240a5ba3e16d2d6", null ],
+    [ "isPrivateData", "db/d1a/interfacens_i_transferable.html#a118a6aee20b9e6e6ca7aa858ab86e6ce", null ],
+    [ "kFlavorHasDataProvider", "db/d1a/interfacens_i_transferable.html#a5cc19ab8943995e6032289988cc12f3e", null ]
+];

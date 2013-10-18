@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: pripcsem.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('db/da2/pripcsem_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">pripcsem.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../db/da2/pripcsem_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment"> * File: pripcsem.h</span>
+<a name="l00008"></a>00008 <span class="comment"> *</span>
+<a name="l00009"></a>00009 <span class="comment"> * Description: named semaphores for interprocess</span>
+<a name="l00010"></a>00010 <span class="comment"> * synchronization</span>
+<a name="l00011"></a>00011 <span class="comment"> *</span>
+<a name="l00012"></a>00012 <span class="comment"> * Unrelated processes obtain access to a shared semaphore</span>
+<a name="l00013"></a>00013 <span class="comment"> * by specifying its name.</span>
+<a name="l00014"></a>00014 <span class="comment"> *</span>
+<a name="l00015"></a>00015 <span class="comment"> * Our goal is to support named semaphores on at least</span>
+<a name="l00016"></a>00016 <span class="comment"> * Unix and Win32 platforms.  The implementation will use</span>
+<a name="l00017"></a>00017 <span class="comment"> * one of the three native semaphore APIs: POSIX, System V,</span>
+<a name="l00018"></a>00018 <span class="comment"> * and Win32.</span>
+<a name="l00019"></a>00019 <span class="comment"> *</span>
+<a name="l00020"></a>00020 <span class="comment"> * Because POSIX named semaphores have kernel persistence,</span>
+<a name="l00021"></a>00021 <span class="comment"> * we are forced to have a delete function in this API.</span>
+<a name="l00022"></a>00022 <span class="comment"> */</span>
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="preprocessor">#ifndef pripcsem_h___</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span><span class="preprocessor">#define pripcsem_h___</span>
+<a name="l00026"></a>00026 <span class="preprocessor"></span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/d23/prtypes_8h.html">prtypes.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d32/prio_8h.html">prio.h</a>&quot;</span>
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <a class="code" href="../../dc/d23/prtypes_8h.html#a4ddbe73fed5d5f42f7035538d40eafc6">PR_BEGIN_EXTERN_C</a>
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="comment">/*</span>
+<a name="l00033"></a>00033 <span class="comment"> * PRSem is an opaque structure that represents a named</span>
+<a name="l00034"></a>00034 <span class="comment"> * semaphore.</span>
+<a name="l00035"></a>00035 <span class="comment"> */</span>
+<a name="l00036"></a><a class="code" href="../../db/da2/pripcsem_8h.html#ad3aacb28d15dbbeecdbcf552ae6ce85b">00036</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../db/da2/pripcsem_8h.html#ad3aacb28d15dbbeecdbcf552ae6ce85b">PRSem</a> <a class="code" href="../../db/da2/pripcsem_8h.html#ad3aacb28d15dbbeecdbcf552ae6ce85b">PRSem</a>;
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="comment">/*</span>
+<a name="l00039"></a>00039 <span class="comment"> * PR_OpenSemaphore --</span>
+<a name="l00040"></a>00040 <span class="comment"> *</span>
+<a name="l00041"></a>00041 <span class="comment"> * Create or open a named semaphore with the specified name.</span>
+<a name="l00042"></a>00042 <span class="comment"> * A handle to the semaphore is returned.</span>
+<a name="l00043"></a>00043 <span class="comment"> *</span>
+<a name="l00044"></a>00044 <span class="comment"> * If the named semaphore doesn&#39;t exist and the PR_SEM_CREATE</span>
+<a name="l00045"></a>00045 <span class="comment"> * flag is specified, the named semaphore is created.  The</span>
+<a name="l00046"></a>00046 <span class="comment"> * created semaphore needs to be removed from the system with</span>
+<a name="l00047"></a>00047 <span class="comment"> * a PR_DeleteSemaphore call.</span>
+<a name="l00048"></a>00048 <span class="comment"> *</span>
+<a name="l00049"></a>00049 <span class="comment"> * If PR_SEM_CREATE is specified, the third argument is the</span>
+<a name="l00050"></a>00050 <span class="comment"> * access permission bits of the new semaphore (same</span>
+<a name="l00051"></a>00051 <span class="comment"> * interpretation as the mode argument to PR_Open) and the</span>
+<a name="l00052"></a>00052 <span class="comment"> * fourth argument is the initial value of the new semaphore.</span>
+<a name="l00053"></a>00053 <span class="comment"> * If PR_SEM_CREATE is not specified, the third and fourth</span>
+<a name="l00054"></a>00054 <span class="comment"> * arguments are ignored.</span>
+<a name="l00055"></a>00055 <span class="comment"> */</span>
+<a name="l00056"></a>00056 
+<a name="l00057"></a><a class="code" href="../../db/da2/pripcsem_8h.html#a52dae9e715cde9047247c8a12fb6acae">00057</a> <span class="preprocessor">#define PR_SEM_CREATE 0x1  </span><span class="comment">/* create if not exist */</span>
+<a name="l00058"></a><a class="code" href="../../db/da2/pripcsem_8h.html#a84b60253af4b180381f8354115cb32e1">00058</a> <span class="preprocessor">#define PR_SEM_EXCL   0x2  </span><span class="comment">/* fail if already exists */</span>
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060 <a class="code" href="../../dc/d23/prtypes_8h.html#aca70771ebbbe67b59495b137624eed8e">NSPR_API</a>(<a class="code" href="../../db/da2/pripcsem_8h.html#ad3aacb28d15dbbeecdbcf552ae6ce85b">PRSem</a> *) PR_OpenSemaphore(
+<a name="l00061"></a><a class="code" href="../../db/da2/pripcsem_8h.html#a88ff5d30f0f4ac6ee617c663e93ac1ae">00061</a>     <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, PRIntn <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>, PRIntn <a class="code" href="../../d2/d7d/jsapi_8h.html#a5e94be9423b9de6b3ab4057aca59293f">mode</a>, PRUintn <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 <span class="comment">/*</span>
+<a name="l00064"></a>00064 <span class="comment"> * PR_WaitSemaphore --</span>
+<a name="l00065"></a>00065 <span class="comment"> *</span>
+<a name="l00066"></a>00066 <span class="comment"> * If the value of the semaphore is &gt; 0, decrement the value and return.</span>
+<a name="l00067"></a>00067 <span class="comment"> * If the value is 0, sleep until the value becomes &gt; 0, then decrement</span>
+<a name="l00068"></a>00068 <span class="comment"> * the value and return.</span>
+<a name="l00069"></a>00069 <span class="comment"> *</span>
+<a name="l00070"></a>00070 <span class="comment"> * The &quot;test and decrement&quot; operation is performed atomically.</span>
+<a name="l00071"></a>00071 <span class="comment"> */</span>
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 <a class="code" href="../../dc/d23/prtypes_8h.html#aca70771ebbbe67b59495b137624eed8e">NSPR_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#af7b08a957cc49f73ebdf7e38d758efbc">PRStatus</a>) PR_WaitSemaphore(<a class="code" href="../../db/da2/pripcsem_8h.html#ad3aacb28d15dbbeecdbcf552ae6ce85b">PRSem</a> *sem);
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 <span class="comment">/*</span>
+<a name="l00076"></a>00076 <span class="comment"> * PR_PostSemaphore --</span>
+<a name="l00077"></a>00077 <span class="comment"> *</span>
+<a name="l00078"></a>00078 <span class="comment"> * Increment the value of the named semaphore by 1.</span>
+<a name="l00079"></a>00079 <span class="comment"> */</span>
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081 <a class="code" href="../../dc/d23/prtypes_8h.html#aca70771ebbbe67b59495b137624eed8e">NSPR_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#af7b08a957cc49f73ebdf7e38d758efbc">PRStatus</a>) PR_PostSemaphore(<a class="code" href="../../db/da2/pripcsem_8h.html#ad3aacb28d15dbbeecdbcf552ae6ce85b">PRSem</a> *sem);
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 <span class="comment">/*</span>
+<a name="l00084"></a>00084 <span class="comment"> * PR_CloseSemaphore --</span>
+<a name="l00085"></a>00085 <span class="comment"> *</span>
+<a name="l00086"></a>00086 <span class="comment"> * Close a named semaphore handle.</span>
+<a name="l00087"></a>00087 <span class="comment"> */</span>
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 <a class="code" href="../../dc/d23/prtypes_8h.html#aca70771ebbbe67b59495b137624eed8e">NSPR_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#af7b08a957cc49f73ebdf7e38d758efbc">PRStatus</a>) PR_CloseSemaphore(<a class="code" href="../../db/da2/pripcsem_8h.html#ad3aacb28d15dbbeecdbcf552ae6ce85b">PRSem</a> *sem);
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091 <span class="comment">/*</span>
+<a name="l00092"></a>00092 <span class="comment"> * PR_DeleteSemaphore --</span>
+<a name="l00093"></a>00093 <span class="comment"> *</span>
+<a name="l00094"></a>00094 <span class="comment"> * Remove a named semaphore from the system.</span>
+<a name="l00095"></a>00095 <span class="comment"> */</span>
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097 <a class="code" href="../../dc/d23/prtypes_8h.html#aca70771ebbbe67b59495b137624eed8e">NSPR_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#af7b08a957cc49f73ebdf7e38d758efbc">PRStatus</a>) PR_DeleteSemaphore(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *name);
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099 <a class="code" href="../../dc/d23/prtypes_8h.html#a5eef438218a6fcd88b013ffebd9e01b7">PR_END_EXTERN_C</a>
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 <span class="preprocessor">#endif </span><span class="comment">/* pripcsem_h___ */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../db/da2/pripcsem_8h.html">pripcsem.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:54:48に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

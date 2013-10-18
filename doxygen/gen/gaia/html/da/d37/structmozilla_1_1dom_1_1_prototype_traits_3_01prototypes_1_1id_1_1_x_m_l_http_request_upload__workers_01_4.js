@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_x_m_l_http_request_upload__workers_01_4 =
+[
+    [ "NativeType", "da/d37/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_x_m_l_http_request_upload__workers_01_4.html#afbb8d2e18b094ace3d0f6e483e945a68", null ]
+];
