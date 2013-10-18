@@ -1,0 +1,26 @@
+var _unicode_8h =
+[
+    [ "char16_t", "da/dc7/_unicode_8h.html#ad02c3b3b3f2abf8ae27b87d98e6f6328", null ],
+    [ "char32_t", "da/dc7/_unicode_8h.html#af000e09ec16805e601e29e4cd586569e", null ],
+    [ "strcmp16", "da/dc7/_unicode_8h.html#a9c52e2e5613965f8aef7aaa5d878a89f", null ],
+    [ "strcpy16", "da/dc7/_unicode_8h.html#a8f9366b0908fd517dcee97427a5b0cba", null ],
+    [ "strlen16", "da/dc7/_unicode_8h.html#a077a0e5edbb2e00df90b3d7156bd7b87", null ],
+    [ "strlen32", "da/dc7/_unicode_8h.html#ab4b8a0f8fdbc333c438b3546d0d036c0", null ],
+    [ "strncmp16", "da/dc7/_unicode_8h.html#a0f84654a5777c822d0bb1aeb55d74868", null ],
+    [ "strncpy16", "da/dc7/_unicode_8h.html#afc22d969359c11fc4561a58f678c0407", null ],
+    [ "strnlen16", "da/dc7/_unicode_8h.html#aab94c16c0f9a852c7bbbb08e044acf20", null ],
+    [ "strnlen32", "da/dc7/_unicode_8h.html#aa86a64acca9ff5e0dcd236b49ab5c973", null ],
+    [ "strzcmp16", "da/dc7/_unicode_8h.html#a3f1a6a4a01ffac3e7a57e4e8bb795a7a", null ],
+    [ "strzcmp16_h_n", "da/dc7/_unicode_8h.html#abb01b615f833e40663fcb6ab778ee8db", null ],
+    [ "utf16_to_utf8", "da/dc7/_unicode_8h.html#a9cadba2c4a76e644be579ddd11963c06", null ],
+    [ "utf16_to_utf8_length", "da/dc7/_unicode_8h.html#aabc7f60298baf9188e0b50fd3ab4e0c7", null ],
+    [ "utf32_from_utf8_at", "da/dc7/_unicode_8h.html#a27022b5ffe7c93bba50aa0c67796546c", null ],
+    [ "utf32_to_utf8", "da/dc7/_unicode_8h.html#ab61bf8a84088da77c88cefb10e01cd3c", null ],
+    [ "utf32_to_utf8_length", "da/dc7/_unicode_8h.html#ae3e0c14240eb6df15572324a599068c6", null ],
+    [ "utf8_length", "da/dc7/_unicode_8h.html#a7a53e7c5403cefeb4ee9953ed34e2e0b", null ],
+    [ "utf8_to_utf16", "da/dc7/_unicode_8h.html#a622a5b5989585464f6ed5b0bdba57d6d", null ],
+    [ "utf8_to_utf16_length", "da/dc7/_unicode_8h.html#a37f7249041e688935b66de32490c9cac", null ],
+    [ "utf8_to_utf16_no_null_terminator", "da/dc7/_unicode_8h.html#af8d7f33b5e654f3bc4cff0f410e7e03d", null ],
+    [ "utf8_to_utf32", "da/dc7/_unicode_8h.html#a8a004987fa8a878cd50654b120385d51", null ],
+    [ "utf8_to_utf32_length", "da/dc7/_unicode_8h.html#abb753d5f015798accc7732bb24d8e39d", null ]
+];
