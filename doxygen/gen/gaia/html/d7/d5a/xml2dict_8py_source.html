@@ -1,0 +1,664 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: xml2dict.py ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d7/d5a/xml2dict_8py.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">xml2dict.py</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d7/d5a/xml2dict_8py.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../da/df2/namespacexml2dict.html">00001</a> <span class="comment"># -*- coding: utf-8 -*-</span>
+<a name="l00002"></a>00002 <span class="stringliteral">&quot;&quot;&quot;</span>
+<a name="l00003"></a>00003 <span class="stringliteral"></span>
+<a name="l00004"></a>00004 <span class="stringliteral">This script reads a XML-formatted word list and produces a dictionary</span>
+<a name="l00005"></a>00005 <span class="stringliteral">file used by the FirefoxOS virtual keyboard for word suggestions and</span>
+<a name="l00006"></a>00006 <span class="stringliteral">auto corrections.</span>
+<a name="l00007"></a>00007 <span class="stringliteral"></span>
+<a name="l00008"></a>00008 <span class="stringliteral">The word lists come from the Android source: https://android.googlesource.com/platform/packages/inputmethods/LatinIME/+/master/dictionaries/</span>
+<a name="l00009"></a>00009 <span class="stringliteral"></span>
+<a name="l00010"></a>00010 <span class="stringliteral">This script currently depends on the XML format of the Android</span>
+<a name="l00011"></a>00011 <span class="stringliteral">wordlists. (Eventually we might want to pre-process the XML files</span>
+<a name="l00012"></a>00012 <span class="stringliteral">to a plain text format and simplify this script so that it will work</span>
+<a name="l00013"></a>00013 <span class="stringliteral">with any plain-text word and frequency list)</span>
+<a name="l00014"></a>00014 <span class="stringliteral"></span>
+<a name="l00015"></a>00015 <span class="stringliteral">The sample.xml file from the Android repo looks like this:</span>
+<a name="l00016"></a>00016 <span class="stringliteral"></span>
+<a name="l00017"></a>00017 <span class="stringliteral">----------------------------------------------------------------------</span>
+<a name="l00018"></a>00018 <span class="stringliteral"></span>
+<a name="l00019"></a>00019 <span class="stringliteral">    &lt;!-- This is a sample wordlist that can be converted to a binary</span>
+<a name="l00020"></a>00020 <span class="stringliteral">         dictionary for use by the Latin IME. The format of the word</span>
+<a name="l00021"></a>00021 <span class="stringliteral">         list is a flat list of word entries. Each entry has a frequency</span>
+<a name="l00022"></a>00022 <span class="stringliteral">         between 255 and 0. Highest frequency words get more weight in</span>
+<a name="l00023"></a>00023 <span class="stringliteral">         the prediction algorithm. As a special case, a weight of 0 is</span>
+<a name="l00024"></a>00024 <span class="stringliteral">         taken to mean profanity - words that should not be considered a</span>
+<a name="l00025"></a>00025 <span class="stringliteral">         typo, but that should never be suggested explicitly. You can</span>
+<a name="l00026"></a>00026 <span class="stringliteral">         capitalize words that must always be capitalized, such as</span>
+<a name="l00027"></a>00027 <span class="stringliteral">         &quot;January&quot;. You can have a capitalized and a non-capitalized</span>
+<a name="l00028"></a>00028 <span class="stringliteral">         word as separate entries, such as &quot;robin&quot; and &quot;Robin&quot;. --&gt;</span>
+<a name="l00029"></a>00029 <span class="stringliteral"></span>
+<a name="l00030"></a>00030 <span class="stringliteral">    &lt;wordlist&gt;</span>
+<a name="l00031"></a>00031 <span class="stringliteral">      &lt;w f=&quot;255&quot;&gt;this&lt;/w&gt;</span>
+<a name="l00032"></a>00032 <span class="stringliteral">      &lt;w f=&quot;255&quot;&gt;is&lt;/w&gt;</span>
+<a name="l00033"></a>00033 <span class="stringliteral">      &lt;w f=&quot;128&quot;&gt;sample&lt;/w&gt;</span>
+<a name="l00034"></a>00034 <span class="stringliteral">      &lt;w f=&quot;1&quot;&gt;wordlist&lt;/w&gt;</span>
+<a name="l00035"></a>00035 <span class="stringliteral">    &lt;/wordlist&gt;</span>
+<a name="l00036"></a>00036 <span class="stringliteral">----------------------------------------------------------------------</span>
+<a name="l00037"></a>00037 <span class="stringliteral"></span>
+<a name="l00038"></a>00038 <span class="stringliteral">This script processes the word list and converts it to a Ternary</span>
+<a name="l00039"></a>00039 <span class="stringliteral">Search Tree (TST), as described in</span>
+<a name="l00040"></a>00040 <span class="stringliteral">gaia/apps/keyboard/js/imes/latin/predictions.js and also in</span>
+<a name="l00041"></a>00041 <span class="stringliteral"></span>
+<a name="l00042"></a>00042 <span class="stringliteral">  http://en.wikipedia.org/wiki/Ternary_search_tree</span>
+<a name="l00043"></a>00043 <span class="stringliteral">  http://www.strchr.com/ternary_dags</span>
+<a name="l00044"></a>00044 <span class="stringliteral">  http://www.strchr.com/dawg_predictive</span>
+<a name="l00045"></a>00045 <span class="stringliteral"></span>
+<a name="l00046"></a>00046 <span class="stringliteral">Note that the script does not convert the tree into a DAG (by sharing</span>
+<a name="l00047"></a>00047 <span class="stringliteral">common word suffixes) because it cannot maintain separate frequency</span>
+<a name="l00048"></a>00048 <span class="stringliteral">data for each word if the words share nodes.</span>
+<a name="l00049"></a>00049 <span class="stringliteral"></span>
+<a name="l00050"></a>00050 <span class="stringliteral">This script balances the TST such that at any node the</span>
+<a name="l00051"></a>00051 <span class="stringliteral">highest-frequency word is found by following the center pointer. The</span>
+<a name="l00052"></a>00052 <span class="stringliteral">script also overlays a linked list on top of the tree. At any node,</span>
+<a name="l00053"></a>00053 <span class="stringliteral">the next most frequent word with the same parent node is found by</span>
+<a name="l00054"></a>00054 <span class="stringliteral">following the next pointer.</span>
+<a name="l00055"></a>00055 <span class="stringliteral"></span>
+<a name="l00056"></a>00056 <span class="stringliteral">After building the TST data strucure this script serializes it into a</span>
+<a name="l00057"></a>00057 <span class="stringliteral">compact binary file with variable length nodes. The file begins with</span>
+<a name="l00058"></a>00058 <span class="stringliteral">the 8 ASCII characters &quot;FxOSDICT&quot; and four more bytes. Bytes 8, 9 and</span>
+<a name="l00059"></a>00059 <span class="stringliteral">10 are currently unused and byte 11 is a dictionary format version</span>
+<a name="l00060"></a>00060 <span class="stringliteral">number, currently 1.</span>
+<a name="l00061"></a>00061 <span class="stringliteral"></span>
+<a name="l00062"></a>00062 <span class="stringliteral">Byte 12 file specifies the length of the longest word in the</span>
+<a name="l00063"></a>00063 <span class="stringliteral">dictionary.</span>
+<a name="l00064"></a>00064 <span class="stringliteral"></span>
+<a name="l00065"></a>00065 <span class="stringliteral">After these first 13 bytes, the file contains a character table that</span>
+<a name="l00066"></a>00066 <span class="stringliteral">lists the characters used in the dictionary. This table is a two-byte</span>
+<a name="l00067"></a>00067 <span class="stringliteral">big-endian integer that specifies the number of entries in the</span>
+<a name="l00068"></a>00068 <span class="stringliteral">table. Each table entry is a big-endian two-byte character code</span>
+<a name="l00069"></a>00069 <span class="stringliteral">followed by a big-endian 4-byte number that specifies the number of</span>
+<a name="l00070"></a>00070 <span class="stringliteral">times the character appears in the dictionary.</span>
+<a name="l00071"></a>00071 <span class="stringliteral"></span>
+<a name="l00072"></a>00072 <span class="stringliteral">After the character table (starting at byte 15 + num_entries*6), the</span>
+<a name="l00073"></a>00073 <span class="stringliteral">file consists of serialized nodes. Each node is betwen 1 byte and 6</span>
+<a name="l00074"></a>00074 <span class="stringliteral">bytes long, encoded as follows.</span>
+<a name="l00075"></a>00075 <span class="stringliteral"></span>
+<a name="l00076"></a>00076 <span class="stringliteral">The first byte of each node is always an 8-bit bitfield: csnfffff</span>
+<a name="l00077"></a>00077 <span class="stringliteral"></span>
+<a name="l00078"></a>00078 <span class="stringliteral">The c bit specifies whether this node represents a character. If c is</span>
+<a name="l00079"></a>00079 <span class="stringliteral">1 then a character code follows this first byte. If c is 0 then this</span>
+<a name="l00080"></a>00080 <span class="stringliteral">is a terminal node that marks the end of the word and it consists</span>
+<a name="l00081"></a>00081 <span class="stringliteral">of this single byte by itself.</span>
+<a name="l00082"></a>00082 <span class="stringliteral"></span>
+<a name="l00083"></a>00083 <span class="stringliteral">The s bit specifies the size of the character associated with this</span>
+<a name="l00084"></a>00084 <span class="stringliteral">node. If s is 0 the character is one byte long. If s is 1 the</span>
+<a name="l00085"></a>00085 <span class="stringliteral">character is a big-endian two byte value.</span>
+<a name="l00086"></a>00086 <span class="stringliteral"></span>
+<a name="l00087"></a>00087 <span class="stringliteral">The n bit specifies whether this node includes a next pointer. If n is 1 then</span>
+<a name="l00088"></a>00088 <span class="stringliteral">the character code is followed by a big-endian 3 byte number.</span>
+<a name="l00089"></a>00089 <span class="stringliteral"></span>
+<a name="l00090"></a>00090 <span class="stringliteral">The fffff bits are represent a number between 0 and 31 and provide a</span>
+<a name="l00091"></a>00091 <span class="stringliteral">weight for the node. This is usually based on the word frequency data</span>
+<a name="l00092"></a>00092 <span class="stringliteral">from the dictionary, though this may be tuned by adjusting frequency</span>
+<a name="l00093"></a>00093 <span class="stringliteral">depending on word length, for example. At any node, these frequency</span>
+<a name="l00094"></a>00094 <span class="stringliteral">bits represent the weight of the highest frequency word under the</span>
+<a name="l00095"></a>00095 <span class="stringliteral">node. (And, as described in the predictions.js file, the tree is</span>
+<a name="l00096"></a>00096 <span class="stringliteral">balanced so that that highest frequency word is found by following the</span>
+<a name="l00097"></a>00097 <span class="stringliteral">chain of center pointers.)</span>
+<a name="l00098"></a>00098 <span class="stringliteral"></span>
+<a name="l00099"></a>00099 <span class="stringliteral">If the c bit is set, the next one or two bytes (depending on the</span>
+<a name="l00100"></a>00100 <span class="stringliteral">s bit) of the node are the Unicode character code that is stored in</span>
+<a name="l00101"></a>00101 <span class="stringliteral">the node. Two-byte codes are big-endian.</span>
+<a name="l00102"></a>00102 <span class="stringliteral"></span>
+<a name="l00103"></a>00103 <span class="stringliteral">If the n bit was set, the next 3 bytes are a big-endian 24-bit</span>
+<a name="l00104"></a>00104 <span class="stringliteral">unsigned integer offset to the start of the node pointed to by the</span>
+<a name="l00105"></a>00105 <span class="stringliteral">next pointer.</span>
+<a name="l00106"></a>00106 <span class="stringliteral"></span>
+<a name="l00107"></a>00107 <span class="stringliteral">If the c bit was set the node has a character, and this means that it</span>
+<a name="l00108"></a>00108 <span class="stringliteral">also has a center pointer. We serialize the tree so that a node&#39;s</span>
+<a name="l00109"></a>00109 <span class="stringliteral">center pointer always points to the next node sequentially. So we</span>
+<a name="l00110"></a>00110 <span class="stringliteral">never need to write the center pointer to the file: it is always the</span>
+<a name="l00111"></a>00111 <span class="stringliteral">next node.</span>
+<a name="l00112"></a>00112 <span class="stringliteral"></span>
+<a name="l00113"></a>00113 <span class="stringliteral">&quot;&quot;&quot;</span>
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 <span class="keyword">from</span> optparse <span class="keyword">import</span> OptionParser
+<a name="l00116"></a>00116 <span class="keyword">from</span> xml.parsers <span class="keyword">import</span> expat
+<a name="l00117"></a>00117 <span class="keyword">import</span> struct
+<a name="l00118"></a>00118 <span class="keyword">import</span> math
+<a name="l00119"></a>00119 
+<a name="l00120"></a><a class="code" href="../../da/df2/namespacexml2dict.html#abb7156503291f925f4f8e509613275b7">00120</a> _NodeCounter = 0
+<a name="l00121"></a><a class="code" href="../../da/df2/namespacexml2dict.html#af8f3a60bc328f14c5662be0dcd988117">00121</a> _NodeRemoveCounter = 0
+<a name="l00122"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a294570f783671cf6a4a27a012905a334">00122</a> _NodeVisitCounter = 0
+<a name="l00123"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a973e11d012f0d2bf89f8240bd60508e0">00123</a> _EmitCounter = 0
+<a name="l00124"></a><a class="code" href="../../da/df2/namespacexml2dict.html#afaf20cc50bb2faead96e271e6f12a01e">00124</a> _WordCounter = 0
+<a name="l00125"></a>00125 
+<a name="l00126"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a16e1ad68932da2cb99b30c65f74d7396">00126</a> _EndOfWord = chr(0)
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128 <span class="comment"># How many times do we use each character in this language</span>
+<a name="l00129"></a><a class="code" href="../../da/df2/namespacexml2dict.html#ae4ea044f39e1a677b830d05cf28eca74">00129</a> characterFrequency = {}
+<a name="l00130"></a><a class="code" href="../../da/df2/namespacexml2dict.html#ab8a3427bca6a4645ea145fd0f69ea2e9">00130</a> maxWordLength = 0
+<a name="l00131"></a><a class="code" href="../../da/df2/namespacexml2dict.html#ad5d01634b92805c33be83f05e29622d8">00131</a> highestFreq = 0
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133 
+<a name="l00134"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a1ced633bafa9a1eb99c215d73ddba483">00134</a> _DiacriticIndex = {
+<a name="l00135"></a>00135     <span class="stringliteral">&#39;a&#39;</span>: <span class="stringliteral">&#39;ÁáĂăǍǎÂâÄäȦȧẠạȀȁÀàẢảȂȃĀāĄąÅåḀḁȺⱥÃãǼǽǢǣÆæ&#39;</span>,
+<a name="l00136"></a>00136     <span class="stringliteral">&#39;b&#39;</span>: <span class="stringliteral">&#39;ḂḃḄḅƁɓḆḇɃƀƂƃ&#39;</span>,
+<a name="l00137"></a>00137     <span class="stringliteral">&#39;c&#39;</span>: <span class="stringliteral">&#39;ĆćČčÇçĈĉĊċƇƈȻȼ&#39;</span>,
+<a name="l00138"></a>00138     <span class="stringliteral">&#39;d&#39;</span>: <span class="stringliteral">&#39;ĎďḐḑḒḓḊḋḌḍƊɗḎḏĐđƋƌð&#39;</span>,
+<a name="l00139"></a>00139     <span class="stringliteral">&#39;e&#39;</span>: <span class="stringliteral">&#39;ÉéĔĕĚěȨȩÊêḘḙËëĖėẸẹȄȅÈèẺẻȆȇĒēĘę&#39;</span>,
+<a name="l00140"></a>00140     <span class="stringliteral">&#39;f&#39;</span>: <span class="stringliteral">&#39;ḞḟƑƒ&#39;</span>,
+<a name="l00141"></a>00141     <span class="stringliteral">&#39;g&#39;</span>: <span class="stringliteral">&#39;ǴǵĞğǦǧĢģĜĝĠġƓɠḠḡǤǥ&#39;</span>,
+<a name="l00142"></a>00142     <span class="stringliteral">&#39;h&#39;</span>: <span class="stringliteral">&#39;ḪḫȞȟḨḩĤĥⱧⱨḦḧḢḣḤḥĦħ&#39;</span>,
+<a name="l00143"></a>00143     <span class="stringliteral">&#39;i&#39;</span>: <span class="stringliteral">&#39;ÍíĬĭǏǐÎîÏïỊịȈȉÌìỈỉȊȋĪīĮįƗɨĨĩḬḭı&#39;</span>,
+<a name="l00144"></a>00144     <span class="stringliteral">&#39;j&#39;</span>: <span class="stringliteral">&#39;ĴĵɈɉ&#39;</span>,
+<a name="l00145"></a>00145     <span class="stringliteral">&#39;k&#39;</span>: <span class="stringliteral">&#39;ḰḱǨǩĶķⱩⱪꝂꝃḲḳƘƙḴḵꝀꝁ&#39;</span>,
+<a name="l00146"></a>00146     <span class="stringliteral">&#39;l&#39;</span>: <span class="stringliteral">&#39;ĹĺȽƚĽľĻļḼḽḶḷⱠⱡꝈꝉḺḻĿŀⱢɫŁł&#39;</span>,
+<a name="l00147"></a>00147     <span class="stringliteral">&#39;m&#39;</span>: <span class="stringliteral">&#39;ḾḿṀṁṂṃⱮɱ&#39;</span>,
+<a name="l00148"></a>00148     <span class="stringliteral">&#39;n&#39;</span>: <span class="stringliteral">&#39;ŃńŇňŅņṊṋṄṅṆṇǸǹƝɲṈṉȠƞÑñ&#39;</span>,
+<a name="l00149"></a>00149     <span class="stringliteral">&#39;o&#39;</span>: <span class="stringliteral">&#39;ÓóŎŏǑǒÔôÖöȮȯỌọŐőȌȍÒòỎỏƠơȎȏꝊꝋꝌꝍŌōǪǫØøÕõŒœ&#39;</span>,
+<a name="l00150"></a>00150     <span class="stringliteral">&#39;p&#39;</span>: <span class="stringliteral">&#39;ṔṕṖṗꝒꝓƤƥⱣᵽꝐꝑ&#39;</span>,
+<a name="l00151"></a>00151     <span class="stringliteral">&#39;q&#39;</span>: <span class="stringliteral">&#39;Ꝗꝗ&#39;</span>,
+<a name="l00152"></a>00152     <span class="stringliteral">&#39;</span><span class="stringliteral">r&#39;: &#39;</span>ŔŕŘřŖŗṘṙṚṛȐȑȒȓṞṟɌɍⱤɽ&#39;,
+<a name="l00153"></a>00153     <span class="stringliteral">&#39;s&#39;</span>: <span class="stringliteral">&#39;ŚśŠšŞşŜŝȘșṠṡṢṣß$&#39;</span>,
+<a name="l00154"></a>00154     <span class="stringliteral">&#39;t&#39;</span>: <span class="stringliteral">&#39;ŤťŢţṰṱȚțȾⱦṪṫṬṭƬƭṮṯƮʈŦŧ&#39;</span>,
+<a name="l00155"></a>00155     <span class="stringliteral">&#39;</span><span class="stringliteral">u&#39;: &#39;</span>ÚúŬŭǓǔÛûṶṷÜüṲṳỤụŰűȔȕÙùỦủƯưȖȗŪūŲųŮůŨũṴṵ&#39;,
+<a name="l00156"></a>00156     <span class="stringliteral">&#39;v&#39;</span>: <span class="stringliteral">&#39;ṾṿƲʋṼṽ&#39;</span>,
+<a name="l00157"></a>00157     <span class="stringliteral">&#39;w&#39;</span>: <span class="stringliteral">&#39;ẂẃŴŵẄẅẆẇẈẉẀẁⱲⱳ&#39;</span>,
+<a name="l00158"></a>00158     <span class="stringliteral">&#39;x&#39;</span>: <span class="stringliteral">&#39;ẌẍẊẋ&#39;</span>,
+<a name="l00159"></a>00159     <span class="stringliteral">&#39;y&#39;</span>: <span class="stringliteral">&#39;ÝýŶŷŸÿẎẏỴỵỲỳƳƴỶỷỾỿȲȳɎɏỸỹ&#39;</span>,
+<a name="l00160"></a>00160     <span class="stringliteral">&#39;z&#39;</span>: <span class="stringliteral">&#39;ŹźŽžẐẑⱫⱬŻżẒẓȤȥẔẕƵƶ&#39;</span>
+<a name="l00161"></a>00161 }
+<a name="l00162"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a7585107e5759964649cf1fb70b1d5218">00162</a> _Diacritics = {} <span class="comment"># the mapping from accented to non-accented letters</span>
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164 <span class="comment"># Build the _Diacritics mapping</span>
+<a name="l00165"></a>00165 <span class="keywordflow">for</span> letter <span class="keywordflow">in</span> _DiacriticIndex:
+<a name="l00166"></a>00166     <span class="keywordflow">for</span> diacritic <span class="keywordflow">in</span> _DiacriticIndex[letter]:
+<a name="l00167"></a>00167         _Diacritics[diacritic] = letter
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170 <span class="comment"># Data Structure for TST Tree</span>
+<a name="l00171"></a><a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html">00171</a> <span class="keyword">class </span><a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html">TSTNode</a>:
+<a name="l00172"></a>00172     <span class="comment"># Constructor for creating a new TSTNode</span>
+<a name="l00173"></a><a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html#abb7f32a23dcd7db40543fad3f2a34180">00173</a>     <span class="keyword">def </span><a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html#a3e87dcadc099f1f956b75b6b0de9056b">__init__</a>(self, ch):
+<a name="l00174"></a>00174         <span class="keyword">global</span> _NodeCounter
+<a name="l00175"></a>00175         _NodeCounter += 1
+<a name="l00176"></a>00176         self.<a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html#a2af2f9363723efa9c5adc4b4af5887e0">ch</a> = ch
+<a name="l00177"></a>00177         self.<a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html#a5f27301c6bc42e059dc700e0dcfb6161">left</a> = self.<a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html#a31beb12e7cb89700cf29e4e20ac95c99">center</a> = self.<a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html#abb7f32a23dcd7db40543fad3f2a34180">right</a> = <span class="keywordtype">None</span>
+<a name="l00178"></a>00178         self.<a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html#ac61787dad29ef7fbeec85baf57b0070b">frequency</a> = 0 <span class="comment"># maximum frequency</span>
+<a name="l00179"></a>00179         <span class="comment"># store the count for balancing the tst</span>
+<a name="l00180"></a>00180         self.<a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html#aa71d225e32ac1825f65c5f9fd99c136e">count</a> = 0
+<a name="l00181"></a>00181 
+<a name="l00182"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html">00182</a> <span class="keyword">class </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html">TSTTree</a>:
+<a name="l00183"></a>00183     <span class="comment"># Constructor for creating a TST Tree</span>
+<a name="l00184"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#acb880e1ff52117c434a25d55a6f51f69">00184</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a8f231ecd34fb1e159ae5d4c9ad33da10">__init__</a>(self):
+<a name="l00185"></a>00185         self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#acb880e1ff52117c434a25d55a6f51f69">table</a> = {}
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187     <span class="comment"># Insert a word into the TSTTree</span>
+<a name="l00188"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a5c7fcde623a9f2c86e0bd5b5b1b61610">00188</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a5c7fcde623a9f2c86e0bd5b5b1b61610">insert</a>(self, node, word, freq):
+<a name="l00189"></a>00189         ch = word[0]
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191         <span class="keywordflow">if</span> <span class="keywordflow">not</span> node:
+<a name="l00192"></a>00192             node = <a class="code" href="../../d2/dbb/classxml2dict_1_1_t_s_t_node.html">TSTNode</a>(ch)
+<a name="l00193"></a>00193         <span class="keywordflow">if</span> ch &lt; node.ch:
+<a name="l00194"></a>00194             node.left = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a5c7fcde623a9f2c86e0bd5b5b1b61610">insert</a>(node.left, word, freq)
+<a name="l00195"></a>00195         <span class="keywordflow">elif</span> ch &gt; node.ch:
+<a name="l00196"></a>00196             node.right = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a5c7fcde623a9f2c86e0bd5b5b1b61610">insert</a>(node.right, word, freq)
+<a name="l00197"></a>00197         <span class="keywordflow">else</span>:
+<a name="l00198"></a>00198             node.frequency = <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>(node.frequency, freq)
+<a name="l00199"></a>00199             <span class="keywordflow">if</span> len(word) &gt; 1:
+<a name="l00200"></a>00200                 node.center = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a5c7fcde623a9f2c86e0bd5b5b1b61610">insert</a>(node.center, word[1:], freq)
+<a name="l00201"></a>00201         <span class="keywordflow">return</span> node
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203     <span class="comment"># Balance the TST</span>
+<a name="l00204"></a>00204     <span class="comment"># set the number of children nodes</span>
+<a name="l00205"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a164ad597991eb18ef07cdbbbccf8453f">00205</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a164ad597991eb18ef07cdbbbccf8453f">setCount</a>(self, node):
+<a name="l00206"></a>00206         <span class="keywordflow">if</span> <span class="keywordflow">not</span> node:
+<a name="l00207"></a>00207             <span class="keywordflow">return</span> 0
+<a name="l00208"></a>00208         node.count = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a164ad597991eb18ef07cdbbbccf8453f">setCount</a>(node.left) + self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a164ad597991eb18ef07cdbbbccf8453f">setCount</a>(node.right) + 1
+<a name="l00209"></a>00209         self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a164ad597991eb18ef07cdbbbccf8453f">setCount</a>(node.center)
+<a name="l00210"></a>00210         <span class="keywordflow">return</span> node.count
+<a name="l00211"></a>00211 
+<a name="l00212"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#aa07c8cb547cfd28d8ec541a7c4aecbda">00212</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#aa07c8cb547cfd28d8ec541a7c4aecbda">rotateRight</a>(self, node):
+<a name="l00213"></a>00213         tmp = node.left
+<a name="l00214"></a>00214         <span class="comment"># move the subtree between tmp and node</span>
+<a name="l00215"></a>00215         node.left = tmp.right
+<a name="l00216"></a>00216         <span class="comment"># swap tmp and node</span>
+<a name="l00217"></a>00217         tmp.right = node
+<a name="l00218"></a>00218         <span class="comment"># restore count field</span>
+<a name="l00219"></a>00219         node.count = (node.left.count <span class="keywordflow">if</span> node.left <span class="keywordflow">else</span> 0) + (node.right.count <span class="keywordflow">if</span> node.right <span class="keywordflow">else</span> 0) + 1
+<a name="l00220"></a>00220         tmp.count = (tmp.left.count <span class="keywordflow">if</span> tmp.left <span class="keywordflow">else</span> 0) + tmp.right.count + 1
+<a name="l00221"></a>00221         <span class="keywordflow">return</span> tmp
+<a name="l00222"></a>00222 
+<a name="l00223"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a8fe2fb444139e1300f4fea919bd28942">00223</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a8fe2fb444139e1300f4fea919bd28942">rotateLeft</a>(self, node):
+<a name="l00224"></a>00224         tmp = node.right
+<a name="l00225"></a>00225         <span class="comment"># move the subtree between tmp and node</span>
+<a name="l00226"></a>00226         node.right = tmp.left
+<a name="l00227"></a>00227         <span class="comment"># swap tmp and node</span>
+<a name="l00228"></a>00228         tmp.left = node
+<a name="l00229"></a>00229         <span class="comment"># restore count field</span>
+<a name="l00230"></a>00230         node.count = (node.left.count <span class="keywordflow">if</span> node.left <span class="keywordflow">else</span> 0) + (node.right.count <span class="keywordflow">if</span> node.right <span class="keywordflow">else</span> 0) + 1
+<a name="l00231"></a>00231         tmp.count = tmp.left.count + (tmp.right.count <span class="keywordflow">if</span> tmp.right <span class="keywordflow">else</span> 0) + 1
+<a name="l00232"></a>00232         <span class="keywordflow">return</span> tmp
+<a name="l00233"></a>00233 
+<a name="l00234"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a0037ec46baba6b4062f0dcd83f326c8a">00234</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a0037ec46baba6b4062f0dcd83f326c8a">divide</a>(self, node, divCount):
+<a name="l00235"></a>00235         leftCount = (node.left.count <span class="keywordflow">if</span> node.left <span class="keywordflow">else</span> 0)
+<a name="l00236"></a>00236         <span class="comment"># if the dividing node is in the left subtree, go down to it</span>
+<a name="l00237"></a>00237         <span class="keywordflow">if</span> divCount &lt; leftCount:
+<a name="l00238"></a>00238             node.left = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a0037ec46baba6b4062f0dcd83f326c8a">divide</a>(node.left, divCount)
+<a name="l00239"></a>00239             <span class="comment"># on the way back from the dividing node to the root, do right rotations</span>
+<a name="l00240"></a>00240             node = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#aa07c8cb547cfd28d8ec541a7c4aecbda">rotateRight</a>(node)
+<a name="l00241"></a>00241         <span class="keywordflow">elif</span> divCount &gt; leftCount:
+<a name="l00242"></a>00242             node.right = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a0037ec46baba6b4062f0dcd83f326c8a">divide</a>(node.right, divCount - leftCount - 1)
+<a name="l00243"></a>00243             node = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a8fe2fb444139e1300f4fea919bd28942">rotateLeft</a>(node)
+<a name="l00244"></a>00244         <span class="keywordflow">return</span> node
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246     <span class="comment"># balance level of TST</span>
+<a name="l00247"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a79cae3598bb59d027f11335bf23d9daf">00247</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a79cae3598bb59d027f11335bf23d9daf">balanceLevel</a>(self, node):
+<a name="l00248"></a>00248         <span class="keywordflow">if</span> <span class="keywordflow">not</span> node:
+<a name="l00249"></a>00249             <span class="keywordflow">return</span> node
+<a name="l00250"></a>00250 
+<a name="l00251"></a>00251         <span class="comment"># make center node the root</span>
+<a name="l00252"></a>00252         node = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a0037ec46baba6b4062f0dcd83f326c8a">divide</a>(node, node.count // 2)
+<a name="l00253"></a>00253         <span class="comment"># balance subtrees recursively</span>
+<a name="l00254"></a>00254         node.left = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a79cae3598bb59d027f11335bf23d9daf">balanceLevel</a>(node.left)
+<a name="l00255"></a>00255         node.right = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a79cae3598bb59d027f11335bf23d9daf">balanceLevel</a>(node.right)
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257         node.center = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a6e989ebdc9d65e9f14e3c56c1126935f">balanceTree</a>(node.center)
+<a name="l00258"></a>00258         <span class="keywordflow">return</span> node
+<a name="l00259"></a>00259 
+<a name="l00260"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#adcc5961e387c4af6367b2a9eb6bfd52f">00260</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#adcc5961e387c4af6367b2a9eb6bfd52f">normalizeChar</a>(self, ch):
+<a name="l00261"></a>00261         ch = ch.lower()
+<a name="l00262"></a>00262         <span class="keywordflow">if</span> ch <span class="keywordflow">in</span> _Diacritics:
+<a name="l00263"></a>00263             ch = _Diacritics[ch]
+<a name="l00264"></a>00264         <span class="keywordflow">return</span> ch
+<a name="l00265"></a>00265 
+<a name="l00266"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a7d7ebc94d13159446c0f2492508726b8">00266</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a7d7ebc94d13159446c0f2492508726b8">collectLevel</a>(self, level, node):
+<a name="l00267"></a>00267         <span class="keywordflow">if</span> <span class="keywordflow">not</span> node:
+<a name="l00268"></a>00268             <span class="keywordflow">return</span>
+<a name="l00269"></a>00269         <span class="comment"># I&#39;m not convinced we need to do this.</span>
+<a name="l00270"></a>00270         <span class="comment"># And I can&#39;t understand the part of the search algorithm</span>
+<a name="l00271"></a>00271         <span class="comment"># that uses this, so commenting it out for now</span>
+<a name="l00272"></a>00272         <span class="comment"># level.setdefault(self.normalizeChar(node.ch), []).append(node)</span>
+<a name="l00273"></a>00273         level.append(node)
+<a name="l00274"></a>00274         self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a7d7ebc94d13159446c0f2492508726b8">collectLevel</a>(level, node.left)
+<a name="l00275"></a>00275         self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a7d7ebc94d13159446c0f2492508726b8">collectLevel</a>(level, node.right)
+<a name="l00276"></a>00276 
+<a name="l00277"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a776d918df1f6ca796a28072ecb79f356">00277</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a776d918df1f6ca796a28072ecb79f356">sortLevelByFreq</a>(self, node):
+<a name="l00278"></a>00278         <span class="comment"># Collect nodes on the same level</span>
+<a name="l00279"></a>00279         nodes = []
+<a name="l00280"></a>00280         self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a7d7ebc94d13159446c0f2492508726b8">collectLevel</a>(nodes, node)
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282         <span class="comment"># See the comment in collectLevel</span>
+<a name="l00283"></a>00283         <span class="comment"># # Sort each array within the level</span>
+<a name="l00284"></a>00284         <span class="comment"># for items in level:</span>
+<a name="l00285"></a>00285         <span class="comment">#     if (len(items) &gt; 1):</span>
+<a name="l00286"></a>00286         <span class="comment">#         items.sort(key = lambda node: node.ch)</span>
+<a name="l00287"></a>00287         <span class="comment">#         items.sort(key = lambda node: node.frequency, reverse = True)</span>
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289         <span class="comment"># Sort by frequency joining nodes with lowercase/uppercase/accented versions of the same character</span>
+<a name="l00290"></a>00290         nodes.sort(key = <span class="keyword">lambda</span> node: node.ch)
+<a name="l00291"></a>00291         nodes.sort(key = <span class="keyword">lambda</span> node: node.frequency, reverse = <span class="keyword">True</span>)
+<a name="l00292"></a>00292         <span class="comment"># nodes = []</span>
+<a name="l00293"></a>00293         <span class="comment"># for items in level:</span>
+<a name="l00294"></a>00294         <span class="comment">#     nodes += items</span>
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296         <span class="comment"># Add next/prev pointers to each node</span>
+<a name="l00297"></a>00297         prev = <span class="keywordtype">None</span>
+<a name="l00298"></a>00298         <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(nodes)):
+<a name="l00299"></a>00299             nodes[i].next = nodes[i + 1] <span class="keywordflow">if</span> i &lt; len(nodes) - 1 <span class="keywordflow">else</span> <span class="keywordtype">None</span>
+<a name="l00300"></a>00300             nodes[i].prev = prev
+<a name="l00301"></a>00301             prev = nodes[i]
+<a name="l00302"></a>00302         <span class="keywordflow">return</span> nodes[0]
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304     <span class="comment"># find node in the subtree of root and promote it to root</span>
+<a name="l00305"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a198fca8c213bbf4a79fe7c5de556d14d">00305</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a198fca8c213bbf4a79fe7c5de556d14d">promoteNodeToRoot</a>(self, root, node):
+<a name="l00306"></a>00306         <span class="keywordflow">if</span> node.ch &lt; root.ch:
+<a name="l00307"></a>00307             root.left = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a198fca8c213bbf4a79fe7c5de556d14d">promoteNodeToRoot</a>(root.left, node)
+<a name="l00308"></a>00308             <span class="keywordflow">return</span> self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#aa07c8cb547cfd28d8ec541a7c4aecbda">rotateRight</a>(root)
+<a name="l00309"></a>00309         <span class="keywordflow">elif</span> node.ch &gt; root.ch:
+<a name="l00310"></a>00310             root.right = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a198fca8c213bbf4a79fe7c5de556d14d">promoteNodeToRoot</a>(root.right, node)
+<a name="l00311"></a>00311             <span class="keywordflow">return</span> self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a8fe2fb444139e1300f4fea919bd28942">rotateLeft</a>(root)
+<a name="l00312"></a>00312         <span class="keywordflow">else</span>:
+<a name="l00313"></a>00313             <span class="keywordflow">return</span> root
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315     <span class="comment"># balance the whole TST</span>
+<a name="l00316"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a6e989ebdc9d65e9f14e3c56c1126935f">00316</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a6e989ebdc9d65e9f14e3c56c1126935f">balanceTree</a>(self, node):
+<a name="l00317"></a>00317         <span class="keywordflow">if</span> <span class="keywordflow">not</span> node:
+<a name="l00318"></a>00318             <span class="keywordflow">return</span>
+<a name="l00319"></a>00319 
+<a name="l00320"></a>00320         <span class="comment"># promote to root the letter with the highest maximum frequency</span>
+<a name="l00321"></a>00321         <span class="comment"># of a suffix starting with this letter</span>
+<a name="l00322"></a>00322         node = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a198fca8c213bbf4a79fe7c5de556d14d">promoteNodeToRoot</a>(node, self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a776d918df1f6ca796a28072ecb79f356">sortLevelByFreq</a>(node))
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324         <span class="comment"># balance other letters on this level of the tree</span>
+<a name="l00325"></a>00325         node.left = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a79cae3598bb59d027f11335bf23d9daf">balanceLevel</a>(node.left)
+<a name="l00326"></a>00326         node.right = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a79cae3598bb59d027f11335bf23d9daf">balanceLevel</a>(node.right)
+<a name="l00327"></a>00327         node.center = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a6e989ebdc9d65e9f14e3c56c1126935f">balanceTree</a>(node.center)
+<a name="l00328"></a>00328         <span class="keywordflow">return</span> node
+<a name="l00329"></a>00329 
+<a name="l00330"></a><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#ab01c9f296d0e0f8705029b83e2c7ee5d">00330</a>     <span class="keyword">def </span><a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#ab01c9f296d0e0f8705029b83e2c7ee5d">balance</a>(self, root):
+<a name="l00331"></a>00331         self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a164ad597991eb18ef07cdbbbccf8453f">setCount</a>(root)
+<a name="l00332"></a>00332         root = self.<a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html#a6e989ebdc9d65e9f14e3c56c1126935f">balanceTree</a>(root)
+<a name="l00333"></a>00333         <span class="keywordflow">return</span> root
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335 <span class="comment"># Serialize the tree to an array. Do it depth first, folling the</span>
+<a name="l00336"></a>00336 <span class="comment"># center pointer first because that might give us better locality</span>
+<a name="l00337"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a97ca2ab7b3211a970dd1d9e73abc087f">00337</a> <span class="keyword">def </span><a class="code" href="../../da/df2/namespacexml2dict.html#a97ca2ab7b3211a970dd1d9e73abc087f">serializeNode</a>(node, output):
+<a name="l00338"></a>00338     <span class="keyword">global</span> _EmitCounter
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340     output.append(node)
+<a name="l00341"></a>00341     node.offset = len(output)
+<a name="l00342"></a>00342 
+<a name="l00343"></a>00343     _EmitCounter += 1
+<a name="l00344"></a>00344     <span class="keywordflow">if</span> _EmitCounter % 100000 == 0:
+<a name="l00345"></a>00345         <a class="code" href="../../da/d7d/cook_8js.html#ab73f4a250dadcbe62393ae213ecd01c3">print</a>(<span class="stringliteral">&quot;          &gt;&gt;&gt; (serializing &quot;</span> + <a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>(_EmitCounter) + <span class="stringliteral">&quot;/&quot;</span> +
+<a name="l00346"></a>00346               <a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>(_NodeCounter) + <span class="stringliteral">&quot;)&quot;</span>)
+<a name="l00347"></a>00347 
+<a name="l00348"></a>00348     <span class="keywordflow">if</span> (node.ch == _EndOfWord <span class="keywordflow">and</span> node.center):
+<a name="l00349"></a>00349         <a class="code" href="../../da/d7d/cook_8js.html#ab73f4a250dadcbe62393ae213ecd01c3">print</a>(<span class="stringliteral">&quot;nul node with a center!&quot;</span>);
+<a name="l00350"></a>00350     <span class="keywordflow">if</span> (node.ch != _EndOfWord <span class="keywordflow">and</span> <span class="keywordflow">not</span> node.center):
+<a name="l00351"></a>00351         <a class="code" href="../../da/d7d/cook_8js.html#ab73f4a250dadcbe62393ae213ecd01c3">print</a>(<span class="stringliteral">&quot;char node with no center!&quot;</span>);
+<a name="l00352"></a>00352 
+<a name="l00353"></a>00353     <span class="comment"># do the center node first so words are close together</span>
+<a name="l00354"></a>00354     <span class="keywordflow">if</span> node.center:
+<a name="l00355"></a>00355         <a class="code" href="../../da/df2/namespacexml2dict.html#a97ca2ab7b3211a970dd1d9e73abc087f">serializeNode</a>(node.center, output)
+<a name="l00356"></a>00356     <span class="keywordflow">if</span> node.left:
+<a name="l00357"></a>00357         <a class="code" href="../../da/df2/namespacexml2dict.html#a97ca2ab7b3211a970dd1d9e73abc087f">serializeNode</a>(node.left, output)
+<a name="l00358"></a>00358     <span class="keywordflow">if</span> node.right:
+<a name="l00359"></a>00359         <a class="code" href="../../da/df2/namespacexml2dict.html#a97ca2ab7b3211a970dd1d9e73abc087f">serializeNode</a>(node.right, output)
+<a name="l00360"></a>00360 
+<a name="l00361"></a><a class="code" href="../../da/df2/namespacexml2dict.html#ae72f007ab100b0a1ad178868e84d88cc">00361</a> <span class="keyword">def </span><a class="code" href="../../da/df2/namespacexml2dict.html#ae72f007ab100b0a1ad178868e84d88cc">serializeTree</a>(root):
+<a name="l00362"></a>00362     output = []
+<a name="l00363"></a>00363     <a class="code" href="../../da/df2/namespacexml2dict.html#a97ca2ab7b3211a970dd1d9e73abc087f">serializeNode</a>(root, output)
+<a name="l00364"></a>00364     <span class="keywordflow">return</span> output
+<a name="l00365"></a>00365 
+<a name="l00366"></a>00366 <span class="comment"># Make a pass through the array of nodes and figure out the size and offset</span>
+<a name="l00367"></a>00367 <span class="comment"># of each one.</span>
+<a name="l00368"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a89e0add4d12b5174c3c050c13015bf7d">00368</a> <span class="keyword">def </span><a class="code" href="../../da/df2/namespacexml2dict.html#a89e0add4d12b5174c3c050c13015bf7d">computeOffsets</a>(nodes):
+<a name="l00369"></a>00369     offset = 0;
+<a name="l00370"></a>00370     <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(nodes)):
+<a name="l00371"></a>00371         node = nodes[i]
+<a name="l00372"></a>00372         node.offset = offset;
+<a name="l00373"></a>00373 
+<a name="l00374"></a>00374         <span class="keywordflow">if</span> node.ch == _EndOfWord:
+<a name="l00375"></a>00375             charlen = 0
+<a name="l00376"></a>00376         <span class="keywordflow">elif</span> ord(node.ch) &lt;= 255:
+<a name="l00377"></a>00377             charlen = 1
+<a name="l00378"></a>00378         <span class="keywordflow">else</span>:
+<a name="l00379"></a>00379             charlen = 2
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381         nextlen = 3 <span class="keywordflow">if</span> node.next <span class="keywordflow">else</span> 0
+<a name="l00382"></a>00382 
+<a name="l00383"></a>00383         offset = offset + 1 + charlen + nextlen
+<a name="l00384"></a>00384     <span class="keywordflow">return</span> offset
+<a name="l00385"></a>00385 
+<a name="l00386"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a398a9b50e27033fff0db867fd5357848">00386</a> <span class="keyword">def </span><a class="code" href="../../da/df2/namespacexml2dict.html#a398a9b50e27033fff0db867fd5357848">writeUint24</a>(output, x):
+<a name="l00387"></a>00387     output.write(struct.pack(<span class="stringliteral">&quot;B&quot;</span>, (x &gt;&gt; 16) &amp; 0xFF))
+<a name="l00388"></a>00388     output.write(struct.pack(<span class="stringliteral">&quot;B&quot;</span>, (x &gt;&gt; 8) &amp; 0xFF))
+<a name="l00389"></a>00389     output.write(struct.pack(<span class="stringliteral">&quot;B&quot;</span>, x &amp; 0xFF))
+<a name="l00390"></a>00390 
+<a name="l00391"></a><a class="code" href="../../da/df2/namespacexml2dict.html#aa3d8b21c660c990b34e7bbcff414d529">00391</a> <span class="keyword">def </span><a class="code" href="../../da/df2/namespacexml2dict.html#aa3d8b21c660c990b34e7bbcff414d529">emitNode</a>(output, node):
+<a name="l00392"></a>00392     charcode = 0 <span class="keywordflow">if</span> node.ch == _EndOfWord <span class="keywordflow">else</span> ord(node.ch)
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394     cbit = 0x80 <span class="keywordflow">if</span> charcode != 0 <span class="keywordflow">else</span> 0
+<a name="l00395"></a>00395     sbit = 0x40 <span class="keywordflow">if</span> charcode &gt; 255 <span class="keywordflow">else</span> 0
+<a name="l00396"></a>00396     nbit = 0x20 <span class="keywordflow">if</span> node.next <span class="keywordflow">else</span> 0
+<a name="l00397"></a>00397 
+<a name="l00398"></a>00398     <span class="keywordflow">if</span> node.frequency == 0:
+<a name="l00399"></a>00399       freq = 0 <span class="comment">#zero means profanity</span>
+<a name="l00400"></a>00400     <span class="keywordflow">else</span>:
+<a name="l00401"></a>00401       freq = 1 + <a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a>(node.frequency * 31) <span class="comment"># values &gt; 0 map the range 1 to 31</span>
+<a name="l00402"></a>00402 
+<a name="l00403"></a>00403     firstbyte = cbit | sbit | nbit | (freq &amp; 0x1F)
+<a name="l00404"></a>00404     output.write(struct.pack(<span class="stringliteral">&quot;B&quot;</span>, firstbyte))
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406     <span class="keywordflow">if</span> cbit:      <span class="comment"># If there is a character for this node</span>
+<a name="l00407"></a>00407         <span class="keywordflow">if</span> sbit:  <span class="comment"># if it is two bytes long</span>
+<a name="l00408"></a>00408             output.write(struct.pack(<span class="stringliteral">&quot;B&quot;</span>, charcode &gt;&gt; 8))
+<a name="l00409"></a>00409         output.write(struct.pack(<span class="stringliteral">&quot;B&quot;</span>, charcode &amp; 0xFF))
+<a name="l00410"></a>00410 
+<a name="l00411"></a>00411     <span class="comment"># Write the next node if we have one</span>
+<a name="l00412"></a>00412     <span class="keywordflow">if</span> nbit:
+<a name="l00413"></a>00413         <a class="code" href="../../da/df2/namespacexml2dict.html#a398a9b50e27033fff0db867fd5357848">writeUint24</a>(output, node.next.offset)
+<a name="l00414"></a>00414 
+<a name="l00415"></a><a class="code" href="../../da/df2/namespacexml2dict.html#ad18f38b79d56fbbacd15bca4dfd2016a">00415</a> <span class="keyword">def </span><a class="code" href="../../da/df2/namespacexml2dict.html#ad18f38b79d56fbbacd15bca4dfd2016a">emit</a>(output, nodes):
+<a name="l00416"></a>00416     nodeslen = <a class="code" href="../../da/df2/namespacexml2dict.html#a89e0add4d12b5174c3c050c13015bf7d">computeOffsets</a>(nodes)
+<a name="l00417"></a>00417 
+<a name="l00418"></a>00418     <span class="comment"># 12-byte header with version number</span>
+<a name="l00419"></a>00419     output.write(b<span class="stringliteral">&quot;FxOSDICT\x00\x00\x00\x01&quot;</span>)
+<a name="l00420"></a>00420 
+<a name="l00421"></a>00421     <span class="comment"># Output the length of the longest word in the dictionary.</span>
+<a name="l00422"></a>00422     <span class="comment"># This allows to easily reject input that is longer</span>
+<a name="l00423"></a>00423     output.write(struct.pack(<span class="stringliteral">&quot;B&quot;</span>, <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#aad36546e8175d2922bee165fe028fedc">min</a>(maxWordLength, 255)));
+<a name="l00424"></a>00424 
+<a name="l00425"></a>00425     <span class="comment"># Output a table of letter frequencies. The search algorithm may</span>
+<a name="l00426"></a>00426     <span class="comment"># want to use this to decide which diacritics to try, for example.</span>
+<a name="l00427"></a>00427     characters = sorted(<a class="code" href="../../d3/d87/mock__contact_8js.html#ad08d759db77b6861afcb4729fc620b95">list</a>(characterFrequency.items()),
+<a name="l00428"></a>00428                         key = <span class="keyword">lambda</span> item: item[1],
+<a name="l00429"></a>00429                         reverse = <span class="keyword">True</span>)
+<a name="l00430"></a>00430     output.write(struct.pack(<span class="stringliteral">&quot;&gt;H&quot;</span>, len(characters)))   <span class="comment"># Num items that follow</span>
+<a name="l00431"></a>00431     <span class="keywordflow">for</span> item <span class="keywordflow">in</span> characters:
+<a name="l00432"></a>00432         output.write(struct.pack(<span class="stringliteral">&quot;&gt;H&quot;</span>, ord(item[0])))  <span class="comment"># 16-bit character code</span>
+<a name="l00433"></a>00433         output.write(struct.pack(<span class="stringliteral">&quot;&gt;I&quot;</span>, item[1]))       <span class="comment"># 32-bit count</span>
+<a name="l00434"></a>00434 
+<a name="l00435"></a>00435     <span class="comment"># Write the nodes of the tree to the file.</span>
+<a name="l00436"></a>00436     <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(nodes)):
+<a name="l00437"></a>00437         node = nodes[i]
+<a name="l00438"></a>00438         <a class="code" href="../../da/df2/namespacexml2dict.html#aa3d8b21c660c990b34e7bbcff414d529">emitNode</a>(output, node)
+<a name="l00439"></a>00439 
+<a name="l00440"></a>00440 
+<a name="l00441"></a>00441 <span class="comment"># Parse command line arguments.</span>
+<a name="l00442"></a>00442 <span class="comment">#</span>
+<a name="l00443"></a>00443 <span class="comment"># Syntax: python xml2dict.py [-v] -o output-file input-file</span>
+<a name="l00444"></a>00444 <span class="comment">#</span>
+<a name="l00445"></a><a class="code" href="../../da/df2/namespacexml2dict.html#ac3022a1e1254d3abad533069e9384b53">00445</a> use = <span class="stringliteral">&quot;Usage: %prog [options] dictionary.xml&quot;</span>
+<a name="l00446"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a4945cd459614abcec52b5146a8f37748">00446</a> parser = OptionParser(usage = use)
+<a name="l00447"></a>00447 parser.add_option(<span class="stringliteral">&quot;-o&quot;</span>, <span class="stringliteral">&quot;--output&quot;</span>, dest=<span class="stringliteral">&quot;output&quot;</span>, metavar=<span class="stringliteral">&quot;FILE&quot;</span>, help=<span class="stringliteral">&quot;write output to FILE&quot;</span>)
+<a name="l00448"></a>00448 options, args = parser.parse_args()
+<a name="l00449"></a>00449 
+<a name="l00450"></a>00450 <span class="comment"># We expect the dictionary name to be present on the command line.</span>
+<a name="l00451"></a>00451 <span class="keywordflow">if</span> len(args) &lt; 1:
+<a name="l00452"></a>00452     <a class="code" href="../../da/d7d/cook_8js.html#ab73f4a250dadcbe62393ae213ecd01c3">print</a>(<span class="stringliteral">&quot;Missing dictionary name.&quot;</span>)
+<a name="l00453"></a>00453     <a class="code" href="../../d6/da5/libpinyin_8js.html#a8d1dff3494178f5d5c3fad9689db37ab">exit</a>(-1)
+<a name="l00454"></a>00454 <span class="keywordflow">if</span> options.output == <span class="keywordtype">None</span>:
+<a name="l00455"></a>00455     <a class="code" href="../../da/d7d/cook_8js.html#ab73f4a250dadcbe62393ae213ecd01c3">print</a>(<span class="stringliteral">&quot;Missing output file.&quot;</span>)
+<a name="l00456"></a>00456     <a class="code" href="../../d6/da5/libpinyin_8js.html#a8d1dff3494178f5d5c3fad9689db37ab">exit</a>(-1)
+<a name="l00457"></a>00457 
+<a name="l00458"></a>00458 <span class="comment"># print some status statements to the console</span>
+<a name="l00459"></a>00459 <span class="keywordflow">print</span> (<span class="stringliteral">&quot;[0/4] Creating dictionary ... (this might take a long time)&quot;</span> )
+<a name="l00460"></a>00460 <span class="keywordflow">print</span> (<span class="stringliteral">&quot;[1/4] Reading XML wordlist and creating TST ...&quot;</span> )
+<a name="l00461"></a>00461 
+<a name="l00462"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a0fc100cf1c87795640d4a56c713dc859">00462</a> <span class="keyword">def </span><a class="code" href="../../da/df2/namespacexml2dict.html#a0fc100cf1c87795640d4a56c713dc859">start_element</a>(name, attrs):
+<a name="l00463"></a>00463     <span class="keyword">global</span> lastName, highestFreq, lastFreq, lastFlags, lastWord
+<a name="l00464"></a>00464     lastName = name
+<a name="l00465"></a>00465     lastFlags = <span class="stringliteral">&quot;&quot;</span>
+<a name="l00466"></a>00466     <span class="keywordflow">if</span> <span class="stringliteral">&quot;flags&quot;</span> <span class="keywordflow">in</span> attrs:
+<a name="l00467"></a>00467         lastFlags = attrs[<span class="stringliteral">&quot;flags&quot;</span>]
+<a name="l00468"></a>00468     lastFreq = -1
+<a name="l00469"></a>00469     <span class="keywordflow">if</span> <span class="stringliteral">&quot;f&quot;</span> <span class="keywordflow">in</span> attrs:
+<a name="l00470"></a>00470         <span class="keywordflow">if</span> <span class="keywordflow">not</span> highestFreq:  <span class="comment"># the first word in the file has the highest freq.</span>
+<a name="l00471"></a>00471             highestFreq = <a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a>(attrs[<span class="stringliteral">&quot;f&quot;</span>])
+<a name="l00472"></a>00472         lastFreq = <a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a>(attrs[<span class="stringliteral">&quot;f&quot;</span>])
+<a name="l00473"></a>00473     <span class="keywordflow">if</span> lastName == <span class="stringliteral">&#39;w&#39;</span>:
+<a name="l00474"></a>00474         lastWord = <span class="stringliteral">&#39;&#39;</span>
+<a name="l00475"></a>00475 
+<a name="l00476"></a><a class="code" href="../../da/df2/namespacexml2dict.html#ac719187e60ae9cfd606ffe68f117d846">00476</a> <span class="keyword">def </span><a class="code" href="../../da/df2/namespacexml2dict.html#ac719187e60ae9cfd606ffe68f117d846">char_data</a>(text):
+<a name="l00477"></a>00477     <span class="keyword">global</span> lastWord
+<a name="l00478"></a>00478     <span class="keywordflow">if</span> lastName == <span class="stringliteral">&#39;w&#39;</span>:
+<a name="l00479"></a>00479         lastWord += text
+<a name="l00480"></a>00480 
+<a name="l00481"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a02dcb8d53f3ac4245097f1169c801980">00481</a> <span class="keyword">def </span><a class="code" href="../../da/df2/namespacexml2dict.html#a02dcb8d53f3ac4245097f1169c801980">end_element</a>(name):
+<a name="l00482"></a>00482     <span class="keywordflow">if</span> name != <span class="stringliteral">&#39;w&#39;</span> <span class="keywordflow">or</span> lastName != <span class="stringliteral">&#39;w&#39;</span>:
+<a name="l00483"></a>00483         <span class="keywordflow">return</span>
+<a name="l00484"></a>00484 
+<a name="l00485"></a>00485     <span class="keyword">global</span> tstRoot, _WordCounter, lastWord, maxWordLength
+<a name="l00486"></a>00486 
+<a name="l00487"></a>00487     lastWord = lastWord.strip()
+<a name="l00488"></a>00488 
+<a name="l00489"></a>00489     <span class="comment"># Find the longest word in the dictionary</span>
+<a name="l00490"></a>00490     <span class="keywordflow">if</span> len(lastWord) &gt; maxWordLength:
+<a name="l00491"></a>00491         maxWordLength = len(lastWord)
+<a name="l00492"></a>00492 
+<a name="l00493"></a>00493     <span class="comment"># Scale the frequencies so that they are &gt; 0 and &lt; 1</span>
+<a name="l00494"></a>00494     <span class="comment"># Later, when serializing the dictionary, we&#39;ll scale to fit in 5 bits</span>
+<a name="l00495"></a>00495     freq = lastFreq / (highestFreq + 1)
+<a name="l00496"></a>00496 
+<a name="l00497"></a>00497     tstRoot = tree.insert(tstRoot, lastWord + _EndOfWord, freq)
+<a name="l00498"></a>00498 
+<a name="l00499"></a>00499     <span class="comment"># keep track of the letter frequencies</span>
+<a name="l00500"></a>00500     <span class="keywordflow">for</span> ch <span class="keywordflow">in</span> lastWord:
+<a name="l00501"></a>00501         <span class="keywordflow">if</span> ch <span class="keywordflow">in</span> characterFrequency:
+<a name="l00502"></a>00502             characterFrequency[ch] += 1
+<a name="l00503"></a>00503         <span class="keywordflow">else</span>:
+<a name="l00504"></a>00504             characterFrequency[ch] = 1
+<a name="l00505"></a>00505 
+<a name="l00506"></a>00506     _WordCounter += 1
+<a name="l00507"></a>00507     <span class="keywordflow">if</span> _WordCounter % 10000 == 0:
+<a name="l00508"></a>00508         <a class="code" href="../../da/d7d/cook_8js.html#ab73f4a250dadcbe62393ae213ecd01c3">print</a>(<span class="stringliteral">&quot;          &gt;&gt;&gt; (&quot;</span> + <a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>(_WordCounter) + <span class="stringliteral">&quot; words read)&quot;</span>)
+<a name="l00509"></a>00509 
+<a name="l00510"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a649b3445e62acbea285509d601c9fb56">00510</a> tstRoot = <span class="keywordtype">None</span>
+<a name="l00511"></a><a class="code" href="../../da/df2/namespacexml2dict.html#aa8dec942af2c6d4b6c6053526383cbd8">00511</a> tree = <a class="code" href="../../d7/d33/classxml2dict_1_1_t_s_t_tree.html">TSTTree</a>()
+<a name="l00512"></a>00512 
+<a name="l00513"></a>00513 <span class="comment"># Parse the XML input file and build the trie.</span>
+<a name="l00514"></a><a class="code" href="../../da/df2/namespacexml2dict.html#ac721d8d9b911221db023adedf766fa4a">00514</a> p = expat.ParserCreate()
+<a name="l00515"></a>00515 p.StartElementHandler = start_element
+<a name="l00516"></a>00516 p.CharacterDataHandler = char_data
+<a name="l00517"></a>00517 p.EndElementHandler = end_element
+<a name="l00518"></a>00518 p.ParseFile(<a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(args[0], <span class="stringliteral">&#39;rb&#39;</span>))
+<a name="l00519"></a>00519 
+<a name="l00520"></a>00520 <span class="keywordflow">print</span> (<span class="stringliteral">&quot;[2/4] Balancing Ternary Search Tree ...&quot;</span>)
+<a name="l00521"></a>00521 tstRoot = tree.balance(tstRoot)
+<a name="l00522"></a>00522 
+<a name="l00523"></a>00523 <span class="keywordflow">print</span> (<span class="stringliteral">&quot;[3/4] Serializing TST ...&quot;</span>);
+<a name="l00524"></a><a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">00524</a> nodes = <a class="code" href="../../da/df2/namespacexml2dict.html#ae72f007ab100b0a1ad178868e84d88cc">serializeTree</a>(tstRoot)
+<a name="l00525"></a>00525 
+<a name="l00526"></a>00526 <span class="keywordflow">print</span> (<span class="stringliteral">&quot;[4/4] Emitting TST ...&quot;</span>)
+<a name="l00527"></a><a class="code" href="../../da/df2/namespacexml2dict.html#a6005667844317fcb82daff7470579c01">00527</a> output = <a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(options.output, <span class="stringliteral">&quot;wb&quot;</span>)
+<a name="l00528"></a>00528 <a class="code" href="../../da/df2/namespacexml2dict.html#ad18f38b79d56fbbacd15bca4dfd2016a">emit</a>(output, nodes)
+<a name="l00529"></a>00529 output.close()
+<a name="l00530"></a>00530 
+<a name="l00531"></a>00531 <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Successfully created Dictionary&quot;</span>)
+<a name="l00532"></a>00532 
+<a name="l00533"></a>00533 <a class="code" href="../../d6/da5/libpinyin_8js.html#a8d1dff3494178f5d5c3fad9689db37ab">exit</a>()
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d7/d5a/xml2dict_8py.html">xml2dict.py</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:39に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

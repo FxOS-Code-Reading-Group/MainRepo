@@ -1,0 +1,28 @@
+var moz_i_async_history_8h =
+[
+    [ "MOZIASYNCHISTORY_IID", "da/dbc/moz_i_async_history_8h.html#a2b22c22c90b8a536b5c0842c61177a4f", null ],
+    [ "MOZIASYNCHISTORY_IID_STR", "da/dbc/moz_i_async_history_8h.html#a5c788cb0700fb37d09a6f8e54fa58a85", null ],
+    [ "MOZIPLACEINFO_IID", "da/dbc/moz_i_async_history_8h.html#a7ca715a51617d01ec96992127ebfbab8", null ],
+    [ "MOZIPLACEINFO_IID_STR", "da/dbc/moz_i_async_history_8h.html#a3894a4cc1a561cf26051f7db0136c5b9", null ],
+    [ "MOZIVISITEDSTATUSCALLBACK_IID", "da/dbc/moz_i_async_history_8h.html#ae4908c5d3d7c6564ea1b0d7773650b31", null ],
+    [ "MOZIVISITEDSTATUSCALLBACK_IID_STR", "da/dbc/moz_i_async_history_8h.html#af7048bfca75b118e5df169ee6e048beb", null ],
+    [ "MOZIVISITINFO_IID", "da/dbc/moz_i_async_history_8h.html#a4c18bb3b7947b85f93755d506515e256", null ],
+    [ "MOZIVISITINFO_IID_STR", "da/dbc/moz_i_async_history_8h.html#abbb08a7d3b3ff2f1aa065abd18cff75c", null ],
+    [ "MOZIVISITINFOCALLBACK_IID", "da/dbc/moz_i_async_history_8h.html#a3f69d02fd97afb2208be47a72eecd035", null ],
+    [ "MOZIVISITINFOCALLBACK_IID_STR", "da/dbc/moz_i_async_history_8h.html#ae141195ead292ccd0c2174b771220272", null ],
+    [ "NS_DECL_MOZIASYNCHISTORY", "da/dbc/moz_i_async_history_8h.html#a7e8cc5913ae1d5c57858fa3d792c3e0f", null ],
+    [ "NS_DECL_MOZIPLACEINFO", "da/dbc/moz_i_async_history_8h.html#a7fb620c298e96915e9ec1bbc39092b67", null ],
+    [ "NS_DECL_MOZIVISITEDSTATUSCALLBACK", "da/dbc/moz_i_async_history_8h.html#a19ffcfd8052bf70a06b41e4f6b8bff2c", null ],
+    [ "NS_DECL_MOZIVISITINFO", "da/dbc/moz_i_async_history_8h.html#a379df88ed7a2630f9d1465817512dec8", null ],
+    [ "NS_DECL_MOZIVISITINFOCALLBACK", "da/dbc/moz_i_async_history_8h.html#aecdd7c62cca33f8abc2650b1a6b535e3", null ],
+    [ "NS_FORWARD_MOZIASYNCHISTORY", "da/dbc/moz_i_async_history_8h.html#ad995de1e29b373e7b7d2c74234d9e3f5", null ],
+    [ "NS_FORWARD_MOZIPLACEINFO", "da/dbc/moz_i_async_history_8h.html#aea3bc51f226019f6b888136be8f93026", null ],
+    [ "NS_FORWARD_MOZIVISITEDSTATUSCALLBACK", "da/dbc/moz_i_async_history_8h.html#a19b781a6e4249bd16c83825d2f5bf28f", null ],
+    [ "NS_FORWARD_MOZIVISITINFO", "da/dbc/moz_i_async_history_8h.html#a6580360e123531fa6892a895c54a14f3", null ],
+    [ "NS_FORWARD_MOZIVISITINFOCALLBACK", "da/dbc/moz_i_async_history_8h.html#a6a0e9eb7383685e8c3f6230e475c598e", null ],
+    [ "NS_FORWARD_SAFE_MOZIASYNCHISTORY", "da/dbc/moz_i_async_history_8h.html#a83b459aa1a37a273db2755391740b9a0", null ],
+    [ "NS_FORWARD_SAFE_MOZIPLACEINFO", "da/dbc/moz_i_async_history_8h.html#acca99e63235d3964703324199a78f936", null ],
+    [ "NS_FORWARD_SAFE_MOZIVISITEDSTATUSCALLBACK", "da/dbc/moz_i_async_history_8h.html#a4ed3b8aeb55123048711bd50943fec32", null ],
+    [ "NS_FORWARD_SAFE_MOZIVISITINFO", "da/dbc/moz_i_async_history_8h.html#a95d3d0e2be1b74d862032feb7c9bf116", null ],
+    [ "NS_FORWARD_SAFE_MOZIVISITINFOCALLBACK", "da/dbc/moz_i_async_history_8h.html#adb3f3f13b001a33b29586c349bebf205", null ]
+];

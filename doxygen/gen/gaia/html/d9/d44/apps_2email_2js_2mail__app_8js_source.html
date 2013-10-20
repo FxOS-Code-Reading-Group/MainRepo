@@ -1,0 +1,527 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: mail_app.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d9/d44/apps_2email_2js_2mail__app_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">mail_app.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d9/d44/apps_2email_2js_2mail__app_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00005"></a>00005 <span class="comment">/*jshint browser: true */</span>
+<a name="l00006"></a>00006 <span class="comment">/*global define, requirejs, confirm, console, TestUrlResolver */</span>
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="comment">// Set up loading of scripts, but only if not in tests, which set up</span>
+<a name="l00009"></a>00009 <span class="comment">// their own config.</span>
+<a name="l00010"></a><a class="code" href="../../d9/d44/apps_2email_2js_2mail__app_8js.html#a7cd3df564e02ced42a2747c8eade794b">00010</a> <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> TestUrlResolver === <span class="stringliteral">&#39;undefined&#39;</span>) {
+<a name="l00011"></a>00011   <a class="code" href="../../d9/d2e/alameda_8js.html#a44c2a92e377407b0af593e79fa27596f">requirejs</a>.config({
+<a name="l00012"></a>00012     baseUrl: <span class="stringliteral">&#39;js&#39;</span>,
+<a name="l00013"></a>00013     paths: {
+<a name="l00014"></a>00014       l10nbase: <span class="stringliteral">&#39;../shared/js/l10n&#39;</span>,
+<a name="l00015"></a>00015       l10ndate: <span class="stringliteral">&#39;../shared/js/l10n_date&#39;</span>,
+<a name="l00016"></a>00016       style: <span class="stringliteral">&#39;../style&#39;</span>,
+<a name="l00017"></a>00017       <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a88b8a0ec29ea19ab8a79e10dd9cf3c04">shared</a>: <span class="stringliteral">&#39;../shared&#39;</span>,
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019       <span class="stringliteral">&#39;mailapi/main-frame-setup&#39;</span>: <span class="stringliteral">&#39;ext/mailapi/main-frame-setup&#39;</span>,
+<a name="l00020"></a>00020       <span class="stringliteral">&#39;mailapi/main-frame-backend&#39;</span>: <span class="stringliteral">&#39;ext/mailapi/main-frame-backend&#39;</span>
+<a name="l00021"></a>00021     },
+<a name="l00022"></a>00022     map: {
+<a name="l00023"></a>00023       <span class="charliteral">&#39;*&#39;</span>: {
+<a name="l00024"></a>00024         <span class="stringliteral">&#39;api&#39;</span>: <span class="stringliteral">&#39;mailapi/main-frame-setup&#39;</span>
+<a name="l00025"></a>00025       }
+<a name="l00026"></a>00026     },
+<a name="l00027"></a>00027     shim: {
+<a name="l00028"></a>00028       l10ndate: [<span class="stringliteral">&#39;l10nbase&#39;</span>],
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030       <span class="stringliteral">&#39;shared/js/mime_mapper&#39;</span>: {
+<a name="l00031"></a>00031         <a class="code" href="../../d8/deb/test_2marionette_2lib_2browser_8js.html#aa4072ba4b6b56b0fb6f4801f17ab2b34">exports</a>: <span class="stringliteral">&#39;MimeMapper&#39;</span>
+<a name="l00032"></a>00032       },
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034       <span class="stringliteral">&#39;shared/js/notification_helper&#39;</span>: {
+<a name="l00035"></a>00035         <a class="code" href="../../d8/deb/test_2marionette_2lib_2browser_8js.html#aa4072ba4b6b56b0fb6f4801f17ab2b34">exports</a>: <span class="stringliteral">&#39;NotificationHelper&#39;</span>
+<a name="l00036"></a>00036       }
+<a name="l00037"></a>00037     },
+<a name="l00038"></a>00038     definePrim: <span class="stringliteral">&#39;prim&#39;</span>
+<a name="l00039"></a>00039   });
+<a name="l00040"></a>00040 }
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042 <span class="comment">// Named module, so it is the same before and after build, and referenced</span>
+<a name="l00043"></a>00043 <span class="comment">// in the require at the end of this file.</span>
+<a name="l00044"></a>00044 <a class="code" href="../../d9/d2e/alameda_8js.html#a8a3a5595e65e7e2a2cf64c08ba74833f">define</a>(<span class="stringliteral">&#39;mail_app&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>, <a class="code" href="../../d8/deb/test_2marionette_2lib_2browser_8js.html#aa4072ba4b6b56b0fb6f4801f17ab2b34">exports</a>, <a class="code" href="../../dc/dd7/ext_2caldav_8js.html#a84770557f73663cbea2a9e12e7d45257">module</a>) {
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 var appMessages = <a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>(<span class="stringliteral">&#39;app_messages&#39;</span>),
+<a name="l00047"></a>00047     htmlCache = <a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>(<span class="stringliteral">&#39;html_cache&#39;</span>),
+<a name="l00048"></a>00048     <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a> = <a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>(<span class="stringliteral">&#39;l10n!&#39;</span>),
+<a name="l00049"></a>00049     common = <a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>(<span class="stringliteral">&#39;mail_common&#39;</span>),
+<a name="l00050"></a>00050     evt = <a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>(<span class="stringliteral">&#39;evt&#39;</span>),
+<a name="l00051"></a>00051     <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a> = <a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>(<span class="stringliteral">&#39;model&#39;</span>),
+<a name="l00052"></a>00052     Cards = common.Cards,
+<a name="l00053"></a>00053     activityCallback = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 <a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>(<span class="stringliteral">&#39;sync&#39;</span>);
+<a name="l00056"></a>00056 <a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>(<span class="stringliteral">&#39;wake_locks&#39;</span>);
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.latestOnce(<span class="stringliteral">&#39;api&#39;</span>, <span class="keyword">function</span>(api) {
+<a name="l00059"></a>00059   <span class="comment">// If our password is bad, we need to pop up a card to ask for the updated</span>
+<a name="l00060"></a>00060   <span class="comment">// password.</span>
+<a name="l00061"></a>00061   api.onbadlogin = <span class="keyword">function</span>(account, problem) {
+<a name="l00062"></a>00062     <span class="keywordflow">switch</span> (problem) {
+<a name="l00063"></a>00063       <span class="keywordflow">case</span> <span class="stringliteral">&#39;bad-user-or-pass&#39;</span>:
+<a name="l00064"></a>00064         Cards.pushCard(<span class="stringliteral">&#39;setup_fix_password&#39;</span>, <span class="stringliteral">&#39;default&#39;</span>, <span class="stringliteral">&#39;animate&#39;</span>,
+<a name="l00065"></a>00065                   { account: account, restoreCard: Cards.activeCardIndex },
+<a name="l00066"></a>00066                   <span class="stringliteral">&#39;right&#39;</span>);
+<a name="l00067"></a>00067         <span class="keywordflow">break</span>;
+<a name="l00068"></a>00068       <span class="keywordflow">case</span> <span class="stringliteral">&#39;imap-disabled&#39;</span>:
+<a name="l00069"></a>00069         Cards.pushCard(<span class="stringliteral">&#39;setup_fix_gmail_imap&#39;</span>, <span class="stringliteral">&#39;default&#39;</span>, <span class="stringliteral">&#39;animate&#39;</span>,
+<a name="l00070"></a>00070                   { account: account, restoreCard: Cards.activeCardIndex },
+<a name="l00071"></a>00071                   <span class="stringliteral">&#39;right&#39;</span>);
+<a name="l00072"></a>00072         <span class="keywordflow">break</span>;
+<a name="l00073"></a>00073       <span class="keywordflow">case</span> <span class="stringliteral">&#39;needs-app-pass&#39;</span>:
+<a name="l00074"></a>00074         Cards.pushCard(<span class="stringliteral">&#39;setup_fix_gmail_twofactor&#39;</span>, <span class="stringliteral">&#39;default&#39;</span>, <span class="stringliteral">&#39;animate&#39;</span>,
+<a name="l00075"></a>00075                   { account: account, restoreCard: Cards.activeCardIndex },
+<a name="l00076"></a>00076                   <span class="stringliteral">&#39;right&#39;</span>);
+<a name="l00077"></a>00077         <span class="keywordflow">break</span>;
+<a name="l00078"></a>00078     }
+<a name="l00079"></a>00079   };
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081   api.useLocalizedStrings({
+<a name="l00082"></a>00082     wrote: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;reply-quoting-wrote&#39;</span>),
+<a name="l00083"></a>00083     originalMessage: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;forward-original-message&#39;</span>),
+<a name="l00084"></a>00084     forwardHeaderLabels: {
+<a name="l00085"></a>00085       <a class="code" href="../../da/dce/details__test_8js.html#ab17dfde70922e77b2bbcbd0192a12531">subject</a>: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;forward-header-subject&#39;</span>),
+<a name="l00086"></a>00086       <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;forward-header-date&#39;</span>),
+<a name="l00087"></a>00087       from: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;forward-header-from&#39;</span>),
+<a name="l00088"></a>00088       replyTo: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;forward-header-reply-to&#39;</span>),
+<a name="l00089"></a>00089       <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a>: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;forward-header-to&#39;</span>),
+<a name="l00090"></a>00090       <a class="code" href="../../db/de5/namespacedefault__timezones.html#a7e2d0d21e7dfe0cc89424b8d53027372">cc</a>: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;forward-header-cc&#39;</span>)
+<a name="l00091"></a>00091     },
+<a name="l00092"></a>00092     folderNames: {
+<a name="l00093"></a>00093       inbox: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;folder-inbox&#39;</span>),
+<a name="l00094"></a>00094       sent: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;folder-sent&#39;</span>),
+<a name="l00095"></a>00095       drafts: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;folder-drafts&#39;</span>),
+<a name="l00096"></a>00096       trash: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;folder-trash&#39;</span>),
+<a name="l00097"></a>00097       queue: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;folder-queue&#39;</span>),
+<a name="l00098"></a>00098       junk: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;folder-junk&#39;</span>),
+<a name="l00099"></a>00099       archives: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;folder-archives&#39;</span>),
+<a name="l00100"></a>00100       localdrafts: <a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;folder-localdrafts&#39;</span>)
+<a name="l00101"></a>00101     }
+<a name="l00102"></a>00102   });
+<a name="l00103"></a>00103 });
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105 <span class="comment">// Handle cases where a default card is needed for back navigation</span>
+<a name="l00106"></a>00106 <span class="comment">// after a non-default entry point (like an activity) is triggered.</span>
+<a name="l00107"></a>00107 Cards.pushDefaultCard = <span class="keyword">function</span>(onPushed) {
+<a name="l00108"></a>00108   <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.latestOnce(<span class="stringliteral">&#39;foldersSlice&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00109"></a>00109     Cards.pushCard(<span class="stringliteral">&#39;message_list&#39;</span>, <span class="stringliteral">&#39;nonsearch&#39;</span>, <span class="stringliteral">&#39;none&#39;</span>, {
+<a name="l00110"></a>00110       onPushed: onPushed
+<a name="l00111"></a>00111     },
+<a name="l00112"></a>00112     <span class="comment">// Default to &quot;before&quot; placement.</span>
+<a name="l00113"></a>00113     <span class="stringliteral">&#39;left&#39;</span>);
+<a name="l00114"></a>00114   });
+<a name="l00115"></a>00115 };
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117 Cards._init();
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119 var finalCardStateCallback,
+<a name="l00120"></a>00120     waitForAppMessage = <span class="keyword">false</span>,
+<a name="l00121"></a>00121     startedInBackground = <span class="keyword">false</span>,
+<a name="l00122"></a>00122     cachedNode = Cards._cardsNode.children[0],
+<a name="l00123"></a>00123     startCardId = cachedNode &amp;&amp; cachedNode.getAttribute(<span class="stringliteral">&#39;data-type&#39;</span>);
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 var startCardArgs = {
+<a name="l00126"></a>00126   <span class="stringliteral">&#39;setup_account_info&#39;</span>: [
+<a name="l00127"></a>00127     <span class="stringliteral">&#39;setup_account_info&#39;</span>, <span class="stringliteral">&#39;default&#39;</span>, <span class="stringliteral">&#39;immediate&#39;</span>,
+<a name="l00128"></a>00128     {
+<a name="l00129"></a>00129       onPushed: <span class="keyword">function</span>(<a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a7d0f1de6f8101fa5b723f403effd4396">impl</a>) {
+<a name="l00130"></a>00130         htmlCache.delayedSaveFromNode(<a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a7d0f1de6f8101fa5b723f403effd4396">impl</a>.domNode.cloneNode(<span class="keyword">true</span>));
+<a name="l00131"></a>00131       }
+<a name="l00132"></a>00132     }
+<a name="l00133"></a>00133   ],
+<a name="l00134"></a>00134   <span class="stringliteral">&#39;message_list&#39;</span>: [
+<a name="l00135"></a>00135     <span class="stringliteral">&#39;message_list&#39;</span>, <span class="stringliteral">&#39;nonsearch&#39;</span>, <span class="stringliteral">&#39;immediate&#39;</span>, {}
+<a name="l00136"></a>00136   ]
+<a name="l00137"></a>00137 };
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 <span class="keyword">function</span> pushStartCard(<span class="keywordtype">id</span>, addedArgs) {
+<a name="l00140"></a>00140   var <a class="code" href="../../db/d7b/r_8js.html#a283fa4dd58795cf5b621404be6601e86">args</a> = startCardArgs[<a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>];
+<a name="l00141"></a>00141   <span class="keywordflow">if</span> (!args)
+<a name="l00142"></a>00142     <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;Invalid start card: &#39;</span> + <span class="keywordtype">id</span>);
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144   <span class="comment">//Add in cached node to use (could be null)</span>
+<a name="l00145"></a>00145   args[3].cachedNode = cachedNode;
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147   <span class="comment">// Mix in addedArgs to the args object that is passed to pushCard.</span>
+<a name="l00148"></a>00148   <span class="keywordflow">if</span> (addedArgs) {
+<a name="l00149"></a>00149     Object.keys(addedArgs).forEach(<span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>) {
+<a name="l00150"></a>00150       args[3][<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>] = addedArgs[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>];
+<a name="l00151"></a>00151     });
+<a name="l00152"></a>00152   }
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154   <span class="keywordflow">return</span> Cards.pushCard.apply(Cards, args);
+<a name="l00155"></a>00155 }
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157 <span class="keywordflow">if</span> (appMessages.hasPending(<span class="stringliteral">&#39;activity&#39;</span>) ||
+<a name="l00158"></a>00158     appMessages.hasPending(<span class="stringliteral">&#39;notification&#39;</span>)) {
+<a name="l00159"></a>00159   <span class="comment">// There is an activity, do not use the cache node, start fresh,</span>
+<a name="l00160"></a>00160   <span class="comment">// and block normal first card selection, wait for activity.</span>
+<a name="l00161"></a>00161   cachedNode = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00162"></a>00162   waitForAppMessage = <span class="keyword">true</span>;
+<a name="l00163"></a>00163 }
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165 <span class="keywordflow">if</span> (appMessages.hasPending(<span class="stringliteral">&#39;alarm&#39;</span>)) {
+<a name="l00166"></a>00166   <span class="comment">// There is an alarm, do not use the cache node, start fresh,</span>
+<a name="l00167"></a>00167   <span class="comment">// as we were woken up just for the alarm.</span>
+<a name="l00168"></a>00168   cachedNode = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00169"></a>00169   startedInBackground = <span class="keyword">true</span>;
+<a name="l00170"></a>00170 }
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172 <span class="comment">// If still have a cached node, then show it.</span>
+<a name="l00173"></a>00173 <span class="keywordflow">if</span> (cachedNode) {
+<a name="l00174"></a>00174   <span class="comment">// Wire up a card implementation to the cached node.</span>
+<a name="l00175"></a>00175   <span class="keywordflow">if</span> (startCardId) {
+<a name="l00176"></a>00176     pushStartCard(startCardId);
+<a name="l00177"></a>00177   } <span class="keywordflow">else</span> {
+<a name="l00178"></a>00178     cachedNode = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00179"></a>00179   }
+<a name="l00180"></a>00180 }
+<a name="l00181"></a>00181 
+<a name="l00189"></a>00189 <span class="keyword">function</span> resetCards(cardId, args) {
+<a name="l00190"></a>00190   cachedNode = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00191"></a>00191 
+<a name="l00192"></a>00192   var startArgs = startCardArgs[cardId],
+<a name="l00193"></a>00193       query = [startArgs[0], startArgs[1]];
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195   <span class="keywordflow">if</span> (!Cards.hasCard(query)) {
+<a name="l00196"></a>00196     Cards.removeAllCards();
+<a name="l00197"></a>00197     pushStartCard(cardId, args);
+<a name="l00198"></a>00198   }
+<a name="l00199"></a>00199 }
+<a name="l00200"></a>00200 
+<a name="l00207"></a>00207 <span class="keyword">function</span> showFinalCardState(fn) {
+<a name="l00208"></a>00208   <span class="keywordflow">if</span> (startedInBackground &amp;&amp; <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.hidden) {
+<a name="l00209"></a>00209     finalCardStateCallback = fn;
+<a name="l00210"></a>00210   } <span class="keywordflow">else</span> {
+<a name="l00211"></a>00211     fn();
+<a name="l00212"></a>00212   }
+<a name="l00213"></a>00213 }
+<a name="l00214"></a>00214 
+<a name="l00219"></a>00219 <span class="keyword">function</span> showMessageList(args) {
+<a name="l00220"></a>00220   showFinalCardState(<span class="keyword">function</span>() {
+<a name="l00221"></a>00221     resetCards(<span class="stringliteral">&#39;message_list&#39;</span>, args);
+<a name="l00222"></a>00222   });
+<a name="l00223"></a>00223 }
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225 <span class="comment">// Handles visibility changes: if the app becomes visible</span>
+<a name="l00226"></a>00226 <span class="comment">// being hidden via a cronsync startup, trigger UI creation.</span>
+<a name="l00227"></a>00227 <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.addEventListener(<span class="stringliteral">&#39;visibilitychange&#39;</span>, <span class="keyword">function</span> onVisibilityChange() {
+<a name="l00228"></a>00228   <span class="keywordflow">if</span> (startedInBackground &amp;&amp; finalCardStateCallback &amp;&amp; !<a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.hidden) {
+<a name="l00229"></a>00229     finalCardStateCallback();
+<a name="l00230"></a>00230     finalCardStateCallback = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00231"></a>00231   }
+<a name="l00232"></a>00232 }, <span class="keyword">false</span>);
+<a name="l00233"></a>00233 
+<a name="l00234"></a>00234 <span class="comment">// Some event modifications during setup do not have full account</span>
+<a name="l00235"></a>00235 <span class="comment">// IDs. This listener catches those modifications and applies</span>
+<a name="l00236"></a>00236 <span class="comment">// them when the data is available.</span>
+<a name="l00237"></a>00237 evt.on(<span class="stringliteral">&#39;accountModified&#39;</span>, <span class="keyword">function</span>(accountId, <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>) {
+<a name="l00238"></a>00238   <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.latestOnce(<span class="stringliteral">&#39;acctsSlice&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00239"></a>00239     var account = <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.getAccount(accountId);
+<a name="l00240"></a>00240     <span class="keywordflow">if</span> (account)
+<a name="l00241"></a>00241       account.modifyAccount(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>);
+<a name="l00242"></a>00242   });
+<a name="l00243"></a>00243 });
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245 <span class="comment">// The add account UI flow is requested.</span>
+<a name="l00246"></a>00246 evt.on(<span class="stringliteral">&#39;addAccount&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00247"></a>00247   Cards.removeAllCards();
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249   <span class="comment">// Show the first setup card again.</span>
+<a name="l00250"></a>00250   pushStartCard(<span class="stringliteral">&#39;setup_account_info&#39;</span>, {
+<a name="l00251"></a>00251     allowBack: <span class="keyword">true</span>
+<a name="l00252"></a>00252   });
+<a name="l00253"></a>00253 });
+<a name="l00254"></a>00254 
+<a name="l00255"></a>00255 <span class="keyword">function</span> resetApp() {
+<a name="l00256"></a>00256   Cards.removeAllCards();
+<a name="l00257"></a>00257   <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.init();
+<a name="l00258"></a>00258 }
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260 <span class="comment">// An account was deleted. Burn it all to the ground and</span>
+<a name="l00261"></a>00261 <span class="comment">// rise like a phoenix. Prefer a UI event vs. a slice</span>
+<a name="l00262"></a>00262 <span class="comment">// listen to give flexibility about UI construction:</span>
+<a name="l00263"></a>00263 <span class="comment">// an acctsSlice splice change may not warrant removing</span>
+<a name="l00264"></a>00264 <span class="comment">// all the cards.</span>
+<a name="l00265"></a>00265 evt.on(<span class="stringliteral">&#39;accountDeleted&#39;</span>, resetApp);
+<a name="l00266"></a>00266 evt.on(<span class="stringliteral">&#39;resetApp&#39;</span>, resetApp);
+<a name="l00267"></a>00267 
+<a name="l00268"></a>00268 <span class="comment">// A request to show the latest account in the UI.</span>
+<a name="l00269"></a>00269 <span class="comment">// Usually triggered after an account has been added.</span>
+<a name="l00270"></a>00270 evt.on(<span class="stringliteral">&#39;showLatestAccount&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00271"></a>00271   Cards.removeAllCards();
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273   <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.latestOnce(<span class="stringliteral">&#39;acctsSlice&#39;</span>, <span class="keyword">function</span>(acctsSlice) {
+<a name="l00274"></a>00274     var account = acctsSlice.items[acctsSlice.items.length - 1];
+<a name="l00275"></a>00275     <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.changeAccount(account, <span class="keyword">function</span>() {
+<a name="l00276"></a>00276       pushStartCard(<span class="stringliteral">&#39;message_list&#39;</span>);
+<a name="l00277"></a>00277     });
+<a name="l00278"></a>00278   });
+<a name="l00279"></a>00279 });
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281 <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.on(<span class="stringliteral">&#39;acctsSlice&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00282"></a>00282   <span class="keywordflow">if</span> (!<a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.hasAccount()) {
+<a name="l00283"></a>00283     resetCards(<span class="stringliteral">&#39;setup_account_info&#39;</span>);
+<a name="l00284"></a>00284   } <span class="keywordflow">else</span> {
+<a name="l00285"></a>00285     <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.latestOnce(<span class="stringliteral">&#39;foldersSlice&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00286"></a>00286       <span class="keywordflow">if</span> (waitForAppMessage)
+<a name="l00287"></a>00287         <span class="keywordflow">return</span>;
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289       <span class="comment">// If an activity was waiting for an account, trigger it now.</span>
+<a name="l00290"></a>00290       <span class="keywordflow">if</span> (activityCallback) {
+<a name="l00291"></a>00291         var activityCb = activityCallback;
+<a name="l00292"></a>00292         activityCallback = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00293"></a>00293         <span class="keywordflow">return</span> activityCb();
+<a name="l00294"></a>00294       }
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296       showMessageList();
+<a name="l00297"></a>00297     });
+<a name="l00298"></a>00298   }
+<a name="l00299"></a>00299 });
+<a name="l00300"></a>00300 
+<a name="l00301"></a>00301 appMessages.on(<span class="stringliteral">&#39;activity&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, rawActivity) {
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303   <span class="keyword">function</span> initComposer() {
+<a name="l00304"></a>00304     Cards.pushCard(<span class="stringliteral">&#39;compose&#39;</span>, <span class="stringliteral">&#39;default&#39;</span>, <span class="stringliteral">&#39;immediate&#39;</span>, {
+<a name="l00305"></a>00305       <a class="code" href="../../de/dc7/share-receiver_8js.html#add7056b1c8a53d2db94122b6cd76b964">activity</a>: rawActivity,
+<a name="l00306"></a>00306       composerData: {
+<a name="l00307"></a>00307         onComposer: <span class="keyword">function</span>(composer) {
+<a name="l00308"></a>00308           var attachmentBlobs = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.attachmentBlobs;
+<a name="l00309"></a>00309           <span class="comment">/* to/cc/bcc/subject/body all have default values that shouldn&#39;t</span>
+<a name="l00310"></a>00310 <span class="comment">          be clobbered if they are not specified in the URI*/</span>
+<a name="l00311"></a>00311           <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.to)
+<a name="l00312"></a>00312             composer.to = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.to;
+<a name="l00313"></a>00313           <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.subject)
+<a name="l00314"></a>00314             composer.subject = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.subject;
+<a name="l00315"></a>00315           <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.body)
+<a name="l00316"></a>00316             composer.body = { <a class="code" href="../../dd/dfa/classtext.html">text</a>: <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.body };
+<a name="l00317"></a>00317           <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.cc)
+<a name="l00318"></a>00318             composer.cc = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.cc;
+<a name="l00319"></a>00319           <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.bcc)
+<a name="l00320"></a>00320             composer.bcc = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.bcc;
+<a name="l00321"></a>00321           <span class="keywordflow">if</span> (attachmentBlobs) {
+<a name="l00322"></a>00322             <span class="keywordflow">for</span> (var iBlob = 0; iBlob &lt; attachmentBlobs.length; iBlob++) {
+<a name="l00323"></a>00323               composer.addAttachment({
+<a name="l00324"></a>00324                 <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>: <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.attachmentNames[iBlob],
+<a name="l00325"></a>00325                 blob: attachmentBlobs[iBlob]
+<a name="l00326"></a>00326               });
+<a name="l00327"></a>00327             }
+<a name="l00328"></a>00328           }
+<a name="l00329"></a>00329         }
+<a name="l00330"></a>00330       }
+<a name="l00331"></a>00331     });
+<a name="l00332"></a>00332   }
+<a name="l00333"></a>00333 
+<a name="l00334"></a>00334   <span class="keyword">function</span> promptEmptyAccount() {
+<a name="l00335"></a>00335     var <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a42c43c76081a7df8ae2954f16ee9338b">req</a> = <a class="code" href="../../d5/d62/build__stage_2email_2shared_2style_2_r_e_a_d_m_e_8md.html#ab77aa8c2fa705d45d7ff1db3a11306ae">confirm</a>(<a class="code" href="../../da/dce/details__test_8js.html#abf8c988c23b2b2f5ec3f1149b44bd820">mozL10n</a>.get(<span class="stringliteral">&#39;setup-empty-account-prompt&#39;</span>));
+<a name="l00336"></a>00336     <span class="keywordflow">if</span> (!req) {
+<a name="l00337"></a>00337       rawActivity.postError(<span class="stringliteral">&#39;cancelled&#39;</span>);
+<a name="l00338"></a>00338     }
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340     <span class="comment">// No longer need to wait for the activity to complete, it needs</span>
+<a name="l00341"></a>00341     <span class="comment">// normal card flow</span>
+<a name="l00342"></a>00342     waitForAppMessage = <span class="keyword">false</span>;
+<a name="l00343"></a>00343 
+<a name="l00344"></a>00344     activityCallback = initComposer;
+<a name="l00345"></a>00345   }
+<a name="l00346"></a>00346 
+<a name="l00347"></a>00347   <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.inited) {
+<a name="l00348"></a>00348     <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.hasAccount()) {
+<a name="l00349"></a>00349       initComposer();
+<a name="l00350"></a>00350     } <span class="keywordflow">else</span> {
+<a name="l00351"></a>00351       promptEmptyAccount();
+<a name="l00352"></a>00352     }
+<a name="l00353"></a>00353   } <span class="keywordflow">else</span> {
+<a name="l00354"></a>00354     <span class="comment">// Be optimistic and start rendering compose as soon as possible</span>
+<a name="l00355"></a>00355     <span class="comment">// In the edge case that email is not configured, then the empty</span>
+<a name="l00356"></a>00356     <span class="comment">// account prompt will be triggered quickly in the next section.</span>
+<a name="l00357"></a>00357     initComposer();
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359     <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.latestOnce(<span class="stringliteral">&#39;acctsSlice&#39;</span>, <span class="keyword">function</span> activityOnAccount() {
+<a name="l00360"></a>00360       <span class="keywordflow">if</span> (!<a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.hasAccount()) {
+<a name="l00361"></a>00361         promptEmptyAccount();
+<a name="l00362"></a>00362       }
+<a name="l00363"></a>00363     });
+<a name="l00364"></a>00364   }
+<a name="l00365"></a>00365 });
+<a name="l00366"></a>00366 
+<a name="l00367"></a>00367 appMessages.on(<span class="stringliteral">&#39;notification&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>) {
+<a name="l00368"></a>00368   var <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a> ? <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.type : <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00369"></a>00369 
+<a name="l00370"></a>00370   <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.latestOnce(<span class="stringliteral">&#39;foldersSlice&#39;</span>, <span class="keyword">function</span> latestFolderSlice() {
+<a name="l00371"></a>00371     <span class="keyword">function</span> onCorrectFolder() {
+<a name="l00372"></a>00372       <span class="keyword">function</span> onPushed() {
+<a name="l00373"></a>00373         waitForAppMessage = <span class="keyword">false</span>;
+<a name="l00374"></a>00374       }
+<a name="l00375"></a>00375 
+<a name="l00376"></a>00376       <span class="keywordflow">if</span> (type === <span class="stringliteral">&#39;message_list&#39;</span>) {
+<a name="l00377"></a>00377         showMessageList({
+<a name="l00378"></a>00378           onPushed: onPushed
+<a name="l00379"></a>00379         });
+<a name="l00380"></a>00380       } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (type === <span class="stringliteral">&#39;message_reader&#39;</span>) {
+<a name="l00381"></a>00381         Cards.pushCard(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.type, <span class="stringliteral">&#39;default&#39;</span>, <span class="stringliteral">&#39;immediate&#39;</span>, {
+<a name="l00382"></a>00382           messageSuid: <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.messageSuid,
+<a name="l00383"></a>00383           backOnMissingMessage: <span class="keyword">true</span>,
+<a name="l00384"></a>00384           onPushed: onPushed
+<a name="l00385"></a>00385         });
+<a name="l00386"></a>00386       } <span class="keywordflow">else</span> {
+<a name="l00387"></a>00387         <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.error(<span class="stringliteral">&#39;unhandled notification type: &#39;</span> + type);
+<a name="l00388"></a>00388       }
+<a name="l00389"></a>00389     }
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391     var acctsSlice = <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.acctsSlice,
+<a name="l00392"></a>00392         accountId = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>.accountId;
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394     <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.account.id === accountId) {
+<a name="l00395"></a>00395       <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.selectInbox(onCorrectFolder);
+<a name="l00396"></a>00396     } <span class="keywordflow">else</span> {
+<a name="l00397"></a>00397       var newAccount;
+<a name="l00398"></a>00398       acctsSlice.items.some(<span class="keyword">function</span>(account) {
+<a name="l00399"></a>00399         <span class="keywordflow">if</span> (account.id === accountId) {
+<a name="l00400"></a>00400           newAccount = account;
+<a name="l00401"></a>00401           <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00402"></a>00402         }
+<a name="l00403"></a>00403       });
+<a name="l00404"></a>00404 
+<a name="l00405"></a>00405       <span class="keywordflow">if</span> (newAccount) {
+<a name="l00406"></a>00406         <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.changeAccount(newAccount, onCorrectFolder);
+<a name="l00407"></a>00407       }
+<a name="l00408"></a>00408     }
+<a name="l00409"></a>00409   });
+<a name="l00410"></a>00410 });
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412 <a class="code" href="../../d9/d04/expat_8h.html#ac517f0c27408fbd365e7dd34e032faca">model</a>.init();
+<a name="l00413"></a>00413 });
+<a name="l00414"></a>00414 
+<a name="l00415"></a>00415 <span class="comment">// Run the app module, bring in fancy logging</span>
+<a name="l00416"></a>00416 <a class="code" href="../../d9/d2e/alameda_8js.html#a44c2a92e377407b0af593e79fa27596f">requirejs</a>([<span class="stringliteral">&#39;console_hook&#39;</span>, <span class="stringliteral">&#39;cards/message_list&#39;</span>, <span class="stringliteral">&#39;mail_app&#39;</span>]);
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d9/d44/apps_2email_2js_2mail__app_8js.html">mail_app.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:42に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: timer_panel.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/dd6/timer__panel_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">timer_panel.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/dd6/timer__panel_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">00001</a> (<span class="keyword">function</span>(<a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>, <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a2d1c0b71fb763e65619efa580e6d01ba">Panel</a>) {
+<a name="l00002"></a>00002 <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00003"></a>00003 
+<a name="l00004"></a>00004 var <a class="code" href="../../d2/df8/prthread_8h.html#a8b6505c37d4ff95854b8b00527e4d9fa">priv</a> = <span class="keyword">new</span> WeakMap();
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="keyword">function</span> duration(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00007"></a>00007   var hm = <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>.split(<span class="charliteral">&#39;:&#39;</span>);
+<a name="l00008"></a>00008   var duration = 0;
+<a name="l00009"></a>00009   var unit;
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011   <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; hm.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00012"></a>00012     unit = Math.pow(60, hm.length - 1 - <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>);
+<a name="l00013"></a>00013     duration += unit * 1000 * hm[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00014"></a>00014   }
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016   <span class="keywordflow">return</span> duration;
+<a name="l00017"></a>00017 }
+<a name="l00018"></a>00018 
+<a name="l00027"></a>00027 <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.Panel = <span class="keyword">function</span>(element) {
+<a name="l00028"></a>00028   <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a2d1c0b71fb763e65619efa580e6d01ba">Panel</a>.apply(<span class="keyword">this</span>, arguments);
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030   this.timer = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00031"></a>00031   this.<a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a> = {};
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033   this.picker = <span class="keyword">new</span> Picker({
+<a name="l00034"></a>00034     element: this.element.querySelector(<span class="stringliteral">&#39;#time-picker&#39;</span>),
+<a name="l00035"></a>00035     pickers: {
+<a name="l00036"></a>00036       hours: {
+<a name="l00037"></a>00037         range: [0, 23]
+<a name="l00038"></a>00038       },
+<a name="l00039"></a>00039       minutes: {
+<a name="l00040"></a>00040         range: [0, 59],
+<a name="l00041"></a>00041         isPadded: <span class="keyword">true</span>
+<a name="l00042"></a>00042       },
+<a name="l00043"></a>00043       seconds: {
+<a name="l00044"></a>00044         range: [0, 59],
+<a name="l00045"></a>00045         isPadded: <span class="keyword">true</span>
+<a name="l00046"></a>00046       }
+<a name="l00047"></a>00047     }
+<a name="l00048"></a>00048   });
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050   <a class="code" href="../../d1/de6/build__stage_2email_2shared_2js_2async__storage_8js.html#a4107f01ea365b45d43bc83776b837ffa">asyncStorage</a>.getItem(<span class="stringliteral">&#39;active_timer&#39;</span>, <span class="keyword">function</span>(<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>) {
+<a name="l00051"></a>00051     <span class="keywordflow">if</span> (<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a> !== <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00052"></a>00052       this.timer = <span class="keyword">new</span> <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>(JSON.parse(<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>));
+<a name="l00053"></a>00053     }
+<a name="l00054"></a>00054   }.bind(<span class="keyword">this</span>));
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056   <span class="comment">// Gather elements</span>
+<a name="l00057"></a>00057   [
+<a name="l00058"></a>00058     <span class="stringliteral">&#39;create&#39;</span>, <span class="stringliteral">&#39;cancel&#39;</span>, <span class="stringliteral">&#39;dialog&#39;</span>,
+<a name="l00059"></a>00059     <span class="stringliteral">&#39;pause&#39;</span>, <span class="stringliteral">&#39;start&#39;</span>, <span class="stringliteral">&#39;sound&#39;</span>, <span class="stringliteral">&#39;time&#39;</span>, <span class="stringliteral">&#39;vibrate&#39;</span>, <span class="stringliteral">&#39;menu&#39;</span>
+<a name="l00060"></a>00060   ].forEach(<span class="keyword">function</span>(<span class="keywordtype">id</span>) {
+<a name="l00061"></a>00061     this.<a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a>[<a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>] = this.element.querySelector(<span class="stringliteral">&#39;#timer-&#39;</span> + <span class="keywordtype">id</span>);
+<a name="l00062"></a>00062   }, <span class="keyword">this</span>);
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064   <span class="comment">// Bind click events</span>
+<a name="l00065"></a>00065   [
+<a name="l00066"></a>00066     <span class="stringliteral">&#39;create&#39;</span>, <span class="stringliteral">&#39;cancel&#39;</span>, <span class="stringliteral">&#39;pause&#39;</span>, <span class="stringliteral">&#39;start&#39;</span>, <span class="stringliteral">&#39;menu&#39;</span>
+<a name="l00067"></a>00067   ].forEach(<span class="keyword">function</span>(<a class="code" href="../../d5/d62/build__stage_2email_2shared_2style_2_r_e_a_d_m_e_8md.html#a4ef488940623c6d0eab866a64228de55">action</a>) {
+<a name="l00068"></a>00068     var element = this.<a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a>[<a class="code" href="../../d5/d62/build__stage_2email_2shared_2style_2_r_e_a_d_m_e_8md.html#a4ef488940623c6d0eab866a64228de55">action</a>];
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070     <span class="keywordflow">if</span> (priv.has(element)) {
+<a name="l00071"></a>00071       priv.delete(element);
+<a name="l00072"></a>00072     }
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074     priv.set(element, {
+<a name="l00075"></a>00075       <a class="code" href="../../d5/d62/build__stage_2email_2shared_2style_2_r_e_a_d_m_e_8md.html#a4ef488940623c6d0eab866a64228de55">action</a>: <a class="code" href="../../d5/d62/build__stage_2email_2shared_2style_2_r_e_a_d_m_e_8md.html#a4ef488940623c6d0eab866a64228de55">action</a>,
+<a name="l00076"></a>00076       panel: <span class="keyword">this</span>
+<a name="l00077"></a>00077     });
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079     element.addEventListener(<span class="stringliteral">&#39;click&#39;</span>, this.<a class="code" href="../../d8/df0/frames_8js.html#a2581b031a10db324ce49c6a804c5f20a">onclick</a>.bind(<span class="keyword">this</span>), <span class="keyword">false</span>);
+<a name="l00080"></a>00080   }, <span class="keyword">this</span>);
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082   var sound = this.<a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a>.sound;
+<a name="l00083"></a>00083   sound.addEventListener(<span class="stringliteral">&#39;blur&#39;</span>, this.refreshSoundMenu.bind(<span class="keyword">this</span>), <span class="keyword">false</span>);
+<a name="l00084"></a>00084   this.refreshSoundMenu();
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086   View.instance(element).on(
+<a name="l00087"></a>00087     <span class="stringliteral">&#39;visibilitychange&#39;</span>, this.onvisibilitychange.bind(<span class="keyword">this</span>)
+<a name="l00088"></a>00088   );
+<a name="l00089"></a>00089 };
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091 <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.Panel.prototype = Object.create(<a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a2d1c0b71fb763e65619efa580e6d01ba">Panel</a>.prototype);
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.Panel.prototype.onvisibilitychange = <span class="keyword">function</span>(isVisible) {
+<a name="l00094"></a>00094   var <a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a> = this.<a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a>;
+<a name="l00095"></a>00095   var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a> = View.instance(this.nodes.dialog);
+<a name="l00096"></a>00096   var timer = this.timer;
+<a name="l00097"></a>00097   var isPaused = <span class="keyword">false</span>;
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099   <span class="keywordflow">if</span> (isVisible) {
+<a name="l00100"></a>00100     <span class="comment">// No active timer, or timer has expired...</span>
+<a name="l00101"></a>00101     <span class="comment">//</span>
+<a name="l00102"></a>00102     <span class="comment">//  - Cancel the expired timer</span>
+<a name="l00103"></a>00103     <span class="comment">//  - Show the new timer dialog</span>
+<a name="l00104"></a>00104     <span class="comment">//</span>
+<a name="l00105"></a>00105     <span class="keywordflow">if</span> (timer === <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a> || timer.endAt &lt; Date.now()) {
+<a name="l00106"></a>00106       <span class="keywordflow">if</span> (timer) {
+<a name="l00107"></a>00107         timer.cancel();
+<a name="l00108"></a>00108       }
+<a name="l00109"></a>00109       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a>();
+<a name="l00110"></a>00110     } <span class="keywordflow">else</span> {
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112       <span class="keywordflow">if</span> (timer.state !== <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.STARTED) {
+<a name="l00113"></a>00113         <span class="comment">// Active timer exists...</span>
+<a name="l00114"></a>00114         timer.on(<span class="stringliteral">&#39;tick&#39;</span>, this.<a class="code" href="../../dd/d6d/mock__spinner_8js.html#ab10b009b0da48f61217a18daf8e20cd8">update</a>.bind(<span class="keyword">this</span>));
+<a name="l00115"></a>00115         timer.on(<span class="stringliteral">&#39;end&#39;</span>, this.dialog.bind(<span class="keyword">this</span>));
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117         <span class="keywordflow">if</span> (timer.state === <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.REACTIVATING) {
+<a name="l00118"></a>00118           <span class="comment">// Reviving to started state,</span>
+<a name="l00119"></a>00119           <span class="comment">// show the pause button, hide the start button</span>
+<a name="l00120"></a>00120           this.toggle(nodes.pause, nodes.start);
+<a name="l00121"></a>00121         } <span class="keywordflow">else</span> {
+<a name="l00122"></a>00122           <span class="comment">// Reviving to paused state,</span>
+<a name="l00123"></a>00123           <span class="comment">// show the start button, hide the pause button</span>
+<a name="l00124"></a>00124           this.toggle(nodes.start, nodes.pause);
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126           isPaused = <span class="keyword">true</span>;
+<a name="l00127"></a>00127         }
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129         <span class="keywordflow">if</span> (timer.state === <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.INITIALIZED) {
+<a name="l00130"></a>00130           this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a>();
+<a name="l00131"></a>00131           this.<a class="code" href="../../dd/d6d/mock__spinner_8js.html#ab10b009b0da48f61217a18daf8e20cd8">update</a>();
+<a name="l00132"></a>00132         } <span class="keywordflow">else</span> {
+<a name="l00133"></a>00133           <span class="comment">// Calling start will &quot;revive&quot; and update</span>
+<a name="l00134"></a>00134           <span class="comment">// both a paused and not-paused timers.</span>
+<a name="l00135"></a>00135           <span class="comment">//  - Updates the endAt and resets the pauseAt</span>
+<a name="l00136"></a>00136           <span class="comment">//  - Sync the object.</span>
+<a name="l00137"></a>00137           timer.start();
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139           <span class="keywordflow">if</span> (isPaused) {
+<a name="l00140"></a>00140             <span class="comment">// Immediately re-pause the timer.</span>
+<a name="l00141"></a>00141             timer.pause();
+<a name="l00142"></a>00142           }
+<a name="l00143"></a>00143           this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a>({ isVisible: <span class="keyword">false</span> });
+<a name="l00144"></a>00144         }
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147       }
+<a name="l00148"></a>00148     }
+<a name="l00149"></a>00149   }
+<a name="l00150"></a>00150 };
+<a name="l00151"></a>00151 
+<a name="l00161"></a>00161 <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.Panel.prototype.dialog = <span class="keyword">function</span>(opts = { isVisible: <span class="keyword">true</span> }) {
+<a name="l00162"></a>00162   View.instance(this.<a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a>.dialog).visible = opts.isVisible;
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164   <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(this.picker.reset.bind(<span class="keyword">this</span>.picker), 0);
+<a name="l00165"></a>00165   <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00166"></a>00166 };
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168 <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.Panel.prototype.elapsed = <span class="keyword">function</span>() {
+<a name="l00169"></a>00169   <span class="comment">// display the &quot;elapsed time since notification&quot; screen</span>
+<a name="l00170"></a>00170   <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00171"></a>00171 };
+<a name="l00172"></a>00172 
+<a name="l00180"></a>00180 <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.Panel.prototype.update = <span class="keyword">function</span>(remaining = 0) {
+<a name="l00181"></a>00181   <span class="comment">// this should localize</span>
+<a name="l00182"></a>00182   <span class="comment">// console.log(this);</span>
+<a name="l00183"></a>00183   this.<a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a>.time.textContent = <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.format.hms(remaining, <span class="stringliteral">&#39;hh:mm:ss&#39;</span>);
+<a name="l00184"></a>00184   <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00185"></a>00185 };
+<a name="l00186"></a>00186 
+<a name="l00195"></a>00195 <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.Panel.prototype.toggle = <span class="keyword">function</span>(<a class="code" href="../../d4/dc5/handled__call_8js.html#a849945b83cbf2e6fcd68a90c133c1824">show</a>, <a class="code" href="../../d4/dc5/handled__call_8js.html#a28d5a0efd4d16e885ff9a16e6b30a6a2">hide</a>) {
+<a name="l00196"></a>00196   <a class="code" href="../../d4/dc5/handled__call_8js.html#a849945b83cbf2e6fcd68a90c133c1824">show</a>.classList.remove(<span class="stringliteral">&#39;hidden&#39;</span>);
+<a name="l00197"></a>00197   <a class="code" href="../../d4/dc5/handled__call_8js.html#a28d5a0efd4d16e885ff9a16e6b30a6a2">hide</a>.classList.add(<span class="stringliteral">&#39;hidden&#39;</span>);
+<a name="l00198"></a>00198   <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00199"></a>00199 };
+<a name="l00200"></a>00200 
+<a name="l00205"></a>00205 <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.Panel.prototype.refreshSoundMenu = <span class="keyword">function</span>() {
+<a name="l00206"></a>00206   var sound = <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.getSelectedValue(this.<a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a>.sound);
+<a name="l00207"></a>00207   var soundMenu = this.<a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a>.menu;
+<a name="l00208"></a>00208   <span class="comment">// sound could either be string or int, so test for both</span>
+<a name="l00209"></a>00209   soundMenu.textContent = (sound === 0 || sound === <span class="charliteral">&#39;0&#39;</span>) ?
+<a name="l00210"></a>00210     <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;noSound&#39;</span>) :
+<a name="l00211"></a>00211     <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(sound.replace(<span class="charliteral">&#39;.&#39;</span>, <span class="charliteral">&#39;_&#39;</span>));
+<a name="l00212"></a>00212 };
+<a name="l00213"></a>00213 
+<a name="l00220"></a>00220 <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>.Panel.prototype.onclick = <span class="keyword">function</span>(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00221"></a>00221   var meta = priv.get(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>.target);
+<a name="l00222"></a>00222   var panel = meta.panel;
+<a name="l00223"></a>00223   var <a class="code" href="../../da/df2/namespacexml2dict.html#aaabd7336a42f36f8a79edd9e5fc821cf">nodes</a> = panel.nodes;
+<a name="l00224"></a>00224   var <a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>;
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226   <span class="keywordflow">if</span> (panel.timer &amp;&amp; panel.timer[meta.action]) {
+<a name="l00227"></a>00227     <span class="comment">// meta.action =&gt; panel.timer[meta.action]()</span>
+<a name="l00228"></a>00228     <span class="comment">//</span>
+<a name="l00229"></a>00229     <span class="comment">// ie.</span>
+<a name="l00230"></a>00230     <span class="comment">//</span>
+<a name="l00231"></a>00231     <span class="comment">// if start =&gt; panel.timer.start()</span>
+<a name="l00232"></a>00232     <span class="comment">// if pause =&gt; panel.timer.pause()</span>
+<a name="l00233"></a>00233     <span class="comment">// if cancel =&gt; panel.timer.cancel()</span>
+<a name="l00234"></a>00234     <span class="comment">//</span>
+<a name="l00235"></a>00235     panel.timer[meta.action]();
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237     <span class="keywordflow">if</span> (meta.action === <span class="stringliteral">&#39;cancel&#39;</span> || meta.action === <span class="stringliteral">&#39;new&#39;</span>) {
+<a name="l00238"></a>00238       <span class="comment">// Reset shared timer object</span>
+<a name="l00239"></a>00239       panel.timer = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241       <span class="comment">// Restore the panel to 00:00</span>
+<a name="l00242"></a>00242       panel.update(0);
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244       <span class="comment">// Show new timer dialog</span>
+<a name="l00245"></a>00245       panel.dialog();
+<a name="l00246"></a>00246     }
+<a name="l00247"></a>00247 
+<a name="l00248"></a>00248     <span class="keywordflow">if</span> (meta.action === <span class="stringliteral">&#39;start&#39;</span>) {
+<a name="l00249"></a>00249       panel.toggle(nodes.pause, nodes.start);
+<a name="l00250"></a>00250     }
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252     <span class="keywordflow">if</span> (meta.action === <span class="stringliteral">&#39;pause&#39;</span>) {
+<a name="l00253"></a>00253       panel.toggle(nodes.start, nodes.pause);
+<a name="l00254"></a>00254     }
+<a name="l00255"></a>00255   } <span class="keywordflow">else</span> {
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257     <span class="keywordflow">if</span> (meta.action === <span class="stringliteral">&#39;menu&#39;</span>) {
+<a name="l00258"></a>00258       nodes.sound.focus();
+<a name="l00259"></a>00259     }
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261     <span class="keywordflow">if</span> (meta.action === <span class="stringliteral">&#39;create&#39;</span>) {
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263       time = duration(panel.picker.value);
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265       <span class="keywordflow">if</span> (!time) {
+<a name="l00266"></a>00266         <span class="keywordflow">return</span>;
+<a name="l00267"></a>00267       }
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269       <span class="comment">// Create a new Timer with the</span>
+<a name="l00270"></a>00270       <span class="comment">// selected duration time.</span>
+<a name="l00271"></a>00271       panel.timer = <span class="keyword">new</span> <a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>({
+<a name="l00272"></a>00272         sound: nodes.sound.value,
+<a name="l00273"></a>00273         duration: duration(panel.picker.value),
+<a name="l00274"></a>00274         vibrate: nodes.vibrate.checked
+<a name="l00275"></a>00275       });
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277       <span class="comment">// Bind the tick and end events to the</span>
+<a name="l00278"></a>00278       <span class="comment">// newly created timer object.</span>
+<a name="l00279"></a>00279       panel.timer.on(<span class="stringliteral">&#39;tick&#39;</span>, panel.update.bind(panel)).<a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>();
+<a name="l00280"></a>00280       panel.timer.on(<span class="stringliteral">&#39;end&#39;</span>, panel.dialog.bind(panel));
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282       <span class="comment">// Update the UI</span>
+<a name="l00283"></a>00283       panel.toggle(nodes.pause, nodes.start);
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285       <span class="comment">// Hide the new timer dialog</span>
+<a name="l00286"></a>00286       panel.dialog({ isVisible: <span class="keyword">false</span> });
+<a name="l00287"></a>00287     }
+<a name="l00288"></a>00288   }
+<a name="l00289"></a>00289 };
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291 }(<a class="code" href="../../de/dd6/timer__panel_8js.html#a6063697fea9e5a519e1a0c1a3cd20b85">Timer</a>, <a class="code" href="../../db/dd2/apps_2settings_2js_2keyboard_8js.html#a2d1c0b71fb763e65619efa580e6d01ba">Panel</a>));
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/dd6/timer__panel_8js.html">timer_panel.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:25に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsEventListenerManager.h</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d7/d99/ns_event_listener_manager_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">データ構造</a> &#124;
+<a href="#namespaces">パッケージ</a> &#124;
+<a href="#typedef-members">型定義</a> &#124;
+<a href="#enum-members">列挙型</a> &#124;
+<a href="#func-members">関数</a>  </div>
+  <div class="headertitle">
+<div class="title">nsEventListenerManager.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="../../d2/d7d/jsapi_8h_source.html">jsapi.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../df/da9/_event_listener_binding_8h_source.html">mozilla/dom/EventListenerBinding.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d2/d25/_event_target_8h_source.html">mozilla/dom/EventTarget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../db/d6d/_memory_reporting_8h_source.html">mozilla/MemoryReporting.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../de/db2/ns_auto_ptr_8h_source.html">nsAutoPtr.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../dc/da8/ns_c_o_m_array_8h_source.html">nsCOMArray.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d5/d03/ns_c_o_m_ptr_8h_source.html">nsCOMPtr.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../df/d34/ns_cx_pusher_8h_source.html">nsCxPusher.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d2/d4f/ns_cycle_collection_participant_8h_source.html">nsCycleCollectionParticipant.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d6/dfa/ns_gk_atoms_8h_source.html">nsGkAtoms.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d1/db0/ns_g_u_i_event_8h_source.html">nsGUIEvent.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d9/d64/ns_i_d_o_m_event_listener_8h_source.html">nsIDOMEventListener.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../df/de4/ns_i_j_s_event_listener_8h_source.html">nsIJSEventListener.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../dd/d8d/ns_i_script_context_8h_source.html">nsIScriptContext.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../df/dc4/ns_t_observer_array_8h_source.html">nsTObserverArray.h</a>&quot;</code><br/>
+</div><div class="textblock"><div class="dynheader">
+nsEventListenerManager.hのインクルード依存関係図</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d7/d0d/ns_event_listener_manager_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+このグラフは、どのファイルから直接、間接的にインクルードされているかを示しています。</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../da/d39/ns_event_listener_manager_8h__dep__incl.svg" width="100%" height="476"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+</div>
+<p><a href="../../d7/d99/ns_event_listener_manager_8h_source.html">ソースコードを見る。</a></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="nested-classes"></a>
+データ構造</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">mozilla::dom::EventListenerFlags</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dbb/structns_listener_struct.html">nsListenerStruct</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4f/classns_event_listener_manager.html">nsEventListenerManager</a></td></tr>
+<tr><td colspan="2"><h2><a name="namespaces"></a>
+パッケージ</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d93/namespacemozilla.html">mozilla</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4b/namespacemozilla_1_1dom.html">mozilla::dom</a></td></tr>
+<tr><td colspan="2"><h2><a name="typedef-members"></a>
+型定義</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef CallbackObjectHolder<br class="typebreak"/>
+&lt; EventListener, <br class="typebreak"/>
+<a class="el" href="../../dc/d6b/interfacens_i_d_o_m_event_listener.html">nsIDOMEventListener</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4b/namespacemozilla_1_1dom.html#a23a9f77f8e3fa4d0b08a102306fa891b">mozilla::dom::EventListenerHolder</a></td></tr>
+<tr><td colspan="2"><h2><a name="enum-members"></a>
+列挙型</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57">nsListenerType</a> { <br/>
+&#160;&#160;<a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a72228e6dc141a5b02d2ce977f823dc7b">eNativeListener</a> =  0, 
+<a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57adcfc553cc7aaaebe2f079de0b314cd0a">eJSEventListener</a>, 
+<a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a6d38ee373e628f123321b82d42c1be73">eWrappedJSListener</a>, 
+<a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a456357307437b5ee6d7c2c6932d5f3cd">eWebIDLListener</a>, 
+<br/>
+&#160;&#160;<a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57ab2fae83d321cfb547208b7a0ebfec9b8">eListenerTypeCount</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2><a name="func-members"></a>
+関数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">EventListenerFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4b/namespacemozilla_1_1dom.html#ae57cbb0c5fb953353d63067f4cce863c">mozilla::dom::TrustedEventsAtBubble</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">EventListenerFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4b/namespacemozilla_1_1dom.html#a733962e67608c84328cf96edb07c8a50">mozilla::dom::TrustedEventsAtCapture</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">EventListenerFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4b/namespacemozilla_1_1dom.html#a9743d9848331acbff6e0ad2e04cc9db1">mozilla::dom::AllEventsAtBubbe</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">EventListenerFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4b/namespacemozilla_1_1dom.html#a106e5f5520627b5c56f3c07bcd30e847">mozilla::dom::AllEventsAtCapture</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">EventListenerFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4b/namespacemozilla_1_1dom.html#ad7e657456dd3fc46cf391c3bfd7df2a0">mozilla::dom::TrustedEventsAtSystemGroupBubble</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">EventListenerFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4b/namespacemozilla_1_1dom.html#af2145c2ef152ef017cad38882200615d">mozilla::dom::TrustedEventsAtSystemGroupCapture</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">EventListenerFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4b/namespacemozilla_1_1dom.html#aefd7ababd2ed364503513e4052c54ec1">mozilla::dom::AllEventsAtSystemGroupBubble</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">EventListenerFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4b/namespacemozilla_1_1dom.html#a622adc4b3c5d223e2c96fd3c686e563e">mozilla::dom::AllEventsAtSystemGroupCapture</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html#a87bb7515ba1ec0e9565000c562e54fb9">NS_AddSystemEventListener</a> (<a class="el" href="../../da/da8/classmozilla_1_1dom_1_1_event_target.html">mozilla::dom::EventTarget</a> *aTarget, <a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> nsAString &amp;<a class="el" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>, <a class="el" href="../../dc/d6b/interfacens_i_d_o_m_event_listener.html">nsIDOMEventListener</a> *aListener, <a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a> aUseCapture, <a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a> aWantsUntrusted)</td></tr>
+</table>
+<hr/><h2>列挙型</h2>
+<a class="anchor" id="a9f1a96a65d71b149a3fe1b63e11a4c57"></a><!-- doxytag: member="nsEventListenerManager.h::nsListenerType" ref="a9f1a96a65d71b149a3fe1b63e11a4c57" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57">nsListenerType</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>列挙型の値: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a9f1a96a65d71b149a3fe1b63e11a4c57a72228e6dc141a5b02d2ce977f823dc7b"></a><!-- doxytag: member="eNativeListener" ref="a9f1a96a65d71b149a3fe1b63e11a4c57a72228e6dc141a5b02d2ce977f823dc7b" args="" -->eNativeListener</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a9f1a96a65d71b149a3fe1b63e11a4c57adcfc553cc7aaaebe2f079de0b314cd0a"></a><!-- doxytag: member="eJSEventListener" ref="a9f1a96a65d71b149a3fe1b63e11a4c57adcfc553cc7aaaebe2f079de0b314cd0a" args="" -->eJSEventListener</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a9f1a96a65d71b149a3fe1b63e11a4c57a6d38ee373e628f123321b82d42c1be73"></a><!-- doxytag: member="eWrappedJSListener" ref="a9f1a96a65d71b149a3fe1b63e11a4c57a6d38ee373e628f123321b82d42c1be73" args="" -->eWrappedJSListener</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a9f1a96a65d71b149a3fe1b63e11a4c57a456357307437b5ee6d7c2c6932d5f3cd"></a><!-- doxytag: member="eWebIDLListener" ref="a9f1a96a65d71b149a3fe1b63e11a4c57a456357307437b5ee6d7c2c6932d5f3cd" args="" -->eWebIDLListener</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a9f1a96a65d71b149a3fe1b63e11a4c57ab2fae83d321cfb547208b7a0ebfec9b8"></a><!-- doxytag: member="eListenerTypeCount" ref="a9f1a96a65d71b149a3fe1b63e11a4c57ab2fae83d321cfb547208b7a0ebfec9b8" args="" -->eListenerTypeCount</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p> <a class="el" href="../../d7/d99/ns_event_listener_manager_8h_source.html">nsEventListenerManager.h</a> の <a class="el" href="../../d7/d99/ns_event_listener_manager_8h_source.html#l00154">154</a> 行で定義されています。</p>
+<div class="fragment"><pre class="fragment">{
+    <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a72228e6dc141a5b02d2ce977f823dc7b">eNativeListener</a> = 0,
+    <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57adcfc553cc7aaaebe2f079de0b314cd0a">eJSEventListener</a>,
+    <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a6d38ee373e628f123321b82d42c1be73">eWrappedJSListener</a>,
+    <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57a456357307437b5ee6d7c2c6932d5f3cd">eWebIDLListener</a>,
+    <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57ab2fae83d321cfb547208b7a0ebfec9b8">eListenerTypeCount</a>
+} <a class="code" href="../../d7/d99/ns_event_listener_manager_8h.html#a9f1a96a65d71b149a3fe1b63e11a4c57">nsListenerType</a>;
+</pre></div>
+</div>
+</div>
+<hr/><h2>関数</h2>
+<a class="anchor" id="a87bb7515ba1ec0e9565000c562e54fb9"></a><!-- doxytag: member="nsEventListenerManager.h::NS_AddSystemEventListener" ref="a87bb7515ba1ec0e9565000c562e54fb9" args="(mozilla::dom::EventTarget *aTarget, const nsAString &amp;aType, nsIDOMEventListener *aListener, bool aUseCapture, bool aWantsUntrusted)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html#a87bb7515ba1ec0e9565000c562e54fb9">NS_AddSystemEventListener</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../da/da8/classmozilla_1_1dom_1_1_event_target.html">mozilla::dom::EventTarget</a> *&#160;</td>
+          <td class="paramname"><em>aTarget</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> nsAString &amp;&#160;</td>
+          <td class="paramname"><em>aType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../dc/d6b/interfacens_i_d_o_m_event_listener.html">nsIDOMEventListener</a> *&#160;</td>
+          <td class="paramname"><em>aListener</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>&#160;</td>
+          <td class="paramname"><em>aUseCapture</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>&#160;</td>
+          <td class="paramname"><em>aWantsUntrusted</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p><a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html#a87bb7515ba1ec0e9565000c562e54fb9">NS_AddSystemEventListener()</a> is a helper function for implementing EventTarget::AddSystemEventListener(). </p>
+
+<p> <a class="el" href="../../d7/d99/ns_event_listener_manager_8h_source.html">nsEventListenerManager.h</a> の <a class="el" href="../../d7/d99/ns_event_listener_manager_8h_source.html#l00549">549</a> 行で定義されています。</p>
+
+<p>参照先 <a class="el" href="../../d7/d99/ns_event_listener_manager_8h_source.html#l00264">nsEventListenerManager::AddEventListenerByType()</a>, <a class="el" href="../../d9/ddf/interfacens_i_d_o_m_event_target.html#a7bda99abea8fb1c7dd47d41c072c5843">nsIDOMEventTarget::GetListenerManager()</a>, <a class="el" href="../../d7/d99/ns_event_listener_manager_8h_source.html#l00062">mozilla::dom::EventListenerFlags::mAllowUntrustedEvents</a>, <a class="el" href="../../d7/d99/ns_event_listener_manager_8h_source.html#l00056">mozilla::dom::EventListenerFlags::mCapture</a>, <a class="el" href="../../d7/d99/ns_event_listener_manager_8h_source.html#l00059">mozilla::dom::EventListenerFlags::mInSystemGroup</a>, <a class="el" href="../../dc/d6d/ns_debug_8h_source.html#l00337">NS_ENSURE_STATE</a>, と <a class="el" href="../../d7/dda/_error_list_c_defines_8h_source.html#l00003">NS_OK</a>.</p>
+<div class="fragment"><pre class="fragment">{
+  <a class="code" href="../../d9/d4f/classns_event_listener_manager.html">nsEventListenerManager</a>* listenerManager = aTarget-&gt;<a class="code" href="../../d9/ddf/interfacens_i_d_o_m_event_target.html#a7bda99abea8fb1c7dd47d41c072c5843">GetListenerManager</a>(<span class="keyword">true</span>);
+  <a class="code" href="../../dc/d6d/ns_debug_8h.html#accb9eb7d056a54271f27d9d22be73d3a">NS_ENSURE_STATE</a>(listenerManager);
+  <a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html">mozilla::dom::EventListenerFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>;
+  flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#af02e987db4d4a0a7af6e5476c2cbcc2c">mInSystemGroup</a> = <span class="keyword">true</span>;
+  flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ae1f17c29e1db7a7e9e3422ecfebd4e58">mCapture</a> = aUseCapture;
+  flags.<a class="code" href="../../df/d68/structmozilla_1_1dom_1_1_event_listener_flags.html#ab1aaa4b43b779a7054461e72eb243592">mAllowUntrustedEvents</a> = aWantsUntrusted;
+  listenerManager-&gt;<a class="code" href="../../d9/d4f/classns_event_listener_manager.html#a2d277e26f9c10cfba066218c7fdad378">AddEventListenerByType</a>(aListener, <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>, flags);
+  <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a>;
+}
+</pre></div>
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d7/d99/ns_event_listener_manager_8h_a87bb7515ba1ec0e9565000c562e54fb9_cgraph.svg" width="579" height="94"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d7/d99/ns_event_listener_manager_8h.html">nsEventListenerManager.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:56:41に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

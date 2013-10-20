@@ -1,0 +1,27 @@
+var classmozilla_1_1dom_1_1_notification =
+[
+    [ "Notification", "d8/d43/classmozilla_1_1dom_1_1_notification.html#add0c45b57b424cc5c8cbc921b48bff93", null ],
+    [ "Close", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a183bcfce971d439d9a2ced7c08db583d", null ],
+    [ "CloseInternal", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a5aaea32231e7e2dee8d9a180f801c399", null ],
+    [ "Constructor", "d8/d43/classmozilla_1_1dom_1_1_notification.html#ae95dc6ca21eb45d9a966a4f2b30adea3", null ],
+    [ "DirectionToString", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a493aff75fd046b7979a89cb494ad05eb", null ],
+    [ "GetAlertName", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a658e198b3cd8a73bec48c3fc7051037f", null ],
+    [ "GetParentObject", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a92dc276c0f12cb94362044dc526fa3c0", null ],
+    [ "GetPermission", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a26efe9c4436515e8e03888e07f628700", null ],
+    [ "GetPermissionInternal", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a97f70583a64d00caa8534c5f41a1814a", null ],
+    [ "PrefEnabled", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a03b0feec3aa62cfe2bd57c237230c461", null ],
+    [ "RequestPermission", "d8/d43/classmozilla_1_1dom_1_1_notification.html#ac9ec73494039a28d8f6e18d8a61c46f3", null ],
+    [ "ShowInternal", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a0c117a3ae6884787b720450f196dcbcf", null ],
+    [ "WrapObject", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a98df92166fae31d49b22e962587933ab", null ],
+    [ "NotificationObserver", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a7b27f1fd978ddf9bd8c40591d6b63bdf", null ],
+    [ "NotificationPermissionRequest", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a437eeaff5f700bee302a9b0a531d4961", null ],
+    [ "NotificationTask", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a889254b47028102a0cbbebfe14c641ae", null ],
+    [ "mBody", "d8/d43/classmozilla_1_1dom_1_1_notification.html#ad0c56fb49e3a457296a044c109892eda", null ],
+    [ "mDir", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a55ad0444513d40b52fe992716c1b258b", null ],
+    [ "mIconUrl", "d8/d43/classmozilla_1_1dom_1_1_notification.html#ae18bad7ccd0302a46e7c62e017143aa5", null ],
+    [ "mIsClosed", "d8/d43/classmozilla_1_1dom_1_1_notification.html#ae5b4dc94a9c2626584e27f51dd28e869", null ],
+    [ "mLang", "d8/d43/classmozilla_1_1dom_1_1_notification.html#ac23cef724d9bd41d6de730f5fd69f13d", null ],
+    [ "mTag", "d8/d43/classmozilla_1_1dom_1_1_notification.html#a39378c97ee40c5dd6c629da98759637a", null ],
+    [ "mTitle", "d8/d43/classmozilla_1_1dom_1_1_notification.html#afb3040fed59fba952dd9ea3e70edcc90", null ],
+    [ "sCount", "d8/d43/classmozilla_1_1dom_1_1_notification.html#aa826bce07de5d0c338166d68b4b2b90b", null ]
+];

@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: setImmediate_test.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/de6/set_immediate__test_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">setImmediate_test.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/de6/set_immediate__test_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">// Copyright (c) 2012 Barnesandnoble.com, llc, Donavon West, and Domenic Denicola</span>
+<a name="l00002"></a>00002 <span class="comment">//</span>
+<a name="l00003"></a>00003 <span class="comment">// Permission is hereby granted, free of charge, to any person obtaining</span>
+<a name="l00004"></a>00004 <span class="comment">// a copy of this software and associated documentation files (the</span>
+<a name="l00005"></a>00005 <span class="comment">// &quot;Software&quot;), to deal in the Software without restriction, including</span>
+<a name="l00006"></a>00006 <span class="comment">// without limitation the rights to use, copy, modify, merge, publish,</span>
+<a name="l00007"></a>00007 <span class="comment">// distribute, sublicense, and/or sell copies of the Software, and to</span>
+<a name="l00008"></a>00008 <span class="comment">// permit persons to whom the Software is furnished to do so, subject to</span>
+<a name="l00009"></a>00009 <span class="comment">// the following conditions:</span>
+<a name="l00010"></a>00010 <span class="comment">//</span>
+<a name="l00011"></a>00011 <span class="comment">// The above copyright notice and this permission notice shall be</span>
+<a name="l00012"></a>00012 <span class="comment">// included in all copies or substantial portions of the Software.</span>
+<a name="l00013"></a>00013 <span class="comment">//</span>
+<a name="l00014"></a>00014 <span class="comment">// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,</span>
+<a name="l00015"></a>00015 <span class="comment">// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF</span>
+<a name="l00016"></a>00016 <span class="comment">// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND</span>
+<a name="l00017"></a>00017 <span class="comment">// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE</span>
+<a name="l00018"></a>00018 <span class="comment">// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION</span>
+<a name="l00019"></a>00019 <span class="comment">// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION</span>
+<a name="l00020"></a>00020 <span class="comment">// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="comment">// NOTE: This is an import of the NobleJS setImmediate() polyfill located here:</span>
+<a name="l00023"></a>00023 <span class="comment">//</span>
+<a name="l00024"></a>00024 <span class="comment">//         https://github.com/NobleJS/setImmediate</span>
+<a name="l00025"></a>00025 <span class="comment">//</span>
+<a name="l00026"></a>00026 <span class="comment">//       It has been customized in the following ways:</span>
+<a name="l00027"></a>00027 <span class="comment">//</span>
+<a name="l00028"></a>00028 <span class="comment">//         1) Non-gecko browser compatibility code has been removed.  The</span>
+<a name="l00029"></a>00029 <span class="comment">//            postMessage() implementation is always used, except for</span>
+<a name="l00030"></a>00030 <span class="comment">//            web workers.  There we use setTimeout(0) since MessageChannel</span>
+<a name="l00031"></a>00031 <span class="comment">//            is not implemented in gecko yet.  (Bug 911972)</span>
+<a name="l00032"></a>00032 <span class="comment">//         2) The support for executing strings with eval() has been</span>
+<a name="l00033"></a>00033 <span class="comment">//            disabled and will now throw an exception.</span>
+<a name="l00034"></a>00034 <span class="comment">//         3) Convert test code to use suite() and test().</span>
+<a name="l00035"></a>00035 <span class="comment">//</span>
+<a name="l00036"></a>00036 <span class="comment">//       The style of this code is different from the rest of gaia, but</span>
+<a name="l00037"></a>00037 <span class="comment">//       we chose to minimize non-functional changes in order to make</span>
+<a name="l00038"></a>00038 <span class="comment">//       importing fixes from upstream easier in the future.</span>
+<a name="l00039"></a>00039 <span class="comment">//</span>
+<a name="l00040"></a>00040 <span class="comment">// XXX: Remove this file if/when bug 686201 land.</span>
+<a name="l00041"></a>00041 
+<a name="l00042"></a><a class="code" href="../../da/de6/set_immediate__test_8js.html#ae2475e10618961c050dcba04e8c42331">00042</a> <span class="stringliteral">&quot;use strict&quot;</span>;
+<a name="l00043"></a>00043 <span class="comment">/*global setImmediate: false, clearImmediate: false, specify: false, window: false */</span>
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045 <a class="code" href="../../d9/d2e/alameda_8js.html#a4b4eb847520ff4e45de16db801e26133">require</a>(<span class="stringliteral">&quot;/shared/js/setImmediate.js&quot;</span>);
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047 <a class="code" href="../../d7/d1b/test-agent-server_8js.html#ae4e488f52af5e7c198b9c91afab5a16e">suite</a>(<span class="stringliteral">&quot;setImmediate polyfill&quot;</span>, <span class="keyword">function</span>() {
+<a name="l00048"></a>00048     <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&quot;Handlers do execute&quot;</span>, <span class="keyword">function</span> (<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00049"></a>00049         <a class="code" href="../../d0/d15/set_immediate__worker_8js.html#adf64d61771fd9954ce6812b3de44fcb9">setImmediate</a>(<span class="keyword">function</span> () {
+<a name="l00050"></a>00050             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00051"></a>00051         });
+<a name="l00052"></a>00052     });
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054     <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&quot;Handlers do not execute in the same event loop turn as the call to `setImmediate`&quot;</span>, <span class="keyword">function</span> (<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00055"></a>00055         var handlerCalled = <span class="keyword">false</span>;
+<a name="l00056"></a>00056         <span class="keyword">function</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>() {
+<a name="l00057"></a>00057             handlerCalled = <span class="keyword">true</span>;
+<a name="l00058"></a>00058             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00059"></a>00059         }
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061         <a class="code" href="../../d0/d15/set_immediate__worker_8js.html#adf64d61771fd9954ce6812b3de44fcb9">setImmediate</a>(<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>);
+<a name="l00062"></a>00062         <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(!handlerCalled);
+<a name="l00063"></a>00063     });
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065     <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&quot;`setImmediate` passes through an argument to the handler&quot;</span>, <span class="keyword">function</span> (<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00066"></a>00066         var expectedArg = { expected: <span class="keyword">true</span> };
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068         <span class="keyword">function</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>(actualArg) {
+<a name="l00069"></a>00069             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.strictEqual(actualArg, expectedArg);
+<a name="l00070"></a>00070             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00071"></a>00071         }
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073         <a class="code" href="../../d0/d15/set_immediate__worker_8js.html#adf64d61771fd9954ce6812b3de44fcb9">setImmediate</a>(<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>, expectedArg);
+<a name="l00074"></a>00074     });
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076     <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&quot;`setImmediate` passes through two arguments to the handler&quot;</span>, <span class="keyword">function</span> (<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00077"></a>00077         var expectedArg1 = { arg1: <span class="keyword">true</span> };
+<a name="l00078"></a>00078         var expectedArg2 = { arg2: <span class="keyword">true</span> };
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080         <span class="keyword">function</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>(actualArg1, actualArg2) {
+<a name="l00081"></a>00081             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.strictEqual(actualArg1, expectedArg1);
+<a name="l00082"></a>00082             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.strictEqual(actualArg2, expectedArg2);
+<a name="l00083"></a>00083             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00084"></a>00084         }
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086         <a class="code" href="../../d0/d15/set_immediate__worker_8js.html#adf64d61771fd9954ce6812b3de44fcb9">setImmediate</a>(<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>, expectedArg1, expectedArg2);
+<a name="l00087"></a>00087     });
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089     <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&quot;`clearImmediate` within the same event loop turn prevents the handler from executing&quot;</span>, <span class="keyword">function</span> (<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00090"></a>00090         var handlerCalled = <span class="keyword">false</span>;
+<a name="l00091"></a>00091         <span class="keyword">function</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>() {
+<a name="l00092"></a>00092             handlerCalled = <span class="keyword">true</span>;
+<a name="l00093"></a>00093         }
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095         var <a class="code" href="../../d3/d4b/lockscreen_8js.html#af91fa9dd7bcc99f1ac5d9727c6cdc8cc">handle</a> = <a class="code" href="../../d0/d15/set_immediate__worker_8js.html#adf64d61771fd9954ce6812b3de44fcb9">setImmediate</a>(<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>);
+<a name="l00096"></a>00096         clearImmediate(handle);
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098         <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span> () {
+<a name="l00099"></a>00099             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(!handlerCalled);
+<a name="l00100"></a>00100             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00101"></a>00101         }, 100);
+<a name="l00102"></a>00102     });
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104     <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&quot;`clearImmediate` does not interfere with handlers other than the one with ID passed to it&quot;</span>, <span class="keyword">function</span> (<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00105"></a>00105         var expectedArgs = [<span class="stringliteral">&quot;A&quot;</span>, <span class="stringliteral">&quot;D&quot;</span>];
+<a name="l00106"></a>00106         var recordedArgs = [];
+<a name="l00107"></a>00107         <span class="keyword">function</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>(<a class="code" href="../../d2/dbe/jsprf_8h.html#ae036856e415526e58e249638733f6752">arg</a>) {
+<a name="l00108"></a>00108             recordedArgs.push(<a class="code" href="../../d2/dbe/jsprf_8h.html#ae036856e415526e58e249638733f6752">arg</a>);
+<a name="l00109"></a>00109         }
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111         <a class="code" href="../../d0/d15/set_immediate__worker_8js.html#adf64d61771fd9954ce6812b3de44fcb9">setImmediate</a>(<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>, <span class="stringliteral">&quot;A&quot;</span>);
+<a name="l00112"></a>00112         clearImmediate(<a class="code" href="../../d0/d15/set_immediate__worker_8js.html#adf64d61771fd9954ce6812b3de44fcb9">setImmediate</a>(<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>, <span class="stringliteral">&quot;B&quot;</span>));
+<a name="l00113"></a>00113         var handle = <a class="code" href="../../d0/d15/set_immediate__worker_8js.html#adf64d61771fd9954ce6812b3de44fcb9">setImmediate</a>(<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>, <span class="stringliteral">&quot;C&quot;</span>);
+<a name="l00114"></a>00114         <a class="code" href="../../d0/d15/set_immediate__worker_8js.html#adf64d61771fd9954ce6812b3de44fcb9">setImmediate</a>(<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>, <span class="stringliteral">&quot;D&quot;</span>);
+<a name="l00115"></a>00115         clearImmediate(handle);
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117         <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span> () {
+<a name="l00118"></a>00118             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.deepEqual(recordedArgs, expectedArgs);
+<a name="l00119"></a>00119             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00120"></a>00120         }, 100);
+<a name="l00121"></a>00121     });
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123     <span class="comment">// NOTE: Test fxos customization to prevent eval usage</span>
+<a name="l00124"></a>00124     <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&quot;`setImmediate` does not permit eval&quot;</span>, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00125"></a>00125         <span class="keyword">function</span> complete() {
+<a name="l00126"></a>00126             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(<span class="keyword">false</span>, <span class="stringliteral">&quot;eval executed&quot;</span>);
+<a name="l00127"></a>00127             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00128"></a>00128         }
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130         <span class="keywordflow">try</span> {
+<a name="l00131"></a>00131             <a class="code" href="../../d0/d15/set_immediate__worker_8js.html#adf64d61771fd9954ce6812b3de44fcb9">setImmediate</a>(<span class="stringliteral">&quot;complete()&quot;</span>);
+<a name="l00132"></a>00132         } <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00133"></a>00133             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.ok(!!<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>, <span class="stringliteral">&quot;received exception when attempting eval&quot;</span>);
+<a name="l00134"></a>00134             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00135"></a>00135         }
+<a name="l00136"></a>00136     });
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138     <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(<span class="stringliteral">&quot;When inside a web worker context, setImmediate calls the passed handler&quot;</span>, <span class="keyword">function</span> (<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00139"></a>00139         var worker = <span class="keyword">new</span> <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.Worker(<span class="stringliteral">&quot;setImmediate_worker.js&quot;</span>);
+<a name="l00140"></a>00140         worker.addEventListener(<span class="stringliteral">&quot;message&quot;</span>, <span class="keyword">function</span> (<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00141"></a>00141             <a class="code" href="../../dd/d27/awesomescreen__test_8js.html#a5e95655c9188700b16a5488897cecb90">assert</a>.strictEqual(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>.data, <span class="stringliteral">&quot;TEST&quot;</span>);
+<a name="l00142"></a>00142             <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00143"></a>00143         }, <span class="keyword">false</span>);
+<a name="l00144"></a>00144     });
+<a name="l00145"></a>00145 });
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/de6/set_immediate__test_8js.html">setImmediate_test.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:08に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

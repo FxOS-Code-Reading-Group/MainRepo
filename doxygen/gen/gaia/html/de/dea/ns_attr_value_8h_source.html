@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsAttrValue.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/dea/ns_attr_value_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsAttrValue.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/dea/ns_attr_value_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment"> * A struct that represents the value (type and actual data) of an</span>
+<a name="l00008"></a>00008 <span class="comment"> * attribute.</span>
+<a name="l00009"></a>00009 <span class="comment"> */</span>
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="preprocessor">#ifndef nsAttrValue_h___</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span><span class="preprocessor">#define nsAttrValue_h___</span>
+<a name="l00013"></a>00013 <span class="preprocessor"></span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/dd8/nscore_8h.html">nscore.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/d55/ns_string_glue_8h.html">nsStringGlue.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/de1/ns_string_buffer_8h.html">nsStringBuffer.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d6a/ns_color_8h.html">nsColor.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d45/ns_case_treatment_8h.html">nsCaseTreatment.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/d1a/ns_margin_8h.html">nsMargin.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d3a/_s_v_g_attr_value_wrapper_8h.html">SVGAttrValueWrapper.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/dbd/ns_t_array_forward_declare_8h.html">nsTArrayForwardDeclare.h</a>&quot;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d32/ns_i_atom_8h.html">nsIAtom.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6d/_memory_reporting_8h.html">mozilla/MemoryReporting.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="../../d4/d6b/_binding_declarations_8h.html">mozilla/dom/BindingDeclarations.h</a>&quot;</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="keyword">class </span>nsAString;
+<a name="l00028"></a>00028 <span class="keyword">class </span><a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>;
+<a name="l00029"></a>00029 <span class="keyword">class </span><a class="code" href="../../dc/d07/classns_styled_element_not_element_c_s_s_inline_style.html">nsStyledElementNotElementCSSInlineStyle</a>;
+<a name="l00030"></a>00030 <span class="keyword">struct </span><a class="code" href="../../d5/d7e/struct_misc_container.html">MiscContainer</a>;
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="keyword">namespace </span>mozilla {
+<a name="l00033"></a>00033 <span class="keyword">namespace </span>css {
+<a name="l00034"></a>00034 <span class="keyword">class </span>StyleRule;
+<a name="l00035"></a>00035 <span class="keyword">struct </span>URLValue;
+<a name="l00036"></a>00036 <span class="keyword">struct </span>ImageValue;
+<a name="l00037"></a>00037 }
+<a name="l00038"></a>00038 }
+<a name="l00039"></a>00039 
+<a name="l00040"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#af5695c1804f22ca82aca5ce4790b7f56">00040</a> <span class="preprocessor">#define NS_ATTRVALUE_MAX_STRINGLENGTH_ATOM 12</span>
+<a name="l00041"></a>00041 <span class="preprocessor"></span>
+<a name="l00042"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#ad172ec50c9a8aad08870c280620354a4">00042</a> <span class="preprocessor">#define NS_ATTRVALUE_BASETYPE_MASK (uintptr_t(3))</span>
+<a name="l00043"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#ad6a28840e19d036ef7e7a51de191601b">00043</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_ATTRVALUE_POINTERVALUE_MASK (~NS_ATTRVALUE_BASETYPE_MASK)</span>
+<a name="l00044"></a>00044 <span class="preprocessor"></span>
+<a name="l00045"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#a4875990439fb26083f0eb6eb98f31195">00045</a> <span class="preprocessor">#define NS_ATTRVALUE_INTEGERTYPE_BITS 4</span>
+<a name="l00046"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#a470d25d2d7a4768f72f04da0135a7223">00046</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_ATTRVALUE_INTEGERTYPE_MASK (uintptr_t((1 &lt;&lt; NS_ATTRVALUE_INTEGERTYPE_BITS) - 1))</span>
+<a name="l00047"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#a3681447b191286d6233be9ba0ce238c9">00047</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_ATTRVALUE_INTEGERTYPE_MULTIPLIER (1 &lt;&lt; NS_ATTRVALUE_INTEGERTYPE_BITS)</span>
+<a name="l00048"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#a3a911a9eddb080760e635f62a2065b23">00048</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_ATTRVALUE_INTEGERTYPE_MAXVALUE ((1 &lt;&lt; (31 - NS_ATTRVALUE_INTEGERTYPE_BITS)) - 1)</span>
+<a name="l00049"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#a4a9ecc9aa1b4a6b61c45b1271a1afac4">00049</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_ATTRVALUE_INTEGERTYPE_MINVALUE (-NS_ATTRVALUE_INTEGERTYPE_MAXVALUE - 1)</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>
+<a name="l00051"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#a28a1602e0a6fd81d3ecffd5b49b3e778">00051</a> <span class="preprocessor">#define NS_ATTRVALUE_ENUMTABLEINDEX_BITS (32 - 16 - NS_ATTRVALUE_INTEGERTYPE_BITS)</span>
+<a name="l00052"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#af603b7d77d08f99edf3c56d607468009">00052</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_ATTRVALUE_ENUMTABLE_VALUE_NEEDS_TO_UPPER (1 &lt;&lt; (NS_ATTRVALUE_ENUMTABLEINDEX_BITS - 1))</span>
+<a name="l00053"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#a2f5dbf94792614683cbf8b34ae1d410d">00053</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_ATTRVALUE_ENUMTABLEINDEX_MAXVALUE (NS_ATTRVALUE_ENUMTABLE_VALUE_NEEDS_TO_UPPER - 1)</span>
+<a name="l00054"></a><a class="code" href="../../de/dea/ns_attr_value_8h.html#a62b1ea76a79d1dc30ba0476dc73007c4">00054</a> <span class="preprocessor"></span><span class="preprocessor">#define NS_ATTRVALUE_ENUMTABLEINDEX_MASK \</span>
+<a name="l00055"></a>00055 <span class="preprocessor">  (uintptr_t((((1 &lt;&lt; NS_ATTRVALUE_ENUMTABLEINDEX_BITS) - 1) &amp;~ NS_ATTRVALUE_ENUMTABLE_VALUE_NEEDS_TO_UPPER)))</span>
+<a name="l00056"></a>00056 <span class="preprocessor"></span>
+<a name="l00061"></a><a class="code" href="../../d0/da6/classns_cheap_string.html">00061</a> <span class="keyword">class </span><a class="code" href="../../d0/da6/classns_cheap_string.html">nsCheapString</a> : <span class="keyword">public</span> nsString {
+<a name="l00062"></a>00062 <span class="keyword">public</span>:
+<a name="l00063"></a><a class="code" href="../../d0/da6/classns_cheap_string.html#ae73b0e17bdfaac748793f4035cd645be">00063</a>   <a class="code" href="../../d0/da6/classns_cheap_string.html#ae73b0e17bdfaac748793f4035cd645be">nsCheapString</a>(<a class="code" href="../../d5/d95/classns_string_buffer.html">nsStringBuffer</a>* aBuf)
+<a name="l00064"></a>00064   {
+<a name="l00065"></a>00065     <span class="keywordflow">if</span> (aBuf)
+<a name="l00066"></a>00066       aBuf-&gt;<a class="code" href="../../d5/d95/classns_string_buffer.html#ae83efeb557891537fd5b077e1883e779">ToString</a>(aBuf-&gt;<a class="code" href="../../d5/d95/classns_string_buffer.html#af8e822a3b87dc5410690d028c0a53583">StorageSize</a>()/2 - 1, *<span class="keyword">this</span>);
+<a name="l00067"></a>00067   }
+<a name="l00068"></a>00068 };
+<a name="l00069"></a>00069 
+<a name="l00070"></a><a class="code" href="../../df/d4f/classns_attr_value.html">00070</a> <span class="keyword">class </span><a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> {
+<a name="l00071"></a><a class="code" href="../../df/d4f/classns_attr_value.html#a1d57c482794d117542bee97a626fa907">00071</a>   <span class="keyword">friend</span> <span class="keyword">struct </span><a class="code" href="../../d5/d7e/struct_misc_container.html">MiscContainer</a>;
+<a name="l00072"></a>00072 <span class="keyword">public</span>:
+<a name="l00073"></a><a class="code" href="../../df/d4f/classns_attr_value.html#a43d43160dc248f6931b2a5ea4e985aa1">00073</a>   <span class="keyword">typedef</span> <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt; nsCOMPtr&lt;nsIAtom&gt;</a> &gt; <a class="code" href="../../df/d4f/classns_attr_value.html#a43d43160dc248f6931b2a5ea4e985aa1">AtomArray</a>;
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075   <span class="comment">// This has to be the same as in ValueBaseType</span>
+<a name="l00076"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82">00076</a>   <span class="keyword">enum</span> <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82">ValueType</a> {
+<a name="l00077"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82aa208a506ede68b8777bb278deea55baa">00077</a>     <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82aa208a506ede68b8777bb278deea55baa">eString</a> =       0x00, <span class="comment">//   00</span>
+<a name="l00078"></a>00078                           <span class="comment">//   01  this value indicates an &#39;misc&#39; struct</span>
+<a name="l00079"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a41a9823e18a302a0084aca01c9fa93eb">00079</a>     <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a41a9823e18a302a0084aca01c9fa93eb">eAtom</a> =         0x02, <span class="comment">//   10</span>
+<a name="l00080"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82af2372f58e9857f70b853b61f7088073e">00080</a>     <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82af2372f58e9857f70b853b61f7088073e">eInteger</a> =      0x03, <span class="comment">// 0011</span>
+<a name="l00081"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a3d6ac6386d7c206bd85c2372029f517a">00081</a>     <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a3d6ac6386d7c206bd85c2372029f517a">eColor</a> =        0x07, <span class="comment">// 0111</span>
+<a name="l00082"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82ad4fce81b4f4671ceee7f55463c0bad26">00082</a>     <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82ad4fce81b4f4671ceee7f55463c0bad26">eEnum</a> =         0x0B, <span class="comment">// 1011  This should eventually die</span>
+<a name="l00083"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82abcfcd384f1ba1436091bce0e62f0e382">00083</a>     <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82abcfcd384f1ba1436091bce0e62f0e382">ePercent</a> =      0x0F, <span class="comment">// 1111</span>
+<a name="l00084"></a>00084     <span class="comment">// Values below here won&#39;t matter, they&#39;ll be always stored in the &#39;misc&#39;</span>
+<a name="l00085"></a>00085     <span class="comment">// struct.</span>
+<a name="l00086"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82af46880e71a9fadef2b57d0d74069f97b">00086</a>     <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82af46880e71a9fadef2b57d0d74069f97b">eCSSStyleRule</a> =            0x10
+<a name="l00087"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82ab44c4d2ad68aca0455b516de4b042ffb">00087</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82ab44c4d2ad68aca0455b516de4b042ffb">eURL</a> =                    0x11
+<a name="l00088"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a0b0c1765ee8e3691207274a87934fb3e">00088</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a0b0c1765ee8e3691207274a87934fb3e">eImage</a> =                  0x12
+<a name="l00089"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a0e645abc34f51ab5becf3df9435bc9f2">00089</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a0e645abc34f51ab5becf3df9435bc9f2">eAtomArray</a> =              0x13
+<a name="l00090"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a48a89cb42b0dc73ec9b7495a79aa4e5b">00090</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a48a89cb42b0dc73ec9b7495a79aa4e5b">eDoubleValue</a>  =           0x14
+<a name="l00091"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a9a61734761902329f366456d67f94926">00091</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a9a61734761902329f366456d67f94926">eIntMarginValue</a> =         0x15
+<a name="l00092"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a6871b732115d95d5b0328736624fb63b">00092</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a6871b732115d95d5b0328736624fb63b">eSVGAngle</a> =               0x16
+<a name="l00093"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a0657f92716c58f9bddbcff0c54940bbe">00093</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a0657f92716c58f9bddbcff0c54940bbe">eSVGTypesBegin</a> =          <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a6871b732115d95d5b0328736624fb63b">eSVGAngle</a>
+<a name="l00094"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82ace0ca93239d5e5e98da1de37bc12a22c">00094</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82ace0ca93239d5e5e98da1de37bc12a22c">eSVGIntegerPair</a> =         0x17
+<a name="l00095"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a45fa536b00d62f17e00096169625c95d">00095</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a45fa536b00d62f17e00096169625c95d">eSVGLength</a> =              0x18
+<a name="l00096"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a0c15f51b0d90b99f218b5469674d6212">00096</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a0c15f51b0d90b99f218b5469674d6212">eSVGLengthList</a> =          0x19
+<a name="l00097"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82aa9768fe55674e08ea0e8e991e358dca6">00097</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82aa9768fe55674e08ea0e8e991e358dca6">eSVGNumberList</a> =          0x1A
+<a name="l00098"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a5750c88b7c4d0153be8ba200b7803cc7">00098</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a5750c88b7c4d0153be8ba200b7803cc7">eSVGNumberPair</a> =          0x1B
+<a name="l00099"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a545eb6ea083dc4234dce20751a8c2982">00099</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a545eb6ea083dc4234dce20751a8c2982">eSVGPathData</a> =            0x1C
+<a name="l00100"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82abe9bd2de90589852220ea35834dd64a0">00100</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82abe9bd2de90589852220ea35834dd64a0">eSVGPointList</a> =           0x1D
+<a name="l00101"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a20e6537fff5eae6360e0407703898d8d">00101</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a20e6537fff5eae6360e0407703898d8d">eSVGPreserveAspectRatio</a> = 0x1E
+<a name="l00102"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a6d4545e6dbc19a42aa512e63380faa89">00102</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a6d4545e6dbc19a42aa512e63380faa89">eSVGStringList</a> =          0x1F
+<a name="l00103"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a6a42e0f7aed6cb359f1a9d4f9885ec08">00103</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a6a42e0f7aed6cb359f1a9d4f9885ec08">eSVGTransformList</a> =       0x20
+<a name="l00104"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a50f464b1113d9865e922af2276005f18">00104</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a50f464b1113d9865e922af2276005f18">eSVGViewBox</a> =             0x21
+<a name="l00105"></a><a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a6ec3434c5f54bbf01ee620ede69d5d50">00105</a>     ,<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a6ec3434c5f54bbf01ee620ede69d5d50">eSVGTypesEnd</a> =            <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a50f464b1113d9865e922af2276005f18">eSVGViewBox</a>
+<a name="l00106"></a>00106   };
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108   <a class="code" href="../../df/d4f/classns_attr_value.html#adacb09882e02acabed1e772ae1194778">nsAttrValue</a>();
+<a name="l00109"></a>00109   <a class="code" href="../../df/d4f/classns_attr_value.html#adacb09882e02acabed1e772ae1194778">nsAttrValue</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aOther);
+<a name="l00110"></a>00110   <span class="keyword">explicit</span> <a class="code" href="../../df/d4f/classns_attr_value.html#adacb09882e02acabed1e772ae1194778">nsAttrValue</a>(<span class="keyword">const</span> nsAString&amp; aValue);
+<a name="l00111"></a>00111   <span class="keyword">explicit</span> <a class="code" href="../../df/d4f/classns_attr_value.html#adacb09882e02acabed1e772ae1194778">nsAttrValue</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aValue);
+<a name="l00112"></a>00112   <a class="code" href="../../df/d4f/classns_attr_value.html#adacb09882e02acabed1e772ae1194778">nsAttrValue</a>(mozilla::css::StyleRule* aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00113"></a>00113   <span class="keyword">explicit</span> <a class="code" href="../../df/d4f/classns_attr_value.html#adacb09882e02acabed1e772ae1194778">nsAttrValue</a>(<span class="keyword">const</span> <a class="code" href="../../dd/dbb/structns_int_margin.html">nsIntMargin</a>&amp; aValue);
+<a name="l00114"></a>00114   <a class="code" href="../../df/d4f/classns_attr_value.html#a4e86e2528ce6182a9019525d2145dfea">~nsAttrValue</a>();
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116   <span class="keyword">inline</span> <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; <a class="code" href="../../df/d4f/classns_attr_value.html#a44f8b5ce73b95e745393ca3de9dda02b">operator=</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aOther);
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118   <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../df/d4f/classns_attr_value.html#a35fbe949f30e87046cf2167daa5a0999">Init</a>();
+<a name="l00119"></a>00119   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#aeddfeaa09980237d64468920651d6a09">Shutdown</a>();
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121   <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82">ValueType</a> <a class="code" href="../../df/d4f/classns_attr_value.html#a1ce9283508f3e13183c70464b51b7bce">Type</a>() <span class="keyword">const</span>;
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#ab604ba474a34c064487b774bd8ff4e52">Reset</a>();
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aOther);
+<a name="l00126"></a>00126   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> nsAString&amp; aValue);
+<a name="l00127"></a>00127   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aValue);
+<a name="l00128"></a>00128   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(int16_t aInt);
+<a name="l00129"></a>00129   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(int32_t aInt, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00130"></a>00130   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keywordtype">double</span> aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00131"></a>00131   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(mozilla::css::StyleRule* aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00132"></a>00132   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<a class="code" href="../../db/d5e/structmozilla_1_1css_1_1_u_r_l_value.html">mozilla::css::URLValue</a>* aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00133"></a>00133   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> <a class="code" href="../../dd/dbb/structns_int_margin.html">nsIntMargin</a>&amp; aValue);
+<a name="l00134"></a>00134   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> nsSVGAngle&amp; aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00135"></a>00135   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> nsSVGIntegerPair&amp; aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00136"></a>00136   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> nsSVGLength2&amp; aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00137"></a>00137   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a54316f6d0d41b90b58d6661cd068f980">mozilla::SVGLengthList</a>&amp; aValue,
+<a name="l00138"></a>00138              <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00139"></a>00139   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a0782cf42d3499d89441ac424d4ffef0a">mozilla::SVGNumberList</a>&amp; aValue,
+<a name="l00140"></a>00140              <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00141"></a>00141   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> nsSVGNumberPair&amp; aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00142"></a>00142   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> mozilla::SVGPathData&amp; aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00143"></a>00143   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a89b1a5ff62fad43880d7b0b61fc35ac4">mozilla::SVGPointList</a>&amp; aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00144"></a>00144   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28aab1c51f031dfd42a83bcd6361f764f72">mozilla::SVGAnimatedPreserveAspectRatio</a>&amp; aValue,
+<a name="l00145"></a>00145              <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00146"></a>00146   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> <a class="code" href="../../d3/d87/classmozilla_1_1_s_v_g_string_list.html">mozilla::SVGStringList</a>&amp; aValue,
+<a name="l00147"></a>00147              <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00148"></a>00148   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a6f46e97428266e9c0466aa27e3fb2e86">mozilla::SVGTransformList</a>&amp; aValue,
+<a name="l00149"></a>00149              <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00150"></a>00150   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(<span class="keyword">const</span> nsSVGViewBox&amp; aValue, <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00151"></a>00151 
+<a name="l00159"></a>00159   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#af9ecd66693a8a623964251837e573c3f">SetToSerialized</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aValue);
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a9a09d3c45313cc806b1b2505a6667b21">SwapValueWith</a>(<a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aOther);
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a87bdaf568bc459f92cf8447f13c2b8c7">ToString</a>(nsAString&amp; <a class="code" href="../../d9/d6a/ns_color_8h.html#a820357f645d7b0eaf62fd4994dda5a24">aResult</a>) <span class="keyword">const</span>;
+<a name="l00164"></a>00164   <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a87bdaf568bc459f92cf8447f13c2b8c7">ToString</a>(<a class="code" href="../../da/d32/classmozilla_1_1dom_1_1_d_o_m_string.html">mozilla::dom::DOMString</a>&amp; <a class="code" href="../../d9/d6a/ns_color_8h.html#a820357f645d7b0eaf62fd4994dda5a24">aResult</a>) <span class="keyword">const</span>;
+<a name="l00165"></a>00165 
+<a name="l00170"></a>00170   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsIAtom&gt;</a> <a class="code" href="../../df/d4f/classns_attr_value.html#af1fb26b50d9dbcdb4ae08a30f17ab615">GetAsAtom</a>() <span class="keyword">const</span>;
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172   <span class="comment">// Methods to get value. These methods do not convert so only use them</span>
+<a name="l00173"></a>00173   <span class="comment">// to retrieve the datatype that this nsAttrValue has.</span>
+<a name="l00174"></a>00174   <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#ae0389dbcbc925fbb3fa3ed41ac7aadda">IsEmptyString</a>() <span class="keyword">const</span>;
+<a name="l00175"></a>00175   <span class="keyword">const</span> <a class="code" href="../../d0/da6/classns_cheap_string.html">nsCheapString</a> <a class="code" href="../../df/d4f/classns_attr_value.html#a5d6eacb6f7b99e31880255705f660b4c">GetStringValue</a>() <span class="keyword">const</span>;
+<a name="l00176"></a>00176   <span class="keyword">inline</span> <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* <a class="code" href="../../df/d4f/classns_attr_value.html#a5f1fa11b01bd5bc14babca5902bff837">GetAtomValue</a>() <span class="keyword">const</span>;
+<a name="l00177"></a>00177   <span class="keyword">inline</span> int32_t <a class="code" href="../../df/d4f/classns_attr_value.html#a66f1252d47f8c48c303293252d7122e9">GetIntegerValue</a>() <span class="keyword">const</span>;
+<a name="l00178"></a>00178   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a1438d3c2ece97dbcf47b0464f928e23c">GetColorValue</a>(<a class="code" href="../../d9/d6a/ns_color_8h.html#abee756dec22b05b8b36337fea5612041">nscolor</a>&amp; aColor) <span class="keyword">const</span>;
+<a name="l00179"></a>00179   <span class="keyword">inline</span> int16_t <a class="code" href="../../df/d4f/classns_attr_value.html#a016c669ae328083adc1f0a60af881937">GetEnumValue</a>() <span class="keyword">const</span>;
+<a name="l00180"></a>00180   <span class="keyword">inline</span> <span class="keywordtype">float</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a9869e7878d7d14f3d90a0e8b20cf0d82">GetPercentValue</a>() <span class="keyword">const</span>;
+<a name="l00181"></a>00181   <span class="keyword">inline</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a43d43160dc248f6931b2a5ea4e985aa1">AtomArray</a>* <a class="code" href="../../df/d4f/classns_attr_value.html#acbbe792412eeadabecaeb9b1e0a86480">GetAtomArrayValue</a>() <span class="keyword">const</span>;
+<a name="l00182"></a>00182   <span class="keyword">inline</span> mozilla::css::StyleRule* <a class="code" href="../../df/d4f/classns_attr_value.html#a8498c54e768011bf15d318c49822894e">GetCSSStyleRuleValue</a>() <span class="keyword">const</span>;
+<a name="l00183"></a>00183   <span class="keyword">inline</span> <a class="code" href="../../db/d5e/structmozilla_1_1css_1_1_u_r_l_value.html">mozilla::css::URLValue</a>* <a class="code" href="../../df/d4f/classns_attr_value.html#a0d5b363122b9d3b466435270c6763ae5">GetURLValue</a>() <span class="keyword">const</span>;
+<a name="l00184"></a>00184   <span class="keyword">inline</span> <a class="code" href="../../df/dca/structmozilla_1_1css_1_1_image_value.html">mozilla::css::ImageValue</a>* <a class="code" href="../../df/d4f/classns_attr_value.html#aa42fc04f7945f665fb9c33f124e9359c">GetImageValue</a>() <span class="keyword">const</span>;
+<a name="l00185"></a>00185   <span class="keyword">inline</span> <span class="keywordtype">double</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a194599c8d740dcdee5624d754ef75b33">GetDoubleValue</a>() <span class="keyword">const</span>;
+<a name="l00186"></a>00186   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a9dff2ef0c52cc4b003220fa8e1134884">GetIntMarginValue</a>(<a class="code" href="../../dd/dbb/structns_int_margin.html">nsIntMargin</a>&amp; aMargin) <span class="keyword">const</span>;
+<a name="l00187"></a>00187 
+<a name="l00194"></a>00194   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a58af107232244ea56f7a2e7e81b21244">GetEnumString</a>(nsAString&amp; <a class="code" href="../../d9/d6a/ns_color_8h.html#a820357f645d7b0eaf62fd4994dda5a24">aResult</a>, <span class="keywordtype">bool</span> aRealTag) <span class="keyword">const</span>;
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196   <span class="comment">// Methods to get access to atoms we may have</span>
+<a name="l00197"></a>00197   <span class="comment">// Returns the number of atoms we have; 0 if we have none.  It&#39;s OK</span>
+<a name="l00198"></a>00198   <span class="comment">// to call this without checking the type first; it handles that.</span>
+<a name="l00199"></a>00199   uint32_t <a class="code" href="../../df/d4f/classns_attr_value.html#a638477a08d17b59c772af7a5048d56f5">GetAtomCount</a>() <span class="keyword">const</span>;
+<a name="l00200"></a>00200   <span class="comment">// Returns the atom at aIndex (0-based).  Do not call this with</span>
+<a name="l00201"></a>00201   <span class="comment">// aIndex &gt;= GetAtomCount().</span>
+<a name="l00202"></a>00202   <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* <a class="code" href="../../df/d4f/classns_attr_value.html#a0222f3ddbe3a62b34ae280bb9dd253cd">AtomAt</a>(int32_t aIndex) <span class="keyword">const</span>;
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204   uint32_t <a class="code" href="../../df/d4f/classns_attr_value.html#a73dccb5c9d1d77953e93fe4857342daf">HashValue</a>() <span class="keyword">const</span>;
+<a name="l00205"></a>00205   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a180390639b794a8a3dcec87b5cd3bdcd">Equals</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aOther) <span class="keyword">const</span>;
+<a name="l00206"></a>00206   <span class="comment">// aCaseSensitive == eIgnoreCase means ASCII case-insenstive matching</span>
+<a name="l00207"></a>00207   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a180390639b794a8a3dcec87b5cd3bdcd">Equals</a>(<span class="keyword">const</span> nsAString&amp; aValue, <a class="code" href="../../d6/d45/ns_case_treatment_8h.html#a2b5a0e61535965f8a701ee81da148800">nsCaseTreatment</a> aCaseSensitive) <span class="keyword">const</span>;
+<a name="l00208"></a>00208   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a180390639b794a8a3dcec87b5cd3bdcd">Equals</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aValue, <a class="code" href="../../d6/d45/ns_case_treatment_8h.html#a2b5a0e61535965f8a701ee81da148800">nsCaseTreatment</a> aCaseSensitive) <span class="keyword">const</span>;
+<a name="l00209"></a>00209 
+<a name="l00217"></a>00217   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#aa79f750564d1c853153f532da1001320">EqualsAsStrings</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aOther) <span class="keyword">const</span>;
+<a name="l00218"></a>00218 
+<a name="l00223"></a>00223   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#aade2e4aa73902e225b0029ae65a7441f">Contains</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aValue, <a class="code" href="../../d6/d45/ns_case_treatment_8h.html#a2b5a0e61535965f8a701ee81da148800">nsCaseTreatment</a> aCaseSensitive) <span class="keyword">const</span>;
+<a name="l00229"></a>00229   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#aade2e4aa73902e225b0029ae65a7441f">Contains</a>(<span class="keyword">const</span> nsAString&amp; aValue) <span class="keyword">const</span>;
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a834bab3adcf18ad69ca65b5703268068">ParseAtom</a>(<span class="keyword">const</span> nsAString&amp; aValue);
+<a name="l00232"></a>00232   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#ad9c0a00fdb0701a82b3212e375e26090">ParseAtomArray</a>(<span class="keyword">const</span> nsAString&amp; aValue);
+<a name="l00233"></a>00233   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a14a3119dc9c7c509033d55724ca18c54">ParseStringOrAtom</a>(<span class="keyword">const</span> nsAString&amp; aValue);
+<a name="l00234"></a>00234 
+<a name="l00245"></a><a class="code" href="../../d7/d25/structns_attr_value_1_1_enum_table.html">00245</a>   <span class="keyword">struct </span><a class="code" href="../../d7/d25/structns_attr_value_1_1_enum_table.html">EnumTable</a> {
+<a name="l00247"></a><a class="code" href="../../d7/d25/structns_attr_value_1_1_enum_table.html#ab6bc4493ba1efd48df98ff27da724322">00247</a>     <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../d7/d25/structns_attr_value_1_1_enum_table.html#ab6bc4493ba1efd48df98ff27da724322">tag</a>;
+<a name="l00249"></a><a class="code" href="../../d7/d25/structns_attr_value_1_1_enum_table.html#a2bb71433dc32b0b55ade7e6e13bc88ef">00249</a>     int16_t <a class="code" href="../../d7/d25/structns_attr_value_1_1_enum_table.html#a2bb71433dc32b0b55ade7e6e13bc88ef">value</a>;
+<a name="l00250"></a>00250   };
+<a name="l00251"></a>00251 
+<a name="l00263"></a>00263   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a9e9e8b3586e626ecb9e64d8a63f6f584">ParseEnumValue</a>(<span class="keyword">const</span> nsAString&amp; aValue,
+<a name="l00264"></a>00264                         <span class="keyword">const</span> <a class="code" href="../../d7/d25/structns_attr_value_1_1_enum_table.html">EnumTable</a>* aTable,
+<a name="l00265"></a>00265                         <span class="keywordtype">bool</span> aCaseSensitive,
+<a name="l00266"></a>00266                         <span class="keyword">const</span> <a class="code" href="../../d7/d25/structns_attr_value_1_1_enum_table.html">EnumTable</a>* aDefaultValue = <span class="keyword">nullptr</span>);
+<a name="l00267"></a>00267 
+<a name="l00278"></a>00278   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a1e1d8ebbba833b439cc335ecf904381a">ParseSpecialIntValue</a>(<span class="keyword">const</span> nsAString&amp; aString);
+<a name="l00279"></a>00279 
+<a name="l00280"></a>00280 
+<a name="l00287"></a><a class="code" href="../../df/d4f/classns_attr_value.html#a0374d4e91d2edbd6969253842687b8fe">00287</a>   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a0374d4e91d2edbd6969253842687b8fe">ParseIntValue</a>(<span class="keyword">const</span> nsAString&amp; aString) {
+<a name="l00288"></a>00288     <span class="keywordflow">return</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a066b3527fe9ccc7d8469d9ac1753bee9">ParseIntWithBounds</a>(aString, INT32_MIN, INT32_MAX);
+<a name="l00289"></a>00289   }
+<a name="l00290"></a>00290 
+<a name="l00299"></a>00299   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a066b3527fe9ccc7d8469d9ac1753bee9">ParseIntWithBounds</a>(<span class="keyword">const</span> nsAString&amp; aString, int32_t aMin,
+<a name="l00300"></a>00300                             int32_t aMax = INT32_MAX);
+<a name="l00301"></a>00301 
+<a name="l00310"></a>00310   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a008aa22a67f0095dad6c7918931e4555">ParseNonNegativeIntValue</a>(<span class="keyword">const</span> nsAString&amp; aString);
+<a name="l00311"></a>00311 
+<a name="l00325"></a>00325   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#ac3487137d5ffb0bbe1463b4bb0c1e072">ParsePositiveIntValue</a>(<span class="keyword">const</span> nsAString&amp; aString);
+<a name="l00326"></a>00326 
+<a name="l00334"></a>00334   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#aea7999c110f013f89e3712b8043e9dab">ParseColor</a>(<span class="keyword">const</span> nsAString&amp; aString);
+<a name="l00335"></a>00335 
+<a name="l00342"></a>00342   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a66e717b40a0ee9902f566fc0c9c5bdfd">ParseDoubleValue</a>(<span class="keyword">const</span> nsAString&amp; aString);
+<a name="l00343"></a>00343 
+<a name="l00348"></a>00348   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#ab0bddd888f280a94463c44bf4b929c54">ParseLazyURIValue</a>(<span class="keyword">const</span> nsAString&amp; aString);
+<a name="l00349"></a>00349 
+<a name="l00357"></a>00357   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a25f80b452ea61da46c67ce337254f432">ParseIntMarginValue</a>(<span class="keyword">const</span> nsAString&amp; aString);
+<a name="l00358"></a>00358 
+<a name="l00364"></a>00364   <span class="keywordtype">void</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a50378d561681578561201875d9d5d784">LoadImage</a>(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument);
+<a name="l00365"></a>00365 
+<a name="l00372"></a>00372   <span class="keywordtype">bool</span> <a class="code" href="../../df/d4f/classns_attr_value.html#a1376118ba743400cfc60b1cdbae52d6f">ParseStyleAttribute</a>(<span class="keyword">const</span> nsAString&amp; aString,
+<a name="l00373"></a>00373                            <a class="code" href="../../dc/d07/classns_styled_element_not_element_c_s_s_inline_style.html">nsStyledElementNotElementCSSInlineStyle</a>* aElement);
+<a name="l00374"></a>00374 
+<a name="l00375"></a>00375   <span class="keywordtype">size_t</span> <a class="code" href="../../df/d4f/classns_attr_value.html#ae8f9aed2f8b46849498b9dd1dfe4ad4a">SizeOfExcludingThis</a>(mozilla::MallocSizeOf aMallocSizeOf) <span class="keyword">const</span>;
+<a name="l00376"></a>00376 
+<a name="l00377"></a>00377 <span class="keyword">private</span>:
+<a name="l00378"></a>00378   <span class="comment">// These have to be the same as in ValueType</span>
+<a name="l00379"></a>00379   <span class="keyword">enum</span> ValueBaseType {
+<a name="l00380"></a>00380     eStringBase =    <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82aa208a506ede68b8777bb278deea55baa">eString</a>,    <span class="comment">// 00</span>
+<a name="l00381"></a>00381     eOtherBase =     0x01,       <span class="comment">// 01</span>
+<a name="l00382"></a>00382     eAtomBase =      <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a41a9823e18a302a0084aca01c9fa93eb">eAtom</a>,      <span class="comment">// 10</span>
+<a name="l00383"></a>00383     eIntegerBase =   0x03        <span class="comment">// 11</span>
+<a name="l00384"></a>00384   };
+<a name="l00385"></a>00385 
+<a name="l00386"></a>00386   <span class="keyword">inline</span> ValueBaseType BaseType() <span class="keyword">const</span>;
+<a name="l00387"></a>00387   <span class="keyword">inline</span> <span class="keywordtype">bool</span> IsSVGType(<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82">ValueType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>) <span class="keyword">const</span>;
+<a name="l00388"></a>00388 
+<a name="l00396"></a>00396   int16_t  GetEnumTableIndex(<span class="keyword">const</span> EnumTable* aTable);
+<a name="l00397"></a>00397 
+<a name="l00398"></a>00398   <span class="keyword">inline</span> <span class="keywordtype">void</span> SetPtrValueAndType(<span class="keywordtype">void</span>* aValue, ValueBaseType <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>);
+<a name="l00399"></a>00399   <span class="keywordtype">void</span> SetIntValueAndType(int32_t aValue, <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82">ValueType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00400"></a>00400                           <span class="keyword">const</span> nsAString* aStringValue);
+<a name="l00401"></a>00401   <span class="keywordtype">void</span> SetColorValue(<a class="code" href="../../d9/d6a/ns_color_8h.html#abee756dec22b05b8b36337fea5612041">nscolor</a> aColor, <span class="keyword">const</span> nsAString&amp; aString);
+<a name="l00402"></a>00402   <span class="keywordtype">void</span> SetMiscAtomOrString(<span class="keyword">const</span> nsAString* aValue);
+<a name="l00403"></a>00403   <span class="keywordtype">void</span> ResetMiscAtomOrString();
+<a name="l00404"></a>00404   <span class="keywordtype">void</span> SetSVGType(<a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82">ValueType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>, <span class="keyword">const</span> <span class="keywordtype">void</span>* aValue,
+<a name="l00405"></a>00405                   <span class="keyword">const</span> nsAString* aSerialized);
+<a name="l00406"></a>00406   <span class="keyword">inline</span> <span class="keywordtype">void</span> ResetIfSet();
+<a name="l00407"></a>00407 
+<a name="l00408"></a>00408   <span class="keyword">inline</span> <span class="keywordtype">void</span>* GetPtr() <span class="keyword">const</span>;
+<a name="l00409"></a>00409   <span class="keyword">inline</span> <a class="code" href="../../d5/d7e/struct_misc_container.html">MiscContainer</a>* GetMiscContainer() <span class="keyword">const</span>;
+<a name="l00410"></a>00410   <span class="keyword">inline</span> int32_t GetIntInternal() <span class="keyword">const</span>;
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412   <span class="comment">// Clears the current MiscContainer.  This will return null if there is no</span>
+<a name="l00413"></a>00413   <span class="comment">// existing container.</span>
+<a name="l00414"></a>00414   <a class="code" href="../../d5/d7e/struct_misc_container.html">MiscContainer</a>* ClearMiscContainer();
+<a name="l00415"></a>00415   <span class="comment">// Like ClearMiscContainer, except allocates a new container if one does not</span>
+<a name="l00416"></a>00416   <span class="comment">// exist already.</span>
+<a name="l00417"></a>00417   <a class="code" href="../../d5/d7e/struct_misc_container.html">MiscContainer</a>* EnsureEmptyMiscContainer();
+<a name="l00418"></a>00418   <span class="keywordtype">bool</span> EnsureEmptyAtomArray();
+<a name="l00419"></a>00419   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsStringBuffer&gt;</a>
+<a name="l00420"></a>00420     GetStringBuffer(<span class="keyword">const</span> nsAString&amp; aValue) <span class="keyword">const</span>;
+<a name="l00421"></a>00421   <span class="comment">// aStrict is set true if stringifying the return value equals with</span>
+<a name="l00422"></a>00422   <span class="comment">// aValue.</span>
+<a name="l00423"></a>00423   int32_t StringToInteger(<span class="keyword">const</span> nsAString&amp; aValue,
+<a name="l00424"></a>00424                           <span class="keywordtype">bool</span>* aStrict,
+<a name="l00425"></a>00425                           <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>* aErrorCode,
+<a name="l00426"></a>00426                           <span class="keywordtype">bool</span> aCanBePercent = <span class="keyword">false</span>,
+<a name="l00427"></a>00427                           <span class="keywordtype">bool</span>* aIsPercent = <span class="keyword">nullptr</span>) <span class="keyword">const</span>;
+<a name="l00428"></a>00428   <span class="comment">// Given an enum table and a particular entry in that table, return</span>
+<a name="l00429"></a>00429   <span class="comment">// the actual integer value we should store.</span>
+<a name="l00430"></a>00430   int32_t EnumTableEntryToValue(<span class="keyword">const</span> EnumTable* aEnumTable,
+<a name="l00431"></a>00431                                 <span class="keyword">const</span> EnumTable* aTableEntry);  
+<a name="l00432"></a>00432 
+<a name="l00433"></a>00433   <span class="keyword">static</span> <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;const EnumTable*&gt;</a>* sEnumTableArray;
+<a name="l00434"></a>00434 
+<a name="l00435"></a>00435   uintptr_t mBits;
+<a name="l00436"></a>00436 };
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438 <span class="keyword">inline</span> <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp;
+<a name="l00439"></a><a class="code" href="../../df/d4f/classns_attr_value.html#a44f8b5ce73b95e745393ca3de9dda02b">00439</a> <a class="code" href="../../df/d4f/classns_attr_value.html#a44f8b5ce73b95e745393ca3de9dda02b">nsAttrValue::operator=</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aOther)
+<a name="l00440"></a>00440 {
+<a name="l00441"></a>00441   <a class="code" href="../../df/d4f/classns_attr_value.html#a3289276cb697b1e9fb199cfe7136330f">SetTo</a>(aOther);
+<a name="l00442"></a>00442   <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00443"></a>00443 }
+<a name="l00444"></a>00444 
+<a name="l00445"></a>00445 <span class="keyword">inline</span> <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>*
+<a name="l00446"></a><a class="code" href="../../df/d4f/classns_attr_value.html#a5f1fa11b01bd5bc14babca5902bff837">00446</a> <a class="code" href="../../df/d4f/classns_attr_value.html#a5f1fa11b01bd5bc14babca5902bff837">nsAttrValue::GetAtomValue</a>()<span class="keyword"> const</span>
+<a name="l00447"></a>00447 <span class="keyword"></span>{
+<a name="l00448"></a>00448   <a class="code" href="../../dc/d6d/ns_debug_8h.html#a3ad5c3d474e430752263e97b6f1378c5">NS_PRECONDITION</a>(<a class="code" href="../../df/d4f/classns_attr_value.html#a1ce9283508f3e13183c70464b51b7bce">Type</a>() == <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a41a9823e18a302a0084aca01c9fa93eb">eAtom</a>, <span class="stringliteral">&quot;wrong type&quot;</span>);
+<a name="l00449"></a>00449   <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>*<span class="keyword">&gt;</span>(GetPtr());
+<a name="l00450"></a>00450 }
+<a name="l00451"></a>00451 
+<a name="l00452"></a>00452 <span class="keyword">inline</span> nsAttrValue::ValueBaseType
+<a name="l00453"></a>00453 nsAttrValue::BaseType()<span class="keyword"> const</span>
+<a name="l00454"></a>00454 <span class="keyword"></span>{
+<a name="l00455"></a>00455   <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>ValueBaseType<span class="keyword">&gt;</span>(mBits &amp; <a class="code" href="../../de/dea/ns_attr_value_8h.html#ad172ec50c9a8aad08870c280620354a4">NS_ATTRVALUE_BASETYPE_MASK</a>);
+<a name="l00456"></a>00456 }
+<a name="l00457"></a>00457 
+<a name="l00458"></a>00458 <span class="keyword">inline</span> <span class="keywordtype">void</span>*
+<a name="l00459"></a>00459 nsAttrValue::GetPtr()<span class="keyword"> const</span>
+<a name="l00460"></a>00460 <span class="keyword"></span>{
+<a name="l00461"></a>00461   <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(BaseType() != eIntegerBase,
+<a name="l00462"></a>00462                <span class="stringliteral">&quot;getting pointer from non-pointer&quot;</span>);
+<a name="l00463"></a>00463   <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">void</span>*<span class="keyword">&gt;</span>(mBits &amp; <a class="code" href="../../de/dea/ns_attr_value_8h.html#ad6a28840e19d036ef7e7a51de191601b">NS_ATTRVALUE_POINTERVALUE_MASK</a>);
+<a name="l00464"></a>00464 }
+<a name="l00465"></a>00465 
+<a name="l00466"></a>00466 <span class="keyword">inline</span> <span class="keywordtype">bool</span>
+<a name="l00467"></a><a class="code" href="../../df/d4f/classns_attr_value.html#ae0389dbcbc925fbb3fa3ed41ac7aadda">00467</a> <a class="code" href="../../df/d4f/classns_attr_value.html#ae0389dbcbc925fbb3fa3ed41ac7aadda">nsAttrValue::IsEmptyString</a>()<span class="keyword"> const</span>
+<a name="l00468"></a>00468 <span class="keyword"></span>{
+<a name="l00469"></a>00469   <span class="keywordflow">return</span> !mBits;
+<a name="l00470"></a>00470 }
+<a name="l00471"></a>00471 
+<a name="l00472"></a>00472 <span class="keyword">inline</span> <span class="keywordtype">void</span>
+<a name="l00473"></a><a class="code" href="../../df/d4f/classns_attr_value.html#a31dc1cbdbc1441c912d2e6f3f3eacf48">00473</a> <a class="code" href="../../df/d4f/classns_attr_value.html#a87bdaf568bc459f92cf8447f13c2b8c7">nsAttrValue::ToString</a>(<a class="code" href="../../da/d32/classmozilla_1_1dom_1_1_d_o_m_string.html">mozilla::dom::DOMString</a>&amp; <a class="code" href="../../d9/d6a/ns_color_8h.html#a820357f645d7b0eaf62fd4994dda5a24">aResult</a>)<span class="keyword"> const</span>
+<a name="l00474"></a>00474 <span class="keyword"></span>{
+<a name="l00475"></a>00475   <span class="keywordflow">switch</span> (<a class="code" href="../../df/d4f/classns_attr_value.html#a1ce9283508f3e13183c70464b51b7bce">Type</a>()) {
+<a name="l00476"></a>00476     <span class="keywordflow">case</span> <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82aa208a506ede68b8777bb278deea55baa">eString</a>:
+<a name="l00477"></a>00477     {
+<a name="l00478"></a>00478       <a class="code" href="../../d5/d95/classns_string_buffer.html">nsStringBuffer</a>* <a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a> = <span class="keyword">static_cast&lt;</span><a class="code" href="../../d5/d95/classns_string_buffer.html">nsStringBuffer</a>*<span class="keyword">&gt;</span>(GetPtr());
+<a name="l00479"></a>00479       <span class="keywordflow">if</span> (str) {
+<a name="l00480"></a>00480         aResult.<a class="code" href="../../da/d32/classmozilla_1_1dom_1_1_d_o_m_string.html#ad66375893ddc8ddc3dbfe2b13c4b6d4d">SetStringBuffer</a>(str, str-&gt;<a class="code" href="../../d5/d95/classns_string_buffer.html#af8e822a3b87dc5410690d028c0a53583">StorageSize</a>()/<span class="keyword">sizeof</span>(PRUnichar) - 1);
+<a name="l00481"></a>00481       }
+<a name="l00482"></a>00482       <span class="comment">// else aResult is already empty</span>
+<a name="l00483"></a>00483       <span class="keywordflow">return</span>;
+<a name="l00484"></a>00484     }
+<a name="l00485"></a>00485     <span class="keywordflow">case</span> <a class="code" href="../../df/d4f/classns_attr_value.html#aa50676182cc4eeb31aeaf32579e5ec82a41a9823e18a302a0084aca01c9fa93eb">eAtom</a>:
+<a name="l00486"></a>00486     {
+<a name="l00487"></a>00487       <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a> *atom = <span class="keyword">static_cast&lt;</span><a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>*<span class="keyword">&gt;</span>(GetPtr());
+<a name="l00488"></a>00488       aResult.<a class="code" href="../../da/d32/classmozilla_1_1dom_1_1_d_o_m_string.html#ad66375893ddc8ddc3dbfe2b13c4b6d4d">SetStringBuffer</a>(atom-&gt;<a class="code" href="../../dc/dcf/interfacens_i_atom.html#a05c89359dae08c9d8b2c90ed71d9de0f">GetStringBuffer</a>(), atom-&gt;<a class="code" href="../../dc/dcf/interfacens_i_atom.html#a9004294831633c8e6f288e1c396b5c17">GetLength</a>());
+<a name="l00489"></a>00489       <span class="keywordflow">break</span>;
+<a name="l00490"></a>00490     }
+<a name="l00491"></a>00491     <span class="keywordflow">default</span>:
+<a name="l00492"></a>00492     {
+<a name="l00493"></a>00493       <a class="code" href="../../df/d4f/classns_attr_value.html#a87bdaf568bc459f92cf8447f13c2b8c7">ToString</a>(aResult.<a class="code" href="../../da/d32/classmozilla_1_1dom_1_1_d_o_m_string.html#a56d8bc0c3b82481b53f14413e5d91916">AsAString</a>());
+<a name="l00494"></a>00494     }
+<a name="l00495"></a>00495   }
+<a name="l00496"></a>00496 }
+<a name="l00497"></a>00497 
+<a name="l00498"></a>00498 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/dea/ns_attr_value_8h.html">nsAttrValue.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:53に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

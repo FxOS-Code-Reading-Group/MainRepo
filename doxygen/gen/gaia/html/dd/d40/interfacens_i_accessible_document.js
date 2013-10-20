@@ -1,0 +1,27 @@
+var interfacens_i_accessible_document =
+[
+    [ "GetChildDocumentAt", "dd/d40/interfacens_i_accessible_document.html#a77762cba564c1daf2c84c62ecb6a56ce", null ],
+    [ "getChildDocumentAt", "dd/d40/interfacens_i_accessible_document.html#a14f76293bd9e0f655f865fb11dce7a10", null ],
+    [ "GetChildDocumentCount", "dd/d40/interfacens_i_accessible_document.html#ac67e14feb9dfa98c4c2ea5866698989d", null ],
+    [ "GetDocType", "dd/d40/interfacens_i_accessible_document.html#aff8f00ab7be4113a375175fb3837b87f", null ],
+    [ "GetDOMDocument", "dd/d40/interfacens_i_accessible_document.html#ab7d6e729021c910f495e97266768069f", null ],
+    [ "GetMimeType", "dd/d40/interfacens_i_accessible_document.html#a1f45afa455d43888a7bc93bb2ddbfa13", null ],
+    [ "GetNameSpaceURIForID", "dd/d40/interfacens_i_accessible_document.html#a7197f51c0ec8edfbed081e7261835140", null ],
+    [ "getNameSpaceURIForID", "dd/d40/interfacens_i_accessible_document.html#ae1f09901eb20dc96f4f8a63809f92e16", null ],
+    [ "GetParentDocument", "dd/d40/interfacens_i_accessible_document.html#a394e08f64c86170618f3e5e55b219024", null ],
+    [ "GetTitle", "dd/d40/interfacens_i_accessible_document.html#af1b282bd8e2912edfc65f9baf6770491", null ],
+    [ "GetURL", "dd/d40/interfacens_i_accessible_document.html#aa0f7104adea2f5ef8348c8a68a8cb40e", null ],
+    [ "GetVirtualCursor", "dd/d40/interfacens_i_accessible_document.html#a43afba1a932054d0002cdd440ba2782c", null ],
+    [ "GetWindow", "dd/d40/interfacens_i_accessible_document.html#a78602cbdfc2032e8f948f9217aedde84", null ],
+    [ "GetWindowHandle", "dd/d40/interfacens_i_accessible_document.html#a16510f509a02201889cbab2a82d2d1da", null ],
+    [ "childDocumentCount", "dd/d40/interfacens_i_accessible_document.html#af1084d2f1380e73088f5662bb059ce30", null ],
+    [ "docType", "dd/d40/interfacens_i_accessible_document.html#a88fec48379f1992bb670bf52873d780e", null ],
+    [ "DOMDocument", "dd/d40/interfacens_i_accessible_document.html#a57641daf5ef03d93b83c427eb9264207", null ],
+    [ "mimeType", "dd/d40/interfacens_i_accessible_document.html#a6796bc6d6e2eb521fb4844e7fe0c14a0", null ],
+    [ "parentDocument", "dd/d40/interfacens_i_accessible_document.html#abef1ff76ac800ef7947bc7b0742c7a94", null ],
+    [ "title", "dd/d40/interfacens_i_accessible_document.html#ac491c1a7a61a67c7f9c7784b34212d76", null ],
+    [ "URL", "dd/d40/interfacens_i_accessible_document.html#a95429fd6aac4ecb61a851f157b1d9fad", null ],
+    [ "virtualCursor", "dd/d40/interfacens_i_accessible_document.html#a4fe0a4b301d999e6bb4d5bdd2902a279", null ],
+    [ "window", "dd/d40/interfacens_i_accessible_document.html#a980173b55582732415b2388d73e39a5a", null ],
+    [ "windowHandle", "dd/d40/interfacens_i_accessible_document.html#a9d3c87ac03637a70ae3074de0c7dac88", null ]
+];

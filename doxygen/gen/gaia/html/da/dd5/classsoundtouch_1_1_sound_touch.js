@@ -1,0 +1,26 @@
+var classsoundtouch_1_1_sound_touch =
+[
+    [ "SoundTouch", "da/dd5/classsoundtouch_1_1_sound_touch.html#a07df0497decaaaaba0be03c6ea30fe03", null ],
+    [ "~SoundTouch", "da/dd5/classsoundtouch_1_1_sound_touch.html#a612633786c9b538925e32762675ae65d", null ],
+    [ "clear", "da/dd5/classsoundtouch_1_1_sound_touch.html#a67cb26ade8edc7583768ea8b52b766ae", null ],
+    [ "flush", "da/dd5/classsoundtouch_1_1_sound_touch.html#ada0530aec9ec0571e37d1577be27de9a", null ],
+    [ "getSetting", "da/dd5/classsoundtouch_1_1_sound_touch.html#a8d9e27ac396de21b8a04eb60db268e41", null ],
+    [ "getVersionId", "da/dd5/classsoundtouch_1_1_sound_touch.html#a47020bb720771687ac877ddf4408f135", null ],
+    [ "getVersionString", "da/dd5/classsoundtouch_1_1_sound_touch.html#adea91462e6a10bf1154b268475843a58", null ],
+    [ "numUnprocessedSamples", "da/dd5/classsoundtouch_1_1_sound_touch.html#a80252989df5f9e5ff188b72c2ca9677a", null ],
+    [ "putSamples", "da/dd5/classsoundtouch_1_1_sound_touch.html#a62e6e5b130d19d3ab18665adc985efd3", null ],
+    [ "setChannels", "da/dd5/classsoundtouch_1_1_sound_touch.html#a4bf7ae8dd616dd580018cdf14afe149b", null ],
+    [ "setPitch", "da/dd5/classsoundtouch_1_1_sound_touch.html#a91d547803047178153c6e59d4927b60c", null ],
+    [ "setPitchOctaves", "da/dd5/classsoundtouch_1_1_sound_touch.html#aeeb90333768d0025f1f0261e05862f68", null ],
+    [ "setPitchSemiTones", "da/dd5/classsoundtouch_1_1_sound_touch.html#ae1048a1f16da7fed17a993ed673e1789", null ],
+    [ "setPitchSemiTones", "da/dd5/classsoundtouch_1_1_sound_touch.html#a0af74cae5861cbf3db842f35b618b72a", null ],
+    [ "setRate", "da/dd5/classsoundtouch_1_1_sound_touch.html#af6f981ddaf7571f963357a9fc9e15b8b", null ],
+    [ "setRateChange", "da/dd5/classsoundtouch_1_1_sound_touch.html#a990fa26ec9a8d492ae3425efc53bc537", null ],
+    [ "setSampleRate", "da/dd5/classsoundtouch_1_1_sound_touch.html#a05a25880025169095a564ac938e6169b", null ],
+    [ "setSetting", "da/dd5/classsoundtouch_1_1_sound_touch.html#af9df2b5befa66a64957a119de72db350", null ],
+    [ "setTempo", "da/dd5/classsoundtouch_1_1_sound_touch.html#a526f509257426b64517f25cd05582ca3", null ],
+    [ "setTempoChange", "da/dd5/classsoundtouch_1_1_sound_touch.html#aced29d157c6354c84aa47e88f19b46b9", null ],
+    [ "channels", "da/dd5/classsoundtouch_1_1_sound_touch.html#a7c9deb22aa93f356ac5148a963b86c61", null ],
+    [ "rate", "da/dd5/classsoundtouch_1_1_sound_touch.html#a6b772ab33d35b66f48b794e1fef20520", null ],
+    [ "tempo", "da/dd5/classsoundtouch_1_1_sound_touch.html#ad4687df9f1a419f6ac7aff28b5bea3a6", null ]
+];

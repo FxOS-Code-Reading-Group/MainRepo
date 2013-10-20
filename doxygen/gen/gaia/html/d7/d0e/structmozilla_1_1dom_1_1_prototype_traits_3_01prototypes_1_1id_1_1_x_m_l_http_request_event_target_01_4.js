@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_x_m_l_http_request_event_target_01_4 =
+[
+    [ "NativeType", "d7/d0e/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_x_m_l_http_request_event_target_01_4.html#a870afb2f42f7995a439855acc4c1acc7", null ]
+];

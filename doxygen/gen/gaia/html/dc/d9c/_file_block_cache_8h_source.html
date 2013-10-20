@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: FileBlockCache.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dc/d9c/_file_block_cache_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">FileBlockCache.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dc/d9c/_file_block_cache_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim:set ts=2 sw=2 sts=2 et cindent: */</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this file,</span>
+<a name="l00005"></a>00005 <span class="comment"> * You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="preprocessor">#ifndef FILE_BLOCK_CACHE_H_</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor">#define FILE_BLOCK_CACHE_H_</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/da8/_attributes_8h.html">mozilla/Attributes.h</a>&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/d29/_monitor_8h.html">mozilla/Monitor.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d32/prio_8h.html">prio.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/db9/ns_t_array_8h.html">nsTArray.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/d09/_media_cache_8h.html">MediaCache.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d68/ns_deque_8h.html">nsDeque.h</a>&quot;</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 <span class="keyword">namespace </span>mozilla {
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="comment">// Manages file I/O for the media cache. Data comes in over the network</span>
+<a name="l00020"></a>00020 <span class="comment">// via callbacks on the main thread, however we don&#39;t want to write the</span>
+<a name="l00021"></a>00021 <span class="comment">// incoming data to the media cache on the main thread, as this could block</span>
+<a name="l00022"></a>00022 <span class="comment">// causing UI jank. </span>
+<a name="l00023"></a>00023 <span class="comment">//</span>
+<a name="l00024"></a>00024 <span class="comment">// So FileBlockCache provides an abstraction for a temporary file accessible</span>
+<a name="l00025"></a>00025 <span class="comment">// as an array of blocks, which supports a block move operation, and</span>
+<a name="l00026"></a>00026 <span class="comment">// allows synchronous reading and writing from any thread, with writes being</span>
+<a name="l00027"></a>00027 <span class="comment">// buffered so as not to block.</span>
+<a name="l00028"></a>00028 <span class="comment">//</span>
+<a name="l00029"></a>00029 <span class="comment">// Writes and cache block moves (which require reading) are deferred to</span>
+<a name="l00030"></a>00030 <span class="comment">// their own non-main thread. This object also ensures that data which has</span>
+<a name="l00031"></a>00031 <span class="comment">// been scheduled to be written, but hasn&#39;t actually *been* written, is read</span>
+<a name="l00032"></a>00032 <span class="comment">// as if it had, i.e. pending writes are cached in readable memory until</span>
+<a name="l00033"></a>00033 <span class="comment">// they&#39;re flushed to file.</span>
+<a name="l00034"></a>00034 <span class="comment">//</span>
+<a name="l00035"></a>00035 <span class="comment">// To improve efficiency, writes can only be done at block granularity,</span>
+<a name="l00036"></a>00036 <span class="comment">// whereas reads can be done with byte granularity.</span>
+<a name="l00037"></a>00037 <span class="comment">//</span>
+<a name="l00038"></a>00038 <span class="comment">// Note it&#39;s also recommended not to read from the media cache from the main</span>
+<a name="l00039"></a>00039 <span class="comment">// thread to prevent jank.</span>
+<a name="l00040"></a>00040 <span class="comment">//</span>
+<a name="l00041"></a>00041 <span class="comment">// When WriteBlock() or MoveBlock() are called, data about how to complete</span>
+<a name="l00042"></a>00042 <span class="comment">// the block change is added to mBlockChanges, indexed by block index, and</span>
+<a name="l00043"></a>00043 <span class="comment">// the block index is appended to the mChangeIndexList. This enables</span>
+<a name="l00044"></a>00044 <span class="comment">// us to quickly tell if a block has been changed, and ensures we can perform</span>
+<a name="l00045"></a>00045 <span class="comment">// the changes in the correct order. An event is dispatched to perform the</span>
+<a name="l00046"></a>00046 <span class="comment">// changes listed in mBlockChanges to file. Read() checks mBlockChanges and</span>
+<a name="l00047"></a>00047 <span class="comment">// determines the current data to return, reading from file or from</span>
+<a name="l00048"></a>00048 <span class="comment">// mBlockChanges as necessary.</span>
+<a name="l00049"></a><a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html">00049</a> <span class="keyword">class </span><a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html">FileBlockCache</a> : <span class="keyword">public</span> <a class="code" href="../../da/ddb/classns_runnable.html">nsRunnable</a> {
+<a name="l00050"></a>00050 <span class="keyword">public</span>:
+<a name="l00051"></a>00051   <span class="keyword">enum</span> {
+<a name="l00052"></a><a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#a1b9bdc7bb8881ef232b10040d3737e2aa4567e6d37ffdc5ae0d67ae279e65ad73">00052</a>     <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#a1b9bdc7bb8881ef232b10040d3737e2aa4567e6d37ffdc5ae0d67ae279e65ad73">BLOCK_SIZE</a> = <a class="code" href="../../d4/dd4/classmozilla_1_1_media_cache_stream.html#a3e09774c0e245769605e1ec8e2ec68fea616833fe72a8ef8c4da5db9f2cf9d062">MediaCacheStream::BLOCK_SIZE</a>
+<a name="l00053"></a>00053   };
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055   <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#ac57475c5365d129e6f221275145f1544">FileBlockCache</a>();
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057   <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#a97b54449026c35d5a1fc8a3bf00c9c2d">~FileBlockCache</a>();
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059   <span class="comment">// Assumes ownership of aFD.</span>
+<a name="l00060"></a>00060   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#aee4c4dfe1fcb2b3b56610e6705ce7a03">Open</a>(<a class="code" href="../../d8/dea/struct_p_r_file_desc.html">PRFileDesc</a>* aFD);
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062   <span class="comment">// Closes writer, shuts down thread.</span>
+<a name="l00063"></a>00063   <span class="keywordtype">void</span> <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#a8dea0e4043e2b4456d8cbdda1c899502">Close</a>();
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065   <span class="comment">// Can be called on any thread. This defers to a non-main thread.</span>
+<a name="l00066"></a>00066   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#ad804937e3958d3f30d8be0651ed7906c">WriteBlock</a>(uint32_t aBlockIndex, <span class="keyword">const</span> uint8_t* <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>);
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068   <span class="comment">// Performs block writes and block moves on its own thread.</span>
+<a name="l00069"></a>00069   <a class="code" href="../../d3/dd8/nscore_8h.html#abbc6d740d4f54ed1c90bbed28dcef65a">NS_IMETHOD</a> <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#af6a36a4ab277df3054dc31481be330a6">Run</a>() MOZ_OVERRIDE;
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071   <span class="comment">// Synchronously reads data from file. May read from file or memory</span>
+<a name="l00072"></a>00072   <span class="comment">// depending on whether written blocks have been flushed to file yet.</span>
+<a name="l00073"></a>00073   <span class="comment">// Not recommended to be called from the main thread, as can cause jank.</span>
+<a name="l00074"></a>00074   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#a56271b55ed92ee21c5300e138b729d3b">Read</a>(int64_t aOffset,
+<a name="l00075"></a>00075                 uint8_t* <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00076"></a>00076                 int32_t aLength,
+<a name="l00077"></a>00077                 int32_t* aBytes);
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079   <span class="comment">// Moves a block asynchronously. Can be called on any thread.</span>
+<a name="l00080"></a>00080   <span class="comment">// This defers file I/O to a non-main thread.</span>
+<a name="l00081"></a>00081   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#ab9f7247bec006cd06ca50cbbf2eb0559">MoveBlock</a>(int32_t aSourceBlockIndex, int32_t aDestBlockIndex);
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083   <span class="comment">// Represents a change yet to be made to a block in the file. The change</span>
+<a name="l00084"></a>00084   <span class="comment">// is either a write (and the data to be written is stored in this struct)</span>
+<a name="l00085"></a>00085   <span class="comment">// or a move (and the index of the source block is stored instead).</span>
+<a name="l00086"></a><a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html">00086</a>   struct <a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html">BlockChange</a> {
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088     <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#ac4bdc476a7f9eddfb535c3ff08591209">NS_INLINE_DECL_THREADSAFE_REFCOUNTING</a>(BlockChange)
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090     <span class="comment">// This block is waiting in memory to be written.</span>
+<a name="l00091"></a>00091     <span class="comment">// Stores a copy of the block, so we can write it asynchronously.</span>
+<a name="l00092"></a><a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html#a32ddd80316e9926b608336665e6c5c74">00092</a>     BlockChange(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> uint8_t* aData)
+<a name="l00093"></a>00093       : mSourceBlockIndex(-1)
+<a name="l00094"></a>00094     {
+<a name="l00095"></a>00095       mData = <span class="keyword">new</span> uint8_t[<a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#a1b9bdc7bb8881ef232b10040d3737e2aa4567e6d37ffdc5ae0d67ae279e65ad73">BLOCK_SIZE</a>];
+<a name="l00096"></a>00096       memcpy(mData.get(), <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>, <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#a1b9bdc7bb8881ef232b10040d3737e2aa4567e6d37ffdc5ae0d67ae279e65ad73">BLOCK_SIZE</a>);
+<a name="l00097"></a>00097     }
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099     <span class="comment">// This block&#39;s contents are located in another file</span>
+<a name="l00100"></a>00100     <span class="comment">// block, i.e. this block has been moved.</span>
+<a name="l00101"></a><a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html#ac984576aa0a31c2258c4b02a428da7a4">00101</a>     <a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html">BlockChange</a>(int32_t aSourceBlockIndex)
+<a name="l00102"></a>00102       : mSourceBlockIndex(aSourceBlockIndex) {}
+<a name="l00103"></a>00103 
+<a name="l00104"></a><a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html#ac7cb185e5bc5bc7ba0677f4e9949c3cd">00104</a>     <a class="code" href="../../d1/ddd/classns_auto_array_ptr.html">nsAutoArrayPtr&lt;uint8_t&gt;</a> <a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html#ac7cb185e5bc5bc7ba0677f4e9949c3cd">mData</a>;
+<a name="l00105"></a><a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html#acdc8062e9295f75b624a45efb7030680">00105</a>     <span class="keyword">const</span> int32_t <a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html#acdc8062e9295f75b624a45efb7030680">mSourceBlockIndex</a>;
+<a name="l00106"></a>00106 
+<a name="l00107"></a><a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html#a04ecdcaf2f4c1612ad1c75a263ded483">00107</a>     <span class="keywordtype">bool</span> <a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html#a04ecdcaf2f4c1612ad1c75a263ded483">IsMove</a>()<span class="keyword"> const </span>{
+<a name="l00108"></a>00108       <span class="keywordflow">return</span> mSourceBlockIndex != -1;
+<a name="l00109"></a>00109     }
+<a name="l00110"></a><a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html#a9c6f1d71ec39ccb3f5c58cdb50093904">00110</a>     <span class="keywordtype">bool</span> <a class="code" href="../../db/d7d/structmozilla_1_1_file_block_cache_1_1_block_change.html#a9c6f1d71ec39ccb3f5c58cdb50093904">IsWrite</a>()<span class="keyword"> const </span>{
+<a name="l00111"></a>00111       <span class="keywordflow">return</span> mSourceBlockIndex == -1 &amp;&amp;
+<a name="l00112"></a>00112              mData.<a class="code" href="../../d1/ddd/classns_auto_array_ptr.html#a24bdfeb64bfa6c202d2743c32a2d22cc">get</a>() != <span class="keyword">nullptr</span>;
+<a name="l00113"></a>00113     }
+<a name="l00114"></a>00114   };
+<a name="l00115"></a>00115 
+<a name="l00116"></a><a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html">00116</a>   <span class="keyword">class </span><a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html">Int32Queue</a> : <span class="keyword">private</span> <a class="code" href="../../d6/d69/classns_deque.html">nsDeque</a> {
+<a name="l00117"></a>00117   <span class="keyword">public</span>:
+<a name="l00118"></a><a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html#a77ba12000f8bf55a1680695e6c0cec2e">00118</a>     int32_t <a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html#a77ba12000f8bf55a1680695e6c0cec2e">PopFront</a>() {
+<a name="l00119"></a>00119       int32_t front = ObjectAt(0);
+<a name="l00120"></a>00120       <a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html#a77ba12000f8bf55a1680695e6c0cec2e">nsDeque::PopFront</a>();
+<a name="l00121"></a>00121       <span class="keywordflow">return</span> front;
+<a name="l00122"></a>00122     }
+<a name="l00123"></a>00123 
+<a name="l00124"></a><a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html#a318d827055a49f5256f46c10661e7426">00124</a>     <span class="keywordtype">void</span> <a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html#a318d827055a49f5256f46c10661e7426">PushBack</a>(int32_t aValue) {
+<a name="l00125"></a>00125       <a class="code" href="../../d6/d69/classns_deque.html#a24ec361f7f22b6d2bb3210c01ec1403d">nsDeque::Push</a>(reinterpret_cast&lt;void*&gt;(aValue));
+<a name="l00126"></a>00126     }
+<a name="l00127"></a>00127 
+<a name="l00128"></a><a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html#a83320fdd06ee6cc370bba1e9b96e09c8">00128</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html#a83320fdd06ee6cc370bba1e9b96e09c8">Contains</a>(int32_t aValue) {
+<a name="l00129"></a>00129       <span class="keywordflow">for</span> (int32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d6/d69/classns_deque.html#adf2cac63f0bc34756827b29e034a9522">GetSize</a>(); ++<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>) {
+<a name="l00130"></a>00130         <span class="keywordflow">if</span> (ObjectAt(<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>) == aValue) {
+<a name="l00131"></a>00131           <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00132"></a>00132         }
+<a name="l00133"></a>00133       }
+<a name="l00134"></a>00134       <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00135"></a>00135     }
+<a name="l00136"></a>00136 
+<a name="l00137"></a><a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html#a611fa574b0072407b66fc555dbc03d1d">00137</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d2/d7f/classmozilla_1_1_file_block_cache_1_1_int32_queue.html#a611fa574b0072407b66fc555dbc03d1d">IsEmpty</a>() {
+<a name="l00138"></a>00138       <span class="keywordflow">return</span> <a class="code" href="../../d6/d69/classns_deque.html#adf2cac63f0bc34756827b29e034a9522">nsDeque::GetSize</a>() == 0;
+<a name="l00139"></a>00139     }
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141   <span class="keyword">private</span>:
+<a name="l00142"></a>00142     int32_t ObjectAt(int32_t aIndex) {
+<a name="l00143"></a>00143       <span class="keywordtype">void</span>* <a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a5d38b5ed0e5a6c44c34f95302820c4d7">v</a> = <a class="code" href="../../d6/d69/classns_deque.html#accc0eb9a60d171b09829c3d1bf7c34a4">nsDeque::ObjectAt</a>(aIndex);
+<a name="l00144"></a>00144       <span class="comment">// Ugly hack to work around &quot;casting 64bit void* to 32bit int loses precision&quot;</span>
+<a name="l00145"></a>00145       <span class="comment">// error on 64bit Linux.</span>
+<a name="l00146"></a>00146       <span class="keywordflow">return</span> *(<span class="keyword">reinterpret_cast&lt;</span>int32_t*<span class="keyword">&gt;</span>(&amp;<a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a5d38b5ed0e5a6c44c34f95302820c4d7">v</a>));
+<a name="l00147"></a>00147     }
+<a name="l00148"></a>00148   };
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150 <span class="keyword">private</span>:
+<a name="l00151"></a>00151   int64_t BlockIndexToOffset(int32_t aBlockIndex) {
+<a name="l00152"></a>00152     <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(aBlockIndex) * <a class="code" href="../../d4/d00/classmozilla_1_1_file_block_cache.html#a1b9bdc7bb8881ef232b10040d3737e2aa4567e6d37ffdc5ae0d67ae279e65ad73">BLOCK_SIZE</a>;
+<a name="l00153"></a>00153   }
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155   <span class="comment">// Monitor which controls access to mFD and mFDCurrentPos. Don&#39;t hold</span>
+<a name="l00156"></a>00156   <span class="comment">// mDataMonitor while holding mFileMonitor! mFileMonitor must be owned</span>
+<a name="l00157"></a>00157   <span class="comment">// while accessing any of the following data fields or methods.</span>
+<a name="l00158"></a>00158   Monitor mFileMonitor;
+<a name="l00159"></a>00159   <span class="comment">// Moves a block already committed to file.</span>
+<a name="l00160"></a>00160   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> MoveBlockInFile(int32_t aSourceBlockIndex,
+<a name="l00161"></a>00161                            int32_t aDestBlockIndex);
+<a name="l00162"></a>00162   <span class="comment">// Seeks file pointer.</span>
+<a name="l00163"></a>00163   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> Seek(int64_t aOffset);
+<a name="l00164"></a>00164   <span class="comment">// Reads data from file offset.</span>
+<a name="l00165"></a>00165   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> ReadFromFile(int64_t aOffset,
+<a name="l00166"></a>00166                         uint8_t* aDest,
+<a name="l00167"></a>00167                         int32_t aBytesToRead,
+<a name="l00168"></a>00168                         int32_t&amp; aBytesRead);
+<a name="l00169"></a>00169   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> WriteBlockToFile(int32_t aBlockIndex, <span class="keyword">const</span> uint8_t* aBlockData);
+<a name="l00170"></a>00170   <span class="comment">// File descriptor we&#39;re writing to. This is created externally, but</span>
+<a name="l00171"></a>00171   <span class="comment">// shutdown by us.</span>
+<a name="l00172"></a>00172   <a class="code" href="../../d8/dea/struct_p_r_file_desc.html">PRFileDesc</a>* mFD;
+<a name="l00173"></a>00173   <span class="comment">// The current file offset in the file.</span>
+<a name="l00174"></a>00174   int64_t mFDCurrentPos;
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176   <span class="comment">// Monitor which controls access to all data in this class, except mFD</span>
+<a name="l00177"></a>00177   <span class="comment">// and mFDCurrentPos. Don&#39;t hold mDataMonitor while holding mFileMonitor!</span>
+<a name="l00178"></a>00178   <span class="comment">// mDataMonitor must be owned while accessing any of the following data</span>
+<a name="l00179"></a>00179   <span class="comment">// fields or methods.</span>
+<a name="l00180"></a>00180   Monitor mDataMonitor;
+<a name="l00181"></a>00181   <span class="comment">// Ensures we either are running the event to preform IO, or an event</span>
+<a name="l00182"></a>00182   <span class="comment">// has been dispatched to preform the IO.</span>
+<a name="l00183"></a>00183   <span class="comment">// mDataMonitor must be owned while calling this.</span>
+<a name="l00184"></a>00184   <span class="keywordtype">void</span> EnsureWriteScheduled();
+<a name="l00185"></a>00185   <span class="comment">// Array of block changes to made. If mBlockChanges[offset/BLOCK_SIZE] == nullptr,</span>
+<a name="l00186"></a>00186   <span class="comment">// then the block has no pending changes to be written, but if</span>
+<a name="l00187"></a>00187   <span class="comment">// mBlockChanges[offset/BLOCK_SIZE] != nullptr, then either there&#39;s a block</span>
+<a name="l00188"></a>00188   <span class="comment">// cached in memory waiting to be written, or this block is the target of a</span>
+<a name="l00189"></a>00189   <span class="comment">// block move.</span>
+<a name="l00190"></a>00190   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt; nsRefPtr&lt;BlockChange&gt;</a> &gt; mBlockChanges;
+<a name="l00191"></a>00191   <span class="comment">// Thread upon which block writes and block moves are performed. This is</span>
+<a name="l00192"></a>00192   <span class="comment">// created upon open, and shutdown (asynchronously) upon close (on the</span>
+<a name="l00193"></a>00193   <span class="comment">// main thread).</span>
+<a name="l00194"></a>00194   nsCOMPtr&lt;nsIThread&gt; mThread;
+<a name="l00195"></a>00195   <span class="comment">// Queue of pending block indexes that need to be written or moved.</span>
+<a name="l00196"></a>00196   <span class="comment">//nsAutoTArray&lt;int32_t, 8&gt; mChangeIndexList;</span>
+<a name="l00197"></a>00197   Int32Queue mChangeIndexList;
+<a name="l00198"></a>00198   <span class="comment">// True if we&#39;ve dispatched an event to commit all pending block changes</span>
+<a name="l00199"></a>00199   <span class="comment">// to file on mThread.</span>
+<a name="l00200"></a>00200   <span class="keywordtype">bool</span> mIsWriteScheduled;
+<a name="l00201"></a>00201   <span class="comment">// True if the writer is ready to write data to file.</span>
+<a name="l00202"></a>00202   <span class="keywordtype">bool</span> mIsOpen;
+<a name="l00203"></a>00203 };
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205 } <span class="comment">// End namespace mozilla.</span>
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207 <span class="preprocessor">#endif </span><span class="comment">/* FILE_BLOCK_CACHE_H_ */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dc/d9c/_file_block_cache_8h.html">FileBlockCache.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:00に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

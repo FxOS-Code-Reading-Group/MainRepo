@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_r_t_c_peer_connection_ice_event_01_4 =
+[
+    [ "NativeType", "dc/d47/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_r_t_c_peer_connection_ice_event_01_4.html#ad72f1a3dc6d983e5bf860481f9660145", null ]
+];

@@ -1,0 +1,522 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: RefPtr.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/d78/_ref_ptr_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">RefPtr.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/d78/_ref_ptr_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set ts=8 sts=2 et sw=2 tw=80: */</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/* Helpers for defining and using refcounted objects. */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="preprocessor">#ifndef mozilla_RefPtr_h</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="preprocessor">#define mozilla_RefPtr_h</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/de9/_assertions_8h.html">mozilla/Assertions.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d18/_atomics_8h.html">mozilla/Atomics.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/da8/_attributes_8h.html">mozilla/Attributes.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d4/dd5/_type_traits_8h.html">mozilla/TypeTraits.h</a>&quot;</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 <span class="keyword">namespace </span>mozilla {
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class </span>RefCounted;
+<a name="l00020"></a>00020 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class </span>RefPtr;
+<a name="l00021"></a>00021 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class </span>TemporaryRef;
+<a name="l00022"></a>00022 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class </span>OutParamRef;
+<a name="l00023"></a>00023 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; OutParamRef&lt;T&gt; <a class="code" href="../../d2/d93/namespacemozilla.html#aaeea387234877fbae7d87788c2b9a507">byRef</a>(RefPtr&lt;T&gt;&amp;);
+<a name="l00024"></a>00024 
+<a name="l00046"></a>00046 <span class="keyword">namespace </span>detail {
+<a name="l00047"></a>00047 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00048"></a>00048 <span class="preprocessor"></span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> DEAD = 0xffffdead;
+<a name="l00049"></a>00049 <span class="preprocessor">#endif</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>
+<a name="l00051"></a>00051 <span class="comment">// This is used WeakPtr.h as well as this file.</span>
+<a name="l00052"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a9b51c829263477d428452461b1ba807a">00052</a> <span class="keyword">enum</span> <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a9b51c829263477d428452461b1ba807a">RefCountAtomicity</a>
+<a name="l00053"></a>00053 {
+<a name="l00054"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a9b51c829263477d428452461b1ba807aa18ae604f5308ec5ec588ac8546689846">00054</a>   <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a9b51c829263477d428452461b1ba807aa18ae604f5308ec5ec588ac8546689846">AtomicRefCount</a>,
+<a name="l00055"></a><a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a9b51c829263477d428452461b1ba807aad707c377bd4446f805059bed0ac2b6ca">00055</a>   <a class="code" href="../../d6/d7b/namespacemozilla_1_1detail.html#a9b51c829263477d428452461b1ba807aad707c377bd4446f805059bed0ac2b6ca">NonAtomicRefCount</a>
+<a name="l00056"></a>00056 };
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, RefCountAtomicity Atomicity&gt;
+<a name="l00059"></a><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html">00059</a> <span class="keyword">class </span><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html">RefCounted</a>
+<a name="l00060"></a>00060 {
+<a name="l00061"></a><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a8e460ca80d19e4ea35d5957bf064c592">00061</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>&lt;T&gt;;
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063   <span class="keyword">protected</span>:
+<a name="l00064"></a><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a254846288ffe3fb2b4cbad99e2324681">00064</a>     <a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a254846288ffe3fb2b4cbad99e2324681">RefCounted</a>() : refCnt(0) { }
+<a name="l00065"></a><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#ac096941576589fa76cd46df2391e70f0">00065</a>     <a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#ac096941576589fa76cd46df2391e70f0">~RefCounted</a>() {
+<a name="l00066"></a>00066       <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(refCnt == detail::DEAD);
+<a name="l00067"></a>00067     }
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069   <span class="keyword">public</span>:
+<a name="l00070"></a>00070     <span class="comment">// Compatibility with nsRefPtr.</span>
+<a name="l00071"></a><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#aed000d5e143026f250d2805866fe2df3">00071</a>     <span class="keywordtype">void</span> <a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#aed000d5e143026f250d2805866fe2df3">AddRef</a>() {
+<a name="l00072"></a>00072       <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(refCnt &gt;= 0);
+<a name="l00073"></a>00073       ++refCnt;
+<a name="l00074"></a>00074     }
+<a name="l00075"></a>00075 
+<a name="l00076"></a><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#abeca556dae7428eeb93ba4bfd56d480d">00076</a>     <span class="keywordtype">void</span> <a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#abeca556dae7428eeb93ba4bfd56d480d">Release</a>() {
+<a name="l00077"></a>00077       <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(refCnt &gt; 0);
+<a name="l00078"></a>00078       <span class="keywordflow">if</span> (0 == --refCnt) {
+<a name="l00079"></a>00079 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00080"></a>00080 <span class="preprocessor"></span>        refCnt = detail::DEAD;
+<a name="l00081"></a>00081 <span class="preprocessor">#endif</span>
+<a name="l00082"></a>00082 <span class="preprocessor"></span>        <span class="keyword">delete</span> <span class="keyword">static_cast&lt;</span>T*<span class="keyword">&gt;</span>(<span class="keyword">this</span>);
+<a name="l00083"></a>00083       }
+<a name="l00084"></a>00084     }
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086     <span class="comment">// Compatibility with wtf::RefPtr.</span>
+<a name="l00087"></a><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a5ace488d04ac90b010586dd65ff4461d">00087</a>     <span class="keywordtype">void</span> <a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a5ace488d04ac90b010586dd65ff4461d">ref</a>() { <a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#aed000d5e143026f250d2805866fe2df3">AddRef</a>(); }
+<a name="l00088"></a><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a07fd24020b716d361f1bc10b0164f4cb">00088</a>     <span class="keywordtype">void</span> <a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a07fd24020b716d361f1bc10b0164f4cb">deref</a>() { <a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#abeca556dae7428eeb93ba4bfd56d480d">Release</a>(); }
+<a name="l00089"></a><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a463b66b88fe3c5ca3e951c3961680586">00089</a>     <span class="keywordtype">int</span> <a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a463b66b88fe3c5ca3e951c3961680586">refCount</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> refCnt; }
+<a name="l00090"></a><a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a94639c7de2cc2d8ee94de05809587b0d">00090</a>     <span class="keywordtype">bool</span> <a class="code" href="../../df/d3c/classmozilla_1_1detail_1_1_ref_counted.html#a94639c7de2cc2d8ee94de05809587b0d">hasOneRef</a>()<span class="keyword"> const </span>{
+<a name="l00091"></a>00091       <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(refCnt &gt; 0);
+<a name="l00092"></a>00092       <span class="keywordflow">return</span> refCnt == 1;
+<a name="l00093"></a>00093     }
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095   <span class="keyword">private</span>:
+<a name="l00096"></a>00096     <span class="keyword">typename</span> <a class="code" href="../../df/dd5/structmozilla_1_1_conditional.html">Conditional&lt;Atomicity == AtomicRefCount, Atomic&lt;int&gt;</a>, <span class="keywordtype">int</span>&gt;<a class="code" href="../../d3/d0f/ns_display_item_types_8h.html#a1d1cfd8ffb84e947f82999c682b666a7">::Type</a> refCnt;
+<a name="l00097"></a>00097 };
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099 }
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00102"></a><a class="code" href="../../d2/de4/classmozilla_1_1_ref_counted.html">00102</a> <span class="keyword">class </span><a class="code" href="../../d2/de4/classmozilla_1_1_ref_counted.html">RefCounted</a> : <span class="keyword">public</span> detail::<a class="code" href="../../d2/de4/classmozilla_1_1_ref_counted.html">RefCounted</a>&lt;T, detail::NonAtomicRefCount&gt;
+<a name="l00103"></a>00103 {
+<a name="l00104"></a>00104   <span class="keyword">public</span>:
+<a name="l00105"></a><a class="code" href="../../d2/de4/classmozilla_1_1_ref_counted.html#ad870326a080c10208941b31e247fa256">00105</a>     <a class="code" href="../../d2/de4/classmozilla_1_1_ref_counted.html#ad870326a080c10208941b31e247fa256">~RefCounted</a>() {
+<a name="l00106"></a>00106       <a class="code" href="../../d2/d93/namespacemozilla.html#a3729684868f82552b55b233ac66f7b01">static_assert</a>(<a class="code" href="../../dd/d76/structmozilla_1_1_is_base_of.html">IsBaseOf&lt;RefCounted, T&gt;::value</a>,
+<a name="l00107"></a>00107                     <span class="stringliteral">&quot;T must derive from RefCounted&lt;T&gt;&quot;</span>);
+<a name="l00108"></a>00108     }
+<a name="l00109"></a>00109 };
+<a name="l00110"></a>00110 
+<a name="l00115"></a>00115 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00116"></a><a class="code" href="../../da/d28/classmozilla_1_1_atomic_ref_counted.html">00116</a> <span class="keyword">class </span><a class="code" href="../../da/d28/classmozilla_1_1_atomic_ref_counted.html">AtomicRefCounted</a> : <span class="keyword">public</span> detail::<a class="code" href="../../d2/de4/classmozilla_1_1_ref_counted.html">RefCounted</a>&lt;T, detail::AtomicRefCount&gt;
+<a name="l00117"></a>00117 {
+<a name="l00118"></a>00118   <span class="keyword">public</span>:
+<a name="l00119"></a><a class="code" href="../../da/d28/classmozilla_1_1_atomic_ref_counted.html#ace9a694f406736db91c8c60b6f91cdd5">00119</a>     <a class="code" href="../../da/d28/classmozilla_1_1_atomic_ref_counted.html#ace9a694f406736db91c8c60b6f91cdd5">~AtomicRefCounted</a>() {
+<a name="l00120"></a>00120       <a class="code" href="../../d2/d93/namespacemozilla.html#a3729684868f82552b55b233ac66f7b01">static_assert</a>(<a class="code" href="../../dd/d76/structmozilla_1_1_is_base_of.html">IsBaseOf&lt;AtomicRefCounted, T&gt;::value</a>,
+<a name="l00121"></a>00121                     <span class="stringliteral">&quot;T must derive from AtomicRefCounted&lt;T&gt;&quot;</span>);
+<a name="l00122"></a>00122     }
+<a name="l00123"></a>00123 };
+<a name="l00124"></a>00124 
+<a name="l00135"></a>00135 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00136"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">00136</a> <span class="keyword">class </span><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>
+<a name="l00137"></a>00137 {
+<a name="l00138"></a>00138     <span class="comment">// To allow them to use unref()</span>
+<a name="l00139"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a47db1a37a72d9f41f11d3e1229f45a2f">00139</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef</a>&lt;T&gt;;
+<a name="l00140"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a1be1c0e444ec5c29a9155888ba41e2e6">00140</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d7/db8/classmozilla_1_1_out_param_ref.html">OutParamRef</a>&lt;T&gt;;
+<a name="l00141"></a>00141 
+<a name="l00142"></a>00142     <span class="keyword">struct </span>DontRef {};
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144   <span class="keyword">public</span>:
+<a name="l00145"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a2c1a4b74e8fbeec3547a9ccb91e80b21">00145</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a2c1a4b74e8fbeec3547a9ccb91e80b21">RefPtr</a>() : ptr(0) { }
+<a name="l00146"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#ae72d21fda9ad3f180d6c8a709e08058d">00146</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#ae72d21fda9ad3f180d6c8a709e08058d">RefPtr</a>(<span class="keyword">const</span> <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>&amp; <a class="code" href="../../d8/dbd/namespaceheader.html#a1f19773439587cecdc1d5ef61c705086">o</a>) : ptr(ref(o.ptr)) {}
+<a name="l00147"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#aab46f6e9d3f998e733e22c731ee514c5">00147</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#aab46f6e9d3f998e733e22c731ee514c5">RefPtr</a>(<span class="keyword">const</span> <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef&lt;T&gt;</a>&amp; <a class="code" href="../../d8/dbd/namespaceheader.html#a1f19773439587cecdc1d5ef61c705086">o</a>) : ptr(o.drop()) {}
+<a name="l00148"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a059916d64c199db20c05d579e1045e07">00148</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a059916d64c199db20c05d579e1045e07">RefPtr</a>(T* t) : ptr(ref(t)) {}
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00151"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#af9f1c2a35a3f737bf9efa6b0acbe480c">00151</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#af9f1c2a35a3f737bf9efa6b0acbe480c">RefPtr</a>(<span class="keyword">const</span> <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;U&gt;</a>&amp; <a class="code" href="../../d8/dbd/namespaceheader.html#a1f19773439587cecdc1d5ef61c705086">o</a>) : ptr(ref(o.<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#aabc2911118bb03e4ed92bed41f76b33f">get</a>())) {}
+<a name="l00152"></a>00152 
+<a name="l00153"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a798ed6bba09c8a7814a28d37fbbe3e22">00153</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a798ed6bba09c8a7814a28d37fbbe3e22">~RefPtr</a>() { unref(ptr); }
+<a name="l00154"></a>00154 
+<a name="l00155"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a17510a76f2a10669b67add979ec8f029">00155</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>&amp; <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a17510a76f2a10669b67add979ec8f029">operator=</a>(<span class="keyword">const</span> <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>&amp; <a class="code" href="../../d8/dbd/namespaceheader.html#a1f19773439587cecdc1d5ef61c705086">o</a>) {
+<a name="l00156"></a>00156       assign(ref(o.ptr));
+<a name="l00157"></a>00157       <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00158"></a>00158     }
+<a name="l00159"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#af0ea24480ea215c2c880752953bf406c">00159</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>&amp; <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#af0ea24480ea215c2c880752953bf406c">operator=</a>(<span class="keyword">const</span> <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef&lt;T&gt;</a>&amp; <a class="code" href="../../d8/dbd/namespaceheader.html#a1f19773439587cecdc1d5ef61c705086">o</a>) {
+<a name="l00160"></a>00160       assign(o.<a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a2dd073d4eb62ad4cd25574033492b1be">drop</a>());
+<a name="l00161"></a>00161       <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00162"></a>00162     }
+<a name="l00163"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#abd28b8e687bd0bacce4c07c6e5af517f">00163</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>&amp; <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#abd28b8e687bd0bacce4c07c6e5af517f">operator=</a>(T* t) {
+<a name="l00164"></a>00164       assign(ref(t));
+<a name="l00165"></a>00165       <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00166"></a>00166     }
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00169"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a9aac21669a2e040834d4e69812b0d0bb">00169</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>&amp; <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a9aac21669a2e040834d4e69812b0d0bb">operator=</a>(<span class="keyword">const</span> <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;U&gt;</a>&amp; <a class="code" href="../../d8/dbd/namespaceheader.html#a1f19773439587cecdc1d5ef61c705086">o</a>) {
+<a name="l00170"></a>00170       assign(ref(o.<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#aabc2911118bb03e4ed92bed41f76b33f">get</a>()));
+<a name="l00171"></a>00171       <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00172"></a>00172     }
+<a name="l00173"></a>00173 
+<a name="l00174"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#ada0259c09825f15879bc9a062d298d43">00174</a>     <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef&lt;T&gt;</a> <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#ada0259c09825f15879bc9a062d298d43">forget</a>() {
+<a name="l00175"></a>00175       T* <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a> = ptr;
+<a name="l00176"></a>00176       ptr = 0;
+<a name="l00177"></a>00177       <span class="keywordflow">return</span> <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef&lt;T&gt;</a>(<a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>, DontRef());
+<a name="l00178"></a>00178     }
+<a name="l00179"></a>00179 
+<a name="l00180"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#aabc2911118bb03e4ed92bed41f76b33f">00180</a>     T* <span class="keyword">get</span>() <span class="keyword">const</span> { <span class="keywordflow">return</span> ptr; }
+<a name="l00181"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a5d55f3566ea2889e53ed218879a30955">00181</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a5d55f3566ea2889e53ed218879a30955">operator T*</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> ptr; }
+<a name="l00182"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a604d6e63089a0d8ba820ba7d004af3c9">00182</a>     T* <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a604d6e63089a0d8ba820ba7d004af3c9">operator-&gt;</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> ptr; }
+<a name="l00183"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a1b2ce0119e31a55423dda6f6759229d0">00183</a>     T&amp; <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a1b2ce0119e31a55423dda6f6759229d0">operator*</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> *ptr; }
+<a name="l00184"></a>00184     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00185"></a><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a6c8827d3a36d383b4d1d8ebb1a735bdb">00185</a>     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#a6c8827d3a36d383b4d1d8ebb1a735bdb">operator TemporaryRef&lt;U&gt;</a>() { <span class="keywordflow">return</span> <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef&lt;U&gt;</a>(ptr); }
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187   <span class="keyword">private</span>:
+<a name="l00188"></a>00188     <span class="keywordtype">void</span> assign(T* t) {
+<a name="l00189"></a>00189       unref(ptr);
+<a name="l00190"></a>00190       ptr = t;
+<a name="l00191"></a>00191     }
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193     T* ptr;
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195     <span class="keyword">static</span> <a class="code" href="../../d1/da8/_attributes_8h.html#ab78f6874a8f1b6966e76c674cde79e5d">MOZ_ALWAYS_INLINE</a> T* ref(T* t) {
+<a name="l00196"></a>00196       <span class="keywordflow">if</span> (t)
+<a name="l00197"></a>00197         t-&gt;AddRef();
+<a name="l00198"></a>00198       <span class="keywordflow">return</span> t;
+<a name="l00199"></a>00199     }
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201     <span class="keyword">static</span> <a class="code" href="../../d1/da8/_attributes_8h.html#ab78f6874a8f1b6966e76c674cde79e5d">MOZ_ALWAYS_INLINE</a> <span class="keywordtype">void</span> unref(T* t) {
+<a name="l00202"></a>00202       <span class="keywordflow">if</span> (t)
+<a name="l00203"></a>00203         t-&gt;Release();
+<a name="l00204"></a>00204     }
+<a name="l00205"></a>00205 };
+<a name="l00206"></a>00206 
+<a name="l00213"></a>00213 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00214"></a><a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">00214</a> <span class="keyword">class </span><a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef</a>
+<a name="l00215"></a>00215 {
+<a name="l00216"></a>00216     <span class="comment">// To allow it to construct TemporaryRef from a bare T*</span>
+<a name="l00217"></a><a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a8e460ca80d19e4ea35d5957bf064c592">00217</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>&lt;T&gt;;
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219     <span class="keyword">typedef</span> <span class="keyword">typename</span> <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;T&gt;::DontRef</a> DontRef;
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221   <span class="keyword">public</span>:
+<a name="l00222"></a><a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a1a222cf19d19ecae613cb5ef4301b0ff">00222</a>     <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a1a222cf19d19ecae613cb5ef4301b0ff">TemporaryRef</a>(T* t) : ptr(<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>&lt;T&gt;::ref(t)) {}
+<a name="l00223"></a><a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a8822af4d395f6ae8be513a140bca01bf">00223</a>     <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a8822af4d395f6ae8be513a140bca01bf">TemporaryRef</a>(<span class="keyword">const</span> <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef</a>&amp; <a class="code" href="../../d8/dbd/namespaceheader.html#a1f19773439587cecdc1d5ef61c705086">o</a>) : ptr(o.<a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a2dd073d4eb62ad4cd25574033492b1be">drop</a>()) {}
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225     <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;
+<a name="l00226"></a><a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#aa18f235c1cbb895e5b5fddf18a83e68d">00226</a>     <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#aa18f235c1cbb895e5b5fddf18a83e68d">TemporaryRef</a>(<span class="keyword">const</span> <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef&lt;U&gt;</a>&amp; <a class="code" href="../../d8/dbd/namespaceheader.html#a1f19773439587cecdc1d5ef61c705086">o</a>) : ptr(o.<a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a2dd073d4eb62ad4cd25574033492b1be">drop</a>()) {}
+<a name="l00227"></a>00227 
+<a name="l00228"></a><a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a701e4f7d2449feadb974e39e42cc1373">00228</a>     <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a701e4f7d2449feadb974e39e42cc1373">~TemporaryRef</a>() { <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;T&gt;::unref</a>(ptr); }
+<a name="l00229"></a>00229 
+<a name="l00230"></a><a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a2dd073d4eb62ad4cd25574033492b1be">00230</a>     T* <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a2dd073d4eb62ad4cd25574033492b1be">drop</a>()<span class="keyword"> const </span>{
+<a name="l00231"></a>00231       T* <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a> = ptr;
+<a name="l00232"></a>00232       ptr = 0;
+<a name="l00233"></a>00233       <span class="keywordflow">return</span> <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>;
+<a name="l00234"></a>00234     }
+<a name="l00235"></a>00235 
+<a name="l00236"></a>00236   <span class="keyword">private</span>:
+<a name="l00237"></a>00237     <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef</a>(T* t, <span class="keyword">const</span> DontRef&amp;) : ptr(t) {}
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239     <span class="keyword">mutable</span> T* ptr;
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241     TemporaryRef() MOZ_DELETE;
+<a name="l00242"></a>00242     <span class="keywordtype">void</span> operator=(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> TemporaryRef&amp;) MOZ_DELETE;
+<a name="l00243"></a>00243 };
+<a name="l00244"></a>00244 
+<a name="l00259"></a>00259 template&lt;typename T&gt;
+<a name="l00260"></a><a class="code" href="../../d7/db8/classmozilla_1_1_out_param_ref.html">00260</a> class <a class="code" href="../../d7/db8/classmozilla_1_1_out_param_ref.html">OutParamRef</a>
+<a name="l00261"></a>00261 {
+<a name="l00262"></a>00262     <span class="keyword">friend</span> OutParamRef byRef&lt;T&gt;(<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;T&gt;</a>&amp;);
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264   <span class="keyword">public</span>:
+<a name="l00265"></a><a class="code" href="../../d7/db8/classmozilla_1_1_out_param_ref.html#ae870ef3d727484c337461d2450f37b44">00265</a>     <a class="code" href="../../d7/db8/classmozilla_1_1_out_param_ref.html#ae870ef3d727484c337461d2450f37b44">~OutParamRef</a>() {
+<a name="l00266"></a>00266       <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;T&gt;::unref</a>(refPtr.ptr);
+<a name="l00267"></a>00267       refPtr.ptr = <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>;
+<a name="l00268"></a>00268     }
+<a name="l00269"></a>00269 
+<a name="l00270"></a><a class="code" href="../../d7/db8/classmozilla_1_1_out_param_ref.html#a3ce02b91bd4fa9f613077721243af0ad">00270</a>     operator T**() { <span class="keywordflow">return</span> &amp;<a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>; }
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272   <span class="keyword">private</span>:
+<a name="l00273"></a>00273     OutParamRef(<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;T&gt;</a>&amp; <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>) : refPtr(p), <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>(p.<a class="code" href="../../d2/d93/namespacemozilla.html#a2848136b078a337b09c126696653b4ed">get</a>()) {}
+<a name="l00274"></a>00274 
+<a name="l00275"></a>00275     <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html#a8e460ca80d19e4ea35d5957bf064c592">RefPtr&lt;T&gt;</a>&amp; refPtr;
+<a name="l00276"></a>00276     T* <a class="code" href="../../db/de5/namespacedefault__timezones.html#ac494636c41cb282619c68c44af233bc7">tmp</a>;
+<a name="l00277"></a>00277 
+<a name="l00278"></a>00278     OutParamRef() MOZ_DELETE;
+<a name="l00279"></a>00279     OutParamRef&amp; operator=(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> OutParamRef&amp;) MOZ_DELETE;
+<a name="l00280"></a>00280 };
+<a name="l00281"></a>00281 
+<a name="l00285"></a>00285 template&lt;typename T&gt;
+<a name="l00286"></a>00286 OutParamRef&lt;T&gt;
+<a name="l00287"></a><a class="code" href="../../d2/d93/namespacemozilla.html#aaeea387234877fbae7d87788c2b9a507">00287</a> <a class="code" href="../../d2/d93/namespacemozilla.html#aaeea387234877fbae7d87788c2b9a507">byRef</a>(<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr</a>&lt;T&gt;&amp; ptr)
+<a name="l00288"></a>00288 {
+<a name="l00289"></a>00289   <span class="keywordflow">return</span> <a class="code" href="../../d7/db8/classmozilla_1_1_out_param_ref.html">OutParamRef&lt;T&gt;</a>(ptr);
+<a name="l00290"></a>00290 }
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292 } <span class="comment">// namespace mozilla</span>
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294 <span class="preprocessor">#if 0</span>
+<a name="l00295"></a>00295 <span class="preprocessor"></span>
+<a name="l00296"></a>00296 <span class="comment">// Command line that builds these tests</span>
+<a name="l00297"></a>00297 <span class="comment">//</span>
+<a name="l00298"></a>00298 <span class="comment">//   cp RefPtr.h test.cc &amp;&amp; g++ -g -Wall -pedantic -DDEBUG -o test test.cc &amp;&amp; ./test</span>
+<a name="l00299"></a>00299 
+<a name="l00300"></a>00300 <span class="keyword">using namespace </span>mozilla;
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302 <span class="keyword">struct </span><a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a> : <span class="keyword">public</span> <a class="code" href="../../d2/de4/classmozilla_1_1_ref_counted.html">RefCounted</a>&lt;Foo&gt;
+<a name="l00303"></a>00303 {
+<a name="l00304"></a>00304   <a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>() : dead(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>) { }
+<a name="l00305"></a>00305   ~<a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>() {
+<a name="l00306"></a>00306     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(!dead);
+<a name="l00307"></a>00307     dead = <span class="keyword">true</span>;
+<a name="l00308"></a>00308     numDestroyed++;
+<a name="l00309"></a>00309   }
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311   <span class="keywordtype">bool</span> dead;
+<a name="l00312"></a>00312   <span class="keyword">static</span> <span class="keywordtype">int</span> numDestroyed;
+<a name="l00313"></a>00313 };
+<a name="l00314"></a>00314 <span class="keywordtype">int</span> Foo::numDestroyed;
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316 <span class="keyword">struct </span>Bar : <span class="keyword">public</span> <a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a> { };
+<a name="l00317"></a>00317 
+<a name="l00318"></a>00318 <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef&lt;Foo&gt;</a>
+<a name="l00319"></a>00319 NewFoo()
+<a name="l00320"></a>00320 {
+<a name="l00321"></a>00321   <span class="keywordflow">return</span> <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a>(<span class="keyword">new</span> <a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>());
+<a name="l00322"></a>00322 }
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324 <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef&lt;Foo&gt;</a>
+<a name="l00325"></a>00325 NewBar()
+<a name="l00326"></a>00326 {
+<a name="l00327"></a>00327   <span class="keywordflow">return</span> <span class="keyword">new</span> Bar();
+<a name="l00328"></a>00328 }
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330 <span class="keywordtype">void</span>
+<a name="l00331"></a>00331 GetNewFoo(<a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>** <a class="code" href="../../d3/d4b/lockscreen_8js.html#a9cf09a2972472098a4c689fd988f4dfc">f</a>)
+<a name="l00332"></a>00332 {
+<a name="l00333"></a>00333   *f = <span class="keyword">new</span> Bar();
+<a name="l00334"></a>00334   <span class="comment">// Kids, don&#39;t try this at home</span>
+<a name="l00335"></a>00335   (*f)-&gt;AddRef();
+<a name="l00336"></a>00336 }
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338 <span class="keywordtype">void</span>
+<a name="l00339"></a>00339 GetPassedFoo(<a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>** f)
+<a name="l00340"></a>00340 {
+<a name="l00341"></a>00341   <span class="comment">// Kids, don&#39;t try this at home</span>
+<a name="l00342"></a>00342   (*f)-&gt;AddRef();
+<a name="l00343"></a>00343 }
+<a name="l00344"></a>00344 
+<a name="l00345"></a>00345 <span class="keywordtype">void</span>
+<a name="l00346"></a>00346 GetNewFoo(<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a>* f)
+<a name="l00347"></a>00347 {
+<a name="l00348"></a>00348   *f = <span class="keyword">new</span> Bar();
+<a name="l00349"></a>00349 }
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351 <span class="keywordtype">void</span>
+<a name="l00352"></a>00352 GetPassedFoo(<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a>* f)
+<a name="l00353"></a>00353 {}
+<a name="l00354"></a>00354 
+<a name="l00355"></a>00355 <a class="code" href="../../dd/d63/classmozilla_1_1_temporary_ref.html">TemporaryRef&lt;Foo&gt;</a>
+<a name="l00356"></a>00356 GetNullFoo()
+<a name="l00357"></a>00357 {
+<a name="l00358"></a>00358   <span class="keywordflow">return</span> 0;
+<a name="l00359"></a>00359 }
+<a name="l00360"></a>00360 
+<a name="l00361"></a>00361 <span class="keywordtype">int</span>
+<a name="l00362"></a>00362 <a class="code" href="../../db/d0b/_image_editor_8js.html#a8fd8f854b393f98b5469a29042d701d1">main</a>(<span class="keywordtype">int</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a2e8eb4b2b6edb739161b940f9ad9c6df">argc</a>, <span class="keywordtype">char</span>** <a class="code" href="../../d2/d7d/jsapi_8h.html#a53f75c6ccd3a8828f9aa07f4bb698ad4">argv</a>)
+<a name="l00363"></a>00363 {
+<a name="l00364"></a>00364   <span class="comment">// This should blow up</span>
+<a name="l00365"></a>00365 <span class="comment">//    Foo* f = new Foo(); delete f;</span>
+<a name="l00366"></a>00366 
+<a name="l00367"></a>00367   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(0 == Foo::numDestroyed);
+<a name="l00368"></a>00368   {
+<a name="l00369"></a>00369     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f = <span class="keyword">new</span> <a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>();
+<a name="l00370"></a>00370     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(f-&gt;refCount() == 1);
+<a name="l00371"></a>00371   }
+<a name="l00372"></a>00372   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(1 == Foo::numDestroyed);
+<a name="l00373"></a>00373 
+<a name="l00374"></a>00374   {
+<a name="l00375"></a>00375     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f1 = NewFoo();
+<a name="l00376"></a>00376     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f2(NewFoo());
+<a name="l00377"></a>00377     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(1 == Foo::numDestroyed);
+<a name="l00378"></a>00378   }
+<a name="l00379"></a>00379   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(3 == Foo::numDestroyed);
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381   {
+<a name="l00382"></a>00382     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a> = NewBar();
+<a name="l00383"></a>00383     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(3 == Foo::numDestroyed);
+<a name="l00384"></a>00384   }
+<a name="l00385"></a>00385   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(4 == Foo::numDestroyed);
+<a name="l00386"></a>00386 
+<a name="l00387"></a>00387   {
+<a name="l00388"></a>00388     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f1;
+<a name="l00389"></a>00389     {
+<a name="l00390"></a>00390       f1 = <span class="keyword">new</span> <a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>();
+<a name="l00391"></a>00391       <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f2(f1);
+<a name="l00392"></a>00392       <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f3 = f2;
+<a name="l00393"></a>00393       <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(4 == Foo::numDestroyed);
+<a name="l00394"></a>00394     }
+<a name="l00395"></a>00395     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(4 == Foo::numDestroyed);
+<a name="l00396"></a>00396   }
+<a name="l00397"></a>00397   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(5 == Foo::numDestroyed);
+<a name="l00398"></a>00398 
+<a name="l00399"></a>00399   {
+<a name="l00400"></a>00400     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f = <span class="keyword">new</span> <a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>();
+<a name="l00401"></a>00401     f.<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#ada0259c09825f15879bc9a062d298d43">forget</a>();
+<a name="l00402"></a>00402     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(6 == Foo::numDestroyed);
+<a name="l00403"></a>00403   }
+<a name="l00404"></a>00404 
+<a name="l00405"></a>00405   {
+<a name="l00406"></a>00406     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f = <span class="keyword">new</span> <a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>();
+<a name="l00407"></a>00407     GetNewFoo(<a class="code" href="../../d2/d93/namespacemozilla.html#aaeea387234877fbae7d87788c2b9a507">byRef</a>(f));
+<a name="l00408"></a>00408     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(7 == Foo::numDestroyed);
+<a name="l00409"></a>00409   }
+<a name="l00410"></a>00410   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(8 == Foo::numDestroyed);
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412   {
+<a name="l00413"></a>00413     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f = <span class="keyword">new</span> <a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>();
+<a name="l00414"></a>00414     GetPassedFoo(<a class="code" href="../../d2/d93/namespacemozilla.html#aaeea387234877fbae7d87788c2b9a507">byRef</a>(f));
+<a name="l00415"></a>00415     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(8 == Foo::numDestroyed);
+<a name="l00416"></a>00416   }
+<a name="l00417"></a>00417   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(9 == Foo::numDestroyed);
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419   {
+<a name="l00420"></a>00420     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f = <span class="keyword">new</span> <a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>();
+<a name="l00421"></a>00421     GetNewFoo(&amp;f);
+<a name="l00422"></a>00422     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(10 == Foo::numDestroyed);
+<a name="l00423"></a>00423   }
+<a name="l00424"></a>00424   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(11 == Foo::numDestroyed);
+<a name="l00425"></a>00425 
+<a name="l00426"></a>00426   {
+<a name="l00427"></a>00427     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f = <span class="keyword">new</span> <a class="code" href="../../d4/dab/vcard__parsing__test_8js.html#aa621f6f849ec2327dabfc4392fd59a70">Foo</a>();
+<a name="l00428"></a>00428     GetPassedFoo(&amp;f);
+<a name="l00429"></a>00429     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(11 == Foo::numDestroyed);
+<a name="l00430"></a>00430   }
+<a name="l00431"></a>00431   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(12 == Foo::numDestroyed);
+<a name="l00432"></a>00432 
+<a name="l00433"></a>00433   {
+<a name="l00434"></a>00434     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f1 = <span class="keyword">new</span> Bar();
+<a name="l00435"></a>00435   }
+<a name="l00436"></a>00436   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(13 == Foo::numDestroyed);
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438   {
+<a name="l00439"></a>00439     <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Foo&gt;</a> f = GetNullFoo();
+<a name="l00440"></a>00440     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(13 == Foo::numDestroyed);
+<a name="l00441"></a>00441   }
+<a name="l00442"></a>00442   <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(13 == Foo::numDestroyed);
+<a name="l00443"></a>00443 
+<a name="l00444"></a>00444   <span class="keywordflow">return</span> 0;
+<a name="l00445"></a>00445 }
+<a name="l00446"></a>00446 
+<a name="l00447"></a>00447 <span class="preprocessor">#endif</span>
+<a name="l00448"></a>00448 <span class="preprocessor"></span>
+<a name="l00449"></a>00449 <span class="preprocessor">#endif </span><span class="comment">/* mozilla_RefPtr_h */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/d78/_ref_ptr_8h.html">RefPtr.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:04に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

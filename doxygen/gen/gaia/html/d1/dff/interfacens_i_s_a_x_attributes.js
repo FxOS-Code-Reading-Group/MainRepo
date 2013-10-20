@@ -1,0 +1,27 @@
+var interfacens_i_s_a_x_attributes =
+[
+    [ "GetIndexFromName", "d1/dff/interfacens_i_s_a_x_attributes.html#a2fe34d42003ae35ac6e1a2ab7e7fadb4", null ],
+    [ "getIndexFromName", "d1/dff/interfacens_i_s_a_x_attributes.html#adad9c5bd5cb198890613c8b32ae2547b", null ],
+    [ "GetIndexFromQName", "d1/dff/interfacens_i_s_a_x_attributes.html#adfca07d268f2979d8406e45c97678607", null ],
+    [ "getIndexFromQName", "d1/dff/interfacens_i_s_a_x_attributes.html#a8b5ac4e27a41c581cc0a4fe5fc2e4e0a", null ],
+    [ "GetLength", "d1/dff/interfacens_i_s_a_x_attributes.html#a1bc95c3d9a50183cb4e4a107de037d75", null ],
+    [ "GetLocalName", "d1/dff/interfacens_i_s_a_x_attributes.html#aba2943df4f305d5a23940211343d8e50", null ],
+    [ "getLocalName", "d1/dff/interfacens_i_s_a_x_attributes.html#adafed8744a7dbb45a414fa2dc67f9eaa", null ],
+    [ "GetQName", "d1/dff/interfacens_i_s_a_x_attributes.html#a557994193da7beed6295a9e4d16c6062", null ],
+    [ "getQName", "d1/dff/interfacens_i_s_a_x_attributes.html#a0acaa4dc34db484f18c31ca0db81841d", null ],
+    [ "GetType", "d1/dff/interfacens_i_s_a_x_attributes.html#a9a8476d7f7522958723e914bcf603ce9", null ],
+    [ "getType", "d1/dff/interfacens_i_s_a_x_attributes.html#ac612b79b4ed4c7d702625e4e4470f9be", null ],
+    [ "GetTypeFromName", "d1/dff/interfacens_i_s_a_x_attributes.html#ac8d5fcdc7d95c02734689fd518416b71", null ],
+    [ "getTypeFromName", "d1/dff/interfacens_i_s_a_x_attributes.html#a554abc339b89d6dd312526032e01098a", null ],
+    [ "GetTypeFromQName", "d1/dff/interfacens_i_s_a_x_attributes.html#a0da1d4c5202280ab9120d407e6b4f90d", null ],
+    [ "getTypeFromQName", "d1/dff/interfacens_i_s_a_x_attributes.html#ac2aefcf825ce76171eabb9ae8a983b5f", null ],
+    [ "GetURI", "d1/dff/interfacens_i_s_a_x_attributes.html#a558d0ca6387b55c41e5f0e8341f1c454", null ],
+    [ "getURI", "d1/dff/interfacens_i_s_a_x_attributes.html#af1d0910b34eca9efeb83699160288bf8", null ],
+    [ "GetValue", "d1/dff/interfacens_i_s_a_x_attributes.html#a0a128c254eac7f13443a7149b2329ad3", null ],
+    [ "getValue", "d1/dff/interfacens_i_s_a_x_attributes.html#a223c66a96520cedf68063a6af496b482", null ],
+    [ "GetValueFromName", "d1/dff/interfacens_i_s_a_x_attributes.html#a35f122154ea38c9fef44bf5fc3f825ad", null ],
+    [ "getValueFromName", "d1/dff/interfacens_i_s_a_x_attributes.html#aaafa211e17c05386ca35ae181a27313d", null ],
+    [ "GetValueFromQName", "d1/dff/interfacens_i_s_a_x_attributes.html#a0ebed945caae7b2e19e53fc2ded7a185", null ],
+    [ "getValueFromQName", "d1/dff/interfacens_i_s_a_x_attributes.html#aca8ce06f46157a7ac8be8fcd181e5da9", null ],
+    [ "length", "d1/dff/interfacens_i_s_a_x_attributes.html#a46dc7c5833794122f47652c61d51604f", null ]
+];

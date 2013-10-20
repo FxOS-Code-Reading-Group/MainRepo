@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: pralarm.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d9/dc4/pralarm_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">pralarm.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d9/dc4/pralarm_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment">** File:        pralarm.h</span>
+<a name="l00008"></a>00008 <span class="comment">** Description: API to periodic alarms.</span>
+<a name="l00009"></a>00009 <span class="comment">**</span>
+<a name="l00010"></a>00010 <span class="comment">**</span>
+<a name="l00011"></a>00011 <span class="comment">** Alarms are defined to invoke some client specified function at </span>
+<a name="l00012"></a>00012 <span class="comment">** a time in the future. The notification may be a one time event</span>
+<a name="l00013"></a>00013 <span class="comment">** or repeated at a fixed interval. The interval at which the next</span>
+<a name="l00014"></a>00014 <span class="comment">** notification takes place may be modified by the client code only</span>
+<a name="l00015"></a>00015 <span class="comment">** during the respective notification.</span>
+<a name="l00016"></a>00016 <span class="comment">**</span>
+<a name="l00017"></a>00017 <span class="comment">** The notification is delivered on a thread that is part of the</span>
+<a name="l00018"></a>00018 <span class="comment">** alarm context (PRAlarm). The thread will inherit the priority</span>
+<a name="l00019"></a>00019 <span class="comment">** of the Alarm creator.</span>
+<a name="l00020"></a>00020 <span class="comment">**</span>
+<a name="l00021"></a>00021 <span class="comment">** Any number of periodic alarms (PRAlarmID) may be created within</span>
+<a name="l00022"></a>00022 <span class="comment">** the context of a single alarm (PRAlarm). The notifications will be</span>
+<a name="l00023"></a>00023 <span class="comment">** scheduled as close to the desired time as possible.</span>
+<a name="l00024"></a>00024 <span class="comment">**</span>
+<a name="l00025"></a>00025 <span class="comment">** Repeating periodic notifies are expected to run at a fixed rate.</span>
+<a name="l00026"></a>00026 <span class="comment">** That rate is expressed as some number of notifies per period where</span>
+<a name="l00027"></a>00027 <span class="comment">** the period is much larger than a PRIntervalTime (see prinrval.h).</span>
+<a name="l00028"></a>00028 <span class="comment">*/</span>
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="preprocessor">#if !defined(pralarm_h)</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span><span class="preprocessor">#define pralarm_h</span>
+<a name="l00032"></a>00032 <span class="preprocessor"></span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/d23/prtypes_8h.html">prtypes.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/dc8/prinrval_8h.html">prinrval.h</a>&quot;</span>
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 <a class="code" href="../../dc/d23/prtypes_8h.html#a4ddbe73fed5d5f42f7035538d40eafc6">PR_BEGIN_EXTERN_C</a>
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039 <span class="comment">/**********************************************************************/</span>
+<a name="l00040"></a>00040 <span class="comment">/************************* TYPES AND CONSTANTS ************************/</span>
+<a name="l00041"></a>00041 <span class="comment">/**********************************************************************/</span>
+<a name="l00042"></a>00042 
+<a name="l00043"></a><a class="code" href="../../d9/dc4/pralarm_8h.html#a78b9b77aeecfceb3528f1cd2a63cd8c1">00043</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d9/dc4/pralarm_8h.html#a78b9b77aeecfceb3528f1cd2a63cd8c1">PRAlarm</a> <a class="code" href="../../d9/dc4/pralarm_8h.html#a78b9b77aeecfceb3528f1cd2a63cd8c1">PRAlarm</a>;
+<a name="l00044"></a><a class="code" href="../../d9/dc4/pralarm_8h.html#a80812df190e0226f3232d04d2a7f5329">00044</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d9/dc4/pralarm_8h.html#a80812df190e0226f3232d04d2a7f5329">PRAlarmID</a> <a class="code" href="../../d9/dc4/pralarm_8h.html#a80812df190e0226f3232d04d2a7f5329">PRAlarmID</a>;
+<a name="l00045"></a>00045 
+<a name="l00046"></a><a class="code" href="../../d9/dc4/pralarm_8h.html#aa6270f8970c60d514bab196d9af28f0c">00046</a> <span class="keyword">typedef</span> <a class="code" href="../../dc/d23/prtypes_8h.html#aa38ce1156b728d85df094a363f09a7b7">PRBool</a> (<a class="code" href="../../dc/d23/prtypes_8h.html#a77fca05eea6fd4357f2083ff290a578a">PR_CALLBACK</a> *<a class="code" href="../../d9/dc4/pralarm_8h.html#aa6270f8970c60d514bab196d9af28f0c">PRPeriodicAlarmFn</a>)(
+<a name="l00047"></a>00047     <a class="code" href="../../d9/dc4/pralarm_8h.html#a80812df190e0226f3232d04d2a7f5329">PRAlarmID</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>, <span class="keywordtype">void</span> *<a class="code" href="../../d9/dc4/pralarm_8h.html#a374ccc5c5f2b4f831939c10dca4e1331">clientData</a>, PRUint32 late);
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 <span class="comment">/**********************************************************************/</span>
+<a name="l00050"></a>00050 <span class="comment">/****************************** FUNCTIONS *****************************/</span>
+<a name="l00051"></a>00051 <span class="comment">/**********************************************************************/</span>
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053 <span class="comment">/***********************************************************************</span>
+<a name="l00054"></a>00054 <span class="comment">** FUNCTION:    PR_CreateAlarm</span>
+<a name="l00055"></a>00055 <span class="comment">** DESCRIPTION:</span>
+<a name="l00056"></a>00056 <span class="comment">**  Create an alarm context.</span>
+<a name="l00057"></a>00057 <span class="comment">** INPUTS:      void</span>
+<a name="l00058"></a>00058 <span class="comment">** OUTPUTS:     None</span>
+<a name="l00059"></a>00059 <span class="comment">** RETURN:      PRAlarm*</span>
+<a name="l00060"></a>00060 <span class="comment">**  </span>
+<a name="l00061"></a>00061 <span class="comment">** SIDE EFFECTS:</span>
+<a name="l00062"></a>00062 <span class="comment">**  This creates an alarm context, which is an object used for subsequent</span>
+<a name="l00063"></a>00063 <span class="comment">**  notification creations. It also creates a thread that will be used to</span>
+<a name="l00064"></a>00064 <span class="comment">** deliver the notifications that are expected to be defined. The client</span>
+<a name="l00065"></a>00065 <span class="comment">** is resposible for destroying the context when appropriate.</span>
+<a name="l00066"></a>00066 <span class="comment">** RESTRICTIONS:</span>
+<a name="l00067"></a>00067 <span class="comment">**  None. </span>
+<a name="l00068"></a>00068 <span class="comment">** MEMORY:      The object (PRAlarm) and a thread to support notifications.</span>
+<a name="l00069"></a>00069 <span class="comment">** ALGORITHM:   N/A</span>
+<a name="l00070"></a>00070 <span class="comment">***********************************************************************/</span>
+<a name="l00071"></a>00071 <a class="code" href="../../dc/d23/prtypes_8h.html#aca70771ebbbe67b59495b137624eed8e">NSPR_API</a>(<a class="code" href="../../d9/dc4/pralarm_8h.html#a78b9b77aeecfceb3528f1cd2a63cd8c1">PRAlarm</a>*) PR_CreateAlarm(<span class="keywordtype">void</span>);
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 <span class="comment">/***********************************************************************</span>
+<a name="l00074"></a>00074 <span class="comment">** FUNCTION:    PR_DestroyAlarm</span>
+<a name="l00075"></a>00075 <span class="comment">** DESCRIPTION:</span>
+<a name="l00076"></a>00076 <span class="comment">**  Destroys the context created by PR_CreateAlarm().</span>
+<a name="l00077"></a>00077 <span class="comment">** INPUTS:      PRAlarm*</span>
+<a name="l00078"></a>00078 <span class="comment">** OUTPUTS:     None</span>
+<a name="l00079"></a>00079 <span class="comment">** RETURN:      PRStatus</span>
+<a name="l00080"></a>00080 <span class="comment">**  </span>
+<a name="l00081"></a>00081 <span class="comment">** SIDE EFFECTS:</span>
+<a name="l00082"></a>00082 <span class="comment">**  This destroys the context that was created by PR_CreateAlarm().</span>
+<a name="l00083"></a>00083 <span class="comment">**  If there are any active alarms (PRAlarmID), they will be cancelled.</span>
+<a name="l00084"></a>00084 <span class="comment">**  Once that is done, the thread that was used to deliver the alarms</span>
+<a name="l00085"></a>00085 <span class="comment">**  will be joined. </span>
+<a name="l00086"></a>00086 <span class="comment">** RESTRICTIONS:</span>
+<a name="l00087"></a>00087 <span class="comment">**  None. </span>
+<a name="l00088"></a>00088 <span class="comment">** MEMORY:      N/A</span>
+<a name="l00089"></a>00089 <span class="comment">** ALGORITHM:   N/A</span>
+<a name="l00090"></a>00090 <span class="comment">***********************************************************************/</span>
+<a name="l00091"></a>00091 <a class="code" href="../../dc/d23/prtypes_8h.html#aca70771ebbbe67b59495b137624eed8e">NSPR_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#af7b08a957cc49f73ebdf7e38d758efbc">PRStatus</a>) PR_DestroyAlarm(<a class="code" href="../../d9/dc4/pralarm_8h.html#a78b9b77aeecfceb3528f1cd2a63cd8c1">PRAlarm</a> *alarm);
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 <span class="comment">/***********************************************************************</span>
+<a name="l00094"></a>00094 <span class="comment">** FUNCTION:    PR_SetAlarm</span>
+<a name="l00095"></a>00095 <span class="comment">** DESCRIPTION:</span>
+<a name="l00096"></a>00096 <span class="comment">**  Creates a periodic notifier that is to be delivered to a specified</span>
+<a name="l00097"></a>00097 <span class="comment">**  function at some fixed interval.</span>
+<a name="l00098"></a>00098 <span class="comment">** INPUTS:      PRAlarm *alarm              Parent alarm context</span>
+<a name="l00099"></a>00099 <span class="comment">**              PRIntervalTime period       Interval over which the notifies</span>
+<a name="l00100"></a>00100 <span class="comment">**                                          are delivered.</span>
+<a name="l00101"></a>00101 <span class="comment">**              PRUint32 rate               The rate within the interval that</span>
+<a name="l00102"></a>00102 <span class="comment">**                                          the notifies will be delivered.</span>
+<a name="l00103"></a>00103 <span class="comment">**              PRPeriodicAlarmFn function  Entry point where the notifies</span>
+<a name="l00104"></a>00104 <span class="comment">**                                          will be delivered.</span>
+<a name="l00105"></a>00105 <span class="comment">** OUTPUTS:     None</span>
+<a name="l00106"></a>00106 <span class="comment">** RETURN:      PRAlarmID*                  Handle to the notifier just created</span>
+<a name="l00107"></a>00107 <span class="comment">**                                          or NULL if the request failed.</span>
+<a name="l00108"></a>00108 <span class="comment">**  </span>
+<a name="l00109"></a>00109 <span class="comment">** SIDE EFFECTS:</span>
+<a name="l00110"></a>00110 <span class="comment">**  A periodic notifier is created. The notifications will be delivered</span>
+<a name="l00111"></a>00111 <span class="comment">**  by the alarm&#39;s internal thread at a fixed interval whose rate is the</span>
+<a name="l00112"></a>00112 <span class="comment">**  number of interrupts per interval specified. The first notification</span>
+<a name="l00113"></a>00113 <span class="comment">**  will be delivered as soon as possible, and they will continue until</span>
+<a name="l00114"></a>00114 <span class="comment">**  the notifier routine indicates that they should cease of the alarm</span>
+<a name="l00115"></a>00115 <span class="comment">**  context is destroyed (PR_DestroyAlarm).</span>
+<a name="l00116"></a>00116 <span class="comment">** RESTRICTIONS:</span>
+<a name="l00117"></a>00117 <span class="comment">**  None. </span>
+<a name="l00118"></a>00118 <span class="comment">** MEMORY:      Memory for the notifier object.</span>
+<a name="l00119"></a>00119 <span class="comment">** ALGORITHM:   The rate at which notifications are delivered are stated</span>
+<a name="l00120"></a>00120 <span class="comment">**              to be &quot;&#39;rate&#39; notifies per &#39;interval&#39;&quot;. The exact time of</span>
+<a name="l00121"></a>00121 <span class="comment">**              the notification is computed based on a epoch established</span>
+<a name="l00122"></a>00122 <span class="comment">**              when the notifier was set. Each notification is delivered</span>
+<a name="l00123"></a>00123 <span class="comment">**              not ealier than the epoch plus the fixed rate times the</span>
+<a name="l00124"></a>00124 <span class="comment">**              notification sequence number. Such notifications have the</span>
+<a name="l00125"></a>00125 <span class="comment">**              potential to be late by not more than &#39;interval&#39;/&#39;rate&#39;.</span>
+<a name="l00126"></a>00126 <span class="comment">**              The amount of lateness of one notification is taken into</span>
+<a name="l00127"></a>00127 <span class="comment">**              account on the next in an attempt to avoid long term slew.  </span>
+<a name="l00128"></a>00128 <span class="comment">***********************************************************************/</span>
+<a name="l00129"></a>00129 <a class="code" href="../../dc/d23/prtypes_8h.html#aca70771ebbbe67b59495b137624eed8e">NSPR_API</a>(<a class="code" href="../../d9/dc4/pralarm_8h.html#a80812df190e0226f3232d04d2a7f5329">PRAlarmID</a>*) PR_SetAlarm(
+<a name="l00130"></a><a class="code" href="../../d9/dc4/pralarm_8h.html#aa999e0b3801f36237e9daf14ad2911a0">00130</a>     <a class="code" href="../../d9/dc4/pralarm_8h.html#a78b9b77aeecfceb3528f1cd2a63cd8c1">PRAlarm</a> *alarm, <a class="code" href="../../d7/dc8/prinrval_8h.html#a8a324cccce4fc21e339a82315bc0a47f">PRIntervalTime</a> <a class="code" href="../../d9/dc4/pralarm_8h.html#afdb49310bebecf4597dda63e3cb31b2c">period</a>, PRUint32 <a class="code" href="../../d9/dc4/pralarm_8h.html#aa999e0b3801f36237e9daf14ad2911a0">rate</a>,
+<a name="l00131"></a>00131     <a class="code" href="../../d9/dc4/pralarm_8h.html#aa6270f8970c60d514bab196d9af28f0c">PRPeriodicAlarmFn</a> <a class="code" href="../../d9/dc4/pralarm_8h.html#a7b570f1c425a05af1046d4e6f37d5a0f">function</a>, <span class="keywordtype">void</span> *<a class="code" href="../../d9/dc4/pralarm_8h.html#a374ccc5c5f2b4f831939c10dca4e1331">clientData</a>);
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133 <span class="comment">/***********************************************************************</span>
+<a name="l00134"></a>00134 <span class="comment">** FUNCTION:    PR_ResetAlarm</span>
+<a name="l00135"></a>00135 <span class="comment">** DESCRIPTION:</span>
+<a name="l00136"></a>00136 <span class="comment">**  Resets an existing alarm.</span>
+<a name="l00137"></a>00137 <span class="comment">** INPUTS:      PRAlarmID *id               Identify of the notifier.</span>
+<a name="l00138"></a>00138 <span class="comment">**              PRIntervalTime period       Interval over which the notifies</span>
+<a name="l00139"></a>00139 <span class="comment">**                                          are delivered.</span>
+<a name="l00140"></a>00140 <span class="comment">**              PRUint32 rate               The rate within the interval that</span>
+<a name="l00141"></a>00141 <span class="comment">**                                          the notifies will be delivered.</span>
+<a name="l00142"></a>00142 <span class="comment">** OUTPUTS:     None</span>
+<a name="l00143"></a>00143 <span class="comment">** RETURN:      PRStatus                    Indication of completion.</span>
+<a name="l00144"></a>00144 <span class="comment">**  </span>
+<a name="l00145"></a>00145 <span class="comment">** SIDE EFFECTS:</span>
+<a name="l00146"></a>00146 <span class="comment">**  An existing alarm may have its period and rate redefined. The</span>
+<a name="l00147"></a>00147 <span class="comment">**  additional side effect is that the notifier&#39;s epoch is recomputed.</span>
+<a name="l00148"></a>00148 <span class="comment">**  The first notification delivered by the newly refreshed alarm is</span>
+<a name="l00149"></a>00149 <span class="comment">**  defined to be &#39;interval&#39;/&#39;rate&#39; from the time of the reset.</span>
+<a name="l00150"></a>00150 <span class="comment">** RESTRICTIONS:</span>
+<a name="l00151"></a>00151 <span class="comment">**  This function may only be called in the notifier for that alarm.</span>
+<a name="l00152"></a>00152 <span class="comment">** MEMORY:      N/A.</span>
+<a name="l00153"></a>00153 <span class="comment">** ALGORITHM:   See PR_SetAlarm().  </span>
+<a name="l00154"></a>00154 <span class="comment">***********************************************************************/</span>
+<a name="l00155"></a>00155 <a class="code" href="../../dc/d23/prtypes_8h.html#aca70771ebbbe67b59495b137624eed8e">NSPR_API</a>(<a class="code" href="../../dc/d23/prtypes_8h.html#af7b08a957cc49f73ebdf7e38d758efbc">PRStatus</a>) PR_ResetAlarm(
+<a name="l00156"></a>00156     <a class="code" href="../../d9/dc4/pralarm_8h.html#a80812df190e0226f3232d04d2a7f5329">PRAlarmID</a> *<span class="keywordtype">id</span>, <a class="code" href="../../d7/dc8/prinrval_8h.html#a8a324cccce4fc21e339a82315bc0a47f">PRIntervalTime</a> period, PRUint32 rate);
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158 <a class="code" href="../../dc/d23/prtypes_8h.html#a5eef438218a6fcd88b013ffebd9e01b7">PR_END_EXTERN_C</a>
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160 <span class="preprocessor">#endif </span><span class="comment">/* !defined(pralarm_h) */</span>
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162 <span class="comment">/* prinrval.h */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d9/dc4/pralarm_8h.html">pralarm.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:54:48に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

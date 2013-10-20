@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: icc_helper.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d6/d32/shared_2js_2icc__helper_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">icc_helper.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d6/d32/shared_2js_2icc__helper_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../d6/d32/shared_2js_2icc__helper_8js.html#ae2475e10618961c050dcba04e8c42331">00001</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00002"></a>00002 
+<a name="l00012"></a><a class="code" href="../../d6/d32/shared_2js_2icc__helper_8js.html#a80c40e570948e343aa46cb125ce82ab4">00012</a> var <a class="code" href="../../d6/dcc/build__stage_2email_2shared_2js_2icc__helper_8js.html#a80c40e570948e343aa46cb125ce82ab4">IccHelper</a> = (<span class="keyword">function</span>() {
+<a name="l00013"></a>00013   var mobileConn = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozMobileConnection;
+<a name="l00014"></a>00014   var iccManager = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016   var actors = {
+<a name="l00017"></a>00017     <span class="stringliteral">&#39;cardLock&#39;</span>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00018"></a>00018     <span class="stringliteral">&#39;cardState&#39;</span>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00019"></a>00019     <span class="stringliteral">&#39;iccInfo&#39;</span>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>
+<a name="l00020"></a>00020   };
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022   <span class="keywordflow">if</span> (mobileConn) {
+<a name="l00023"></a>00023     iccManager = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozIccManager || mobileConn.icc;
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025     <span class="keywordflow">if</span> (<span class="stringliteral">&#39;setCardLock&#39;</span> in mobileConn) {
+<a name="l00026"></a>00026       actors[<span class="stringliteral">&#39;cardLock&#39;</span>] = mobileConn;
+<a name="l00027"></a>00027     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="stringliteral">&#39;setCardLock&#39;</span> in iccManager) {
+<a name="l00028"></a>00028       actors[<span class="stringliteral">&#39;cardLock&#39;</span>] = iccManager;
+<a name="l00029"></a>00029     }
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031     <span class="keywordflow">if</span> (<span class="stringliteral">&#39;cardState&#39;</span> in mobileConn) {
+<a name="l00032"></a>00032       actors[<span class="stringliteral">&#39;cardState&#39;</span>] = mobileConn;
+<a name="l00033"></a>00033     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="stringliteral">&#39;cardState&#39;</span> in iccManager) {
+<a name="l00034"></a>00034       actors[<span class="stringliteral">&#39;cardState&#39;</span>] = iccManager;
+<a name="l00035"></a>00035     }
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037     <span class="keywordflow">if</span> (<span class="stringliteral">&#39;iccInfo&#39;</span> in mobileConn) {
+<a name="l00038"></a>00038       actors[<span class="stringliteral">&#39;iccInfo&#39;</span>] = mobileConn;
+<a name="l00039"></a>00039     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="stringliteral">&#39;iccInfo&#39;</span> in iccManager) {
+<a name="l00040"></a>00040       actors[<span class="stringliteral">&#39;iccInfo&#39;</span>] = iccManager;
+<a name="l00041"></a>00041     }
+<a name="l00042"></a>00042   }
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044   <span class="keywordflow">return</span> {
+<a name="l00045"></a>00045     <span class="keyword">get</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#ad40d8437f6cf8675f077c4117119c8c0">enabled</a>() {
+<a name="l00046"></a>00046       <span class="keywordflow">return</span> (iccManager !== <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00047"></a>00047     },
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049     <a class="code" href="../../d8/d0d/transfer_8js.html#abd169909fbdd66534e2d19bf20938d8b">addEventListener</a>: <span class="keyword">function</span> icch_addEventListener() {
+<a name="l00050"></a>00050       var eventName = arguments[0];
+<a name="l00051"></a>00051       <span class="keywordflow">switch</span> (eventName) {
+<a name="l00052"></a>00052         <span class="keywordflow">case</span> <span class="stringliteral">&#39;cardstatechange&#39;</span>:
+<a name="l00053"></a>00053           var actor = actors[<span class="stringliteral">&#39;cardState&#39;</span>];
+<a name="l00054"></a>00054           <span class="keywordflow">return</span> actor &amp;&amp; actor.addEventListener.apply(actor, arguments);
+<a name="l00055"></a>00055         <span class="keywordflow">case</span> <span class="stringliteral">&#39;iccinfochange&#39;</span>:
+<a name="l00056"></a>00056           var actor = actors[<span class="stringliteral">&#39;iccInfo&#39;</span>];
+<a name="l00057"></a>00057           <span class="keywordflow">return</span> actor &amp;&amp; actor.addEventListener.apply(actor, arguments);
+<a name="l00058"></a>00058         <span class="keywordflow">case</span> <span class="stringliteral">&#39;icccardlockerror&#39;</span>:
+<a name="l00059"></a>00059           var actor = actors[<span class="stringliteral">&#39;cardLock&#39;</span>];
+<a name="l00060"></a>00060           <span class="keywordflow">return</span> actor &amp;&amp; actor.addEventListener.apply(actor, arguments);
+<a name="l00061"></a>00061       }
+<a name="l00062"></a>00062     },
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064     <a class="code" href="../../df/d44/permission__manager_8js.html#acf9987ef04ab3791e7ff8b28d748ebcc">removeEventListener</a>: <span class="keyword">function</span> icch_removeEventListener() {
+<a name="l00065"></a>00065       var eventName = arguments[0];
+<a name="l00066"></a>00066       <span class="keywordflow">switch</span> (eventName) {
+<a name="l00067"></a>00067         <span class="keywordflow">case</span> <span class="stringliteral">&#39;cardstatechange&#39;</span>:
+<a name="l00068"></a>00068           var actor = actors[<span class="stringliteral">&#39;cardState&#39;</span>];
+<a name="l00069"></a>00069           <span class="keywordflow">return</span> actor.removeEventListener.apply(actor, arguments);
+<a name="l00070"></a>00070         <span class="keywordflow">case</span> <span class="stringliteral">&#39;iccinfochange&#39;</span>:
+<a name="l00071"></a>00071           var actor = actors[<span class="stringliteral">&#39;iccInfo&#39;</span>];
+<a name="l00072"></a>00072           <span class="keywordflow">return</span> actor.removeEventListener.apply(actor, arguments);
+<a name="l00073"></a>00073         <span class="keywordflow">case</span> <span class="stringliteral">&#39;icccardlockerror&#39;</span>:
+<a name="l00074"></a>00074           var actor = actors[<span class="stringliteral">&#39;cardLock&#39;</span>];
+<a name="l00075"></a>00075           <span class="keywordflow">return</span> actor.removeEventListener.apply(actor, arguments);
+<a name="l00076"></a>00076       }
+<a name="l00077"></a>00077     },
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079     getCardLock: <span class="keyword">function</span> icch_getCardLock() {
+<a name="l00080"></a>00080       var actor = actors[<span class="stringliteral">&#39;cardLock&#39;</span>];
+<a name="l00081"></a>00081       <span class="keywordflow">return</span> actor &amp;&amp; actor.getCardLock.apply(actor, arguments);
+<a name="l00082"></a>00082     },
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084     setCardLock: <span class="keyword">function</span> icch_setCardLock() {
+<a name="l00085"></a>00085       var actor = actors[<span class="stringliteral">&#39;cardLock&#39;</span>];
+<a name="l00086"></a>00086       <span class="keywordflow">return</span> actor &amp;&amp; actor.setCardLock.apply(actor, arguments);
+<a name="l00087"></a>00087     },
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089     unlockCardLock: <span class="keyword">function</span> icch_unlockCardLock() {
+<a name="l00090"></a>00090       var actor = actors[<span class="stringliteral">&#39;cardLock&#39;</span>];
+<a name="l00091"></a>00091       <span class="keywordflow">return</span> actor &amp;&amp; actor.unlockCardLock.apply(actor, arguments);
+<a name="l00092"></a>00092     },
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094     getCardLockRetryCount: <span class="keyword">function</span>
+<a name="l00095"></a>00095       icch_getCardLockRetryCount(lockType, onresult) {
+<a name="l00096"></a>00096       var mobileConn = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozMobileConnection;
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098       <span class="keywordflow">if</span> (<span class="stringliteral">&#39;retryCount&#39;</span> in mobileConn) {
+<a name="l00099"></a>00099         onresult(mobileConn.retryCount);
+<a name="l00100"></a>00100       } <span class="keywordflow">else</span> {
+<a name="l00101"></a>00101         var iccManager = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozIccManager || mobileConn.icc;
+<a name="l00102"></a>00102         var <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a42c43c76081a7df8ae2954f16ee9338b">req</a> = iccManager.getCardLockRetryCount(lockType);
+<a name="l00103"></a>00103         req.onsuccess = <span class="keyword">function</span> <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a845d7a743d9d72d08f80a15338dd1099">onsuccess</a>() {
+<a name="l00104"></a>00104           onresult(req.result.retryCount);
+<a name="l00105"></a>00105         };
+<a name="l00106"></a>00106         req.onerror = <span class="keyword">function</span> <a class="code" href="../../d4/d76/camera_2js_2filmstrip_8js.html#a9c95fb48715b0deb285f7bfd8f10df50">onerror</a>() {
+<a name="l00107"></a>00107           onresult(0);
+<a name="l00108"></a>00108         };
+<a name="l00109"></a>00109       }
+<a name="l00110"></a>00110     },
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112     <span class="keyword">get</span> cardState() {
+<a name="l00113"></a>00113       var actor = actors[<span class="stringliteral">&#39;cardState&#39;</span>];
+<a name="l00114"></a>00114       <span class="keywordflow">return</span> actor &amp;&amp; actor.cardState;
+<a name="l00115"></a>00115     },
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117     <span class="keyword">get</span> iccInfo() {
+<a name="l00118"></a>00118       var actor = actors[<span class="stringliteral">&#39;iccInfo&#39;</span>];
+<a name="l00119"></a>00119       <span class="keywordflow">return</span> actor &amp;&amp; actor.iccInfo;
+<a name="l00120"></a>00120     },
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122     <span class="keyword">set</span> oncardstatechange(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00123"></a>00123       var actor = actors[<span class="stringliteral">&#39;cardState&#39;</span>];
+<a name="l00124"></a>00124       <span class="keywordflow">if</span> (actor) {
+<a name="l00125"></a>00125         actor.oncardstatechange = <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>;
+<a name="l00126"></a>00126       }
+<a name="l00127"></a>00127     },
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129     <span class="keyword">set</span> oniccinfochange(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00130"></a>00130       var actor = actors[<span class="stringliteral">&#39;iccInfo&#39;</span>];
+<a name="l00131"></a>00131       <span class="keywordflow">if</span> (actor) {
+<a name="l00132"></a>00132         actor.oniccinfochange = <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>;
+<a name="l00133"></a>00133       }
+<a name="l00134"></a>00134     },
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136     <span class="keyword">set</span> onicccardlockerror(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00137"></a>00137       var actor = actors[<span class="stringliteral">&#39;cardLock&#39;</span>];
+<a name="l00138"></a>00138       <span class="keywordflow">if</span> (actor) {
+<a name="l00139"></a>00139         actor.onicccardlockerror = <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>;
+<a name="l00140"></a>00140       }
+<a name="l00141"></a>00141     }
+<a name="l00142"></a>00142   };
+<a name="l00143"></a>00143 })();
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d6/d32/shared_2js_2icc__helper_8js.html">icc_helper.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:24に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

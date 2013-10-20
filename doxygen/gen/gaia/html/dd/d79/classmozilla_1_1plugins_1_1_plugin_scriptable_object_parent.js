@@ -1,0 +1,28 @@
+var classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent =
+[
+    [ "PluginScriptableObjectParent", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#ac3d61ee159f45ce0dd107a2c4bdd74c1", null ],
+    [ "~PluginScriptableObjectParent", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#ac92ebb5e6b803a6ea41793094dc8f0d6", null ],
+    [ "AnswerConstruct", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a103612d2fc2748af4943ea6dda66f011", null ],
+    [ "AnswerEnumerate", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a73374740382faaddbf03f697f6adec54", null ],
+    [ "AnswerGetParentProperty", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a08d2010f6b2dc10ff3b52eb6ab6c569e", null ],
+    [ "AnswerHasMethod", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a46a48ed859ca6211f3b9b81784d7f9cb", null ],
+    [ "AnswerHasProperty", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a7e18d505b75f2cba18593d6ca34e2d4c", null ],
+    [ "AnswerInvoke", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a2460915d9cf19c49b35274269a4f1d3e", null ],
+    [ "AnswerInvokeDefault", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a4de32cfa040051a912d62ec7dece32c1", null ],
+    [ "AnswerNPN_Evaluate", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a585b9ddfdf6c81aa955c5e0963b9c886", null ],
+    [ "AnswerRemoveProperty", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#aebef1193b07b55d2caa7d9ac3c30e007", null ],
+    [ "AnswerSetProperty", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a353560ad529a463c1ad73f2a823bae83", null ],
+    [ "DropNPObject", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a5f202c5f55348ca87f9d5b5854faf804", null ],
+    [ "GetClass", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a16268bb6002cbec0ed9500fe633b20fb", null ],
+    [ "GetInstance", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a8d77056abe8ee4a815337f49241ac29e", null ],
+    [ "GetObject", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#afd75d75efe0d31bffd99ae6350ab3a4b", null ],
+    [ "GetPropertyHelper", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a2a986fe9727a99ffd12ec95554fc9d97", null ],
+    [ "InitializeLocal", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a9e6547b3e6bdf541fcc408f64167fe6a", null ],
+    [ "InitializeProxy", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a61f5506af1285013f485f9b198267313", null ],
+    [ "Protect", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#aedc95da1416b0c781e9339e38f1d4850", null ],
+    [ "RecvProtect", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a0fc43ef9c51c58e1a7eeb633567ddc01", null ],
+    [ "RecvUnprotect", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a390747edf04ded964f4791ad292c8a7b", null ],
+    [ "Type", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#a9570bc5b8eeafddafcb1114dc5a3c14a", null ],
+    [ "Unprotect", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#adb7b81aae0b86c968a32b5f9543bfc3d", null ],
+    [ "PluginInstanceParent", "dd/d79/classmozilla_1_1plugins_1_1_plugin_scriptable_object_parent.html#ace775c939b2652f791be0c7fe99f3e33", null ]
+];

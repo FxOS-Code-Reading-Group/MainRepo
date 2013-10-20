@@ -1,0 +1,25 @@
+var classmozilla_1_1dom_1_1_tab_context =
+[
+    [ "ScrollingBehavior", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#aa9a49a296efc705cd1293cba956ba55f", null ],
+    [ "TabContext", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#aee9df987236db97df90d38c642f14be9", null ],
+    [ "AppOwnerAppId", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#ab231d39a374f83d1ce3182acdd2c81c6", null ],
+    [ "AsIPCTabContext", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a99545f6433c3b47c7fbd8a3198240144", null ],
+    [ "BrowserOwnerAppId", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a4e1f0d2e7abe1e02e3703cec06ce8d9d", null ],
+    [ "GetAppOwnerApp", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a06427a21e2e507b9c3a3d57a71dab724", null ],
+    [ "GetBrowserOwnerApp", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a8d82ce5e9104f7764be6bf9b9f870801", null ],
+    [ "GetOwnApp", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a8a547b3355ec90c8dbb519f46d5b69a5", null ],
+    [ "GetOwnOrContainingApp", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a48c86a78b7e45ab0f06a4dc0e1cef209", null ],
+    [ "GetScrollingBehavior", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#ae6d0df0fedc520462fcadce275e2b14a", null ],
+    [ "HasAppOwnerApp", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#af0f210717135f48314e274bbb3e3d12d", null ],
+    [ "HasBrowserOwnerApp", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a6a983b7c4473d288a248bce45e384282", null ],
+    [ "HasOwnApp", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#af1e325c6b419a143f87d45d11bd544d0", null ],
+    [ "HasOwnOrContainingApp", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a5e62520aa08fbb4bce09116f9700ff32", null ],
+    [ "IsBrowserElement", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a9b239463df76b9f01d8abe27be5f7b30", null ],
+    [ "IsBrowserOrApp", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#abe1de5730469ee7eb52bd194f6986530", null ],
+    [ "OwnAppId", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#adb891b1840a6208edde4f29a5da21898", null ],
+    [ "OwnOrContainingAppId", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a9a25950f6b8b706c8d23f4e907979257", null ],
+    [ "SetTabContext", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a0a5df5b3ebb45d215bc043aa17e07b73", null ],
+    [ "SetTabContextForAppFrame", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a5e326b095dae275716162db89aa4003e", null ],
+    [ "SetTabContextForBrowserFrame", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a674b60fc741a25fcbd32a4037ab8f540", null ],
+    [ "MaybeInvalidTabContext", "d5/dcf/classmozilla_1_1dom_1_1_tab_context.html#a184735797849390ce28163f589eb21f3", null ]
+];

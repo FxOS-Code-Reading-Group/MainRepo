@@ -1,0 +1,26 @@
+var classmozilla_1_1layers_1_1_texture_client =
+[
+    [ "TextureClient", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#ab593a461ff03c80d4097b01ddf60acd0", null ],
+    [ "~TextureClient", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a69e1457dce270eba7010f56de3cb5ac2", null ],
+    [ "AddFlags", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a5574f7ff460ee79e6b3a70b2661d7e25", null ],
+    [ "AsTextureClientSurface", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a768471a1c404be9c9644d3373548d528", null ],
+    [ "AsTextureClientYCbCr", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a3e60f4416870c171cd4ecbe7db4cbf2b", null ],
+    [ "GetFlags", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a01562da037613d9f9421775fd86c0655", null ],
+    [ "GetID", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a80d06b5493865c0a323f207fee2a0f04", null ],
+    [ "GetNextSibling", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a06485a75a57f8feae5e621e10bd2aaf6", null ],
+    [ "GetSize", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a8e2dc3d4ad27b1fb448dc7a7e77d7af6", null ],
+    [ "IsAllocated", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#ab7cc88a76d11bde68de7f99e9581c6a2", null ],
+    [ "IsImmutable", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#adad7ab1734756940d3f5f5bb38ddf434", null ],
+    [ "IsSharedWithCompositor", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a51b199a18c426f4b64a2187108a11885", null ],
+    [ "Lock", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a1d62afd8da06a17eabe7890f21bc56e9", null ],
+    [ "MarkImmutable", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#af02be7b6472a182f63703e6227278a13", null ],
+    [ "MarkUnused", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a9599479c9782036f9c49d4da86efdd76", null ],
+    [ "SetID", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#ae80890368678de8b95e5c465a13fa137", null ],
+    [ "SetNextSibling", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#adc5f72ec2132b240687d9f0b53d6c397", null ],
+    [ "ShouldDeallocateInDestructor", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a0bdebb8c2109044bee554bd9b78964d7", null ],
+    [ "ToSurfaceDescriptor", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a747b995ebd5a8c0c763705021d5f6d91", null ],
+    [ "Unlock", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a0102fa859f47b9e6a27d144cc5bf5209", null ],
+    [ "mFlags", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#aa1ad89f999730baa449766d59c18e1d1", null ],
+    [ "mID", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#a23c2d0912b861de8704fbfeabd0b77f8", null ],
+    [ "mNextSibling", "de/dae/classmozilla_1_1layers_1_1_texture_client.html#ad42640f40679f940808d94e45e6cdabe", null ]
+];

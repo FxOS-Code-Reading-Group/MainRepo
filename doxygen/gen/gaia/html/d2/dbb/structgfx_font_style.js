@@ -1,0 +1,25 @@
+var structgfx_font_style =
+[
+    [ "gfxFontStyle", "d2/dbb/structgfx_font_style.html#ae98b2474d68ea9651b1dcce0a6b8e6b4", null ],
+    [ "gfxFontStyle", "d2/dbb/structgfx_font_style.html#a6599b4494df8360ce3ce8976da660fa1", null ],
+    [ "gfxFontStyle", "d2/dbb/structgfx_font_style.html#a3750b908ce5068c45c0e8dfdcef2202f", null ],
+    [ "ComputeWeight", "d2/dbb/structgfx_font_style.html#a0ce949f1b7cafe87d89d462d48c867a5", null ],
+    [ "Equals", "d2/dbb/structgfx_font_style.html#a4ebc0819a40744fc3b91f9e26e20500a", null ],
+    [ "GetAdjustedSize", "d2/dbb/structgfx_font_style.html#a090b6ba36898d4f576257d1dad3caf19", null ],
+    [ "Hash", "d2/dbb/structgfx_font_style.html#a16611eb7d2836a1e716f90c3b24aa99d", null ],
+    [ "ParseFontFeatureSettings", "d2/dbb/structgfx_font_style.html#a953213115ba1d0bb4615d9e68456ebe6", null ],
+    [ "ParseFontLanguageOverride", "d2/dbb/structgfx_font_style.html#a9151905ab6310abbff43efa981bc8ea0", null ],
+    [ "alternateValues", "d2/dbb/structgfx_font_style.html#a71488a5bf2a0de6ff1fa80ac5939bd3f", null ],
+    [ "featureSettings", "d2/dbb/structgfx_font_style.html#afa77b4300266d4141f8d2a1538cd0629", null ],
+    [ "featureValueLookup", "d2/dbb/structgfx_font_style.html#a1adad5e1a9da10b6e195cebd63511ab2", null ],
+    [ "language", "d2/dbb/structgfx_font_style.html#abd146e910d6844676d19f14d67039123", null ],
+    [ "languageOverride", "d2/dbb/structgfx_font_style.html#a9aed9341e89b573b3aacb932f1951d16", null ],
+    [ "printerFont", "d2/dbb/structgfx_font_style.html#a10e015f299ae1d9bd931126ca0f229e6", null ],
+    [ "size", "d2/dbb/structgfx_font_style.html#a5451af866ca68d7e4a07bf1cc42e58be", null ],
+    [ "sizeAdjust", "d2/dbb/structgfx_font_style.html#a6a10fda31c5ec2b6b2f0028ca75d0d50", null ],
+    [ "stretch", "d2/dbb/structgfx_font_style.html#a5084e7efe863a599e9cc15428dee86e9", null ],
+    [ "style", "d2/dbb/structgfx_font_style.html#abb1b8803e6f7c328112110363c5f591e", null ],
+    [ "systemFont", "d2/dbb/structgfx_font_style.html#a584f2d4a1b9c122347f27a714f28e2d6", null ],
+    [ "useGrayscaleAntialiasing", "d2/dbb/structgfx_font_style.html#a9ba7bd087500db1cf3f162d6fdbd94bf", null ],
+    [ "weight", "d2/dbb/structgfx_font_style.html#ac0ebdc654b0e92fc380d2c7aeb18902b", null ]
+];

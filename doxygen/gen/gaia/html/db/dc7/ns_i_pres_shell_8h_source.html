@@ -1,0 +1,1089 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsIPresShell.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('db/dc7/ns_i_pres_shell_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsIPresShell.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../db/dc7/ns_i_pres_shell_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/.</span>
+<a name="l00005"></a>00005 <span class="comment"> *</span>
+<a name="l00006"></a>00006 <span class="comment"> * This Original Code has been modified by IBM Corporation.</span>
+<a name="l00007"></a>00007 <span class="comment"> * Modifications made by IBM described herein are</span>
+<a name="l00008"></a>00008 <span class="comment"> * Copyright (c) International Business Machines</span>
+<a name="l00009"></a>00009 <span class="comment"> * Corporation, 2000</span>
+<a name="l00010"></a>00010 <span class="comment"> *</span>
+<a name="l00011"></a>00011 <span class="comment"> * Modifications to Mozilla code or documentation</span>
+<a name="l00012"></a>00012 <span class="comment"> * identified per MPL Section 3.3</span>
+<a name="l00013"></a>00013 <span class="comment"> *</span>
+<a name="l00014"></a>00014 <span class="comment"> * Date         Modified by     Description of modification</span>
+<a name="l00015"></a>00015 <span class="comment"> * 05/03/2000   IBM Corp.       Observer related defines for reflow</span>
+<a name="l00016"></a>00016 <span class="comment"> */</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 <span class="comment">/* a presentation of a document, part 2 */</span>
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="preprocessor">#ifndef nsIPresShell_h___</span>
+<a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define nsIPresShell_h___</span>
+<a name="l00022"></a>00022 <span class="preprocessor"></span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6d/_memory_reporting_8h.html">mozilla/MemoryReporting.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/d59/ns_t_hashtable_8h.html">nsTHashtable.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="../../d8/dcf/ns_hash_keys_8h.html">nsHashKeys.h</a>&quot;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d5a/ns_i_supports_8h.html">nsISupports.h</a>&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d74/ns_query_frame_8h.html">nsQueryFrame.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/ddb/ns_coord_8h.html">nsCoord.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d6a/ns_color_8h.html">nsColor.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/dfb/ns_event_8h.html">nsEvent.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/d72/ns_compatibility_8h.html">nsCompatibility.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d3f/ns_frame_manager_base_8h.html">nsFrameManagerBase.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/dbb/ns_rect_8h.html">nsRect.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/dee/moz_flush_type_8h.html">mozFlushType.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/dc8/ns_weak_reference_8h.html">nsWeakReference.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &lt;stdio.h&gt;</span> <span class="comment">// for FILE definition</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="../../da/db4/ns_change_hint_8h.html">nsChangeHint.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/db0/ns_g_u_i_event_8h.html">nsGUIEvent.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d97/ns_ref_ptr_hashtable_8h.html">nsRefPtrHashtable.h</a>&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d52/ns_event_states_8h.html">nsEventStates.h</a>&quot;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/dc4/ns_pres_arena_8h.html">nsPresArena.h</a>&quot;</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="../../d8/d6e/ns_i_image_loading_content_8h.html">nsIImageLoadingContent.h</a>&quot;</span>
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 <span class="keyword">class </span><a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>;
+<a name="l00045"></a>00045 <span class="keyword">class </span><a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>;
+<a name="l00046"></a>00046 <span class="keyword">class </span><a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>;
+<a name="l00047"></a>00047 <span class="keyword">class </span><a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>;
+<a name="l00048"></a>00048 <span class="keyword">class </span><a class="code" href="../../d2/db0/classns_style_set.html">nsStyleSet</a>;
+<a name="l00049"></a>00049 <span class="keyword">class </span>nsViewManager;
+<a name="l00050"></a>00050 <span class="keyword">class </span>nsView;
+<a name="l00051"></a>00051 <span class="keyword">class </span><a class="code" href="../../d5/d2c/classns_rendering_context.html">nsRenderingContext</a>;
+<a name="l00052"></a>00052 <span class="keyword">class </span><a class="code" href="../../db/d12/classns_i_page_sequence_frame.html">nsIPageSequenceFrame</a>;
+<a name="l00053"></a>00053 <span class="keyword">class </span>nsAString;
+<a name="l00054"></a>00054 <span class="keyword">class </span><a class="code" href="../../db/da2/classns_caret.html">nsCaret</a>;
+<a name="l00055"></a>00055 <span class="keyword">class </span>nsFrameSelection;
+<a name="l00056"></a>00056 <span class="keyword">class </span><a class="code" href="../../d0/da9/classns_frame_manager.html">nsFrameManager</a>;
+<a name="l00057"></a>00057 <span class="keyword">class </span><a class="code" href="../../d3/df3/classns_i_layout_history_state.html">nsILayoutHistoryState</a>;
+<a name="l00058"></a>00058 <span class="keyword">class </span><a class="code" href="../../d2/df0/classns_i_reflow_callback.html">nsIReflowCallback</a>;
+<a name="l00059"></a>00059 <span class="keyword">class </span><a class="code" href="../../da/da2/interfacens_i_d_o_m_node.html">nsIDOMNode</a>;
+<a name="l00060"></a>00060 <span class="keyword">class </span><a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>;
+<a name="l00061"></a>00061 <span class="keyword">class </span><a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a>;
+<a name="l00062"></a>00062 <span class="keyword">class </span><a class="code" href="../../de/d61/classns_c_s_s_frame_constructor.html">nsCSSFrameConstructor</a>;
+<a name="l00063"></a>00063 <span class="keyword">class </span><a class="code" href="../../d4/de5/interfacens_i_selection.html">nsISelection</a>;
+<a name="l00064"></a>00064 <span class="keyword">template</span>&lt;<span class="keyword">class</span> E&gt; <span class="keyword">class </span><a class="code" href="../../d3/d4e/classns_c_o_m_array.html">nsCOMArray</a>;
+<a name="l00065"></a>00065 <span class="keyword">class </span><a class="code" href="../../d3/d0c/classns_weak_frame.html">nsWeakFrame</a>;
+<a name="l00066"></a>00066 <span class="keyword">class </span><a class="code" href="../../d2/d77/classns_i_scrollable_frame.html">nsIScrollableFrame</a>;
+<a name="l00067"></a>00067 <span class="keyword">class </span><a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a>;
+<a name="l00068"></a>00068 <span class="keyword">class </span><a class="code" href="../../d5/dc9/classgfx_context.html">gfxContext</a>;
+<a name="l00069"></a>00069 <span class="keyword">class </span><a class="code" href="../../d4/d5c/interfacens_i_d_o_m_event.html">nsIDOMEvent</a>;
+<a name="l00070"></a>00070 <span class="keyword">class </span><a class="code" href="../../dc/da5/classns_display_list.html">nsDisplayList</a>;
+<a name="l00071"></a>00071 <span class="keyword">class </span><a class="code" href="../../df/da5/classns_display_list_builder.html">nsDisplayListBuilder</a>;
+<a name="l00072"></a>00072 <span class="keyword">class </span><a class="code" href="../../d5/d4d/classns_p_i_d_o_m_window.html">nsPIDOMWindow</a>;
+<a name="l00073"></a>00073 <span class="keyword">struct </span><a class="code" href="../../d6/d7b/structns_point.html">nsPoint</a>;
+<a name="l00074"></a>00074 <span class="keyword">struct </span><a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>;
+<a name="l00075"></a>00075 <span class="keyword">struct </span><a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>;
+<a name="l00076"></a>00076 <span class="keyword">class </span><a class="code" href="../../d9/df6/classns_region.html">nsRegion</a>;
+<a name="l00077"></a>00077 <span class="keyword">class </span>nsRefreshDriver;
+<a name="l00078"></a>00078 <span class="keyword">class </span><a class="code" href="../../d2/dd1/classns_a_refresh_observer.html">nsARefreshObserver</a>;
+<a name="l00079"></a>00079 <span class="preprocessor">#ifdef ACCESSIBILITY</span>
+<a name="l00080"></a>00080 <span class="preprocessor"></span><span class="keyword">class </span><a class="code" href="../../df/d2f/classns_accessibility_service.html">nsAccessibilityService</a>;
+<a name="l00081"></a>00081 <span class="keyword">namespace </span>mozilla {
+<a name="l00082"></a>00082 <span class="keyword">namespace </span>a11y {
+<a name="l00083"></a>00083 <span class="keyword">class </span>DocAccessible;
+<a name="l00084"></a>00084 } <span class="comment">// namespace a11y</span>
+<a name="l00085"></a>00085 } <span class="comment">// namespace mozilla</span>
+<a name="l00086"></a>00086 <span class="preprocessor">#endif</span>
+<a name="l00087"></a>00087 <span class="preprocessor"></span><span class="keyword">class </span><a class="code" href="../../d8/d93/classns_i_widget.html">nsIWidget</a>;
+<a name="l00088"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a3964778bc033d112cba75e8d6aee2022">00088</a> <span class="keyword">struct </span><a class="code" href="../../d3/d8d/structns_arena_memory_stats.html">nsArenaMemoryStats</a>;
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090 <span class="keyword">typedef</span> <span class="keywordtype">short</span> <a class="code" href="../../d3/d4d/ns_i_selection_controller_8idl.html#a3964778bc033d112cba75e8d6aee2022">SelectionType</a>;
+<a name="l00091"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a2f1be3b8b8bed481a78cf01e6d26554f">00091</a> <span class="keyword">typedef</span> uint64_t <a class="code" href="../../d4/ddc/ns_i_frame_8h.html#a2f1be3b8b8bed481a78cf01e6d26554f">nsFrameState</a>;
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 <span class="keyword">namespace </span>mozilla {
+<a name="l00094"></a>00094 <span class="keyword">class </span>Selection;
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="keyword">namespace </span><a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a> {
+<a name="l00097"></a>00097 <span class="keyword">class </span><a class="code" href="../../df/d95/ns_i_h_t_m_l_editor_8idl.html#a349b6484f5c5f98fe656321841c06b51">Element</a>;
+<a name="l00098"></a>00098 } <span class="comment">// namespace dom</span>
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="keyword">namespace </span>layers{
+<a name="l00101"></a>00101 <span class="keyword">class </span><a class="code" href="../../d5/d28/img_i_container_8idl.html#a5e4541ea7dcaeeccd3011050067df9ea">LayerManager</a>;
+<a name="l00102"></a>00102 } <span class="comment">// namespace layers</span>
+<a name="l00103"></a>00103 } <span class="comment">// namespace mozilla</span>
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105 <span class="comment">// Flags to pass to SetCapturingContent</span>
+<a name="l00106"></a>00106 <span class="comment">//</span>
+<a name="l00107"></a>00107 <span class="comment">// when assigning capture, ignore whether capture is allowed or not</span>
+<a name="l00108"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a707c1b3c1c367ffca052d0412e2de17a">00108</a> <span class="preprocessor">#define CAPTURE_IGNOREALLOWED 1</span>
+<a name="l00109"></a>00109 <span class="preprocessor"></span><span class="comment">// true if events should be targeted at the capturing content or its children</span>
+<a name="l00110"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a8c6b586d74764ac60a55940a625ad73e">00110</a> <span class="preprocessor">#define CAPTURE_RETARGETTOELEMENT 2</span>
+<a name="l00111"></a>00111 <span class="preprocessor"></span><span class="comment">// true if the current capture wants drags to be prevented</span>
+<a name="l00112"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#ab6d2a10494bf0aa7035b36717a0f06db">00112</a> <span class="preprocessor">#define CAPTURE_PREVENTDRAG 4</span>
+<a name="l00113"></a>00113 <span class="preprocessor"></span><span class="comment">// true when the mouse is pointer locked, and events are sent to locked element</span>
+<a name="l00114"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#afb62f20428f8c0a0f84ab81ff0f478aa">00114</a> <span class="preprocessor">#define CAPTURE_POINTERLOCK 8</span>
+<a name="l00115"></a>00115 <span class="preprocessor"></span>
+<a name="l00116"></a><a class="code" href="../../d1/d49/struct_capturing_content_info.html">00116</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d1/d49/struct_capturing_content_info.html">CapturingContentInfo</a> {
+<a name="l00117"></a>00117   <span class="comment">// capture should only be allowed during a mousedown event</span>
+<a name="l00118"></a><a class="code" href="../../d1/d49/struct_capturing_content_info.html#adcc1189c48456e72b24c4f0177041e5d">00118</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d49/struct_capturing_content_info.html#adcc1189c48456e72b24c4f0177041e5d">mAllowed</a>;
+<a name="l00119"></a><a class="code" href="../../d1/d49/struct_capturing_content_info.html#a1e9fe841647b050f3c09cfb52671e34f">00119</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d49/struct_capturing_content_info.html#a1e9fe841647b050f3c09cfb52671e34f">mPointerLock</a>;
+<a name="l00120"></a><a class="code" href="../../d1/d49/struct_capturing_content_info.html#aa79a3fdc9da8f9973c321a1489e2e37f">00120</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d49/struct_capturing_content_info.html#aa79a3fdc9da8f9973c321a1489e2e37f">mRetargetToElement</a>;
+<a name="l00121"></a><a class="code" href="../../d1/d49/struct_capturing_content_info.html#aabb6230750b3a98b938cd5b6cbf479a4">00121</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d49/struct_capturing_content_info.html#aabb6230750b3a98b938cd5b6cbf479a4">mPreventDrag</a>;
+<a name="l00122"></a><a class="code" href="../../d1/d49/struct_capturing_content_info.html#a043169708a77ff791dff4a8bef03560f">00122</a>   <a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* <a class="code" href="../../d1/d49/struct_capturing_content_info.html#a043169708a77ff791dff4a8bef03560f">mContent</a>;
+<a name="l00123"></a>00123 } <a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a04b48b2b27aadcab796f21c0ac10e5c8">CapturingContentInfo</a>;
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 <span class="comment">// fac033dd-938d-45bc-aaa5-dc2fa7ef5a40</span>
+<a name="l00126"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#af8fdab04bce8c14a84e2cb1cc85796bf">00126</a> <span class="preprocessor">#define NS_IPRESSHELL_IID \</span>
+<a name="l00127"></a>00127 <span class="preprocessor">{ 0xfac033dd, 0x938d, 0x45bc, \</span>
+<a name="l00128"></a>00128 <span class="preprocessor">  { 0xaa, 0xa5, 0xdc, 0x2f, 0xa7, 0xef, 0x5a, 0x40 } }</span>
+<a name="l00129"></a>00129 <span class="preprocessor"></span>
+<a name="l00130"></a>00130 <span class="comment">// debug VerifyReflow flags</span>
+<a name="l00131"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a471fea0240d97cc7d8e1b999ec14c1f0">00131</a> <span class="preprocessor">#define VERIFY_REFLOW_ON                    0x01</span>
+<a name="l00132"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#aa7d09f64c04a160d5ad3251aeb0dfd79">00132</a> <span class="preprocessor"></span><span class="preprocessor">#define VERIFY_REFLOW_NOISY                 0x02</span>
+<a name="l00133"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a0267be8e5eb1e2e53a43ff8a99f20631">00133</a> <span class="preprocessor"></span><span class="preprocessor">#define VERIFY_REFLOW_ALL                   0x04</span>
+<a name="l00134"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#acff21bde11f473473f1d13e790a14a6c">00134</a> <span class="preprocessor"></span><span class="preprocessor">#define VERIFY_REFLOW_DUMP_COMMANDS         0x08</span>
+<a name="l00135"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#ae335dd212dea7b8bcc6fbd83b4ad3229">00135</a> <span class="preprocessor"></span><span class="preprocessor">#define VERIFY_REFLOW_NOISY_RC              0x10</span>
+<a name="l00136"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a6cf1ff594edf2ed169b90092db575118">00136</a> <span class="preprocessor"></span><span class="preprocessor">#define VERIFY_REFLOW_REALLY_NOISY_RC       0x20</span>
+<a name="l00137"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a719077423b7f5b5c1815d84ae9376895">00137</a> <span class="preprocessor"></span><span class="preprocessor">#define VERIFY_REFLOW_DURING_RESIZE_REFLOW  0x40</span>
+<a name="l00138"></a>00138 <span class="preprocessor"></span>
+<a name="l00139"></a>00139 <span class="preprocessor">#undef NOISY_INTERRUPTIBLE_REFLOW</span>
+<a name="l00140"></a>00140 <span class="preprocessor"></span>
+<a name="l00141"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6">00141</a> <span class="keyword">enum</span> <a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6">nsRectVisibility</a> { 
+<a name="l00142"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6a584e726c551b06cc2335fe255011d21a">00142</a>   <a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6a584e726c551b06cc2335fe255011d21a">nsRectVisibility_kVisible</a>, 
+<a name="l00143"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6ab0b50d2a20667e26f3df96cebd433bdf">00143</a>   <a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6ab0b50d2a20667e26f3df96cebd433bdf">nsRectVisibility_kAboveViewport</a>, 
+<a name="l00144"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6a7088ad9e2ac294298c2d01ee9f7650eb">00144</a>   <a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6a7088ad9e2ac294298c2d01ee9f7650eb">nsRectVisibility_kBelowViewport</a>, 
+<a name="l00145"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6ab546f943aa27e714789be80ec240aabc">00145</a>   <a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6ab546f943aa27e714789be80ec240aabc">nsRectVisibility_kLeftOfViewport</a>, 
+<a name="l00146"></a><a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6aec833f5725af2ce58d65e3463ddc5bb8">00146</a>   <a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6aec833f5725af2ce58d65e3463ddc5bb8">nsRectVisibility_kRightOfViewport</a>
+<a name="l00147"></a>00147 };
+<a name="l00148"></a>00148 
+<a name="l00161"></a>00161 <span class="comment">// hack to make egcs / gcc 2.95.2 happy</span>
+<a name="l00162"></a><a class="code" href="../../d9/dfe/classns_i_pres_shell__base.html">00162</a> <span class="keyword">class </span><a class="code" href="../../d9/dfe/classns_i_pres_shell__base.html">nsIPresShell_base</a> : <span class="keyword">public</span> <a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a>
+<a name="l00163"></a>00163 {
+<a name="l00164"></a>00164 <span class="keyword">public</span>:
+<a name="l00165"></a>00165   <a class="code" href="../../d9/d0a/ns_i_d_8h.html#ab2e83258854a9633645a84fd907d9e48">NS_DECLARE_STATIC_IID_ACCESSOR</a>(<a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#af8fdab04bce8c14a84e2cb1cc85796bf">NS_IPRESSHELL_IID</a>)
+<a name="l00166"></a>00166 };
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168 <a class="code" href="../../d9/d0a/ns_i_d_8h.html#a0182e8f549ac52140d3a80fc81b15fed">NS_DEFINE_STATIC_IID_ACCESSOR</a>(<a class="code" href="../../d9/dfe/classns_i_pres_shell__base.html">nsIPresShell_base</a>, <a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#af8fdab04bce8c14a84e2cb1cc85796bf">NS_IPRESSHELL_IID</a>)
+<a name="l00169"></a>00169 
+<a name="l00170"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html">00170</a> class <a class="code" href="../../d3/d8f/classns_i_pres_shell.html">nsIPresShell</a> : public <a class="code" href="../../d9/dfe/classns_i_pres_shell__base.html">nsIPresShell_base</a>
+<a name="l00171"></a>00171 {
+<a name="l00172"></a>00172 <span class="keyword">protected</span>:
+<a name="l00173"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a91a774899464a146c2913fecee236859">00173</a>   <span class="keyword">typedef</span> <a class="code" href="../../d1/d01/classmozilla_1_1layers_1_1_layer_manager.html">mozilla::layers::LayerManager</a> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a91a774899464a146c2913fecee236859">LayerManager</a>;
+<a name="l00174"></a>00174 
+<a name="l00175"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a74bba3251cea1abad0c20b11cc344f6a">00175</a>   <span class="keyword">enum</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a74bba3251cea1abad0c20b11cc344f6a">eRenderFlag</a> {
+<a name="l00176"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a74bba3251cea1abad0c20b11cc344f6aa02532f3ff556288859330ec579b8d3c4">00176</a>     STATE_IGNORING_VIEWPORT_SCROLLING = 0x1,
+<a name="l00177"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a74bba3251cea1abad0c20b11cc344f6aaf6c6839d0777f8245779b25bcf8eff2e">00177</a>     STATE_DRAWWINDOW_NOT_FLUSHING = 0x2
+<a name="l00178"></a>00178   };
+<a name="l00179"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ab3aadc802118e45ebdbbc5db02c46dcd">00179</a>   <span class="keyword">typedef</span> uint8_t <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ab3aadc802118e45ebdbbc5db02c46dcd">RenderFlags</a>; <span class="comment">// for storing the above flags</span>
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181 <span class="keyword">public</span>:
+<a name="l00189"></a>00189   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) <a class="code" href="../../d3/df6/namespacemozilla_1_1layers_1_1_compositable_map.html#a95549ba264e9a2fdf13c3d920c0feee2">Destroy</a>() = 0;
+<a name="l00190"></a>00190 
+<a name="l00191"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1d9bd1ec55c4d7247f46b05b6cf19724">00191</a>   <span class="keywordtype">bool</span> IsDestroying() { <span class="keywordflow">return</span> mIsDestroying; }
+<a name="l00192"></a>00192 
+<a name="l00203"></a>00203   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) MakeZombie() = 0;
+<a name="l00204"></a>00204 
+<a name="l00212"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae6ce191a4df3ef71a6047c671c0980f2">00212</a>   <span class="keywordtype">void</span>* AllocateFrame(<a class="code" href="../../dd/d10/classns_query_frame.html">nsQueryFrame</a>::FrameIID aID, <span class="keywordtype">size_t</span> aSize)
+<a name="l00213"></a>00213   {
+<a name="l00214"></a>00214 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00215"></a>00215 <span class="preprocessor"></span>    mPresArenaAllocCount++;
+<a name="l00216"></a>00216 <span class="preprocessor">#endif</span>
+<a name="l00217"></a>00217 <span class="preprocessor"></span>    <span class="keywordtype">void</span>* <a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a> = mFrameArena.AllocateByFrameID(aID, aSize);
+<a name="l00218"></a>00218     memset(result, 0, aSize);
+<a name="l00219"></a>00219     <span class="keywordflow">return</span> <a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>;
+<a name="l00220"></a>00220   }
+<a name="l00221"></a>00221 
+<a name="l00222"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a326a9234ae8e544e7b6be43050336acb">00222</a>   <span class="keywordtype">void</span> FreeFrame(<a class="code" href="../../dd/d10/classns_query_frame.html#ae5e5456d25a3d2859b69bc71b5d06809">nsQueryFrame::FrameIID</a> aID, <span class="keywordtype">void</span>* aPtr)
+<a name="l00223"></a>00223   {
+<a name="l00224"></a>00224 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00225"></a>00225 <span class="preprocessor"></span>    mPresArenaAllocCount--;
+<a name="l00226"></a>00226 <span class="preprocessor">#endif</span>
+<a name="l00227"></a>00227 <span class="preprocessor"></span>    <span class="keywordflow">if</span> (!mIsDestroying)
+<a name="l00228"></a>00228       mFrameArena.FreeByFrameID(aID, aPtr);
+<a name="l00229"></a>00229   }
+<a name="l00230"></a>00230 
+<a name="l00237"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a87def10e67fb8d31ce13782ad1fe887e">00237</a>   <span class="keywordtype">void</span>* AllocateByObjectID(<a class="code" href="../../de/d05/classns_pres_arena.html#a568d94d9b1c169b41099c62a2f428c45">nsPresArena::ObjectID</a> aID, <span class="keywordtype">size_t</span> aSize)
+<a name="l00238"></a>00238   {
+<a name="l00239"></a>00239 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00240"></a>00240 <span class="preprocessor"></span>    mPresArenaAllocCount++;
+<a name="l00241"></a>00241 <span class="preprocessor">#endif</span>
+<a name="l00242"></a>00242 <span class="preprocessor"></span>    <span class="keywordtype">void</span>* <a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a> = mFrameArena.AllocateByObjectID(aID, aSize);
+<a name="l00243"></a>00243     memset(result, 0, aSize);
+<a name="l00244"></a>00244     <span class="keywordflow">return</span> <a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>;
+<a name="l00245"></a>00245   }
+<a name="l00246"></a>00246 
+<a name="l00247"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#adb856ff3a13bae90fd345c636c61d69b">00247</a>   <span class="keywordtype">void</span> FreeByObjectID(<a class="code" href="../../de/d05/classns_pres_arena.html#a568d94d9b1c169b41099c62a2f428c45">nsPresArena::ObjectID</a> aID, <span class="keywordtype">void</span>* aPtr)
+<a name="l00248"></a>00248   {
+<a name="l00249"></a>00249 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00250"></a>00250 <span class="preprocessor"></span>    mPresArenaAllocCount--;
+<a name="l00251"></a>00251 <span class="preprocessor">#endif</span>
+<a name="l00252"></a>00252 <span class="preprocessor"></span>    <span class="keywordflow">if</span> (!mIsDestroying)
+<a name="l00253"></a>00253       mFrameArena.FreeByObjectID(aID, aPtr);
+<a name="l00254"></a>00254   }
+<a name="l00255"></a>00255 
+<a name="l00265"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae9c6160b3df78a13acb4a6d0db962a5a">00265</a>   <span class="keywordtype">void</span>* AllocateMisc(<span class="keywordtype">size_t</span> aSize)
+<a name="l00266"></a>00266   {
+<a name="l00267"></a>00267 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00268"></a>00268 <span class="preprocessor"></span>    mPresArenaAllocCount++;
+<a name="l00269"></a>00269 <span class="preprocessor">#endif</span>
+<a name="l00270"></a>00270 <span class="preprocessor"></span>    <span class="keywordflow">return</span> mFrameArena.AllocateBySize(aSize);
+<a name="l00271"></a>00271   }
+<a name="l00272"></a>00272 
+<a name="l00273"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a30e514141436aa3e16067e798492bfbc">00273</a>   <span class="keywordtype">void</span> FreeMisc(<span class="keywordtype">size_t</span> aSize, <span class="keywordtype">void</span>* aPtr)
+<a name="l00274"></a>00274   {
+<a name="l00275"></a>00275 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00276"></a>00276 <span class="preprocessor"></span>    mPresArenaAllocCount--;
+<a name="l00277"></a>00277 <span class="preprocessor">#endif</span>
+<a name="l00278"></a>00278 <span class="preprocessor"></span>    <span class="keywordflow">if</span> (!mIsDestroying)
+<a name="l00279"></a>00279       mFrameArena.FreeBySize(aSize, aPtr);
+<a name="l00280"></a>00280   }
+<a name="l00281"></a>00281 
+<a name="l00282"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a45094bd22a41d0c74404472d9478f3c7">00282</a>   <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a45094bd22a41d0c74404472d9478f3c7">GetDocument</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mDocument; }
+<a name="l00283"></a>00283 
+<a name="l00284"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a066aae16d1254b2ebe7c834b43682492">00284</a>   <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a066aae16d1254b2ebe7c834b43682492">GetPresContext</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mPresContext; }
+<a name="l00285"></a>00285 
+<a name="l00286"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa62fd2058220bcd47123fbec2cf8776a">00286</a>   nsViewManager* <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa62fd2058220bcd47123fbec2cf8776a">GetViewManager</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mViewManager; }
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288 <span class="preprocessor">#ifdef ACCESSIBILITY</span>
+<a name="l00289"></a>00289 <span class="preprocessor"></span>
+<a name="l00292"></a>00292   <a class="code" href="../../dc/da1/classmozilla_1_1a11y_1_1_doc_accessible.html">mozilla::a11y::DocAccessible</a>* GetDocAccessible()<span class="keyword"> const</span>
+<a name="l00293"></a>00293 <span class="keyword">  </span>{
+<a name="l00294"></a>00294     <span class="keywordflow">return</span> mDocAccessible;
+<a name="l00295"></a>00295   }
+<a name="l00296"></a>00296 
+<a name="l00300"></a>00300   <span class="keywordtype">void</span> SetDocAccessible(<a class="code" href="../../dc/da1/classmozilla_1_1a11y_1_1_doc_accessible.html">mozilla::a11y::DocAccessible</a>* aDocAccessible)
+<a name="l00301"></a>00301   {
+<a name="l00302"></a>00302     mDocAccessible = aDocAccessible;
+<a name="l00303"></a>00303   }
+<a name="l00304"></a>00304 <span class="preprocessor">#endif</span>
+<a name="l00305"></a>00305 <span class="preprocessor"></span>
+<a name="l00306"></a>00306 <span class="preprocessor">#ifdef _IMPL_NS_LAYOUT</span>
+<a name="l00307"></a>00307 <span class="preprocessor"></span>  <a class="code" href="../../d2/db0/classns_style_set.html">nsStyleSet</a>* StyleSet()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mStyleSet; }
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309   <a class="code" href="../../de/d61/classns_c_s_s_frame_constructor.html">nsCSSFrameConstructor</a>* FrameConstructor()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mFrameConstructor; }
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311   <a class="code" href="../../d0/da9/classns_frame_manager.html">nsFrameManager</a>* FrameManager()<span class="keyword"> const </span>{
+<a name="l00312"></a>00312     <span class="comment">// reinterpret_cast is valid since nsFrameManager does not add</span>
+<a name="l00313"></a>00313     <span class="comment">// any members over nsFrameManagerBase.</span>
+<a name="l00314"></a>00314     <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><a class="code" href="../../d0/da9/classns_frame_manager.html">nsFrameManager</a>*<span class="keyword">&gt;</span>
+<a name="l00315"></a>00315                            (<span class="keyword">const_cast&lt;</span><a class="code" href="../../d3/d8f/classns_i_pres_shell.html">nsIPresShell</a>*<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;mFrameManager);
+<a name="l00316"></a>00316   }
+<a name="l00317"></a>00317 
+<a name="l00318"></a>00318 <span class="preprocessor">#endif</span>
+<a name="l00319"></a>00319 <span class="preprocessor"></span>
+<a name="l00320"></a>00320   <span class="comment">/* Enable/disable author style level. Disabling author style disables the entire</span>
+<a name="l00321"></a>00321 <span class="comment">   * author level of the cascade, including the HTML preshint level.</span>
+<a name="l00322"></a>00322 <span class="comment">   */</span>
+<a name="l00323"></a>00323   <span class="comment">// XXX these could easily be inlined, but there is a circular #include</span>
+<a name="l00324"></a>00324   <span class="comment">// problem with nsStyleSet.</span>
+<a name="l00325"></a>00325   <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) SetAuthorStyleDisabled(<span class="keywordtype">bool</span> aDisabled);
+<a name="l00326"></a>00326   <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">bool</span>) GetAuthorStyleDisabled() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a>;
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328   <span class="comment">/*</span>
+<a name="l00329"></a>00329 <span class="comment">   * Called when stylesheets are added/removed/enabled/disabled to rebuild</span>
+<a name="l00330"></a>00330 <span class="comment">   * all style data for a given pres shell without necessarily reconstructing</span>
+<a name="l00331"></a>00331 <span class="comment">   * all of the frames.  This will not reconstruct style synchronously; if</span>
+<a name="l00332"></a>00332 <span class="comment">   * you need to do that, call FlushPendingNotifications to flush out style</span>
+<a name="l00333"></a>00333 <span class="comment">   * reresolves.</span>
+<a name="l00334"></a>00334 <span class="comment">   * // XXXbz why do we have this on the interface anyway?  The only consumer</span>
+<a name="l00335"></a>00335 <span class="comment">   * is calling AddOverrideStyleSheet/RemoveOverrideStyleSheet, and I think</span>
+<a name="l00336"></a>00336 <span class="comment">   * those should just handle reconstructing style data...</span>
+<a name="l00337"></a>00337 <span class="comment">   */</span>
+<a name="l00338"></a>00338   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) ReconstructStyleDataExternal();
+<a name="l00339"></a>00339   <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) ReconstructStyleDataInternal();
+<a name="l00340"></a>00340 <span class="preprocessor">#ifdef _IMPL_NS_LAYOUT</span>
+<a name="l00341"></a>00341 <span class="preprocessor"></span>  <span class="keywordtype">void</span> ReconstructStyleData() { ReconstructStyleDataInternal(); }
+<a name="l00342"></a>00342 <span class="preprocessor">#else</span>
+<a name="l00343"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#abbb3ff391976bf1d23ca243f4fb66a6a">00343</a> <span class="preprocessor"></span>  <span class="keywordtype">void</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#abbb3ff391976bf1d23ca243f4fb66a6a">ReconstructStyleData</a>() { ReconstructStyleDataExternal(); }
+<a name="l00344"></a>00344 <span class="preprocessor">#endif</span>
+<a name="l00345"></a>00345 <span class="preprocessor"></span>
+<a name="l00354"></a>00354   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) SetPreferenceStyleRules(<span class="keywordtype">bool</span> aForceReflow) = 0;
+<a name="l00355"></a>00355 
+<a name="l00361"></a>00361   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;nsFrameSelection&gt; FrameSelection();
+<a name="l00362"></a>00362 
+<a name="l00367"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae1423cff0b92e910a04a4cbe88e2acb9">00367</a>   const nsFrameSelection* ConstFrameSelection()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mSelection; }
+<a name="l00368"></a>00368 
+<a name="l00369"></a>00369   <span class="comment">// Make shell be a document observer.  If called after Destroy() has</span>
+<a name="l00370"></a>00370   <span class="comment">// been called on the shell, this will be ignored.</span>
+<a name="l00371"></a>00371   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) BeginObservingDocument() = 0;
+<a name="l00372"></a>00372 
+<a name="l00373"></a>00373   <span class="comment">// Make shell stop being a document observer</span>
+<a name="l00374"></a>00374   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) EndObservingDocument() = 0;
+<a name="l00375"></a>00375 
+<a name="l00379"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8609150c376e58372a7cb02a9ad2518c">00379</a>   <span class="keywordtype">bool</span> DidInitialize()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mDidInitialize; }
+<a name="l00380"></a>00380 
+<a name="l00392"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a505deeda84f04fd94a250e9195807ba8">00392</a>   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) Initialize(<a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aWidth, <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aHeight) = 0;
+<a name="l00393"></a>00393 
+<a name="l00398"></a>00398   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) ResizeReflow(<a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aWidth, <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aHeight) = 0;
+<a name="l00404"></a>00404   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) ResizeReflowOverride(<a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aWidth, <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aHeight) = 0;
+<a name="l00405"></a>00405 
+<a name="l00409"></a>00409   virtual <span class="keywordtype">bool</span> GetIsViewportOverridden() = 0;
+<a name="l00410"></a>00410 
+<a name="l00414"></a>00414   virtual <span class="keywordtype">bool</span> IsLayoutFlushObserver() = 0;
+<a name="l00415"></a>00415 
+<a name="l00419"></a>00419   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>*) GetRootFrameExternal() const;
+<a name="l00420"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#acc8254117d43a9c60284fdc15b5d2f5c">00420</a>   <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* GetRootFrame()<span class="keyword"> const </span>{
+<a name="l00421"></a>00421 <span class="preprocessor">#ifdef _IMPL_NS_LAYOUT</span>
+<a name="l00422"></a>00422 <span class="preprocessor"></span>    <span class="keywordflow">return</span> mFrameManager-&gt;GetRootFrame();
+<a name="l00423"></a>00423 <span class="preprocessor">#else</span>
+<a name="l00424"></a>00424 <span class="preprocessor"></span>    <span class="keywordflow">return</span> GetRootFrameExternal();
+<a name="l00425"></a>00425 <span class="preprocessor">#endif</span>
+<a name="l00426"></a>00426 <span class="preprocessor"></span>  }
+<a name="l00427"></a>00427 
+<a name="l00428"></a>00428   <span class="comment">/*</span>
+<a name="l00429"></a>00429 <span class="comment">   * Get root scroll frame from FrameManager()-&gt;GetRootFrame().</span>
+<a name="l00430"></a>00430 <span class="comment">   */</span>
+<a name="l00431"></a>00431   <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* GetRootScrollFrame() <span class="keyword">const</span>;
+<a name="l00432"></a>00432 
+<a name="l00433"></a>00433   <span class="comment">/*</span>
+<a name="l00434"></a>00434 <span class="comment">   * The same as GetRootScrollFrame, but returns an nsIScrollableFrame</span>
+<a name="l00435"></a>00435 <span class="comment">   */</span>
+<a name="l00436"></a>00436   <a class="code" href="../../d2/d77/classns_i_scrollable_frame.html">nsIScrollableFrame</a>* GetRootScrollFrameAsScrollable() <span class="keyword">const</span>;
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438   <span class="comment">/*</span>
+<a name="l00439"></a>00439 <span class="comment">   * The same as GetRootScrollFrame, but returns an nsIScrollableFrame.</span>
+<a name="l00440"></a>00440 <span class="comment">   * Can be called by code not linked into gklayout.</span>
+<a name="l00441"></a>00441 <span class="comment">   */</span>
+<a name="l00442"></a>00442   <span class="keyword">virtual</span> <a class="code" href="../../d2/d77/classns_i_scrollable_frame.html">nsIScrollableFrame</a>* GetRootScrollFrameAsScrollableExternal() <span class="keyword">const</span>;
+<a name="l00443"></a>00443 
+<a name="l00444"></a>00444   <span class="comment">/*</span>
+<a name="l00445"></a>00445 <span class="comment">   * Gets nearest scrollable frame from current focused content or DOM</span>
+<a name="l00446"></a>00446 <span class="comment">   * selection if there is no focused content. The frame is scrollable with</span>
+<a name="l00447"></a>00447 <span class="comment">   * overflow:scroll or overflow:auto in some direction when aDirection is</span>
+<a name="l00448"></a>00448 <span class="comment">   * eEither.  Otherwise, this returns a nearest frame that is scrollable in</span>
+<a name="l00449"></a>00449 <span class="comment">   * the specified direction.</span>
+<a name="l00450"></a>00450 <span class="comment">   */</span>
+<a name="l00451"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#af4530a05143ce8eb58ce03cf86a66473">00451</a>   <span class="keyword">enum</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#af4530a05143ce8eb58ce03cf86a66473">ScrollDirection</a> { eHorizontal, eVertical, eEither };
+<a name="l00452"></a>00452   <a class="code" href="../../d2/d77/classns_i_scrollable_frame.html">nsIScrollableFrame</a>* GetFrameToScrollAsScrollable(ScrollDirection aDirection);
+<a name="l00453"></a>00453 
+<a name="l00458"></a>00458   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../db/d12/classns_i_page_sequence_frame.html">nsIPageSequenceFrame</a>*) GetPageSequenceFrame() const = 0;
+<a name="l00459"></a>00459 
+<a name="l00467"></a>00467   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>*) GetRealPrimaryFrameFor(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aContent) const = 0;
+<a name="l00468"></a>00468 
+<a name="l00473"></a>00473   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>*) GetPlaceholderFrameFor(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame) const = 0;
+<a name="l00474"></a>00474 
+<a name="l00482"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a43b877bff055ed0be77f4647f1f7f426">00482</a>   <a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a43b877bff055ed0be77f4647f1f7f426">IntrinsicDirty</a> {
+<a name="l00483"></a>00483     <span class="comment">// XXXldb eResize should be renamed</span>
+<a name="l00484"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a43b877bff055ed0be77f4647f1f7f426a57e140593d4e85775d9426afd72ec091">00484</a>     <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a43b877bff055ed0be77f4647f1f7f426a57e140593d4e85775d9426afd72ec091">eResize</a>,     <span class="comment">// don&#39;t mark any intrinsic widths dirty</span>
+<a name="l00485"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a43b877bff055ed0be77f4647f1f7f426a6b102cf88fdcd0eae2d5956125405b00">00485</a>     <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a43b877bff055ed0be77f4647f1f7f426a6b102cf88fdcd0eae2d5956125405b00">eTreeChange</a>, <span class="comment">// mark intrinsic widths dirty on aFrame and its ancestors</span>
+<a name="l00486"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a43b877bff055ed0be77f4647f1f7f426a98da35ee70d5dcc3275709c2d1ebb960">00486</a>     eStyleChange <span class="comment">// Do eTreeChange, plus all of aFrame&#39;s descendants</span>
+<a name="l00487"></a>00487   };
+<a name="l00488"></a>00488   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) FrameNeedsReflow(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a> *aFrame,
+<a name="l00489"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a7e44bbcd1a80b6b24d18bf2d6460ae20">00489</a>                                             <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a43b877bff055ed0be77f4647f1f7f426">IntrinsicDirty</a> aIntrinsicDirty,
+<a name="l00490"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8fb9470ad534c7a429de3d327837b9f5">00490</a>                                             <a class="code" href="../../d4/ddc/ns_i_frame_8h.html#a2f1be3b8b8bed481a78cf01e6d26554f">nsFrameState</a> aBitToAdd) = 0;
+<a name="l00491"></a>00491 
+<a name="l00495"></a>00495   virtual <span class="keywordtype">void</span> MarkFixedFramesForReflow(<a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a43b877bff055ed0be77f4647f1f7f426">IntrinsicDirty</a> aIntrinsicDirty);
+<a name="l00496"></a>00496 
+<a name="l00508"></a>00508   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) FrameNeedsToContinueReflow(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a> *aFrame) = 0;
+<a name="l00509"></a>00509 
+<a name="l00510"></a>00510   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) CancelAllPendingReflows() = 0;
+<a name="l00511"></a>00511 
+<a name="l00515"></a>00515   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) RecreateFramesFor(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aContent) = 0;
+<a name="l00516"></a>00516 
+<a name="l00517"></a>00517   <span class="keywordtype">void</span> PostRecreateFramesFor(mozilla::<a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a>::<a class="code" href="../../df/d95/ns_i_h_t_m_l_editor_8idl.html#a349b6484f5c5f98fe656321841c06b51">Element</a>* aElement);
+<a name="l00518"></a>00518   <span class="keywordtype">void</span> RestyleForAnimation(mozilla::<a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a>::<a class="code" href="../../df/d95/ns_i_h_t_m_l_editor_8idl.html#a349b6484f5c5f98fe656321841c06b51">Element</a>* aElement,
+<a name="l00519"></a>00519                            <a class="code" href="../../da/db4/ns_change_hint_8h.html#a69901b74af7eacc12494b4e49aaad972">nsRestyleHint</a> aHint);
+<a name="l00520"></a>00520 
+<a name="l00526"></a>00526   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">bool</span>) IsSafeToFlush() const = 0;
+<a name="l00527"></a>00527 
+<a name="l00537"></a>00537   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) FlushPendingNotifications(<a class="code" href="../../dd/dee/moz_flush_type_8h.html#aa7eb27faeda638af0d73500716895f4b">mozFlushType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>) = 0;
+<a name="l00538"></a>00538   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) FlushPendingNotifications(mozilla::ChangesToFlush aType) = 0;
+<a name="l00539"></a>00539 
+<a name="l00544"></a>00544   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) PostReflowCallback(<a class="code" href="../../d2/df0/classns_i_reflow_callback.html">nsIReflowCallback</a>* aCallback) = 0;
+<a name="l00545"></a>00545   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) CancelReflowCallback(<a class="code" href="../../d2/df0/classns_i_reflow_callback.html">nsIReflowCallback</a>* aCallback) = 0;
+<a name="l00546"></a>00546 
+<a name="l00547"></a>00547   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) ClearFrameRefs(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame) = 0;
+<a name="l00548"></a>00548 
+<a name="l00554"></a>00554   virtual <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;<a class="code" href="../../d5/d2c/classns_rendering_context.html">nsRenderingContext</a>&gt; GetReferenceRenderingContext() = 0;
+<a name="l00555"></a>00555 
+<a name="l00564"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a3d5ca2efa8612ad2af41d42f1a4a7e8d">00564</a>   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) GoToAnchor(const nsAString&amp; aAnchorName, <span class="keywordtype">bool</span> aScroll) = 0;
+<a name="l00565"></a>00565 
+<a name="l00574"></a>00574   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) ScrollToAnchor() = 0;
+<a name="l00575"></a>00575 
+<a name="l00576"></a>00576   <a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> {
+<a name="l00577"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae24f83aea377d66694902e0bdfa93d04aeea106a660f52a23f256879ae630f1ea">00577</a>     SCROLL_TOP     = 0,
+<a name="l00578"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae24f83aea377d66694902e0bdfa93d04a25be0c53e882116392199e667a1606eb">00578</a>     SCROLL_BOTTOM  = 100,
+<a name="l00579"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae24f83aea377d66694902e0bdfa93d04a3df562b50dcbd2eafbac74641aa02ec3">00579</a>     SCROLL_LEFT    = 0,
+<a name="l00580"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae24f83aea377d66694902e0bdfa93d04aec6f1bad9fc6bef0315492cc3df9dc2d">00580</a>     SCROLL_RIGHT   = 100,
+<a name="l00581"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae24f83aea377d66694902e0bdfa93d04a4a006e0103c430d819bd1cb58bcb33aa">00581</a>     SCROLL_CENTER  = 50,
+<a name="l00582"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae24f83aea377d66694902e0bdfa93d04a465f3c88a45e5be5ff90f779155c6730">00582</a>     SCROLL_MINIMUM = -1
+<a name="l00583"></a>00583   };
+<a name="l00584"></a>00584 
+<a name="l00585"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad393997c0b4c09badaa00ed9b1860e29">00585</a>   <span class="keyword">enum</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad393997c0b4c09badaa00ed9b1860e29">WhenToScroll</a> {
+<a name="l00586"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad393997c0b4c09badaa00ed9b1860e29aba43bc929af6bdaa43e5d8592cc4196a">00586</a>     <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad393997c0b4c09badaa00ed9b1860e29aba43bc929af6bdaa43e5d8592cc4196a">SCROLL_ALWAYS</a>,
+<a name="l00587"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad393997c0b4c09badaa00ed9b1860e29a221a549514840ae17fff11c54e984aeb">00587</a>     <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad393997c0b4c09badaa00ed9b1860e29a221a549514840ae17fff11c54e984aeb">SCROLL_IF_NOT_VISIBLE</a>,
+<a name="l00588"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad393997c0b4c09badaa00ed9b1860e29a272491d063b1d18eec6ac7f88ef831cc">00588</a>     SCROLL_IF_NOT_FULLY_VISIBLE
+<a name="l00589"></a>00589   };
+<a name="l00590"></a><a class="code" href="../../dc/dec/structns_i_pres_shell_1_1_scroll_axis.html">00590</a>   <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../dc/dec/structns_i_pres_shell_1_1_scroll_axis.html">ScrollAxis</a> {
+<a name="l00591"></a><a class="code" href="../../dc/dec/structns_i_pres_shell_1_1_scroll_axis.html#a15f875651121efb661327da8752f20b4">00591</a>     int16_t <a class="code" href="../../dc/dec/structns_i_pres_shell_1_1_scroll_axis.html#a15f875651121efb661327da8752f20b4">mWhereToScroll</a>;
+<a name="l00592"></a><a class="code" href="../../dc/dec/structns_i_pres_shell_1_1_scroll_axis.html#a6f703a65211e113d324ad64f9c060e3b">00592</a>     <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad393997c0b4c09badaa00ed9b1860e29">WhenToScroll</a> mWhenToScroll : 8;
+<a name="l00593"></a><a class="code" href="../../dc/dec/structns_i_pres_shell_1_1_scroll_axis.html#aabaed56543242ec18496f099ae308683">00593</a>     <span class="keywordtype">bool</span> mOnlyIfPerceivedScrollableDirection : 1;
+<a name="l00629"></a><a class="code" href="../../dc/dec/structns_i_pres_shell_1_1_scroll_axis.html#a749554c8f91d42af78fce67b58466ef9">00629</a>     <a class="code" href="../../de/d71/ns_i_selection_private_8idl.html#a19b8d1f23c353e9d5023eed7de6b67fa">ScrollAxis</a>(int16_t aWhere = SCROLL_MINIMUM,
+<a name="l00630"></a>00630                <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad393997c0b4c09badaa00ed9b1860e29">WhenToScroll</a> aWhen = SCROLL_IF_NOT_FULLY_VISIBLE,
+<a name="l00631"></a>00631                <span class="keywordtype">bool</span> aOnlyIfPerceivedScrollableDirection = <span class="keyword">false</span>) :
+<a name="l00632"></a>00632       mWhereToScroll(aWhere), mWhenToScroll(aWhen),
+<a name="l00633"></a>00633       mOnlyIfPerceivedScrollableDirection(aOnlyIfPerceivedScrollableDirection)
+<a name="l00634"></a>00634     {}
+<a name="l00635"></a>00635   } <a class="code" href="../../de/d71/ns_i_selection_private_8idl.html#a19b8d1f23c353e9d5023eed7de6b67fa">ScrollAxis</a>;
+<a name="l00657"></a>00657   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) ScrollContentIntoView(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aContent,
+<a name="l00658"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aad5a31ee1d010ab41d0209039429c67e">00658</a>                                                      <a class="code" href="../../dc/dec/structns_i_pres_shell_1_1_scroll_axis.html">ScrollAxis</a>  aVertical,
+<a name="l00659"></a>00659                                                      <a class="code" href="../../dc/dec/structns_i_pres_shell_1_1_scroll_axis.html">ScrollAxis</a>  aHorizontal,
+<a name="l00660"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a42f66c20f3a481ad9f0d90e02ebd9d1b">00660</a>                                                      uint32_t    aFlags) = 0;
+<a name="l00661"></a>00661 
+<a name="l00662"></a>00662   <a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> {
+<a name="l00663"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae66210b524374c187506ab7575c6acbaad44c058dcbbde4b29d46acefe6ff7b1b">00663</a>     SCROLL_FIRST_ANCESTOR_ONLY = 0x01,
+<a name="l00664"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae66210b524374c187506ab7575c6acbaa729fd868b3b31628d6f6ee57a467ee74">00664</a>     SCROLL_OVERFLOW_HIDDEN = 0x02,
+<a name="l00665"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae66210b524374c187506ab7575c6acbaa82d39fb65ae1278d8951768619ebd403">00665</a>     SCROLL_NO_PARENT_FRAMES = 0x04
+<a name="l00666"></a>00666   };
+<a name="l00686"></a>00686   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> ScrollFrameRectIntoView(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>*     aFrame,
+<a name="l00687"></a>00687                                        <span class="keyword">const</span> <a class="code" href="../../da/d97/structns_rect.html">nsRect</a>&amp; aRect,
+<a name="l00688"></a>00688                                        <a class="code" href="../../de/d71/ns_i_selection_private_8idl.html#a19b8d1f23c353e9d5023eed7de6b67fa">ScrollAxis</a>    aVertical,
+<a name="l00689"></a>00689                                        <a class="code" href="../../de/d71/ns_i_selection_private_8idl.html#a19b8d1f23c353e9d5023eed7de6b67fa">ScrollAxis</a>    aHorizontal,
+<a name="l00690"></a>00690                                        uint32_t      aFlags) = 0;
+<a name="l00691"></a>00691 
+<a name="l00706"></a>00706   <span class="keyword">virtual</span> <a class="code" href="../../db/dc7/ns_i_pres_shell_8h.html#a9f80a0f0c9da00939ba106a44e7a6fc6">nsRectVisibility</a> GetRectVisibility(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a> *aFrame,
+<a name="l00707"></a>00707                                              <span class="keyword">const</span> <a class="code" href="../../da/d97/structns_rect.html">nsRect</a> &amp;aRect,
+<a name="l00708"></a>00708                                              <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aMinTwips) <span class="keyword">const</span> = 0;
+<a name="l00709"></a>00709 
+<a name="l00714"></a>00714   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) SetIgnoreFrameDestruction(<span class="keywordtype">bool</span> aIgnore) = 0;
+<a name="l00715"></a>00715 
+<a name="l00721"></a>00721   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) NotifyDestroyingFrame(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame) = 0;
+<a name="l00722"></a>00722 
+<a name="l00726"></a>00726   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;<a class="code" href="../../db/da2/classns_caret.html">nsCaret</a>&gt;) GetCaret() const = 0;
+<a name="l00727"></a>00727 
+<a name="l00733"></a>00733   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) MaybeInvalidateCaretPosition() = 0;
+<a name="l00734"></a>00734 
+<a name="l00738"></a>00738   virtual <span class="keywordtype">void</span> SetCaret(<a class="code" href="../../db/da2/classns_caret.html">nsCaret</a> *aNewCaret) = 0;
+<a name="l00739"></a>00739 
+<a name="l00744"></a>00744   virtual <span class="keywordtype">void</span> RestoreCaret() = 0;
+<a name="l00745"></a>00745 
+<a name="l00754"></a>00754   <a class="code" href="../../d3/dd8/nscore_8h.html#abbc6d740d4f54ed1c90bbed28dcef65a">NS_IMETHOD</a> SetSelectionFlags(int16_t aInEnable) = 0;
+<a name="l00755"></a>00755 
+<a name="l00761"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a19dd513ae2225b70c287be58c2bb41a2">00761</a>   int16_t GetSelectionFlags()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mSelectionFlags; }
+<a name="l00762"></a>00762 
+<a name="l00763"></a>00763   <span class="keyword">virtual</span> <a class="code" href="../../d1/d90/classmozilla_1_1_selection.html">mozilla::Selection</a>* GetCurrentSelection(<a class="code" href="../../d3/d4d/ns_i_selection_controller_8idl.html#a3964778bc033d112cba75e8d6aee2022">SelectionType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>) = 0;
+<a name="l00764"></a>00764 
+<a name="l00769"></a>00769   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) HandleEventWithTarget(<a class="code" href="../../dc/db1/classns_event.html">nsEvent</a>* <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#ab852bb16cdfba40e79c74669f9f7f2a2">aEvent</a>,
+<a name="l00770"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a4c63c1c794b0cb4870851177e0cef80f">00770</a>                                                      <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame,
+<a name="l00771"></a>00771                                                      <a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aContent,
+<a name="l00772"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a5565cc535125c0b0573b72dfcad8be3f">00772</a>                                                      <a class="code" href="../../d7/dfb/ns_event_8h.html#a2561010f6e7e387df33ec5468140580b">nsEventStatus</a>* aStatus) = 0;
+<a name="l00773"></a>00773 
+<a name="l00778"></a>00778   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) HandleDOMEventWithTarget(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aTargetContent,
+<a name="l00779"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a9a77208f20dc8cfef08c7e0cd142c466">00779</a>                                                         <a class="code" href="../../dc/db1/classns_event.html">nsEvent</a>* aEvent,
+<a name="l00780"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a6510aabbcb39166a4fadd1a87e364027">00780</a>                                                         <a class="code" href="../../d7/dfb/ns_event_8h.html#a2561010f6e7e387df33ec5468140580b">nsEventStatus</a>* aStatus) = 0;
+<a name="l00781"></a>00781 
+<a name="l00786"></a>00786   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) HandleDOMEventWithTarget(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aTargetContent,
+<a name="l00787"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ac60e878f52794b341ffb6e058e8c9385">00787</a>                                                         <a class="code" href="../../d4/d5c/interfacens_i_d_o_m_event.html">nsIDOMEvent</a>* aEvent,
+<a name="l00788"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a15985d2a77bbdc48aca38bb196226885">00788</a>                                                         <a class="code" href="../../d7/dfb/ns_event_8h.html#a2561010f6e7e387df33ec5468140580b">nsEventStatus</a>* aStatus) = 0;
+<a name="l00789"></a>00789 
+<a name="l00793"></a>00793   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>*) GetEventTargetFrame() = 0;
+<a name="l00794"></a>00794 
+<a name="l00798"></a>00798   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>&gt;) GetEventTargetContent(<a class="code" href="../../dc/db1/classns_event.html">nsEvent</a>* aEvent) = 0;
+<a name="l00799"></a>00799 
+<a name="l00804"></a>00804   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) CaptureHistoryState(<a class="code" href="../../d3/df3/classns_i_layout_history_state.html">nsILayoutHistoryState</a>** aLayoutHistoryState) = 0;
+<a name="l00805"></a>00805 
+<a name="l00810"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a662ecc38b6922d48d4a3374fdc634785">00810</a>   <span class="keywordtype">bool</span> IsReflowLocked()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mIsReflowing; }
+<a name="l00811"></a>00811 
+<a name="l00817"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a6c3b28091d38a8a2f6ab1e989e8bf6f1">00817</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a6c3b28091d38a8a2f6ab1e989e8bf6f1">IsPaintingSuppressed</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mPaintingSuppressed; }
+<a name="l00818"></a>00818 
+<a name="l00822"></a>00822   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) UnsuppressPainting() = 0;
+<a name="l00823"></a>00823 
+<a name="l00827"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a9b4066ed1ef8f832d1f484f2a2fbb29f">00827</a>   <span class="keywordtype">void</span> DisableThemeSupport()
+<a name="l00828"></a>00828   {
+<a name="l00829"></a>00829     <span class="comment">// Doesn&#39;t have to be dynamic.  Just set the bool.</span>
+<a name="l00830"></a>00830     mIsThemeSupportDisabled = <span class="keyword">true</span>;
+<a name="l00831"></a>00831   }
+<a name="l00832"></a>00832 
+<a name="l00836"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad2c9b4b6b2c5320a8165c0bae22cee48">00836</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad2c9b4b6b2c5320a8165c0bae22cee48">IsThemeSupportEnabled</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> !mIsThemeSupportDisabled; }
+<a name="l00837"></a>00837 
+<a name="l00841"></a>00841   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> GetAgentStyleSheets(<a class="code" href="../../d3/d4e/classns_c_o_m_array.html">nsCOMArray&lt;nsIStyleSheet&gt;</a>&amp; aSheets) = 0;
+<a name="l00842"></a>00842 
+<a name="l00846"></a>00846   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> SetAgentStyleSheets(<span class="keyword">const</span> <a class="code" href="../../d3/d4e/classns_c_o_m_array.html">nsCOMArray&lt;nsIStyleSheet&gt;</a>&amp; aSheets) = 0;
+<a name="l00847"></a>00847 
+<a name="l00851"></a>00851   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> AddOverrideStyleSheet(<a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a> *aSheet) = 0;
+<a name="l00852"></a>00852 
+<a name="l00856"></a>00856   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> RemoveOverrideStyleSheet(<a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a> *aSheet) = 0;
+<a name="l00857"></a>00857 
+<a name="l00861"></a>00861   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> ReconstructFrames() = 0;
+<a name="l00862"></a>00862 
+<a name="l00866"></a>00866   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ContentStateChanged(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument,
+<a name="l00867"></a>00867                                    <a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aContent,
+<a name="l00868"></a>00868                                    <a class="code" href="../../d8/de5/classns_event_states.html">nsEventStates</a> aStateMask) = 0;
+<a name="l00869"></a>00869 
+<a name="l00876"></a>00876   <span class="keyword">static</span> <span class="keywordtype">bool</span> GetVerifyReflowEnable();
+<a name="l00877"></a>00877 
+<a name="l00881"></a>00881   <span class="keyword">static</span> <span class="keywordtype">void</span> SetVerifyReflowEnable(<span class="keywordtype">bool</span> aEnabled);
+<a name="l00882"></a>00882 
+<a name="l00883"></a>00883   <span class="keyword">virtual</span> <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* GetAbsoluteContainingBlock(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame);
+<a name="l00884"></a>00884 
+<a name="l00885"></a>00885 <span class="preprocessor">#ifdef MOZ_REFLOW_PERF</span>
+<a name="l00886"></a>00886 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) DumpReflows() = 0;
+<a name="l00887"></a>00887   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) CountReflows(const <span class="keywordtype">char</span> * aName, <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a> * aFrame) = 0;
+<a name="l00888"></a>00888   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) PaintCount(const <span class="keywordtype">char</span> * aName,
+<a name="l00889"></a>00889                                       <a class="code" href="../../d5/d2c/classns_rendering_context.html">nsRenderingContext</a>* aRenderingContext,
+<a name="l00890"></a>00890                                       <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a> * aPresContext,
+<a name="l00891"></a>00891                                       <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a> * aFrame,
+<a name="l00892"></a>00892                                       const <a class="code" href="../../d6/d7b/structns_point.html">nsPoint</a>&amp; aOffset,
+<a name="l00893"></a>00893                                       uint32_t aColor) = 0;
+<a name="l00894"></a>00894   virtual <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) SetPaintFrameCount(<span class="keywordtype">bool</span> aOn) = 0;
+<a name="l00895"></a>00895   virtual <span class="keywordtype">bool</span> IsPaintingFrameCounts() = 0;
+<a name="l00896"></a>00896 <span class="preprocessor">#endif</span>
+<a name="l00897"></a>00897 <span class="preprocessor"></span>
+<a name="l00898"></a>00898 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00899"></a>00899 <span class="preprocessor"></span>  <span class="comment">// Debugging hooks</span>
+<a name="l00900"></a>00900   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ListStyleContexts(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a> *aRootFrame, <a class="code" href="../../d1/ddf/ns_i_content_viewer_file_8idl.html#a2a9799b7b2af884315027dd95725e0c3">FILE</a> *<a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>,
+<a name="l00901"></a>00901                                  int32_t aIndent = 0) = 0;
+<a name="l00902"></a>00902 
+<a name="l00903"></a>00903   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ListStyleSheets(<a class="code" href="../../d1/ddf/ns_i_content_viewer_file_8idl.html#a2a9799b7b2af884315027dd95725e0c3">FILE</a> *<a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>, int32_t aIndent = 0) = 0;
+<a name="l00904"></a>00904   <span class="keyword">virtual</span> <span class="keywordtype">void</span> VerifyStyleTree() = 0;
+<a name="l00905"></a>00905 <span class="preprocessor">#endif</span>
+<a name="l00906"></a>00906 <span class="preprocessor"></span>
+<a name="l00907"></a>00907 <span class="preprocessor">#ifdef ACCESSIBILITY</span>
+<a name="l00908"></a>00908 <span class="preprocessor"></span>
+<a name="l00911"></a>00911   <span class="keyword">static</span> <span class="keywordtype">bool</span> IsAccessibilityActive();
+<a name="l00912"></a>00912 
+<a name="l00916"></a>00916   <span class="keyword">static</span> <a class="code" href="../../df/d2f/classns_accessibility_service.html">nsAccessibilityService</a>* AccService();
+<a name="l00917"></a>00917 <span class="preprocessor">#endif</span>
+<a name="l00918"></a>00918 <span class="preprocessor"></span>
+<a name="l00924"></a>00924   <span class="keyword">virtual</span> <span class="keywordtype">void</span> Freeze() = 0;
+<a name="l00925"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a072ad0b59c9fda2680f0e9e20db63ff0">00925</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a072ad0b59c9fda2680f0e9e20db63ff0">IsFrozen</a>() { <span class="keywordflow">return</span> mFrozen; }
+<a name="l00926"></a>00926 
+<a name="l00931"></a>00931   <span class="keyword">virtual</span> <span class="keywordtype">void</span> Thaw() = 0;
+<a name="l00932"></a>00932 
+<a name="l00933"></a>00933   <span class="keyword">virtual</span> <span class="keywordtype">void</span> FireOrClearDelayedEvents(<span class="keywordtype">bool</span> aFireEvents) = 0;
+<a name="l00934"></a>00934 
+<a name="l00941"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a486a4e949974d45cfec81a45aec77fc1">00941</a>   <span class="keywordtype">void</span> SetForwardingContainer(<a class="code" href="../../d5/dcc/ns_i_weak_reference_utils_8h.html#a69805d7debf405925e157adc001187ad">nsWeakPtr</a> aContainer)
+<a name="l00942"></a>00942   {
+<a name="l00943"></a>00943     mForwardingContainer = aContainer;
+<a name="l00944"></a>00944   }
+<a name="l00945"></a>00945   
+<a name="l00981"></a>00981   <span class="keyword">enum</span> {
+<a name="l00982"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8a41f01d0b615e68fde2ce5c6d02fd8aabf21dbea9f5628e8920d411dfcdfe770">00982</a>     RENDER_IS_UNTRUSTED = 0x01,
+<a name="l00983"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8a41f01d0b615e68fde2ce5c6d02fd8aa9c724a1f2ab4db870a3494a49134f806">00983</a>     RENDER_IGNORE_VIEWPORT_SCROLLING = 0x02,
+<a name="l00984"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8a41f01d0b615e68fde2ce5c6d02fd8aadd5ba84c01a51f0542dc04420b1619ab">00984</a>     RENDER_CARET = 0x04,
+<a name="l00985"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8a41f01d0b615e68fde2ce5c6d02fd8aa63d60cc6e9884d2aab3c1492a8c33371">00985</a>     RENDER_USE_WIDGET_LAYERS = 0x08,
+<a name="l00986"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8a41f01d0b615e68fde2ce5c6d02fd8aa3923c57671bb336c62d661610bac168e">00986</a>     RENDER_ASYNC_DECODE_IMAGES = 0x10,
+<a name="l00987"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8a41f01d0b615e68fde2ce5c6d02fd8aac4b6d4b29890a9684eb2adeab5b479f7">00987</a>     RENDER_DOCUMENT_RELATIVE = 0x20,
+<a name="l00988"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8a41f01d0b615e68fde2ce5c6d02fd8aa002754e23d3985214b8d36c939670511">00988</a>     RENDER_DRAWWINDOW_NOT_FLUSHING = 0x40
+<a name="l00989"></a>00989   };
+<a name="l00990"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ada1b01c8dd497f3ed850f348bc6886b2">00990</a>   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) RenderDocument(const <a class="code" href="../../da/d97/structns_rect.html">nsRect</a>&amp; aRect, uint32_t aFlags,
+<a name="l00991"></a>00991                                               <a class="code" href="../../d9/d6a/ns_color_8h.html#abee756dec22b05b8b36337fea5612041">nscolor</a> aBackgroundColor,
+<a name="l00992"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#addf580d53901c90f03a55eecd6334dc7">00992</a>                                               <a class="code" href="../../d5/dc9/classgfx_context.html">gfxContext</a>* aRenderedContext) = 0;
+<a name="l00993"></a>00993 
+<a name="l01000"></a>01000   virtual <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;<a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a>&gt; RenderNode(<a class="code" href="../../da/da2/interfacens_i_d_o_m_node.html">nsIDOMNode</a>* aNode,
+<a name="l01001"></a>01001                                                    <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>* aRegion,
+<a name="l01002"></a>01002                                                    <a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>&amp; aPoint,
+<a name="l01003"></a>01003                                                    <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>* aScreenRect) = 0;
+<a name="l01004"></a>01004 
+<a name="l01020"></a>01020   virtual <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;<a class="code" href="../../d4/d14/classgfx_a_surface.html">gfxASurface</a>&gt; RenderSelection(<a class="code" href="../../d4/de5/interfacens_i_selection.html">nsISelection</a>* aSelection,
+<a name="l01021"></a>01021                                                         <a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>&amp; aPoint,
+<a name="l01022"></a>01022                                                         <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>* aScreenRect) = 0;
+<a name="l01023"></a>01023 
+<a name="l01024"></a>01024   <span class="keywordtype">void</span> AddWeakFrameInternal(<a class="code" href="../../d3/d0c/classns_weak_frame.html">nsWeakFrame</a>* aWeakFrame);
+<a name="l01025"></a>01025   virtual <span class="keywordtype">void</span> AddWeakFrameExternal(<a class="code" href="../../d3/d0c/classns_weak_frame.html">nsWeakFrame</a>* aWeakFrame);
+<a name="l01026"></a>01026 
+<a name="l01027"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#abccf1f50ef3b5684918179c195709602">01027</a>   <span class="keywordtype">void</span> AddWeakFrame(<a class="code" href="../../d3/d0c/classns_weak_frame.html">nsWeakFrame</a>* aWeakFrame)
+<a name="l01028"></a>01028   {
+<a name="l01029"></a>01029 <span class="preprocessor">#ifdef _IMPL_NS_LAYOUT</span>
+<a name="l01030"></a>01030 <span class="preprocessor"></span>    AddWeakFrameInternal(aWeakFrame);
+<a name="l01031"></a>01031 <span class="preprocessor">#else</span>
+<a name="l01032"></a>01032 <span class="preprocessor"></span>    AddWeakFrameExternal(aWeakFrame);
+<a name="l01033"></a>01033 <span class="preprocessor">#endif</span>
+<a name="l01034"></a>01034 <span class="preprocessor"></span>  }
+<a name="l01035"></a>01035 
+<a name="l01036"></a>01036   <span class="keywordtype">void</span> RemoveWeakFrameInternal(<a class="code" href="../../d3/d0c/classns_weak_frame.html">nsWeakFrame</a>* aWeakFrame);
+<a name="l01037"></a>01037   <span class="keyword">virtual</span> <span class="keywordtype">void</span> RemoveWeakFrameExternal(<a class="code" href="../../d3/d0c/classns_weak_frame.html">nsWeakFrame</a>* aWeakFrame);
+<a name="l01038"></a>01038 
+<a name="l01039"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a3146114753b5e9bda573ed532c44c10f">01039</a>   <span class="keywordtype">void</span> RemoveWeakFrame(<a class="code" href="../../d3/d0c/classns_weak_frame.html">nsWeakFrame</a>* aWeakFrame)
+<a name="l01040"></a>01040   {
+<a name="l01041"></a>01041 <span class="preprocessor">#ifdef _IMPL_NS_LAYOUT</span>
+<a name="l01042"></a>01042 <span class="preprocessor"></span>    RemoveWeakFrameInternal(aWeakFrame);
+<a name="l01043"></a>01043 <span class="preprocessor">#else</span>
+<a name="l01044"></a>01044 <span class="preprocessor"></span>    RemoveWeakFrameExternal(aWeakFrame);
+<a name="l01045"></a>01045 <span class="preprocessor">#endif</span>
+<a name="l01046"></a>01046 <span class="preprocessor"></span>  }
+<a name="l01047"></a>01047 
+<a name="l01048"></a>01048 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l01049"></a>01049 <span class="preprocessor"></span>  <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* GetDrawEventTargetFrame() { <span class="keywordflow">return</span> mDrawEventTargetFrame; }
+<a name="l01050"></a>01050 <span class="preprocessor">#endif</span>
+<a name="l01051"></a>01051 <span class="preprocessor"></span>
+<a name="l01059"></a>01059   <span class="keyword">virtual</span> <a class="code" href="../../d3/dd8/nscore_8h.html#ac19fc71a78771eb7bf7dead68bc74db6">NS_HIDDEN_</a>(<span class="keywordtype">void</span>) DisableNonTestMouseEvents(<span class="keywordtype">bool</span> aDisable) = 0;
+<a name="l01060"></a>01060 
+<a name="l01068"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad4db6e846cfb2307baf76a7f973ff324">01068</a>   <span class="keywordtype">void</span> SetCanvasBackground(<a class="code" href="../../d9/d6a/ns_color_8h.html#abee756dec22b05b8b36337fea5612041">nscolor</a> aColor) { mCanvasBackgroundColor = aColor; }
+<a name="l01069"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a416532fa103cd4c4e53b25d4100d4cbf">01069</a>   <a class="code" href="../../d9/d6a/ns_color_8h.html#abee756dec22b05b8b36337fea5612041">nscolor</a> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a416532fa103cd4c4e53b25d4100d4cbf">GetCanvasBackground</a>() { <span class="keywordflow">return</span> mCanvasBackgroundColor; }
+<a name="l01070"></a>01070 
+<a name="l01075"></a>01075   <span class="keyword">virtual</span> <span class="keywordtype">void</span> UpdateCanvasBackground() = 0;
+<a name="l01076"></a>01076 
+<a name="l01084"></a>01084   <span class="keyword">enum</span> {
+<a name="l01085"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a309aaa00470be89998698aa3a356e805a06b32ea7f144747b23fdd5ba12296fb2">01085</a>     FORCE_DRAW = 0x01
+<a name="l01086"></a>01086   };
+<a name="l01087"></a>01087   <span class="keyword">virtual</span> <span class="keywordtype">void</span> AddCanvasBackgroundColorItem(<a class="code" href="../../df/da5/classns_display_list_builder.html">nsDisplayListBuilder</a>&amp; aBuilder,
+<a name="l01088"></a>01088                                             <a class="code" href="../../dc/da5/classns_display_list.html">nsDisplayList</a>&amp; aList,
+<a name="l01089"></a>01089                                             <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame,
+<a name="l01090"></a>01090                                             <span class="keyword">const</span> <a class="code" href="../../da/d97/structns_rect.html">nsRect</a>&amp; aBounds,
+<a name="l01091"></a>01091                                             <a class="code" href="../../d9/d6a/ns_color_8h.html#abee756dec22b05b8b36337fea5612041">nscolor</a> aBackstopColor = <a class="code" href="../../d9/d6a/ns_color_8h.html#a831e2f874650cdf831dc1c40d7647946">NS_RGBA</a>(0,0,0,0),
+<a name="l01092"></a>01092                                             uint32_t aFlags = 0) = 0;
+<a name="l01093"></a>01093 
+<a name="l01094"></a>01094 
+<a name="l01100"></a>01100   <span class="keyword">virtual</span> <span class="keywordtype">void</span> AddPrintPreviewBackgroundItem(<a class="code" href="../../df/da5/classns_display_list_builder.html">nsDisplayListBuilder</a>&amp; aBuilder,
+<a name="l01101"></a>01101                                              <a class="code" href="../../dc/da5/classns_display_list.html">nsDisplayList</a>&amp; aList,
+<a name="l01102"></a>01102                                              <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame,
+<a name="l01103"></a>01103                                              <span class="keyword">const</span> <a class="code" href="../../da/d97/structns_rect.html">nsRect</a>&amp; aBounds) = 0;
+<a name="l01104"></a>01104 
+<a name="l01110"></a>01110   <span class="keyword">virtual</span> <a class="code" href="../../d9/d6a/ns_color_8h.html#abee756dec22b05b8b36337fea5612041">nscolor</a> ComputeBackstopColor(nsView* aDisplayRoot) = 0;
+<a name="l01111"></a>01111 
+<a name="l01112"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ac7dc5b7774f848aead88b8d519b8b5b9">01112</a>   <span class="keywordtype">void</span> ObserveNativeAnonMutationsForPrint(<span class="keywordtype">bool</span> aObserve)
+<a name="l01113"></a>01113   {
+<a name="l01114"></a>01114     mObservesMutationsForPrint = aObserve;
+<a name="l01115"></a>01115   }
+<a name="l01116"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#af2054a535d5986772b02f6f0a7a0f4cb">01116</a>   <span class="keywordtype">bool</span> ObservesNativeAnonMutationsForPrint()
+<a name="l01117"></a>01117   {
+<a name="l01118"></a>01118     <span class="keywordflow">return</span> mObservesMutationsForPrint;
+<a name="l01119"></a>01119   }
+<a name="l01120"></a>01120 
+<a name="l01121"></a>01121   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> SetIsActive(<span class="keywordtype">bool</span> aIsActive) = 0;
+<a name="l01122"></a>01122 
+<a name="l01123"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ab12a094ed4251b3e46b62c07a0a051d0">01123</a>   <span class="keywordtype">bool</span> IsActive()
+<a name="l01124"></a>01124   {
+<a name="l01125"></a>01125     <span class="keywordflow">return</span> mIsActive;
+<a name="l01126"></a>01126   }
+<a name="l01127"></a>01127 
+<a name="l01128"></a>01128   <span class="comment">// mouse capturing</span>
+<a name="l01129"></a>01129 
+<a name="l01130"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a888987d2b90913a1384df643971b982d">01130</a>   <span class="keyword">static</span> <a class="code" href="../../d1/d49/struct_capturing_content_info.html">CapturingContentInfo</a> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a888987d2b90913a1384df643971b982d">gCaptureInfo</a>;
+<a name="l01131"></a>01131 
+<a name="l01132"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a74b9e5c303f70141b27830566659cfe9">01132</a>   <span class="keyword">static</span> <a class="code" href="../../d8/db9/classns_ref_ptr_hashtable.html">nsRefPtrHashtable&lt;nsUint32HashKey, mozilla::dom::Touch&gt;</a> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a74b9e5c303f70141b27830566659cfe9">gCaptureTouchList</a>;
+<a name="l01133"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a52e3186353f35aeb98491ba6c0d6eb1a">01133</a>   <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a52e3186353f35aeb98491ba6c0d6eb1a">gPreventMouseEvents</a>;
+<a name="l01134"></a>01134 
+<a name="l01157"></a>01157   <span class="keyword">static</span> <span class="keywordtype">void</span> SetCapturingContent(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aContent, uint8_t aFlags);
+<a name="l01158"></a>01158 
+<a name="l01162"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a14b9835099b941fe09a07135ec22fc86">01162</a>   <span class="keyword">static</span> <a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* GetCapturingContent()
+<a name="l01163"></a>01163   {
+<a name="l01164"></a>01164     <span class="keywordflow">return</span> gCaptureInfo.<a class="code" href="../../d1/d49/struct_capturing_content_info.html#a043169708a77ff791dff4a8bef03560f">mContent</a>;
+<a name="l01165"></a>01165   }
+<a name="l01166"></a>01166 
+<a name="l01170"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a3f33a04ec1f53d363e4c1d9e46f871fb">01170</a>   <span class="keyword">static</span> <span class="keywordtype">void</span> AllowMouseCapture(<span class="keywordtype">bool</span> aAllowed)
+<a name="l01171"></a>01171   {
+<a name="l01172"></a>01172     gCaptureInfo.<a class="code" href="../../d1/d49/struct_capturing_content_info.html#adcc1189c48456e72b24c4f0177041e5d">mAllowed</a> = aAllowed;
+<a name="l01173"></a>01173   }
+<a name="l01174"></a>01174 
+<a name="l01179"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ac0627adf9f48a13f3817ebf38e1ed06b">01179</a>   <span class="keyword">static</span> <span class="keywordtype">bool</span> IsMouseCapturePreventingDrag()
+<a name="l01180"></a>01180   {
+<a name="l01181"></a>01181     <span class="keywordflow">return</span> gCaptureInfo.<a class="code" href="../../d1/d49/struct_capturing_content_info.html#aabb6230750b3a98b938cd5b6cbf479a4">mPreventDrag</a> &amp;&amp; gCaptureInfo.<a class="code" href="../../d1/d49/struct_capturing_content_info.html#a043169708a77ff791dff4a8bef03560f">mContent</a>;
+<a name="l01182"></a>01182   }
+<a name="l01183"></a>01183 
+<a name="l01188"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa1f7f5f14c14e8134c815b31798c1db9">01188</a>   uint64_t <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa1f7f5f14c14e8134c815b31798c1db9">GetPaintCount</a>() { <span class="keywordflow">return</span> mPaintCount; }
+<a name="l01189"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a2293578e2ab9bc2988e4068784c3c675">01189</a>   <span class="keywordtype">void</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a2293578e2ab9bc2988e4068784c3c675">IncrementPaintCount</a>() { ++mPaintCount; }
+<a name="l01190"></a>01190 
+<a name="l01194"></a>01194   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsPIDOMWindow&gt;</a> GetRootWindow() = 0;
+<a name="l01195"></a>01195 
+<a name="l01200"></a>01200   <span class="keyword">virtual</span> LayerManager* <a class="code" href="../../da/d95/namespacemozilla_1_1layers_1_1compositor.html#ad7049c0b7be8ab00561d6734ef09ded5">GetLayerManager</a>() = 0;
+<a name="l01201"></a>01201 
+<a name="l01207"></a>01207   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetIgnoreViewportScrolling(<span class="keywordtype">bool</span> aIgnore) = 0;
+<a name="l01208"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ab78369df6b362d774c1ba146026d601c">01208</a>   <span class="keywordtype">bool</span> IgnoringViewportScrolling()<span class="keyword"> const</span>
+<a name="l01209"></a>01209 <span class="keyword">  </span>{ <span class="keywordflow">return</span> mRenderFlags &amp; STATE_IGNORING_VIEWPORT_SCROLLING; }
+<a name="l01210"></a>01210 
+<a name="l01220"></a>01220   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> SetResolution(<span class="keywordtype">float</span> aXResolution, <span class="keywordtype">float</span> aYResolution) = 0;
+<a name="l01221"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a2daf889a68a4afc63870dfe0d4b803ea">01221</a>   <a class="code" href="../../d8/d75/structgfx_size.html">gfxSize</a> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a2daf889a68a4afc63870dfe0d4b803ea">GetResolution</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d8/d75/structgfx_size.html">gfxSize</a>(mXResolution, mYResolution); }
+<a name="l01222"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a76935ed8350d3b58a5814348cb66dc66">01222</a>   <span class="keywordtype">float</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a76935ed8350d3b58a5814348cb66dc66">GetXResolution</a>() { <span class="keywordflow">return</span> mXResolution; }
+<a name="l01223"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ab037047cf497a1b73b5b4e40239a291c">01223</a>   <span class="keywordtype">float</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ab037047cf497a1b73b5b4e40239a291c">GetYResolution</a>() { <span class="keywordflow">return</span> mYResolution; }
+<a name="l01224"></a>01224 
+<a name="l01229"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#af7c455d371c55de9459df2cd6e63c064">01229</a>   <span class="keywordtype">bool</span> InDrawWindowNotFlushing()<span class="keyword"> const</span>
+<a name="l01230"></a>01230 <span class="keyword">  </span>{ <span class="keywordflow">return</span> mRenderFlags &amp; STATE_DRAWWINDOW_NOT_FLUSHING; }
+<a name="l01231"></a>01231 
+<a name="l01235"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a6864e7a937a547564c59cca67e8d72a8">01235</a>   <span class="keywordtype">void</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a6864e7a937a547564c59cca67e8d72a8">SetIsFirstPaint</a>(<span class="keywordtype">bool</span> aIsFirstPaint) { mIsFirstPaint = aIsFirstPaint; }
+<a name="l01236"></a>01236 
+<a name="l01240"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ab038961e993de3368c79f7bdfccae0a0">01240</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ab038961e993de3368c79f7bdfccae0a0">GetIsFirstPaint</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mIsFirstPaint; }
+<a name="l01241"></a>01241 
+<a name="l01242"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae9c28caf91417e9225a5145fbe479b1a">01242</a>   uint32_t <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae9c28caf91417e9225a5145fbe479b1a">GetPresShellId</a>() { <span class="keywordflow">return</span> mPresShellId; }
+<a name="l01243"></a>01243 
+<a name="l01249"></a>01249   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SynthesizeMouseMove(<span class="keywordtype">bool</span> aFromScroll) = 0;
+<a name="l01250"></a>01250 
+<a name="l01251"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1bb5bc949bf0aa0373457384307a33c5">01251</a>   <span class="keyword">enum</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1bb5bc949bf0aa0373457384307a33c5">PaintFlags</a> {
+<a name="l01252"></a>01252     <span class="comment">/* Update the layer tree and paint ThebesLayers. If this is not specified,</span>
+<a name="l01253"></a>01253 <span class="comment">     * we may still have to do it if the layer tree lost ThebesLayer contents</span>
+<a name="l01254"></a>01254 <span class="comment">     * we need for compositing. */</span>
+<a name="l01255"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1bb5bc949bf0aa0373457384307a33c5ab90b377211e95c4bcd189e6054349dd8">01255</a>     PAINT_LAYERS = 0x01,
+<a name="l01256"></a>01256     <span class="comment">/* Composite layers to the window. */</span>
+<a name="l01257"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1bb5bc949bf0aa0373457384307a33c5a8819c3984b336705755ce8a9309798ad">01257</a>     PAINT_COMPOSITE = 0x02,
+<a name="l01258"></a>01258   };
+<a name="l01259"></a>01259   <span class="keyword">virtual</span> <span class="keywordtype">void</span> Paint(nsView* aViewToPaint, <span class="keyword">const</span> <a class="code" href="../../d9/df6/classns_region.html">nsRegion</a>&amp; aDirtyRegion,
+<a name="l01260"></a>01260                      uint32_t aFlags) = 0;
+<a name="l01261"></a>01261   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> HandleEvent(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>*       aFrame,
+<a name="l01262"></a>01262                                <a class="code" href="../../db/dbf/classns_g_u_i_event.html">nsGUIEvent</a>*     <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#ab852bb16cdfba40e79c74669f9f7f2a2">aEvent</a>,
+<a name="l01263"></a>01263                                <span class="keywordtype">bool</span>            aDontRetargetEvents,
+<a name="l01264"></a>01264                                <a class="code" href="../../d7/dfb/ns_event_8h.html#a2561010f6e7e387df33ec5468140580b">nsEventStatus</a>*  aEventStatus) = 0;
+<a name="l01265"></a>01265   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> ShouldIgnoreInvalidation() = 0;
+<a name="l01273"></a>01273   <span class="keyword">virtual</span> <span class="keywordtype">void</span> WillPaint() = 0;
+<a name="l01279"></a>01279   <span class="keyword">virtual</span> <span class="keywordtype">void</span> WillPaintWindow() = 0;
+<a name="l01285"></a>01285   <span class="keyword">virtual</span> <span class="keywordtype">void</span> DidPaintWindow() = 0;
+<a name="l01286"></a>01286 
+<a name="l01291"></a>01291   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ScheduleViewManagerFlush() = 0;
+<a name="l01292"></a>01292   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ClearMouseCaptureOnView(nsView* aView) = 0;
+<a name="l01293"></a>01293   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> IsVisible() = 0;
+<a name="l01294"></a>01294   <span class="keyword">virtual</span> <span class="keywordtype">void</span> DispatchSynthMouseMove(<a class="code" href="../../db/dbf/classns_g_u_i_event.html">nsGUIEvent</a> *<a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#ab852bb16cdfba40e79c74669f9f7f2a2">aEvent</a>, <span class="keywordtype">bool</span> aFlushOnHoverChange) = 0;
+<a name="l01295"></a>01295 
+<a name="l01296"></a>01296   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SizeOfIncludingThis(mozilla::MallocSizeOf aMallocSizeOf,
+<a name="l01297"></a>01297                                    <a class="code" href="../../d3/d8d/structns_arena_memory_stats.html">nsArenaMemoryStats</a> *aArenaObjectsSize,
+<a name="l01298"></a>01298                                    <span class="keywordtype">size_t</span> *aPresShellSize,
+<a name="l01299"></a>01299                                    <span class="keywordtype">size_t</span> *aStyleSetsSize,
+<a name="l01300"></a>01300                                    <span class="keywordtype">size_t</span> *aTextRunsSize,
+<a name="l01301"></a>01301                                    <span class="keywordtype">size_t</span> *aPresContextSize) = 0;
+<a name="l01302"></a>01302 
+<a name="l01306"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a51ad5e266f3a769fd6d403825fda92b6">01306</a>   uint32_t <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a51ad5e266f3a769fd6d403825fda92b6">FontSizeInflationEmPerLine</a>()<span class="keyword"> const </span>{
+<a name="l01307"></a>01307     <span class="keywordflow">return</span> mFontSizeInflationEmPerLine;
+<a name="l01308"></a>01308   }
+<a name="l01309"></a>01309 
+<a name="l01310"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa59cac74ddfd63363e09d450dc3cf735">01310</a>   uint32_t <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa59cac74ddfd63363e09d450dc3cf735">FontSizeInflationMinTwips</a>()<span class="keyword"> const </span>{
+<a name="l01311"></a>01311     <span class="keywordflow">return</span> mFontSizeInflationMinTwips;
+<a name="l01312"></a>01312   }
+<a name="l01313"></a>01313 
+<a name="l01314"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a0a45ee207bae45c7182359201002f1ef">01314</a>   uint32_t <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a0a45ee207bae45c7182359201002f1ef">FontSizeInflationLineThreshold</a>()<span class="keyword"> const </span>{
+<a name="l01315"></a>01315     <span class="keywordflow">return</span> mFontSizeInflationLineThreshold;
+<a name="l01316"></a>01316   }
+<a name="l01317"></a>01317 
+<a name="l01318"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa75e37d1116676bf09d938941b374534">01318</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa75e37d1116676bf09d938941b374534">FontSizeInflationForceEnabled</a>()<span class="keyword"> const </span>{
+<a name="l01319"></a>01319     <span class="keywordflow">return</span> mFontSizeInflationForceEnabled;
+<a name="l01320"></a>01320   }
+<a name="l01321"></a>01321 
+<a name="l01322"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a5afe07558c082c508a2089f83a7ca52e">01322</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a5afe07558c082c508a2089f83a7ca52e">FontSizeInflationDisabledInMasterProcess</a>()<span class="keyword"> const </span>{
+<a name="l01323"></a>01323     <span class="keywordflow">return</span> mFontSizeInflationDisabledInMasterProcess;
+<a name="l01324"></a>01324   }
+<a name="l01325"></a>01325 
+<a name="l01332"></a>01332   <span class="keywordtype">bool</span> FontSizeInflationEnabled();
+<a name="l01333"></a>01333 
+<a name="l01340"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#adeab30bc8693a5f91bcf0cf10db9a1e9">01340</a>   <span class="keywordtype">void</span> NotifyFontSizeInflationEnabledIsDirty()
+<a name="l01341"></a>01341   {
+<a name="l01342"></a>01342     mFontSizeInflationEnabledIsDirty = <span class="keyword">true</span>;
+<a name="l01343"></a>01343   }
+<a name="l01344"></a>01344 
+<a name="l01345"></a>01345   <span class="keyword">virtual</span> <span class="keywordtype">void</span> AddInvalidateHiddenPresShellObserver(nsRefreshDriver *aDriver) = 0;
+<a name="l01346"></a>01346 
+<a name="l01347"></a>01347   <span class="keywordtype">void</span> InvalidatePresShellIfHidden();
+<a name="l01348"></a>01348 
+<a name="l01349"></a>01349   <span class="comment">// Schedule an update of the list of visible images.</span>
+<a name="l01350"></a>01350   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ScheduleImageVisibilityUpdate() = 0;
+<a name="l01351"></a>01351 
+<a name="l01352"></a>01352   <span class="comment">// Clears the current list of visible images on this presshell and replaces it</span>
+<a name="l01353"></a>01353   <span class="comment">// with images that are in the display list aList.</span>
+<a name="l01354"></a>01354   <span class="keyword">virtual</span> <span class="keywordtype">void</span> RebuildImageVisibility(<span class="keyword">const</span> <a class="code" href="../../dc/da5/classns_display_list.html">nsDisplayList</a>&amp; aList) = 0;
+<a name="l01355"></a>01355 
+<a name="l01356"></a>01356   <span class="comment">// Ensures the image is in the list of visible images.</span>
+<a name="l01357"></a>01357   <span class="keyword">virtual</span> <span class="keywordtype">void</span> EnsureImageInVisibleList(<a class="code" href="../../dd/d86/interfacens_i_image_loading_content.html">nsIImageLoadingContent</a>* aImage) = 0;
+<a name="l01358"></a>01358 
+<a name="l01362"></a>01362 <span class="keyword">protected</span>:
+<a name="l01363"></a>01363   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> AddRefreshObserverExternal(<a class="code" href="../../d2/dd1/classns_a_refresh_observer.html">nsARefreshObserver</a>* aObserver,
+<a name="l01364"></a>01364                                             <a class="code" href="../../dd/dee/moz_flush_type_8h.html#aa7eb27faeda638af0d73500716895f4b">mozFlushType</a> aFlushType);
+<a name="l01365"></a>01365   <span class="keywordtype">bool</span> AddRefreshObserverInternal(<a class="code" href="../../d2/dd1/classns_a_refresh_observer.html">nsARefreshObserver</a>* aObserver,
+<a name="l01366"></a>01366                                     <a class="code" href="../../dd/dee/moz_flush_type_8h.html#aa7eb27faeda638af0d73500716895f4b">mozFlushType</a> aFlushType);
+<a name="l01367"></a>01367   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> RemoveRefreshObserverExternal(<a class="code" href="../../d2/dd1/classns_a_refresh_observer.html">nsARefreshObserver</a>* aObserver,
+<a name="l01368"></a>01368                                                <a class="code" href="../../dd/dee/moz_flush_type_8h.html#aa7eb27faeda638af0d73500716895f4b">mozFlushType</a> aFlushType);
+<a name="l01369"></a>01369   <span class="keywordtype">bool</span> RemoveRefreshObserverInternal(<a class="code" href="../../d2/dd1/classns_a_refresh_observer.html">nsARefreshObserver</a>* aObserver,
+<a name="l01370"></a>01370                                        <a class="code" href="../../dd/dee/moz_flush_type_8h.html#aa7eb27faeda638af0d73500716895f4b">mozFlushType</a> aFlushType);
+<a name="l01371"></a>01371 
+<a name="l01377"></a>01377   <span class="keywordtype">void</span> RecomputeFontSizeInflationEnabled();
+<a name="l01378"></a>01378 
+<a name="l01379"></a>01379 <span class="keyword">public</span>:
+<a name="l01380"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad195a605ef97da18fe1f019ca6a9adfd">01380</a>   <span class="keywordtype">bool</span> AddRefreshObserver(<a class="code" href="../../d2/dd1/classns_a_refresh_observer.html">nsARefreshObserver</a>* aObserver,
+<a name="l01381"></a>01381                             <a class="code" href="../../dd/dee/moz_flush_type_8h.html#aa7eb27faeda638af0d73500716895f4b">mozFlushType</a> aFlushType) {
+<a name="l01382"></a>01382 <span class="preprocessor">#ifdef _IMPL_NS_LAYOUT</span>
+<a name="l01383"></a>01383 <span class="preprocessor"></span>    <span class="keywordflow">return</span> AddRefreshObserverInternal(aObserver, aFlushType);
+<a name="l01384"></a>01384 <span class="preprocessor">#else</span>
+<a name="l01385"></a>01385 <span class="preprocessor"></span>    <span class="keywordflow">return</span> AddRefreshObserverExternal(aObserver, aFlushType);
+<a name="l01386"></a>01386 <span class="preprocessor">#endif</span>
+<a name="l01387"></a>01387 <span class="preprocessor"></span>  }
+<a name="l01388"></a>01388 
+<a name="l01389"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a255567eede5a3be18d55ee331b77e462">01389</a>   <span class="keywordtype">bool</span> RemoveRefreshObserver(<a class="code" href="../../d2/dd1/classns_a_refresh_observer.html">nsARefreshObserver</a>* aObserver,
+<a name="l01390"></a>01390                                <a class="code" href="../../dd/dee/moz_flush_type_8h.html#aa7eb27faeda638af0d73500716895f4b">mozFlushType</a> aFlushType) {
+<a name="l01391"></a>01391 <span class="preprocessor">#ifdef _IMPL_NS_LAYOUT</span>
+<a name="l01392"></a>01392 <span class="preprocessor"></span>    <span class="keywordflow">return</span> RemoveRefreshObserverInternal(aObserver, aFlushType);
+<a name="l01393"></a>01393 <span class="preprocessor">#else</span>
+<a name="l01394"></a>01394 <span class="preprocessor"></span>    <span class="keywordflow">return</span> RemoveRefreshObserverExternal(aObserver, aFlushType);
+<a name="l01395"></a>01395 <span class="preprocessor">#endif</span>
+<a name="l01396"></a>01396 <span class="preprocessor"></span>  }
+<a name="l01397"></a>01397 
+<a name="l01401"></a>01401   <span class="keyword">static</span> <span class="keywordtype">void</span> InitializeStatics();
+<a name="l01402"></a>01402   <span class="keyword">static</span> <span class="keywordtype">void</span> ReleaseStatics();
+<a name="l01403"></a>01403 
+<a name="l01404"></a>01404   <span class="comment">// If a frame in the subtree rooted at aFrame is capturing the mouse then</span>
+<a name="l01405"></a>01405   <span class="comment">// clears that capture.</span>
+<a name="l01406"></a>01406   <span class="keyword">static</span> <span class="keywordtype">void</span> ClearMouseCapture(<a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>* aFrame);
+<a name="l01407"></a>01407 
+<a name="l01408"></a>01408   <span class="keywordtype">void</span> SetScrollPositionClampingScrollPortSize(<a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aWidth, <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aHeight);
+<a name="l01409"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a37ea27e1277a38ee1d10faf70d9f5278">01409</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a37ea27e1277a38ee1d10faf70d9f5278">IsScrollPositionClampingScrollPortSizeSet</a>() {
+<a name="l01410"></a>01410     <span class="keywordflow">return</span> mScrollPositionClampingScrollPortSizeSet;
+<a name="l01411"></a>01411   }
+<a name="l01412"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a9588499c208f25123b5b38b4ad8fa10b">01412</a>   <a class="code" href="../../d5/d98/structns_size.html">nsSize</a> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a9588499c208f25123b5b38b4ad8fa10b">GetScrollPositionClampingScrollPortSize</a>() {
+<a name="l01413"></a>01413     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(mScrollPositionClampingScrollPortSizeSet, <span class="stringliteral">&quot;asking for scroll port when its not set?&quot;</span>);
+<a name="l01414"></a>01414     <span class="keywordflow">return</span> mScrollPositionClampingScrollPortSize;
+<a name="l01415"></a>01415   }
+<a name="l01416"></a>01416 
+<a name="l01417"></a>01417   <span class="keywordtype">void</span> SetContentDocumentFixedPositionMargins(<span class="keyword">const</span> <a class="code" href="../../d0/d85/structns_margin.html">nsMargin</a>&amp; aMargins);
+<a name="l01418"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a5cd4a0370012f424e7b4251ffb8759a4">01418</a>   <span class="keyword">const</span> <a class="code" href="../../d0/d85/structns_margin.html">nsMargin</a>&amp; <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a5cd4a0370012f424e7b4251ffb8759a4">GetContentDocumentFixedPositionMargins</a>() {
+<a name="l01419"></a>01419     <span class="keywordflow">return</span> mContentDocumentFixedPositionMargins;
+<a name="l01420"></a>01420   }
+<a name="l01421"></a>01421 
+<a name="l01422"></a>01422   <span class="keyword">virtual</span> <span class="keywordtype">void</span> WindowSizeMoveDone() = 0;
+<a name="l01423"></a>01423   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SysColorChanged() = 0;
+<a name="l01424"></a>01424   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ThemeChanged() = 0;
+<a name="l01425"></a>01425   <span class="keyword">virtual</span> <span class="keywordtype">void</span> BackingScaleFactorChanged() = 0;
+<a name="l01426"></a>01426 
+<a name="l01427"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#addc0ebddbcd56fb9e59f616ab2ed0a06">01427</a>   <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#addc0ebddbcd56fb9e59f616ab2ed0a06">MaxLineBoxWidth</a>() {
+<a name="l01428"></a>01428     <span class="keywordflow">return</span> mMaxLineBoxWidth;
+<a name="l01429"></a>01429   }
+<a name="l01430"></a>01430 
+<a name="l01431"></a>01431   <span class="keywordtype">void</span> SetMaxLineBoxWidth(<a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aMaxLineBoxWidth);
+<a name="l01432"></a>01432 
+<a name="l01441"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a182424018bc64807bf9347f66ac076db">01441</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a182424018bc64807bf9347f66ac076db">IsReflowOnZoomPending</a>() {
+<a name="l01442"></a>01442     <span class="keywordflow">return</span> mReflowOnZoomPending;
+<a name="l01443"></a>01443   }
+<a name="l01444"></a>01444 
+<a name="l01449"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a59bd588f2cfaeedd77b506b57e13aa4b">01449</a>   <span class="keywordtype">void</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a59bd588f2cfaeedd77b506b57e13aa4b">ClearReflowOnZoomPending</a>() {
+<a name="l01450"></a>01450     mReflowOnZoomPending = <span class="keyword">false</span>;
+<a name="l01451"></a>01451   }
+<a name="l01452"></a>01452 
+<a name="l01453"></a>01453 <span class="keyword">protected</span>:
+<a name="l01454"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a53da52e54502617924973e4d6025a66b">01454</a>   <span class="keyword">friend</span> <span class="keyword">class </span>nsRefreshDriver;
+<a name="l01455"></a>01455 
+<a name="l01456"></a>01456   <span class="comment">// IMPORTANT: The ownership implicit in the following member variables</span>
+<a name="l01457"></a>01457   <span class="comment">// has been explicitly checked.  If you add any members to this class,</span>
+<a name="l01458"></a>01458   <span class="comment">// please make the ownership explicit (pinkerton, scc).</span>
+<a name="l01459"></a>01459 
+<a name="l01460"></a>01460   <span class="comment">// These are the same Document and PresContext owned by the DocViewer.</span>
+<a name="l01461"></a>01461   <span class="comment">// we must share ownership.</span>
+<a name="l01462"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aab1b6dab3a8637399077f9c24847f3d7">01462</a>   <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>*              <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aab1b6dab3a8637399077f9c24847f3d7">mDocument</a>;      <span class="comment">// [STRONG]</span>
+<a name="l01463"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a9d300f673c8cb7a1315ab0eec748abce">01463</a>   <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>*            <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a9d300f673c8cb7a1315ab0eec748abce">mPresContext</a>;   <span class="comment">// [STRONG]</span>
+<a name="l01464"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#af0a70eb45708576c2fdd7d63929452c0">01464</a>   <a class="code" href="../../d2/db0/classns_style_set.html">nsStyleSet</a>*               <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#af0a70eb45708576c2fdd7d63929452c0">mStyleSet</a>;      <span class="comment">// [OWNS]</span>
+<a name="l01465"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a08357440bf5d6ad5bb3ce9dfedf6c038">01465</a>   <a class="code" href="../../de/d61/classns_c_s_s_frame_constructor.html">nsCSSFrameConstructor</a>*    <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a08357440bf5d6ad5bb3ce9dfedf6c038">mFrameConstructor</a>; <span class="comment">// [OWNS]</span>
+<a name="l01466"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1b9ba1009ed6d80e49725e4eaa3272d5">01466</a>   nsViewManager*           <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1b9ba1009ed6d80e49725e4eaa3272d5">mViewManager</a>;   <span class="comment">// [WEAK] docViewer owns it so I don&#39;t have to</span>
+<a name="l01467"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a19a53ec1908c0abe95397ab4ac7fc0f1">01467</a>   <a class="code" href="../../de/d05/classns_pres_arena.html">nsPresArena</a>               <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a19a53ec1908c0abe95397ab4ac7fc0f1">mFrameArena</a>;
+<a name="l01468"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a14c8b901063efdfb9752c4ecd2451111">01468</a>   nsFrameSelection*         <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a14c8b901063efdfb9752c4ecd2451111">mSelection</a>;
+<a name="l01469"></a>01469   <span class="comment">// Pointer into mFrameConstructor - this is purely so that FrameManager() and</span>
+<a name="l01470"></a>01470   <span class="comment">// GetRootFrame() can be inlined:</span>
+<a name="l01471"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aca33bb6762bb1cbe2d249d18fcb73840">01471</a>   <a class="code" href="../../d4/dd3/classns_frame_manager_base.html">nsFrameManagerBase</a>*       <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aca33bb6762bb1cbe2d249d18fcb73840">mFrameManager</a>;
+<a name="l01472"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#adec0ca9b3eb8743084e405f8e711832b">01472</a>   <a class="code" href="../../d5/dcc/ns_i_weak_reference_utils_8h.html#a69805d7debf405925e157adc001187ad">nsWeakPtr</a>                 <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#adec0ca9b3eb8743084e405f8e711832b">mForwardingContainer</a>;
+<a name="l01473"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a61db5d9ead206810a2900364ebf72fac">01473</a>   nsRefreshDriver*          <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a61db5d9ead206810a2900364ebf72fac">mHiddenInvalidationObserverRefreshDriver</a>;
+<a name="l01474"></a>01474 <span class="preprocessor">#ifdef ACCESSIBILITY</span>
+<a name="l01475"></a>01475 <span class="preprocessor"></span>  <a class="code" href="../../dc/da1/classmozilla_1_1a11y_1_1_doc_accessible.html">mozilla::a11y::DocAccessible</a>* mDocAccessible;
+<a name="l01476"></a>01476 <span class="preprocessor">#endif</span>
+<a name="l01477"></a>01477 <span class="preprocessor"></span>
+<a name="l01478"></a>01478 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l01479"></a>01479 <span class="preprocessor"></span>  <a class="code" href="../../d7/d20/classns_i_frame.html">nsIFrame</a>*                 mDrawEventTargetFrame;
+<a name="l01480"></a>01480   <span class="comment">// Ensure that every allocation from the PresArena is eventually freed.</span>
+<a name="l01481"></a>01481   uint32_t                  mPresArenaAllocCount;
+<a name="l01482"></a>01482 <span class="preprocessor">#endif</span>
+<a name="l01483"></a>01483 <span class="preprocessor"></span>
+<a name="l01484"></a>01484   <span class="comment">// Count of the number of times this presshell has been painted to a window.</span>
+<a name="l01485"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a321e134c5716469ed9a4d4c671c869f6">01485</a>   uint64_t                  <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a321e134c5716469ed9a4d4c671c869f6">mPaintCount</a>;
+<a name="l01486"></a>01486 
+<a name="l01487"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#abe2eabacdfbc778c5657b5985b3406e4">01487</a>   <a class="code" href="../../d5/d98/structns_size.html">nsSize</a>                    <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#abe2eabacdfbc778c5657b5985b3406e4">mScrollPositionClampingScrollPortSize</a>;
+<a name="l01488"></a>01488 
+<a name="l01489"></a>01489   <span class="comment">// This margin is intended to be used when laying out fixed position children</span>
+<a name="l01490"></a>01490   <span class="comment">// on this PresShell&#39;s viewport frame. See the documentation of</span>
+<a name="l01491"></a>01491   <span class="comment">// nsIDOMWindowUtils.setContentDocumentFixedPositionMargins for details of</span>
+<a name="l01492"></a>01492   <span class="comment">// their use.</span>
+<a name="l01493"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a3d8838aded10da256cb3103a63cb055d">01493</a>   <a class="code" href="../../d0/d85/structns_margin.html">nsMargin</a>                  <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a3d8838aded10da256cb3103a63cb055d">mContentDocumentFixedPositionMargins</a>;
+<a name="l01494"></a>01494 
+<a name="l01495"></a>01495   <span class="comment">// A list of weak frames. This is a pointer to the last item in the list.</span>
+<a name="l01496"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aacfd1baed294d58710def534b890b3c8">01496</a>   <a class="code" href="../../d3/d0c/classns_weak_frame.html">nsWeakFrame</a>*              <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aacfd1baed294d58710def534b890b3c8">mWeakFrames</a>;
+<a name="l01497"></a>01497 
+<a name="l01498"></a>01498   <span class="comment">// Most recent canvas background color.</span>
+<a name="l01499"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a2ee3b155751cff7b543807df06925239">01499</a>   <a class="code" href="../../d9/d6a/ns_color_8h.html#abee756dec22b05b8b36337fea5612041">nscolor</a>                   <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a2ee3b155751cff7b543807df06925239">mCanvasBackgroundColor</a>;
+<a name="l01500"></a>01500 
+<a name="l01501"></a>01501   <span class="comment">// Used to force allocation and rendering of proportionally more or</span>
+<a name="l01502"></a>01502   <span class="comment">// less pixels in the given dimension.</span>
+<a name="l01503"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ac669c20db9e44883a0334b1b287189e2">01503</a>   <span class="keywordtype">float</span>                     <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ac669c20db9e44883a0334b1b287189e2">mXResolution</a>;
+<a name="l01504"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a001ff655e061ed11852bdaefe89c30dc">01504</a>   <span class="keywordtype">float</span>                     <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a001ff655e061ed11852bdaefe89c30dc">mYResolution</a>;
+<a name="l01505"></a>01505 
+<a name="l01506"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#abef058d710163f37fa993e17cc01d6bf">01506</a>   int16_t                   <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#abef058d710163f37fa993e17cc01d6bf">mSelectionFlags</a>;
+<a name="l01507"></a>01507 
+<a name="l01508"></a>01508   <span class="comment">// Flags controlling how our document is rendered.  These persist</span>
+<a name="l01509"></a>01509   <span class="comment">// between paints and so are tied with retained layer pixels.</span>
+<a name="l01510"></a>01510   <span class="comment">// PresShell flushes retained layers when the rendering state</span>
+<a name="l01511"></a>01511   <span class="comment">// changes in a way that prevents us from being able to (usefully)</span>
+<a name="l01512"></a>01512   <span class="comment">// re-use old pixels.</span>
+<a name="l01513"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a9358b4c7fb1f4cd0ee21809f49c47e6f">01513</a>   RenderFlags               <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a9358b4c7fb1f4cd0ee21809f49c47e6f">mRenderFlags</a>;
+<a name="l01514"></a>01514 
+<a name="l01515"></a>01515   <span class="comment">// Indicates that the whole document must be restyled.  Changes to scoped</span>
+<a name="l01516"></a>01516   <span class="comment">// style sheets are recorded in mChangedScopeStyleRoots rather than here</span>
+<a name="l01517"></a>01517   <span class="comment">// in mStylesHaveChanged.</span>
+<a name="l01518"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a47b349aad8802029136a93e699af9702">01518</a>   <span class="keywordtype">bool</span>                      mStylesHaveChanged : 1;
+<a name="l01519"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a3cacc43c8e54380d76ffd443d86dbd06">01519</a>   <span class="keywordtype">bool</span>                      mDidInitialize : 1;
+<a name="l01520"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ac4fb8b0434bd7d75ff9c9b46d38d9d3e">01520</a>   <span class="keywordtype">bool</span>                      mIsDestroying : 1;
+<a name="l01521"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#af7287865f3e417def132ddd1f8bc5cc2">01521</a>   <span class="keywordtype">bool</span>                      mIsZombie : 1;
+<a name="l01522"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa1516f50b3c5e04619ed56af9df85b9e">01522</a>   <span class="keywordtype">bool</span>                      mIsReflowing : 1;
+<a name="l01523"></a>01523 
+<a name="l01524"></a>01524   <span class="comment">// For all documents we initially lock down painting.</span>
+<a name="l01525"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a3969209cd88016e98ac81cefb4bf525c">01525</a>   <span class="keywordtype">bool</span>                      mPaintingSuppressed : 1;
+<a name="l01526"></a>01526 
+<a name="l01527"></a>01527   <span class="comment">// Whether or not form controls should use nsITheme in this shell.</span>
+<a name="l01528"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a051a5c8269a411febe9a1eed988d9e95">01528</a>   <span class="keywordtype">bool</span>                      mIsThemeSupportDisabled : 1;
+<a name="l01529"></a>01529 
+<a name="l01530"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#adf03383e4297080e30a69a4140e8d0b9">01530</a>   <span class="keywordtype">bool</span>                      mIsActive : 1;
+<a name="l01531"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a4e9ecf16d179ff647819c6ffc9db42c4">01531</a>   <span class="keywordtype">bool</span>                      mFrozen : 1;
+<a name="l01532"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8e5bb07d4363ad8848ef18912bb57188">01532</a>   <span class="keywordtype">bool</span>                      mIsFirstPaint : 1;
+<a name="l01533"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a13b6fa87945af069a39e1630a9b89ecf">01533</a>   <span class="keywordtype">bool</span>                      mObservesMutationsForPrint : 1;
+<a name="l01534"></a>01534 
+<a name="l01535"></a>01535   <span class="comment">// If true, we have a reflow scheduled. Guaranteed to be false if</span>
+<a name="l01536"></a>01536   <span class="comment">// mReflowContinueTimer is non-null.</span>
+<a name="l01537"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ae87f63525d40a9d9cf845efe697d1c31">01537</a>   <span class="keywordtype">bool</span>                      mReflowScheduled : 1;
+<a name="l01538"></a>01538 
+<a name="l01539"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a3c548d4405daaf3e89d934935440ff5a">01539</a>   <span class="keywordtype">bool</span>                      mSuppressInterruptibleReflows : 1;
+<a name="l01540"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ab690913d36709d388394b1c764d6710b">01540</a>   <span class="keywordtype">bool</span>                      mScrollPositionClampingScrollPortSizeSet : 1;
+<a name="l01541"></a>01541 
+<a name="l01542"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8275dda33721bb720bd00282c901e47b">01542</a>   uint32_t                  <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8275dda33721bb720bd00282c901e47b">mPresShellId</a>;
+<a name="l01543"></a>01543 
+<a name="l01544"></a>01544   <span class="comment">// List of subtrees rooted at style scope roots that need to be restyled.</span>
+<a name="l01545"></a>01545   <span class="comment">// When a change to a scoped style sheet is made, we add the style scope</span>
+<a name="l01546"></a>01546   <span class="comment">// root to this array rather than setting mStylesHaveChanged = true, since</span>
+<a name="l01547"></a>01547   <span class="comment">// we know we don&#39;t need to restyle the whole document.  However, if in the</span>
+<a name="l01548"></a>01548   <span class="comment">// same update block we have already had other changes that require</span>
+<a name="l01549"></a>01549   <span class="comment">// the whole document to be restyled (i.e., mStylesHaveChanged is already</span>
+<a name="l01550"></a>01550   <span class="comment">// true), then we don&#39;t bother adding the scope root here.</span>
+<a name="l01551"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad703eb0bd1ff2811b9cc6f2c8bfab0cd">01551</a>   <a class="code" href="../../d2/dcf/classns_auto_t_array.html">nsAutoTArray&lt;nsRefPtr&lt;mozilla::dom::Element&gt;</a>,1&gt; <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#ad703eb0bd1ff2811b9cc6f2c8bfab0cd">mChangedScopeStyleRoots</a>;
+<a name="l01552"></a>01552 
+<a name="l01553"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a76c3343bb2fdf3a430620039f730bfab">01553</a>   <span class="keyword">static</span> <a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>*        <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a76c3343bb2fdf3a430620039f730bfab">gKeyDownTarget</a>;
+<a name="l01554"></a>01554 
+<a name="l01555"></a>01555   <span class="comment">// Cached font inflation values. This is done to prevent changing of font</span>
+<a name="l01556"></a>01556   <span class="comment">// inflation until a page is reloaded.</span>
+<a name="l01557"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#af6626179b1a7d7d001bdb2efc9724ba9">01557</a>   uint32_t <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#af6626179b1a7d7d001bdb2efc9724ba9">mFontSizeInflationEmPerLine</a>;
+<a name="l01558"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a7dee576953fa3aed2d465c367ddd6713">01558</a>   uint32_t <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a7dee576953fa3aed2d465c367ddd6713">mFontSizeInflationMinTwips</a>;
+<a name="l01559"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa2ffc4500a772120d7abc4b1edc5a477">01559</a>   uint32_t <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#aa2ffc4500a772120d7abc4b1edc5a477">mFontSizeInflationLineThreshold</a>;
+<a name="l01560"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8133acaafcf6e7cdc9234e7d27702039">01560</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a8133acaafcf6e7cdc9234e7d27702039">mFontSizeInflationForceEnabled</a>;
+<a name="l01561"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1214d1fe9cfa902367afc089ffb14db5">01561</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1214d1fe9cfa902367afc089ffb14db5">mFontSizeInflationDisabledInMasterProcess</a>;
+<a name="l01562"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a3252a615fab441f3812987a1e5a7ee56">01562</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a3252a615fab441f3812987a1e5a7ee56">mFontSizeInflationEnabled</a>;
+<a name="l01563"></a>01563 
+<a name="l01564"></a>01564   <span class="comment">// Dirty bit indicating that mFontSizeInflationEnabled needs to be recomputed.</span>
+<a name="l01565"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a0df0b5f3a7eaf600384801d7ff36fcaa">01565</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a0df0b5f3a7eaf600384801d7ff36fcaa">mFontSizeInflationEnabledIsDirty</a>;
+<a name="l01566"></a>01566 
+<a name="l01567"></a>01567   <span class="comment">// Flag to indicate whether or not there is a reflow on zoom event pending.</span>
+<a name="l01568"></a>01568   <span class="comment">// See IsReflowOnZoomPending() for more information.</span>
+<a name="l01569"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1ee1a3af4d355be7700a9afb0094c155">01569</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a1ee1a3af4d355be7700a9afb0094c155">mReflowOnZoomPending</a>;
+<a name="l01570"></a>01570 
+<a name="l01571"></a>01571   <span class="comment">// The maximum width of a line box. Text on a single line that exceeds this</span>
+<a name="l01572"></a>01572   <span class="comment">// width will be wrapped. A value of 0 indicates that no limit is enforced.</span>
+<a name="l01573"></a><a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a28a30d67e77b205cecb60de0582edcb5">01573</a>   <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../d3/d8f/classns_i_pres_shell.html#a28a30d67e77b205cecb60de0582edcb5">mMaxLineBoxWidth</a>;
+<a name="l01574"></a>01574 };
+<a name="l01575"></a>01575 
+<a name="l01576"></a>01576 <span class="preprocessor">#endif </span><span class="comment">/* nsIPresShell_h___ */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../db/dc7/ns_i_pres_shell_8h.html">nsIPresShell.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:31に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

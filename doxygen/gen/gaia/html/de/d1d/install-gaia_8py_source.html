@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: install-gaia.py ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/d1d/install-gaia_8py.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">install-gaia.py</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/d1d/install-gaia_8py.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html">00001</a> <span class="stringliteral">&quot;&quot;&quot;Usage: python %prog [ADB_PATH] [REMOTE_PATH] [PROFILE_FOLDER]</span>
+<a name="l00002"></a>00002 <span class="stringliteral"></span>
+<a name="l00003"></a>00003 <span class="stringliteral">ADB_PATH is the path to the |adb| executable we should run.</span>
+<a name="l00004"></a>00004 <span class="stringliteral">REMOTE_PATH is the path to push the gaia webapps directory to.</span>
+<a name="l00005"></a>00005 <span class="stringliteral">PROFILE_FOLDER is the name of the profile folder. defaults to `profile`</span>
+<a name="l00006"></a>00006 <span class="stringliteral"></span>
+<a name="l00007"></a>00007 <span class="stringliteral">Used by |make install-gaia| to push files to a device.  You shouldn&#39;t run</span>
+<a name="l00008"></a>00008 <span class="stringliteral">this file directly.</span>
+<a name="l00009"></a>00009 <span class="stringliteral"></span>
+<a name="l00010"></a>00010 <span class="stringliteral">&quot;&quot;&quot;</span>
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="keyword">import</span> sys
+<a name="l00013"></a>00013 <span class="keyword">import</span> os
+<a name="l00014"></a>00014 <span class="keyword">import</span> hashlib
+<a name="l00015"></a>00015 <span class="keyword">import</span> subprocess
+<a name="l00016"></a>00016 <span class="keyword">from</span> tempfile <span class="keyword">import</span> mkstemp
+<a name="l00017"></a>00017 
+<a name="l00018"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a2fe3cbf73378b5878b8388ed3b1b0424">00018</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a2fe3cbf73378b5878b8388ed3b1b0424">compute_local_hash</a>(filename, hashes):
+<a name="l00019"></a>00019     h = hashlib.sha1()
+<a name="l00020"></a>00020     with <a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(filename,<span class="stringliteral">&#39;rb&#39;</span>) <span class="keyword">as</span> f:
+<a name="l00021"></a>00021         <span class="keywordflow">for</span> chunk <span class="keywordflow">in</span> iter(<span class="keyword">lambda</span>: f.read(256 * h.block_size), b<span class="stringliteral">&#39;&#39;</span>):
+<a name="l00022"></a>00022              h.update(chunk)
+<a name="l00023"></a>00023     hashes[filename] = h.hexdigest()
+<a name="l00024"></a>00024 
+<a name="l00025"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#ad79577dde01b1ce4b50722309e18850b">00025</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#ad79577dde01b1ce4b50722309e18850b">compute_local_hashes_in_dir</a>(dir, hashes):
+<a name="l00026"></a>00026     <span class="keyword">def </span>visit(arg, dirname, names):
+<a name="l00027"></a>00027         <span class="keywordflow">for</span> filename <span class="keywordflow">in</span> [os.path.join(dirname, name) <span class="keywordflow">for</span> name <span class="keywordflow">in</span> names]:
+<a name="l00028"></a>00028             <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.isfile(filename):
+<a name="l00029"></a>00029                 <span class="keywordflow">continue</span>
+<a name="l00030"></a>00030             <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a2fe3cbf73378b5878b8388ed3b1b0424">compute_local_hash</a>(filename, hashes)
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032     os.path.walk(dir, visit, <span class="keywordtype">None</span>)
+<a name="l00033"></a>00033 
+<a name="l00034"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a80f32ef00f96b04bd34b8924ff26bbef">00034</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a80f32ef00f96b04bd34b8924ff26bbef">compute_local_hashes</a>():
+<a name="l00035"></a>00035     hashes = {}
+<a name="l00036"></a>00036     <a class="code" href="../../db/d30/namespaceinstall-gaia.html#ad79577dde01b1ce4b50722309e18850b">compute_local_hashes_in_dir</a>(<span class="stringliteral">&#39;webapps&#39;</span>, hashes)
+<a name="l00037"></a>00037     <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a2fe3cbf73378b5878b8388ed3b1b0424">compute_local_hash</a>(<span class="stringliteral">&#39;user.js&#39;</span>, hashes)
+<a name="l00038"></a>00038     <span class="keywordflow">return</span> hashes
+<a name="l00039"></a>00039 
+<a name="l00040"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a795e741aede08720bc215192349bf4c0">00040</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a795e741aede08720bc215192349bf4c0">adb_push</a>(local, remote):
+<a name="l00041"></a>00041     <span class="keyword">global</span> adb_cmd
+<a name="l00042"></a>00042     subprocess.check_call([adb_cmd, <span class="stringliteral">&#39;push&#39;</span>, local, remote])
+<a name="l00043"></a>00043 
+<a name="l00044"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a619d8dc2b3088d87b65f035e563a8efd">00044</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a619d8dc2b3088d87b65f035e563a8efd">adb_shell</a>(cmd, ignore_error=False):
+<a name="l00045"></a>00045     <span class="keyword">global</span> adb_cmd
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047     <span class="comment"># Output the return code so we can check whether the command executed</span>
+<a name="l00048"></a>00048     <span class="comment"># successfully.</span>
+<a name="l00049"></a>00049     new_cmd = cmd + <span class="stringliteral">&#39;; echo &quot;RETURN CODE: $?&quot;&#39;</span>
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051     <span class="comment"># universal_newlines=True because adb shell returns CRLF separators.</span>
+<a name="l00052"></a>00052     proc = subprocess.Popen([adb_cmd, <span class="stringliteral">&#39;shell&#39;</span>, new_cmd],
+<a name="l00053"></a>00053                             stdout=subprocess.PIPE,
+<a name="l00054"></a>00054                             stderr=subprocess.PIPE,
+<a name="l00055"></a>00055                             universal_newlines=<span class="keyword">True</span>)
+<a name="l00056"></a>00056     (stdout, stderr) = proc.communicate()
+<a name="l00057"></a>00057     <span class="keywordflow">if</span> stderr.strip():
+<a name="l00058"></a>00058         <span class="keywordflow">raise</span> Exception(<span class="stringliteral">&#39;adb shell &quot;%s&quot; returned the following unexpected error: &quot;%s&quot;&#39;</span> %
+<a name="l00059"></a>00059                         (cmd, stderr.strip()))
+<a name="l00060"></a>00060     <span class="keywordflow">if</span> proc.returncode != 0:
+<a name="l00061"></a>00061         <span class="keywordflow">raise</span> Exception(<span class="stringliteral">&#39;adb shell &quot;%s&quot; exited with error %d&#39;</span> % (cmd, proc.returncode))
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063     split = [line <span class="keywordflow">for</span> line <span class="keywordflow">in</span> stdout.split(<span class="stringliteral">&#39;\n&#39;</span>) <span class="keywordflow">if</span> line.strip()]
+<a name="l00064"></a>00064     <span class="keywordflow">if</span> <span class="keywordflow">not</span> ignore_error <span class="keywordflow">and</span> <span class="keywordflow">not</span> split[-1].startswith(<span class="stringliteral">&#39;RETURN CODE: 0&#39;</span>):
+<a name="l00065"></a>00065         <span class="keywordflow">raise</span> Exception(<span class="stringliteral">&#39;adb shell &quot;%s&quot; did not complete successfully. Output:\n%s&#39;</span> % (cmd, stdout))
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067     <span class="comment"># Don&#39;t return the &quot;RETURN CODE: 0&quot; line!</span>
+<a name="l00068"></a>00068     <span class="keywordflow">return</span> split[0:-1]
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 
+<a name="l00071"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#af67c43ce2ab3bcce95dd690e88f94338">00071</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#af67c43ce2ab3bcce95dd690e88f94338">compute_remote_hashes</a>():
+<a name="l00072"></a>00072     hashes = {}
+<a name="l00073"></a>00073     adb_out = <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a619d8dc2b3088d87b65f035e563a8efd">adb_shell</a>(<span class="stringliteral">&#39;cd /data/local &amp;&amp; find . -type f | xargs sha1sum&#39;</span>)
+<a name="l00074"></a>00074     <span class="keywordflow">for</span> (hash, filename) <span class="keywordflow">in</span> [line.split() <span class="keywordflow">for</span> line <span class="keywordflow">in</span> adb_out]:
+<a name="l00075"></a>00075         <span class="comment"># Strip off &#39;./&#39; from the filename.</span>
+<a name="l00076"></a>00076         <span class="keywordflow">if</span> filename.startswith(<span class="stringliteral">&#39;./&#39;</span>):
+<a name="l00077"></a>00077             filename = filename[2:]
+<a name="l00078"></a>00078         <span class="keywordflow">else</span>:
+<a name="l00079"></a>00079             <span class="keywordflow">raise</span> Exception(<span class="stringliteral">&#39;Unexpected filename %s&#39;</span> % filename)
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081         hashes[filename] = hash
+<a name="l00082"></a>00082     <span class="keywordflow">return</span> hashes
+<a name="l00083"></a>00083 
+<a name="l00084"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a25099281d86cf1d185a7a0dba5a0b1e0">00084</a> INDEXED_DB_FOLDER = <span class="stringliteral">&#39;indexedDB/&#39;</span>
+<a name="l00085"></a>00085 
+<a name="l00086"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a8ec1923b9643530440dc03f9e13d8f13">00086</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a8ec1923b9643530440dc03f9e13d8f13">remove_from_remote</a>(local_hashes, remote_hashes):
+<a name="l00087"></a>00087     <span class="stringliteral">&quot;&quot;&quot;Remove any files from the remote device which don&#39;t appear in</span>
+<a name="l00088"></a>00088 <span class="stringliteral">    local_hashes.</span>
+<a name="l00089"></a>00089 <span class="stringliteral"></span>
+<a name="l00090"></a>00090 <span class="stringliteral">    &quot;&quot;&quot;</span>
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092     <span class="comment"># Keep indexedDB content</span>
+<a name="l00093"></a>00093     to_keep = <a class="code" href="../../d3/d91/j3d_8js.html#aac3f080e261cd4a27aac2c42bdd5d62b">set</a>()
+<a name="l00094"></a>00094     <span class="keywordflow">for</span> path <span class="keywordflow">in</span> remote_hashes:
+<a name="l00095"></a>00095         <span class="keywordflow">if</span> path[:len(INDEXED_DB_FOLDER)] == INDEXED_DB_FOLDER:
+<a name="l00096"></a>00096             to_keep.add(path)
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098     to_remove = <a class="code" href="../../d3/d87/mock__contact_8js.html#ad08d759db77b6861afcb4729fc620b95">list</a>(<a class="code" href="../../d3/d91/j3d_8js.html#aac3f080e261cd4a27aac2c42bdd5d62b">set</a>(remote_hashes.keys()) - <a class="code" href="../../d3/d91/j3d_8js.html#aac3f080e261cd4a27aac2c42bdd5d62b">set</a>(local_hashes.keys()) - to_keep)
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100     <span class="keywordflow">if</span> <span class="keywordflow">not</span> to_remove:
+<a name="l00101"></a>00101         <span class="keywordflow">return</span>
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103     <span class="keywordflow">print</span> <span class="stringliteral">&#39;Removing from device:\n%s\n&#39;</span> % <span class="stringliteral">&#39;\n&#39;</span>.<a class="code" href="../../de/d11/path_8js.html#a9c4b06c29cf28f47c4f54ed4e30c85b3">join</a>(to_remove)
+<a name="l00104"></a>00104     <span class="comment"># Chunk to_remove into 25 files at a time so we don&#39;t send too much over</span>
+<a name="l00105"></a>00105     <span class="comment"># adb_shell at once.</span>
+<a name="l00106"></a>00106     <span class="keywordflow">for</span> files <span class="keywordflow">in</span> [to_remove[pos:pos + 25] <span class="keywordflow">for</span> pos <span class="keywordflow">in</span> xrange(0, len(to_remove), 25)]:
+<a name="l00107"></a>00107         <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a619d8dc2b3088d87b65f035e563a8efd">adb_shell</a>(<span class="stringliteral">&#39;cd /data/local &amp;&amp; rm -f %s&#39;</span> % <span class="stringliteral">&#39; &#39;</span>.<a class="code" href="../../de/d11/path_8js.html#a9c4b06c29cf28f47c4f54ed4e30c85b3">join</a>(files))
+<a name="l00108"></a>00108 
+<a name="l00109"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#aad3410289050afdc3cc062c727158963">00109</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#aad3410289050afdc3cc062c727158963">push_to_remote</a>(local_hashes, remote_hashes):
+<a name="l00110"></a>00110     <span class="keyword">global</span> adb_cmd
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112     to_push = <a class="code" href="../../d3/d91/j3d_8js.html#aac3f080e261cd4a27aac2c42bdd5d62b">set</a>()
+<a name="l00113"></a>00113     <span class="keywordflow">for</span> (k, v) <span class="keywordflow">in</span> local_hashes.items():
+<a name="l00114"></a>00114         <span class="keywordflow">if</span> k <span class="keywordflow">not</span> <span class="keywordflow">in</span> remote_hashes <span class="keywordflow">or</span> remote_hashes[k] != local_hashes[k]:
+<a name="l00115"></a>00115             to_push.add(k)
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117     <span class="keywordflow">if</span> <span class="keywordflow">not</span> to_push:
+<a name="l00118"></a>00118         <span class="keywordflow">return</span>
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120     <span class="keywordflow">print</span> <span class="stringliteral">&#39;Pushing to device:\n%s&#39;</span> % <span class="stringliteral">&#39;\n&#39;</span>.<a class="code" href="../../de/d11/path_8js.html#a9c4b06c29cf28f47c4f54ed4e30c85b3">join</a>(<a class="code" href="../../d3/d87/mock__contact_8js.html#ad08d759db77b6861afcb4729fc620b95">list</a>(to_push))
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122     tmpfile, tmpfilename = mkstemp()
+<a name="l00123"></a>00123     <span class="keywordflow">try</span>:
+<a name="l00124"></a>00124         subprocess.check_call([<span class="stringliteral">&#39;tar&#39;</span>, <span class="stringliteral">&#39;-czf&#39;</span>, tmpfilename] + <a class="code" href="../../d3/d87/mock__contact_8js.html#ad08d759db77b6861afcb4729fc620b95">list</a>(to_push))
+<a name="l00125"></a>00125         <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a795e741aede08720bc215192349bf4c0">adb_push</a>(tmpfilename, <span class="stringliteral">&#39;/data/local&#39;</span>)
+<a name="l00126"></a>00126         basename = os.path.basename(tmpfilename)
+<a name="l00127"></a>00127         <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a619d8dc2b3088d87b65f035e563a8efd">adb_shell</a>(<span class="stringliteral">&#39;cd /data/local &amp;&amp; tar -xzf %s &amp;&amp; rm %s&#39;</span> % (basename, basename))
+<a name="l00128"></a>00128     <span class="keywordflow">finally</span>:
+<a name="l00129"></a>00129         os.remove(tmpfilename)
+<a name="l00130"></a>00130 
+<a name="l00131"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#aca990bde15b5b46174495bd4330ca219">00131</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#aca990bde15b5b46174495bd4330ca219">install_gaia_fast</a>():
+<a name="l00132"></a>00132     <span class="keyword">global</span> profile_folder
+<a name="l00133"></a>00133     os.chdir(profile_folder)
+<a name="l00134"></a>00134     <span class="keywordflow">try</span>:
+<a name="l00135"></a>00135         local_hashes = <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a80f32ef00f96b04bd34b8924ff26bbef">compute_local_hashes</a>()
+<a name="l00136"></a>00136         remote_hashes = <a class="code" href="../../db/d30/namespaceinstall-gaia.html#af67c43ce2ab3bcce95dd690e88f94338">compute_remote_hashes</a>()
+<a name="l00137"></a>00137         <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a8ec1923b9643530440dc03f9e13d8f13">remove_from_remote</a>(local_hashes, remote_hashes)
+<a name="l00138"></a>00138         <a class="code" href="../../db/d30/namespaceinstall-gaia.html#aad3410289050afdc3cc062c727158963">push_to_remote</a>(local_hashes, remote_hashes)
+<a name="l00139"></a>00139     <span class="keywordflow">finally</span>:
+<a name="l00140"></a>00140         os.chdir(<span class="stringliteral">&#39;..&#39;</span>)
+<a name="l00141"></a>00141 
+<a name="l00142"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a6524928b8e792eabc48b261bddc047cb">00142</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a6524928b8e792eabc48b261bddc047cb">install_gaia_slow</a>():
+<a name="l00143"></a>00143     <span class="keyword">global</span> adb_cmd, remote_path, profile_folder
+<a name="l00144"></a>00144     webapps_path = remote_path + <span class="stringliteral">&#39;/webapps&#39;</span>
+<a name="l00145"></a>00145     <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a619d8dc2b3088d87b65f035e563a8efd">adb_shell</a>(<span class="stringliteral">&quot;rm -r &quot;</span> + webapps_path, ignore_error=<span class="keyword">True</span>)
+<a name="l00146"></a>00146     <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a619d8dc2b3088d87b65f035e563a8efd">adb_shell</a>(<span class="stringliteral">&quot;rm /data/local/user.js&quot;</span>, ignore_error=<span class="keyword">True</span>)
+<a name="l00147"></a>00147     <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a795e741aede08720bc215192349bf4c0">adb_push</a>(profile_folder + <span class="stringliteral">&#39;/webapps&#39;</span>, webapps_path)
+<a name="l00148"></a>00148     <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a795e741aede08720bc215192349bf4c0">adb_push</a>(profile_folder + <span class="stringliteral">&#39;/user.js&#39;</span>, <span class="stringliteral">&#39;/data/local&#39;</span>)
+<a name="l00149"></a>00149 
+<a name="l00150"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a72cbcdea08adb979297830adcce4f077">00150</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a72cbcdea08adb979297830adcce4f077">install_preload_data</a>():
+<a name="l00151"></a>00151     <span class="keyword">global</span> profile_folder
+<a name="l00152"></a>00152     db_path = profile_folder + <span class="stringliteral">&#39;/indexedDB/&#39;</span>
+<a name="l00153"></a>00153     <span class="keywordflow">if</span> os.path.exists(db_path):
+<a name="l00154"></a>00154         <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a795e741aede08720bc215192349bf4c0">adb_push</a>(db_path, <span class="stringliteral">&#39;/data/local/indexedDB&#39;</span>)
+<a name="l00155"></a>00155 
+<a name="l00156"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#ae92090f080451f26b1a22cdaa24fb28f">00156</a> <span class="keyword">def </span><a class="code" href="../../db/d30/namespaceinstall-gaia.html#ae92090f080451f26b1a22cdaa24fb28f">install_gaia</a>():
+<a name="l00157"></a>00157     <span class="keyword">global</span> remote_path
+<a name="l00158"></a>00158     <span class="keywordflow">try</span>:
+<a name="l00159"></a>00159         <span class="keywordflow">if</span> remote_path == <span class="stringliteral">&quot;/system/b2g&quot;</span>:
+<a name="l00160"></a>00160             <span class="comment"># XXX Force slow method until we fix the fast one to support</span>
+<a name="l00161"></a>00161             <span class="comment"># files in both /system/b2g and /data/local</span>
+<a name="l00162"></a>00162             <span class="comment"># install_gaia_fast()</span>
+<a name="l00163"></a>00163             <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a6524928b8e792eabc48b261bddc047cb">install_gaia_slow</a>()
+<a name="l00164"></a>00164         <span class="keywordflow">else</span>:
+<a name="l00165"></a>00165             <a class="code" href="../../db/d30/namespaceinstall-gaia.html#aca990bde15b5b46174495bd4330ca219">install_gaia_fast</a>()
+<a name="l00166"></a>00166     <span class="keywordflow">except</span>:
+<a name="l00167"></a>00167         <span class="comment"># If anything goes wrong, fall back to the slow method.</span>
+<a name="l00168"></a>00168         <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a6524928b8e792eabc48b261bddc047cb">install_gaia_slow</a>()
+<a name="l00169"></a>00169     <a class="code" href="../../db/d30/namespaceinstall-gaia.html#a72cbcdea08adb979297830adcce4f077">install_preload_data</a>()
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171 <span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:
+<a name="l00172"></a>00172     <span class="keywordflow">if</span> len(sys.argv) &gt; 4:
+<a name="l00173"></a>00173         <span class="keywordflow">print</span> &gt;&gt;sys.stderr, <span class="stringliteral">&#39;Too many arguments!\n&#39;</span>
+<a name="l00174"></a>00174         <span class="keywordflow">print</span> &gt;&gt;sys.stderr, \
+<a name="l00175"></a>00175             <span class="stringliteral">&#39;Usage: python %s [ADB_PATH] [REMOTE_PATH] [PROFILE_FOLDER]\n&#39;</span> % __FILE__
+<a name="l00176"></a>00176         sys.exit(1)
+<a name="l00177"></a>00177 
+<a name="l00178"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a2a8d737751c21134f6130cb8231f0809">00178</a>     adb_cmd = <span class="stringliteral">&#39;adb&#39;</span>
+<a name="l00179"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#a9fdde889374d37168bcd2c96e8db555b">00179</a>     remote_path = <span class="stringliteral">&#39;/data/local/webapps&#39;</span>
+<a name="l00180"></a><a class="code" href="../../db/d30/namespaceinstall-gaia.html#ae14856c4df344cf941c2a97f309bd92c">00180</a>     profile_folder = <span class="stringliteral">&#39;profile&#39;</span>
+<a name="l00181"></a>00181     <span class="keywordflow">if</span> len(sys.argv) &gt;= 2:
+<a name="l00182"></a>00182         adb_cmd = sys.argv[1]
+<a name="l00183"></a>00183     <span class="keywordflow">if</span> len(sys.argv) &gt;= 3:
+<a name="l00184"></a>00184         remote_path = sys.argv[2]
+<a name="l00185"></a>00185     <span class="keywordflow">if</span> len(sys.argv) &gt;= 4:
+<a name="l00186"></a>00186         profile_folder = sys.argv[3]
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188     <a class="code" href="../../db/d30/namespaceinstall-gaia.html#ae92090f080451f26b1a22cdaa24fb28f">install_gaia</a>()
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/d1d/install-gaia_8py.html">install-gaia.py</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:27に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

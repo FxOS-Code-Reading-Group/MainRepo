@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsCSSPropAliasList.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/db7/ns_c_s_s_prop_alias_list_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsCSSPropAliasList.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/db7/ns_c_s_s_prop_alias_list_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* vim: set shiftwidth=2 tabstop=8 autoindent cindent expandtab: */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment"> * a list of all CSS property aliases with data about them, for preprocessing</span>
+<a name="l00008"></a>00008 <span class="comment"> */</span>
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="comment">/******</span>
+<a name="l00011"></a>00011 <span class="comment"></span>
+<a name="l00012"></a>00012 <span class="comment">  This file contains the list of all CSS properties that are just</span>
+<a name="l00013"></a>00013 <span class="comment">  aliases for other properties (e.g., for when we temporarily continue</span>
+<a name="l00014"></a>00014 <span class="comment">  to support a prefixed property after adding support for its unprefixed</span>
+<a name="l00015"></a>00015 <span class="comment">  form).  It is designed to be used as inline input through the magic of</span>
+<a name="l00016"></a>00016 <span class="comment">  C preprocessing.  All entries must be enclosed in the appropriate</span>
+<a name="l00017"></a>00017 <span class="comment">  CSS_PROP_ALIAS macro which will have cruel and unusual things done to</span>
+<a name="l00018"></a>00018 <span class="comment">  it.</span>
+<a name="l00019"></a>00019 <span class="comment"></span>
+<a name="l00020"></a>00020 <span class="comment">  The arguments to CSS_PROP_ALIAS are:</span>
+<a name="l00021"></a>00021 <span class="comment"></span>
+<a name="l00022"></a>00022 <span class="comment">  -. &#39;aliasname&#39; entries represent a CSS property name and *must* use</span>
+<a name="l00023"></a>00023 <span class="comment">  only lowercase characters.</span>
+<a name="l00024"></a>00024 <span class="comment"></span>
+<a name="l00025"></a>00025 <span class="comment">  -. &#39;id&#39; should be the same as the &#39;id&#39; field in nsCSSPropList.h for</span>
+<a name="l00026"></a>00026 <span class="comment">  the property that &#39;aliasname&#39; is being aliased to.</span>
+<a name="l00027"></a>00027 <span class="comment"></span>
+<a name="l00028"></a>00028 <span class="comment">  -. &#39;method&#39; is the CSS2Properties property name.  Unlike</span>
+<a name="l00029"></a>00029 <span class="comment">  nsCSSPropList.h, prefixes should just be included in this file (rather</span>
+<a name="l00030"></a>00030 <span class="comment">  than needing the CSS_PROP_DOMPROP_PREFIXED(prop) macro).</span>
+<a name="l00031"></a>00031 <span class="comment"></span>
+<a name="l00032"></a>00032 <span class="comment">  -. &#39;pref&#39; is the name of a pref that controls whether the property</span>
+<a name="l00033"></a>00033 <span class="comment">  is enabled.  The property is enabled if &#39;pref&#39; is an empty string,</span>
+<a name="l00034"></a>00034 <span class="comment">  or if the boolean property whose name is &#39;pref&#39; is set to true.</span>
+<a name="l00035"></a>00035 <span class="comment"></span>
+<a name="l00036"></a>00036 <span class="comment"> ******/</span>
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a16f1a2d59c558394e62fa83237fbd076">transform</a>-origin, transform_origin, MozTransformOrigin, <span class="stringliteral">&quot;layout.css.prefixes.transforms&quot;</span>)
+<a name="l00039"></a>00039 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-<a class="code" href="../../d3/d91/j3d_8js.html#a253d6195779a268b2bc157ae1bd3280b">perspective</a>-origin, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#ac47e5920206a851ca1d058082c358d0b">perspective_origin</a>, MozPerspectiveOrigin, &quot;layout.css.prefixes.transforms&quot;)
+<a name="l00040"></a>00040 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-<a class="code" href="../../d3/d91/j3d_8js.html#a253d6195779a268b2bc157ae1bd3280b">perspective</a>, perspective, MozPerspective, &quot;layout.css.prefixes.transforms&quot;)
+<a name="l00041"></a>00041 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a16f1a2d59c558394e62fa83237fbd076">transform</a>-style, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#af49581bc3b60d89a35f2ec4b8ed03a9b">transform_style</a>, MozTransformStyle, &quot;layout.css.prefixes.transforms&quot;)
+<a name="l00042"></a>00042 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-backface-<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#acc14a0c6668e68b49c91fb961cdfbf40">visibility</a>, backface_visibility, MozBackfaceVisibility, &quot;layout.css.prefixes.transforms&quot;)
+<a name="l00043"></a>00043 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-border-image, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a88a6186ddeff269a7cae5990ababb211">border_image</a>, MozBorderImage, &quot;layout.css.prefixes.border-image&quot;)
+<a name="l00044"></a>00044 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-transition, transition, MozTransition, &quot;layout.css.prefixes.transitions&quot;)
+<a name="l00045"></a>00045 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-transition-<a class="code" href="../../d2/db9/newnotification_8js.html#ad26070262d4c1d2238051d300ac46a8b">delay</a>, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a71cb01a4547dea639516ce9bfe85adcd">transition_delay</a>, MozTransitionDelay, &quot;layout.css.prefixes.transitions&quot;)
+<a name="l00046"></a>00046 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-transition-duration, transition_duration, MozTransitionDuration, &quot;layout.css.prefixes.transitions&quot;)
+<a name="l00047"></a>00047 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-transition-property, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a3866439e498cd42080e49a9d998262db">transition_property</a>, MozTransitionProperty, &quot;layout.css.prefixes.transitions&quot;)
+<a name="l00048"></a>00048 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-transition-timing-<a class="code" href="../../d9/dc4/pralarm_8h.html#a7b570f1c425a05af1046d4e6f37d5a0f">function</a>, transition_timing_function, MozTransitionTimingFunction, &quot;layout.css.prefixes.transitions&quot;)
+<a name="l00049"></a>00049 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-animation, animation, MozAnimation, &quot;layout.css.prefixes.animations&quot;)
+<a name="l00050"></a>00050 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-animation-delay, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a8b9dead26262bdd55f9e6fb60e2bcd05">animation_delay</a>, MozAnimationDelay, &quot;layout.css.prefixes.animations&quot;)
+<a name="l00051"></a>00051 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-animation-<a class="code" href="../../d3/d91/j3d_8js.html#ad0dea711cdf3eaf35d6e1dfde0f163b3">direction</a>, animation_direction, MozAnimationDirection, &quot;layout.css.prefixes.animations&quot;)
+<a name="l00052"></a>00052 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-animation-duration, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#ab2d92a3ee71e66baaf96a5e4f68f988f">animation_duration</a>, MozAnimationDuration, &quot;layout.css.prefixes.animations&quot;)
+<a name="l00053"></a>00053 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-animation-fill-<a class="code" href="../../d2/d7d/jsapi_8h.html#a5e94be9423b9de6b3ab4057aca59293f">mode</a>, animation_fill_mode, MozAnimationFillMode, &quot;layout.css.prefixes.animations&quot;)
+<a name="l00054"></a>00054 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-animation-iteration-<a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a18540e419cbc919b5bab3b7bba743e0e">animation_iteration_count</a>, MozAnimationIterationCount, &quot;layout.css.prefixes.animations&quot;)
+<a name="l00055"></a>00055 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-animation-<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, animation_name, MozAnimationName, &quot;layout.css.prefixes.animations&quot;)
+<a name="l00056"></a>00056 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-animation-<a class="code" href="../../d2/da5/camera_2test_2unit_2mock__audio_8js.html#a7ee333c65a8edcc0df04e817ffc9cb5c">play</a>-<a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a>, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a782d8f53893c15c0997b8b79fe32780c">animation_play_state</a>, MozAnimationPlayState, &quot;layout.css.prefixes.animations&quot;)
+<a name="l00057"></a>00057 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(-moz-animation-timing-function, animation_timing_function, MozAnimationTimingFunction, &quot;layout.css.prefixes.animations&quot;)
+<a name="l00058"></a>00058 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(<a class="code" href="../../d4/d8c/viewphoto_8js.html#ae15b4cb928861ff768db92508d6ce0d2">font</a>-feature-settings, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a6b8f034a8fcae1299c0241756df2b913">font_feature_settings</a>, FontFeatureSettings, &quot;layout.css.<a class="code" href="../../d4/d8c/viewphoto_8js.html#ae15b4cb928861ff768db92508d6ce0d2">font</a>-features.<a class="code" href="../../d2/d7d/jsapi_8h.html#ad40d8437f6cf8675f077c4117119c8c0">enabled</a>&quot;)
+<a name="l00059"></a>00059 <a class="code" href="../../dc/d10/ns_c_s_s_property_8h.html#aac690523871157140954eea58e5a2195">CSS_PROP_ALIAS</a>(<a class="code" href="../../d4/d8c/viewphoto_8js.html#ae15b4cb928861ff768db92508d6ce0d2">font</a>-<a class="code" href="../../d6/d45/prerror_8h.html#a5b8860d15e47932f3ec6f41c96dcb857">language</a>-override, <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a35be807c381544b5b43b9e91cfe64c4b">font_language_override</a>, FontLanguageOverride, &quot;layout.css.<a class="code" href="../../d4/d8c/viewphoto_8js.html#ae15b4cb928861ff768db92508d6ce0d2">font</a>-features.<a class="code" href="../../d2/d7d/jsapi_8h.html#ad40d8437f6cf8675f077c4117119c8c0">enabled</a>&quot;)
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/db7/ns_c_s_s_prop_alias_list_8h.html">nsCSSPropAliasList.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:57に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+var mozilla_2gfx_2_types_8h =
+[
+    [ "GFX2D_API", "dc/dcf/mozilla_2gfx_2_types_8h.html#abbf2fff4663e9f562997ec448c49450e", null ],
+    [ "NS_SIDE_BOTTOM", "dc/dcf/mozilla_2gfx_2_types_8h.html#aa8e50e8161ef4614b55dc9ad094a96ce", null ],
+    [ "NS_SIDE_LEFT", "dc/dcf/mozilla_2gfx_2_types_8h.html#a56ed8bf68e0689632ec28d0bf5235a42", null ],
+    [ "NS_SIDE_RIGHT", "dc/dcf/mozilla_2gfx_2_types_8h.html#ab6b1a07f10b816d4119c358b15af046e", null ],
+    [ "NS_SIDE_TOP", "dc/dcf/mozilla_2gfx_2_types_8h.html#a41c0fa2f8a85fb2080d06593bfc1a810", null ],
+    [ "Float", "da/d8e/namespacemozilla_1_1gfx.html#a89ee4741e9b0dde3c6bf62a0fa7d4b70", null ],
+    [ "AntialiasMode", "da/d8e/namespacemozilla_1_1gfx.html#a5f4a638ee5cc1aadc506e40502fe5309", null ],
+    [ "BackendType", "da/d8e/namespacemozilla_1_1gfx.html#a38396ca275f87df7ca4d4177a156622a", null ],
+    [ "CapStyle", "da/d8e/namespacemozilla_1_1gfx.html#ad24ccf9c3ad8e32f93e0875704470e99", null ],
+    [ "CompositionOp", "da/d8e/namespacemozilla_1_1gfx.html#a9e5bf5e10068d80977bd157c23d3b9ad", null ],
+    [ "ExtendMode", "da/d8e/namespacemozilla_1_1gfx.html#a0192ae1ae9f686758e4ae44e5407fa37", null ],
+    [ "FillRule", "da/d8e/namespacemozilla_1_1gfx.html#aff6f6804846a117f7be2696dd7c9e84b", null ],
+    [ "Filter", "da/d8e/namespacemozilla_1_1gfx.html#ac1e2ce746824c8ed12a483b784e4f89d", null ],
+    [ "FontHinting", "da/d8e/namespacemozilla_1_1gfx.html#a2ff52d435c40c3a4f88ec495ebc0ea2d", null ],
+    [ "FontStyle", "da/d8e/namespacemozilla_1_1gfx.html#a5a9e7ef44ef6112672eee274cf2f2961", null ],
+    [ "FontType", "da/d8e/namespacemozilla_1_1gfx.html#a7d9ba2ad5737c2b275a2ff023c6daf43", null ],
+    [ "JoinStyle", "da/d8e/namespacemozilla_1_1gfx.html#a022b537dba820e86696de76d0b6389be", null ],
+    [ "NativeFontType", "da/d8e/namespacemozilla_1_1gfx.html#ac3f570ac6ac0dd188d7f705fe647bf98", null ],
+    [ "NativeSurfaceType", "da/d8e/namespacemozilla_1_1gfx.html#ab00c8344dba2549a18747869ebe56f61", null ],
+    [ "PatternType", "da/d8e/namespacemozilla_1_1gfx.html#a499b8204701ce1e48a06acb6d78606b2", null ],
+    [ "SamplingBounds", "da/d8e/namespacemozilla_1_1gfx.html#a1c82fc54fc45ab5f6d66e72011e9f93b", null ],
+    [ "Side", "dc/d84/namespacemozilla_1_1css.html#ab5e4025b984b92e09e3cb22bca9a4f3f", null ],
+    [ "Snapping", "da/d8e/namespacemozilla_1_1gfx.html#ae55170fd4f4a2ae0cb70c3252a2b6103", null ],
+    [ "SurfaceFormat", "da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f", null ],
+    [ "SurfaceType", "da/d8e/namespacemozilla_1_1gfx.html#aca5470cfde376bd3083aa6d707711d3e", null ]
+];

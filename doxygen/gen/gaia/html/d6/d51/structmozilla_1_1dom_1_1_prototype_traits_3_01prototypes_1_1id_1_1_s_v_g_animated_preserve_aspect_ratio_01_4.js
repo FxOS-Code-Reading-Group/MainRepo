@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_s_v_g_animated_preserve_aspect_ratio_01_4 =
+[
+    [ "NativeType", "d6/d51/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_s_v_g_animated_preserve_aspect_ratio_01_4.html#aa2d494b65e3ded53806b98d3e77d94a7", null ]
+];

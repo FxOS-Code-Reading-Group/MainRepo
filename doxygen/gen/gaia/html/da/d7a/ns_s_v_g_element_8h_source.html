@@ -1,0 +1,788 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsSVGElement.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/d7a/ns_s_v_g_element_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsSVGElement.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/d7a/ns_s_v_g_element_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef __NS_SVGELEMENT_H__</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define __NS_SVGELEMENT_H__</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="comment">/*</span>
+<a name="l00010"></a>00010 <span class="comment">  nsSVGElement is the base class for all SVG content elements.</span>
+<a name="l00011"></a>00011 <span class="comment">  It implements all the common DOM interfaces and handles attributes.</span>
+<a name="l00012"></a>00012 <span class="comment">*/</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/da8/_attributes_8h.html">mozilla/Attributes.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d54/_style_rule_8h.html">mozilla/css/StyleRule.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../da/db4/ns_change_hint_8h.html">nsChangeHint.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d4f/ns_cycle_collection_participant_8h.html">nsCycleCollectionParticipant.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d8/dcf/ns_error_8h.html">nsError.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/db8/_element_8h.html">mozilla/dom/Element.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html">nsISupportsImpl.h</a>&quot;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/da0/ns_styled_element_8h.html">nsStyledElement.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/dd8/ns_s_v_g_class_8h.html">nsSVGClass.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d9b/ns_i_d_o_m_s_v_g_element_8h.html">nsIDOMSVGElement.h</a>&quot;</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="keyword">class </span>nsSVGAngle;
+<a name="l00028"></a>00028 <span class="keyword">class </span>nsSVGBoolean;
+<a name="l00029"></a>00029 <span class="keyword">class </span>nsSVGEnum;
+<a name="l00030"></a>00030 <span class="keyword">class </span>nsSVGInteger;
+<a name="l00031"></a>00031 <span class="keyword">class </span>nsSVGIntegerPair;
+<a name="l00032"></a>00032 <span class="keyword">class </span>nsSVGLength2;
+<a name="l00033"></a>00033 <span class="keyword">class </span>nsSVGNumber2;
+<a name="l00034"></a>00034 <span class="keyword">class </span>nsSVGNumberPair;
+<a name="l00035"></a>00035 <span class="keyword">class </span>nsSVGString;
+<a name="l00036"></a>00036 <span class="keyword">class </span>nsSVGViewBox;
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="keyword">namespace </span>mozilla {
+<a name="l00039"></a>00039 <span class="keyword">namespace </span><a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a> {
+<a name="l00040"></a>00040 <span class="keyword">class </span><a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28adbb8b087e409c12edca1dd8cecb914e8">CSSValue</a>;
+<a name="l00041"></a>00041 <span class="keyword">class </span><a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a773e6b9c7f2d0374b7acd1d182a3a831">SVGSVGElement</a>;
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> SVG_UNIT_TYPE_UNKNOWN           = 0;
+<a name="l00044"></a>00044 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> SVG_UNIT_TYPE_USERSPACEONUSE    = 1;
+<a name="l00045"></a>00045 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> SVG_UNIT_TYPE_OBJECTBOUNDINGBOX = 2;
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047 }
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 <span class="keyword">class </span><a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a4d31d76b885b57bc71ff28eb3eb280a5">SVGAnimatedNumberList</a>;
+<a name="l00050"></a>00050 <span class="keyword">class </span><a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a0782cf42d3499d89441ac424d4ffef0a">SVGNumberList</a>;
+<a name="l00051"></a>00051 <span class="keyword">class </span><a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a65348aa718bb321338bb0bf5471b69c4">SVGAnimatedLengthList</a>;
+<a name="l00052"></a>00052 <span class="keyword">class </span>SVGUserUnitList;
+<a name="l00053"></a>00053 <span class="keyword">class </span>SVGAnimatedPointList;
+<a name="l00054"></a>00054 <span class="keyword">class </span>SVGAnimatedPathSegList;
+<a name="l00055"></a>00055 <span class="keyword">class </span><a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28aab1c51f031dfd42a83bcd6361f764f72">SVGAnimatedPreserveAspectRatio</a>;
+<a name="l00056"></a>00056 <span class="keyword">class </span>nsSVGAnimatedTransformList;
+<a name="l00057"></a>00057 <span class="keyword">class </span><a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a91abac8caca21e9c761583b3623ddd72">SVGStringList</a>;
+<a name="l00058"></a>00058 <span class="keyword">class </span>DOMSVGStringList;
+<a name="l00059"></a>00059 }
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061 <span class="keyword">struct </span><a class="code" href="../../d1/d4f/structgfx_matrix.html">gfxMatrix</a>;
+<a name="l00062"></a><a class="code" href="../../da/d7a/ns_s_v_g_element_8h.html#a2f58417c15ec9d3c24503f155bfb57d3">00062</a> <span class="keyword">struct </span>nsSVGEnumMapping;
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 <span class="keyword">typedef</span> <a class="code" href="../../dc/d07/classns_styled_element_not_element_c_s_s_inline_style.html">nsStyledElementNotElementCSSInlineStyle</a> <a class="code" href="../../da/d7a/ns_s_v_g_element_8h.html#a2f58417c15ec9d3c24503f155bfb57d3">nsSVGElementBase</a>;
+<a name="l00065"></a>00065 
+<a name="l00066"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html">00066</a> <span class="keyword">class </span><a class="code" href="../../dd/d94/classns_s_v_g_element.html">nsSVGElement</a> : <span class="keyword">public</span> <a class="code" href="../../dc/d07/classns_styled_element_not_element_c_s_s_inline_style.html">nsSVGElementBase</a>    <span class="comment">// nsIContent</span>
+<a name="l00067"></a>00067                    , <span class="keyword">public</span> <a class="code" href="../../d7/d90/interfacens_i_d_o_m_s_v_g_element.html">nsIDOMSVGElement</a>
+<a name="l00068"></a>00068 {
+<a name="l00069"></a>00069 <span class="keyword">protected</span>:
+<a name="l00070"></a>00070   <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a5c3825aaf968f5ca42bf7e68017e68d4">nsSVGElement</a>(<a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsINodeInfo&gt;</a> aNodeInfo);
+<a name="l00071"></a>00071   <span class="keyword">friend</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a85615e3a5b89bec8b4118eebce708b7f">NS_NewSVGElement</a>(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a> **<a class="code" href="../../d9/d6a/ns_color_8h.html#a820357f645d7b0eaf62fd4994dda5a24">aResult</a>,
+<a name="l00072"></a>00072                                    <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsINodeInfo&gt;</a> aNodeInfo);
+<a name="l00073"></a>00073   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a2fe61b3759ffadc8f280bb157029a2a6">Init</a>();
+<a name="l00074"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a58c9c525ead86435c09fff886c7ae259">00074</a>   <span class="keyword">virtual</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a58c9c525ead86435c09fff886c7ae259">~nsSVGElement</a>(){}
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076 <span class="keyword">public</span>:
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8c76c9862b512310e8c9e08c9d2f2731">Clone</a>(<a class="code" href="../../d1/d14/classns_i_node_info.html">nsINodeInfo</a> *aNodeInfo, <a class="code" href="../../d7/de8/classns_i_node.html">nsINode</a> **aResult) <span class="keyword">const</span> MOZ_MUST_OVERRIDE MOZ_OVERRIDE;
+<a name="l00079"></a>00079 
+<a name="l00080"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9fd3557dbd1a5513b4e053d5deeb277c">00080</a>   <span class="keyword">typedef</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a0782cf42d3499d89441ac424d4ffef0a">mozilla::SVGNumberList</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9fd3557dbd1a5513b4e053d5deeb277c">SVGNumberList</a>;
+<a name="l00081"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8fd9395800ec29affeb4aa1ede5f6ba6">00081</a>   <span class="keyword">typedef</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a4d31d76b885b57bc71ff28eb3eb280a5">mozilla::SVGAnimatedNumberList</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8fd9395800ec29affeb4aa1ede5f6ba6">SVGAnimatedNumberList</a>;
+<a name="l00082"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a017b805204168d39eb1aea5aecf2ec02">00082</a>   <span class="keyword">typedef</span> mozilla::SVGUserUnitList <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a017b805204168d39eb1aea5aecf2ec02">SVGUserUnitList</a>;
+<a name="l00083"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a73db7a115e7df2b5901bb63b44ff6d59">00083</a>   <span class="keyword">typedef</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a65348aa718bb321338bb0bf5471b69c4">mozilla::SVGAnimatedLengthList</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a73db7a115e7df2b5901bb63b44ff6d59">SVGAnimatedLengthList</a>;
+<a name="l00084"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a5188f7a1647e6435cc1f1c9c9dacedc7">00084</a>   <span class="keyword">typedef</span> mozilla::SVGAnimatedPointList <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a5188f7a1647e6435cc1f1c9c9dacedc7">SVGAnimatedPointList</a>;
+<a name="l00085"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a2652ae8aafefce4c6afd61c042aaf169">00085</a>   <span class="keyword">typedef</span> mozilla::SVGAnimatedPathSegList <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a2652ae8aafefce4c6afd61c042aaf169">SVGAnimatedPathSegList</a>;
+<a name="l00086"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9e1ec2a1e73b3984c482b7449c1a84b0">00086</a>   <span class="keyword">typedef</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28aab1c51f031dfd42a83bcd6361f764f72">mozilla::SVGAnimatedPreserveAspectRatio</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9e1ec2a1e73b3984c482b7449c1a84b0">SVGAnimatedPreserveAspectRatio</a>;
+<a name="l00087"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad6e3a6458d836198b505d7cbc753159a">00087</a>   <span class="keyword">typedef</span> <a class="code" href="../../d7/d1a/classmozilla_1_1ns_s_v_g_animated_transform_list.html">mozilla::nsSVGAnimatedTransformList</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad6e3a6458d836198b505d7cbc753159a">nsSVGAnimatedTransformList</a>;
+<a name="l00088"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#af55cff2f5d6c7119cc08d96d66c3a2d2">00088</a>   <span class="keyword">typedef</span> <a class="code" href="../../d3/d87/classmozilla_1_1_s_v_g_string_list.html">mozilla::SVGStringList</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#af55cff2f5d6c7119cc08d96d66c3a2d2">SVGStringList</a>;
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090   <span class="comment">// nsISupports</span>
+<a name="l00091"></a>00091   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#ae25001937e1e76973657012ca62d9deb">NS_DECL_ISUPPORTS_INHERITED</a>
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a78abed915784d7a4d3ff7ef297073809">DoGetClasses</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00094"></a>00094   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#acc07894305b31e9a9f13e2fc86b156f2">DidAnimateClass</a>();
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096   <span class="comment">// nsIContent interface methods</span>
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098   virtual <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a773428536bd49c3806dc1a74965300a6">BindToTree</a>(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument, <a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aParent,
+<a name="l00099"></a>00099                               <a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aBindingParent,
+<a name="l00100"></a>00100                               <span class="keywordtype">bool</span> aCompileEventHandlers) MOZ_OVERRIDE;
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102   virtual <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a4d4a4092dac432648981f44d77669f4c">UnsetAttr</a>(int32_t aNameSpaceID, <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aAttribute,
+<a name="l00103"></a>00103                              <span class="keywordtype">bool</span> aNotify) MOZ_OVERRIDE;
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105   virtual <a class="code" href="../../da/db4/ns_change_hint_8h.html#a1ea9e80d36fdb0bffb98e3772cc8fe76">nsChangeHint</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a1c3e0d7768ed075263fe81ac52ebd9df">GetAttributeChangeHint</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aAttribute,
+<a name="l00106"></a>00106                                               int32_t aModType) <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108   virtual <span class="keywordtype">bool</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aef3f3b10d26cedfc756476079ed1c049">IsNodeOfType</a>(uint32_t aFlags) <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110   <a class="code" href="../../d3/dd8/nscore_8h.html#abbc6d740d4f54ed1c90bbed28dcef65a">NS_IMETHOD</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad4ae6c37b5fdc0c954b50a35c2e8a61f">WalkContentStyleRules</a>(<a class="code" href="../../d3/d88/classns_rule_walker.html">nsRuleWalker</a>* aRuleWalker) MOZ_OVERRIDE;
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112   <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a793a3854343c5a46d196d95a2135afc4">NS_IMETHOD_</a>(<span class="keywordtype">bool</span>) IsAttributeMapped(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aAttribute) <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00113"></a>00113 
+<a name="l00114"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a1c51747873fb87a3ff7ea825255ba9ce">00114</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a1c51747873fb87a3ff7ea825255ba9ce">sFillStrokeMap</a>[];
+<a name="l00115"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad012c160d782b42a487b5dbcaee52654">00115</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad012c160d782b42a487b5dbcaee52654">sGraphicsMap</a>[];
+<a name="l00116"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a30fb2cfae71877dfb7871c5a8232dbcb">00116</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a30fb2cfae71877dfb7871c5a8232dbcb">sTextContentElementsMap</a>[];
+<a name="l00117"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#aa80e144665c37e747bc9764b33443c50">00117</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aa80e144665c37e747bc9764b33443c50">sFontSpecificationMap</a>[];
+<a name="l00118"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a538ad43c2f606aa731f66ef178b4ffb5">00118</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a538ad43c2f606aa731f66ef178b4ffb5">sGradientStopMap</a>[];
+<a name="l00119"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a91de1ae522d121ab7e01fa1914765822">00119</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a91de1ae522d121ab7e01fa1914765822">sViewportsMap</a>[];
+<a name="l00120"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a0d49a7d6ec8f14e0d4ae2d383c530474">00120</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a0d49a7d6ec8f14e0d4ae2d383c530474">sMarkersMap</a>[];
+<a name="l00121"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a095c9a6ccf01c310a0ba6f482cd79b8f">00121</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a095c9a6ccf01c310a0ba6f482cd79b8f">sColorMap</a>[];
+<a name="l00122"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a1a39fc21b5707907759cc5ee72193285">00122</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a1a39fc21b5707907759cc5ee72193285">sFiltersMap</a>[];
+<a name="l00123"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#ae3544b005b1ddad77453676c4e4db6d9">00123</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ae3544b005b1ddad77453676c4e4db6d9">sFEFloodMap</a>[];
+<a name="l00124"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#af67d9d1e182e8471c0a8d1dc5281c025">00124</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#af67d9d1e182e8471c0a8d1dc5281c025">sLightingEffectsMap</a>[];
+<a name="l00125"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a3a2e32528a3c3a7b69b7b33c277011d0">00125</a>   static <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d6/ded/structmozilla_1_1dom_1_1_element_1_1_mapped_attribute_entry.html">MappedAttributeEntry</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a3a2e32528a3c3a7b69b7b33c277011d0">sMaskMap</a>[];
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127   <a class="code" href="../../d8/db7/ns_i_node_8h.html#ad688c47161d230cee49155ea70dee185">NS_FORWARD_NSIDOMNODE_TO_NSINODE</a>
+<a name="l00128"></a>00128   <a class="code" href="../../d0/db8/_element_8h.html#ad30a8fcb7c1cc0aa3a3b52f5c44a02c7">NS_FORWARD_NSIDOMELEMENT_TO_GENERIC</a>
+<a name="l00129"></a>00129   <a class="code" href="../../d9/d9b/ns_i_d_o_m_s_v_g_element_8h.html#a6a225a85a099ef8f53db9813f03b13bb">NS_DECL_NSIDOMSVGELEMENT</a>
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131   <span class="comment">// Gets the element that establishes the rectangular viewport against which</span>
+<a name="l00132"></a>00132   <span class="comment">// we should resolve percentage lengths (our &quot;coordinate context&quot;). Returns</span>
+<a name="l00133"></a>00133   <span class="comment">// nullptr for outer &lt;svg&gt; or SVG without an &lt;svg&gt; parent (invalid SVG).</span>
+<a name="l00134"></a>00134   mozilla::<a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a>::<a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a773e6b9c7f2d0374b7acd1d182a3a831">SVGSVGElement</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aabee205093cad3aa2445135d3408ee2c">GetCtx</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a>;
+<a name="l00135"></a>00135 
+<a name="l00136"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9acbbddef5b0f69a3322acefbd711c60">00136</a>   <a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9acbbddef5b0f69a3322acefbd711c60">TransformTypes</a> {
+<a name="l00137"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9acbbddef5b0f69a3322acefbd711c60afe27e09cd652de33a27df77de2122742">00137</a>      <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9acbbddef5b0f69a3322acefbd711c60afe27e09cd652de33a27df77de2122742">eAllTransforms</a>
+<a name="l00138"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9acbbddef5b0f69a3322acefbd711c60ae91acc49e8a9e188038dc93820fc78c1">00138</a>     ,<a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9acbbddef5b0f69a3322acefbd711c60ae91acc49e8a9e188038dc93820fc78c1">eUserSpaceToParent</a>
+<a name="l00139"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9acbbddef5b0f69a3322acefbd711c60a708ef9fc774e17ef0a5600314decbc78">00139</a>     ,<a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9acbbddef5b0f69a3322acefbd711c60a708ef9fc774e17ef0a5600314decbc78">eChildToUserSpace</a>
+<a name="l00140"></a>00140   };
+<a name="l00164"></a>00164   <span class="keyword">virtual</span> <a class="code" href="../../d1/d4f/structgfx_matrix.html">gfxMatrix</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a58720a10c6b1cb2bfe156833170aad73">PrependLocalTransformsTo</a>(<span class="keyword">const</span> <a class="code" href="../../d1/d4f/structgfx_matrix.html">gfxMatrix</a> &amp;aMatrix,
+<a name="l00165"></a>00165                       <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9acbbddef5b0f69a3322acefbd711c60">TransformTypes</a> aWhich = <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9acbbddef5b0f69a3322acefbd711c60afe27e09cd652de33a27df77de2122742">eAllTransforms</a>) <span class="keyword">const</span>;
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167   <span class="comment">// Setter for to set the current &lt;animateMotion&gt; transformation</span>
+<a name="l00168"></a>00168   <span class="comment">// Only visible for nsSVGGraphicElement, so it&#39;s a no-op here, and that</span>
+<a name="l00169"></a>00169   <span class="comment">// subclass has the useful implementation.</span>
+<a name="l00170"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#aa8fcbdca24d4905f571b962335cd131b">00170</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aa8fcbdca24d4905f571b962335cd131b">SetAnimateMotionTransform</a>(<span class="keyword">const</span> <a class="code" href="../../d1/d4f/structgfx_matrix.html">gfxMatrix</a>* aMatrix) {<span class="comment">/*no-op*/</span>}
+<a name="l00171"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad0350908d55f91ebf4dfc4de2bdb2082">00171</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="../../d1/d4f/structgfx_matrix.html">gfxMatrix</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad0350908d55f91ebf4dfc4de2bdb2082">GetAnimateMotionTransform</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">nullptr</span>; }
+<a name="l00172"></a>00172 
+<a name="l00173"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a36738c53846fcde1e37db7d32170aa1b">00173</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a36738c53846fcde1e37db7d32170aa1b">IsStringAnimatable</a>(uint8_t aAttrEnum) {
+<a name="l00174"></a>00174     <span class="keywordflow">return</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aafe99fb1d588315c588a33749d1b7b45">GetStringInfo</a>().<a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#a1fdbd3553888bc67ba0bc4376557a8f4">mStringInfo</a>[aAttrEnum].<a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html#ac00bc1580514c9fa4c5d2315ca5e349e">mIsAnimatable</a>;
+<a name="l00175"></a>00175   }
+<a name="l00176"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a719818eadaf1f828eb83091b02e34900">00176</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a719818eadaf1f828eb83091b02e34900">NumberAttrAllowsPercentage</a>(uint8_t aAttrEnum) {
+<a name="l00177"></a>00177     <span class="keywordflow">return</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a6b4f1533664d513ddbda2431911ffc86">GetNumberInfo</a>().<a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#ae82882b73e05ac84dd0591d7d1caa515">mNumberInfo</a>[aAttrEnum].<a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html#a7d2304700e777307e4511da0879cc08a">mPercentagesAllowed</a>;
+<a name="l00178"></a>00178   }
+<a name="l00179"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a554dae3349a75e6da50fe0b8efdc4c1f">00179</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a554dae3349a75e6da50fe0b8efdc4c1f">HasValidDimensions</a>()<span class="keyword"> const </span>{
+<a name="l00180"></a>00180     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00181"></a>00181   }
+<a name="l00182"></a>00182   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a746257e817cea04a9f7b5a537dad24b1">SetLength</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aName, <span class="keyword">const</span> nsSVGLength2 &amp;aLength);
+<a name="l00183"></a>00183 
+<a name="l00184"></a>00184   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a95e6ddcb6948542419d9ed1dba1e0250">WillChangeLength</a>(uint8_t aAttrEnum);
+<a name="l00185"></a>00185   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ae44ec6ec5a7851a56b56d8fc1a148918">WillChangeNumberPair</a>(uint8_t aAttrEnum);
+<a name="l00186"></a>00186   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ae44f041993c916db4429f4ce298b145f">WillChangeIntegerPair</a>(uint8_t aAttrEnum);
+<a name="l00187"></a>00187   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a63d891ed9e1093ab260ac01a6519e30a">WillChangeAngle</a>(uint8_t aAttrEnum);
+<a name="l00188"></a>00188   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8cc615f6b79392aeebd16223558be39c">WillChangeViewBox</a>();
+<a name="l00189"></a>00189   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a051f8ec4a626a140e33dbd9abd5ee884">WillChangePreserveAspectRatio</a>();
+<a name="l00190"></a>00190   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#afdc2cde4fecf49bbe5dac0d19bbfacc7">WillChangeNumberList</a>(uint8_t aAttrEnum);
+<a name="l00191"></a>00191   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a1b0bd4c5f23c66110fa2ace45d0ceadd">WillChangeLengthList</a>(uint8_t aAttrEnum);
+<a name="l00192"></a>00192   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ac9fe3f15500967ed7ff72109c7a84917">WillChangePointList</a>();
+<a name="l00193"></a>00193   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a63de538e593b439112117b3097c0028f">WillChangePathSegList</a>();
+<a name="l00194"></a>00194   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a3dc07854c915a94fe2e1962f928ca5e4">WillChangeTransformList</a>();
+<a name="l00195"></a>00195   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a64c93072b7c0b70d34f54e133700e34c">WillChangeStringList</a>(<span class="keywordtype">bool</span> aIsConditionalProcessingAttribute,
+<a name="l00196"></a>00196                                    uint8_t aAttrEnum);
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a1561f0eab39f3e0912549c36682de628">DidChangeLength</a>(uint8_t aAttrEnum, <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00199"></a>00199   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad8f51835da7d8f142dd98b5b4dff232e">DidChangeNumber</a>(uint8_t aAttrEnum);
+<a name="l00200"></a>00200   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#abe4e866f7c43317638151714abc41165">DidChangeNumberPair</a>(uint8_t aAttrEnum,
+<a name="l00201"></a>00201                            <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00202"></a>00202   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a53cc5ce0768bef0619b58d0cb4eaab0b">DidChangeInteger</a>(uint8_t aAttrEnum);
+<a name="l00203"></a>00203   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a66178dfd321b256160c53b6d2165e49e">DidChangeIntegerPair</a>(uint8_t aAttrEnum,
+<a name="l00204"></a>00204                             <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00205"></a>00205   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a3ea4b0b0388a07ffe194f4e4a17c900b">DidChangeAngle</a>(uint8_t aAttrEnum, <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00206"></a>00206   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a6d563ad86ee2b0c34950b6d5e4c8d2ea">DidChangeBoolean</a>(uint8_t aAttrEnum);
+<a name="l00207"></a>00207   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a060cc46bfc1467dce75566fec5c3b68a">DidChangeEnum</a>(uint8_t aAttrEnum);
+<a name="l00208"></a>00208   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a994a70105fc95d8d998381a030a318d4">DidChangeViewBox</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00209"></a>00209   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad7255d4c0926cfb6231c7eaa59125e3f">DidChangePreserveAspectRatio</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00210"></a>00210   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#acf3d2e9ee2cf076fcf02a517deff8378">DidChangeNumberList</a>(uint8_t aAttrEnum,
+<a name="l00211"></a>00211                            <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00212"></a>00212   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#af60adc8ba9bc7d6d9a7184cd98debd87">DidChangeLengthList</a>(uint8_t aAttrEnum,
+<a name="l00213"></a>00213                            <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00214"></a>00214   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#abfb2aee2adc71b0a2e0128d311005472">DidChangePointList</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00215"></a>00215   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a83d65a5bdbb26b9b3a5e203db48bdc8b">DidChangePathSegList</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00216"></a>00216   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a49fb0bc49bc6198df722950320667ee0">DidChangeTransformList</a>(<span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00217"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a7b2095f4d27652764fae5809521b5eb3">00217</a>   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a7b2095f4d27652764fae5809521b5eb3">DidChangeString</a>(uint8_t aAttrEnum) {}
+<a name="l00218"></a>00218   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a88769b239f782fd4e219bb614da6638a">DidChangeStringList</a>(<span class="keywordtype">bool</span> aIsConditionalProcessingAttribute,
+<a name="l00219"></a>00219                            uint8_t aAttrEnum,
+<a name="l00220"></a>00220                            <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue);
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ac147b839e49119c71c74fc943aa5e4b6">DidAnimateLength</a>(uint8_t aAttrEnum);
+<a name="l00223"></a>00223   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a5c19543ca86b7a748feb6bcccc31bc05">DidAnimateNumber</a>(uint8_t aAttrEnum);
+<a name="l00224"></a>00224   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad696e5b5e85660f35b00bfbc00ef38c3">DidAnimateNumberPair</a>(uint8_t aAttrEnum);
+<a name="l00225"></a>00225   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a3ec0dcc3e3c1dc8cd1bc32e5ae9dadbd">DidAnimateInteger</a>(uint8_t aAttrEnum);
+<a name="l00226"></a>00226   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8f4f368975df44170f2e82aaf1d1c9c0">DidAnimateIntegerPair</a>(uint8_t aAttrEnum);
+<a name="l00227"></a>00227   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a886dd5957090d57396c50cbe05bb5590">DidAnimateAngle</a>(uint8_t aAttrEnum);
+<a name="l00228"></a>00228   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#abd3230503cddfa26fea7e318a4e28719">DidAnimateBoolean</a>(uint8_t aAttrEnum);
+<a name="l00229"></a>00229   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a2e2d86a7377be6965250cd78c7aeeb67">DidAnimateEnum</a>(uint8_t aAttrEnum);
+<a name="l00230"></a>00230   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a3ecf2b36f7218112d3f0923e11bfb647">DidAnimateViewBox</a>();
+<a name="l00231"></a>00231   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8e8bedcf2872b222bc024f917b29d4fa">DidAnimatePreserveAspectRatio</a>();
+<a name="l00232"></a>00232   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#adbf2008eed54281666ccdaf1f8c0cf07">DidAnimateNumberList</a>(uint8_t aAttrEnum);
+<a name="l00233"></a>00233   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aa0e7f9fe4709abcbcfaf38b21dbfc5b4">DidAnimateLengthList</a>(uint8_t aAttrEnum);
+<a name="l00234"></a>00234   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad048318a7bc26ce087a25f4b7ebebd8c">DidAnimatePointList</a>();
+<a name="l00235"></a>00235   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aaecb75b846f24b91fdd61083eb32d88e">DidAnimatePathSegList</a>();
+<a name="l00236"></a>00236   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a0f03ee740305dd1f39dbcf40e50601e7">DidAnimateTransformList</a>();
+<a name="l00237"></a>00237   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a31cf5c1b788dda5061a92ba7fc3cace4">DidAnimateString</a>(uint8_t aAttrEnum);
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239   <span class="keyword">enum</span> {
+<a name="l00246"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a1dd367423e40bab2de0d8e4ef2576698a37ad9e3675b558a8f667084bf07cb1d6">00246</a>     <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a1dd367423e40bab2de0d8e4ef2576698a37ad9e3675b558a8f667084bf07cb1d6">DO_ALLOCATE</a> = 0x1
+<a name="l00247"></a>00247   };
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249   nsSVGLength2* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aa1ac7e30bb9b951ac740833a78c96c28">GetAnimatedLength</a>(<span class="keyword">const</span> <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a> *aAttrName);
+<a name="l00250"></a>00250   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ac42904b842c391fceac4307adb6b6ec3">GetAnimatedLengthValues</a>(<span class="keywordtype">float</span> *aFirst, ...);
+<a name="l00251"></a>00251   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a3a2877209f4c0083d1e1be11ab3a1834">GetAnimatedNumberValues</a>(<span class="keywordtype">float</span> *aFirst, ...);
+<a name="l00252"></a>00252   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ab3275394ae2b0186c6c0b9bafb3c3a38">GetAnimatedIntegerValues</a>(int32_t *aFirst, ...);
+<a name="l00253"></a>00253   <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8fd9395800ec29affeb4aa1ede5f6ba6">SVGAnimatedNumberList</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#adf18467bbcfa75082d6bb8ceb5a8d71e">GetAnimatedNumberList</a>(uint8_t aAttrEnum);
+<a name="l00254"></a>00254   <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8fd9395800ec29affeb4aa1ede5f6ba6">SVGAnimatedNumberList</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#adf18467bbcfa75082d6bb8ceb5a8d71e">GetAnimatedNumberList</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a> *aAttrName);
+<a name="l00255"></a>00255   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a41fd4e30e38140bfbc44f17d9cf8478b">GetAnimatedLengthListValues</a>(<a class="code" href="../../dd/d94/classns_s_v_g_element.html#a017b805204168d39eb1aea5aecf2ec02">SVGUserUnitList</a> *aFirst, ...);
+<a name="l00256"></a>00256   <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a73db7a115e7df2b5901bb63b44ff6d59">SVGAnimatedLengthList</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aaf7e5763dc33dfceeb9b98df18097c45">GetAnimatedLengthList</a>(uint8_t aAttrEnum);
+<a name="l00257"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a070d0a71ace3ebcc6b5185c1789dc6ba">00257</a>   <span class="keyword">virtual</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a5188f7a1647e6435cc1f1c9c9dacedc7">SVGAnimatedPointList</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a070d0a71ace3ebcc6b5185c1789dc6ba">GetAnimatedPointList</a>() {
+<a name="l00258"></a>00258     <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00259"></a>00259   }
+<a name="l00260"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#aebaa8ac7f7d0ce129ee560943b29b60b">00260</a>   <span class="keyword">virtual</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a2652ae8aafefce4c6afd61c042aaf169">SVGAnimatedPathSegList</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aebaa8ac7f7d0ce129ee560943b29b60b">GetAnimPathSegList</a>() {
+<a name="l00261"></a>00261     <span class="comment">// DOM interface &#39;SVGAnimatedPathData&#39; (*inherited* by nsSVGPathElement)</span>
+<a name="l00262"></a>00262     <span class="comment">// has a member called &#39;animatedPathSegList&#39; member, so we have a shorter</span>
+<a name="l00263"></a>00263     <span class="comment">// name so we don&#39;t get hidden by the GetAnimatedPathSegList declared by</span>
+<a name="l00264"></a>00264     <span class="comment">// NS_DECL_NSIDOMSVGANIMATEDPATHDATA.</span>
+<a name="l00265"></a>00265     <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00266"></a>00266   }
+<a name="l00279"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#adf723b7731bc261b7abf41e50712ba66">00279</a>   <span class="keyword">virtual</span> <a class="code" href="../../d7/d1a/classmozilla_1_1ns_s_v_g_animated_transform_list.html">nsSVGAnimatedTransformList</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#adf723b7731bc261b7abf41e50712ba66">GetAnimatedTransformList</a>(
+<a name="l00280"></a>00280                                                         uint32_t aFlags = 0) {
+<a name="l00281"></a>00281     <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00282"></a>00282   }
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284   <span class="keyword">virtual</span> <a class="code" href="../../df/d63/classns_i_s_m_i_l_attr.html">nsISMILAttr</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a26c2b954d789fe741098c2373cbdf356">GetAnimatedAttr</a>(int32_t aNamespaceID, <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aName) MOZ_OVERRIDE;
+<a name="l00285"></a>00285   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#af2ad6b0b5a7af047215f5eaf00bbd31f">AnimationNeedsResample</a>();
+<a name="l00286"></a>00286   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#addc370d0deaac63de92391e47da5c16f">FlushAnimations</a>();
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a891421ef7bb4da7d1d77407ada518240">RecompileScriptEventListeners</a>() MOZ_OVERRIDE;
+<a name="l00289"></a>00289 
+<a name="l00290"></a>00290   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a86e9dcce3d48f044fc8712dccd768dff">GetStringBaseValue</a>(uint8_t aAttrEnum, nsAString&amp; aResult) <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a>;
+<a name="l00291"></a>00291   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a52a7db41ff800f017d3a09ad5f0ff542">SetStringBaseValue</a>(uint8_t aAttrEnum, const nsAString&amp; <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html#a9428ba3661e564f3fade10d72a7ad0de">aValue</a>);
+<a name="l00292"></a>00292 
+<a name="l00293"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a24edeb580df6d692230781d93b8bc55e">00293</a>   virtual <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a24edeb580df6d692230781d93b8bc55e">GetPointListAttrName</a>()<span class="keyword"> const </span>{
+<a name="l00294"></a>00294     <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00295"></a>00295   }
+<a name="l00296"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#ae12f57283ae9044d55f7d057c7d8c213">00296</a>   <span class="keyword">virtual</span> <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ae12f57283ae9044d55f7d057c7d8c213">GetPathDataAttrName</a>()<span class="keyword"> const </span>{
+<a name="l00297"></a>00297     <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00298"></a>00298   }
+<a name="l00299"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8a8f6afcd6af91cd7ff54ff2cd1a9781">00299</a>   <span class="keyword">virtual</span> <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8a8f6afcd6af91cd7ff54ff2cd1a9781">GetTransformListAttrName</a>()<span class="keyword"> const </span>{
+<a name="l00300"></a>00300     <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00301"></a>00301   }
+<a name="l00302"></a>00302 
+<a name="l00303"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#aebb9f1739bdcee2516be56ed02662845">00303</a>   <span class="keyword">virtual</span> <a class="code" href="../../da/da2/interfacens_i_d_o_m_node.html">nsIDOMNode</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aebb9f1739bdcee2516be56ed02662845">AsDOMNode</a>() <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> <span class="keyword">this</span>; }
+<a name="l00304"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#a32eff34d4d251ff46094a24d2ca28532">00304</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a32eff34d4d251ff46094a24d2ca28532">IsTransformable</a>() { <span class="keywordflow">return</span> <span class="keyword">false</span>; }
+<a name="l00305"></a>00305 
+<a name="l00306"></a>00306   <span class="comment">// WebIDL</span>
+<a name="l00307"></a>00307   <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a773e6b9c7f2d0374b7acd1d182a3a831">mozilla::dom::SVGSVGElement</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a47b7dafd6c97918dc108cd300a71a099">GetOwnerSVGElement</a>(<a class="code" href="../../dd/d9c/classmozilla_1_1_error_result.html">mozilla::ErrorResult</a>&amp; rv);
+<a name="l00308"></a>00308   <a class="code" href="../../dd/d94/classns_s_v_g_element.html">nsSVGElement</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a14aeec21efc6724db9cb13d4fa52fa51">GetViewportElement</a>();
+<a name="l00309"></a>00309   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;mozilla::dom::SVGAnimatedString&gt;</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a567eb7229ba7534b048cb15e15e44c27">ClassName</a>();
+<a name="l00310"></a>00310   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;mozilla::dom::CSSValue&gt;</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a55eb3dec703ed32317a8757f2c5a139c">GetPresentationAttribute</a>(<span class="keyword">const</span> nsAString&amp; aName, <a class="code" href="../../dd/d9c/classmozilla_1_1_error_result.html">mozilla::ErrorResult</a>&amp; rv);
+<a name="l00311"></a>00311 <span class="keyword">protected</span>:
+<a name="l00312"></a>00312   <span class="keyword">virtual</span> JSObject* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a71aeef45b3f10a15683b54d0cf5a1ebe">WrapNode</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a> *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>,
+<a name="l00313"></a>00313                              <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">JS::Handle&lt;JSObject*&gt;</a> <a class="code" href="../../d6/d1b/pprthred_8h.html#abebc974dc471da8573244b14d2646069">scope</a>) MOZ_OVERRIDE;
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00316"></a>00316 <span class="preprocessor"></span>  <span class="comment">// We define BeforeSetAttr here and mark it MOZ_FINAL to ensure it is NOT used</span>
+<a name="l00317"></a>00317   <span class="comment">// by SVG elements.</span>
+<a name="l00318"></a>00318   <span class="comment">// This is because we&#39;re not currently passing the correct value for aValue to</span>
+<a name="l00319"></a>00319   <span class="comment">// BeforeSetAttr since it would involve allocating extra SVG value types.</span>
+<a name="l00320"></a>00320   <span class="comment">// See the comment in nsSVGElement::WillChangeValue.</span>
+<a name="l00321"></a>00321   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html#ab9da0c365411ea4f62d208060551a0f4">BeforeSetAttr</a>(int32_t aNamespaceID, <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aName,
+<a name="l00322"></a>00322                                  <span class="keyword">const</span> nsAttrValueOrString* <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html#a9428ba3661e564f3fade10d72a7ad0de">aValue</a>,
+<a name="l00323"></a>00323                                  <span class="keywordtype">bool</span> aNotify) MOZ_OVERRIDE <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> { <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a>; }
+<a name="l00324"></a>00324 <span class="preprocessor">#endif // DEBUG</span>
+<a name="l00325"></a>00325 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aa3cbe78bf037fda8fa1b587e30080b71">AfterSetAttr</a>(int32_t aNamespaceID, <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aName,
+<a name="l00326"></a>00326                                 <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>* <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html#a9428ba3661e564f3fade10d72a7ad0de">aValue</a>, <span class="keywordtype">bool</span> aNotify) MOZ_OVERRIDE;
+<a name="l00327"></a>00327   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ad18599b01ccc2c1f2872e371c857ac05">ParseAttribute</a>(int32_t aNamespaceID, <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aAttribute,
+<a name="l00328"></a>00328                                 <span class="keyword">const</span> nsAString&amp; <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html#a9428ba3661e564f3fade10d72a7ad0de">aValue</a>, <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aResult) MOZ_OVERRIDE;
+<a name="l00329"></a>00329   <span class="keyword">static</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a7ed1c9e157de8f6478181fdb34408084">ReportAttributeParseFailure</a>(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument,
+<a name="l00330"></a>00330                                               <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aAttribute,
+<a name="l00331"></a>00331                                               <span class="keyword">const</span> nsAString&amp; <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html#a9428ba3661e564f3fade10d72a7ad0de">aValue</a>);
+<a name="l00332"></a>00332 
+<a name="l00333"></a>00333   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a2c13ba1fb6c6b8771dfc45b861b706b8">UpdateContentStyleRule</a>();
+<a name="l00334"></a>00334   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aea9a1cda5a5b08bbc345e24f4e8865a9">UpdateAnimatedContentStyleRule</a>();
+<a name="l00335"></a>00335   mozilla::css::StyleRule* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a7b4cae744a7a25c91c94a12b184a7605">GetAnimatedContentStyleRule</a>();
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337   <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a3f7b8312339f78703f17f0b657a74370">WillChangeValue</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aName);
+<a name="l00338"></a>00338   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a229846cc59efa24520510b559452f60b">DidChangeValue</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aName, <span class="keyword">const</span> <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aEmptyOrOldValue,
+<a name="l00339"></a>00339                       <a class="code" href="../../df/d4f/classns_attr_value.html">nsAttrValue</a>&amp; aNewValue);
+<a name="l00340"></a>00340   <span class="keywordtype">void</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ae1e51fda24c1d02762d6b2a9711b0118">MaybeSerializeAttrBeforeRemoval</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aName, <span class="keywordtype">bool</span> aNotify);
+<a name="l00341"></a>00341 
+<a name="l00342"></a>00342   <span class="keyword">static</span> <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a0b05aee88559aecd22f23ed739c74385">GetEventNameForAttr</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aAttr);
+<a name="l00343"></a>00343 
+<a name="l00344"></a><a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html">00344</a>   <span class="keyword">struct </span><a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html">LengthInfo</a> {
+<a name="l00345"></a><a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html#a325f0a69115dd051e8cbc7b2884116bb">00345</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>** <a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html#a325f0a69115dd051e8cbc7b2884116bb">mName</a>;
+<a name="l00346"></a><a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html#ae718b05c77ee02d11fba4de1e3949f72">00346</a>     <span class="keywordtype">float</span>     <a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html#ae718b05c77ee02d11fba4de1e3949f72">mDefaultValue</a>;
+<a name="l00347"></a><a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html#ad4edcbb8676c87ab8ec8d2624f4d4a9b">00347</a>     uint8_t   <a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html#ad4edcbb8676c87ab8ec8d2624f4d4a9b">mDefaultUnitType</a>;
+<a name="l00348"></a><a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html#af7cae5c9d552a78243679041242c7e15">00348</a>     uint8_t   <a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html#af7cae5c9d552a78243679041242c7e15">mCtxType</a>;
+<a name="l00349"></a>00349   };
+<a name="l00350"></a>00350 
+<a name="l00351"></a><a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html">00351</a>   <span class="keyword">struct </span><a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html">LengthAttributesInfo</a> {
+<a name="l00352"></a><a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#a2d98256fcd3e25e9449e548d1b23b713">00352</a>     nsSVGLength2* <a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#a2d98256fcd3e25e9449e548d1b23b713">mLengths</a>;
+<a name="l00353"></a><a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#a0ea2a7cf7e38028426c5cef955b0a0e2">00353</a>     <a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html">LengthInfo</a>*   <a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#a0ea2a7cf7e38028426c5cef955b0a0e2">mLengthInfo</a>;
+<a name="l00354"></a><a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#a23727bb302f3d2e820dd91327371c795">00354</a>     uint32_t      <a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#a23727bb302f3d2e820dd91327371c795">mLengthCount</a>;
+<a name="l00355"></a>00355 
+<a name="l00356"></a><a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#af2ba463c292b7fe74b89694a07d916b9">00356</a>     <a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#af2ba463c292b7fe74b89694a07d916b9">LengthAttributesInfo</a>(nsSVGLength2 *aLengths,
+<a name="l00357"></a>00357                          <a class="code" href="../../d3/d2f/structns_s_v_g_element_1_1_length_info.html">LengthInfo</a> *aLengthInfo,
+<a name="l00358"></a>00358                          uint32_t aLengthCount) :
+<a name="l00359"></a>00359       <a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#a2d98256fcd3e25e9449e548d1b23b713">mLengths</a>(aLengths), <a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#a0ea2a7cf7e38028426c5cef955b0a0e2">mLengthInfo</a>(aLengthInfo), <a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#a23727bb302f3d2e820dd91327371c795">mLengthCount</a>(aLengthCount)
+<a name="l00360"></a>00360       {}
+<a name="l00361"></a>00361 
+<a name="l00362"></a>00362     <span class="keywordtype">void</span> <a class="code" href="../../d3/d74/structns_s_v_g_element_1_1_length_attributes_info.html#ae04969643b333fe0eb9ec13ce682c657">Reset</a>(uint8_t aAttrEnum);
+<a name="l00363"></a>00363   };
+<a name="l00364"></a>00364 
+<a name="l00365"></a><a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html">00365</a>   <span class="keyword">struct </span><a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html">NumberInfo</a> {
+<a name="l00366"></a><a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html#a8f6b873afe2a2ef3b71a4458bde4e0f4">00366</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>** <a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html#a8f6b873afe2a2ef3b71a4458bde4e0f4">mName</a>;
+<a name="l00367"></a><a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html#a5693f091d73f72c57c84cbd77fb4245f">00367</a>     <span class="keywordtype">float</span>     <a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html#a5693f091d73f72c57c84cbd77fb4245f">mDefaultValue</a>;
+<a name="l00368"></a><a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html#a7d2304700e777307e4511da0879cc08a">00368</a>     <span class="keywordtype">bool</span> <a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html#a7d2304700e777307e4511da0879cc08a">mPercentagesAllowed</a>;
+<a name="l00369"></a>00369   };
+<a name="l00370"></a>00370 
+<a name="l00371"></a><a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html">00371</a>   <span class="keyword">struct </span><a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html">NumberAttributesInfo</a> {
+<a name="l00372"></a><a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#ab8a24e76b7e246761c75e3d01a4a7e21">00372</a>     nsSVGNumber2* <a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#ab8a24e76b7e246761c75e3d01a4a7e21">mNumbers</a>;
+<a name="l00373"></a><a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#ae82882b73e05ac84dd0591d7d1caa515">00373</a>     <a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html">NumberInfo</a>*   <a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#ae82882b73e05ac84dd0591d7d1caa515">mNumberInfo</a>;
+<a name="l00374"></a><a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#a69fc90c4bd377a3d793d75a36ff42356">00374</a>     uint32_t      <a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#a69fc90c4bd377a3d793d75a36ff42356">mNumberCount</a>;
+<a name="l00375"></a>00375 
+<a name="l00376"></a><a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#a4e535a920b43f2418ccc31917ef8be2d">00376</a>     <a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#a4e535a920b43f2418ccc31917ef8be2d">NumberAttributesInfo</a>(nsSVGNumber2 *aNumbers,
+<a name="l00377"></a>00377                          <a class="code" href="../../df/d92/structns_s_v_g_element_1_1_number_info.html">NumberInfo</a> *aNumberInfo,
+<a name="l00378"></a>00378                          uint32_t aNumberCount) :
+<a name="l00379"></a>00379       <a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#ab8a24e76b7e246761c75e3d01a4a7e21">mNumbers</a>(aNumbers), <a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#ae82882b73e05ac84dd0591d7d1caa515">mNumberInfo</a>(aNumberInfo), <a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#a69fc90c4bd377a3d793d75a36ff42356">mNumberCount</a>(aNumberCount)
+<a name="l00380"></a>00380       {}
+<a name="l00381"></a>00381 
+<a name="l00382"></a>00382     <span class="keywordtype">void</span> <a class="code" href="../../dd/d11/structns_s_v_g_element_1_1_number_attributes_info.html#aea4356db85c613e29f86f5140811c889">Reset</a>(uint8_t aAttrEnum);
+<a name="l00383"></a>00383   };
+<a name="l00384"></a>00384 
+<a name="l00385"></a><a class="code" href="../../d2/dd4/structns_s_v_g_element_1_1_number_pair_info.html">00385</a>   <span class="keyword">struct </span><a class="code" href="../../d2/dd4/structns_s_v_g_element_1_1_number_pair_info.html">NumberPairInfo</a> {
+<a name="l00386"></a><a class="code" href="../../d2/dd4/structns_s_v_g_element_1_1_number_pair_info.html#aeba8ea311c4c010d44f07a671d5f3376">00386</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>** <a class="code" href="../../d2/dd4/structns_s_v_g_element_1_1_number_pair_info.html#aeba8ea311c4c010d44f07a671d5f3376">mName</a>;
+<a name="l00387"></a><a class="code" href="../../d2/dd4/structns_s_v_g_element_1_1_number_pair_info.html#a9098816ca5ad6f9ff518973d859de797">00387</a>     <span class="keywordtype">float</span>     <a class="code" href="../../d2/dd4/structns_s_v_g_element_1_1_number_pair_info.html#a9098816ca5ad6f9ff518973d859de797">mDefaultValue1</a>;
+<a name="l00388"></a><a class="code" href="../../d2/dd4/structns_s_v_g_element_1_1_number_pair_info.html#ade6a7cac001568df456e73dd27e6618e">00388</a>     <span class="keywordtype">float</span>     <a class="code" href="../../d2/dd4/structns_s_v_g_element_1_1_number_pair_info.html#ade6a7cac001568df456e73dd27e6618e">mDefaultValue2</a>;
+<a name="l00389"></a>00389   };
+<a name="l00390"></a>00390 
+<a name="l00391"></a><a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html">00391</a>   <span class="keyword">struct </span><a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html">NumberPairAttributesInfo</a> {
+<a name="l00392"></a><a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a513746d806b34ee9bd018689a2333c82">00392</a>     nsSVGNumberPair* <a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a513746d806b34ee9bd018689a2333c82">mNumberPairs</a>;
+<a name="l00393"></a><a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a7bff61a5e9be9c31c9c6548669361180">00393</a>     <a class="code" href="../../d2/dd4/structns_s_v_g_element_1_1_number_pair_info.html">NumberPairInfo</a>*  <a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a7bff61a5e9be9c31c9c6548669361180">mNumberPairInfo</a>;
+<a name="l00394"></a><a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a87c5b8ab320bd5d4ca8b1fc8dadaf332">00394</a>     uint32_t         <a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a87c5b8ab320bd5d4ca8b1fc8dadaf332">mNumberPairCount</a>;
+<a name="l00395"></a>00395 
+<a name="l00396"></a><a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a6e969610228d1cfa73d1e468c9a25312">00396</a>     <a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a6e969610228d1cfa73d1e468c9a25312">NumberPairAttributesInfo</a>(nsSVGNumberPair *aNumberPairs,
+<a name="l00397"></a>00397                              <a class="code" href="../../d2/dd4/structns_s_v_g_element_1_1_number_pair_info.html">NumberPairInfo</a> *aNumberPairInfo,
+<a name="l00398"></a>00398                              uint32_t aNumberPairCount) :
+<a name="l00399"></a>00399       <a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a513746d806b34ee9bd018689a2333c82">mNumberPairs</a>(aNumberPairs), <a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a7bff61a5e9be9c31c9c6548669361180">mNumberPairInfo</a>(aNumberPairInfo),
+<a name="l00400"></a>00400       <a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a87c5b8ab320bd5d4ca8b1fc8dadaf332">mNumberPairCount</a>(aNumberPairCount)
+<a name="l00401"></a>00401       {}
+<a name="l00402"></a>00402 
+<a name="l00403"></a>00403     <span class="keywordtype">void</span> <a class="code" href="../../d7/de0/structns_s_v_g_element_1_1_number_pair_attributes_info.html#a0a2f3941da7cf88005fadbb62a8d1536">Reset</a>(uint8_t aAttrEnum);
+<a name="l00404"></a>00404   };
+<a name="l00405"></a>00405 
+<a name="l00406"></a><a class="code" href="../../d4/d63/structns_s_v_g_element_1_1_integer_info.html">00406</a>   <span class="keyword">struct </span><a class="code" href="../../d4/d63/structns_s_v_g_element_1_1_integer_info.html">IntegerInfo</a> {
+<a name="l00407"></a><a class="code" href="../../d4/d63/structns_s_v_g_element_1_1_integer_info.html#a7860df0d606729cc6f7092db79838f8f">00407</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>** <a class="code" href="../../d4/d63/structns_s_v_g_element_1_1_integer_info.html#a7860df0d606729cc6f7092db79838f8f">mName</a>;
+<a name="l00408"></a><a class="code" href="../../d4/d63/structns_s_v_g_element_1_1_integer_info.html#accc33f2c709a7fa837f598f943cc7ad7">00408</a>     int32_t   <a class="code" href="../../d4/d63/structns_s_v_g_element_1_1_integer_info.html#accc33f2c709a7fa837f598f943cc7ad7">mDefaultValue</a>;
+<a name="l00409"></a>00409   };
+<a name="l00410"></a>00410 
+<a name="l00411"></a><a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html">00411</a>   <span class="keyword">struct </span><a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html">IntegerAttributesInfo</a> {
+<a name="l00412"></a><a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a8b725885badb19f6877167b4a57348c8">00412</a>     nsSVGInteger* <a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a8b725885badb19f6877167b4a57348c8">mIntegers</a>;
+<a name="l00413"></a><a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a30b0c8442ae1f480d1c8a83feb0e81c1">00413</a>     <a class="code" href="../../d4/d63/structns_s_v_g_element_1_1_integer_info.html">IntegerInfo</a>*  <a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a30b0c8442ae1f480d1c8a83feb0e81c1">mIntegerInfo</a>;
+<a name="l00414"></a><a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a0eec0af9943b4a2aa36b90fa0d01816a">00414</a>     uint32_t      <a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a0eec0af9943b4a2aa36b90fa0d01816a">mIntegerCount</a>;
+<a name="l00415"></a>00415 
+<a name="l00416"></a><a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a5f0915c54bd84edf4ee4397158027253">00416</a>     <a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a5f0915c54bd84edf4ee4397158027253">IntegerAttributesInfo</a>(nsSVGInteger *aIntegers,
+<a name="l00417"></a>00417                           <a class="code" href="../../d4/d63/structns_s_v_g_element_1_1_integer_info.html">IntegerInfo</a> *aIntegerInfo,
+<a name="l00418"></a>00418                           uint32_t aIntegerCount) :
+<a name="l00419"></a>00419       <a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a8b725885badb19f6877167b4a57348c8">mIntegers</a>(aIntegers), <a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a30b0c8442ae1f480d1c8a83feb0e81c1">mIntegerInfo</a>(aIntegerInfo), <a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a0eec0af9943b4a2aa36b90fa0d01816a">mIntegerCount</a>(aIntegerCount)
+<a name="l00420"></a>00420       {}
+<a name="l00421"></a>00421 
+<a name="l00422"></a>00422     <span class="keywordtype">void</span> <a class="code" href="../../da/dc8/structns_s_v_g_element_1_1_integer_attributes_info.html#a660400635b42158947d86f0bc37c87e5">Reset</a>(uint8_t aAttrEnum);
+<a name="l00423"></a>00423   };
+<a name="l00424"></a>00424 
+<a name="l00425"></a><a class="code" href="../../d4/d49/structns_s_v_g_element_1_1_integer_pair_info.html">00425</a>   <span class="keyword">struct </span><a class="code" href="../../d4/d49/structns_s_v_g_element_1_1_integer_pair_info.html">IntegerPairInfo</a> {
+<a name="l00426"></a><a class="code" href="../../d4/d49/structns_s_v_g_element_1_1_integer_pair_info.html#a2913f2f38bb6d5958afd3b9aa018e07e">00426</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>** <a class="code" href="../../d4/d49/structns_s_v_g_element_1_1_integer_pair_info.html#a2913f2f38bb6d5958afd3b9aa018e07e">mName</a>;
+<a name="l00427"></a><a class="code" href="../../d4/d49/structns_s_v_g_element_1_1_integer_pair_info.html#aff99b39f5a144fb65aee37141d009db6">00427</a>     int32_t   <a class="code" href="../../d4/d49/structns_s_v_g_element_1_1_integer_pair_info.html#aff99b39f5a144fb65aee37141d009db6">mDefaultValue1</a>;
+<a name="l00428"></a><a class="code" href="../../d4/d49/structns_s_v_g_element_1_1_integer_pair_info.html#a9c97a0921a7eb0c106fabfe6e8ab0487">00428</a>     int32_t   <a class="code" href="../../d4/d49/structns_s_v_g_element_1_1_integer_pair_info.html#a9c97a0921a7eb0c106fabfe6e8ab0487">mDefaultValue2</a>;
+<a name="l00429"></a>00429   };
+<a name="l00430"></a>00430 
+<a name="l00431"></a><a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html">00431</a>   <span class="keyword">struct </span><a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html">IntegerPairAttributesInfo</a> {
+<a name="l00432"></a><a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#af0494f3cce2cf1e4bbabb78a7661848f">00432</a>     nsSVGIntegerPair* <a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#af0494f3cce2cf1e4bbabb78a7661848f">mIntegerPairs</a>;
+<a name="l00433"></a><a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#a39290a76ffbd2c906027e59e35f19d31">00433</a>     <a class="code" href="../../d4/d49/structns_s_v_g_element_1_1_integer_pair_info.html">IntegerPairInfo</a>*  <a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#a39290a76ffbd2c906027e59e35f19d31">mIntegerPairInfo</a>;
+<a name="l00434"></a><a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#a0c7eb1b5edc2819c93e37fe1c8c240bf">00434</a>     uint32_t          <a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#a0c7eb1b5edc2819c93e37fe1c8c240bf">mIntegerPairCount</a>;
+<a name="l00435"></a>00435 
+<a name="l00436"></a><a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#ab6572e99de5183a0345e455f2ac2f67e">00436</a>     <a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#ab6572e99de5183a0345e455f2ac2f67e">IntegerPairAttributesInfo</a>(nsSVGIntegerPair *aIntegerPairs,
+<a name="l00437"></a>00437                               <a class="code" href="../../d4/d49/structns_s_v_g_element_1_1_integer_pair_info.html">IntegerPairInfo</a> *aIntegerPairInfo,
+<a name="l00438"></a>00438                               uint32_t aIntegerPairCount) :
+<a name="l00439"></a>00439       <a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#af0494f3cce2cf1e4bbabb78a7661848f">mIntegerPairs</a>(aIntegerPairs), <a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#a39290a76ffbd2c906027e59e35f19d31">mIntegerPairInfo</a>(aIntegerPairInfo),
+<a name="l00440"></a>00440       <a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#a0c7eb1b5edc2819c93e37fe1c8c240bf">mIntegerPairCount</a>(aIntegerPairCount)
+<a name="l00441"></a>00441       {}
+<a name="l00442"></a>00442 
+<a name="l00443"></a>00443     <span class="keywordtype">void</span> <a class="code" href="../../d7/da7/structns_s_v_g_element_1_1_integer_pair_attributes_info.html#a94da28f2219e132fda8aa5589a0d61aa">Reset</a>(uint8_t aAttrEnum);
+<a name="l00444"></a>00444   };
+<a name="l00445"></a>00445 
+<a name="l00446"></a><a class="code" href="../../d1/def/structns_s_v_g_element_1_1_angle_info.html">00446</a>   <span class="keyword">struct </span><a class="code" href="../../d1/def/structns_s_v_g_element_1_1_angle_info.html">AngleInfo</a> {
+<a name="l00447"></a><a class="code" href="../../d1/def/structns_s_v_g_element_1_1_angle_info.html#a0315c47448b17d47d5c0903ea6d45882">00447</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>** <a class="code" href="../../d1/def/structns_s_v_g_element_1_1_angle_info.html#a0315c47448b17d47d5c0903ea6d45882">mName</a>;
+<a name="l00448"></a><a class="code" href="../../d1/def/structns_s_v_g_element_1_1_angle_info.html#a9c550d14a6245f5e48ce2726f4f7c650">00448</a>     <span class="keywordtype">float</span>     <a class="code" href="../../d1/def/structns_s_v_g_element_1_1_angle_info.html#a9c550d14a6245f5e48ce2726f4f7c650">mDefaultValue</a>;
+<a name="l00449"></a><a class="code" href="../../d1/def/structns_s_v_g_element_1_1_angle_info.html#ad45371cbec7915fdd61fea84aa27a5db">00449</a>     uint8_t   <a class="code" href="../../d1/def/structns_s_v_g_element_1_1_angle_info.html#ad45371cbec7915fdd61fea84aa27a5db">mDefaultUnitType</a>;
+<a name="l00450"></a>00450   };
+<a name="l00451"></a>00451 
+<a name="l00452"></a><a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html">00452</a>   <span class="keyword">struct </span><a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html">AngleAttributesInfo</a> {
+<a name="l00453"></a><a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#aa658251bb0d1fd231dc116d490fb7a1f">00453</a>     nsSVGAngle* <a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#aa658251bb0d1fd231dc116d490fb7a1f">mAngles</a>;
+<a name="l00454"></a><a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#a15ca01891619310c3c3f445651f179e8">00454</a>     <a class="code" href="../../d1/def/structns_s_v_g_element_1_1_angle_info.html">AngleInfo</a>*  <a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#a15ca01891619310c3c3f445651f179e8">mAngleInfo</a>;
+<a name="l00455"></a><a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#acc525038f3a9a4aada564ccdd28387ef">00455</a>     uint32_t    <a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#acc525038f3a9a4aada564ccdd28387ef">mAngleCount</a>;
+<a name="l00456"></a>00456 
+<a name="l00457"></a><a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#abb486a2ffe95aa05fb85e89d9ed72285">00457</a>     <a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#abb486a2ffe95aa05fb85e89d9ed72285">AngleAttributesInfo</a>(nsSVGAngle *aAngles,
+<a name="l00458"></a>00458                         <a class="code" href="../../d1/def/structns_s_v_g_element_1_1_angle_info.html">AngleInfo</a> *aAngleInfo,
+<a name="l00459"></a>00459                         uint32_t aAngleCount) :
+<a name="l00460"></a>00460       <a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#aa658251bb0d1fd231dc116d490fb7a1f">mAngles</a>(aAngles), <a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#a15ca01891619310c3c3f445651f179e8">mAngleInfo</a>(aAngleInfo), <a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#acc525038f3a9a4aada564ccdd28387ef">mAngleCount</a>(aAngleCount)
+<a name="l00461"></a>00461       {}
+<a name="l00462"></a>00462 
+<a name="l00463"></a>00463     <span class="keywordtype">void</span> <a class="code" href="../../d2/dfd/structns_s_v_g_element_1_1_angle_attributes_info.html#aadcf2ec1b9b4af5ea806511c1ff67328">Reset</a>(uint8_t aAttrEnum);
+<a name="l00464"></a>00464   };
+<a name="l00465"></a>00465 
+<a name="l00466"></a><a class="code" href="../../df/d76/structns_s_v_g_element_1_1_boolean_info.html">00466</a>   <span class="keyword">struct </span><a class="code" href="../../df/d76/structns_s_v_g_element_1_1_boolean_info.html">BooleanInfo</a> {
+<a name="l00467"></a><a class="code" href="../../df/d76/structns_s_v_g_element_1_1_boolean_info.html#a7dff27ade4b9966e88759180184d61e0">00467</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>**    <a class="code" href="../../df/d76/structns_s_v_g_element_1_1_boolean_info.html#a7dff27ade4b9966e88759180184d61e0">mName</a>;
+<a name="l00468"></a><a class="code" href="../../df/d76/structns_s_v_g_element_1_1_boolean_info.html#a735cce596ec336775debf21a0107a1ec">00468</a>     <span class="keywordtype">bool</span> <a class="code" href="../../df/d76/structns_s_v_g_element_1_1_boolean_info.html#a735cce596ec336775debf21a0107a1ec">mDefaultValue</a>;
+<a name="l00469"></a>00469   };
+<a name="l00470"></a>00470 
+<a name="l00471"></a><a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html">00471</a>   <span class="keyword">struct </span><a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html">BooleanAttributesInfo</a> {
+<a name="l00472"></a><a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a07b6ead10173b9d6cad5a0b17036a380">00472</a>     nsSVGBoolean* <a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a07b6ead10173b9d6cad5a0b17036a380">mBooleans</a>;
+<a name="l00473"></a><a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a1163276238c4e1a7dc3434bd1b715844">00473</a>     <a class="code" href="../../df/d76/structns_s_v_g_element_1_1_boolean_info.html">BooleanInfo</a>*  <a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a1163276238c4e1a7dc3434bd1b715844">mBooleanInfo</a>;
+<a name="l00474"></a><a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a045fad827f7d9d33ba3696616167ae9a">00474</a>     uint32_t      <a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a045fad827f7d9d33ba3696616167ae9a">mBooleanCount</a>;
+<a name="l00475"></a>00475 
+<a name="l00476"></a><a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a210bdcf5a0f3aec0047188e3ea1322da">00476</a>     <a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a210bdcf5a0f3aec0047188e3ea1322da">BooleanAttributesInfo</a>(nsSVGBoolean *aBooleans,
+<a name="l00477"></a>00477                           <a class="code" href="../../df/d76/structns_s_v_g_element_1_1_boolean_info.html">BooleanInfo</a> *aBooleanInfo,
+<a name="l00478"></a>00478                           uint32_t aBooleanCount) :
+<a name="l00479"></a>00479       <a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a07b6ead10173b9d6cad5a0b17036a380">mBooleans</a>(aBooleans), <a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a1163276238c4e1a7dc3434bd1b715844">mBooleanInfo</a>(aBooleanInfo), <a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#a045fad827f7d9d33ba3696616167ae9a">mBooleanCount</a>(aBooleanCount)
+<a name="l00480"></a>00480       {}
+<a name="l00481"></a>00481 
+<a name="l00482"></a>00482     <span class="keywordtype">void</span> <a class="code" href="../../d0/d1d/structns_s_v_g_element_1_1_boolean_attributes_info.html#aaa664d354d90f005cc70e8627a32067e">Reset</a>(uint8_t aAttrEnum);
+<a name="l00483"></a>00483   };
+<a name="l00484"></a>00484 
+<a name="l00485"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#af8e1bfc5b2737453f998eb77fab39e92">00485</a>   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../dd/d94/classns_s_v_g_element.html#af8e1bfc5b2737453f998eb77fab39e92">nsSVGEnum</a>;
+<a name="l00486"></a>00486 
+<a name="l00487"></a><a class="code" href="../../d4/d3e/structns_s_v_g_element_1_1_enum_info.html">00487</a>   <span class="keyword">struct </span><a class="code" href="../../d4/d3e/structns_s_v_g_element_1_1_enum_info.html">EnumInfo</a> {
+<a name="l00488"></a><a class="code" href="../../d4/d3e/structns_s_v_g_element_1_1_enum_info.html#a41cd80eb329233aee8f7747cce5819bb">00488</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>**         <a class="code" href="../../d4/d3e/structns_s_v_g_element_1_1_enum_info.html#a41cd80eb329233aee8f7747cce5819bb">mName</a>;
+<a name="l00489"></a><a class="code" href="../../d4/d3e/structns_s_v_g_element_1_1_enum_info.html#a1d5a342faf5d0715aab01d38e3a824fc">00489</a>     nsSVGEnumMapping* <a class="code" href="../../d4/d3e/structns_s_v_g_element_1_1_enum_info.html#a1d5a342faf5d0715aab01d38e3a824fc">mMapping</a>;
+<a name="l00490"></a><a class="code" href="../../d4/d3e/structns_s_v_g_element_1_1_enum_info.html#a4dc6f7b258246658b94111b371b30c76">00490</a>     uint16_t          <a class="code" href="../../d4/d3e/structns_s_v_g_element_1_1_enum_info.html#a4dc6f7b258246658b94111b371b30c76">mDefaultValue</a>;
+<a name="l00491"></a>00491   };
+<a name="l00492"></a>00492 
+<a name="l00493"></a><a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html">00493</a>   <span class="keyword">struct </span><a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html">EnumAttributesInfo</a> {
+<a name="l00494"></a><a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a9a0806b433d40c4e2834bd175e6c829e">00494</a>     <a class="code" href="../../dd/d94/classns_s_v_g_element.html#af8e1bfc5b2737453f998eb77fab39e92">nsSVGEnum</a>* <a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a9a0806b433d40c4e2834bd175e6c829e">mEnums</a>;
+<a name="l00495"></a><a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a86dabef198fe07413cdd63b47c2e9e9a">00495</a>     <a class="code" href="../../d4/d3e/structns_s_v_g_element_1_1_enum_info.html">EnumInfo</a>*  <a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a86dabef198fe07413cdd63b47c2e9e9a">mEnumInfo</a>;
+<a name="l00496"></a><a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a150d34110744a31bb1fcfc6dd9dd5412">00496</a>     uint32_t   <a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a150d34110744a31bb1fcfc6dd9dd5412">mEnumCount</a>;
+<a name="l00497"></a>00497 
+<a name="l00498"></a><a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a93adfb287728c12dbb64f8b3217f6cdc">00498</a>     <a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a93adfb287728c12dbb64f8b3217f6cdc">EnumAttributesInfo</a>(<a class="code" href="../../dd/d94/classns_s_v_g_element.html#af8e1bfc5b2737453f998eb77fab39e92">nsSVGEnum</a> *aEnums,
+<a name="l00499"></a>00499                        <a class="code" href="../../d4/d3e/structns_s_v_g_element_1_1_enum_info.html">EnumInfo</a> *aEnumInfo,
+<a name="l00500"></a>00500                        uint32_t aEnumCount) :
+<a name="l00501"></a>00501       <a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a9a0806b433d40c4e2834bd175e6c829e">mEnums</a>(aEnums), <a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a86dabef198fe07413cdd63b47c2e9e9a">mEnumInfo</a>(aEnumInfo), <a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a150d34110744a31bb1fcfc6dd9dd5412">mEnumCount</a>(aEnumCount)
+<a name="l00502"></a>00502       {}
+<a name="l00503"></a>00503 
+<a name="l00504"></a>00504     <span class="keywordtype">void</span> <a class="code" href="../../de/de1/structns_s_v_g_element_1_1_enum_attributes_info.html#a33459486f311a472c5b8f1449659bb81">Reset</a>(uint8_t aAttrEnum);
+<a name="l00505"></a>00505   };
+<a name="l00506"></a>00506 
+<a name="l00507"></a><a class="code" href="../../d2/d35/structns_s_v_g_element_1_1_number_list_info.html">00507</a>   <span class="keyword">struct </span><a class="code" href="../../d2/d35/structns_s_v_g_element_1_1_number_list_info.html">NumberListInfo</a> {
+<a name="l00508"></a><a class="code" href="../../d2/d35/structns_s_v_g_element_1_1_number_list_info.html#a61a5c27ffe635406c6d272d4b4810039">00508</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>** <a class="code" href="../../d2/d35/structns_s_v_g_element_1_1_number_list_info.html#a61a5c27ffe635406c6d272d4b4810039">mName</a>;
+<a name="l00509"></a>00509   };
+<a name="l00510"></a>00510 
+<a name="l00511"></a><a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html">00511</a>   <span class="keyword">struct </span><a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html">NumberListAttributesInfo</a> {
+<a name="l00512"></a><a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#a3ee2213b8414a2323732c7a08334becb">00512</a>     <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8fd9395800ec29affeb4aa1ede5f6ba6">SVGAnimatedNumberList</a>* <a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#a3ee2213b8414a2323732c7a08334becb">mNumberLists</a>;
+<a name="l00513"></a><a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#ad92dc1d2daa1aa9aa33ce95036423d93">00513</a>     <a class="code" href="../../d2/d35/structns_s_v_g_element_1_1_number_list_info.html">NumberListInfo</a>*        <a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#ad92dc1d2daa1aa9aa33ce95036423d93">mNumberListInfo</a>;
+<a name="l00514"></a><a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#ac06324486f99c5e5334e8e4dfb323356">00514</a>     uint32_t               <a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#ac06324486f99c5e5334e8e4dfb323356">mNumberListCount</a>;
+<a name="l00515"></a>00515 
+<a name="l00516"></a><a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#ac5666251f9d1f0cc4da047df2d6aa65c">00516</a>     <a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#ac5666251f9d1f0cc4da047df2d6aa65c">NumberListAttributesInfo</a>(<a class="code" href="../../dd/d94/classns_s_v_g_element.html#a8fd9395800ec29affeb4aa1ede5f6ba6">SVGAnimatedNumberList</a> *aNumberLists,
+<a name="l00517"></a>00517                              <a class="code" href="../../d2/d35/structns_s_v_g_element_1_1_number_list_info.html">NumberListInfo</a> *aNumberListInfo,
+<a name="l00518"></a>00518                              uint32_t aNumberListCount)
+<a name="l00519"></a>00519       : <a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#a3ee2213b8414a2323732c7a08334becb">mNumberLists</a>(aNumberLists)
+<a name="l00520"></a>00520       , <a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#ad92dc1d2daa1aa9aa33ce95036423d93">mNumberListInfo</a>(aNumberListInfo)
+<a name="l00521"></a>00521       , <a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#ac06324486f99c5e5334e8e4dfb323356">mNumberListCount</a>(aNumberListCount)
+<a name="l00522"></a>00522     {}
+<a name="l00523"></a>00523 
+<a name="l00524"></a>00524     <span class="keywordtype">void</span> <a class="code" href="../../d8/d88/structns_s_v_g_element_1_1_number_list_attributes_info.html#a775eb509d757fe2aa5fa5c87284f3c08">Reset</a>(uint8_t aAttrEnum);
+<a name="l00525"></a>00525   };
+<a name="l00526"></a>00526 
+<a name="l00527"></a><a class="code" href="../../dc/d8e/structns_s_v_g_element_1_1_length_list_info.html">00527</a>   <span class="keyword">struct </span><a class="code" href="../../dc/d8e/structns_s_v_g_element_1_1_length_list_info.html">LengthListInfo</a> {
+<a name="l00528"></a><a class="code" href="../../dc/d8e/structns_s_v_g_element_1_1_length_list_info.html#a547691fb8bf8bd75f18efe1048b2c396">00528</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>** <a class="code" href="../../dc/d8e/structns_s_v_g_element_1_1_length_list_info.html#a547691fb8bf8bd75f18efe1048b2c396">mName</a>;
+<a name="l00529"></a><a class="code" href="../../dc/d8e/structns_s_v_g_element_1_1_length_list_info.html#aa408d16f62396c1fff75da1b90ab894a">00529</a>     uint8_t   <a class="code" href="../../dc/d8e/structns_s_v_g_element_1_1_length_list_info.html#aa408d16f62396c1fff75da1b90ab894a">mAxis</a>;
+<a name="l00538"></a><a class="code" href="../../dc/d8e/structns_s_v_g_element_1_1_length_list_info.html#ad9a35d7065e4676e99c60c99f05ae991">00538</a>     <span class="keywordtype">bool</span> <a class="code" href="../../dc/d8e/structns_s_v_g_element_1_1_length_list_info.html#ad9a35d7065e4676e99c60c99f05ae991">mCouldZeroPadList</a>;
+<a name="l00539"></a>00539   };
+<a name="l00540"></a>00540 
+<a name="l00541"></a><a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html">00541</a>   <span class="keyword">struct </span><a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html">LengthListAttributesInfo</a> {
+<a name="l00542"></a><a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#afe69e53801e9c7f758f0662fe9401988">00542</a>     <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a73db7a115e7df2b5901bb63b44ff6d59">SVGAnimatedLengthList</a>* <a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#afe69e53801e9c7f758f0662fe9401988">mLengthLists</a>;
+<a name="l00543"></a><a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#aff1757d12600b34fa4f5f917c20b88cb">00543</a>     <a class="code" href="../../dc/d8e/structns_s_v_g_element_1_1_length_list_info.html">LengthListInfo</a>*        <a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#aff1757d12600b34fa4f5f917c20b88cb">mLengthListInfo</a>;
+<a name="l00544"></a><a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#a7d12a9b3118bbe626560f3e48df1925a">00544</a>     uint32_t               <a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#a7d12a9b3118bbe626560f3e48df1925a">mLengthListCount</a>;
+<a name="l00545"></a>00545 
+<a name="l00546"></a><a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#a660dd31b5399565f64145c8a1c5d6a96">00546</a>     <a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#a660dd31b5399565f64145c8a1c5d6a96">LengthListAttributesInfo</a>(<a class="code" href="../../dd/d94/classns_s_v_g_element.html#a73db7a115e7df2b5901bb63b44ff6d59">SVGAnimatedLengthList</a> *aLengthLists,
+<a name="l00547"></a>00547                              <a class="code" href="../../dc/d8e/structns_s_v_g_element_1_1_length_list_info.html">LengthListInfo</a> *aLengthListInfo,
+<a name="l00548"></a>00548                              uint32_t aLengthListCount)
+<a name="l00549"></a>00549       : <a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#afe69e53801e9c7f758f0662fe9401988">mLengthLists</a>(aLengthLists)
+<a name="l00550"></a>00550       , <a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#aff1757d12600b34fa4f5f917c20b88cb">mLengthListInfo</a>(aLengthListInfo)
+<a name="l00551"></a>00551       , <a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#a7d12a9b3118bbe626560f3e48df1925a">mLengthListCount</a>(aLengthListCount)
+<a name="l00552"></a>00552     {}
+<a name="l00553"></a>00553 
+<a name="l00554"></a>00554     <span class="keywordtype">void</span> <a class="code" href="../../df/d4a/structns_s_v_g_element_1_1_length_list_attributes_info.html#ad22b0af0c482127fb1a9219d4f826b1f">Reset</a>(uint8_t aAttrEnum);
+<a name="l00555"></a>00555   };
+<a name="l00556"></a>00556 
+<a name="l00557"></a><a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html">00557</a>   <span class="keyword">struct </span><a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html">StringInfo</a> {
+<a name="l00558"></a><a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html#ab3758c2df1f808ba8688a61f2c7c327d">00558</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>**    <a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html#ab3758c2df1f808ba8688a61f2c7c327d">mName</a>;
+<a name="l00559"></a><a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html#afa68435a154c98811a7916cf942e1787">00559</a>     int32_t      <a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html#afa68435a154c98811a7916cf942e1787">mNamespaceID</a>;
+<a name="l00560"></a><a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html#ac00bc1580514c9fa4c5d2315ca5e349e">00560</a>     <span class="keywordtype">bool</span> <a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html#ac00bc1580514c9fa4c5d2315ca5e349e">mIsAnimatable</a>;
+<a name="l00561"></a>00561   };
+<a name="l00562"></a>00562 
+<a name="l00563"></a><a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html">00563</a>   <span class="keyword">struct </span><a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html">StringAttributesInfo</a> {
+<a name="l00564"></a><a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#ae38cf9b1f963a38cfc5e9b72363b7a2c">00564</a>     nsSVGString*  <a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#ae38cf9b1f963a38cfc5e9b72363b7a2c">mStrings</a>;
+<a name="l00565"></a><a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#a1fdbd3553888bc67ba0bc4376557a8f4">00565</a>     <a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html">StringInfo</a>*   <a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#a1fdbd3553888bc67ba0bc4376557a8f4">mStringInfo</a>;
+<a name="l00566"></a><a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#a325c09d5a2d19d749a2302b6415ccb55">00566</a>     uint32_t      <a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#a325c09d5a2d19d749a2302b6415ccb55">mStringCount</a>;
+<a name="l00567"></a>00567 
+<a name="l00568"></a><a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#a0356d325acd54d4353664ddc1cc3cb6b">00568</a>     <a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#a0356d325acd54d4353664ddc1cc3cb6b">StringAttributesInfo</a>(nsSVGString *aStrings,
+<a name="l00569"></a>00569                          <a class="code" href="../../d4/d0f/structns_s_v_g_element_1_1_string_info.html">StringInfo</a> *aStringInfo,
+<a name="l00570"></a>00570                          uint32_t aStringCount) :
+<a name="l00571"></a>00571       <a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#ae38cf9b1f963a38cfc5e9b72363b7a2c">mStrings</a>(aStrings), <a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#a1fdbd3553888bc67ba0bc4376557a8f4">mStringInfo</a>(aStringInfo), <a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#a325c09d5a2d19d749a2302b6415ccb55">mStringCount</a>(aStringCount)
+<a name="l00572"></a>00572       {}
+<a name="l00573"></a>00573 
+<a name="l00574"></a>00574     <span class="keywordtype">void</span> <a class="code" href="../../d7/dd2/structns_s_v_g_element_1_1_string_attributes_info.html#aeb7cbe9cbaf6c270dafa6f065d7ec8de">Reset</a>(uint8_t aAttrEnum);
+<a name="l00575"></a>00575   };
+<a name="l00576"></a>00576 
+<a name="l00577"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#ab6a9e34e01bcfb218921d32a36627d26">00577</a>   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../dd/d94/classns_s_v_g_element.html#ab6a9e34e01bcfb218921d32a36627d26">mozilla::DOMSVGStringList</a>;
+<a name="l00578"></a>00578 
+<a name="l00579"></a><a class="code" href="../../da/d97/structns_s_v_g_element_1_1_string_list_info.html">00579</a>   <span class="keyword">struct </span><a class="code" href="../../da/d97/structns_s_v_g_element_1_1_string_list_info.html">StringListInfo</a> {
+<a name="l00580"></a><a class="code" href="../../da/d97/structns_s_v_g_element_1_1_string_list_info.html#a0f2ae17c6f4f45f11ec8b9ef102f3d47">00580</a>     <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>**    <a class="code" href="../../da/d97/structns_s_v_g_element_1_1_string_list_info.html#a0f2ae17c6f4f45f11ec8b9ef102f3d47">mName</a>;
+<a name="l00581"></a>00581   };
+<a name="l00582"></a>00582 
+<a name="l00583"></a><a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html">00583</a>   <span class="keyword">struct </span><a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html">StringListAttributesInfo</a> {
+<a name="l00584"></a><a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#a531281f4b5c0db88a281299f009d48b2">00584</a>     <a class="code" href="../../d3/d87/classmozilla_1_1_s_v_g_string_list.html">SVGStringList</a>*    <a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#a531281f4b5c0db88a281299f009d48b2">mStringLists</a>;
+<a name="l00585"></a><a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#a72e6306613367e0538bd10f59f893fc5">00585</a>     <a class="code" href="../../da/d97/structns_s_v_g_element_1_1_string_list_info.html">StringListInfo</a>*   <a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#a72e6306613367e0538bd10f59f893fc5">mStringListInfo</a>;
+<a name="l00586"></a><a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#acc7337eeef422145bed1a99919ca1513">00586</a>     uint32_t          <a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#acc7337eeef422145bed1a99919ca1513">mStringListCount</a>;
+<a name="l00587"></a>00587 
+<a name="l00588"></a><a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#af9d328117b6aa114fc19ffcad7f6c9ae">00588</a>     <a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#af9d328117b6aa114fc19ffcad7f6c9ae">StringListAttributesInfo</a>(<a class="code" href="../../d3/d87/classmozilla_1_1_s_v_g_string_list.html">SVGStringList</a>  *aStringLists,
+<a name="l00589"></a>00589                              <a class="code" href="../../da/d97/structns_s_v_g_element_1_1_string_list_info.html">StringListInfo</a> *aStringListInfo,
+<a name="l00590"></a>00590                              uint32_t aStringListCount) :
+<a name="l00591"></a>00591       <a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#a531281f4b5c0db88a281299f009d48b2">mStringLists</a>(aStringLists), <a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#a72e6306613367e0538bd10f59f893fc5">mStringListInfo</a>(aStringListInfo),
+<a name="l00592"></a>00592       <a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#acc7337eeef422145bed1a99919ca1513">mStringListCount</a>(aStringListCount)
+<a name="l00593"></a>00593       {}
+<a name="l00594"></a>00594 
+<a name="l00595"></a>00595     <span class="keywordtype">void</span> <a class="code" href="../../d0/d46/structns_s_v_g_element_1_1_string_list_attributes_info.html#aa552cfb7f11bdd7f589b69aa75bdb5e7">Reset</a>(uint8_t aAttrEnum);
+<a name="l00596"></a>00596   };
+<a name="l00597"></a>00597 
+<a name="l00598"></a>00598   <span class="keyword">virtual</span> LengthAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a3e704001a5d81ff19f198e1388e2eda7">GetLengthInfo</a>();
+<a name="l00599"></a>00599   <span class="keyword">virtual</span> NumberAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a6b4f1533664d513ddbda2431911ffc86">GetNumberInfo</a>();
+<a name="l00600"></a>00600   <span class="keyword">virtual</span> NumberPairAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a827d7d24acdc8b8ef2c4d0f959a7a98e">GetNumberPairInfo</a>();
+<a name="l00601"></a>00601   <span class="keyword">virtual</span> IntegerAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a7d9b0e14b1bc81d526083cd1d0dddf77">GetIntegerInfo</a>();
+<a name="l00602"></a>00602   <span class="keyword">virtual</span> IntegerPairAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a4fc8d60ad307db76aed32771c85bfbdf">GetIntegerPairInfo</a>();
+<a name="l00603"></a>00603   <span class="keyword">virtual</span> AngleAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a93833a403b6f73eac2e14e1497b54cd9">GetAngleInfo</a>();
+<a name="l00604"></a>00604   <span class="keyword">virtual</span> BooleanAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aa14e68b8703941c3fed6e2feea429222">GetBooleanInfo</a>();
+<a name="l00605"></a>00605   <span class="keyword">virtual</span> EnumAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a674041abba1b1c8ff141863bfcf6ee49">GetEnumInfo</a>();
+<a name="l00606"></a>00606   <span class="comment">// We assume all viewboxes and preserveAspectRatios are alike</span>
+<a name="l00607"></a>00607   <span class="comment">// so we don&#39;t need to wrap the class</span>
+<a name="l00608"></a>00608   <span class="keyword">virtual</span> nsSVGViewBox *<a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9e946ebfd9fee3b177335f7e67c250d3">GetViewBox</a>();
+<a name="l00609"></a>00609   <span class="keyword">virtual</span> <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a9e1ec2a1e73b3984c482b7449c1a84b0">SVGAnimatedPreserveAspectRatio</a> *<a class="code" href="../../dd/d94/classns_s_v_g_element.html#a20ea31ca05a4c56f73ad7276c9416275">GetPreserveAspectRatio</a>();
+<a name="l00610"></a>00610   <span class="keyword">virtual</span> NumberListAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#afd9509348891190852b7a40978cef1ff">GetNumberListInfo</a>();
+<a name="l00611"></a>00611   <span class="keyword">virtual</span> LengthListAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a15ff6e370ead1283d5941139265be523">GetLengthListInfo</a>();
+<a name="l00612"></a>00612   <span class="keyword">virtual</span> StringAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#aafe99fb1d588315c588a33749d1b7b45">GetStringInfo</a>();
+<a name="l00613"></a>00613   <span class="keyword">virtual</span> StringListAttributesInfo <a class="code" href="../../dd/d94/classns_s_v_g_element.html#a3a38e41daee7102651b0be50531593e6">GetStringListInfo</a>();
+<a name="l00614"></a>00614 
+<a name="l00615"></a><a class="code" href="../../dd/d94/classns_s_v_g_element.html#ace232e6610a85d44cd85372d0e9d3a26">00615</a>   <span class="keyword">static</span> nsSVGEnumMapping <a class="code" href="../../dd/d94/classns_s_v_g_element.html#ace232e6610a85d44cd85372d0e9d3a26">sSVGUnitTypesMap</a>[];
+<a name="l00616"></a>00616 
+<a name="l00617"></a>00617 <span class="keyword">private</span>:
+<a name="l00618"></a>00618   <span class="keywordtype">void</span> UnsetAttrInternal(int32_t aNameSpaceID, <a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* aAttribute,
+<a name="l00619"></a>00619                          <span class="keywordtype">bool</span> aNotify);
+<a name="l00620"></a>00620 
+<a name="l00621"></a>00621   <a class="code" href="../../d0/d8a/classns_s_v_g_class.html">nsSVGClass</a> mClassAttribute;
+<a name="l00622"></a>00622   <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;nsAttrValue&gt;</a> mClassAnimAttr;
+<a name="l00623"></a>00623   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;mozilla::css::StyleRule&gt;</a> mContentStyleRule;
+<a name="l00624"></a>00624 };
+<a name="l00625"></a>00625 
+<a name="l00629"></a><a class="code" href="../../da/d7a/ns_s_v_g_element_8h.html#afe565b91720d4752e0eb7072b1627786">00629</a> <span class="preprocessor">#define NS_IMPL_NS_NEW_SVG_ELEMENT(_elementName)                             \</span>
+<a name="l00630"></a>00630 <span class="preprocessor">nsresult                                                                     \</span>
+<a name="l00631"></a>00631 <span class="preprocessor">NS_NewSVG##_elementName##Element(nsIContent **aResult,                       \</span>
+<a name="l00632"></a>00632 <span class="preprocessor">                                 already_AddRefed&lt;nsINodeInfo&gt; aNodeInfo)    \</span>
+<a name="l00633"></a>00633 <span class="preprocessor">{                                                                            \</span>
+<a name="l00634"></a>00634 <span class="preprocessor">  nsRefPtr&lt;nsSVG##_elementName##Element&gt; it =                                \</span>
+<a name="l00635"></a>00635 <span class="preprocessor">    new nsSVG##_elementName##Element(aNodeInfo);                             \</span>
+<a name="l00636"></a>00636 <span class="preprocessor">                                                                             \</span>
+<a name="l00637"></a>00637 <span class="preprocessor">  nsresult rv = it-&gt;Init();                                                  \</span>
+<a name="l00638"></a>00638 <span class="preprocessor">                                                                             \</span>
+<a name="l00639"></a>00639 <span class="preprocessor">  if (NS_FAILED(rv)) {                                                       \</span>
+<a name="l00640"></a>00640 <span class="preprocessor">    return rv;                                                               \</span>
+<a name="l00641"></a>00641 <span class="preprocessor">  }                                                                          \</span>
+<a name="l00642"></a>00642 <span class="preprocessor">                                                                             \</span>
+<a name="l00643"></a>00643 <span class="preprocessor">  it.forget(aResult);                                                        \</span>
+<a name="l00644"></a>00644 <span class="preprocessor">                                                                             \</span>
+<a name="l00645"></a>00645 <span class="preprocessor">  return rv;                                                                 \</span>
+<a name="l00646"></a>00646 <span class="preprocessor">}</span>
+<a name="l00647"></a>00647 <span class="preprocessor"></span>
+<a name="l00648"></a><a class="code" href="../../da/d7a/ns_s_v_g_element_8h.html#ac95985f20ddb68c1a2e260d070de40fa">00648</a> <span class="preprocessor">#define NS_IMPL_NS_NEW_NAMESPACED_SVG_ELEMENT(_elementName)                  \</span>
+<a name="l00649"></a>00649 <span class="preprocessor">nsresult                                                                     \</span>
+<a name="l00650"></a>00650 <span class="preprocessor">NS_NewSVG##_elementName##Element(nsIContent **aResult,                       \</span>
+<a name="l00651"></a>00651 <span class="preprocessor">                                 already_AddRefed&lt;nsINodeInfo&gt; aNodeInfo)    \</span>
+<a name="l00652"></a>00652 <span class="preprocessor">{                                                                            \</span>
+<a name="l00653"></a>00653 <span class="preprocessor">  nsRefPtr&lt;mozilla::dom::SVG##_elementName##Element&gt; it =                    \</span>
+<a name="l00654"></a>00654 <span class="preprocessor">    new mozilla::dom::SVG##_elementName##Element(aNodeInfo);                 \</span>
+<a name="l00655"></a>00655 <span class="preprocessor">                                                                             \</span>
+<a name="l00656"></a>00656 <span class="preprocessor">  nsresult rv = it-&gt;Init();                                                  \</span>
+<a name="l00657"></a>00657 <span class="preprocessor">                                                                             \</span>
+<a name="l00658"></a>00658 <span class="preprocessor">  if (NS_FAILED(rv)) {                                                       \</span>
+<a name="l00659"></a>00659 <span class="preprocessor">    return rv;                                                               \</span>
+<a name="l00660"></a>00660 <span class="preprocessor">  }                                                                          \</span>
+<a name="l00661"></a>00661 <span class="preprocessor">                                                                             \</span>
+<a name="l00662"></a>00662 <span class="preprocessor">  it.forget(aResult);                                                        \</span>
+<a name="l00663"></a>00663 <span class="preprocessor">                                                                             \</span>
+<a name="l00664"></a>00664 <span class="preprocessor">  return rv;                                                                 \</span>
+<a name="l00665"></a>00665 <span class="preprocessor">}</span>
+<a name="l00666"></a>00666 <span class="preprocessor"></span>
+<a name="l00667"></a><a class="code" href="../../da/d7a/ns_s_v_g_element_8h.html#a1178e52190ae8d136bfb009d0b1c8e92">00667</a> <span class="preprocessor">#define NS_IMPL_NS_NEW_NAMESPACED_SVG_ELEMENT_CHECK_PARSER(_elementName)     \</span>
+<a name="l00668"></a>00668 <span class="preprocessor">nsresult                                                                     \</span>
+<a name="l00669"></a>00669 <span class="preprocessor">NS_NewSVG##_elementName##Element(nsIContent **aResult,                       \</span>
+<a name="l00670"></a>00670 <span class="preprocessor">                                 already_AddRefed&lt;nsINodeInfo&gt; aNodeInfo,    \</span>
+<a name="l00671"></a>00671 <span class="preprocessor">                                 mozilla::dom::FromParser aFromParser)       \</span>
+<a name="l00672"></a>00672 <span class="preprocessor">{                                                                            \</span>
+<a name="l00673"></a>00673 <span class="preprocessor">  nsRefPtr&lt;mozilla::dom::SVG##_elementName##Element&gt; it =                    \</span>
+<a name="l00674"></a>00674 <span class="preprocessor">    new mozilla::dom::SVG##_elementName##Element(aNodeInfo, aFromParser);    \</span>
+<a name="l00675"></a>00675 <span class="preprocessor">                                                                             \</span>
+<a name="l00676"></a>00676 <span class="preprocessor">  nsresult rv = it-&gt;Init();                                                  \</span>
+<a name="l00677"></a>00677 <span class="preprocessor">                                                                             \</span>
+<a name="l00678"></a>00678 <span class="preprocessor">  if (NS_FAILED(rv)) {                                                       \</span>
+<a name="l00679"></a>00679 <span class="preprocessor">    return rv;                                                               \</span>
+<a name="l00680"></a>00680 <span class="preprocessor">  }                                                                          \</span>
+<a name="l00681"></a>00681 <span class="preprocessor">                                                                             \</span>
+<a name="l00682"></a>00682 <span class="preprocessor">  it.forget(aResult);                                                        \</span>
+<a name="l00683"></a>00683 <span class="preprocessor">                                                                             \</span>
+<a name="l00684"></a>00684 <span class="preprocessor">  return rv;                                                                 \</span>
+<a name="l00685"></a>00685 <span class="preprocessor">}</span>
+<a name="l00686"></a>00686 <span class="preprocessor"></span>
+<a name="l00687"></a>00687 <span class="comment">// No unlinking, we&#39;d need to null out the value pointer (the object it</span>
+<a name="l00688"></a>00688 <span class="comment">// points to is held by the element) and null-check it everywhere.</span>
+<a name="l00689"></a><a class="code" href="../../da/d7a/ns_s_v_g_element_8h.html#a55e321d337b784a12f237457ed3fbd4c">00689</a> <span class="preprocessor">#define NS_SVG_VAL_IMPL_CYCLE_COLLECTION(_val, _element)                     \</span>
+<a name="l00690"></a>00690 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_CLASS(_val)                                         \</span>
+<a name="l00691"></a>00691 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_TRAVERSE_BEGIN(_val)                                \</span>
+<a name="l00692"></a>00692 <span class="preprocessor">  NS_IMPL_CYCLE_COLLECTION_TRAVERSE(_element) \</span>
+<a name="l00693"></a>00693 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_TRAVERSE_END                                        \</span>
+<a name="l00694"></a>00694 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_UNLINK_0(_val)</span>
+<a name="l00695"></a>00695 <span class="preprocessor"></span>
+<a name="l00696"></a><a class="code" href="../../da/d7a/ns_s_v_g_element_8h.html#a37c4844d17f904142f7b420a59a2873b">00696</a> <span class="preprocessor">#define NS_SVG_VAL_IMPL_CYCLE_COLLECTION_WRAPPERCACHED(_val, _element)       \</span>
+<a name="l00697"></a>00697 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_CLASS(_val)                                         \</span>
+<a name="l00698"></a>00698 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_UNLINK_BEGIN(_val)                                  \</span>
+<a name="l00699"></a>00699 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_UNLINK_PRESERVED_WRAPPER                            \</span>
+<a name="l00700"></a>00700 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_UNLINK_END                                          \</span>
+<a name="l00701"></a>00701 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_TRAVERSE_BEGIN(_val)                                \</span>
+<a name="l00702"></a>00702 <span class="preprocessor">  NS_IMPL_CYCLE_COLLECTION_TRAVERSE(_element)                                \</span>
+<a name="l00703"></a>00703 <span class="preprocessor">  NS_IMPL_CYCLE_COLLECTION_TRAVERSE_SCRIPT_OBJECTS                           \</span>
+<a name="l00704"></a>00704 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_TRAVERSE_END                                        \</span>
+<a name="l00705"></a>00705 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_TRACE_BEGIN(_val)                                   \</span>
+<a name="l00706"></a>00706 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_TRACE_PRESERVED_WRAPPER                             \</span>
+<a name="l00707"></a>00707 <span class="preprocessor">NS_IMPL_CYCLE_COLLECTION_TRACE_END</span>
+<a name="l00708"></a>00708 <span class="preprocessor"></span>
+<a name="l00709"></a>00709 <span class="preprocessor">#endif // __NS_SVGELEMENT_H__</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/d7a/ns_s_v_g_element_8h.html">nsSVGElement.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:45に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

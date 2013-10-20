@@ -1,0 +1,812 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsUTF8Utils.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/d24/ns_u_t_f8_utils_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsUTF8Utils.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/d24/ns_u_t_f8_utils_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#ifndef nsUTF8Utils_h_</span>
+<a name="l00006"></a>00006 <span class="preprocessor"></span><span class="preprocessor">#define nsUTF8Utils_h_</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span>
+<a name="l00008"></a>00008 <span class="comment">// This file may be used in two ways: if MOZILLA_INTERNAL_API is defined, this</span>
+<a name="l00009"></a>00009 <span class="comment">// file will provide signatures for the Mozilla abstract string types. It will</span>
+<a name="l00010"></a>00010 <span class="comment">// use XPCOM assertion/debugging macros, etc.</span>
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/dd8/nscore_8h.html">nscore.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../db/df9/_s_s_e_8h.html">mozilla/SSE.h</a>&quot;</span>
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/d59/ns_char_traits_8h.html">nsCharTraits.h</a>&quot;</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a><a class="code" href="../../d5/d98/class_u_t_f8traits.html">00017</a> <span class="keyword">class </span><a class="code" href="../../d5/d98/class_u_t_f8traits.html">UTF8traits</a>
+<a name="l00018"></a>00018   {
+<a name="l00019"></a>00019     <span class="keyword">public</span>:
+<a name="l00020"></a><a class="code" href="../../d5/d98/class_u_t_f8traits.html#aed774240c43b1355e5edf2202bff0eb0">00020</a>       <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d5/d98/class_u_t_f8traits.html#aed774240c43b1355e5edf2202bff0eb0">isASCII</a>(<span class="keywordtype">char</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>) { <span class="keywordflow">return</span> (c &amp; 0x80) == 0x00; }
+<a name="l00021"></a><a class="code" href="../../d5/d98/class_u_t_f8traits.html#a035a5a1385e165ecd60e6e73baec768a">00021</a>       <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a035a5a1385e165ecd60e6e73baec768a">isInSeq</a>(<span class="keywordtype">char</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>) { <span class="keywordflow">return</span> (c &amp; 0xC0) == 0x80; }
+<a name="l00022"></a><a class="code" href="../../d5/d98/class_u_t_f8traits.html#a4c1a1ead7c2da9d702bdc8bc2671ff57">00022</a>       <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a4c1a1ead7c2da9d702bdc8bc2671ff57">is2byte</a>(<span class="keywordtype">char</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>) { <span class="keywordflow">return</span> (c &amp; 0xE0) == 0xC0; }
+<a name="l00023"></a><a class="code" href="../../d5/d98/class_u_t_f8traits.html#a6850e37edf9e28bf20477fb40efdb856">00023</a>       <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a6850e37edf9e28bf20477fb40efdb856">is3byte</a>(<span class="keywordtype">char</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>) { <span class="keywordflow">return</span> (c &amp; 0xF0) == 0xE0; }
+<a name="l00024"></a><a class="code" href="../../d5/d98/class_u_t_f8traits.html#aac8e84e7a305b5a541e06b4b184e3dda">00024</a>       <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d5/d98/class_u_t_f8traits.html#aac8e84e7a305b5a541e06b4b184e3dda">is4byte</a>(<span class="keywordtype">char</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>) { <span class="keywordflow">return</span> (c &amp; 0xF8) == 0xF0; }
+<a name="l00025"></a><a class="code" href="../../d5/d98/class_u_t_f8traits.html#a0826ebed42f5525907372357dbf046b9">00025</a>       <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a0826ebed42f5525907372357dbf046b9">is5byte</a>(<span class="keywordtype">char</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>) { <span class="keywordflow">return</span> (c &amp; 0xFC) == 0xF8; }
+<a name="l00026"></a><a class="code" href="../../d5/d98/class_u_t_f8traits.html#acd27db6a739a5312f75263f1d25d8a71">00026</a>       <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d5/d98/class_u_t_f8traits.html#acd27db6a739a5312f75263f1d25d8a71">is6byte</a>(<span class="keywordtype">char</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>) { <span class="keywordflow">return</span> (c &amp; 0xFE) == 0xFC; }
+<a name="l00027"></a>00027   };
+<a name="l00028"></a>00028 
+<a name="l00037"></a><a class="code" href="../../d5/d34/class_u_t_f8_char_enumerator.html">00037</a> <span class="keyword">class </span><a class="code" href="../../d5/d34/class_u_t_f8_char_enumerator.html">UTF8CharEnumerator</a>
+<a name="l00038"></a>00038 {
+<a name="l00039"></a>00039 <span class="keyword">public</span>:
+<a name="l00040"></a><a class="code" href="../../d5/d34/class_u_t_f8_char_enumerator.html#a7906700127bfe9fb3dd551656a7b0aa1">00040</a>   <span class="keyword">static</span> uint32_t <a class="code" href="../../d5/d34/class_u_t_f8_char_enumerator.html#a7906700127bfe9fb3dd551656a7b0aa1">NextChar</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> **<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>, <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>,
+<a name="l00041"></a>00041                            <span class="keywordtype">bool</span> *err)
+<a name="l00042"></a>00042   {
+<a name="l00043"></a>00043     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(buffer &amp;&amp; *buffer, <span class="stringliteral">&quot;null buffer!&quot;</span>);
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045     <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> = *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>;
+<a name="l00046"></a>00046     *err = <span class="keyword">false</span>;
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048     <span class="keywordflow">if</span> (p &gt;= end)
+<a name="l00049"></a>00049       {
+<a name="l00050"></a>00050         *err = <span class="keyword">true</span>;
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052         <span class="keywordflow">return</span> 0;
+<a name="l00053"></a>00053       }
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055     <span class="keywordtype">char</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a> = *p++;
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057     <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#aed774240c43b1355e5edf2202bff0eb0">UTF8traits::isASCII</a>(c) )
+<a name="l00058"></a>00058       {
+<a name="l00059"></a>00059         *buffer = <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00060"></a>00060         <span class="keywordflow">return</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>;
+<a name="l00061"></a>00061       }
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063     uint32_t ucs4;
+<a name="l00064"></a>00064     uint32_t minUcs4;
+<a name="l00065"></a>00065     int32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a> = 0;
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067     <span class="keywordflow">if</span> (!CalcState(c, ucs4, minUcs4, state)) {
+<a name="l00068"></a>00068         <a class="code" href="../../dc/d6d/ns_debug_8h.html#ab105b12886cfa61141f617c05ce4a11b">NS_ERROR</a>(<span class="stringliteral">&quot;Not a UTF-8 string. This code should only be used for converting from known UTF-8 strings.&quot;</span>);
+<a name="l00069"></a>00069         *err = <span class="keyword">true</span>;
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071         <span class="keywordflow">return</span> 0;
+<a name="l00072"></a>00072     }
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074     <span class="keywordflow">while</span> ( state-- )
+<a name="l00075"></a>00075       {
+<a name="l00076"></a>00076         <span class="keywordflow">if</span> (p == end)
+<a name="l00077"></a>00077           {
+<a name="l00078"></a>00078             *err = <span class="keyword">true</span>;
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080             <span class="keywordflow">return</span> 0;
+<a name="l00081"></a>00081           }
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083         c = *p++;
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085         <span class="keywordflow">if</span> (!AddByte(c, state, ucs4))
+<a name="l00086"></a>00086           {
+<a name="l00087"></a>00087             *err = <span class="keyword">true</span>;
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089             <span class="keywordflow">return</span> 0;
+<a name="l00090"></a>00090           }
+<a name="l00091"></a>00091       }
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093       <span class="keywordflow">if</span> ( ucs4 &lt; minUcs4 )
+<a name="l00094"></a>00094         {
+<a name="l00095"></a>00095           <span class="comment">// Overlong sequence</span>
+<a name="l00096"></a>00096           ucs4 = <a class="code" href="../../d3/d59/ns_char_traits_8h.html#a41dd2650e43734b77927c9ffbd333da3">UCS2_REPLACEMENT_CHAR</a>;
+<a name="l00097"></a>00097         }
+<a name="l00098"></a>00098       <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( ucs4 &gt;= 0xD800 &amp;&amp;
+<a name="l00099"></a>00099                 (ucs4 &lt;= 0xDFFF || ucs4 &gt;= <a class="code" href="../../d3/d59/ns_char_traits_8h.html#af17b1418ec2bb109ac2a703d04ab8405">UCS_END</a>))
+<a name="l00100"></a>00100         {
+<a name="l00101"></a>00101           <span class="comment">// Surrogates and code points outside the Unicode range.</span>
+<a name="l00102"></a>00102           ucs4 = <a class="code" href="../../d3/d59/ns_char_traits_8h.html#a41dd2650e43734b77927c9ffbd333da3">UCS2_REPLACEMENT_CHAR</a>;
+<a name="l00103"></a>00103         }
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105     *buffer = <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00106"></a>00106     <span class="keywordflow">return</span> ucs4;
+<a name="l00107"></a>00107   }
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109 <span class="keyword">private</span>:
+<a name="l00110"></a>00110   <span class="keyword">static</span> <span class="keywordtype">bool</span> CalcState(<span class="keywordtype">char</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>, uint32_t&amp; ucs4, uint32_t&amp; minUcs4,
+<a name="l00111"></a>00111                           int32_t&amp; <a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a>)
+<a name="l00112"></a>00112   {
+<a name="l00113"></a>00113     <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a4c1a1ead7c2da9d702bdc8bc2671ff57">UTF8traits::is2byte</a>(c) )
+<a name="l00114"></a>00114       {
+<a name="l00115"></a>00115         ucs4 = (uint32_t(c) &lt;&lt; 6) &amp; 0x000007C0L;
+<a name="l00116"></a>00116         state = 1;
+<a name="l00117"></a>00117         minUcs4 = 0x00000080;
+<a name="l00118"></a>00118       }
+<a name="l00119"></a>00119     <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a6850e37edf9e28bf20477fb40efdb856">UTF8traits::is3byte</a>(c) )
+<a name="l00120"></a>00120       {
+<a name="l00121"></a>00121         ucs4 = (uint32_t(c) &lt;&lt; 12) &amp; 0x0000F000L;
+<a name="l00122"></a>00122         state = 2;
+<a name="l00123"></a>00123         minUcs4 = 0x00000800;
+<a name="l00124"></a>00124       }
+<a name="l00125"></a>00125     <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#aac8e84e7a305b5a541e06b4b184e3dda">UTF8traits::is4byte</a>(c) )
+<a name="l00126"></a>00126       {
+<a name="l00127"></a>00127         ucs4 = (uint32_t(c) &lt;&lt; 18) &amp; 0x001F0000L;
+<a name="l00128"></a>00128         state = 3;
+<a name="l00129"></a>00129         minUcs4 = 0x00010000;
+<a name="l00130"></a>00130       }
+<a name="l00131"></a>00131     <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a0826ebed42f5525907372357dbf046b9">UTF8traits::is5byte</a>(c) )
+<a name="l00132"></a>00132       {
+<a name="l00133"></a>00133         ucs4 = (uint32_t(c) &lt;&lt; 24) &amp; 0x03000000L;
+<a name="l00134"></a>00134         state = 4;
+<a name="l00135"></a>00135         minUcs4 = 0x00200000;
+<a name="l00136"></a>00136       }
+<a name="l00137"></a>00137     <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#acd27db6a739a5312f75263f1d25d8a71">UTF8traits::is6byte</a>(c) )
+<a name="l00138"></a>00138       {
+<a name="l00139"></a>00139         ucs4 = (uint32_t(c) &lt;&lt; 30) &amp; 0x40000000L;
+<a name="l00140"></a>00140         state = 5;
+<a name="l00141"></a>00141         minUcs4 = 0x04000000;
+<a name="l00142"></a>00142       }
+<a name="l00143"></a>00143     <span class="keywordflow">else</span>
+<a name="l00144"></a>00144       {
+<a name="l00145"></a>00145         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00146"></a>00146       }
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00149"></a>00149   }
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151   <span class="keyword">static</span> <span class="keywordtype">bool</span> AddByte(<span class="keywordtype">char</span> c, int32_t state, uint32_t&amp; ucs4)
+<a name="l00152"></a>00152   {
+<a name="l00153"></a>00153     <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a035a5a1385e165ecd60e6e73baec768a">UTF8traits::isInSeq</a>(c) )
+<a name="l00154"></a>00154       {
+<a name="l00155"></a>00155         int32_t shift = state * 6;
+<a name="l00156"></a>00156         ucs4 |= (uint32_t(c) &amp; 0x3F) &lt;&lt; shift;
+<a name="l00157"></a>00157         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00158"></a>00158       }
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00161"></a>00161   }
+<a name="l00162"></a>00162 };
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164 
+<a name="l00172"></a><a class="code" href="../../d7/d85/class_u_t_f16_char_enumerator.html">00172</a> <span class="keyword">class </span><a class="code" href="../../d7/d85/class_u_t_f16_char_enumerator.html">UTF16CharEnumerator</a>
+<a name="l00173"></a>00173 {
+<a name="l00174"></a>00174 <span class="keyword">public</span>:
+<a name="l00175"></a><a class="code" href="../../d7/d85/class_u_t_f16_char_enumerator.html#af395b381cac66863edc477ebad546faf">00175</a>   <span class="keyword">static</span> uint32_t <a class="code" href="../../d7/d85/class_u_t_f16_char_enumerator.html#af395b381cac66863edc477ebad546faf">NextChar</a>(<span class="keyword">const</span> PRUnichar **<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>, <span class="keyword">const</span> PRUnichar *<a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>,
+<a name="l00176"></a>00176                            <span class="keywordtype">bool</span> *err = <span class="keyword">nullptr</span>)
+<a name="l00177"></a>00177   {
+<a name="l00178"></a>00178     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(buffer &amp;&amp; *buffer, <span class="stringliteral">&quot;null buffer!&quot;</span>);
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180     <span class="keyword">const</span> PRUnichar *<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> = *<a class="code" href="../../d6/da5/libpinyin_8js.html#abd91b1aab0a10c5027ca2eb5577f759f">buffer</a>;
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182     <span class="keywordflow">if</span> (p &gt;= end)
+<a name="l00183"></a>00183       {
+<a name="l00184"></a>00184         <a class="code" href="../../dc/d6d/ns_debug_8h.html#ab105b12886cfa61141f617c05ce4a11b">NS_ERROR</a>(<span class="stringliteral">&quot;No input to work with&quot;</span>);
+<a name="l00185"></a>00185         <span class="keywordflow">if</span> (err)
+<a name="l00186"></a>00186           *err = <span class="keyword">true</span>;
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188         <span class="keywordflow">return</span> 0;
+<a name="l00189"></a>00189       }
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191     PRUnichar c = *p++;
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193     <span class="keywordflow">if</span> (!<a class="code" href="../../d3/d59/ns_char_traits_8h.html#a4c2a5adf547cdd3f10266841d5a1708e">IS_SURROGATE</a>(c)) <span class="comment">// U+0000 - U+D7FF,U+E000 - U+FFFF</span>
+<a name="l00194"></a>00194       {
+<a name="l00195"></a>00195         <span class="keywordflow">if</span> (err)
+<a name="l00196"></a>00196           *err = <span class="keyword">false</span>;
+<a name="l00197"></a>00197         *buffer = <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00198"></a>00198         <span class="keywordflow">return</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>;
+<a name="l00199"></a>00199       }
+<a name="l00200"></a>00200     <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d3/d59/ns_char_traits_8h.html#aa60d23318be18a03fcb7df7fb4b63e34">NS_IS_HIGH_SURROGATE</a>(c)) <span class="comment">// U+D800 - U+DBFF</span>
+<a name="l00201"></a>00201       {
+<a name="l00202"></a>00202         <span class="keywordflow">if</span> (p == end)
+<a name="l00203"></a>00203           {
+<a name="l00204"></a>00204             <span class="comment">// Found a high surrogate the end of the buffer. Flag this</span>
+<a name="l00205"></a>00205             <span class="comment">// as an error and return the Unicode replacement</span>
+<a name="l00206"></a>00206             <span class="comment">// character 0xFFFD.</span>
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208             <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;Unexpected end of buffer after high surrogate&quot;</span>);
+<a name="l00209"></a>00209 
+<a name="l00210"></a>00210             <span class="keywordflow">if</span> (err)
+<a name="l00211"></a>00211               *err = <span class="keyword">true</span>;
+<a name="l00212"></a>00212             *buffer = <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00213"></a>00213             <span class="keywordflow">return</span> 0xFFFD;
+<a name="l00214"></a>00214           }
+<a name="l00215"></a>00215 
+<a name="l00216"></a>00216         <span class="comment">// D800- DBFF - High Surrogate</span>
+<a name="l00217"></a>00217         PRUnichar h = <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>;
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219         c = *p++;
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221         <span class="keywordflow">if</span> (<a class="code" href="../../d3/d59/ns_char_traits_8h.html#a36f026d772640a4fd1f2bd127cfab329">NS_IS_LOW_SURROGATE</a>(c))
+<a name="l00222"></a>00222           {
+<a name="l00223"></a>00223             <span class="comment">// DC00- DFFF - Low Surrogate</span>
+<a name="l00224"></a>00224             <span class="comment">// N = (H - D800) *400 + 10000 + (L - DC00)</span>
+<a name="l00225"></a>00225             uint32_t ucs4 = <a class="code" href="../../d3/d59/ns_char_traits_8h.html#a846c5ebac723c1c652767d58e1a213f6">SURROGATE_TO_UCS4</a>(h, c);
+<a name="l00226"></a>00226             <span class="keywordflow">if</span> (err)
+<a name="l00227"></a>00227               *err = <span class="keyword">false</span>;
+<a name="l00228"></a>00228             *buffer = <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00229"></a>00229             <span class="keywordflow">return</span> ucs4;
+<a name="l00230"></a>00230           }
+<a name="l00231"></a>00231         <span class="keywordflow">else</span>
+<a name="l00232"></a>00232           {
+<a name="l00233"></a>00233             <span class="comment">// Found a high surrogate followed by something other than</span>
+<a name="l00234"></a>00234             <span class="comment">// a low surrogate. Flag this as an error and return the</span>
+<a name="l00235"></a>00235             <span class="comment">// Unicode replacement character 0xFFFD.  Note that the</span>
+<a name="l00236"></a>00236             <span class="comment">// pointer to the next character points to the second 16-bit</span>
+<a name="l00237"></a>00237             <span class="comment">// value, not beyond it, as per Unicode 5.0.0 Chapter 3 C10,</span>
+<a name="l00238"></a>00238             <span class="comment">// only the first code unit of an illegal sequence must be</span>
+<a name="l00239"></a>00239             <span class="comment">// treated as an illegally terminated code unit sequence</span>
+<a name="l00240"></a>00240             <span class="comment">// (also Chapter 3 D91, &quot;isolated [not paired and ill-formed]</span>
+<a name="l00241"></a>00241             <span class="comment">// UTF-16 code units in the range D800..DFFF are ill-formed&quot;).</span>
+<a name="l00242"></a>00242             <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;got a High Surrogate but no low surrogate&quot;</span>);
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244             <span class="keywordflow">if</span> (err)
+<a name="l00245"></a>00245               *err = <span class="keyword">true</span>;
+<a name="l00246"></a>00246             *buffer = p - 1;
+<a name="l00247"></a>00247             <span class="keywordflow">return</span> 0xFFFD;
+<a name="l00248"></a>00248           }
+<a name="l00249"></a>00249       }
+<a name="l00250"></a>00250     <span class="keywordflow">else</span> <span class="comment">// U+DC00 - U+DFFF</span>
+<a name="l00251"></a>00251       {
+<a name="l00252"></a>00252         <span class="comment">// DC00- DFFF - Low Surrogate</span>
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254         <span class="comment">// Found a low surrogate w/o a preceding high surrogate. Flag</span>
+<a name="l00255"></a>00255         <span class="comment">// this as an error and return the Unicode replacement</span>
+<a name="l00256"></a>00256         <span class="comment">// character 0xFFFD.</span>
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258         <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;got a low Surrogate but no high surrogate&quot;</span>);
+<a name="l00259"></a>00259         <span class="keywordflow">if</span> (err)
+<a name="l00260"></a>00260           *err = <span class="keyword">true</span>;
+<a name="l00261"></a>00261         *buffer = <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00262"></a>00262         <span class="keywordflow">return</span> 0xFFFD;
+<a name="l00263"></a>00263       }
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265     <span class="keywordflow">if</span> (err)
+<a name="l00266"></a>00266       *err = <span class="keyword">true</span>;
+<a name="l00267"></a>00267     <span class="keywordflow">return</span> 0;
+<a name="l00268"></a>00268   }
+<a name="l00269"></a>00269 };
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271 
+<a name="l00276"></a><a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html">00276</a> <span class="keyword">class </span><a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html">ConvertUTF8toUTF16</a>
+<a name="l00277"></a>00277   {
+<a name="l00278"></a>00278     <span class="keyword">public</span>:
+<a name="l00279"></a><a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a9703fd0e87875cfa8169d5cefc4f1276">00279</a>       <span class="keyword">typedef</span> <span class="keywordtype">char</span>      <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a9703fd0e87875cfa8169d5cefc4f1276">value_type</a>;
+<a name="l00280"></a><a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a10a21ad7577b660d65e18ed0c73f8783">00280</a>       <span class="keyword">typedef</span> PRUnichar <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a10a21ad7577b660d65e18ed0c73f8783">buffer_type</a>;
+<a name="l00281"></a>00281 
+<a name="l00282"></a><a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a8875b661a27f97c1f3ff05467a9e8fde">00282</a>     <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a8875b661a27f97c1f3ff05467a9e8fde">ConvertUTF8toUTF16</a>( <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a10a21ad7577b660d65e18ed0c73f8783">buffer_type</a>* aBuffer )
+<a name="l00283"></a>00283         : mStart(aBuffer), mBuffer(aBuffer), mErrorEncountered(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>) {}
+<a name="l00284"></a>00284 
+<a name="l00285"></a><a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#abff5bd2932151b2cb42c224fb3718436">00285</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#abff5bd2932151b2cb42c224fb3718436">Length</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mBuffer - mStart; }
+<a name="l00286"></a>00286 
+<a name="l00287"></a><a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#ac023dc3a9195bc4586060cbe90061322">00287</a>     <span class="keywordtype">bool</span> <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#ac023dc3a9195bc4586060cbe90061322">ErrorEncountered</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mErrorEncountered; }
+<a name="l00288"></a>00288 
+<a name="l00289"></a><a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a25fb8e76dd4a11e7f14f309fae262f8a">00289</a>     <span class="keywordtype">void</span> <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a25fb8e76dd4a11e7f14f309fae262f8a">write</a>( <span class="keyword">const</span> <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a9703fd0e87875cfa8169d5cefc4f1276">value_type</a>* <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>, uint32_t N )
+<a name="l00290"></a>00290       {
+<a name="l00291"></a>00291         <span class="keywordflow">if</span> ( mErrorEncountered )
+<a name="l00292"></a>00292           <span class="keywordflow">return</span>;
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294         <span class="comment">// algorithm assumes utf8 units won&#39;t</span>
+<a name="l00295"></a>00295         <span class="comment">// be spread across fragments</span>
+<a name="l00296"></a>00296         <span class="keyword">const</span> <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a9703fd0e87875cfa8169d5cefc4f1276">value_type</a>* <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> = <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>;
+<a name="l00297"></a>00297         <span class="keyword">const</span> <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a9703fd0e87875cfa8169d5cefc4f1276">value_type</a>* <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a> = start + N;
+<a name="l00298"></a>00298         <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a10a21ad7577b660d65e18ed0c73f8783">buffer_type</a>* <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a> = mBuffer;
+<a name="l00299"></a>00299         <span class="keywordflow">for</span> ( ; p != end <span class="comment">/* &amp;&amp; *p */</span>; )
+<a name="l00300"></a>00300           {
+<a name="l00301"></a>00301             <span class="keywordtype">bool</span> err;
+<a name="l00302"></a>00302             uint32_t ucs4 = <a class="code" href="../../d5/d34/class_u_t_f8_char_enumerator.html#a7906700127bfe9fb3dd551656a7b0aa1">UTF8CharEnumerator::NextChar</a>(&amp;p, end, &amp;err);
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304             <span class="keywordflow">if</span> ( err )
+<a name="l00305"></a>00305               {
+<a name="l00306"></a>00306                 mErrorEncountered = <span class="keyword">true</span>;
+<a name="l00307"></a>00307                 mBuffer = <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00308"></a>00308                 <span class="keywordflow">return</span>;
+<a name="l00309"></a>00309               }
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311             <span class="keywordflow">if</span> ( ucs4 &gt;= <a class="code" href="../../d3/d59/ns_char_traits_8h.html#ad0472d4202884a921f79cbbd2573108e">PLANE1_BASE</a> )
+<a name="l00312"></a>00312               {
+<a name="l00313"></a>00313                 *out++ = (<a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a10a21ad7577b660d65e18ed0c73f8783">buffer_type</a>)<a class="code" href="../../d3/d59/ns_char_traits_8h.html#ab26adcd06a58c3637a38d3742ba35825">H_SURROGATE</a>(ucs4);
+<a name="l00314"></a>00314                 *out++ = (<a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a10a21ad7577b660d65e18ed0c73f8783">buffer_type</a>)<a class="code" href="../../d3/d59/ns_char_traits_8h.html#a81fe5ad7f7f268384c01dd30f8aa3dde">L_SURROGATE</a>(ucs4);
+<a name="l00315"></a>00315               }
+<a name="l00316"></a>00316             <span class="keywordflow">else</span>
+<a name="l00317"></a>00317               {
+<a name="l00318"></a>00318                 *out++ = ucs4;
+<a name="l00319"></a>00319               }
+<a name="l00320"></a>00320           }
+<a name="l00321"></a>00321         mBuffer = <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00322"></a>00322       }
+<a name="l00323"></a>00323 
+<a name="l00324"></a><a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#ae62c40886e0e557e8a5f02d13ec01cec">00324</a>     <span class="keywordtype">void</span> <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#ae62c40886e0e557e8a5f02d13ec01cec">write_terminator</a>()
+<a name="l00325"></a>00325       {
+<a name="l00326"></a>00326         *mBuffer = <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a10a21ad7577b660d65e18ed0c73f8783">buffer_type</a>(0);
+<a name="l00327"></a>00327       }
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329     <span class="keyword">private</span>:
+<a name="l00330"></a>00330       <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a10a21ad7577b660d65e18ed0c73f8783">buffer_type</a>* <span class="keyword">const</span> mStart;
+<a name="l00331"></a>00331       <a class="code" href="../../df/dea/class_convert_u_t_f8to_u_t_f16.html#a10a21ad7577b660d65e18ed0c73f8783">buffer_type</a>* mBuffer;
+<a name="l00332"></a>00332       <span class="keywordtype">bool</span> mErrorEncountered;
+<a name="l00333"></a>00333   };
+<a name="l00334"></a>00334 
+<a name="l00339"></a><a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html">00339</a> <span class="keyword">class </span><a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html">CalculateUTF8Length</a>
+<a name="l00340"></a>00340   {
+<a name="l00341"></a>00341     <span class="keyword">public</span>:
+<a name="l00342"></a><a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#ad76523b50429f7113eaf22b46dc890d4">00342</a>       <span class="keyword">typedef</span> <span class="keywordtype">char</span> <a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#ad76523b50429f7113eaf22b46dc890d4">value_type</a>;
+<a name="l00343"></a>00343 
+<a name="l00344"></a><a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#a157982762adf5c7dac8e437ca4d6e003">00344</a>     <a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#a157982762adf5c7dac8e437ca4d6e003">CalculateUTF8Length</a>() : mLength(0), mErrorEncountered(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>) { }
+<a name="l00345"></a>00345 
+<a name="l00346"></a><a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#a9e9ba051d23ebde98c73caf55de60cdb">00346</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#a9e9ba051d23ebde98c73caf55de60cdb">Length</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mLength; }
+<a name="l00347"></a>00347 
+<a name="l00348"></a><a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#aeb586ef107c71656d74e8e9cbef813f4">00348</a>     <span class="keywordtype">void</span> <a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#aeb586ef107c71656d74e8e9cbef813f4">write</a>( <span class="keyword">const</span> <a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#ad76523b50429f7113eaf22b46dc890d4">value_type</a>* <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>, uint32_t N )
+<a name="l00349"></a>00349       {
+<a name="l00350"></a>00350           <span class="comment">// ignore any further requests</span>
+<a name="l00351"></a>00351         <span class="keywordflow">if</span> ( mErrorEncountered )
+<a name="l00352"></a>00352             <span class="keywordflow">return</span>;
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354         <span class="comment">// algorithm assumes utf8 units won&#39;t</span>
+<a name="l00355"></a>00355         <span class="comment">// be spread across fragments</span>
+<a name="l00356"></a>00356         <span class="keyword">const</span> <a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#ad76523b50429f7113eaf22b46dc890d4">value_type</a>* <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> = <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>;
+<a name="l00357"></a>00357         <span class="keyword">const</span> <a class="code" href="../../d3/d82/class_calculate_u_t_f8_length.html#ad76523b50429f7113eaf22b46dc890d4">value_type</a>* <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a> = start + N;
+<a name="l00358"></a>00358         <span class="keywordflow">for</span> ( ; p &lt; end <span class="comment">/* &amp;&amp; *p */</span>; ++mLength )
+<a name="l00359"></a>00359           {
+<a name="l00360"></a>00360             <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#aed774240c43b1355e5edf2202bff0eb0">UTF8traits::isASCII</a>(*p) )
+<a name="l00361"></a>00361                 p += 1;
+<a name="l00362"></a>00362             <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a4c1a1ead7c2da9d702bdc8bc2671ff57">UTF8traits::is2byte</a>(*p) )
+<a name="l00363"></a>00363                 p += 2;
+<a name="l00364"></a>00364             <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a6850e37edf9e28bf20477fb40efdb856">UTF8traits::is3byte</a>(*p) )
+<a name="l00365"></a>00365                 p += 3;
+<a name="l00366"></a>00366             <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#aac8e84e7a305b5a541e06b4b184e3dda">UTF8traits::is4byte</a>(*p) ) {
+<a name="l00367"></a>00367                 <span class="comment">// Because a UTF-8 sequence of 4 bytes represents a codepoint</span>
+<a name="l00368"></a>00368                 <span class="comment">// greater than 0xFFFF, it will become a surrogate pair in the</span>
+<a name="l00369"></a>00369                 <span class="comment">// UTF-16 string, so add 1 more to mLength.</span>
+<a name="l00370"></a>00370                 <span class="comment">// This doesn&#39;t happen with is5byte and is6byte because they</span>
+<a name="l00371"></a>00371                 <span class="comment">// are illegal UTF-8 sequences (greater than 0x10FFFF) so get</span>
+<a name="l00372"></a>00372                 <span class="comment">// converted to a single replacement character.</span>
+<a name="l00373"></a>00373 
+<a name="l00374"></a>00374                 <span class="comment">// However, there is one case when a 4 byte UTF-8 sequence will</span>
+<a name="l00375"></a>00375                 <span class="comment">// only generate 2 UTF-16 bytes. If we have a properly encoded</span>
+<a name="l00376"></a>00376                 <span class="comment">// sequence, but with an invalid value (too small or too big),</span>
+<a name="l00377"></a>00377                 <span class="comment">// that will result in a replacement character being written</span>
+<a name="l00378"></a>00378                 <span class="comment">// This replacement character is encoded as just 1 single</span>
+<a name="l00379"></a>00379                 <span class="comment">// UTF-16 character, which is 2 bytes.</span>
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381                 <span class="comment">// The below code therefore only adds 1 to mLength if the UTF8</span>
+<a name="l00382"></a>00382                 <span class="comment">// data will produce a decoded character which is greater than</span>
+<a name="l00383"></a>00383                 <span class="comment">// or equal to 0x010000 and less than 0x0110000.</span>
+<a name="l00384"></a>00384 
+<a name="l00385"></a>00385                 <span class="comment">// A 4byte UTF8 character is encoded as</span>
+<a name="l00386"></a>00386                 <span class="comment">// 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</span>
+<a name="l00387"></a>00387                 <span class="comment">// Bit 1-3 on the first byte, and bit 5-6 on the second byte,</span>
+<a name="l00388"></a>00388                 <span class="comment">// map to bit 17-21 in the final result. If these bits are</span>
+<a name="l00389"></a>00389                 <span class="comment">// between 0x01 and 0x11, that means that the final result is</span>
+<a name="l00390"></a>00390                 <span class="comment">// between 0x010000 and 0x110000. The below code reads these</span>
+<a name="l00391"></a>00391                 <span class="comment">// bits out and assigns them to c, but shifted up 4 bits to</span>
+<a name="l00392"></a>00392                 <span class="comment">// avoid having to shift twice.</span>
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394                 <span class="comment">// It doesn&#39;t matter what to do in the case where p + 4 &gt; end</span>
+<a name="l00395"></a>00395                 <span class="comment">// since no UTF16 characters will be written in that case by</span>
+<a name="l00396"></a>00396                 <span class="comment">// ConvertUTF8toUTF16. Likewise it doesn&#39;t matter what we do if</span>
+<a name="l00397"></a>00397                 <span class="comment">// any of the surrogate bits are wrong since no UTF16</span>
+<a name="l00398"></a>00398                 <span class="comment">// characters will be written in that case either.</span>
+<a name="l00399"></a>00399 
+<a name="l00400"></a>00400                 <span class="keywordflow">if</span> (p + 4 &lt;= end) {
+<a name="l00401"></a>00401                   uint32_t c = ((uint32_t)(p[0] &amp; 0x07)) &lt;&lt; 6 |
+<a name="l00402"></a>00402                                ((uint32_t)(p[1] &amp; 0x30));
+<a name="l00403"></a>00403                   <span class="keywordflow">if</span> (c &gt;= 0x010 &amp;&amp; c &lt; 0x110)
+<a name="l00404"></a>00404                     ++mLength;
+<a name="l00405"></a>00405                 }
+<a name="l00406"></a>00406 
+<a name="l00407"></a>00407                 p += 4;
+<a name="l00408"></a>00408             }
+<a name="l00409"></a>00409             <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#a0826ebed42f5525907372357dbf046b9">UTF8traits::is5byte</a>(*p) )
+<a name="l00410"></a>00410                 p += 5;
+<a name="l00411"></a>00411             <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( <a class="code" href="../../d5/d98/class_u_t_f8traits.html#acd27db6a739a5312f75263f1d25d8a71">UTF8traits::is6byte</a>(*p) )
+<a name="l00412"></a>00412                 p += 6;
+<a name="l00413"></a>00413             <span class="keywordflow">else</span> <span class="comment">// error</span>
+<a name="l00414"></a>00414               {
+<a name="l00415"></a>00415                 ++mLength; <span class="comment">// to account for the decrement below</span>
+<a name="l00416"></a>00416                 <span class="keywordflow">break</span>;
+<a name="l00417"></a>00417               }
+<a name="l00418"></a>00418           }
+<a name="l00419"></a>00419         <span class="keywordflow">if</span> ( p != end )
+<a name="l00420"></a>00420           {
+<a name="l00421"></a>00421             <a class="code" href="../../dc/d6d/ns_debug_8h.html#ab105b12886cfa61141f617c05ce4a11b">NS_ERROR</a>(<span class="stringliteral">&quot;Not a UTF-8 string. This code should only be used for converting from known UTF-8 strings.&quot;</span>);
+<a name="l00422"></a>00422             --mLength; <span class="comment">// The last multi-byte char wasn&#39;t complete, discard it.</span>
+<a name="l00423"></a>00423             mErrorEncountered = <span class="keyword">true</span>;
+<a name="l00424"></a>00424           }
+<a name="l00425"></a>00425       }
+<a name="l00426"></a>00426 
+<a name="l00427"></a>00427     <span class="keyword">private</span>:
+<a name="l00428"></a>00428       <span class="keywordtype">size_t</span> mLength;
+<a name="l00429"></a>00429       <span class="keywordtype">bool</span> mErrorEncountered;
+<a name="l00430"></a>00430   };
+<a name="l00431"></a>00431 
+<a name="l00437"></a><a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html">00437</a> <span class="keyword">class </span><a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html">ConvertUTF16toUTF8</a>
+<a name="l00438"></a>00438   {
+<a name="l00439"></a>00439     <span class="keyword">public</span>:
+<a name="l00440"></a><a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#abc6a53e6ad4ad5c447b2986f752d89f7">00440</a>       <span class="keyword">typedef</span> PRUnichar <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#abc6a53e6ad4ad5c447b2986f752d89f7">value_type</a>;
+<a name="l00441"></a><a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a10325edbb9f182a5e790891c61749eb6">00441</a>       <span class="keyword">typedef</span> <span class="keywordtype">char</span>      <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a10325edbb9f182a5e790891c61749eb6">buffer_type</a>;
+<a name="l00442"></a>00442 
+<a name="l00443"></a>00443     <span class="comment">// The error handling here is more lenient than that in</span>
+<a name="l00444"></a>00444     <span class="comment">// |ConvertUTF8toUTF16|, but it&#39;s that way for backwards</span>
+<a name="l00445"></a>00445     <span class="comment">// compatibility.</span>
+<a name="l00446"></a>00446 
+<a name="l00447"></a><a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a2a437f94b64577ec37557940c8af2bd4">00447</a>     <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a2a437f94b64577ec37557940c8af2bd4">ConvertUTF16toUTF8</a>( <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a10325edbb9f182a5e790891c61749eb6">buffer_type</a>* aBuffer )
+<a name="l00448"></a>00448         : mStart(aBuffer), mBuffer(aBuffer) {}
+<a name="l00449"></a>00449 
+<a name="l00450"></a><a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a31046354be853420686917316071cdf9">00450</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a31046354be853420686917316071cdf9">Size</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mBuffer - mStart; }
+<a name="l00451"></a>00451 
+<a name="l00452"></a><a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a90f6dfd76fc559955e776590e99f9b6a">00452</a>     <span class="keywordtype">void</span> <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a90f6dfd76fc559955e776590e99f9b6a">write</a>( <span class="keyword">const</span> <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#abc6a53e6ad4ad5c447b2986f752d89f7">value_type</a>* <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>, uint32_t N )
+<a name="l00453"></a>00453       {
+<a name="l00454"></a>00454         <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a10325edbb9f182a5e790891c61749eb6">buffer_type</a> *<a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a> = mBuffer; <span class="comment">// gcc isn&#39;t smart enough to do this!</span>
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456         <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#abc6a53e6ad4ad5c447b2986f752d89f7">value_type</a> *<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> = start, *<a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a> = start + N; <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> &lt; <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>; ++<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> )
+<a name="l00457"></a>00457           {
+<a name="l00458"></a>00458             <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#abc6a53e6ad4ad5c447b2986f752d89f7">value_type</a> c = *<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00459"></a>00459             <span class="keywordflow">if</span> (! (c &amp; 0xFF80)) <span class="comment">// U+0000 - U+007F</span>
+<a name="l00460"></a>00460               {
+<a name="l00461"></a>00461                 *out++ = (char)c;
+<a name="l00462"></a>00462               }
+<a name="l00463"></a>00463             <span class="keywordflow">else</span> <span class="keywordflow">if</span> (! (c &amp; 0xF800)) <span class="comment">// U+0100 - U+07FF</span>
+<a name="l00464"></a>00464               {
+<a name="l00465"></a>00465                 *out++ = 0xC0 | (char)(c &gt;&gt; 6);
+<a name="l00466"></a>00466                 *out++ = 0x80 | (char)(0x003F &amp; c);
+<a name="l00467"></a>00467               }
+<a name="l00468"></a>00468             <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!<a class="code" href="../../d3/d59/ns_char_traits_8h.html#a4c2a5adf547cdd3f10266841d5a1708e">IS_SURROGATE</a>(c)) <span class="comment">// U+0800 - U+D7FF,U+E000 - U+FFFF</span>
+<a name="l00469"></a>00469               {
+<a name="l00470"></a>00470                 *out++ = 0xE0 | (char)(c &gt;&gt; 12);
+<a name="l00471"></a>00471                 *out++ = 0x80 | (char)(0x003F &amp; (c &gt;&gt; 6));
+<a name="l00472"></a>00472                 *out++ = 0x80 | (char)(0x003F &amp; c );
+<a name="l00473"></a>00473               }
+<a name="l00474"></a>00474             <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d3/d59/ns_char_traits_8h.html#aa60d23318be18a03fcb7df7fb4b63e34">NS_IS_HIGH_SURROGATE</a>(c)) <span class="comment">// U+D800 - U+DBFF</span>
+<a name="l00475"></a>00475               {
+<a name="l00476"></a>00476                 <span class="comment">// D800- DBFF - High Surrogate</span>
+<a name="l00477"></a>00477                 <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#abc6a53e6ad4ad5c447b2986f752d89f7">value_type</a> h = <a class="code" href="../../d2/d7d/jsapi_8h.html#a348d5281ca0f01adebb262bee8baf788">c</a>;
+<a name="l00478"></a>00478 
+<a name="l00479"></a>00479                 ++<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00480"></a>00480                 <span class="keywordflow">if</span> (<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> == end)
+<a name="l00481"></a>00481                   {
+<a name="l00482"></a>00482                     <span class="comment">// Treat broken characters as the Unicode</span>
+<a name="l00483"></a>00483                     <span class="comment">// replacement character 0xFFFD (0xEFBFBD in</span>
+<a name="l00484"></a>00484                     <span class="comment">// UTF-8)</span>
+<a name="l00485"></a>00485                     *out++ = <span class="stringliteral">&#39;\xEF&#39;</span>;
+<a name="l00486"></a>00486                     *out++ = <span class="stringliteral">&#39;\xBF&#39;</span>;
+<a name="l00487"></a>00487                     *out++ = <span class="stringliteral">&#39;\xBD&#39;</span>;
+<a name="l00488"></a>00488 
+<a name="l00489"></a>00489                     <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;String ending in half a surrogate pair!&quot;</span>);
+<a name="l00490"></a>00490 
+<a name="l00491"></a>00491                     <span class="keywordflow">break</span>;
+<a name="l00492"></a>00492                   }
+<a name="l00493"></a>00493                 c = *<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00494"></a>00494 
+<a name="l00495"></a>00495                 <span class="keywordflow">if</span> (<a class="code" href="../../d3/d59/ns_char_traits_8h.html#a36f026d772640a4fd1f2bd127cfab329">NS_IS_LOW_SURROGATE</a>(c))
+<a name="l00496"></a>00496                   {
+<a name="l00497"></a>00497                     <span class="comment">// DC00- DFFF - Low Surrogate</span>
+<a name="l00498"></a>00498                     <span class="comment">// N = (H - D800) *400 + 10000 + ( L - DC00 )</span>
+<a name="l00499"></a>00499                     uint32_t ucs4 = <a class="code" href="../../d3/d59/ns_char_traits_8h.html#a846c5ebac723c1c652767d58e1a213f6">SURROGATE_TO_UCS4</a>(h, c);
+<a name="l00500"></a>00500 
+<a name="l00501"></a>00501                     <span class="comment">// 0001 0000-001F FFFF</span>
+<a name="l00502"></a>00502                     *out++ = 0xF0 | (char)(ucs4 &gt;&gt; 18);
+<a name="l00503"></a>00503                     *out++ = 0x80 | (char)(0x003F &amp; (ucs4 &gt;&gt; 12));
+<a name="l00504"></a>00504                     *out++ = 0x80 | (char)(0x003F &amp; (ucs4 &gt;&gt; 6));
+<a name="l00505"></a>00505                     *out++ = 0x80 | (char)(0x003F &amp; ucs4);
+<a name="l00506"></a>00506                   }
+<a name="l00507"></a>00507                 <span class="keywordflow">else</span>
+<a name="l00508"></a>00508                   {
+<a name="l00509"></a>00509                     <span class="comment">// Treat broken characters as the Unicode</span>
+<a name="l00510"></a>00510                     <span class="comment">// replacement character 0xFFFD (0xEFBFBD in</span>
+<a name="l00511"></a>00511                     <span class="comment">// UTF-8)</span>
+<a name="l00512"></a>00512                     *out++ = <span class="stringliteral">&#39;\xEF&#39;</span>;
+<a name="l00513"></a>00513                     *out++ = <span class="stringliteral">&#39;\xBF&#39;</span>;
+<a name="l00514"></a>00514                     *out++ = <span class="stringliteral">&#39;\xBD&#39;</span>;
+<a name="l00515"></a>00515 
+<a name="l00516"></a>00516                     <span class="comment">// The pointer to the next character points to the second</span>
+<a name="l00517"></a>00517                     <span class="comment">// 16-bit value, not beyond it, as per Unicode 5.0.0</span>
+<a name="l00518"></a>00518                     <span class="comment">// Chapter 3 C10, only the first code unit of an illegal</span>
+<a name="l00519"></a>00519                     <span class="comment">// sequence must be treated as an illegally terminated</span>
+<a name="l00520"></a>00520                     <span class="comment">// code unit sequence (also Chapter 3 D91, &quot;isolated [not</span>
+<a name="l00521"></a>00521                     <span class="comment">// paired and ill-formed] UTF-16 code units in the range</span>
+<a name="l00522"></a>00522                     <span class="comment">// D800..DFFF are ill-formed&quot;).</span>
+<a name="l00523"></a>00523                     <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>--;
+<a name="l00524"></a>00524 
+<a name="l00525"></a>00525                     <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;got a High Surrogate but no low surrogate&quot;</span>);
+<a name="l00526"></a>00526                   }
+<a name="l00527"></a>00527               }
+<a name="l00528"></a>00528             <span class="keywordflow">else</span> <span class="comment">// U+DC00 - U+DFFF</span>
+<a name="l00529"></a>00529               {
+<a name="l00530"></a>00530                 <span class="comment">// Treat broken characters as the Unicode replacement</span>
+<a name="l00531"></a>00531                 <span class="comment">// character 0xFFFD (0xEFBFBD in UTF-8)</span>
+<a name="l00532"></a>00532                 *out++ = <span class="stringliteral">&#39;\xEF&#39;</span>;
+<a name="l00533"></a>00533                 *out++ = <span class="stringliteral">&#39;\xBF&#39;</span>;
+<a name="l00534"></a>00534                 *out++ = <span class="stringliteral">&#39;\xBD&#39;</span>;
+<a name="l00535"></a>00535 
+<a name="l00536"></a>00536                 <span class="comment">// DC00- DFFF - Low Surrogate</span>
+<a name="l00537"></a>00537                 <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;got a low Surrogate but no high surrogate&quot;</span>);
+<a name="l00538"></a>00538               }
+<a name="l00539"></a>00539           }
+<a name="l00540"></a>00540 
+<a name="l00541"></a>00541         mBuffer = <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00542"></a>00542       }
+<a name="l00543"></a>00543 
+<a name="l00544"></a><a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#aa3213a381ee9e8f36bae5821b0fa502a">00544</a>     <span class="keywordtype">void</span> <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#aa3213a381ee9e8f36bae5821b0fa502a">write_terminator</a>()
+<a name="l00545"></a>00545       {
+<a name="l00546"></a>00546         *mBuffer = <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a10325edbb9f182a5e790891c61749eb6">buffer_type</a>(0);
+<a name="l00547"></a>00547       }
+<a name="l00548"></a>00548 
+<a name="l00549"></a>00549     <span class="keyword">private</span>:
+<a name="l00550"></a>00550       <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a10325edbb9f182a5e790891c61749eb6">buffer_type</a>* <span class="keyword">const</span> mStart;
+<a name="l00551"></a>00551       <a class="code" href="../../df/dfc/class_convert_u_t_f16to_u_t_f8.html#a10325edbb9f182a5e790891c61749eb6">buffer_type</a>* mBuffer;
+<a name="l00552"></a>00552   };
+<a name="l00553"></a>00553 
+<a name="l00559"></a><a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html">00559</a> <span class="keyword">class </span><a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html">CalculateUTF8Size</a>
+<a name="l00560"></a>00560   {
+<a name="l00561"></a>00561     <span class="keyword">public</span>:
+<a name="l00562"></a><a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a9e47b1a885b61136266d97d58855dce3">00562</a>       <span class="keyword">typedef</span> PRUnichar <a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a9e47b1a885b61136266d97d58855dce3">value_type</a>;
+<a name="l00563"></a>00563 
+<a name="l00564"></a><a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a2712bd342234d4a925cf81c0dbb1bd41">00564</a>     <a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a2712bd342234d4a925cf81c0dbb1bd41">CalculateUTF8Size</a>()
+<a name="l00565"></a>00565       : mSize(0) { }
+<a name="l00566"></a>00566 
+<a name="l00567"></a><a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a1c19530bc2762456659a0c30beb713cd">00567</a>     <span class="keywordtype">size_t</span> <a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a1c19530bc2762456659a0c30beb713cd">Size</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mSize; }
+<a name="l00568"></a>00568 
+<a name="l00569"></a><a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a124a31c2e829a1d40e5adfe029df8f80">00569</a>     <span class="keywordtype">void</span> <a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a124a31c2e829a1d40e5adfe029df8f80">write</a>( <span class="keyword">const</span> <a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a9e47b1a885b61136266d97d58855dce3">value_type</a>* <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>, uint32_t N )
+<a name="l00570"></a>00570       {
+<a name="l00571"></a>00571         <span class="comment">// Assume UCS2 surrogate pairs won&#39;t be spread across fragments.</span>
+<a name="l00572"></a>00572         <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a9e47b1a885b61136266d97d58855dce3">value_type</a> *<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> = start, *<a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a> = start + N; <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> &lt; <a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>; ++<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> )
+<a name="l00573"></a>00573           {
+<a name="l00574"></a>00574             <a class="code" href="../../d6/d73/class_calculate_u_t_f8_size.html#a9e47b1a885b61136266d97d58855dce3">value_type</a> c = *<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00575"></a>00575             <span class="keywordflow">if</span> (! (c &amp; 0xFF80)) <span class="comment">// U+0000 - U+007F</span>
+<a name="l00576"></a>00576               mSize += 1;
+<a name="l00577"></a>00577             <span class="keywordflow">else</span> <span class="keywordflow">if</span> (! (c &amp; 0xF800)) <span class="comment">// U+0100 - U+07FF</span>
+<a name="l00578"></a>00578               mSize += 2;
+<a name="l00579"></a>00579             <span class="keywordflow">else</span> <span class="keywordflow">if</span> (0xD800 != (0xF800 &amp; c)) <span class="comment">// U+0800 - U+D7FF,U+E000 - U+FFFF</span>
+<a name="l00580"></a>00580               mSize += 3;
+<a name="l00581"></a>00581             <span class="keywordflow">else</span> <span class="keywordflow">if</span> (0xD800 == (0xFC00 &amp; c)) <span class="comment">// U+D800 - U+DBFF</span>
+<a name="l00582"></a>00582               {
+<a name="l00583"></a>00583                 ++<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00584"></a>00584                 <span class="keywordflow">if</span> (<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a> == end)
+<a name="l00585"></a>00585                   {
+<a name="l00586"></a>00586                     <span class="comment">// Treat broken characters as the Unicode</span>
+<a name="l00587"></a>00587                     <span class="comment">// replacement character 0xFFFD (0xEFBFBD in</span>
+<a name="l00588"></a>00588                     <span class="comment">// UTF-8)</span>
+<a name="l00589"></a>00589                     mSize += 3;
+<a name="l00590"></a>00590 
+<a name="l00591"></a>00591                     <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;String ending in half a surrogate pair!&quot;</span>);
+<a name="l00592"></a>00592 
+<a name="l00593"></a>00593                     <span class="keywordflow">break</span>;
+<a name="l00594"></a>00594                   }
+<a name="l00595"></a>00595                 c = *<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>;
+<a name="l00596"></a>00596 
+<a name="l00597"></a>00597                 <span class="keywordflow">if</span> (0xDC00 == (0xFC00 &amp; c))
+<a name="l00598"></a>00598                   mSize += 4;
+<a name="l00599"></a>00599                 <span class="keywordflow">else</span>
+<a name="l00600"></a>00600                   {
+<a name="l00601"></a>00601                     <span class="comment">// Treat broken characters as the Unicode</span>
+<a name="l00602"></a>00602                     <span class="comment">// replacement character 0xFFFD (0xEFBFBD in</span>
+<a name="l00603"></a>00603                     <span class="comment">// UTF-8)</span>
+<a name="l00604"></a>00604                     mSize += 3;
+<a name="l00605"></a>00605 
+<a name="l00606"></a>00606                     <span class="comment">// The next code unit is the second 16-bit value, not</span>
+<a name="l00607"></a>00607                     <span class="comment">// the one beyond it, as per Unicode 5.0.0 Chapter 3 C10,</span>
+<a name="l00608"></a>00608                     <span class="comment">// only the first code unit of an illegal sequence must</span>
+<a name="l00609"></a>00609                     <span class="comment">// be treated as an illegally terminated code unit</span>
+<a name="l00610"></a>00610                     <span class="comment">// sequence (also Chapter 3 D91, &quot;isolated [not paired and</span>
+<a name="l00611"></a>00611                     <span class="comment">// ill-formed] UTF-16 code units in the range D800..DFFF</span>
+<a name="l00612"></a>00612                     <span class="comment">// are ill-formed&quot;).</span>
+<a name="l00613"></a>00613                     <a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>--;
+<a name="l00614"></a>00614 
+<a name="l00615"></a>00615                     <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;got a high Surrogate but no low surrogate&quot;</span>);
+<a name="l00616"></a>00616                   }
+<a name="l00617"></a>00617               }
+<a name="l00618"></a>00618             <span class="keywordflow">else</span> <span class="comment">// U+DC00 - U+DFFF</span>
+<a name="l00619"></a>00619               {
+<a name="l00620"></a>00620                 <span class="comment">// Treat broken characters as the Unicode replacement</span>
+<a name="l00621"></a>00621                 <span class="comment">// character 0xFFFD (0xEFBFBD in UTF-8)</span>
+<a name="l00622"></a>00622                 mSize += 3;
+<a name="l00623"></a>00623 
+<a name="l00624"></a>00624                 <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;got a low Surrogate but no high surrogate&quot;</span>);
+<a name="l00625"></a>00625               }
+<a name="l00626"></a>00626           }
+<a name="l00627"></a>00627       }
+<a name="l00628"></a>00628 
+<a name="l00629"></a>00629     <span class="keyword">private</span>:
+<a name="l00630"></a>00630       <span class="keywordtype">size_t</span> mSize;
+<a name="l00631"></a>00631   };
+<a name="l00632"></a>00632 
+<a name="l00633"></a>00633 <span class="preprocessor">#ifdef MOZILLA_INTERNAL_API</span>
+<a name="l00634"></a>00634 <span class="preprocessor"></span>
+<a name="l00638"></a>00638 <span class="keyword">class </span>LossyConvertEncoding8to16
+<a name="l00639"></a>00639   {
+<a name="l00640"></a>00640     <span class="keyword">public</span>:
+<a name="l00641"></a>00641       <span class="keyword">typedef</span> <span class="keywordtype">char</span>      value_type;
+<a name="l00642"></a>00642       <span class="keyword">typedef</span> <span class="keywordtype">char</span>      input_type;
+<a name="l00643"></a>00643       <span class="keyword">typedef</span> PRUnichar output_type;
+<a name="l00644"></a>00644 
+<a name="l00645"></a>00645     <span class="keyword">public</span>:
+<a name="l00646"></a>00646       LossyConvertEncoding8to16( PRUnichar* aDestination ) :
+<a name="l00647"></a>00647         mDestination(aDestination) { }
+<a name="l00648"></a>00648 
+<a name="l00649"></a>00649       <span class="keywordtype">void</span>
+<a name="l00650"></a>00650       write( <span class="keyword">const</span> <span class="keywordtype">char</span>* aSource, uint32_t aSourceLength )
+<a name="l00651"></a>00651         {
+<a name="l00652"></a>00652 <span class="preprocessor">#ifdef MOZILLA_MAY_SUPPORT_SSE2</span>
+<a name="l00653"></a>00653 <span class="preprocessor"></span>          <span class="keywordflow">if</span> (<a class="code" href="../../d2/d93/namespacemozilla.html#aa7a5f0679044e199048653c6bb937255">mozilla::supports_sse2</a>())
+<a name="l00654"></a>00654             {
+<a name="l00655"></a>00655               write_sse2(aSource, aSourceLength);
+<a name="l00656"></a>00656               <span class="keywordflow">return</span>;
+<a name="l00657"></a>00657             }
+<a name="l00658"></a>00658 <span class="preprocessor">#endif</span>
+<a name="l00659"></a>00659 <span class="preprocessor"></span>          <span class="keyword">const</span> <span class="keywordtype">char</span>* done_writing = aSource + aSourceLength;
+<a name="l00660"></a>00660           <span class="keywordflow">while</span> ( aSource &lt; done_writing )
+<a name="l00661"></a>00661             *mDestination++ = (PRUnichar)(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)(*aSource++);
+<a name="l00662"></a>00662         }
+<a name="l00663"></a>00663 
+<a name="l00664"></a>00664       <span class="keywordtype">void</span>
+<a name="l00665"></a>00665       write_sse2( <span class="keyword">const</span> <span class="keywordtype">char</span>* aSource, uint32_t aSourceLength );
+<a name="l00666"></a>00666 
+<a name="l00667"></a>00667       <span class="keywordtype">void</span>
+<a name="l00668"></a>00668       write_terminator()
+<a name="l00669"></a>00669         {
+<a name="l00670"></a>00670           *mDestination = (PRUnichar)(0);
+<a name="l00671"></a>00671         }
+<a name="l00672"></a>00672 
+<a name="l00673"></a>00673     <span class="keyword">private</span>:
+<a name="l00674"></a>00674       PRUnichar* mDestination;
+<a name="l00675"></a>00675   };
+<a name="l00676"></a>00676 
+<a name="l00681"></a>00681 <span class="keyword">class </span>LossyConvertEncoding16to8
+<a name="l00682"></a>00682   {
+<a name="l00683"></a>00683     <span class="keyword">public</span>:
+<a name="l00684"></a>00684       <span class="keyword">typedef</span> PRUnichar value_type;
+<a name="l00685"></a>00685       <span class="keyword">typedef</span> PRUnichar input_type;
+<a name="l00686"></a>00686       <span class="keyword">typedef</span> <span class="keywordtype">char</span>      output_type;
+<a name="l00687"></a>00687 
+<a name="l00688"></a>00688       LossyConvertEncoding16to8( <span class="keywordtype">char</span>* aDestination ) : mDestination(aDestination) { }
+<a name="l00689"></a>00689 
+<a name="l00690"></a>00690       <span class="keywordtype">void</span>
+<a name="l00691"></a>00691       write( <span class="keyword">const</span> PRUnichar* aSource, uint32_t aSourceLength)
+<a name="l00692"></a>00692         {
+<a name="l00693"></a>00693 <span class="preprocessor">#ifdef MOZILLA_MAY_SUPPORT_SSE2</span>
+<a name="l00694"></a>00694 <span class="preprocessor"></span>          <span class="keywordflow">if</span> (<a class="code" href="../../d2/d93/namespacemozilla.html#aa7a5f0679044e199048653c6bb937255">mozilla::supports_sse2</a>())
+<a name="l00695"></a>00695             {
+<a name="l00696"></a>00696               write_sse2(aSource, aSourceLength);
+<a name="l00697"></a>00697               <span class="keywordflow">return</span>;
+<a name="l00698"></a>00698             }
+<a name="l00699"></a>00699 <span class="preprocessor">#endif</span>
+<a name="l00700"></a>00700 <span class="preprocessor"></span>            <span class="keyword">const</span> PRUnichar* done_writing = aSource + aSourceLength;
+<a name="l00701"></a>00701             <span class="keywordflow">while</span> ( aSource &lt; done_writing )
+<a name="l00702"></a>00702               *mDestination++ = (char)(*aSource++);
+<a name="l00703"></a>00703         }
+<a name="l00704"></a>00704 
+<a name="l00705"></a>00705 <span class="preprocessor">#ifdef MOZILLA_MAY_SUPPORT_SSE2</span>
+<a name="l00706"></a>00706 <span class="preprocessor"></span>      <span class="keywordtype">void</span>
+<a name="l00707"></a>00707       write_sse2( <span class="keyword">const</span> PRUnichar* aSource, uint32_t aSourceLength );
+<a name="l00708"></a>00708 <span class="preprocessor">#endif</span>
+<a name="l00709"></a>00709 <span class="preprocessor"></span>
+<a name="l00710"></a>00710       <span class="keywordtype">void</span>
+<a name="l00711"></a>00711       write_terminator()
+<a name="l00712"></a>00712         {
+<a name="l00713"></a>00713           *mDestination = <span class="charliteral">&#39;\0&#39;</span>;
+<a name="l00714"></a>00714         }
+<a name="l00715"></a>00715 
+<a name="l00716"></a>00716     <span class="keyword">private</span>:
+<a name="l00717"></a>00717       <span class="keywordtype">char</span> *mDestination;
+<a name="l00718"></a>00718   };
+<a name="l00719"></a>00719 <span class="preprocessor">#endif // MOZILLA_INTERNAL_API</span>
+<a name="l00720"></a>00720 <span class="preprocessor"></span>
+<a name="l00721"></a>00721 <span class="preprocessor">#endif </span><span class="comment">/* !defined(nsUTF8Utils_h_) */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/d24/ns_u_t_f8_utils_8h.html">nsUTF8Utils.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:54:28に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

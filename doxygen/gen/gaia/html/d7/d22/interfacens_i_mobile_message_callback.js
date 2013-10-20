@@ -1,0 +1,27 @@
+var interfacens_i_mobile_message_callback =
+[
+    [ "notifyDeleteMessageFailed", "d7/d22/interfacens_i_mobile_message_callback.html#af7d78b9566d9e812e2d891d339c110e9", null ],
+    [ "NotifyDeleteMessageFailed", "d7/d22/interfacens_i_mobile_message_callback.html#ace0d144d8c5e9738c6e9157b05ca059a", null ],
+    [ "notifyGetMessageFailed", "d7/d22/interfacens_i_mobile_message_callback.html#ae8de2888f2442631483a48ea5e263973", null ],
+    [ "NotifyGetMessageFailed", "d7/d22/interfacens_i_mobile_message_callback.html#a10dacc687454021e4a597a4011295c9b", null ],
+    [ "notifyMarkMessageReadFailed", "d7/d22/interfacens_i_mobile_message_callback.html#a49464aace2cdc2bbc9a79e84f1da96d6", null ],
+    [ "NotifyMarkMessageReadFailed", "d7/d22/interfacens_i_mobile_message_callback.html#a9db82c544b4e0f70779f770f2f2ea14e", null ],
+    [ "notifyMessageDeleted", "d7/d22/interfacens_i_mobile_message_callback.html#a4ae80c9cdd424f5223cc3d254890f531", null ],
+    [ "NotifyMessageDeleted", "d7/d22/interfacens_i_mobile_message_callback.html#a90bf9228e1bacd61d2807fd1aef0abd2", null ],
+    [ "notifyMessageGot", "d7/d22/interfacens_i_mobile_message_callback.html#ac7d353dd5dec9a3bc02711b69de09c1e", null ],
+    [ "NotifyMessageGot", "d7/d22/interfacens_i_mobile_message_callback.html#a9c36225a0d63f9385ccd6eeb49d3a177", null ],
+    [ "notifyMessageMarkedRead", "d7/d22/interfacens_i_mobile_message_callback.html#aced0702ec76d8699bb194833e8f08718", null ],
+    [ "NotifyMessageMarkedRead", "d7/d22/interfacens_i_mobile_message_callback.html#a16fe25ef5b90c8d87073a7e025664ea6", null ],
+    [ "notifyMessageSent", "d7/d22/interfacens_i_mobile_message_callback.html#a66ea0936d1f3c417db7c40039f38014a", null ],
+    [ "NotifyMessageSent", "d7/d22/interfacens_i_mobile_message_callback.html#a84f89d736455be5b25ac0a02823fc62d", null ],
+    [ "notifySendMessageFailed", "d7/d22/interfacens_i_mobile_message_callback.html#a43908beaa5b903adc9b3ebfbbab36716", null ],
+    [ "NotifySendMessageFailed", "d7/d22/interfacens_i_mobile_message_callback.html#a2de039b2255f3b113806b137475b8994", null ],
+    [ "INTERNAL_ERROR", "d7/d22/interfacens_i_mobile_message_callback.html#afe934fa52308b2874dbf0d6a28c67085", null ],
+    [ "INVALID_ADDRESS_ERROR", "d7/d22/interfacens_i_mobile_message_callback.html#a2b71c7b75100f9e555e08228c41c07e1", null ],
+    [ "NO_SIGNAL_ERROR", "d7/d22/interfacens_i_mobile_message_callback.html#aab028732d7d08d9cd0e480d87b1e55ec", null ],
+    [ "NO_SIM_CARD_ERROR", "d7/d22/interfacens_i_mobile_message_callback.html#a46e0ef22e284535058eae35015ba3861", null ],
+    [ "NOT_FOUND_ERROR", "d7/d22/interfacens_i_mobile_message_callback.html#a5a486316307816131532b693e1e0d1e6", null ],
+    [ "RADIO_DISABLED_ERROR", "d7/d22/interfacens_i_mobile_message_callback.html#a2287a946a043fdda1148e13c2d365543", null ],
+    [ "SUCCESS_NO_ERROR", "d7/d22/interfacens_i_mobile_message_callback.html#acd263046c4545936722318418678e398", null ],
+    [ "UNKNOWN_ERROR", "d7/d22/interfacens_i_mobile_message_callback.html#ab35060fa1b6b1d1bf86811deeec2cf32", null ]
+];

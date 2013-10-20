@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: manager.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/d6f/manager_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">manager.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/d6f/manager_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.ns(<span class="stringliteral">&#39;Worker&#39;</span>).Manager = (<span class="keyword">function</span>(<a class="code" href="../../dc/dd7/ext_2caldav_8js.html#a5363025b2c2d773292f0f064aeb11f9e">global</a>) {
+<a name="l00002"></a>00002   <span class="keyword">const</span> IDLE_CLEANUP_TIME = 5000;
+<a name="l00003"></a>00003 
+<a name="l00015"></a>00015   <span class="keyword">function</span> Manager() {
+<a name="l00016"></a>00016     this._lastId = 0;
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018     <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.Responder.call(<span class="keyword">this</span>);
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020     this.roles = Object.create(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00021"></a>00021     this.workers = [];
+<a name="l00022"></a>00022   }
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024   Manager.prototype = {
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026     Worker: Worker,
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028     __proto__: <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.Responder.prototype,
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030     _onLog: <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00031"></a>00031       <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.log(
+<a name="l00032"></a>00032         <span class="charliteral">&#39;[&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.name, <span class="charliteral">&#39;]&#39;</span>,
+<a name="l00033"></a>00033         <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.message,
+<a name="l00034"></a>00034         <span class="charliteral">&#39;(&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.stack[0].trim(), <span class="charliteral">&#39;)&#39;</span>
+<a name="l00035"></a>00035       );
+<a name="l00036"></a>00036     },
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038     _formatData: <span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>) {
+<a name="l00039"></a>00039       <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>[1] &amp;&amp; <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>[1].<a class="code" href="../../d6/d1b/pprthred_8h.html#afe76c3c951fe40bd646fbf0b89cbcd17">stack</a> &amp;&amp; <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>[1].constructorName) {
+<a name="l00040"></a>00040         var err = <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>[1];
+<a name="l00041"></a>00041         var builtErr;
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043         <span class="keywordflow">if</span> (<a class="code" href="../../dc/dd7/ext_2caldav_8js.html#a5363025b2c2d773292f0f064aeb11f9e">global</a>[err.constructorName]) {
+<a name="l00044"></a>00044           builtErr = Object.create(<a class="code" href="../../dc/dd7/ext_2caldav_8js.html#a5363025b2c2d773292f0f064aeb11f9e">global</a>[err.constructorName].prototype);
+<a name="l00045"></a>00045         } <span class="keywordflow">else</span> {
+<a name="l00046"></a>00046           builtErr = Object.create(<a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>.prototype);
+<a name="l00047"></a>00047         }
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049         var <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>;
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051         <span class="keywordflow">for</span> (key in err) {
+<a name="l00052"></a>00052           <span class="keywordflow">if</span> (err.hasOwnProperty(key)) {
+<a name="l00053"></a>00053             builtErr[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>] = err[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>];
+<a name="l00054"></a>00054           }
+<a name="l00055"></a>00055         }
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057         <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>[1] = builtErr;
+<a name="l00058"></a>00058       }
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060       <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>;
+<a name="l00061"></a>00061     },
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063     _onWorkerError: <span class="keyword">function</span>(worker, err) {
+<a name="l00064"></a>00064       <span class="keywordflow">if</span> (/reference <a class="code" href="../../da/d32/prio_8h.html#a5d467a63df9ff99d33d6749038f6f421">to</a> undefined property/.<a class="code" href="../../db/db1/namespace_j_s_1_1detail.html#a4fe50fa16c059b33ed172c344bb3fc74">test</a>(err.message)) {
+<a name="l00065"></a>00065         <span class="comment">// This is a warning spewed out by javascript.options.strict,</span>
+<a name="l00066"></a>00066         <span class="comment">// the worker actually didn&#39;t crash at all, so ignore it.</span>
+<a name="l00067"></a>00067         <span class="keywordflow">return</span>;
+<a name="l00068"></a>00068       }
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070       <span class="keywordflow">if</span> (worker.instance) {
+<a name="l00071"></a>00071         worker.instance.terminate();
+<a name="l00072"></a>00072         worker.instance = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00073"></a>00073       }
+<a name="l00074"></a>00074       var pending = worker.pending;
+<a name="l00075"></a>00075       worker.pending = Object.create(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00076"></a>00076       <span class="keywordflow">for</span> (var <span class="keywordtype">id</span> in pending) {
+<a name="l00077"></a>00077         <span class="keywordflow">if</span> (pending[<span class="keywordtype">id</span>].stream) {
+<a name="l00078"></a>00078           pending[<a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>].stream.emit(<span class="stringliteral">&#39;error&#39;</span>, err);
+<a name="l00079"></a>00079         }
+<a name="l00080"></a>00080         pending[<a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>].callback(err);
+<a name="l00081"></a>00081       }
+<a name="l00082"></a>00082     },
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084     _onWorkerMessage: <span class="keyword">function</span>(worker, <a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00085"></a>00085       var <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a> = this._formatData(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>.data);
+<a name="l00086"></a>00086       var <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> = data.shift(), <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>;
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088       <span class="keywordflow">if</span> (type == <span class="stringliteral">&#39;log&#39;</span>) {
+<a name="l00089"></a>00089         this._onLog.apply(<span class="keyword">this</span>, data);
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091       } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a> = type.match(/^(\d+) (<a class="code" href="../../d8/d64/ns_u_r_l_helper_8h.html#abe43fe84431eb0cabf3c21ccc94bd756">end</a>|stream)$/)) {
+<a name="l00092"></a>00092         var pending = worker.pending[<a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>[1]];
+<a name="l00093"></a>00093         <span class="keywordflow">if</span> (pending)
+<a name="l00094"></a>00094           this._dispatchMessage(worker, pending, <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>[2], data);
+<a name="l00095"></a>00095         <span class="keywordflow">else</span>
+<a name="l00096"></a>00096           <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;Message arrived for unknown consumer: &#39;</span> +
+<a name="l00097"></a>00097                           type + <span class="charliteral">&#39; &#39;</span> + JSON.stringify(data));
+<a name="l00098"></a>00098       } <span class="keywordflow">else</span> {
+<a name="l00099"></a>00099         this.respond([type].concat(data));
+<a name="l00100"></a>00100       }
+<a name="l00101"></a>00101     },
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103     _dispatchMessage: <span class="keyword">function</span>(worker, pending, <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>) {
+<a name="l00104"></a>00104       <span class="keywordflow">if</span> (type == <span class="stringliteral">&#39;stream&#39;</span>) {
+<a name="l00105"></a>00105         pending.stream.respond(data);
+<a name="l00106"></a>00106       } <span class="keywordflow">else</span> { <span class="comment">// &#39;end&#39;</span>
+<a name="l00107"></a>00107         pending.callback.apply(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>, data);
+<a name="l00108"></a>00108         <span class="keyword">delete</span> worker.pending[pending.id];
+<a name="l00109"></a>00109         <span class="comment">// Bail out if there are other pending requests.</span>
+<a name="l00110"></a>00110         <span class="keywordflow">for</span> (var <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a> in worker.pending) <span class="keywordflow">return</span>;
+<a name="l00111"></a>00111         <span class="comment">// If none are left, schedule cleanup</span>
+<a name="l00112"></a>00112         this._scheduleCleanup(worker);
+<a name="l00113"></a>00113       }
+<a name="l00114"></a>00114     },
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116     _addPending: <span class="keyword">function</span>(worker, pending) {
+<a name="l00117"></a>00117       worker.pending[pending.id] = pending;
+<a name="l00118"></a>00118       <a class="code" href="../../da/da1/timers_8js.html#ab37ff0db33a3bf80b0163adc40a58424">clearTimeout</a>(worker.cleanup);
+<a name="l00119"></a>00119     },
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121     _scheduleCleanup: <span class="keyword">function</span>(worker) {
+<a name="l00122"></a>00122       <a class="code" href="../../da/da1/timers_8js.html#ab37ff0db33a3bf80b0163adc40a58424">clearTimeout</a>(worker.cleanup);
+<a name="l00123"></a>00123       worker.cleanup = <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span>() {
+<a name="l00124"></a>00124         <span class="comment">// Ensure we don&#39;t have a race condition where someone just</span>
+<a name="l00125"></a>00125         <span class="comment">// added a request but the timeout fired anyway.</span>
+<a name="l00126"></a>00126         <span class="keywordflow">for</span> (var <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a> in worker.pending) <span class="keywordflow">return</span>;
+<a name="l00127"></a>00127         <a class="code" href="../../d6/d52/js_2browser_8js.html#a7321fd84345f4f9455f25996b932b8fd">if</a> (!worker.instance) <span class="keywordflow">return</span>;
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129         worker.instance.terminate();
+<a name="l00130"></a>00130         worker.instance = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00131"></a>00131       }, IDLE_CLEANUP_TIME);
+<a name="l00132"></a>00132     },
+<a name="l00133"></a>00133 
+<a name="l00144"></a>00144     <a class="code" href="../../d3/d4a/mock__recipients_8js.html#a81b686bc164506c493dc722ce59d5b54">add</a>: <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>, workerURL) {
+<a name="l00145"></a>00145       var worker = {
+<a name="l00146"></a>00146         <span class="comment">// Actual Worker instance, when active</span>
+<a name="l00147"></a>00147         <a class="code" href="../../d1/d03/locales_2_r_e_a_d_m_e_8md.html#a62bde082af4374a2a9c3399269c7548c">instance</a>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00148"></a>00148         <span class="comment">// Handlers that are waiting for a response from this worker</span>
+<a name="l00149"></a>00149         pending: Object.create(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>),
+<a name="l00150"></a>00150         <span class="comment">// Script URL</span>
+<a name="l00151"></a>00151         <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>: workerURL,
+<a name="l00152"></a>00152         <span class="comment">// Timeout set to disable the worker when it hasn&#39;t been used</span>
+<a name="l00153"></a>00153         <span class="comment">// for a given period of time</span>
+<a name="l00154"></a>00154         cleanup: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>
+<a name="l00155"></a>00155       };
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157       this.workers.push(worker);
+<a name="l00158"></a>00158       [].concat(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>).forEach(<span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>) {
+<a name="l00159"></a>00159         <span class="keywordflow">if</span> (!(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a> in this.roles))
+<a name="l00160"></a>00160           this.roles[<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>] = [worker];
+<a name="l00161"></a>00161         <span class="keywordflow">else</span>
+<a name="l00162"></a>00162           this.roles[<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>].push(worker);
+<a name="l00163"></a>00163       }, <span class="keyword">this</span>);
+<a name="l00164"></a>00164     },
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166     _ensureActiveWorker: <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>) {
+<a name="l00167"></a>00167       <span class="keywordflow">if</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a> in this.roles) {
+<a name="l00168"></a>00168         var workers = this.roles[<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>];
+<a name="l00169"></a>00169         var worker = workers[Math.floor(Math.random() * workers.length)];
+<a name="l00170"></a>00170         <span class="keywordflow">if</span> (worker.instance) {
+<a name="l00171"></a>00171           <span class="keywordflow">return</span> worker;
+<a name="l00172"></a>00172         } <span class="keywordflow">else</span> {
+<a name="l00173"></a>00173           this._startWorker(worker);
+<a name="l00174"></a>00174           <span class="keywordflow">return</span> worker;
+<a name="l00175"></a>00175         }
+<a name="l00176"></a>00176       } <span class="keywordflow">else</span> {
+<a name="l00177"></a>00177         <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;no worker with role &quot;&#39;</span> + <a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a> + <span class="stringliteral">&#39;&quot; active&#39;</span>);
+<a name="l00178"></a>00178       }
+<a name="l00179"></a>00179     },
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181     _startWorker: <span class="keyword">function</span>(worker) {
+<a name="l00182"></a>00182       worker.instance = <span class="keyword">new</span> this.Worker(
+<a name="l00183"></a>00183         <span class="comment">// ?time= is for cache busting in development...</span>
+<a name="l00184"></a>00184         <span class="comment">// there have been cases where nightly would not</span>
+<a name="l00185"></a>00185         <span class="comment">// clear the cache of the worker.</span>
+<a name="l00186"></a>00186         worker.url + <span class="stringliteral">&#39;?time=&#39;</span> + Date.now()
+<a name="l00187"></a>00187       );
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189       worker.instance.onerror = this._onWorkerError.bind(<span class="keyword">this</span>, worker);
+<a name="l00190"></a>00190       worker.instance.onmessage = this._onWorkerMessage.bind(<span class="keyword">this</span>, worker);
+<a name="l00191"></a>00191       this._scheduleCleanup(worker);
+<a name="l00192"></a>00192     },
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194     <a class="code" href="../../df/d44/permission__manager_8js.html#ad9abb423164fcb98d6ad9333893e4682">request</a>: <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a> <span class="comment">/*, args..., callback*/</span>) {
+<a name="l00195"></a>00195       var <a class="code" href="../../db/d7b/r_8js.html#a283fa4dd58795cf5b621404be6601e86">args</a> = Array.prototype.slice.call(arguments, 1);
+<a name="l00196"></a>00196       var <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a> = args.pop();
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198       <span class="keywordflow">try</span> {
+<a name="l00199"></a>00199         var worker = this._ensureActiveWorker(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>);
+<a name="l00200"></a>00200       } <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00201"></a>00201         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00202"></a>00202         <span class="keywordflow">return</span>;
+<a name="l00203"></a>00203       }
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205       var data = {
+<a name="l00206"></a>00206         <span class="keywordtype">id</span>: this._lastId++,
+<a name="l00207"></a>00207         <a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>,
+<a name="l00208"></a>00208         payload: args
+<a name="l00209"></a>00209       };
+<a name="l00210"></a>00210       this._addPending(worker, {
+<a name="l00211"></a>00211         <span class="keywordtype">id</span>: data.id,
+<a name="l00212"></a>00212         callback: callback
+<a name="l00213"></a>00213       });
+<a name="l00214"></a>00214       worker.instance.postMessage([<span class="stringliteral">&#39;_dispatch&#39;</span>, data]);
+<a name="l00215"></a>00215     },
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217     stream: <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a> <span class="comment">/*, args...*/</span>) {
+<a name="l00218"></a>00218       var args = Array.prototype.slice.call(arguments, 1);
+<a name="l00219"></a>00219       var stream = <span class="keyword">new</span> <a class="code" href="../../d4/d99/create__event__test_8js.html#a4a0f6a3a1b73d50ac6e8a34fe754f79f">Calendar</a>.Responder();
+<a name="l00220"></a>00220       var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222       var data = {
+<a name="l00223"></a>00223         <span class="keywordtype">id</span>: this._lastId++,
+<a name="l00224"></a>00224         <a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>,
+<a name="l00225"></a>00225         payload: <a class="code" href="../../db/d7b/r_8js.html#a283fa4dd58795cf5b621404be6601e86">args</a>,
+<a name="l00226"></a>00226         type: <span class="stringliteral">&#39;stream&#39;</span>
+<a name="l00227"></a>00227       };
+<a name="l00228"></a>00228 
+<a name="l00229"></a>00229       stream.request = <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00230"></a>00230         stream.request = <span class="keyword">function</span>() {
+<a name="l00231"></a>00231           <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;stream request has been sent&#39;</span>);
+<a name="l00232"></a>00232         };
+<a name="l00233"></a>00233 
+<a name="l00234"></a>00234         <span class="keywordflow">try</span> {
+<a name="l00235"></a>00235           var worker = <span class="keyword">self</span>._ensureActiveWorker(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a>);
+<a name="l00236"></a>00236         } <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00237"></a>00237           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00238"></a>00238           <span class="keywordflow">return</span>;
+<a name="l00239"></a>00239         }
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241         <span class="keyword">self</span>._addPending(worker, {
+<a name="l00242"></a>00242           <span class="keywordtype">id</span>: data.id,
+<a name="l00243"></a>00243           stream: stream,
+<a name="l00244"></a>00244           callback: callback
+<a name="l00245"></a>00245         });
+<a name="l00246"></a>00246         worker.instance.postMessage([<span class="stringliteral">&#39;_dispatch&#39;</span>, data]);
+<a name="l00247"></a>00247       };
+<a name="l00248"></a>00248       <span class="keywordflow">return</span> stream;
+<a name="l00249"></a>00249     }
+<a name="l00250"></a>00250   };
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252   <span class="keywordflow">return</span> Manager;
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254 }(<span class="keyword">this</span>));
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/d6f/manager_8js.html">manager.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:44に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

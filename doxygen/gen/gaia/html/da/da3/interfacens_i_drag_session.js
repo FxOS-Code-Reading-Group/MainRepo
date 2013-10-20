@@ -1,0 +1,28 @@
+var interfacens_i_drag_session =
+[
+    [ "GetCanDrop", "da/da3/interfacens_i_drag_session.html#a409e58bccf9140c629699b3e826c125b", null ],
+    [ "GetData", "da/da3/interfacens_i_drag_session.html#af0eb54e572dea96642b19c37a580e6b2", null ],
+    [ "getData", "da/da3/interfacens_i_drag_session.html#ab014b5634cc3682153fbb598c61af84a", null ],
+    [ "GetDataTransfer", "da/da3/interfacens_i_drag_session.html#a7ae5a7f2a0702aabb4b8b759ba6ed6fb", null ],
+    [ "GetDragAction", "da/da3/interfacens_i_drag_session.html#a5c86f7f480b076bf8e612265f8ad77f2", null ],
+    [ "GetNumDropItems", "da/da3/interfacens_i_drag_session.html#a302d61a382ee4a71b462aae404b3423d", null ],
+    [ "GetOnlyChromeDrop", "da/da3/interfacens_i_drag_session.html#ace4f6ae038b4d64e283308baa38c9d86", null ],
+    [ "GetSourceDocument", "da/da3/interfacens_i_drag_session.html#afe50a37133f5d5801b4eb4f96e6e67de", null ],
+    [ "GetSourceNode", "da/da3/interfacens_i_drag_session.html#aafc58824486e4b912e57b292132c6ec6", null ],
+    [ "GetTargetSize", "da/da3/interfacens_i_drag_session.html#a48cd12bf5e574a4503f3a024f475bfdf", null ],
+    [ "IsDataFlavorSupported", "da/da3/interfacens_i_drag_session.html#affc4865127411a354beec097c04a64b3", null ],
+    [ "isDataFlavorSupported", "da/da3/interfacens_i_drag_session.html#a41f35d4a36ef161c0f0e0612302113a2", null ],
+    [ "SetCanDrop", "da/da3/interfacens_i_drag_session.html#ac203a45228f8d0b3ae2407360562595d", null ],
+    [ "SetDataTransfer", "da/da3/interfacens_i_drag_session.html#a34a103786e0fc6cef4e3b7820b1cb009", null ],
+    [ "SetDragAction", "da/da3/interfacens_i_drag_session.html#ad462685a9f9045b414cd1515c30fb4e5", null ],
+    [ "SetOnlyChromeDrop", "da/da3/interfacens_i_drag_session.html#ab43ad6ad24ba1231b9fcb9678e9e78c7", null ],
+    [ "SetTargetSize", "da/da3/interfacens_i_drag_session.html#aba3e3ebf89a14591c4a60602a533d046", null ],
+    [ "canDrop", "da/da3/interfacens_i_drag_session.html#abc52a6bb6a51c249f03d97e1d3876b18", null ],
+    [ "dataTransfer", "da/da3/interfacens_i_drag_session.html#a6979a7126d2e470dae89aaf119764de1", null ],
+    [ "dragAction", "da/da3/interfacens_i_drag_session.html#a1278b4c489d25782de46286fa682fa94", null ],
+    [ "numDropItems", "da/da3/interfacens_i_drag_session.html#a5af9cf3bd2c7654b041a41ac4e654249", null ],
+    [ "onlyChromeDrop", "da/da3/interfacens_i_drag_session.html#a57198a7520499575f40e94dd15aed2c7", null ],
+    [ "sourceDocument", "da/da3/interfacens_i_drag_session.html#a1bc82e2fe3682a5c6ae994d3350ef7b7", null ],
+    [ "sourceNode", "da/da3/interfacens_i_drag_session.html#a5d5f6c048911477296b5415f9cde1159", null ],
+    [ "targetSize", "da/da3/interfacens_i_drag_session.html#afe923ee227d64721c254babe4bef59a3", null ]
+];

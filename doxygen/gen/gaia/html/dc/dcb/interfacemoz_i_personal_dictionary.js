@@ -1,0 +1,25 @@
+var interfacemoz_i_personal_dictionary =
+[
+    [ "AddCorrection", "dc/dcb/interfacemoz_i_personal_dictionary.html#a0094b34c1a44fd74c92a68bc34059baa", null ],
+    [ "addCorrection", "dc/dcb/interfacemoz_i_personal_dictionary.html#a0f9298c0698969bb6e87994515360b03", null ],
+    [ "addWord", "dc/dcb/interfacemoz_i_personal_dictionary.html#ac5dfb564f6213584c9c64f89e73e5610", null ],
+    [ "AddWord", "dc/dcb/interfacemoz_i_personal_dictionary.html#a5f366b5c844c30c49483dd4172173e04", null ],
+    [ "check", "dc/dcb/interfacemoz_i_personal_dictionary.html#abac52b0bc9107e9c7ed8123afcb81bde", null ],
+    [ "Check", "dc/dcb/interfacemoz_i_personal_dictionary.html#aaa2629ba5aac215b5a6ec2651aaca3e2", null ],
+    [ "EndSession", "dc/dcb/interfacemoz_i_personal_dictionary.html#ae6971b5b94973d2114bf839c7ed32229", null ],
+    [ "endSession", "dc/dcb/interfacemoz_i_personal_dictionary.html#a96575ce0dd0a2f24706f9352ae29950f", null ],
+    [ "GetCorrection", "dc/dcb/interfacemoz_i_personal_dictionary.html#a846fcc92bf08202402f3b7b73918cd8c", null ],
+    [ "getCorrection", "dc/dcb/interfacemoz_i_personal_dictionary.html#ae1330e0f8ef5cc3531b863ec90674ec9", null ],
+    [ "GetWordList", "dc/dcb/interfacemoz_i_personal_dictionary.html#abcdc7df4201577e913cbc0021326157d", null ],
+    [ "IgnoreWord", "dc/dcb/interfacemoz_i_personal_dictionary.html#a2d530692859cb61dca8d864b99c15fa7", null ],
+    [ "ignoreWord", "dc/dcb/interfacemoz_i_personal_dictionary.html#ad5150936cefc57d78e8782e5bb132641", null ],
+    [ "load", "dc/dcb/interfacemoz_i_personal_dictionary.html#afd507cb185519e68d9a862c29e2b3952", null ],
+    [ "Load", "dc/dcb/interfacemoz_i_personal_dictionary.html#a646d759c03183ff76858ef1344422540", null ],
+    [ "RemoveCorrection", "dc/dcb/interfacemoz_i_personal_dictionary.html#a71612ed368fe0c68d4e7835fcc6d7e28", null ],
+    [ "removeCorrection", "dc/dcb/interfacemoz_i_personal_dictionary.html#a02d3d82731289be5e9edb771429df8fb", null ],
+    [ "removeWord", "dc/dcb/interfacemoz_i_personal_dictionary.html#a25aeba7406324c1db2a1acad1afeadd4", null ],
+    [ "RemoveWord", "dc/dcb/interfacemoz_i_personal_dictionary.html#a9d1477673a48dc4da7ca582f1fd570e8", null ],
+    [ "save", "dc/dcb/interfacemoz_i_personal_dictionary.html#a4d2d06e82169365bf3225fa877a43ed3", null ],
+    [ "Save", "dc/dcb/interfacemoz_i_personal_dictionary.html#a88dabf91be81083e0610f106df5ecee4", null ],
+    [ "wordList", "dc/dcb/interfacemoz_i_personal_dictionary.html#aa1716f8110d753bdc101c40d86b7e0d6", null ]
+];

@@ -1,0 +1,27 @@
+var nspluginroot_8idl =
+[
+    [ "constCharPtr", "da/d89/nspluginroot_8idl.html#a030e0b4581a9c80413f8b552f61f4869", null ],
+    [ "constCharStarConstStar", "da/d89/nspluginroot_8idl.html#a9ba821c2d35b83a7642660767f8d9db2", null ],
+    [ "constCharStarRef", "da/d89/nspluginroot_8idl.html#af4be94763fbecabc4ca9ca2dcda60fd4", null ],
+    [ "constVoidPtr", "da/d89/nspluginroot_8idl.html#a7e41b27772a77a97f2d349fc464e96a6", null ],
+    [ "jref", "da/d89/nspluginroot_8idl.html#a94eba1601ed9d5190c83f55ae7b66bec", null ],
+    [ "JRIEnvPtr", "da/d89/nspluginroot_8idl.html#a6b7f80c1a962c5e85e9a472f9fea5a86", null ],
+    [ "nativeChar", "da/d89/nspluginroot_8idl.html#adff89d81370121752740486613225f92", null ],
+    [ "nativeVoid", "da/d89/nspluginroot_8idl.html#af7e4acc2962db6c13e801857a4b1f1a8", null ],
+    [ "NPByteRange", "da/d89/nspluginroot_8idl.html#a836e5fabe10a5d07306dfd8af693cb8d", null ],
+    [ "NPByteRangePtr", "da/d89/nspluginroot_8idl.html#aa28bb594528765332dff4c1f8595fdfb", null ],
+    [ "NPDrawingModel", "da/d89/nspluginroot_8idl.html#a3c0379b1d3e0477fcf20bfd1c648fbbd", null ],
+    [ "NPEventModel", "da/d89/nspluginroot_8idl.html#a04d27d51f86cc2d05ec799f1d22bfc14", null ],
+    [ "NPNVariable", "da/d89/nspluginroot_8idl.html#af16848f11c822aa8182ad5a26b4d537c", null ],
+    [ "NPPrintPtr", "da/d89/nspluginroot_8idl.html#a42041dbf6e8a2666191966f0dd08299c", null ],
+    [ "NPPVariable", "da/d89/nspluginroot_8idl.html#a8ae1c3d8b83ba465eb4c5d31e3eff2da", null ],
+    [ "NPRectPtr", "da/d89/nspluginroot_8idl.html#a7665e9a2e9a4d14e318aa4b2f84e06c8", null ],
+    [ "NPRegion", "da/d89/nspluginroot_8idl.html#a6a8ed89991cd8f17c6edee18c706966d", null ],
+    [ "NPWindow", "da/d89/nspluginroot_8idl.html#aed8957d4dcc6adc02dcbf115f8b0df18", null ],
+    [ "NPWindowPtr", "da/d89/nspluginroot_8idl.html#aafb14c1cfcbc32a653b2243ba2a6ac29", null ],
+    [ "NPWindowStarRef", "da/d89/nspluginroot_8idl.html#a49b1f03234e2db377673950f3be1dc34", null ],
+    [ "NPWindowType", "da/d89/nspluginroot_8idl.html#a0eaf2f132145b36a178f99aa8deca0d3", null ],
+    [ "PRUint16Ref", "da/d89/nspluginroot_8idl.html#a406f7e8d3f2175dbe570f7461f78a02f", null ],
+    [ "PRUint32Ref", "da/d89/nspluginroot_8idl.html#aed642fcb38c619d158102cc7a9957697", null ],
+    [ "REFNSIID", "da/d89/nspluginroot_8idl.html#a5ce611a0b8c0fa49605a5241f77a493b", null ]
+];

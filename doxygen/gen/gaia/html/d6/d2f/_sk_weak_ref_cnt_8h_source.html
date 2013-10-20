@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: SkWeakRefCnt.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d6/d2f/_sk_weak_ref_cnt_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">SkWeakRefCnt.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d6/d2f/_sk_weak_ref_cnt_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * Copyright 2012 Google Inc.</span>
+<a name="l00003"></a>00003 <span class="comment"> *</span>
+<a name="l00004"></a>00004 <span class="comment"> * Use of this source code is governed by a BSD-style license that can be</span>
+<a name="l00005"></a>00005 <span class="comment"> * found in the LICENSE file.</span>
+<a name="l00006"></a>00006 <span class="comment"> */</span>
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="preprocessor">#ifndef SkWeakRefCnt_DEFINED</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span><span class="preprocessor">#define SkWeakRefCnt_DEFINED</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d2b/_sk_ref_cnt_8h.html">SkRefCnt.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/def/_sk_thread_8h.html">SkThread.h</a>&quot;</span>
+<a name="l00013"></a>00013 
+<a name="l00052"></a><a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html">00052</a> <span class="keyword">class </span><a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html">SkWeakRefCnt</a> : <span class="keyword">public</span> <a class="code" href="../../da/dec/class_sk_ref_cnt.html">SkRefCnt</a> {
+<a name="l00053"></a>00053 <span class="keyword">public</span>:
+<a name="l00054"></a>00054     <a class="code" href="../../dd/dac/_sk_inst_cnt_8h.html#a95287114455fa59e7b245b2def40b0ef">SK_DECLARE_INST_COUNT</a>(<a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html">SkWeakRefCnt</a>)
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056     
+<a name="l00061"></a><a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a1fa86fb0536ac751ae35d7b16443f861">00061</a>     <a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html">SkWeakRefCnt</a>() : <a class="code" href="../../da/dec/class_sk_ref_cnt.html">SkRefCnt</a>(), fWeakCnt(1) {}
+<a name="l00062"></a>00062 
+<a name="l00065"></a><a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a663b1c6a3b5e233dc1a2550a4c817ba0">00065</a>     <span class="keyword">virtual</span> <a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a663b1c6a3b5e233dc1a2550a4c817ba0">~SkWeakRefCnt</a>() {
+<a name="l00066"></a>00066 <span class="preprocessor">#ifdef SK_DEBUG</span>
+<a name="l00067"></a>00067 <span class="preprocessor"></span>        <a class="code" href="../../d3/d36/_sk_types_8h.html#acc82ca88a67ae7ce95a107a9a4b81123">SkASSERT</a>(fWeakCnt == 1);
+<a name="l00068"></a>00068         fWeakCnt = 0;
+<a name="l00069"></a>00069 <span class="preprocessor">#endif</span>
+<a name="l00070"></a>00070 <span class="preprocessor"></span>    }
+<a name="l00071"></a>00071 
+<a name="l00074"></a><a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a0da78aaef841f57ae594849d35ae8e75">00074</a>     int32_t <a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a0da78aaef841f57ae594849d35ae8e75">getWeakCnt</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> fWeakCnt; }
+<a name="l00075"></a>00075 
+<a name="l00076"></a><a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a90f50847c66ae00117623c33340b48bb">00076</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a90f50847c66ae00117623c33340b48bb">validate</a>()<span class="keyword"> const </span>{
+<a name="l00077"></a>00077         <a class="code" href="../../d7/dee/_balance_low_limit_view_8js.html#ad3459b9c5b77e9560ef081306f863016">SkRefCnt::validate</a>();
+<a name="l00078"></a>00078         <a class="code" href="../../d3/d36/_sk_types_8h.html#acc82ca88a67ae7ce95a107a9a4b81123">SkASSERT</a>(fWeakCnt &gt; 0);
+<a name="l00079"></a>00079     }
+<a name="l00080"></a>00080 
+<a name="l00088"></a><a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#ab90a2fa16c4bab11207000b0ef015c4e">00088</a>     <span class="keywordtype">bool</span> SK_WARN_UNUSED_RESULT <a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#ab90a2fa16c4bab11207000b0ef015c4e">try_ref</a>()<span class="keyword"> const </span>{
+<a name="l00089"></a>00089         <span class="keywordflow">if</span> (<a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a664038b828e7693c3c1fd3f964014829">sk_atomic_conditional_inc</a>(&amp;fRefCnt) != 0) {
+<a name="l00090"></a>00090             <span class="comment">// Aquire barrier (L/SL), if not provided above.</span>
+<a name="l00091"></a>00091             <span class="comment">// Prevents subsequent code from happening before the increment.</span>
+<a name="l00092"></a>00092             <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#aebb2f4ead6a9298439feb194b35cde40">sk_membar_aquire__after_atomic_conditional_inc</a>();
+<a name="l00093"></a>00093             <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00094"></a>00094         }
+<a name="l00095"></a>00095         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00096"></a>00096     }
+<a name="l00097"></a>00097 
+<a name="l00101"></a><a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a70b53592a4c8b797029be6ca1d6a69da">00101</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a70b53592a4c8b797029be6ca1d6a69da">weak_ref</a>()<span class="keyword"> const </span>{
+<a name="l00102"></a>00102         <a class="code" href="../../d3/d36/_sk_types_8h.html#acc82ca88a67ae7ce95a107a9a4b81123">SkASSERT</a>(fRefCnt &gt; 0);
+<a name="l00103"></a>00103         <a class="code" href="../../d3/d36/_sk_types_8h.html#acc82ca88a67ae7ce95a107a9a4b81123">SkASSERT</a>(fWeakCnt &gt; 0);
+<a name="l00104"></a>00104         <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a719144fc1c3dcde6ac3f9c3012bd98fd">sk_atomic_inc</a>(&amp;fWeakCnt);  <span class="comment">// No barrier required.</span>
+<a name="l00105"></a>00105     }
+<a name="l00106"></a>00106 
+<a name="l00112"></a><a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#acb9cc74646def17ad0fb64fdca6489bc">00112</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#acb9cc74646def17ad0fb64fdca6489bc">weak_unref</a>()<span class="keyword"> const </span>{
+<a name="l00113"></a>00113         <a class="code" href="../../d3/d36/_sk_types_8h.html#acc82ca88a67ae7ce95a107a9a4b81123">SkASSERT</a>(fWeakCnt &gt; 0);
+<a name="l00114"></a>00114         <span class="comment">// Release barrier (SL/S), if not provided below.</span>
+<a name="l00115"></a>00115         <span class="keywordflow">if</span> (<a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a618bb47780ba83644ad637aeaf789950">sk_atomic_dec</a>(&amp;fWeakCnt) == 1) {
+<a name="l00116"></a>00116             <span class="comment">// Aquire barrier (L/SL), if not provided above.</span>
+<a name="l00117"></a>00117             <span class="comment">// Prevents code in destructor from happening before the decrement.</span>
+<a name="l00118"></a>00118             <a class="code" href="../../d9/d82/_sk_thread__platform_8h.html#a2b80af161b1e75b1de8cbe4134ced002">sk_membar_aquire__after_atomic_dec</a>();
+<a name="l00119"></a>00119 <span class="preprocessor">#ifdef SK_DEBUG</span>
+<a name="l00120"></a>00120 <span class="preprocessor"></span>            <span class="comment">// so our destructor won&#39;t complain</span>
+<a name="l00121"></a>00121             fWeakCnt = 1;
+<a name="l00122"></a>00122 <span class="preprocessor">#endif</span>
+<a name="l00123"></a>00123 <span class="preprocessor"></span>            SkRefCnt::internal_dispose();
+<a name="l00124"></a>00124         }
+<a name="l00125"></a>00125     }
+<a name="l00126"></a>00126 
+<a name="l00130"></a><a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a95ae5d8822e2a7bcfa6a140d24db0b84">00130</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a95ae5d8822e2a7bcfa6a140d24db0b84">weak_expired</a>()<span class="keyword"> const </span>{
+<a name="l00131"></a>00131         <span class="keywordflow">return</span> fRefCnt == 0;
+<a name="l00132"></a>00132     }
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134 <span class="keyword">protected</span>:
+<a name="l00140"></a><a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a5ca67f5b15497bcb4982ff19b1451ea0">00140</a>     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../de/d4d/class_sk_weak_ref_cnt.html#a5ca67f5b15497bcb4982ff19b1451ea0">weak_dispose</a>()<span class="keyword"> const </span>{
+<a name="l00141"></a>00141     }
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143 <span class="keyword">private</span>:
+<a name="l00148"></a>00148     <span class="keyword">virtual</span> <span class="keywordtype">void</span> internal_dispose() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> SK_OVERRIDE {
+<a name="l00149"></a>00149         weak_dispose();
+<a name="l00150"></a>00150         weak_unref();
+<a name="l00151"></a>00151     }
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153     <span class="comment">/* Invariant: fWeakCnt = #weak + (fRefCnt &gt; 0 ? 1 : 0) */</span>
+<a name="l00154"></a>00154     <span class="keyword">mutable</span> int32_t fWeakCnt;
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156     <span class="keyword">typedef</span> <a class="code" href="../../da/dec/class_sk_ref_cnt.html">SkRefCnt</a> INHERITED;
+<a name="l00157"></a>00157 };
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d6/d2f/_sk_weak_ref_cnt_8h.html">SkWeakRefCnt.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:14に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

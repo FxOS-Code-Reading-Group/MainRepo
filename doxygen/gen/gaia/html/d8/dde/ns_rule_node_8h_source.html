@@ -1,0 +1,852 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsRuleNode.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d8/dde/ns_rule_node_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsRuleNode.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d8/dde/ns_rule_node_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment"> * a node in the lexicographic tree of rules that match an element,</span>
+<a name="l00008"></a>00008 <span class="comment"> * responsible for converting the rules&#39; information into computed style</span>
+<a name="l00009"></a>00009 <span class="comment"> */</span>
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="preprocessor">#ifndef nsRuleNode_h___</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span><span class="preprocessor">#define nsRuleNode_h___</span>
+<a name="l00013"></a>00013 <span class="preprocessor"></span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/d0b/ns_pres_context_8h.html">nsPresContext.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../da/da7/ns_style_struct_8h.html">nsStyleStruct.h</a>&quot;</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 <span class="preprocessor">#include &lt;stdint.h&gt;</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="keyword">class </span><a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>;
+<a name="l00020"></a>00020 <span class="keyword">struct </span><a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>;
+<a name="l00021"></a>00021 <span class="keyword">class </span><a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>;
+<a name="l00022"></a>00022 <span class="keyword">struct </span><a class="code" href="../../db/d03/structns_c_s_s_value_list.html">nsCSSValueList</a>;
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="keyword">class </span><a class="code" href="../../d3/df2/classns_c_s_s_value.html">nsCSSValue</a>;
+<a name="l00025"></a>00025 <span class="keyword">struct </span><a class="code" href="../../db/dac/structns_c_s_s_rect.html">nsCSSRect</a>;
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="keyword">class </span><a class="code" href="../../d9/dfb/classns_style_coord.html">nsStyleCoord</a>;
+<a name="l00028"></a>00028 <span class="keyword">struct </span><a class="code" href="../../da/d6d/structns_c_s_s_value_pair_list.html">nsCSSValuePairList</a>;
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="keyword">template</span> &lt;nsStyleStructID MinIndex, nsStyleStructID Count&gt;
+<a name="l00031"></a><a class="code" href="../../de/dfc/class_fixed_style_struct_array.html">00031</a> <span class="keyword">class </span><a class="code" href="../../de/dfc/class_fixed_style_struct_array.html">FixedStyleStructArray</a>
+<a name="l00032"></a>00032 {
+<a name="l00033"></a>00033 <span class="keyword">private</span>:
+<a name="l00034"></a>00034   <span class="keywordtype">void</span>* mArray[Count];
+<a name="l00035"></a>00035 <span class="keyword">public</span>:
+<a name="l00036"></a><a class="code" href="../../de/dfc/class_fixed_style_struct_array.html#a5c8232d70f6788228a288cf110e27321">00036</a>   <span class="keywordtype">void</span>*&amp; <a class="code" href="../../de/dfc/class_fixed_style_struct_array.html#a5c8232d70f6788228a288cf110e27321">operator[]</a>(<a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aIndex) {
+<a name="l00037"></a>00037     <a class="code" href="../../dc/d6d/ns_debug_8h.html#a4ef7a344da984edc896f5515d228e537">NS_ABORT_IF_FALSE</a>(MinIndex &lt;= aIndex &amp;&amp; aIndex &lt; (MinIndex + Count),
+<a name="l00038"></a>00038                       <span class="stringliteral">&quot;out of range&quot;</span>);
+<a name="l00039"></a>00039     <span class="keywordflow">return</span> mArray[aIndex - MinIndex];
+<a name="l00040"></a>00040   }
+<a name="l00041"></a>00041 
+<a name="l00042"></a><a class="code" href="../../de/dfc/class_fixed_style_struct_array.html#ab92172868c2e967e58b3cc7ceda565db">00042</a>   <span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../de/dfc/class_fixed_style_struct_array.html#ab92172868c2e967e58b3cc7ceda565db">operator[]</a>(<a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aIndex)<span class="keyword"> const </span>{
+<a name="l00043"></a>00043     <a class="code" href="../../dc/d6d/ns_debug_8h.html#a4ef7a344da984edc896f5515d228e537">NS_ABORT_IF_FALSE</a>(MinIndex &lt;= aIndex &amp;&amp; aIndex &lt; (MinIndex + Count),
+<a name="l00044"></a>00044                       <span class="stringliteral">&quot;out of range&quot;</span>);
+<a name="l00045"></a>00045     <span class="keywordflow">return</span> mArray[aIndex - MinIndex];
+<a name="l00046"></a>00046   }
+<a name="l00047"></a>00047 };
+<a name="l00048"></a>00048 
+<a name="l00049"></a><a class="code" href="../../d7/dbf/structns_inherited_style_data.html">00049</a> <span class="keyword">struct </span><a class="code" href="../../d7/dbf/structns_inherited_style_data.html">nsInheritedStyleData</a>
+<a name="l00050"></a>00050 {
+<a name="l00051"></a>00051   <a class="code" href="../../de/dfc/class_fixed_style_struct_array.html">FixedStyleStructArray</a>&lt;<a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6a19180b7edc45e0af79a7dcaccf920480">nsStyleStructID_Inherited_Start</a>,
+<a name="l00052"></a><a class="code" href="../../d7/dbf/structns_inherited_style_data.html#af806dac10053b3ab9aa84ed32f1bb4a1">00052</a>                         nsStyleStructID_Inherited_Count&gt; <a class="code" href="../../d7/dbf/structns_inherited_style_data.html#af806dac10053b3ab9aa84ed32f1bb4a1">mStyleStructs</a>;
+<a name="l00053"></a>00053 
+<a name="l00054"></a><a class="code" href="../../d7/dbf/structns_inherited_style_data.html#a345a3058190ec04b785f3b801b6736be">00054</a>   <span class="keywordtype">void</span>* <a class="code" href="../../d7/dbf/structns_inherited_style_data.html#a345a3058190ec04b785f3b801b6736be">operator new</a>(<span class="keywordtype">size_t</span> sz, <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aContext) <a class="code" href="../../d7/d2d/xpcom-config_8h.html#a9a0878f36babdc2feb3a8352a64a434d">CPP_THROW_NEW</a> {
+<a name="l00055"></a>00055     <span class="keywordflow">return</span> aContext-&gt;AllocateFromShell(sz);
+<a name="l00056"></a>00056   }
+<a name="l00057"></a>00057 
+<a name="l00058"></a><a class="code" href="../../d7/dbf/structns_inherited_style_data.html#a01862fefb3e7c7a0ba85d3b5daea9597">00058</a>   <span class="keywordtype">void</span> <a class="code" href="../../d7/dbf/structns_inherited_style_data.html#a01862fefb3e7c7a0ba85d3b5daea9597">DestroyStructs</a>(uint32_t aBits, <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aContext) {
+<a name="l00059"></a>00059 <span class="preprocessor">#define STYLE_STRUCT_INHERITED(name, checkdata_cb) \</span>
+<a name="l00060"></a>00060 <span class="preprocessor">    void *name##Data = mStyleStructs[eStyleStruct_##name]; \</span>
+<a name="l00061"></a>00061 <span class="preprocessor">    if (name##Data &amp;&amp; !(aBits &amp; NS_STYLE_INHERIT_BIT(name))) \</span>
+<a name="l00062"></a>00062 <span class="preprocessor">      static_cast&lt;nsStyle##name*&gt;(name##Data)-&gt;Destroy(aContext);</span>
+<a name="l00063"></a>00063 <span class="preprocessor"></span><span class="preprocessor">#define STYLE_STRUCT_RESET(name, checkdata_cb)</span>
+<a name="l00064"></a>00064 <span class="preprocessor"></span>
+<a name="l00065"></a>00065 <span class="preprocessor">#include &quot;<a class="code" href="../../d4/d84/ns_style_struct_list_8h.html">nsStyleStructList.h</a>&quot;</span>
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 <span class="preprocessor">#undef STYLE_STRUCT_INHERITED</span>
+<a name="l00068"></a>00068 <span class="preprocessor"></span><span class="preprocessor">#undef STYLE_STRUCT_RESET</span>
+<a name="l00069"></a>00069 <span class="preprocessor"></span>  }
+<a name="l00070"></a>00070 
+<a name="l00071"></a><a class="code" href="../../d7/dbf/structns_inherited_style_data.html#ad54699760b9f0b4c984da157bd99b8be">00071</a>   <span class="keywordtype">void</span> <a class="code" href="../../d7/dbf/structns_inherited_style_data.html#ad54699760b9f0b4c984da157bd99b8be">Destroy</a>(uint32_t aBits, <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aContext) {
+<a name="l00072"></a>00072     <a class="code" href="../../d7/dbf/structns_inherited_style_data.html#a01862fefb3e7c7a0ba85d3b5daea9597">DestroyStructs</a>(aBits, aContext);
+<a name="l00073"></a>00073     aContext-&gt;<a class="code" href="../../d0/d65/classns_pres_context.html#a4a34a6ac9542a956825833a5be4868d8">FreeToShell</a>(<span class="keyword">sizeof</span>(<a class="code" href="../../d7/dbf/structns_inherited_style_data.html">nsInheritedStyleData</a>), <span class="keyword">this</span>);
+<a name="l00074"></a>00074   }
+<a name="l00075"></a>00075 
+<a name="l00076"></a><a class="code" href="../../d7/dbf/structns_inherited_style_data.html#a902e0cc4ae488383d80a9da43a241cda">00076</a>   <a class="code" href="../../d7/dbf/structns_inherited_style_data.html#a902e0cc4ae488383d80a9da43a241cda">nsInheritedStyleData</a>() {
+<a name="l00077"></a>00077     <span class="keywordflow">for</span> (<a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6a19180b7edc45e0af79a7dcaccf920480">nsStyleStructID_Inherited_Start</a>;
+<a name="l00078"></a>00078          <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6a19180b7edc45e0af79a7dcaccf920480">nsStyleStructID_Inherited_Start</a> + nsStyleStructID_Inherited_Count;
+<a name="l00079"></a>00079          <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a>(<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> + 1)) {
+<a name="l00080"></a>00080       <a class="code" href="../../d7/dbf/structns_inherited_style_data.html#af806dac10053b3ab9aa84ed32f1bb4a1">mStyleStructs</a>[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>] = <span class="keyword">nullptr</span>;
+<a name="l00081"></a>00081     }
+<a name="l00082"></a>00082   }
+<a name="l00083"></a>00083 };
+<a name="l00084"></a>00084 
+<a name="l00085"></a><a class="code" href="../../d1/d37/structns_reset_style_data.html">00085</a> <span class="keyword">struct </span><a class="code" href="../../d1/d37/structns_reset_style_data.html">nsResetStyleData</a>
+<a name="l00086"></a>00086 {
+<a name="l00087"></a>00087   <a class="code" href="../../de/dfc/class_fixed_style_struct_array.html">FixedStyleStructArray</a>&lt;nsStyleStructID_Reset_Start,
+<a name="l00088"></a><a class="code" href="../../d1/d37/structns_reset_style_data.html#a3bb20f8abc217b9f9422dd08752222b7">00088</a>                         nsStyleStructID_Reset_Count&gt; <a class="code" href="../../d1/d37/structns_reset_style_data.html#a3bb20f8abc217b9f9422dd08752222b7">mStyleStructs</a>;
+<a name="l00089"></a>00089 
+<a name="l00090"></a><a class="code" href="../../d1/d37/structns_reset_style_data.html#a2a39f9fdadd1e900caac7bfd1b78d6e6">00090</a>   <a class="code" href="../../d1/d37/structns_reset_style_data.html#a2a39f9fdadd1e900caac7bfd1b78d6e6">nsResetStyleData</a>()
+<a name="l00091"></a>00091   {
+<a name="l00092"></a>00092     <span class="keywordflow">for</span> (<a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = nsStyleStructID_Reset_Start;
+<a name="l00093"></a>00093          <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; nsStyleStructID_Reset_Start + nsStyleStructID_Reset_Count;
+<a name="l00094"></a>00094          <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a>(<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> + 1)) {
+<a name="l00095"></a>00095       <a class="code" href="../../d1/d37/structns_reset_style_data.html#a3bb20f8abc217b9f9422dd08752222b7">mStyleStructs</a>[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>] = <span class="keyword">nullptr</span>;
+<a name="l00096"></a>00096     }
+<a name="l00097"></a>00097   }
+<a name="l00098"></a>00098 
+<a name="l00099"></a><a class="code" href="../../d1/d37/structns_reset_style_data.html#a7d3e72733d0cc1e3ca8afc5b26867724">00099</a>   <span class="keywordtype">void</span>* <a class="code" href="../../d1/d37/structns_reset_style_data.html#a7d3e72733d0cc1e3ca8afc5b26867724">operator new</a>(<span class="keywordtype">size_t</span> sz, <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aContext) <a class="code" href="../../d7/d2d/xpcom-config_8h.html#a9a0878f36babdc2feb3a8352a64a434d">CPP_THROW_NEW</a> {
+<a name="l00100"></a>00100     <span class="keywordflow">return</span> aContext-&gt;AllocateFromShell(sz);
+<a name="l00101"></a>00101   }
+<a name="l00102"></a>00102 
+<a name="l00103"></a><a class="code" href="../../d1/d37/structns_reset_style_data.html#a59ca493eed9168930fb596bc6975cc16">00103</a>   <span class="keywordtype">void</span> <a class="code" href="../../d1/d37/structns_reset_style_data.html#a59ca493eed9168930fb596bc6975cc16">Destroy</a>(uint32_t aBits, <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aContext) {
+<a name="l00104"></a>00104 <span class="preprocessor">#define STYLE_STRUCT_RESET(name, checkdata_cb) \</span>
+<a name="l00105"></a>00105 <span class="preprocessor">    void *name##Data = mStyleStructs[eStyleStruct_##name]; \</span>
+<a name="l00106"></a>00106 <span class="preprocessor">    if (name##Data &amp;&amp; !(aBits &amp; NS_STYLE_INHERIT_BIT(name))) \</span>
+<a name="l00107"></a>00107 <span class="preprocessor">      static_cast&lt;nsStyle##name*&gt;(name##Data)-&gt;Destroy(aContext);</span>
+<a name="l00108"></a>00108 <span class="preprocessor"></span><span class="preprocessor">#define STYLE_STRUCT_INHERITED(name, checkdata_cb)</span>
+<a name="l00109"></a>00109 <span class="preprocessor"></span>
+<a name="l00110"></a>00110 <span class="preprocessor">#include &quot;<a class="code" href="../../d4/d84/ns_style_struct_list_8h.html">nsStyleStructList.h</a>&quot;</span>
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112 <span class="preprocessor">#undef STYLE_STRUCT_RESET</span>
+<a name="l00113"></a>00113 <span class="preprocessor"></span><span class="preprocessor">#undef STYLE_STRUCT_INHERITED</span>
+<a name="l00114"></a>00114 <span class="preprocessor"></span>
+<a name="l00115"></a>00115     aContext-&gt;<a class="code" href="../../d0/d65/classns_pres_context.html#a4a34a6ac9542a956825833a5be4868d8">FreeToShell</a>(<span class="keyword">sizeof</span>(<a class="code" href="../../d1/d37/structns_reset_style_data.html">nsResetStyleData</a>), <span class="keyword">this</span>);
+<a name="l00116"></a>00116   }
+<a name="l00117"></a>00117 };
+<a name="l00118"></a>00118 
+<a name="l00119"></a><a class="code" href="../../d0/dff/structns_cached_style_data.html">00119</a> <span class="keyword">struct </span><a class="code" href="../../d0/dff/structns_cached_style_data.html">nsCachedStyleData</a>
+<a name="l00120"></a>00120 {
+<a name="l00121"></a><a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">00121</a>   <a class="code" href="../../d7/dbf/structns_inherited_style_data.html">nsInheritedStyleData</a>* <a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a>;
+<a name="l00122"></a><a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">00122</a>   <a class="code" href="../../d1/d37/structns_reset_style_data.html">nsResetStyleData</a>* <a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a>;
+<a name="l00123"></a>00123 
+<a name="l00124"></a><a class="code" href="../../d0/dff/structns_cached_style_data.html#a1804ed2b4dc675e6fa73bb122a6a5136">00124</a>   <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d0/dff/structns_cached_style_data.html#a1804ed2b4dc675e6fa73bb122a6a5136">IsReset</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aSID) {
+<a name="l00125"></a>00125     <a class="code" href="../../dc/d6d/ns_debug_8h.html#a4ef7a344da984edc896f5515d228e537">NS_ABORT_IF_FALSE</a>(0 &lt;= aSID &amp;&amp; aSID &lt; nsStyleStructID_Length,
+<a name="l00126"></a>00126                       <span class="stringliteral">&quot;must be an inherited or reset SID&quot;</span>);
+<a name="l00127"></a>00127     <span class="keywordflow">return</span> nsStyleStructID_Reset_Start &lt;= aSID;
+<a name="l00128"></a>00128   }
+<a name="l00129"></a>00129 
+<a name="l00130"></a><a class="code" href="../../d0/dff/structns_cached_style_data.html#aeff88b5d16e67698edfdcea7c89827e7">00130</a>   <span class="keyword">static</span> uint32_t <a class="code" href="../../d0/dff/structns_cached_style_data.html#aeff88b5d16e67698edfdcea7c89827e7">GetBitForSID</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aSID) {
+<a name="l00131"></a>00131     <span class="keywordflow">return</span> 1 &lt;&lt; aSID;
+<a name="l00132"></a>00132   }
+<a name="l00133"></a>00133 
+<a name="l00134"></a><a class="code" href="../../d0/dff/structns_cached_style_data.html#abcfaeaf603aff8302e8c2f996da9a337">00134</a>   <span class="keywordtype">void</span>* <a class="code" href="../../d3/dd8/nscore_8h.html#af5752d56ea4400edd19cb1287d694d72">NS_FASTCALL</a> <a class="code" href="../../d0/dff/structns_cached_style_data.html#abcfaeaf603aff8302e8c2f996da9a337">GetStyleData</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aSID) {
+<a name="l00135"></a>00135     <span class="keywordflow">if</span> (<a class="code" href="../../d0/dff/structns_cached_style_data.html#a1804ed2b4dc675e6fa73bb122a6a5136">IsReset</a>(aSID)) {
+<a name="l00136"></a>00136       <span class="keywordflow">if</span> (<a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a>) {
+<a name="l00137"></a>00137         <span class="keywordflow">return</span> <a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a>-&gt;<a class="code" href="../../d1/d37/structns_reset_style_data.html#a3bb20f8abc217b9f9422dd08752222b7">mStyleStructs</a>[aSID];
+<a name="l00138"></a>00138       }
+<a name="l00139"></a>00139     } <span class="keywordflow">else</span> {
+<a name="l00140"></a>00140       <span class="keywordflow">if</span> (<a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a>) {
+<a name="l00141"></a>00141         <span class="keywordflow">return</span> <a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a>-&gt;<a class="code" href="../../d7/dbf/structns_inherited_style_data.html#af806dac10053b3ab9aa84ed32f1bb4a1">mStyleStructs</a>[aSID];
+<a name="l00142"></a>00142       }
+<a name="l00143"></a>00143     }
+<a name="l00144"></a>00144     <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00145"></a>00145   }
+<a name="l00146"></a>00146 
+<a name="l00147"></a><a class="code" href="../../d0/dff/structns_cached_style_data.html#a59ad0a8c387e1098cd1f794ddabdcd9c">00147</a>   <span class="keywordtype">void</span> <a class="code" href="../../d3/dd8/nscore_8h.html#af5752d56ea4400edd19cb1287d694d72">NS_FASTCALL</a> <a class="code" href="../../d0/dff/structns_cached_style_data.html#a59ad0a8c387e1098cd1f794ddabdcd9c">SetStyleData</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aSID,
+<a name="l00148"></a>00148                                 <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a> *aPresContext, <span class="keywordtype">void</span> *<a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>) {
+<a name="l00149"></a>00149     <span class="keywordflow">if</span> (<a class="code" href="../../d0/dff/structns_cached_style_data.html#a1804ed2b4dc675e6fa73bb122a6a5136">IsReset</a>(aSID)) {
+<a name="l00150"></a>00150       <span class="keywordflow">if</span> (!<a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a>) {
+<a name="l00151"></a>00151         <a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a> = <span class="keyword">new</span> (aPresContext) <a class="code" href="../../d1/d37/structns_reset_style_data.html">nsResetStyleData</a>;
+<a name="l00152"></a>00152       }
+<a name="l00153"></a>00153       <a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a>-&gt;<a class="code" href="../../d1/d37/structns_reset_style_data.html#a3bb20f8abc217b9f9422dd08752222b7">mStyleStructs</a>[aSID] = <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>;
+<a name="l00154"></a>00154     } <span class="keywordflow">else</span> {
+<a name="l00155"></a>00155       <span class="keywordflow">if</span> (!<a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a>) {
+<a name="l00156"></a>00156         <a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a> = <span class="keyword">new</span> (aPresContext) <a class="code" href="../../d7/dbf/structns_inherited_style_data.html">nsInheritedStyleData</a>;
+<a name="l00157"></a>00157       }
+<a name="l00158"></a>00158       <a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a>-&gt;<a class="code" href="../../d7/dbf/structns_inherited_style_data.html#af806dac10053b3ab9aa84ed32f1bb4a1">mStyleStructs</a>[aSID] = <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>;
+<a name="l00159"></a>00159     }
+<a name="l00160"></a>00160   }
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162   <span class="comment">// Typesafe and faster versions of the above</span>
+<a name="l00163"></a><a class="code" href="../../d8/dde/ns_rule_node_8h.html#a93ec357567badfe591977382f042a8b6">00163</a> <span class="preprocessor">  #define STYLE_STRUCT_INHERITED(name_, checkdata_cb_)                   \</span>
+<a name="l00164"></a>00164 <span class="preprocessor">    nsStyle##name_ * NS_FASTCALL GetStyle##name_ () {                    \</span>
+<a name="l00165"></a>00165 <span class="preprocessor">      return mInheritedData ? static_cast&lt;nsStyle##name_*&gt;(              \</span>
+<a name="l00166"></a>00166 <span class="preprocessor">        mInheritedData-&gt;mStyleStructs[eStyleStruct_##name_]) : nullptr;  \</span>
+<a name="l00167"></a>00167 <span class="preprocessor">    }</span>
+<a name="l00168"></a><a class="code" href="../../d8/dde/ns_rule_node_8h.html#a8ba15b73c975d37068e0c9d3401037f2">00168</a> <span class="preprocessor"></span><span class="preprocessor">  #define STYLE_STRUCT_RESET(name_, checkdata_cb_)                       \</span>
+<a name="l00169"></a>00169 <span class="preprocessor">    nsStyle##name_ * NS_FASTCALL GetStyle##name_ () {                    \</span>
+<a name="l00170"></a>00170 <span class="preprocessor">      return mResetData ? static_cast&lt;nsStyle##name_*&gt;(                  \</span>
+<a name="l00171"></a>00171 <span class="preprocessor">        mResetData-&gt;mStyleStructs[eStyleStruct_##name_]) : nullptr;      \</span>
+<a name="l00172"></a>00172 <span class="preprocessor">    }</span>
+<a name="l00173"></a>00173 <span class="preprocessor"></span><span class="preprocessor">  #include &quot;<a class="code" href="../../d4/d84/ns_style_struct_list_8h.html">nsStyleStructList.h</a>&quot;</span>
+<a name="l00174"></a>00174 <span class="preprocessor">  #undef STYLE_STRUCT_RESET</span>
+<a name="l00175"></a>00175 <span class="preprocessor"></span><span class="preprocessor">  #undef STYLE_STRUCT_INHERITED</span>
+<a name="l00176"></a>00176 <span class="preprocessor"></span>
+<a name="l00177"></a><a class="code" href="../../d0/dff/structns_cached_style_data.html#a4846697e5bfb8b2086467f8d661a45e3">00177</a>   <span class="keywordtype">void</span> <a class="code" href="../../d0/dff/structns_cached_style_data.html#a4846697e5bfb8b2086467f8d661a45e3">Destroy</a>(uint32_t aBits, <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aContext) {
+<a name="l00178"></a>00178     <span class="keywordflow">if</span> (<a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a>)
+<a name="l00179"></a>00179       <a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a>-&gt;<a class="code" href="../../d1/d37/structns_reset_style_data.html#a59ca493eed9168930fb596bc6975cc16">Destroy</a>(aBits, aContext);
+<a name="l00180"></a>00180     <span class="keywordflow">if</span> (<a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a>)
+<a name="l00181"></a>00181       <a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a>-&gt;<a class="code" href="../../d7/dbf/structns_inherited_style_data.html#ad54699760b9f0b4c984da157bd99b8be">Destroy</a>(aBits, aContext);
+<a name="l00182"></a>00182     <a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a> = <span class="keyword">nullptr</span>;
+<a name="l00183"></a>00183     <a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a> = <span class="keyword">nullptr</span>;
+<a name="l00184"></a>00184   }
+<a name="l00185"></a>00185 
+<a name="l00186"></a><a class="code" href="../../d0/dff/structns_cached_style_data.html#ab8142c999278f19fbf986a293b4ea020">00186</a>   <a class="code" href="../../d0/dff/structns_cached_style_data.html#ab8142c999278f19fbf986a293b4ea020">nsCachedStyleData</a>() :<a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>), <a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>) {}
+<a name="l00187"></a><a class="code" href="../../d0/dff/structns_cached_style_data.html#a18913bfd5c9c670fb7901c09a6b1234f">00187</a>   <a class="code" href="../../d0/dff/structns_cached_style_data.html#a18913bfd5c9c670fb7901c09a6b1234f">~nsCachedStyleData</a>() {}
+<a name="l00188"></a>00188 };
+<a name="l00189"></a>00189 
+<a name="l00233"></a><a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cf">00233</a> <span class="keyword">enum</span> <a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cf">nsFontSizeType</a> {
+<a name="l00234"></a><a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cfae11759ab1e9a23b59e6452e8b971ade6">00234</a>   <a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cfae11759ab1e9a23b59e6452e8b971ade6">eFontSize_HTML</a> = 1,
+<a name="l00235"></a><a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cfa44131a635ef5802e33e1d080aac80602">00235</a>   <a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cfa44131a635ef5802e33e1d080aac80602">eFontSize_CSS</a> = 2
+<a name="l00236"></a>00236 };
+<a name="l00237"></a>00237 
+<a name="l00238"></a><a class="code" href="../../dc/d1e/classns_rule_node.html">00238</a> <span class="keyword">class </span><a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a> {
+<a name="l00239"></a>00239 <span class="keyword">public</span>:
+<a name="l00240"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">00240</a>   <span class="keyword">enum</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> {
+<a name="l00241"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43af56e55637a4a5fbe774a813fb522dabb">00241</a>     <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43af56e55637a4a5fbe774a813fb522dabb">eRuleNone</a>, <span class="comment">// No props have been specified at all.</span>
+<a name="l00242"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43a5316d2e385ae29c900c996927917b639">00242</a>     <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43a5316d2e385ae29c900c996927917b639">eRulePartialReset</a>, <span class="comment">// At least one prop with a non-&quot;inherit&quot; value</span>
+<a name="l00243"></a>00243                        <span class="comment">// has been specified.  No props have been</span>
+<a name="l00244"></a>00244                        <span class="comment">// specified with an &quot;inherit&quot; value.  At least</span>
+<a name="l00245"></a>00245                        <span class="comment">// one prop remains unspecified.</span>
+<a name="l00246"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43afb3504090e441fa9b9417c92b15ffd18">00246</a>     <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43afb3504090e441fa9b9417c92b15ffd18">eRulePartialMixed</a>, <span class="comment">// At least one prop with a non-&quot;inherit&quot; value</span>
+<a name="l00247"></a>00247                        <span class="comment">// has been specified.  Some props may also have</span>
+<a name="l00248"></a>00248                        <span class="comment">// been specified with an &quot;inherit&quot; value.  At</span>
+<a name="l00249"></a>00249                        <span class="comment">// least one prop remains unspecified.</span>
+<a name="l00250"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43a83a275e1e236b6c995e0208e34819da7">00250</a>     <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43a83a275e1e236b6c995e0208e34819da7">eRulePartialInherited</a>, <span class="comment">// Only props with &quot;inherit&quot; values have</span>
+<a name="l00251"></a>00251                            <span class="comment">// have been specified.  At least one prop</span>
+<a name="l00252"></a>00252                            <span class="comment">// remains unspecified.</span>
+<a name="l00253"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43a1ec2b57ed7185c9051a752bfbda74353">00253</a>     <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43a1ec2b57ed7185c9051a752bfbda74353">eRuleFullReset</a>, <span class="comment">// All props have been specified.  None has an</span>
+<a name="l00254"></a>00254                     <span class="comment">// &quot;inherit&quot; value.</span>
+<a name="l00255"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43a1ce5f1b09cf9215e44a0c2c9a52dedf2">00255</a>     <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43a1ce5f1b09cf9215e44a0c2c9a52dedf2">eRuleFullMixed</a>, <span class="comment">// All props have been specified.  At least one has</span>
+<a name="l00256"></a>00256                     <span class="comment">// a non-&quot;inherit&quot; value.</span>
+<a name="l00257"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43a06f68355b9913a679e455c39947004a7">00257</a>     <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43a06f68355b9913a679e455c39947004a7">eRuleFullInherited</a>  <span class="comment">// All props have been specified with &quot;inherit&quot;</span>
+<a name="l00258"></a>00258                         <span class="comment">// values.</span>
+<a name="l00259"></a>00259   };
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261 <span class="keyword">private</span>:
+<a name="l00262"></a>00262   <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* <span class="keyword">const</span> mPresContext; <span class="comment">// Our pres context.</span>
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264   <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* <span class="keyword">const</span> mParent; <span class="comment">// A pointer to the parent node in the tree.</span>
+<a name="l00265"></a>00265                              <span class="comment">// This enables us to walk backwards from the</span>
+<a name="l00266"></a>00266                              <span class="comment">// most specific rule matched to the least</span>
+<a name="l00267"></a>00267                              <span class="comment">// specific rule (which is the optimal order to</span>
+<a name="l00268"></a>00268                              <span class="comment">// use for lookups of style properties.</span>
+<a name="l00269"></a>00269   <a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>* <span class="keyword">const</span> mRule; <span class="comment">// [STRONG] A pointer to our specific rule.</span>
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271   <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* mNextSibling; <span class="comment">// This value should be used only by the</span>
+<a name="l00272"></a>00272                             <span class="comment">// parent, since the parent may store</span>
+<a name="l00273"></a>00273                             <span class="comment">// children in a hash, which means this</span>
+<a name="l00274"></a>00274                             <span class="comment">// pointer is not meaningful.  Order of</span>
+<a name="l00275"></a>00275                             <span class="comment">// siblings is also not meaningful.</span>
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277   <span class="keyword">struct </span><a class="code" href="../../df/df7/class_key.html">Key</a> {
+<a name="l00278"></a>00278     <a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>* mRule;
+<a name="l00279"></a>00279     uint8_t mLevel;
+<a name="l00280"></a>00280     <span class="keywordtype">bool</span> mIsImportantRule;
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282     <a class="code" href="../../df/df7/class_key.html">Key</a>(<a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>* aRule, uint8_t aLevel, <span class="keywordtype">bool</span> aIsImportantRule)
+<a name="l00283"></a>00283       : mRule(aRule), mLevel(aLevel), mIsImportantRule(aIsImportantRule)
+<a name="l00284"></a>00284     {}
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286     <span class="keywordtype">bool</span> <a class="code" href="../../dd/dc3/gfx_font_features_8h.html#a33768cf980b69a442792490564d1c763">operator==</a>(<span class="keyword">const</span> <a class="code" href="../../df/df7/class_key.html">Key</a>&amp; aOther)<span class="keyword"> const</span>
+<a name="l00287"></a>00287 <span class="keyword">    </span>{
+<a name="l00288"></a>00288       <span class="keywordflow">return</span> mRule == aOther.mRule &amp;&amp;
+<a name="l00289"></a>00289              mLevel == aOther.mLevel &amp;&amp;
+<a name="l00290"></a>00290              mIsImportantRule == aOther.mIsImportantRule;
+<a name="l00291"></a>00291     }
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293     <span class="keywordtype">bool</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a7652895df8c85899a37314e606845781">operator!=</a>(<span class="keyword">const</span> <a class="code" href="../../df/df7/class_key.html">Key</a>&amp; aOther)<span class="keyword"> const</span>
+<a name="l00294"></a>00294 <span class="keyword">    </span>{
+<a name="l00295"></a>00295       <span class="keywordflow">return</span> !(*<span class="keyword">this</span> == aOther);
+<a name="l00296"></a>00296     }
+<a name="l00297"></a>00297   };
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299   <span class="keyword">static</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a6b7adbc70882ca136a7949ca49024cf2">PLDHashNumber</a>
+<a name="l00300"></a>00300   ChildrenHashHashKey(<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a> *aTable, <span class="keyword">const</span> <span class="keywordtype">void</span> *aKey);
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302   <span class="keyword">static</span> <span class="keywordtype">bool</span>
+<a name="l00303"></a>00303   ChildrenHashMatchEntry(<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a> *aTable,
+<a name="l00304"></a>00304                          <span class="keyword">const</span> <a class="code" href="../../d0/dcc/struct_p_l_d_hash_entry_hdr.html">PLDHashEntryHdr</a> *aHdr,
+<a name="l00305"></a>00305                          <span class="keyword">const</span> <span class="keywordtype">void</span> *aKey);
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307   <span class="keyword">static</span> <a class="code" href="../../dc/d8f/struct_p_l_d_hash_table_ops.html">PLDHashTableOps</a> ChildrenHashOps;
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309   <span class="keyword">static</span> <a class="code" href="../../da/d2c/pldhash_8h.html#a1d49536cbc1eec9e5a32af3750697519">PLDHashOperator</a>
+<a name="l00310"></a>00310   EnqueueRuleNodeChildren(<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a> *<a class="code" href="../../d3/d82/prlink_8h.html#aae95f41aa336f8375a3415100cf9ffd4">table</a>, <a class="code" href="../../d0/dcc/struct_p_l_d_hash_entry_hdr.html">PLDHashEntryHdr</a> *hdr,
+<a name="l00311"></a>00311                           uint32_t number, <span class="keywordtype">void</span> *<a class="code" href="../../d2/dbe/jsprf_8h.html#ae036856e415526e58e249638733f6752">arg</a>);
+<a name="l00312"></a>00312 
+<a name="l00313"></a>00313   <a class="code" href="../../df/df7/class_key.html">Key</a> GetKey()<span class="keyword"> const </span>{
+<a name="l00314"></a>00314     <span class="keywordflow">return</span> <a class="code" href="../../df/df7/class_key.html">Key</a>(mRule, <a class="code" href="../../dc/d1e/classns_rule_node.html#a0342f4cc5ca62e6f402ce402a48b1d36">GetLevel</a>(), <a class="code" href="../../dc/d1e/classns_rule_node.html#a6e9d2cb74c7c1786e9a5cb0812a1a45d">IsImportantRule</a>());
+<a name="l00315"></a>00315   }
+<a name="l00316"></a>00316 
+<a name="l00317"></a>00317   <span class="comment">// The children of this node are stored in either a hashtable or list</span>
+<a name="l00318"></a>00318   <span class="comment">// that maps from rules to our nsRuleNode children.  When matching</span>
+<a name="l00319"></a>00319   <span class="comment">// rules, we use this mapping to transition from node to node</span>
+<a name="l00320"></a>00320   <span class="comment">// (constructing new nodes as needed to flesh out the tree).</span>
+<a name="l00321"></a>00321 
+<a name="l00322"></a>00322   <span class="keyword">union </span>{
+<a name="l00323"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#aebe132a1096c1b33b058ce804359425b">00323</a>     <span class="keywordtype">void</span>* <a class="code" href="../../dc/d1e/classns_rule_node.html#aebe132a1096c1b33b058ce804359425b">asVoid</a>;
+<a name="l00324"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a251c52d9877975ce04cb33229a62d662">00324</a>     <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* <a class="code" href="../../dc/d1e/classns_rule_node.html#a251c52d9877975ce04cb33229a62d662">asList</a>;
+<a name="l00325"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a9ab151f93832d6ae3a145f3ee964d62e">00325</a>     <a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a>* <a class="code" href="../../dc/d1e/classns_rule_node.html#a9ab151f93832d6ae3a145f3ee964d62e">asHash</a>;
+<a name="l00326"></a>00326   } mChildren; <span class="comment">// Accessed only through the methods below.</span>
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328   <span class="keyword">enum</span> {
+<a name="l00329"></a>00329     kTypeMask = 0x1,
+<a name="l00330"></a>00330     kListType = 0x0,
+<a name="l00331"></a>00331     kHashType = 0x1
+<a name="l00332"></a>00332   };
+<a name="l00333"></a>00333   <span class="keyword">enum</span> {
+<a name="l00334"></a>00334     <span class="comment">// Maximum to have in a list before converting to a hashtable.</span>
+<a name="l00335"></a>00335     <span class="comment">// XXX Need to optimize this.</span>
+<a name="l00336"></a>00336     kMaxChildrenInList = 32
+<a name="l00337"></a>00337   };
+<a name="l00338"></a>00338 
+<a name="l00339"></a>00339   <span class="keywordtype">bool</span> HaveChildren()<span class="keyword"> const </span>{
+<a name="l00340"></a>00340     <span class="keywordflow">return</span> mChildren.asVoid != <span class="keyword">nullptr</span>;
+<a name="l00341"></a>00341   }
+<a name="l00342"></a>00342   <span class="keywordtype">bool</span> ChildrenAreHashed() {
+<a name="l00343"></a>00343     <span class="keywordflow">return</span> (intptr_t(mChildren.asVoid) &amp; kTypeMask) == kHashType;
+<a name="l00344"></a>00344   }
+<a name="l00345"></a>00345   <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* ChildrenList() {
+<a name="l00346"></a>00346     <span class="keywordflow">return</span> mChildren.asList;
+<a name="l00347"></a>00347   }
+<a name="l00348"></a>00348   <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>** ChildrenListPtr() {
+<a name="l00349"></a>00349     <span class="keywordflow">return</span> &amp;mChildren.asList;
+<a name="l00350"></a>00350   }
+<a name="l00351"></a>00351   <a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a>* ChildrenHash() {
+<a name="l00352"></a>00352     <span class="keywordflow">return</span> (<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a>*) (intptr_t(mChildren.asHash) &amp; ~intptr_t(kTypeMask));
+<a name="l00353"></a>00353   }
+<a name="l00354"></a>00354   <span class="keywordtype">void</span> SetChildrenList(<a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a> *aList) {
+<a name="l00355"></a>00355     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(!(intptr_t(aList) &amp; kTypeMask),
+<a name="l00356"></a>00356                  <span class="stringliteral">&quot;pointer not 2-byte aligned&quot;</span>);
+<a name="l00357"></a>00357     mChildren.asList = aList;
+<a name="l00358"></a>00358   }
+<a name="l00359"></a>00359   <span class="keywordtype">void</span> SetChildrenHash(<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a> *aHashtable) {
+<a name="l00360"></a>00360     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(!(intptr_t(aHashtable) &amp; kTypeMask),
+<a name="l00361"></a>00361                  <span class="stringliteral">&quot;pointer not 2-byte aligned&quot;</span>);
+<a name="l00362"></a>00362     mChildren.asHash = (<a class="code" href="../../d9/d33/struct_p_l_d_hash_table.html">PLDHashTable</a>*)(intptr_t(aHashtable) | kHashType);
+<a name="l00363"></a>00363   }
+<a name="l00364"></a>00364   <span class="keywordtype">void</span> ConvertChildrenToHash();
+<a name="l00365"></a>00365 
+<a name="l00366"></a>00366   <a class="code" href="../../d0/dff/structns_cached_style_data.html">nsCachedStyleData</a> mStyleData;   <span class="comment">// Any data we cached on the rule node.</span>
+<a name="l00367"></a>00367 
+<a name="l00368"></a>00368   uint32_t mDependentBits; <span class="comment">// Used to cache the fact that we can look up</span>
+<a name="l00369"></a>00369                            <span class="comment">// cached data under a parent rule.</span>
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371   uint32_t mNoneBits; <span class="comment">// Used to cache the fact that the branch to this</span>
+<a name="l00372"></a>00372                       <span class="comment">// node specifies no non-inherited data for a</span>
+<a name="l00373"></a>00373                       <span class="comment">// given struct type.  (This usually implies that</span>
+<a name="l00374"></a>00374                       <span class="comment">// the entire branch specifies no non-inherited</span>
+<a name="l00375"></a>00375                       <span class="comment">// data, although not necessarily, if a</span>
+<a name="l00376"></a>00376                       <span class="comment">// non-inherited value is overridden by an</span>
+<a name="l00377"></a>00377                       <span class="comment">// explicit &#39;inherit&#39; value.)  For example, if an</span>
+<a name="l00378"></a>00378                       <span class="comment">// entire rule branch specifies no color</span>
+<a name="l00379"></a>00379                       <span class="comment">// information, then a bit will be set along every</span>
+<a name="l00380"></a>00380                       <span class="comment">// rule node on that branch, so that you can break</span>
+<a name="l00381"></a>00381                       <span class="comment">// out of the rule tree early and just inherit</span>
+<a name="l00382"></a>00382                       <span class="comment">// from the parent style context.  The presence of</span>
+<a name="l00383"></a>00383                       <span class="comment">// this bit means we should just get inherited</span>
+<a name="l00384"></a>00384                       <span class="comment">// data from the parent style context, and it is</span>
+<a name="l00385"></a>00385                       <span class="comment">// never used for reset structs since their</span>
+<a name="l00386"></a>00386                       <span class="comment">// Compute*Data functions don&#39;t initialize from</span>
+<a name="l00387"></a>00387                       <span class="comment">// inherited data.</span>
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389   <span class="comment">// Reference count.  This just counts the style contexts that reference this</span>
+<a name="l00390"></a>00390   <span class="comment">// rulenode.  And children the rulenode has had.  When this goes to 0 or</span>
+<a name="l00391"></a>00391   <span class="comment">// stops being 0, we notify the style set.</span>
+<a name="l00392"></a>00392   <span class="comment">// Note, in particular, that when a child is removed mRefCnt is NOT</span>
+<a name="l00393"></a>00393   <span class="comment">// decremented.  This is on purpose; the notifications to the style set are</span>
+<a name="l00394"></a>00394   <span class="comment">// only used to determine when it&#39;s worth running GC on the ruletree, and</span>
+<a name="l00395"></a>00395   <span class="comment">// this setup makes it so we only count unused ruletree leaves for purposes</span>
+<a name="l00396"></a>00396   <span class="comment">// of deciding when to GC.  We could more accurately count unused rulenodes</span>
+<a name="l00397"></a>00397   <span class="comment">// by releasing/addrefing our parent when our refcount transitions to or from</span>
+<a name="l00398"></a>00398   <span class="comment">// 0, but it doesn&#39;t seem worth it to do that.</span>
+<a name="l00399"></a>00399   uint32_t mRefCnt;
+<a name="l00400"></a>00400 
+<a name="l00401"></a>00401 <span class="keyword">public</span>:
+<a name="l00402"></a>00402   <span class="comment">// Overloaded new operator. Initializes the memory to 0 and relies on an arena</span>
+<a name="l00403"></a>00403   <span class="comment">// (which comes from the presShell) to perform the allocation.</span>
+<a name="l00404"></a>00404   <span class="keywordtype">void</span>* <a class="code" href="../../dc/d1e/classns_rule_node.html#a2b34b6794c3818629d1fc3cbb1b505b0">operator new</a>(<span class="keywordtype">size_t</span> sz, <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aContext) <a class="code" href="../../d7/d2d/xpcom-config_8h.html#a9a0878f36babdc2feb3a8352a64a434d">CPP_THROW_NEW</a>;
+<a name="l00405"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#ab2045cb0aa3ad395f3bb5020b299cff4">00405</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#ab2045cb0aa3ad395f3bb5020b299cff4">Destroy</a>() { <a class="code" href="../../dc/d1e/classns_rule_node.html#a2bba1c0bf4187fea963860832d71d723">DestroyInternal</a>(<span class="keyword">nullptr</span>); }
+<a name="l00406"></a>00406 
+<a name="l00407"></a>00407   <span class="comment">// Implemented in nsStyleSet.h, since it needs to know about nsStyleSet.</span>
+<a name="l00408"></a>00408   <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a2b25055a5dc0db60fb15ce24e2f99156">AddRef</a>();
+<a name="l00409"></a>00409 
+<a name="l00410"></a>00410   <span class="comment">// Implemented in nsStyleSet.h, since it needs to know about nsStyleSet.</span>
+<a name="l00411"></a>00411   <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a9ee6c1be85782bbfb085590ad48417ff">Release</a>();
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413 <span class="keyword">protected</span>:
+<a name="l00414"></a>00414   <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a2bba1c0bf4187fea963860832d71d723">DestroyInternal</a>(<a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a> ***aDestroyQueueTail);
+<a name="l00415"></a>00415   <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a305ce89d573908eadeeb975ef48e6bcb">PropagateDependentBit</a>(<a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aSID, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00416"></a>00416                              <span class="keywordtype">void</span>* aStruct);
+<a name="l00417"></a>00417   <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#abbe07dbc55e5396b32163625fc1f8997">PropagateNoneBit</a>(uint32_t aBit, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode);
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419   <span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../dc/d1e/classns_rule_node.html#a032cd6fe911988ab16d8af58c05ffecd">SetDefaultOnRoot</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aSID,
+<a name="l00420"></a>00420                                <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext);
+<a name="l00421"></a>00421 
+<a name="l00422"></a>00422   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00423"></a>00423     <a class="code" href="../../dc/d1e/classns_rule_node.html#ac4e214d1ec54337971c7b8cad7efbd94">WalkRuleTree</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aSID, <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext);
+<a name="l00424"></a>00424 
+<a name="l00425"></a>00425   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00426"></a>00426     <a class="code" href="../../dc/d1e/classns_rule_node.html#af8d8fc19dee9b8ac069d0280a75bd3e0">ComputeDisplayData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00427"></a>00427                        <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00428"></a>00428                        <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00429"></a>00429                        <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00430"></a>00430                        <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00431"></a>00431 
+<a name="l00432"></a>00432   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00433"></a>00433     <a class="code" href="../../dc/d1e/classns_rule_node.html#a9b112037d5f9c77c1d6f26b376a3ad06">ComputeVisibilityData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00434"></a>00434                           <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00435"></a>00435                           <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00436"></a>00436                           <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00437"></a>00437                           <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00438"></a>00438 
+<a name="l00439"></a>00439   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00440"></a>00440     <a class="code" href="../../dc/d1e/classns_rule_node.html#a0d2863be9695c98e075b235a298c855a">ComputeFontData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00441"></a>00441                     <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00442"></a>00442                     <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00443"></a>00443                     <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00444"></a>00444                     <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00445"></a>00445 
+<a name="l00446"></a>00446   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00447"></a>00447     <a class="code" href="../../dc/d1e/classns_rule_node.html#ae074caa76ea11d20939a4a3996e772b3">ComputeColorData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00448"></a>00448                      <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00449"></a>00449                      <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00450"></a>00450                      <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00451"></a>00451                      <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00452"></a>00452 
+<a name="l00453"></a>00453   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00454"></a>00454     <a class="code" href="../../dc/d1e/classns_rule_node.html#ace36ce1781ec0309866e6ce625503153">ComputeBackgroundData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00455"></a>00455                           <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00456"></a>00456                           <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00457"></a>00457                           <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00458"></a>00458                           <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00459"></a>00459 
+<a name="l00460"></a>00460   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00461"></a>00461     <a class="code" href="../../dc/d1e/classns_rule_node.html#a3166f552b5141d151dc50acd40dead8d">ComputeMarginData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00462"></a>00462                       <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00463"></a>00463                       <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00464"></a>00464                       <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00465"></a>00465                       <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00466"></a>00466 
+<a name="l00467"></a>00467   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00468"></a>00468     <a class="code" href="../../dc/d1e/classns_rule_node.html#a2322aed39e37b71545525c56d5c51d21">ComputeBorderData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00469"></a>00469                       <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00470"></a>00470                       <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00471"></a>00471                       <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00472"></a>00472                       <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00473"></a>00473 
+<a name="l00474"></a>00474   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00475"></a>00475     <a class="code" href="../../dc/d1e/classns_rule_node.html#aebeba697ff7358c5d04dc8acf0d1cb0a">ComputePaddingData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00476"></a>00476                        <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00477"></a>00477                        <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00478"></a>00478                        <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00479"></a>00479                        <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00480"></a>00480 
+<a name="l00481"></a>00481   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00482"></a>00482     <a class="code" href="../../dc/d1e/classns_rule_node.html#a6e35b12cd60ebc3faffbee6195b216e1">ComputeOutlineData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00483"></a>00483                        <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00484"></a>00484                        <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00485"></a>00485                        <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00486"></a>00486                        <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00487"></a>00487 
+<a name="l00488"></a>00488   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00489"></a>00489     <a class="code" href="../../dc/d1e/classns_rule_node.html#a1e33d235f419e52f7018ce800a7d04ff">ComputeListData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00490"></a>00490                     <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00491"></a>00491                     <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00492"></a>00492                     <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00493"></a>00493                     <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00494"></a>00494 
+<a name="l00495"></a>00495   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00496"></a>00496     <a class="code" href="../../dc/d1e/classns_rule_node.html#a59767e4b22abb7a7e4d0129a47e674a5">ComputePositionData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00497"></a>00497                         <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00498"></a>00498                         <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00499"></a>00499                         <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00500"></a>00500                         <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00501"></a>00501 
+<a name="l00502"></a>00502   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00503"></a>00503     <a class="code" href="../../dc/d1e/classns_rule_node.html#a111078de979d44f0b7c6e2a564b90971">ComputeTableData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00504"></a>00504                      <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00505"></a>00505                      <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00506"></a>00506                      <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00507"></a>00507                      <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00508"></a>00508 
+<a name="l00509"></a>00509   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00510"></a>00510     <a class="code" href="../../dc/d1e/classns_rule_node.html#aacc2d6b6181c7de8e83f8f7b3bd6f4de">ComputeTableBorderData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00511"></a>00511                            <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00512"></a>00512                            <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00513"></a>00513                            <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00514"></a>00514                            <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00515"></a>00515 
+<a name="l00516"></a>00516   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00517"></a>00517     <a class="code" href="../../dc/d1e/classns_rule_node.html#a00e703fbf67ee0ee5a1e71d2967e15bf">ComputeContentData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00518"></a>00518                        <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00519"></a>00519                        <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00520"></a>00520                        <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00521"></a>00521                        <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00522"></a>00522 
+<a name="l00523"></a>00523   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00524"></a>00524     <a class="code" href="../../dc/d1e/classns_rule_node.html#a74590da3d9d8dc3ed7c107239429ce1e">ComputeQuotesData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00525"></a>00525                       <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00526"></a>00526                       <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00527"></a>00527                       <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00528"></a>00528                       <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00529"></a>00529 
+<a name="l00530"></a>00530   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00531"></a>00531     <a class="code" href="../../dc/d1e/classns_rule_node.html#aa8d8f76b085e3534adfbf47a5edb2797">ComputeTextData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00532"></a>00532                     <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00533"></a>00533                     <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00534"></a>00534                     <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00535"></a>00535                     <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00536"></a>00536 
+<a name="l00537"></a>00537   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00538"></a>00538     <a class="code" href="../../dc/d1e/classns_rule_node.html#ac22bfc626a6e5dde832f53ac61770cea">ComputeTextResetData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00539"></a>00539                          <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00540"></a>00540                          <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00541"></a>00541                          <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00542"></a>00542                          <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00543"></a>00543 
+<a name="l00544"></a>00544   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00545"></a>00545     <a class="code" href="../../dc/d1e/classns_rule_node.html#ae6a8c4a8750e2481c78456a99e0002b0">ComputeUserInterfaceData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00546"></a>00546                              <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00547"></a>00547                              <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext,
+<a name="l00548"></a>00548                              <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00549"></a>00549                              <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00550"></a>00550                              <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00551"></a>00551 
+<a name="l00552"></a>00552   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00553"></a>00553     <a class="code" href="../../dc/d1e/classns_rule_node.html#ac4f69f1ed09279f1a32a5973a34d5715">ComputeUIResetData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00554"></a>00554                        <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00555"></a>00555                        <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00556"></a>00556                        <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00557"></a>00557                        <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00558"></a>00558 
+<a name="l00559"></a>00559   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00560"></a>00560     <a class="code" href="../../dc/d1e/classns_rule_node.html#a9adf91efa289462497a79bdc347c9c37">ComputeXULData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00561"></a>00561                    <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00562"></a>00562                    <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00563"></a>00563                    <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00564"></a>00564                    <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00565"></a>00565 
+<a name="l00566"></a>00566   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00567"></a>00567     <a class="code" href="../../dc/d1e/classns_rule_node.html#ac2444db73b11a692e2ffe1247af1ec34">ComputeColumnData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00568"></a>00568                       <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00569"></a>00569                       <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00570"></a>00570                       <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00571"></a>00571                       <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00572"></a>00572 
+<a name="l00573"></a>00573   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00574"></a>00574     <a class="code" href="../../dc/d1e/classns_rule_node.html#a8378a56e7a846f5b5ee7d7fac5f3b989">ComputeSVGData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00575"></a>00575                    <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00576"></a>00576                    <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00577"></a>00577                    <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00578"></a>00578                    <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00579"></a>00579 
+<a name="l00580"></a>00580   <span class="keyword">const</span> <span class="keywordtype">void</span>*
+<a name="l00581"></a>00581     <a class="code" href="../../dc/d1e/classns_rule_node.html#a21954dcb6ff37d10de44f9b7a790aa97">ComputeSVGResetData</a>(<span class="keywordtype">void</span>* aStartStruct,
+<a name="l00582"></a>00582                         <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00583"></a>00583                         <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aHighestNode,
+<a name="l00584"></a>00584                         <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> aRuleDetail,
+<a name="l00585"></a>00585                         <span class="keyword">const</span> <span class="keywordtype">bool</span> aCanStoreInRuleTree);
+<a name="l00586"></a>00586 
+<a name="l00587"></a>00587   <span class="comment">// helpers for |ComputeFontData| that need access to |mNoneBits|:</span>
+<a name="l00588"></a>00588   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a6455e734ed36096832be9fc6f76b052e">SetFontSize</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00589"></a>00589                           <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00590"></a>00590                           <span class="keyword">const</span> <a class="code" href="../../dd/d30/structns_style_font.html">nsStyleFont</a>* aFont,
+<a name="l00591"></a>00591                           <span class="keyword">const</span> <a class="code" href="../../dd/d30/structns_style_font.html">nsStyleFont</a>* aParentFont,
+<a name="l00592"></a>00592                           <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a>* aSize,
+<a name="l00593"></a>00593                           <span class="keyword">const</span> <a class="code" href="../../d6/df9/structns_font.html">nsFont</a>&amp; aSystemFont,
+<a name="l00594"></a>00594                           <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aParentSize,
+<a name="l00595"></a>00595                           <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aScriptLevelAdjustedParentSize,
+<a name="l00596"></a>00596                           <span class="keywordtype">bool</span> aUsedStartStruct,
+<a name="l00597"></a>00597                           <span class="keywordtype">bool</span> aAtRoot,
+<a name="l00598"></a>00598                           <span class="keywordtype">bool</span>&amp; aCanStoreInRuleTree);
+<a name="l00599"></a>00599 
+<a name="l00600"></a>00600   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a75e329581494bf09f905c51fa6974266">SetFont</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00601"></a>00601                       <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext,
+<a name="l00602"></a>00602                       uint8_t aGenericFontID,
+<a name="l00603"></a>00603                       <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData,
+<a name="l00604"></a>00604                       <span class="keyword">const</span> <a class="code" href="../../dd/d30/structns_style_font.html">nsStyleFont</a>* aParentFont,
+<a name="l00605"></a>00605                       <a class="code" href="../../dd/d30/structns_style_font.html">nsStyleFont</a>* aFont,
+<a name="l00606"></a>00606                       <span class="keywordtype">bool</span> aStartStruct,
+<a name="l00607"></a>00607                       <span class="keywordtype">bool</span>&amp; aCanStoreInRuleTree);
+<a name="l00608"></a>00608 
+<a name="l00609"></a>00609   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a655606b2c6e8432b1d29874ba4e6ef44">SetGenericFont</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00610"></a>00610                              <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext,
+<a name="l00611"></a>00611                              uint8_t aGenericFontID,
+<a name="l00612"></a>00612                              <a class="code" href="../../dd/d30/structns_style_font.html">nsStyleFont</a>* aFont);
+<a name="l00613"></a>00613 
+<a name="l00614"></a>00614   <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a917b7248eddd0516ba373323fef27c24">AdjustLogicalBoxProp</a>(<a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext,
+<a name="l00615"></a>00615                             <span class="keyword">const</span> <a class="code" href="../../d3/df2/classns_c_s_s_value.html">nsCSSValue</a>&amp; aLTRSource,
+<a name="l00616"></a>00616                             <span class="keyword">const</span> <a class="code" href="../../d3/df2/classns_c_s_s_value.html">nsCSSValue</a>&amp; aRTLSource,
+<a name="l00617"></a>00617                             <span class="keyword">const</span> <a class="code" href="../../d3/df2/classns_c_s_s_value.html">nsCSSValue</a>&amp; aLTRLogicalValue,
+<a name="l00618"></a>00618                             <span class="keyword">const</span> <a class="code" href="../../d3/df2/classns_c_s_s_value.html">nsCSSValue</a>&amp; aRTLLogicalValue,
+<a name="l00619"></a>00619                             <a class="code" href="../../dc/d84/namespacemozilla_1_1css.html#ab5e4025b984b92e09e3cb22bca9a4f3f">mozilla::css::Side</a> aSide,
+<a name="l00620"></a>00620                             <a class="code" href="../../db/dac/structns_c_s_s_rect.html">nsCSSRect</a>&amp; aValueRect,
+<a name="l00621"></a>00621                             <span class="keywordtype">bool</span>&amp; aCanStoreInRuleTree);
+<a name="l00622"></a>00622 
+<a name="l00623"></a>00623   <span class="keyword">inline</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a948053ab9355086685919b311e083c43">RuleDetail</a> <a class="code" href="../../dc/d1e/classns_rule_node.html#af8497cb670d84ad1b199c1757ac2a2d8">CheckSpecifiedProperties</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aSID,
+<a name="l00624"></a>00624                                              <span class="keyword">const</span> <a class="code" href="../../d0/d9d/structns_rule_data.html">nsRuleData</a>* aRuleData);
+<a name="l00625"></a>00625 
+<a name="l00626"></a>00626   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsCSSShadowArray&gt;</a>
+<a name="l00627"></a>00627               <a class="code" href="../../dc/d1e/classns_rule_node.html#a8f1f05ec2165ec4b5eb0088657454f93">GetShadowData</a>(<span class="keyword">const</span> <a class="code" href="../../db/d03/structns_c_s_s_value_list.html">nsCSSValueList</a>* aList,
+<a name="l00628"></a>00628                             <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext,
+<a name="l00629"></a>00629                             <span class="keywordtype">bool</span> aIsBoxShadow,
+<a name="l00630"></a>00630                             <span class="keywordtype">bool</span>&amp; aCanStoreInRuleTree);
+<a name="l00631"></a>00631   <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a3e3fe6abf71ae254fb507c0d51e6c2b9">SetStyleFilterToCSSValue</a>(<a class="code" href="../../d9/de1/structns_style_filter.html">nsStyleFilter</a>* aStyleFilter,
+<a name="l00632"></a>00632                                 <span class="keyword">const</span> <a class="code" href="../../d3/df2/classns_c_s_s_value.html">nsCSSValue</a>&amp; aValue,
+<a name="l00633"></a>00633                                 <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aStyleContext,
+<a name="l00634"></a>00634                                 <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00635"></a>00635                                 <span class="keywordtype">bool</span>&amp; aCanStoreInRuleTree);
+<a name="l00636"></a>00636 
+<a name="l00637"></a>00637 <span class="keyword">private</span>:
+<a name="l00638"></a>00638   <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext, <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* aParent,
+<a name="l00639"></a>00639              <a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>* aRule, uint8_t aLevel, <span class="keywordtype">bool</span> aIsImportant);
+<a name="l00640"></a>00640   ~<a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>();
+<a name="l00641"></a>00641 
+<a name="l00642"></a>00642 <span class="keyword">public</span>:
+<a name="l00643"></a>00643   <span class="keyword">static</span> <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* <a class="code" href="../../dc/d1e/classns_rule_node.html#a61650463408f93133e331b3cc9450d6a">CreateRootNode</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext);
+<a name="l00644"></a>00644   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#ac5b868066bca151f4a11f4a8d153fc1f">EnsureBlockDisplay</a>(uint8_t&amp; display);
+<a name="l00645"></a>00645 
+<a name="l00646"></a>00646   <span class="comment">// Transition never returns null; on out of memory it&#39;ll just return |this|.</span>
+<a name="l00647"></a>00647   <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* <a class="code" href="../../dc/d1e/classns_rule_node.html#a418341b70888b414b108ba311d2c5097">Transition</a>(<a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>* aRule, uint8_t aLevel,
+<a name="l00648"></a>00648                          <span class="keywordtype">bool</span> aIsImportantRule);
+<a name="l00649"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#ab37171a9a57210edf94fd6e20512b67b">00649</a>   <a class="code" href="../../dc/d1e/classns_rule_node.html">nsRuleNode</a>* <a class="code" href="../../dc/d1e/classns_rule_node.html#ab37171a9a57210edf94fd6e20512b67b">GetParent</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mParent; }
+<a name="l00650"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a1281a3afb6f85910fde5815988cc4e8b">00650</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a1281a3afb6f85910fde5815988cc4e8b">IsRoot</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mParent == <span class="keyword">nullptr</span>; }
+<a name="l00651"></a>00651 
+<a name="l00652"></a>00652   <span class="comment">// These uint8_ts are really nsStyleSet::sheetType values.</span>
+<a name="l00653"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a0342f4cc5ca62e6f402ce402a48b1d36">00653</a>   uint8_t <a class="code" href="../../dc/d1e/classns_rule_node.html#a0342f4cc5ca62e6f402ce402a48b1d36">GetLevel</a>()<span class="keyword"> const </span>{
+<a name="l00654"></a>00654     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(!<a class="code" href="../../dc/d1e/classns_rule_node.html#a1281a3afb6f85910fde5815988cc4e8b">IsRoot</a>(), <span class="stringliteral">&quot;can&#39;t call on root&quot;</span>);
+<a name="l00655"></a>00655     <span class="keywordflow">return</span> (mDependentBits &amp; <a class="code" href="../../da/da7/ns_style_struct_8h.html#a4143b16c5cd964dfe2bf810ae2965b1b">NS_RULE_NODE_LEVEL_MASK</a>) &gt;&gt;
+<a name="l00656"></a>00656              <a class="code" href="../../da/da7/ns_style_struct_8h.html#a7f50610e5f3fd241ffd5445d5bdd2eed">NS_RULE_NODE_LEVEL_SHIFT</a>;
+<a name="l00657"></a>00657   }
+<a name="l00658"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a6e9d2cb74c7c1786e9a5cb0812a1a45d">00658</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a6e9d2cb74c7c1786e9a5cb0812a1a45d">IsImportantRule</a>()<span class="keyword"> const </span>{
+<a name="l00659"></a>00659     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(!<a class="code" href="../../dc/d1e/classns_rule_node.html#a1281a3afb6f85910fde5815988cc4e8b">IsRoot</a>(), <span class="stringliteral">&quot;can&#39;t call on root&quot;</span>);
+<a name="l00660"></a>00660     <span class="keywordflow">return</span> (mDependentBits &amp; <a class="code" href="../../da/da7/ns_style_struct_8h.html#ac426868931207d6c7e6fb01349f5d153">NS_RULE_NODE_IS_IMPORTANT</a>) != 0;
+<a name="l00661"></a>00661   }
+<a name="l00662"></a>00662 
+<a name="l00668"></a>00668   <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a0bf15edc16a0f3d66f5ceba65638a913">SetUsedDirectly</a>();
+<a name="l00669"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#ab3eb3e3b9779ff17c6d1ae0d3d3f0bc7">00669</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#ab3eb3e3b9779ff17c6d1ae0d3d3f0bc7">IsUsedDirectly</a>()<span class="keyword"> const </span>{
+<a name="l00670"></a>00670     <span class="keywordflow">return</span> (mDependentBits &amp; <a class="code" href="../../da/da7/ns_style_struct_8h.html#a4df3ae53bc9f48998542bad13871b666">NS_RULE_NODE_USED_DIRECTLY</a>) != 0;
+<a name="l00671"></a>00671   }
+<a name="l00672"></a>00672 
+<a name="l00673"></a>00673   <span class="comment">// NOTE:  Does not |AddRef|.  Null only for the root.</span>
+<a name="l00674"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a5892f9abaaa45cf499272a67b2beb052">00674</a>   <a class="code" href="../../d9/d0d/classns_i_style_rule.html">nsIStyleRule</a>* <a class="code" href="../../dc/d1e/classns_rule_node.html#a5892f9abaaa45cf499272a67b2beb052">GetRule</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mRule; }
+<a name="l00675"></a>00675   <span class="comment">// NOTE: Does not |AddRef|.  Never null.</span>
+<a name="l00676"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a3d56032423202fefe678db45e12ad6c9">00676</a>   <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* <a class="code" href="../../dc/d1e/classns_rule_node.html#a3d56032423202fefe678db45e12ad6c9">PresContext</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mPresContext; }
+<a name="l00677"></a>00677 
+<a name="l00678"></a>00678   <span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../dc/d1e/classns_rule_node.html#a4adbe360b56d83b4619d114fc59f1d12">GetStyleData</a>(<a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aSID,
+<a name="l00679"></a>00679                            <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aContext,
+<a name="l00680"></a>00680                            <span class="keywordtype">bool</span> aComputeData);
+<a name="l00681"></a>00681 
+<a name="l00682"></a><a class="code" href="../../d8/dde/ns_rule_node_8h.html#ae76087ff785d9b06b08d6be44afb052b">00682</a> <span class="preprocessor">  #define STYLE_STRUCT(name_, checkdata_cb_)                                  \</span>
+<a name="l00683"></a>00683 <span class="preprocessor">    const nsStyle##name_* GetStyle##name_(nsStyleContext* aContext,           \</span>
+<a name="l00684"></a>00684 <span class="preprocessor">                                          bool aComputeData);</span>
+<a name="l00685"></a>00685 <span class="preprocessor"></span><span class="preprocessor">  #include &quot;<a class="code" href="../../d4/d84/ns_style_struct_list_8h.html">nsStyleStructList.h</a>&quot;</span>
+<a name="l00686"></a>00686 <span class="preprocessor">  #undef STYLE_STRUCT</span>
+<a name="l00687"></a>00687 <span class="preprocessor"></span>
+<a name="l00688"></a>00688   <span class="comment">/*</span>
+<a name="l00689"></a>00689 <span class="comment">   * Garbage collection.  Mark walks up the tree, marking any unmarked</span>
+<a name="l00690"></a>00690 <span class="comment">   * ancestors until it reaches a marked one.  Sweep recursively sweeps</span>
+<a name="l00691"></a>00691 <span class="comment">   * the children, destroys any that are unmarked, and clears marks,</span>
+<a name="l00692"></a>00692 <span class="comment">   * returning true if the node on which it was called was destroyed.</span>
+<a name="l00693"></a>00693 <span class="comment">   */</span>
+<a name="l00694"></a>00694   <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a7f6dccdc2a5c107d9ff0f484d4248fd8">Mark</a>();
+<a name="l00695"></a>00695   <span class="keywordtype">bool</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#ae0f5eab4a73adfc862b7784fd098e46f">Sweep</a>();
+<a name="l00696"></a>00696 
+<a name="l00697"></a>00697   <span class="keyword">static</span> <span class="keywordtype">bool</span>
+<a name="l00698"></a>00698     <a class="code" href="../../dc/d1e/classns_rule_node.html#a3a20f930732a1496bf6273d3d0b8b296">HasAuthorSpecifiedRules</a>(<a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aStyleContext,
+<a name="l00699"></a>00699                             uint32_t ruleTypeMask,
+<a name="l00700"></a>00700                             <span class="keywordtype">bool</span> aAuthorColorsAllowed);
+<a name="l00701"></a>00701 
+<a name="l00702"></a>00702   <span class="comment">// Expose this so media queries can use it</span>
+<a name="l00703"></a>00703   <span class="keyword">static</span> <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../dc/d1e/classns_rule_node.html#ab4243f963fa73a1459345602b6cde0de">CalcLengthWithInitialFont</a>(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00704"></a>00704                                            <span class="keyword">const</span> <a class="code" href="../../d3/df2/classns_c_s_s_value.html">nsCSSValue</a>&amp; aValue);
+<a name="l00705"></a>00705   <span class="comment">// Expose this so nsTransformFunctions can use it.</span>
+<a name="l00706"></a>00706   <span class="keyword">static</span> <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../dc/d1e/classns_rule_node.html#a8db2c8b561eb7eaa6db9a690a3fe30e6">CalcLength</a>(<span class="keyword">const</span> <a class="code" href="../../d3/df2/classns_c_s_s_value.html">nsCSSValue</a>&amp; aValue,
+<a name="l00707"></a>00707                             <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aStyleContext,
+<a name="l00708"></a>00708                             <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00709"></a>00709                             <span class="keywordtype">bool</span>&amp; aCanStoreInRuleTree);
+<a name="l00710"></a>00710 
+<a name="l00711"></a><a class="code" href="../../dd/de4/structns_rule_node_1_1_computed_calc.html">00711</a>   <span class="keyword">struct </span><a class="code" href="../../dd/de4/structns_rule_node_1_1_computed_calc.html">ComputedCalc</a> {
+<a name="l00712"></a><a class="code" href="../../dd/de4/structns_rule_node_1_1_computed_calc.html#a5b6d77abdc1e5f3d76bb09941a4c12a9">00712</a>     <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../dd/de4/structns_rule_node_1_1_computed_calc.html#a5b6d77abdc1e5f3d76bb09941a4c12a9">mLength</a>;
+<a name="l00713"></a><a class="code" href="../../dd/de4/structns_rule_node_1_1_computed_calc.html#ab98e37d20d16b350f632ee6bfa9463e3">00713</a>     <span class="keywordtype">float</span> <a class="code" href="../../dd/de4/structns_rule_node_1_1_computed_calc.html#ab98e37d20d16b350f632ee6bfa9463e3">mPercent</a>;
+<a name="l00714"></a>00714 
+<a name="l00715"></a><a class="code" href="../../dd/de4/structns_rule_node_1_1_computed_calc.html#ab78ef1322cc7af1d2f15271c6fde7ed3">00715</a>     <a class="code" href="../../dd/de4/structns_rule_node_1_1_computed_calc.html#ab78ef1322cc7af1d2f15271c6fde7ed3">ComputedCalc</a>(<a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aLength, <span class="keywordtype">float</span> aPercent)
+<a name="l00716"></a>00716       : <a class="code" href="../../dd/de4/structns_rule_node_1_1_computed_calc.html#a5b6d77abdc1e5f3d76bb09941a4c12a9">mLength</a>(aLength), <a class="code" href="../../dd/de4/structns_rule_node_1_1_computed_calc.html#ab98e37d20d16b350f632ee6bfa9463e3">mPercent</a>(aPercent) {}
+<a name="l00717"></a>00717   };
+<a name="l00718"></a>00718   <span class="keyword">static</span> ComputedCalc
+<a name="l00719"></a>00719   <a class="code" href="../../dc/d1e/classns_rule_node.html#ab7e8cfbbdd04567ba55d237f2fae4a45">SpecifiedCalcToComputedCalc</a>(<span class="keyword">const</span> <a class="code" href="../../d3/df2/classns_c_s_s_value.html">nsCSSValue</a>&amp; aValue,
+<a name="l00720"></a>00720                               <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aStyleContext,
+<a name="l00721"></a>00721                               <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00722"></a>00722                               <span class="keywordtype">bool</span>&amp; aCanStoreInRuleTree);
+<a name="l00723"></a>00723 
+<a name="l00724"></a>00724   <span class="comment">// Compute the value of an nsStyleCoord that IsCalcUnit().</span>
+<a name="l00725"></a>00725   <span class="comment">// (Values that don&#39;t require aPercentageBasis should be handled</span>
+<a name="l00726"></a>00726   <span class="comment">// inside nsRuleNode rather than through this API.)</span>
+<a name="l00727"></a>00727   <span class="keyword">static</span> <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../dc/d1e/classns_rule_node.html#aba57beb60bc9ee5a7f6d0eb64b0c2c29">ComputeComputedCalc</a>(<span class="keyword">const</span> <a class="code" href="../../d9/dfb/classns_style_coord.html">nsStyleCoord</a>&amp; aCoord,
+<a name="l00728"></a>00728                                      <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aPercentageBasis);
+<a name="l00729"></a>00729 
+<a name="l00730"></a>00730   <span class="comment">// Compute the value of an nsStyleCoord that is either a coord, a</span>
+<a name="l00731"></a>00731   <span class="comment">// percent, or a calc expression.</span>
+<a name="l00732"></a>00732   <span class="keyword">static</span> <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../dc/d1e/classns_rule_node.html#a94400ab1f7204a3eed1c8b1f47556078">ComputeCoordPercentCalc</a>(<span class="keyword">const</span> <a class="code" href="../../d9/dfb/classns_style_coord.html">nsStyleCoord</a>&amp; aCoord,
+<a name="l00733"></a>00733                                          <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aPercentageBasis);
+<a name="l00734"></a>00734 
+<a name="l00735"></a>00735   <span class="comment">// Return whether the rule tree for which this node is the root has</span>
+<a name="l00736"></a>00736   <span class="comment">// cached data such that we need to do dynamic change handling for</span>
+<a name="l00737"></a>00737   <span class="comment">// changes that change the results of media queries or require</span>
+<a name="l00738"></a>00738   <span class="comment">// rebuilding all style data.</span>
+<a name="l00739"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a7c30ce38b80ece69f9fc9610570e9184">00739</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a7c30ce38b80ece69f9fc9610570e9184">TreeHasCachedData</a>()<span class="keyword"> const </span>{
+<a name="l00740"></a>00740     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(<a class="code" href="../../dc/d1e/classns_rule_node.html#a1281a3afb6f85910fde5815988cc4e8b">IsRoot</a>(), <span class="stringliteral">&quot;should only be called on root of rule tree&quot;</span>);
+<a name="l00741"></a>00741     <span class="keywordflow">return</span> HaveChildren() || mStyleData.<a class="code" href="../../d0/dff/structns_cached_style_data.html#a6f115f63d825955877651d42f203a93d">mInheritedData</a> || mStyleData.<a class="code" href="../../d0/dff/structns_cached_style_data.html#a68d86a6698129f83fb2edfbe8fd03737">mResetData</a>;
+<a name="l00742"></a>00742   }
+<a name="l00743"></a>00743 
+<a name="l00744"></a><a class="code" href="../../dc/d1e/classns_rule_node.html#a0be5659d6da0deab5ddea118f0095074">00744</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a0be5659d6da0deab5ddea118f0095074">NodeHasCachedData</a>(<span class="keyword">const</span> <a class="code" href="../../d7/d7b/ns_style_struct_fwd_8h.html#a7ab70dea0a8f6444b0007ae3b3eea3f6">nsStyleStructID</a> aSID) {
+<a name="l00745"></a>00745     <span class="keywordflow">return</span> !!mStyleData.<a class="code" href="../../d0/dff/structns_cached_style_data.html#abcfaeaf603aff8302e8c2f996da9a337">GetStyleData</a>(aSID);
+<a name="l00746"></a>00746   }
+<a name="l00747"></a>00747 
+<a name="l00748"></a>00748   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a0502e537db9845340304702b6e71c00e">ComputeFontFeatures</a>(<span class="keyword">const</span> <a class="code" href="../../da/d6d/structns_c_s_s_value_pair_list.html">nsCSSValuePairList</a> *aFeaturesList,
+<a name="l00749"></a>00749                                   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;gfxFontFeature&gt;</a>&amp; aFeatureSettings);
+<a name="l00750"></a>00750 
+<a name="l00751"></a>00751   <span class="keyword">static</span> <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../dc/d1e/classns_rule_node.html#a7b391d68f2f0874b52b361ae43cf156c">CalcFontPointSize</a>(int32_t aHTMLSize, int32_t aBasePointSize, 
+<a name="l00752"></a>00752                                    <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00753"></a>00753                                    <a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cf">nsFontSizeType</a> aFontSizeType = <a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cfae11759ab1e9a23b59e6452e8b971ade6">eFontSize_HTML</a>);
+<a name="l00754"></a>00754 
+<a name="l00755"></a>00755   <span class="keyword">static</span> <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../dc/d1e/classns_rule_node.html#a53ceaafe04ea9b55f3eec104d0ea9d4e">FindNextSmallerFontSize</a>(<a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aFontSize, int32_t aBasePointSize, 
+<a name="l00756"></a>00756                                          <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00757"></a>00757                                          <a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cf">nsFontSizeType</a> aFontSizeType = <a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cfae11759ab1e9a23b59e6452e8b971ade6">eFontSize_HTML</a>);
+<a name="l00758"></a>00758 
+<a name="l00759"></a>00759   <span class="keyword">static</span> <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../dc/d1e/classns_rule_node.html#a6bfaa4b50769ca56b94a5a3849002466">FindNextLargerFontSize</a>(<a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> aFontSize, int32_t aBasePointSize, 
+<a name="l00760"></a>00760                                         <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00761"></a>00761                                         <a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cf">nsFontSizeType</a> aFontSizeType = <a class="code" href="../../d8/dde/ns_rule_node_8h.html#a617a202c689a8948c1b92751b5d9d1cfae11759ab1e9a23b59e6452e8b971ade6">eFontSize_HTML</a>);
+<a name="l00762"></a>00762 
+<a name="l00776"></a>00776   <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../dc/d1e/classns_rule_node.html#a15c30c5a0178289dcf83d5a4a020bda4">ComputeColor</a>(<span class="keyword">const</span> <a class="code" href="../../d3/df2/classns_c_s_s_value.html">nsCSSValue</a>&amp; aValue,
+<a name="l00777"></a>00777                            <a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00778"></a>00778                            <a class="code" href="../../db/d89/classns_style_context.html">nsStyleContext</a>* aStyleContext,
+<a name="l00779"></a>00779                            <a class="code" href="../../d9/d6a/ns_color_8h.html#abee756dec22b05b8b36337fea5612041">nscolor</a>&amp; <a class="code" href="../../d9/d6a/ns_color_8h.html#a820357f645d7b0eaf62fd4994dda5a24">aResult</a>);
+<a name="l00780"></a>00780 };
+<a name="l00781"></a>00781 
+<a name="l00782"></a>00782 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d8/dde/ns_rule_node_8h.html">nsRuleNode.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:42に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

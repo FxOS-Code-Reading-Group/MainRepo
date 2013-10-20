@@ -1,0 +1,621 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: simple_phone_matcher.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dd/d47/build__stage_2email_2shared_2js_2simple__phone__matcher_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">simple_phone_matcher.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dd/d47/build__stage_2email_2shared_2js_2simple__phone__matcher_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- /</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */</span>
+<a name="l00003"></a>00003 
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 
+<a name="l00015"></a><a class="code" href="../../dd/d47/build__stage_2email_2shared_2js_2simple__phone__matcher_8js.html#ae020ca3d7e0fe6a656abe4540585b84c">00015</a> var <a class="code" href="../../dd/d47/build__stage_2email_2shared_2js_2simple__phone__matcher_8js.html#ae020ca3d7e0fe6a656abe4540585b84c">SimplePhoneMatcher</a> = {
+<a name="l00016"></a>00016   mcc: <span class="stringliteral">&#39;724&#39;</span>, <span class="comment">// Assuming a Brazilian mcc by default, can be changed.</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018   <span class="comment">// Used to remove all the formatting from a phone number.</span>
+<a name="l00019"></a>00019   sanitizedNumber: <span class="keyword">function</span> spm_sanitizedNumber(number) {
+<a name="l00020"></a>00020     var <a class="code" href="../../de/d11/path_8js.html#a9c4b06c29cf28f47c4f54ed4e30c85b3">join</a> = this._formattingChars.join(<span class="stringliteral">&#39;|\\&#39;</span>);
+<a name="l00021"></a>00021     var regexp = <span class="keyword">new</span> RegExp(<span class="stringliteral">&#39;(\\&#39;</span> + join + <span class="charliteral">&#39;)&#39;</span>, <span class="charliteral">&#39;g&#39;</span>);
+<a name="l00022"></a>00022     <span class="keywordflow">return</span> number.replace(regexp, <span class="stringliteral">&#39;&#39;</span>);
+<a name="l00023"></a>00023   },
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025   <span class="comment">// Generate variants of a phone number (with prefix, without...).</span>
+<a name="l00026"></a>00026   <span class="comment">// The variants are sorted from the shortest to the longest.</span>
+<a name="l00027"></a>00027   generateVariants: <span class="keyword">function</span> spm_generateVariants(number) {
+<a name="l00028"></a>00028     var sanitizedNumber = this.sanitizedNumber(number);
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030     var variants = [];
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032     variants = variants.concat(this._internationalPrefixes(sanitizedNumber),
+<a name="l00033"></a>00033                                this._trunkPrefixes(sanitizedNumber),
+<a name="l00034"></a>00034                                this._carrierPrefixes(sanitizedNumber),
+<a name="l00035"></a>00035                                this._areaPrefixes(sanitizedNumber));
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037     <span class="keywordflow">return</span> variants.sort(<span class="keyword">function</span> shortestFirst(<a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>, <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>) {
+<a name="l00038"></a>00038       <span class="keywordflow">return</span> <a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>.length &gt; <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>.length;
+<a name="l00039"></a>00039     });
+<a name="l00040"></a>00040   },
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042   <span class="comment">// Find the best (ie longest) match between the variants for a number</span>
+<a name="l00043"></a>00043   <span class="comment">// and matches.</span>
+<a name="l00044"></a>00044   <span class="comment">// |matches| is an array of arrays</span>
+<a name="l00045"></a>00045   <span class="comment">// This way we can easily go trough the results of a mozContacts request:</span>
+<a name="l00046"></a>00046   <span class="comment">// array (contacts) of arrays (phone numbers).</span>
+<a name="l00047"></a>00047   <span class="comment">// =&gt; {</span>
+<a name="l00048"></a>00048   <span class="comment">//      bestMatchIndex: i,</span>
+<a name="l00049"></a>00049   <span class="comment">//      localIndex: j</span>
+<a name="l00050"></a>00050   <span class="comment">//    }</span>
+<a name="l00051"></a>00051   <span class="comment">// ie. bestMatchIndex will be the index in the contact arrays, localIndex</span>
+<a name="l00052"></a>00052   <span class="comment">// the index in the phone numbers array of this contact, totalMatchNum</span>
+<a name="l00053"></a>00053   <span class="comment">// is total number of matching items, allMatches is the matching map of</span>
+<a name="l00054"></a>00054   <span class="comment">// variants</span>
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056   bestMatch: <span class="keyword">function</span> spm_bestMatchIndex(variants, matches) {
+<a name="l00057"></a>00057     var bestMatchIndex = 0;
+<a name="l00058"></a>00058     var bestLocalIndex = 0;
+<a name="l00059"></a>00059     var bestMatchLength = 0;
+<a name="l00060"></a>00060     var allMatches = [];
+<a name="l00061"></a>00061     var matchNum = 0;
+<a name="l00062"></a>00062     matches.forEach(<span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>, matchIndex) {
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064       var indexes = [];
+<a name="l00065"></a>00065       <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>.forEach(<span class="keyword">function</span>(number, localIndex) {
+<a name="l00066"></a>00066         var sanitizedNumber = this.sanitizedNumber(number);
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068         variants.forEach(<span class="keyword">function</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>(variant) {
+<a name="l00069"></a>00069           <span class="keywordflow">if</span> (variant.indexOf(sanitizedNumber) !== -1 ||
+<a name="l00070"></a>00070               sanitizedNumber.indexOf(variant) !== -1) {
+<a name="l00071"></a>00071             var <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a> = sanitizedNumber.length;
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073             <span class="keywordflow">if</span> (indexes.indexOf(localIndex) === -1) {
+<a name="l00074"></a>00074               indexes.push(localIndex);
+<a name="l00075"></a>00075               matchNum += 1;
+<a name="l00076"></a>00076             }
+<a name="l00077"></a>00077             <span class="keywordflow">if</span> (length &gt; bestMatchLength) {
+<a name="l00078"></a>00078               bestMatchLength = <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>;
+<a name="l00079"></a>00079               bestMatchIndex = matchIndex;
+<a name="l00080"></a>00080               bestLocalIndex = localIndex;
+<a name="l00081"></a>00081             }
+<a name="l00082"></a>00082           }
+<a name="l00083"></a>00083         });
+<a name="l00084"></a>00084       }, <span class="keyword">this</span>);
+<a name="l00085"></a>00085       <span class="comment">// use first phone number if no match result</span>
+<a name="l00086"></a>00086       <span class="keywordflow">if</span> (indexes.length) {
+<a name="l00087"></a>00087         allMatches.push(indexes);
+<a name="l00088"></a>00088       } <span class="keywordflow">else</span> {
+<a name="l00089"></a>00089         matchNum += 1;
+<a name="l00090"></a>00090         allMatches.push([0]);
+<a name="l00091"></a>00091       }
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093     }, <span class="keyword">this</span>);
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095     <span class="keywordflow">return</span> {
+<a name="l00096"></a>00096       totalMatchNum: matchNum,
+<a name="l00097"></a>00097       allMatches: allMatches,
+<a name="l00098"></a>00098       bestMatchIndex: bestMatchIndex,
+<a name="l00099"></a>00099       localIndex: bestLocalIndex
+<a name="l00100"></a>00100     };
+<a name="l00101"></a>00101   },
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103   _formattingChars: [<span class="charliteral">&#39;\s&#39;</span>, <span class="charliteral">&#39;-&#39;</span>, <span class="charliteral">&#39;.&#39;</span>, <span class="charliteral">&#39;(&#39;</span>, <span class="charliteral">&#39;)&#39;</span>],
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105   _mccWith00Prefix: [<span class="stringliteral">&#39;208&#39;</span>, <span class="stringliteral">&#39;214&#39;</span>, <span class="stringliteral">&#39;234&#39;</span>, <span class="stringliteral">&#39;235&#39;</span>, <span class="stringliteral">&#39;724&#39;</span>],
+<a name="l00106"></a>00106   _mccWith011Prefix: [<span class="stringliteral">&#39;310&#39;</span>, <span class="stringliteral">&#39;311&#39;</span>, <span class="stringliteral">&#39;312&#39;</span>, <span class="stringliteral">&#39;313&#39;</span>, <span class="stringliteral">&#39;314&#39;</span>, <span class="stringliteral">&#39;315&#39;</span>, <span class="stringliteral">&#39;316&#39;</span>],
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108   <span class="comment">// https://en.wikipedia.org/wiki/Country_calling_code</span>
+<a name="l00109"></a>00109   <span class="comment">// https://en.wikipedia.org/wiki/Trunk_code</span>
+<a name="l00110"></a>00110   <span class="comment">// This is an array of objects composed by</span>
+<a name="l00111"></a>00111   <span class="comment">// { p: &lt;prefix&gt;, t: &lt;true if it can be trunk&gt; }</span>
+<a name="l00112"></a>00112   _countryPrefixes: [
+<a name="l00113"></a>00113     <span class="comment">// North American Numbering Plan countries and territories</span>
+<a name="l00114"></a>00114     <span class="comment">// US, CA, AG, AI, AS, BB, BM, BS, DM, DO, GD, GU, JM, KN, KY,</span>
+<a name="l00115"></a>00115     <span class="comment">// LC, MP, MS, PR, SX, TC, TT, VC, VG, VI</span>
+<a name="l00116"></a>00116     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="charliteral">&#39;1&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118     <span class="comment">// BS                  BB                    AI</span>
+<a name="l00119"></a>00119     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1242&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1246&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1264&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00120"></a>00120     <span class="comment">// AG                  VG                     VI</span>
+<a name="l00121"></a>00121     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1268&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1284&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1340&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00122"></a>00122     <span class="comment">// KY                  BM</span>
+<a name="l00123"></a>00123     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1345&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1441&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00124"></a>00124     <span class="comment">// GD                  TC                     MS</span>
+<a name="l00125"></a>00125     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1473&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1649&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1664&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00126"></a>00126     <span class="comment">// MP                  GU</span>
+<a name="l00127"></a>00127     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1670&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1671&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00128"></a>00128     <span class="comment">// AS                  SX                     LC</span>
+<a name="l00129"></a>00129     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1684&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1721&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1758&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00130"></a>00130     <span class="comment">// DM                  VC</span>
+<a name="l00131"></a>00131     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1767&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1784&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00132"></a>00132     <span class="comment">// PR                  DO                     DO</span>
+<a name="l00133"></a>00133     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1787&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1809&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1829&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00134"></a>00134     <span class="comment">// DO                  TT</span>
+<a name="l00135"></a>00135     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1849&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1868&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00136"></a>00136     <span class="comment">// KN                  JM                     PR</span>
+<a name="l00137"></a>00137     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1869&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1876&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;1939&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139     <span class="comment">// EG                 --                    SS</span>
+<a name="l00140"></a>00140     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;20&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;210&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;211&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00141"></a>00141     <span class="comment">// MA,EH              DZ                    --</span>
+<a name="l00142"></a>00142     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;212&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;213&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;214&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00143"></a>00143     <span class="comment">// --                 TN</span>
+<a name="l00144"></a>00144     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;215&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;216&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00145"></a>00145     <span class="comment">// --                 LY                    --</span>
+<a name="l00146"></a>00146     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;217&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;218&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;219&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00147"></a>00147     <span class="comment">// GM                 SN</span>
+<a name="l00148"></a>00148     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;220&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;221&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00149"></a>00149     <span class="comment">// MR                 ML                    GN</span>
+<a name="l00150"></a>00150     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;222&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;223&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;224&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00151"></a>00151     <span class="comment">// CI                 BF</span>
+<a name="l00152"></a>00152     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;225&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;226&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00153"></a>00153     <span class="comment">// NE                 TG                    BJ</span>
+<a name="l00154"></a>00154     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;227&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;228&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;229&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00155"></a>00155     <span class="comment">// MU                 LR</span>
+<a name="l00156"></a>00156     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;230&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;231&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00157"></a>00157     <span class="comment">// SL                 GH                    NG</span>
+<a name="l00158"></a>00158     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;232&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;233&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;234&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00159"></a>00159     <span class="comment">// TD                 CF</span>
+<a name="l00160"></a>00160     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;235&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;236&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00161"></a>00161     <span class="comment">// CM                 CV                    ST</span>
+<a name="l00162"></a>00162     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;237&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;238&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;239&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00163"></a>00163     <span class="comment">// GQ                 GA</span>
+<a name="l00164"></a>00164     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;240&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;241&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00165"></a>00165     <span class="comment">// CG                 CD                    AO</span>
+<a name="l00166"></a>00166     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;242&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;243&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;244&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00167"></a>00167     <span class="comment">// GW                 IO</span>
+<a name="l00168"></a>00168     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;245&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;246&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00169"></a>00169     <span class="comment">// AC                 SC                    SD</span>
+<a name="l00170"></a>00170     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;247&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;248&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;249&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00171"></a>00171     <span class="comment">// RW                 ET</span>
+<a name="l00172"></a>00172     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;250&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;251&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00173"></a>00173     <span class="comment">// SO,QS              DJ                    KE</span>
+<a name="l00174"></a>00174     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;252&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;253&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;254&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00175"></a>00175     <span class="comment">// TZ                 UG</span>
+<a name="l00176"></a>00176     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;255&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;256&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00177"></a>00177     <span class="comment">// BI                 MZ                    --</span>
+<a name="l00178"></a>00178     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;257&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;258&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;259&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00179"></a>00179     <span class="comment">// ZM                 MG</span>
+<a name="l00180"></a>00180     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;260&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;261&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00181"></a>00181     <span class="comment">// RE,YT              ZW                    NA</span>
+<a name="l00182"></a>00182     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;262&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;263&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;264&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00183"></a>00183     <span class="comment">// MW                 LS</span>
+<a name="l00184"></a>00184     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;265&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;266&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00185"></a>00185     <span class="comment">// BW                 SZ                    KM</span>
+<a name="l00186"></a>00186     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;267&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;268&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;269&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00187"></a>00187     <span class="comment">// ZA                 --</span>
+<a name="l00188"></a>00188     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;27&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;28&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00189"></a>00189     <span class="comment">// SH,TA              ER                    --</span>
+<a name="l00190"></a>00190     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;290&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;291&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;292&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00191"></a>00191     <span class="comment">// --                 --</span>
+<a name="l00192"></a>00192     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;293&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;294&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00193"></a>00193     <span class="comment">// --                 --                    AW</span>
+<a name="l00194"></a>00194     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;295&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;296&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;297&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00195"></a>00195     <span class="comment">// FO                 GL</span>
+<a name="l00196"></a>00196     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;298&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;299&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198     <span class="comment">// GR                 NL                    BE</span>
+<a name="l00199"></a>00199     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;30&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;31&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;32&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00200"></a>00200     <span class="comment">// FR                 ES                    GI</span>
+<a name="l00201"></a>00201     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;33&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;34&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;350&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00202"></a>00202     <span class="comment">// PT                 LU</span>
+<a name="l00203"></a>00203     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;351&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;352&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00204"></a>00204     <span class="comment">// IE                 IS                    AL</span>
+<a name="l00205"></a>00205     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;353&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;354&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;355&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00206"></a>00206     <span class="comment">// MT                 CY</span>
+<a name="l00207"></a>00207     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;356&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;357&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00208"></a>00208     <span class="comment">// FI,AX              BG                    HU</span>
+<a name="l00209"></a>00209     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;358&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;359&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;36&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00210"></a>00210     <span class="comment">// LT                 LV</span>
+<a name="l00211"></a>00211     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;370&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;371&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00212"></a>00212     <span class="comment">// EE                 MD                    AM,QN</span>
+<a name="l00213"></a>00213     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;372&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;373&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;374&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00214"></a>00214     <span class="comment">// BY                 AD</span>
+<a name="l00215"></a>00215     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;375&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;376&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00216"></a>00216     <span class="comment">// MC                 SM                    VA</span>
+<a name="l00217"></a>00217     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;377&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;378&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;379&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00218"></a>00218     <span class="comment">// UA                 RS</span>
+<a name="l00219"></a>00219     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;380&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;381&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00220"></a>00220     <span class="comment">// ME                 --                    --</span>
+<a name="l00221"></a>00221     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;382&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;383&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;384&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00222"></a>00222     <span class="comment">// HR                 SI</span>
+<a name="l00223"></a>00223     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;385&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;386&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00224"></a>00224     <span class="comment">// BA                 EU                    MK</span>
+<a name="l00225"></a>00225     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;387&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;388&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;389&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00226"></a>00226     <span class="comment">// IT,VA</span>
+<a name="l00227"></a>00227     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;39&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00228"></a>00228 
+<a name="l00229"></a>00229     <span class="comment">// RO                 CH                    CZ</span>
+<a name="l00230"></a>00230     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;40&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;41&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;420&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00231"></a>00231     <span class="comment">// SK                 --                    LI</span>
+<a name="l00232"></a>00232     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;421&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;422&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;423&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00233"></a>00233     <span class="comment">// --                 --</span>
+<a name="l00234"></a>00234     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;424&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;425&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00235"></a>00235     <span class="comment">// --                 --                    --</span>
+<a name="l00236"></a>00236     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;426&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;427&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;428&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00237"></a>00237     <span class="comment">// --                 AT</span>
+<a name="l00238"></a>00238     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;429&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;43&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00239"></a>00239     <span class="comment">// GB/UK,GG,IM,JE     DK                    SE</span>
+<a name="l00240"></a>00240     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;44&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;45&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;46&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00241"></a>00241     <span class="comment">// NO,SJ              PL</span>
+<a name="l00242"></a>00242     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;47&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;48&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00243"></a>00243     <span class="comment">// DE</span>
+<a name="l00244"></a>00244     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;49&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246     <span class="comment">// FK                 BZ                    GT</span>
+<a name="l00247"></a>00247     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;500&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;501&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;502&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00248"></a>00248     <span class="comment">// SV                 HN                    NI</span>
+<a name="l00249"></a>00249     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;503&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;504&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;505&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00250"></a>00250     <span class="comment">// CR                 PA</span>
+<a name="l00251"></a>00251     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;506&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;507&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00252"></a>00252     <span class="comment">// PM                 HT                    PE</span>
+<a name="l00253"></a>00253     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;508&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;509&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;51&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00254"></a>00254     <span class="comment">// MX                 CU</span>
+<a name="l00255"></a>00255     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;52&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;53&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00256"></a>00256     <span class="comment">// AR                 BR                    CL</span>
+<a name="l00257"></a>00257     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;54&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;55&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;56&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00258"></a>00258     <span class="comment">// CO                 VE</span>
+<a name="l00259"></a>00259     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;57&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;58&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00260"></a>00260     <span class="comment">// GP,BL,MF           BO                    GY</span>
+<a name="l00261"></a>00261     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;590&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;591&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;592&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00262"></a>00262     <span class="comment">// EC                 GF</span>
+<a name="l00263"></a>00263     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;593&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;594&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00264"></a>00264     <span class="comment">// PY                 MQ                    SR</span>
+<a name="l00265"></a>00265     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;595&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;596&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;597&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00266"></a>00266     <span class="comment">// UY                 BQ,CW</span>
+<a name="l00267"></a>00267     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;598&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;599&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269     <span class="comment">// MY                 AU,CX,CC              ID</span>
+<a name="l00270"></a>00270     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;60&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;61&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;62&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00271"></a>00271     <span class="comment">// PH                 NZ                    SG</span>
+<a name="l00272"></a>00272     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;63&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;64&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;65&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00273"></a>00273     <span class="comment">// TH                 TL</span>
+<a name="l00274"></a>00274     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;66&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;670&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00275"></a>00275     <span class="comment">// --                 NF,AQ                 BN</span>
+<a name="l00276"></a>00276     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;671&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;672&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;673&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00277"></a>00277     <span class="comment">// NR                 PG</span>
+<a name="l00278"></a>00278     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;674&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;675&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00279"></a>00279     <span class="comment">// TO                 SB                    VU</span>
+<a name="l00280"></a>00280     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;676&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;677&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;678&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00281"></a>00281     <span class="comment">// FJ                 PW</span>
+<a name="l00282"></a>00282     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;679&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;680&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00283"></a>00283     <span class="comment">// WF                 CK                    NU</span>
+<a name="l00284"></a>00284     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;681&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;682&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;683&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00285"></a>00285     <span class="comment">// --                 WS</span>
+<a name="l00286"></a>00286     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;684&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;685&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00287"></a>00287     <span class="comment">// KI                 NC                    TV</span>
+<a name="l00288"></a>00288     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;686&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;687&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;688&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00289"></a>00289     <span class="comment">// PF                 TK</span>
+<a name="l00290"></a>00290     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;689&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;690&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00291"></a>00291     <span class="comment">// FM                 MH                    --</span>
+<a name="l00292"></a>00292     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;691&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;692&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;693&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00293"></a>00293     <span class="comment">// --                 --</span>
+<a name="l00294"></a>00294     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;694&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;695&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00295"></a>00295     <span class="comment">// --                 --                    --</span>
+<a name="l00296"></a>00296     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;696&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;697&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;698&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00297"></a>00297     <span class="comment">// --                 --</span>
+<a name="l00298"></a>00298     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;699&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;699&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00299"></a>00299 
+<a name="l00300"></a>00300     <span class="comment">// RU,KZ</span>
+<a name="l00301"></a>00301     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="charliteral">&#39;7&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303     <span class="comment">// KZ                 KZ                    Abkhazia</span>
+<a name="l00304"></a>00304     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;76&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;77&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;7840&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00305"></a>00305     <span class="comment">// Abkhazia</span>
+<a name="l00306"></a>00306     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;7940&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308     <span class="comment">// XT                 --                    --</span>
+<a name="l00309"></a>00309     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;800&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;801&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;802&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00310"></a>00310     <span class="comment">// --                 --                    --</span>
+<a name="l00311"></a>00311     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;803&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;804&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;805&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00312"></a>00312     <span class="comment">// --                 --</span>
+<a name="l00313"></a>00313     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;806&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;807&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00314"></a>00314     <span class="comment">// XS                 --                    JP</span>
+<a name="l00315"></a>00315     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;808&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;809&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;81&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00316"></a>00316     <span class="comment">// KR                 --</span>
+<a name="l00317"></a>00317     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;82&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;83&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00318"></a>00318     <span class="comment">// VN                 KP                    --</span>
+<a name="l00319"></a>00319     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;84&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;850&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;851&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00320"></a>00320     <span class="comment">// HK                 MO</span>
+<a name="l00321"></a>00321     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;852&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;853&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00322"></a>00322     <span class="comment">// --                 KH                    LA</span>
+<a name="l00323"></a>00323     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;854&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;855&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;856&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00324"></a>00324     <span class="comment">// --                 --</span>
+<a name="l00325"></a>00325     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;857&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;858&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00326"></a>00326     <span class="comment">// --                 CN                    XN</span>
+<a name="l00327"></a>00327     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;859&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;86&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;870&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00328"></a>00328     <span class="comment">// --                 --</span>
+<a name="l00329"></a>00329     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;871&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;872&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00330"></a>00330     <span class="comment">// --                 --                    --</span>
+<a name="l00331"></a>00331     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;873&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;874&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;875&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00332"></a>00332     <span class="comment">// --                 --</span>
+<a name="l00333"></a>00333     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;876&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;877&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00334"></a>00334     <span class="comment">// XP                 --                    BD</span>
+<a name="l00335"></a>00335     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;878&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;879&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;880&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00336"></a>00336     <span class="comment">// XG                 XV</span>
+<a name="l00337"></a>00337     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;881&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;882&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00338"></a>00338     <span class="comment">// XV                 --                    --</span>
+<a name="l00339"></a>00339     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;883&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;884&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;885&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00340"></a>00340     <span class="comment">// TW                 --</span>
+<a name="l00341"></a>00341     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;886&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;887&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00342"></a>00342     <span class="comment">// XD                 --                    --</span>
+<a name="l00343"></a>00343     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;888&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;889&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;89&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00344"></a>00344 
+<a name="l00345"></a>00345     <span class="comment">// TR,QY              IN                    PK</span>
+<a name="l00346"></a>00346     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;90&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;91&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;92&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00347"></a>00347     <span class="comment">// AF                 LK                    MM</span>
+<a name="l00348"></a>00348     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;93&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;94&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;95&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00349"></a>00349     <span class="comment">// MV                 LB</span>
+<a name="l00350"></a>00350     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;960&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;961&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00351"></a>00351     <span class="comment">// JO                 SY                    IQ</span>
+<a name="l00352"></a>00352     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;962&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;963&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;964&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00353"></a>00353     <span class="comment">// KW                 SA</span>
+<a name="l00354"></a>00354     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;965&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;966&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00355"></a>00355     <span class="comment">// YE                 OM                    --</span>
+<a name="l00356"></a>00356     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;967&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;968&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;969&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00357"></a>00357     <span class="comment">// PS                 AE</span>
+<a name="l00358"></a>00358     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;970&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;971&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00359"></a>00359     <span class="comment">// IL                 BH                    QA</span>
+<a name="l00360"></a>00360     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;972&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;973&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;974&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00361"></a>00361     <span class="comment">// BT                 MN</span>
+<a name="l00362"></a>00362     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;975&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;976&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00363"></a>00363     <span class="comment">// NP                 --                    XR</span>
+<a name="l00364"></a>00364     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;977&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;978&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;979&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00365"></a>00365     <span class="comment">// IR                 --</span>
+<a name="l00366"></a>00366     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;98&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;990&#39;</span>, t: <span class="keyword">false</span>},
+<a name="l00367"></a>00367     <span class="comment">// XC                 TJ                    TM</span>
+<a name="l00368"></a>00368     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;991&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;992&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;993&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00369"></a>00369     <span class="comment">// AZ                 GE</span>
+<a name="l00370"></a>00370     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;994&#39;</span>, t: <span class="keyword">true</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;995&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00371"></a>00371     <span class="comment">// KG                 --                    UZ</span>
+<a name="l00372"></a>00372     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;996&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;997&#39;</span>, t: <span class="keyword">false</span>}, {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;998&#39;</span>, t: <span class="keyword">true</span>},
+<a name="l00373"></a>00373     <span class="comment">// --</span>
+<a name="l00374"></a>00374     {<a class="code" href="../../db/de5/namespacedefault__timezones.html#a28422cbbc99cee3f1b68cd64c3ded285">p</a>: <span class="stringliteral">&#39;999&#39;</span>, t: <span class="keyword">false</span>}
+<a name="l00375"></a>00375   ],
+<a name="l00376"></a>00376   _trunkCodes: [<span class="charliteral">&#39;0&#39;</span>],
+<a name="l00377"></a>00377 
+<a name="l00378"></a>00378   <span class="comment">// https://en.wikipedia.org/wiki/List_of_dialling_codes_in_Brazil</span>
+<a name="l00379"></a>00379   <span class="comment">// https://en.wikipedia.org/wiki/Telephone_numbers_in_the_United_Kingdom</span>
+<a name="l00380"></a>00380   <span class="comment">// https://en.wikipedia.org/wiki/Telephone_numbering_plan</span>
+<a name="l00381"></a>00381   <span class="comment">// country code -&gt; length of the area code</span>
+<a name="l00382"></a>00382   _areaCodeSwipe: {
+<a name="l00383"></a>00383     <span class="stringliteral">&#39;55&#39;</span>: 2,
+<a name="l00384"></a>00384     <span class="stringliteral">&#39;44&#39;</span>: 3,
+<a name="l00385"></a>00385     <span class="charliteral">&#39;1&#39;</span>: 3
+<a name="l00386"></a>00386   },
+<a name="l00387"></a>00387 
+<a name="l00388"></a>00388   _internationalPrefixes: <span class="keyword">function</span> spm_internatialPrefixes(number) {
+<a name="l00389"></a>00389     var variants = [number];
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391     var internationalPrefix = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00392"></a>00392     <span class="keywordflow">if</span> (this._mccWith00Prefix.indexOf(<span class="keyword">this</span>.mcc) !== -1) {
+<a name="l00393"></a>00393       internationalPrefix = <span class="stringliteral">&#39;00&#39;</span>;
+<a name="l00394"></a>00394     }
+<a name="l00395"></a>00395     <span class="keywordflow">if</span> (this._mccWith011Prefix.indexOf(<span class="keyword">this</span>.mcc) !== -1) {
+<a name="l00396"></a>00396       internationalPrefix = <span class="stringliteral">&#39;011&#39;</span>;
+<a name="l00397"></a>00397     }
+<a name="l00398"></a>00398 
+<a name="l00399"></a>00399     var plusRegexp = <span class="keyword">new</span> RegExp(<span class="stringliteral">&#39;^\\+&#39;</span>);
+<a name="l00400"></a>00400     <span class="keywordflow">if</span> (number.match(plusRegexp)) {
+<a name="l00401"></a>00401       variants.push(number.replace(plusRegexp, internationalPrefix));
+<a name="l00402"></a>00402     }
+<a name="l00403"></a>00403 
+<a name="l00404"></a>00404     var ipRegexp = <span class="keyword">new</span> RegExp(<span class="charliteral">&#39;^&#39;</span> + internationalPrefix);
+<a name="l00405"></a>00405     <span class="keywordflow">if</span> (number.match(ipRegexp)) {
+<a name="l00406"></a>00406       variants.push(number.replace(ipRegexp, <span class="charliteral">&#39;+&#39;</span>));
+<a name="l00407"></a>00407     }
+<a name="l00408"></a>00408 
+<a name="l00409"></a>00409     <span class="keywordflow">return</span> variants;
+<a name="l00410"></a>00410   },
+<a name="l00411"></a>00411 
+<a name="l00412"></a>00412   _trunkPrefixes: <span class="keyword">function</span> spm_trunkPrefixes(number) {
+<a name="l00413"></a>00413     var variants = [];
+<a name="l00414"></a>00414 
+<a name="l00415"></a>00415     var prefixesWithTrunk0 = [];
+<a name="l00416"></a>00416     var prefixesWithNoTrunk = [];
+<a name="l00417"></a>00417     this._countryPrefixes.forEach(<span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#ab9c3d990bb61927ef5406b25c41652ee">prefix</a>) {
+<a name="l00418"></a>00418       <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#ab9c3d990bb61927ef5406b25c41652ee">prefix</a>.t) {
+<a name="l00419"></a>00419         prefixesWithTrunk0.push(<a class="code" href="../../d9/d04/expat_8h.html#ab9c3d990bb61927ef5406b25c41652ee">prefix</a>.p);
+<a name="l00420"></a>00420       } <span class="keywordflow">else</span> {
+<a name="l00421"></a>00421         prefixesWithNoTrunk.push(<a class="code" href="../../d9/d04/expat_8h.html#ab9c3d990bb61927ef5406b25c41652ee">prefix</a>.p);
+<a name="l00422"></a>00422       }
+<a name="l00423"></a>00423     });
+<a name="l00424"></a>00424 
+<a name="l00425"></a>00425     var trunk0Join = prefixesWithTrunk0.join(<span class="charliteral">&#39;|&#39;</span>);
+<a name="l00426"></a>00426     var trunk0Regexp = <span class="keyword">new</span> RegExp(<span class="stringliteral">&#39;^\\+(&#39;</span> + trunk0Join + <span class="charliteral">&#39;)&#39;</span>);
+<a name="l00427"></a>00427     this._internationalPrefixes(number).some(<span class="keyword">function</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>(variant) {
+<a name="l00428"></a>00428       var <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a> = variant.match(trunk0Regexp);
+<a name="l00429"></a>00429 
+<a name="l00430"></a>00430       <span class="keywordflow">if</span> (match) {
+<a name="l00431"></a>00431         variants.push(variant.replace(trunk0Regexp, <span class="charliteral">&#39;0&#39;</span>));
+<a name="l00432"></a>00432         variants.push(variant.replace(trunk0Regexp, <span class="stringliteral">&#39;&#39;</span>));
+<a name="l00433"></a>00433       }
+<a name="l00434"></a>00434 
+<a name="l00435"></a>00435       <span class="keywordflow">return</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>;
+<a name="l00436"></a>00436     });
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438     var noTrunkJoin = prefixesWithNoTrunk.join(<span class="charliteral">&#39;|&#39;</span>);
+<a name="l00439"></a>00439     var noTrunkRegexp = <span class="keyword">new</span> RegExp(<span class="stringliteral">&#39;^\\+(&#39;</span> + noTrunkJoin + <span class="charliteral">&#39;)&#39;</span>);
+<a name="l00440"></a>00440     this._internationalPrefixes(number).some(<span class="keyword">function</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>(variant) {
+<a name="l00441"></a>00441       var <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a> = variant.match(noTrunkRegexp);
+<a name="l00442"></a>00442 
+<a name="l00443"></a>00443       <span class="keywordflow">if</span> (match) {
+<a name="l00444"></a>00444         variants.push(variant.replace(noTrunkRegexp, <span class="stringliteral">&#39;&#39;</span>));
+<a name="l00445"></a>00445       }
+<a name="l00446"></a>00446 
+<a name="l00447"></a>00447       <span class="keywordflow">return</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>;
+<a name="l00448"></a>00448     });
+<a name="l00449"></a>00449 
+<a name="l00450"></a>00450     <span class="comment">// If the number has a trunk prefix already we need a variant without it</span>
+<a name="l00451"></a>00451     var withTrunkRegexp = <span class="keyword">new</span> RegExp(<span class="stringliteral">&#39;^(&#39;</span> + this._trunkCodes.join(<span class="charliteral">&#39;|&#39;</span>) + <span class="charliteral">&#39;)&#39;</span>);
+<a name="l00452"></a>00452     <span class="keywordflow">if</span> (number.match(withTrunkRegexp)) {
+<a name="l00453"></a>00453       variants.push(number.replace(withTrunkRegexp, <span class="stringliteral">&#39;&#39;</span>));
+<a name="l00454"></a>00454     }
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456     <span class="keywordflow">return</span> variants;
+<a name="l00457"></a>00457   },
+<a name="l00458"></a>00458 
+<a name="l00459"></a>00459   _areaPrefixes: <span class="keyword">function</span> spm_areaPrefixes(number) {
+<a name="l00460"></a>00460     var variants = [];
+<a name="l00461"></a>00461 
+<a name="l00462"></a>00462     Object.keys(this._areaCodeSwipe).forEach(<span class="keyword">function</span>(country) {
+<a name="l00463"></a>00463       var re = <span class="keyword">new</span> RegExp(<span class="stringliteral">&#39;^\\+&#39;</span> + country);
+<a name="l00464"></a>00464 
+<a name="l00465"></a>00465       this._internationalPrefixes(number).some(<span class="keyword">function</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>(variant) {
+<a name="l00466"></a>00466         var <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a> = variant.match(re);
+<a name="l00467"></a>00467 
+<a name="l00468"></a>00468         <span class="keywordflow">if</span> (match) {
+<a name="l00469"></a>00469           var afterArea = 1 + country.length + this._areaCodeSwipe[country];
+<a name="l00470"></a>00470           variants.push(variant.substring(afterArea));
+<a name="l00471"></a>00471         }
+<a name="l00472"></a>00472 
+<a name="l00473"></a>00473         <span class="keywordflow">return</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a99e36b20cb6cf83fe7c1f4bff6902ab6">match</a>;
+<a name="l00474"></a>00474       }, <span class="keyword">this</span>);
+<a name="l00475"></a>00475     }, <span class="keyword">this</span>);
+<a name="l00476"></a>00476 
+<a name="l00477"></a>00477     <span class="keywordflow">return</span> variants;
+<a name="l00478"></a>00478   },
+<a name="l00479"></a>00479 
+<a name="l00480"></a>00480   <span class="comment">// http://thebrazilbusiness.com/article/telephone-system-in-brazil</span>
+<a name="l00481"></a>00481   _carrierPrefixes: <span class="keyword">function</span> spm_carrierPrefix(number) {
+<a name="l00482"></a>00482     <span class="keywordflow">if</span> (this.mcc != <span class="stringliteral">&#39;724&#39;</span>) {
+<a name="l00483"></a>00483       <span class="keywordflow">return</span> [];
+<a name="l00484"></a>00484     }
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486     var variants = [];
+<a name="l00487"></a>00487     var withTrunk = <span class="keyword">new</span> RegExp(<span class="stringliteral">&#39;^0&#39;</span>);
+<a name="l00488"></a>00488 
+<a name="l00489"></a>00489     <span class="comment">// A number with carrier prefix will have a trunk code and at</span>
+<a name="l00490"></a>00490     <span class="comment">// lest 13 digits</span>
+<a name="l00491"></a>00491     <span class="keywordflow">if</span> (number.length &gt;= 13 &amp;&amp; number.match(withTrunk)) {
+<a name="l00492"></a>00492       var afterCarrier = 3;
+<a name="l00493"></a>00493       variants.push(number.substring(afterCarrier));
+<a name="l00494"></a>00494     }
+<a name="l00495"></a>00495 
+<a name="l00496"></a>00496     <span class="keywordflow">return</span> variants;
+<a name="l00497"></a>00497   }
+<a name="l00498"></a>00498 };
+<a name="l00499"></a>00499 
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dd/d47/build__stage_2email_2shared_2js_2simple__phone__matcher_8js.html">simple_phone_matcher.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:10に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

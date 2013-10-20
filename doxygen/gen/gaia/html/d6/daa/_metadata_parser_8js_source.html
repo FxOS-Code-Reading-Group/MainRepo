@@ -1,0 +1,572 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: MetadataParser.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d6/daa/_metadata_parser_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">MetadataParser.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d6/daa/_metadata_parser_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../d6/daa/_metadata_parser_8js.html#ae2475e10618961c050dcba04e8c42331">00001</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="comment">//</span>
+<a name="l00004"></a>00004 <span class="comment">// This file defines a single metadataParsers object. The two</span>
+<a name="l00005"></a>00005 <span class="comment">// properties of this object are metadata parsing functions for image</span>
+<a name="l00006"></a>00006 <span class="comment">// files and video files, intended for use with the MediaDB class.</span>
+<a name="l00007"></a>00007 <span class="comment">//</span>
+<a name="l00008"></a>00008 <span class="comment">// This file depends on JPEGMetadataParser.js and blobview.js</span>
+<a name="l00009"></a>00009 <span class="comment">//</span>
+<a name="l00010"></a><a class="code" href="../../d6/daa/_metadata_parser_8js.html#a1663d790c01d578b4d59cfe354e836ef">00010</a> var <a class="code" href="../../df/dcd/apps_2gallery_2js_2metadata__scripts_8js.html#a1663d790c01d578b4d59cfe354e836ef">metadataParser</a> = (<span class="keyword">function</span>() {
+<a name="l00011"></a>00011   var DEVICE_RATIO = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.devicePixelRatio;
+<a name="l00012"></a>00012   <span class="comment">// If we generate our own thumbnails, aim for this size.</span>
+<a name="l00013"></a>00013   <span class="comment">// Calculate needed size from longer side of the screen.</span>
+<a name="l00014"></a>00014   var <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#aaa5a321897cf10ccfb44fa858a9dae18">THUMBNAIL_WIDTH</a> = Math.round(
+<a name="l00015"></a>00015                           Math.max(<a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.innerWidth, <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.innerHeight) *
+<a name="l00016"></a>00016                             DEVICE_RATIO / 4);
+<a name="l00017"></a>00017   var <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#ac5689d06614178ec1e1a4875d41bfb7d">THUMBNAIL_HEIGHT</a> = <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#aaa5a321897cf10ccfb44fa858a9dae18">THUMBNAIL_WIDTH</a>;
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019   <span class="comment">// Don&#39;t try to decode image files of unknown type if bigger than this</span>
+<a name="l00020"></a>00020   var MAX_UNKNOWN_IMAGE_FILE_SIZE = .5 * 1024 * 1024; <span class="comment">// half a megabyte</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023   <span class="comment">// An &lt;img&gt; element for loading images</span>
+<a name="l00024"></a>00024   var <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#a3a3c28a468a6b4fb22612d9afcd067b0">offscreenImage</a> = <span class="keyword">new</span> Image();
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026   <span class="comment">// The screen size. Preview images must be at least this big</span>
+<a name="l00027"></a>00027   var sw = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.innerWidth;
+<a name="l00028"></a>00028   var sh = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.innerHeight;
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030   <span class="comment">// Create a thumbnail size canvas, copy the &lt;img&gt; or &lt;video&gt; into it</span>
+<a name="l00031"></a>00031   <span class="comment">// cropping the edges as needed to make it fit, and then extract the</span>
+<a name="l00032"></a>00032   <span class="comment">// thumbnail image as a blob and pass it to the callback.</span>
+<a name="l00033"></a>00033   <span class="comment">// This utility function is used by both the image and video metadata parsers</span>
+<a name="l00034"></a>00034   <span class="keyword">function</span> createThumbnailFromElement(elt, video, rotation, 
+<a name="l00035"></a>00035                                       mirrored, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) 
+<a name="l00036"></a>00036   {
+<a name="l00037"></a>00037     <span class="comment">// Create a thumbnail image</span>
+<a name="l00038"></a>00038     var <a class="code" href="../../d3/d2e/webgl-demo_8js.html#a1c82fafbefefac03f47e6f1a3cad5b73">canvas</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;canvas&#39;</span>);
+<a name="l00039"></a>00039     var <a class="code" href="../../d9/d04/expat_8h.html#afe0934df1732463fe5378d8c8724edc6">context</a> = canvas.getContext(<span class="stringliteral">&#39;2d&#39;</span>);
+<a name="l00040"></a>00040     canvas.width = <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#aaa5a321897cf10ccfb44fa858a9dae18">THUMBNAIL_WIDTH</a>;
+<a name="l00041"></a>00041     canvas.height = <a class="code" href="../../d1/ddd/apps_2music_2js_2metadata_8js.html#ac5689d06614178ec1e1a4875d41bfb7d">THUMBNAIL_HEIGHT</a>;
+<a name="l00042"></a>00042     var eltwidth = elt.width;
+<a name="l00043"></a>00043     var eltheight = elt.height;
+<a name="l00044"></a>00044     var scalex = canvas.width / eltwidth;
+<a name="l00045"></a>00045     var scaley = canvas.height / eltheight;
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047     <span class="comment">// Take the larger of the two scales: we crop the image to the thumbnail</span>
+<a name="l00048"></a>00048     var <a class="code" href="../../d3/d91/j3d_8js.html#a72467d06af86da2230d0bd24ace66356">scale</a> = Math.max(scalex, scaley);
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050     <span class="comment">// Calculate the region of the image that will be copied to the</span>
+<a name="l00051"></a>00051     <span class="comment">// canvas to create the thumbnail</span>
+<a name="l00052"></a>00052     var w = Math.round(THUMBNAIL_WIDTH / scale);
+<a name="l00053"></a>00053     var h = Math.round(THUMBNAIL_HEIGHT / scale);
+<a name="l00054"></a>00054     var x = Math.round((eltwidth - w) / 2);
+<a name="l00055"></a>00055     var y = Math.round((eltheight - h) / 2);
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057     var centerX = Math.floor(THUMBNAIL_WIDTH / 2);
+<a name="l00058"></a>00058     var centerY = Math.floor(THUMBNAIL_HEIGHT / 2);
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     <span class="comment">// If a orientation is specified, rotate/mirroring the canvas context.</span>
+<a name="l00061"></a>00061     <span class="keywordflow">if</span> (rotation || mirrored) {
+<a name="l00062"></a>00062       context.save();
+<a name="l00063"></a>00063       <span class="comment">// All transformation are applied to the center of the thumbnail.</span>
+<a name="l00064"></a>00064       context.translate(centerX, centerY);
+<a name="l00065"></a>00065     }
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067     <span class="keywordflow">if</span> (mirrored) {
+<a name="l00068"></a>00068       context.scale(-1, 1);
+<a name="l00069"></a>00069     }
+<a name="l00070"></a>00070     <span class="keywordflow">if</span> (rotation) {
+<a name="l00071"></a>00071       <span class="keywordflow">switch</span> (rotation) {
+<a name="l00072"></a>00072       <span class="keywordflow">case</span> 90:
+<a name="l00073"></a>00073         context.rotate(Math.PI / 2);
+<a name="l00074"></a>00074         <span class="keywordflow">break</span>;
+<a name="l00075"></a>00075       <span class="keywordflow">case</span> 180:
+<a name="l00076"></a>00076         context.rotate(Math.PI);
+<a name="l00077"></a>00077         <span class="keywordflow">break</span>;
+<a name="l00078"></a>00078       <span class="keywordflow">case</span> 270:
+<a name="l00079"></a>00079         context.rotate(-Math.PI / 2);
+<a name="l00080"></a>00080         <span class="keywordflow">break</span>;
+<a name="l00081"></a>00081       }
+<a name="l00082"></a>00082     }
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084     <span class="keywordflow">if</span> (rotation || mirrored) {
+<a name="l00085"></a>00085       context.translate(-centerX, -centerY);
+<a name="l00086"></a>00086     }
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088     <span class="comment">// Draw that region of the image into the canvas, scaling it down</span>
+<a name="l00089"></a>00089     context.drawImage(elt, x, y, w, h,
+<a name="l00090"></a>00090                       0, 0, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092     <span class="comment">// Restore the default rotation so the play arrow comes out correctly</span>
+<a name="l00093"></a>00093     <span class="keywordflow">if</span> (rotation || mirrored) {
+<a name="l00094"></a>00094       context.restore();
+<a name="l00095"></a>00095     }
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097     <span class="comment">// If this is a video, superimpose a translucent play button over</span>
+<a name="l00098"></a>00098     <span class="comment">// the captured video frame to distinguish it from a still photo thumbnail</span>
+<a name="l00099"></a>00099     <span class="keywordflow">if</span> (video) {
+<a name="l00100"></a>00100       <span class="comment">// First draw a transparent gray circle</span>
+<a name="l00101"></a>00101       context.fillStyle = <span class="stringliteral">&#39;rgba(0, 0, 0, .2)&#39;</span>;
+<a name="l00102"></a>00102       context.beginPath();
+<a name="l00103"></a>00103       context.arc(THUMBNAIL_WIDTH / 2, THUMBNAIL_HEIGHT / 2,
+<a name="l00104"></a>00104                   THUMBNAIL_HEIGHT / 5, 0, 2 * Math.PI, <span class="keyword">false</span>);
+<a name="l00105"></a>00105       context.fill();
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107       <span class="comment">// Now outline the circle in white</span>
+<a name="l00108"></a>00108       context.strokeStyle = <span class="stringliteral">&#39;rgba(255,255,255,.6)&#39;</span>;
+<a name="l00109"></a>00109       context.lineWidth = 2;
+<a name="l00110"></a>00110       context.stroke();
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112       <span class="comment">// And add a white play arrow.</span>
+<a name="l00113"></a>00113       context.beginPath();
+<a name="l00114"></a>00114       context.fillStyle = <span class="stringliteral">&#39;rgba(255,255,255,.6)&#39;</span>;
+<a name="l00115"></a>00115       <span class="comment">// The height of an equilateral triangle is sqrt(3)/2 times the side</span>
+<a name="l00116"></a>00116       var side = THUMBNAIL_HEIGHT / 5;
+<a name="l00117"></a>00117       var triangle_height = side * Math.sqrt(3) / 2;
+<a name="l00118"></a>00118       context.moveTo(THUMBNAIL_WIDTH / 2 + triangle_height * 2 / 3,
+<a name="l00119"></a>00119                      THUMBNAIL_HEIGHT / 2);
+<a name="l00120"></a>00120       context.lineTo(THUMBNAIL_WIDTH / 2 - triangle_height / 3,
+<a name="l00121"></a>00121                      THUMBNAIL_HEIGHT / 2 - side / 2);
+<a name="l00122"></a>00122       context.lineTo(THUMBNAIL_WIDTH / 2 - triangle_height / 3,
+<a name="l00123"></a>00123                      THUMBNAIL_HEIGHT / 2 + side / 2);
+<a name="l00124"></a>00124       context.closePath();
+<a name="l00125"></a>00125       context.fill();
+<a name="l00126"></a>00126     }
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128     canvas.toBlob(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>, <span class="stringliteral">&#39;image/jpeg&#39;</span>);
+<a name="l00129"></a>00129   }
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131   var VIDEOFILE = /DCIM\/\d{3}MZLLA\/VID_\d{4}\.jpg/;
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133   <span class="keyword">function</span> <a class="code" href="../../df/dcd/apps_2gallery_2js_2metadata__scripts_8js.html#a1663d790c01d578b4d59cfe354e836ef">metadataParser</a>(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>, metadataCallback, metadataError, bigFile) {
+<a name="l00134"></a>00134     <span class="comment">// If the file is a poster image for a video file, then we&#39;ve want</span>
+<a name="l00135"></a>00135     <span class="comment">// video metadata, not image metadata</span>
+<a name="l00136"></a>00136     <span class="keywordflow">if</span> (VIDEOFILE.test(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name)) {
+<a name="l00137"></a>00137       videoMetadataParser(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>, metadataCallback, metadataError);
+<a name="l00138"></a>00138       <span class="keywordflow">return</span>;
+<a name="l00139"></a>00139     }
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141     <span class="comment">// Figure out how big the image is if we can. For JPEG files this</span>
+<a name="l00142"></a>00142     <span class="comment">// calls the JPEG parser and returns the EXIF preview if there is one.</span>
+<a name="l00143"></a>00143     <a class="code" href="../../de/dd3/imagesize_8js.html#ad40357a4536a7741c5de5d0ad22d297a">getImageSize</a>(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>, gotImageSize, gotImageSizeError);
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145     <span class="keyword">function</span> gotImageSizeError(errmsg) {
+<a name="l00146"></a>00146       <span class="comment">// The image is not a JPEG, PNG or GIF file. We may still be</span>
+<a name="l00147"></a>00147       <span class="comment">// able to decode and display it but we don&#39;t know the image</span>
+<a name="l00148"></a>00148       <span class="comment">// size, so we won&#39;t even try if the file is too big.</span>
+<a name="l00149"></a>00149       <span class="keywordflow">if</span> (<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.size &gt; MAX_UNKNOWN_IMAGE_FILE_SIZE) {
+<a name="l00150"></a>00150         metadataError(<span class="stringliteral">&#39;Ignoring large file &#39;</span> + <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name);
+<a name="l00151"></a>00151         <span class="keywordflow">return</span>;
+<a name="l00152"></a>00152       }
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154       <span class="comment">// If the file is too small to be an image, ignore it</span>
+<a name="l00155"></a>00155       <span class="keywordflow">if</span> (<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.size &lt; 32) {
+<a name="l00156"></a>00156         metadataError(<span class="stringliteral">&#39;Ignoring small file &#39;</span> + <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name);
+<a name="l00157"></a>00157         <span class="keywordflow">return</span>;
+<a name="l00158"></a>00158       }
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160       <span class="comment">// If the error message is anything other than unknown image type</span>
+<a name="l00161"></a>00161       <span class="comment">// it means we&#39;ve got a corrupt image file, or the image metdata parser</span>
+<a name="l00162"></a>00162       <span class="comment">// can&#39;t handle the file for some reason. Log a warning but keep going</span>
+<a name="l00163"></a>00163       <span class="comment">// in case the image is good and the metadata parser is buggy.</span>
+<a name="l00164"></a>00164       <span class="keywordflow">if</span> (errmsg !== <span class="stringliteral">&#39;unknown image type&#39;</span>) {
+<a name="l00165"></a>00165         <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.warn(<span class="stringliteral">&#39;getImageSize&#39;</span>, errmsg, <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name);
+<a name="l00166"></a>00166       }
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168       <span class="comment">// If it is not too big create a preview and thumbnail.</span>
+<a name="l00169"></a>00169       createThumbnailAndPreview(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>,
+<a name="l00170"></a>00170                                 metadataCallback,
+<a name="l00171"></a>00171                                 metadataError,
+<a name="l00172"></a>00172                                 <span class="keyword">false</span>,
+<a name="l00173"></a>00173                                 bigFile,
+<a name="l00174"></a>00174                                 {});
+<a name="l00175"></a>00175     }
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177     <span class="keyword">function</span> gotImageSize(metadata) {
+<a name="l00178"></a>00178       <span class="comment">// If the image is too big, reject it now so we don&#39;t have</span>
+<a name="l00179"></a>00179       <span class="comment">// memory trouble later.</span>
+<a name="l00180"></a>00180       <span class="comment">// CONFIG_MAX_IMAGE_PIXEL_SIZE is maximum image resolution we can handle.</span>
+<a name="l00181"></a>00181       <span class="comment">// It&#39;s from config.js which is generated in build time, 5 megapixels by</span>
+<a name="l00182"></a>00182       <span class="comment">// default (see build/application-data.js). It should be synced with</span>
+<a name="l00183"></a>00183       <span class="comment">// Camera app and update carefully.</span>
+<a name="l00184"></a>00184       <span class="keywordflow">if</span> (metadata.width * metadata.height &gt; <a class="code" href="../../d2/d42/camera_2js_2config_8js.html#ab8d08b700c8918ce0c8d766982ce5f0f">CONFIG_MAX_IMAGE_PIXEL_SIZE</a>) {
+<a name="l00185"></a>00185         metadataError(<span class="stringliteral">&#39;Ignoring high-resolution image &#39;</span> + <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name);
+<a name="l00186"></a>00186         <span class="keywordflow">return</span>;
+<a name="l00187"></a>00187       }
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189       <span class="comment">// If the file included a preview image, see if it is big enough</span>
+<a name="l00190"></a>00190       <span class="keywordflow">if</span> (metadata.preview) {
+<a name="l00191"></a>00191         <span class="comment">// Create a blob that is just the preview image</span>
+<a name="l00192"></a>00192         var previewblob = <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.slice(metadata.preview.start,
+<a name="l00193"></a>00193                                      metadata.preview.end,
+<a name="l00194"></a>00194                                      <span class="stringliteral">&#39;image/jpeg&#39;</span>);
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196         <span class="comment">// Check to see if the preview is big enough to use in MediaFrame</span>
+<a name="l00197"></a>00197         <a class="code" href="../../df/dcd/apps_2gallery_2js_2metadata__scripts_8js.html#a4eeaa6fdf7f599d76cfc1264f51f3bb0">parseJPEGMetadata</a>(previewblob, previewsuccess, previewerror);
+<a name="l00198"></a>00198       }
+<a name="l00199"></a>00199       <span class="keywordflow">else</span> {
+<a name="l00200"></a>00200         <span class="comment">// If there wasn&#39;t a preview image, then generate a preview and</span>
+<a name="l00201"></a>00201         <span class="comment">// thumbnail from the full size image.</span>
+<a name="l00202"></a>00202         useFullsizeImage();
+<a name="l00203"></a>00203       }
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205       <span class="keyword">function</span> previewerror(<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>) {
+<a name="l00206"></a>00206         <span class="comment">// The preview isn&#39;t a valid jpeg file, so use the full image to</span>
+<a name="l00207"></a>00207         <span class="comment">// create a preview and a thumbnail</span>
+<a name="l00208"></a>00208         <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.error(<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>);
+<a name="l00209"></a>00209         useFullsizeImage();
+<a name="l00210"></a>00210       }
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212       <span class="keyword">function</span> useFullsizeImage() {
+<a name="l00213"></a>00213         <span class="comment">// Since a number of different cases use the same fallback method</span>
+<a name="l00214"></a>00214         <span class="comment">// define it in one place for easier code flow.</span>
+<a name="l00215"></a>00215         createThumbnailAndPreview(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>,
+<a name="l00216"></a>00216                                   metadataCallback,
+<a name="l00217"></a>00217                                   metadataError,
+<a name="l00218"></a>00218                                   <span class="keyword">false</span>,
+<a name="l00219"></a>00219                                   bigFile,
+<a name="l00220"></a>00220                                   metadata);
+<a name="l00221"></a>00221       }
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223       <span class="keyword">function</span> previewsuccess(previewmetadata) {
+<a name="l00224"></a>00224         var pw = previewmetadata.width;      <span class="comment">// size of the preview image</span>
+<a name="l00225"></a>00225         var ph = previewmetadata.height;
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227         <span class="comment">// If the preview is big enough, use it to create a thumbnail.</span>
+<a name="l00228"></a>00228         <span class="comment">// A preview is big enough if at least one dimension is &gt;= the</span>
+<a name="l00229"></a>00229         <span class="comment">// screen size in both portait and landscape mode.</span>
+<a name="l00230"></a>00230         <span class="keywordflow">if</span> ((pw &gt;= sw || ph &gt;= sh) &amp;&amp; (pw &gt;= sh || ph &gt;= sw)) {
+<a name="l00231"></a>00231           metadata.preview.width = pw;
+<a name="l00232"></a>00232           metadata.preview.height = ph;
+<a name="l00233"></a>00233           <span class="comment">// The 4th argument true means don&#39;t actually create a preview</span>
+<a name="l00234"></a>00234           createThumbnailAndPreview(previewblob,
+<a name="l00235"></a>00235                                     metadataCallback,
+<a name="l00236"></a>00236                                     previewerror,
+<a name="l00237"></a>00237                                     <span class="keyword">true</span>,
+<a name="l00238"></a>00238                                     bigFile,
+<a name="l00239"></a>00239                                     metadata);
+<a name="l00240"></a>00240         } <span class="keywordflow">else</span> {
+<a name="l00241"></a>00241           <span class="comment">// Preview isn&#39;t big enough so get one the hard way</span>
+<a name="l00242"></a>00242           useFullsizeImage();
+<a name="l00243"></a>00243         }
+<a name="l00244"></a>00244       }
+<a name="l00245"></a>00245     }
+<a name="l00246"></a>00246   }
+<a name="l00247"></a>00247 
+<a name="l00248"></a>00248   <span class="comment">// Load an image from a file into an &lt;img&gt; tag, and then use that</span>
+<a name="l00249"></a>00249   <span class="comment">// to get its dimensions and create a thumbnail.  Store these values in</span>
+<a name="l00250"></a>00250   <span class="comment">// a metadata object, and pass the object to the callback function.</span>
+<a name="l00251"></a>00251   <span class="comment">// If anything goes wrong, pass an error message to the error function.</span>
+<a name="l00252"></a>00252   <span class="comment">// If it is a large image, create and save a preview for it as well.</span>
+<a name="l00253"></a>00253   <span class="keyword">function</span> createThumbnailAndPreview(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>, <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>, nopreview,
+<a name="l00254"></a>00254                                      bigFile, metadata) {
+<a name="l00255"></a>00255     var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> = <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.createObjectURL(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>);
+<a name="l00256"></a>00256     offscreenImage.src = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>;
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258     offscreenImage.onerror = <span class="keyword">function</span>() {
+<a name="l00259"></a>00259       <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.revokeObjectURL(url);
+<a name="l00260"></a>00260       offscreenImage.src = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00261"></a>00261       <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>(<span class="stringliteral">&#39;createThumbnailAndPreview: Image failed to load&#39;</span>);
+<a name="l00262"></a>00262     };
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264     offscreenImage.onload = <span class="keyword">function</span>() {
+<a name="l00265"></a>00265       <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.revokeObjectURL(url);
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267       var iw = offscreenImage.width;
+<a name="l00268"></a>00268       var ih = offscreenImage.height;
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270       <span class="comment">// Don&#39;t overwrite the metadata in the case we read a previewblob.</span>
+<a name="l00271"></a>00271       <span class="keywordflow">if</span> (!nopreview) {
+<a name="l00272"></a>00272         metadata.width = iw;
+<a name="l00273"></a>00273         metadata.height = ih;
+<a name="l00274"></a>00274       }
+<a name="l00275"></a>00275 
+<a name="l00276"></a>00276       <span class="comment">// If this is a big image, then decoding it takes a lot of memory.</span>
+<a name="l00277"></a>00277       <span class="comment">// We set this flag to prevent the user from zooming in on other</span>
+<a name="l00278"></a>00278       <span class="comment">// images at the same time because that also takes a lot of memory</span>
+<a name="l00279"></a>00279       <span class="comment">// and we don&#39;t want to crash with an OOM. If we find one big image</span>
+<a name="l00280"></a>00280       <span class="comment">// we assume that there may be others, so the flag remains set until</span>
+<a name="l00281"></a>00281       <span class="comment">// the current scan is complete.</span>
+<a name="l00282"></a>00282       <span class="comment">//</span>
+<a name="l00283"></a>00283       <span class="comment">// XXX: When bug 854795 is fixed, we&#39;ll be able to create previews</span>
+<a name="l00284"></a>00284       <span class="comment">// for large images without using so much memory, and we can remove</span>
+<a name="l00285"></a>00285       <span class="comment">// this flag then.</span>
+<a name="l00286"></a>00286       <span class="keywordflow">if</span> (iw * ih &gt; 2 * 1024 * 1024 &amp;&amp; bigFile)
+<a name="l00287"></a>00287         bigFile();
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289       <span class="comment">// If the image was already thumbnail size, it is its own thumbnail</span>
+<a name="l00290"></a>00290       <span class="comment">// and it does not need a preview</span>
+<a name="l00291"></a>00291       <span class="keywordflow">if</span> (metadata.width &lt;= THUMBNAIL_WIDTH &amp;&amp;
+<a name="l00292"></a>00292           metadata.height &lt;= THUMBNAIL_HEIGHT) {
+<a name="l00293"></a>00293         offscreenImage.src = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00294"></a>00294         metadata.thumbnail = <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>;
+<a name="l00295"></a>00295         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(metadata);
+<a name="l00296"></a>00296       }
+<a name="l00297"></a>00297       <span class="keywordflow">else</span> {
+<a name="l00298"></a>00298         createThumbnailFromElement(
+<a name="l00299"></a>00299           offscreenImage,
+<a name="l00300"></a>00300           <span class="keyword">false</span>,
+<a name="l00301"></a>00301           metadata.rotation || 0,
+<a name="l00302"></a>00302           metadata.mirrored || <span class="keyword">false</span>,
+<a name="l00303"></a>00303           gotThumbnail);
+<a name="l00304"></a>00304       }
+<a name="l00305"></a>00305 
+<a name="l00306"></a>00306       <span class="keyword">function</span> gotThumbnail(thumbnail) {
+<a name="l00307"></a>00307         metadata.thumbnail = thumbnail;
+<a name="l00308"></a>00308         <span class="comment">// If no preview was requested, or if if the image was less</span>
+<a name="l00309"></a>00309         <span class="comment">// than half a megapixel then it does not need a preview</span>
+<a name="l00310"></a>00310         <span class="comment">// image, and we can call the callback right away</span>
+<a name="l00311"></a>00311         <span class="keywordflow">if</span> (nopreview || metadata.width * metadata.height &lt; 512 * 1024) {
+<a name="l00312"></a>00312           offscreenImage.src = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00313"></a>00313           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(metadata);
+<a name="l00314"></a>00314         }
+<a name="l00315"></a>00315         <span class="keywordflow">else</span> {
+<a name="l00316"></a>00316           <span class="comment">// Otherwise, this was a big image and we need to create a</span>
+<a name="l00317"></a>00317           <span class="comment">// preview for it so we can avoid decoding the full size</span>
+<a name="l00318"></a>00318           <span class="comment">// image again when possible</span>
+<a name="l00319"></a>00319           createAndSavePreview();
+<a name="l00320"></a>00320         }
+<a name="l00321"></a>00321       }
+<a name="l00322"></a>00322 
+<a name="l00323"></a>00323       <span class="keyword">function</span> createAndSavePreview() {
+<a name="l00324"></a>00324         <span class="comment">// Figure out the preview size.</span>
+<a name="l00325"></a>00325         <span class="comment">// Make sure the size is big enough for both landscape and portrait</span>
+<a name="l00326"></a>00326         var <a class="code" href="../../d3/d91/j3d_8js.html#a72467d06af86da2230d0bd24ace66356">scale</a> = Math.max(Math.min(sw / iw, sh / ih, 1),
+<a name="l00327"></a>00327                              Math.min(sh / iw, sw / ih, 1));
+<a name="l00328"></a>00328         var pw = iw * <a class="code" href="../../d3/d91/j3d_8js.html#a72467d06af86da2230d0bd24ace66356">scale</a>, ph = ih * <a class="code" href="../../d3/d91/j3d_8js.html#a72467d06af86da2230d0bd24ace66356">scale</a>; <span class="comment">// preview width and height;</span>
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330         <span class="comment">// Create the preview in a canvas</span>
+<a name="l00331"></a>00331         var <a class="code" href="../../d3/d2e/webgl-demo_8js.html#a1c82fafbefefac03f47e6f1a3cad5b73">canvas</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;canvas&#39;</span>);
+<a name="l00332"></a>00332         canvas.width = pw;
+<a name="l00333"></a>00333         canvas.height = ph;
+<a name="l00334"></a>00334         var <a class="code" href="../../d9/d04/expat_8h.html#afe0934df1732463fe5378d8c8724edc6">context</a> = canvas.getContext(<span class="stringliteral">&#39;2d&#39;</span>);
+<a name="l00335"></a>00335         context.drawImage(offscreenImage, 0, 0, iw, ih, 0, 0, pw, ph);
+<a name="l00336"></a>00336         canvas.toBlob(<span class="keyword">function</span>(blob) {
+<a name="l00337"></a>00337           offscreenImage.src = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00338"></a>00338           canvas.width = canvas.height = 0;
+<a name="l00339"></a>00339           savePreview(blob);
+<a name="l00340"></a>00340         }, <span class="stringliteral">&#39;image/jpeg&#39;</span>);
+<a name="l00341"></a>00341 
+<a name="l00342"></a>00342         <span class="keyword">function</span> savePreview(previewblob) {
+<a name="l00343"></a>00343           var storage = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.getDeviceStorage(<span class="stringliteral">&#39;pictures&#39;</span>);
+<a name="l00344"></a>00344           var <a class="code" href="../../d2/d7d/jsapi_8h.html#a9b61fad0b15688b43345d3f5c3a3d44b">filename</a>;
+<a name="l00345"></a>00345           <span class="keywordflow">if</span> (<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name[0] === <span class="charliteral">&#39;/&#39;</span>) {
+<a name="l00346"></a>00346             <span class="comment">// We expect file.name to be a fully qualified name (perhaps</span>
+<a name="l00347"></a>00347             <span class="comment">// something like /sdcard/DCIM/100MZLLA/IMG_0001.jpg).</span>
+<a name="l00348"></a>00348             var slashIndex = <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name.indexOf(<span class="charliteral">&#39;/&#39;</span>, 1);
+<a name="l00349"></a>00349             <span class="keywordflow">if</span> (slashIndex &lt; 0) {
+<a name="l00350"></a>00350               <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>(<span class="stringliteral">&quot;savePreview: Bad filename: &#39;&quot;</span> + <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name + <span class="stringliteral">&quot;&#39;&quot;</span>);
+<a name="l00351"></a>00351               <span class="keywordflow">return</span>;
+<a name="l00352"></a>00352             }
+<a name="l00353"></a>00353             filename =
+<a name="l00354"></a>00354               <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name.substring(0, slashIndex) + <span class="comment">// storageName (i.e. /sdcard)</span>
+<a name="l00355"></a>00355               <span class="stringliteral">&#39;/.gallery/previews&#39;</span> +
+<a name="l00356"></a>00356               <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name.substring(slashIndex); <span class="comment">// rest of path (i,e, /DCIM/...)</span>
+<a name="l00357"></a>00357           } <span class="keywordflow">else</span> {
+<a name="l00358"></a>00358             <span class="comment">// On non-composite storage areas (e.g. desktop), file.name will be</span>
+<a name="l00359"></a>00359             <span class="comment">// a relative path.</span>
+<a name="l00360"></a>00360             filename = <span class="stringliteral">&#39;.gallery/previews/&#39;</span> + <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name;
+<a name="l00361"></a>00361           }
+<a name="l00362"></a>00362 
+<a name="l00363"></a>00363           <span class="comment">// Delete any existing preview by this name</span>
+<a name="l00364"></a>00364           var delreq = storage.delete(filename);
+<a name="l00365"></a>00365           delreq.onsuccess = delreq.onerror = <a class="code" href="../../db/d3b/vcard__parser_8js.html#a718354ac603e0a010374cb7b41badb94">save</a>;
+<a name="l00366"></a>00366 
+<a name="l00367"></a>00367           <span class="keyword">function</span> <a class="code" href="../../db/d3b/vcard__parser_8js.html#a718354ac603e0a010374cb7b41badb94">save</a>() {
+<a name="l00368"></a>00368             var savereq = storage.addNamed(previewblob, filename);
+<a name="l00369"></a>00369             savereq.onerror = <span class="keyword">function</span>() {
+<a name="l00370"></a>00370               <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.error(<span class="stringliteral">&#39;Could not save preview image&#39;</span>, filename);
+<a name="l00371"></a>00371             };
+<a name="l00372"></a>00372 
+<a name="l00373"></a>00373             <span class="comment">// Don&#39;t actually wait for the save to complete. Go start</span>
+<a name="l00374"></a>00374             <span class="comment">// scanning the next one.</span>
+<a name="l00375"></a>00375             metadata.preview = {
+<a name="l00376"></a>00376               filename: <a class="code" href="../../d2/d7d/jsapi_8h.html#a9b61fad0b15688b43345d3f5c3a3d44b">filename</a>,
+<a name="l00377"></a>00377               <a class="code" href="../../d4/d8c/viewphoto_8js.html#adb90f9ed3668a895cc5b90a19bcdee13">width</a>: pw,
+<a name="l00378"></a>00378               <a class="code" href="../../d4/d8c/viewphoto_8js.html#a06f7a63ceb91351a4c31800c9a7af42f">height</a>: ph
+<a name="l00379"></a>00379             };
+<a name="l00380"></a>00380             <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(metadata);
+<a name="l00381"></a>00381           }
+<a name="l00382"></a>00382         }
+<a name="l00383"></a>00383       }
+<a name="l00384"></a>00384     };
+<a name="l00385"></a>00385   }
+<a name="l00386"></a>00386 
+<a name="l00387"></a>00387   <span class="keyword">function</span> videoMetadataParser(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>, metadataCallback, <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>) {
+<a name="l00388"></a>00388     var metadata = {};
+<a name="l00389"></a>00389     var videofilename = <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>.name.replace(<span class="stringliteral">&#39;.jpg&#39;</span>, <span class="stringliteral">&#39;.3gp&#39;</span>);
+<a name="l00390"></a>00390     metadata.video = videofilename;
+<a name="l00391"></a>00391 
+<a name="l00392"></a>00392     var getreq = <a class="code" href="../../d0/da2/gallery_8js.html#ace84f873229174800558862ac30942fd">videostorage</a>.get(videofilename);
+<a name="l00393"></a>00393     getreq.onerror = <span class="keyword">function</span>() {
+<a name="l00394"></a>00394       <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<span class="stringliteral">&#39;cannot get video file: &#39;</span> + videofilename);
+<a name="l00395"></a>00395     };
+<a name="l00396"></a>00396     getreq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00397"></a>00397       var videofile = getreq.result;
+<a name="l00398"></a>00398       <a class="code" href="../../df/dcd/apps_2gallery_2js_2metadata__scripts_8js.html#ab788b9d95bc35ef077f98db5199435ab">getVideoRotation</a>(videofile, <span class="keyword">function</span>(rotation) {
+<a name="l00399"></a>00399         <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> rotation === <span class="stringliteral">&#39;number&#39;</span>) {
+<a name="l00400"></a>00400           metadata.rotation = rotation;
+<a name="l00401"></a>00401           getVideoThumbnailAndSize();
+<a name="l00402"></a>00402         }
+<a name="l00403"></a>00403         <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> rotation === <span class="stringliteral">&#39;string&#39;</span>) {
+<a name="l00404"></a>00404           <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<span class="stringliteral">&#39;Video rotation:&#39;</span>, rotation);
+<a name="l00405"></a>00405         }
+<a name="l00406"></a>00406       });
+<a name="l00407"></a>00407     };
+<a name="l00408"></a>00408 
+<a name="l00409"></a>00409     <span class="keyword">function</span> getVideoThumbnailAndSize() {
+<a name="l00410"></a>00410       var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> = <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.createObjectURL(<a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>);
+<a name="l00411"></a>00411       offscreenImage.src = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>;
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413       offscreenImage.onerror = <span class="keyword">function</span>() {
+<a name="l00414"></a>00414         <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.revokeObjectURL(url);
+<a name="l00415"></a>00415         offscreenImage.src = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00416"></a>00416         <a class="code" href="../../d2/d7d/jsapi_8h.html#acefe7d900314338f5dc60820b689afae">errorCallback</a>(<span class="stringliteral">&#39;getVideoThumanailAndSize: Image failed to load&#39;</span>);
+<a name="l00417"></a>00417       };
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419       offscreenImage.onload = <span class="keyword">function</span>() {
+<a name="l00420"></a>00420         <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.revokeObjectURL(url);
+<a name="l00421"></a>00421 
+<a name="l00422"></a>00422         <span class="comment">// We store the unrotated size of the poster image, which we</span>
+<a name="l00423"></a>00423         <span class="comment">// require to have the same size and rotation as the video</span>
+<a name="l00424"></a>00424         metadata.width = offscreenImage.width;
+<a name="l00425"></a>00425         metadata.height = offscreenImage.height;
+<a name="l00426"></a>00426 
+<a name="l00427"></a>00427         createThumbnailFromElement(offscreenImage,
+<a name="l00428"></a>00428                                    <span class="keyword">true</span>,
+<a name="l00429"></a>00429                                    metadata.rotation,
+<a name="l00430"></a>00430                                    <span class="keyword">false</span>,
+<a name="l00431"></a>00431                                    <span class="keyword">function</span>(thumbnail) {
+<a name="l00432"></a>00432                                      metadata.thumbnail = thumbnail;
+<a name="l00433"></a>00433                                      offscreenImage.src = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00434"></a>00434                                      metadataCallback(metadata);
+<a name="l00435"></a>00435                                    });
+<a name="l00436"></a>00436       };
+<a name="l00437"></a>00437     }
+<a name="l00438"></a>00438   }
+<a name="l00439"></a>00439 
+<a name="l00440"></a>00440   <span class="keywordflow">return</span> <a class="code" href="../../df/dcd/apps_2gallery_2js_2metadata__scripts_8js.html#a1663d790c01d578b4d59cfe354e836ef">metadataParser</a>;
+<a name="l00441"></a>00441 }());
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d6/daa/_metadata_parser_8js.html">MetadataParser.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:47に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

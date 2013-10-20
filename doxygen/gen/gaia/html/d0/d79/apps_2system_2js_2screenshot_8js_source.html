@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: screenshot.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d0/d79/apps_2system_2js_2screenshot_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">screenshot.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d0/d79/apps_2system_2js_2screenshot_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">// screenshot.js: system screenshot module</span>
+<a name="l00002"></a>00002 <span class="comment">//</span>
+<a name="l00003"></a>00003 <span class="comment">// This system module takes a screenshot of the currently running app</span>
+<a name="l00004"></a>00004 <span class="comment">// or homescreen and stores it with DeviceStorage when the user</span>
+<a name="l00005"></a>00005 <span class="comment">// presses the home and sleep buttons at the same time. It communicates</span>
+<a name="l00006"></a>00006 <span class="comment">// with gecko code running in b2g/chrome/content/shell.js using a private</span>
+<a name="l00007"></a>00007 <span class="comment">// event-based API. It is the gecko code that creates the screenshot.</span>
+<a name="l00008"></a>00008 <span class="comment">//</span>
+<a name="l00009"></a>00009 <span class="comment">// This script must be used with the defer attribute.</span>
+<a name="l00010"></a>00010 <span class="comment">//</span>
+<a name="l00011"></a>00011 <span class="comment">//</span>
+<a name="l00012"></a>00012 (<span class="keyword">function</span>() {
+<a name="l00013"></a>00013   <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;home+sleep&#39;</span>, takeScreenshot);
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015   <span class="comment">// Assume that the maximum screenshot size is 4 bytes per pixel</span>
+<a name="l00016"></a>00016   <span class="comment">// plus a bit extra. In practice, with compression, our PNG files will be</span>
+<a name="l00017"></a>00017   <span class="comment">// much smaller than this.</span>
+<a name="l00018"></a>00018   var MAX_SCREENSHOT_SIZE = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.innerWidth * <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.innerHeight * 4 + 4096;
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020   <span class="keyword">function</span> takeScreenshot() {
+<a name="l00021"></a>00021     <span class="comment">// Give feedback that the screenshot request was received</span>
+<a name="l00022"></a>00022     <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.vibrate(100);
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024     <span class="comment">// We don&#39;t need device storage here, but check to see that</span>
+<a name="l00025"></a>00025     <span class="comment">// it is available before sending the screenshot request to chrome.</span>
+<a name="l00026"></a>00026     <span class="comment">// If device storage is available, the callback will be called.</span>
+<a name="l00027"></a>00027     <span class="comment">// Otherwise, an error message notification will be displayed.</span>
+<a name="l00028"></a>00028     getDeviceStorage(<span class="keyword">function</span>() {
+<a name="l00029"></a>00029       <span class="comment">// Let chrome know we&#39;d like a screenshot.</span>
+<a name="l00030"></a>00030       <span class="comment">// This is a completely non-standard undocumented API</span>
+<a name="l00031"></a>00031       <span class="comment">// for communicating with our chrome code.</span>
+<a name="l00032"></a>00032       var screenshotProps = {
+<a name="l00033"></a>00033         detail: {
+<a name="l00034"></a>00034           <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <span class="stringliteral">&#39;take-screenshot&#39;</span>
+<a name="l00035"></a>00035         }
+<a name="l00036"></a>00036       };
+<a name="l00037"></a>00037       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.dispatchEvent(<span class="keyword">new</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a9a0643019c2e900911fe21538df95595">CustomEvent</a>(<span class="stringliteral">&#39;mozContentEvent&#39;</span>, screenshotProps));
+<a name="l00038"></a>00038     });
+<a name="l00039"></a>00039   }
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041   <span class="comment">// Display a screenshot success or failure notification.</span>
+<a name="l00042"></a>00042   <span class="comment">// Localize the first argument, and localize the third if the second is null</span>
+<a name="l00043"></a>00043   <span class="keyword">function</span> notify(titleid, body, bodyid) {
+<a name="l00044"></a>00044     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get(titleid) || titleid;
+<a name="l00045"></a>00045     body = body || <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get(bodyid);
+<a name="l00046"></a>00046     <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozNotification.createNotification(
+<a name="l00047"></a>00047       title, body, <span class="stringliteral">&#39;style/icons/Gallery.png&#39;</span>).show();
+<a name="l00048"></a>00048   }
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050   <span class="comment">// Get a DeviceStorage object and pass it to the callback.</span>
+<a name="l00051"></a>00051   <span class="comment">// Or, if device storage is not available, display a notification.</span>
+<a name="l00052"></a>00052   <span class="keyword">function</span> getDeviceStorage(<a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00053"></a>00053     var storage = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.getDeviceStorage(<span class="stringliteral">&#39;pictures&#39;</span>);
+<a name="l00054"></a>00054     var availreq = storage.available();
+<a name="l00055"></a>00055     availreq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00056"></a>00056       var <a class="code" href="../../d2/d7d/jsapi_8h.html#afa45f986123242ddd418c959eb87e242">state</a> = availreq.result;
+<a name="l00057"></a>00057       <span class="keywordflow">if</span> (state === <span class="stringliteral">&#39;unavailable&#39;</span>) {
+<a name="l00058"></a>00058         notify(<span class="stringliteral">&#39;screenshotFailed&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>, <span class="stringliteral">&#39;screenshotNoSDCard&#39;</span>);
+<a name="l00059"></a>00059       }
+<a name="l00060"></a>00060       <span class="keywordflow">else</span> <span class="keywordflow">if</span> (state === <span class="stringliteral">&#39;shared&#39;</span>) {
+<a name="l00061"></a>00061         notify(<span class="stringliteral">&#39;screenshotFailed&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>, <span class="stringliteral">&#39;screenshotSDCardInUse&#39;</span>);
+<a name="l00062"></a>00062       }
+<a name="l00063"></a>00063       <span class="keywordflow">else</span> <span class="keywordflow">if</span> (state === <span class="stringliteral">&#39;available&#39;</span>) {
+<a name="l00064"></a>00064         var freereq = storage.freeSpace();
+<a name="l00065"></a>00065         freereq.onsuccess = <span class="keyword">function</span>() {
+<a name="l00066"></a>00066           <span class="keywordflow">if</span> (freereq.result &lt; MAX_SCREENSHOT_SIZE) {
+<a name="l00067"></a>00067             notify(<span class="stringliteral">&#39;screenshotFailed&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>, <span class="stringliteral">&#39;screenshotSDCardLow&#39;</span>);
+<a name="l00068"></a>00068           }
+<a name="l00069"></a>00069           <span class="keywordflow">else</span> {
+<a name="l00070"></a>00070             <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(storage);
+<a name="l00071"></a>00071           }
+<a name="l00072"></a>00072         };
+<a name="l00073"></a>00073         freereq.onerror = <span class="keyword">function</span>() {
+<a name="l00074"></a>00074           notify(<span class="stringliteral">&#39;screenshotFailed&#39;</span>, freereq.error &amp;&amp; freereq.error.name);
+<a name="l00075"></a>00075         };
+<a name="l00076"></a>00076       }
+<a name="l00077"></a>00077     };
+<a name="l00078"></a>00078     availreq.onerror = <span class="keyword">function</span>() {
+<a name="l00079"></a>00079       notify(<span class="stringliteral">&#39;screenshotFailed&#39;</span>, availreq.error &amp;&amp; availreq.error.name);
+<a name="l00080"></a>00080     };
+<a name="l00081"></a>00081   }
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083   <span class="comment">// Handle the event we get from chrome with the screenshot</span>
+<a name="l00084"></a>00084   <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;mozChromeEvent&#39;</span>, <span class="keyword">function</span> ss_onMozChromeEvent(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00085"></a>00085     <span class="keywordflow">try</span> {
+<a name="l00086"></a>00086       <span class="keywordflow">if</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.type === <span class="stringliteral">&#39;take-screenshot-success&#39;</span>) {
+<a name="l00087"></a>00087         getDeviceStorage(<span class="keyword">function</span>(storage) {
+<a name="l00088"></a>00088           var d = <span class="keyword">new</span> Date();
+<a name="l00089"></a>00089           d = <span class="keyword">new</span> Date(d.getTime() - d.getTimezoneOffset() * 60000);
+<a name="l00090"></a>00090           var <a class="code" href="../../d2/d7d/jsapi_8h.html#a9b61fad0b15688b43345d3f5c3a3d44b">filename</a> = <span class="stringliteral">&#39;screenshots/&#39;</span> +
+<a name="l00091"></a>00091             d.toISOString().slice(0, -5).replace(/[:T]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="charliteral">&#39;-&#39;</span>) +
+<a name="l00092"></a>00092             <span class="stringliteral">&#39;.png&#39;</span>;
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094           var saveRequest = storage.addNamed(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.file, filename);
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096           saveRequest.onsuccess = <span class="keyword">function</span> ss_onsuccess() {
+<a name="l00097"></a>00097             <span class="comment">// Vibrate again when the screenshot is saved</span>
+<a name="l00098"></a>00098             <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.vibrate(100);
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100             <span class="comment">// Display filename in a notification</span>
+<a name="l00101"></a>00101             notify(<span class="stringliteral">&#39;screenshotSaved&#39;</span>, filename);
+<a name="l00102"></a>00102           };
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104           saveRequest.onerror = <span class="keyword">function</span> ss_onerror() {
+<a name="l00105"></a>00105             notify(<span class="stringliteral">&#39;screenshotFailed&#39;</span>, saveRequest.error.name);
+<a name="l00106"></a>00106           };
+<a name="l00107"></a>00107         });
+<a name="l00108"></a>00108       }
+<a name="l00109"></a>00109       <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.type === <span class="stringliteral">&#39;take-screenshot-error&#39;</span>) {
+<a name="l00110"></a>00110         notify(<span class="stringliteral">&#39;screenshotFailed&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.error);
+<a name="l00111"></a>00111       }
+<a name="l00112"></a>00112     }
+<a name="l00113"></a>00113     <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00114"></a>00114       <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.log(<span class="stringliteral">&#39;exception in screenshot handler&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00115"></a>00115       notify(<span class="stringliteral">&#39;screenshotFailed&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.toString());
+<a name="l00116"></a>00116     }
+<a name="l00117"></a>00117   });
+<a name="l00118"></a>00118 }());
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d0/d79/apps_2system_2js_2screenshot_8js.html">screenshot.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:07に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

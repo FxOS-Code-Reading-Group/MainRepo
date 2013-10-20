@@ -1,0 +1,671 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: keypad.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d4/d7e/communications_2dialer_2js_2keypad_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">keypad.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#ae2475e10618961c050dcba04e8c42331">00001</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00002"></a>00002 
+<a name="l00003"></a><a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a5c85bcf45fb7484c9a379d921a390b9d">00003</a> var <a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a5c85bcf45fb7484c9a379d921a390b9d">kFontStep</a> = 4;
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">// Frequencies coming from http://en.wikipedia.org/wiki/Telephone_keypad</span>
+<a name="l00006"></a><a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a04d3f04800007499d6e7b7d420832dc6">00006</a> var <a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a04d3f04800007499d6e7b7d420832dc6">gTonesFrequencies</a> = {
+<a name="l00007"></a>00007   <span class="charliteral">&#39;1&#39;</span>: [697, 1209], <span class="charliteral">&#39;2&#39;</span>: [697, 1336], <span class="charliteral">&#39;3&#39;</span>: [697, 1477],
+<a name="l00008"></a>00008   <span class="charliteral">&#39;4&#39;</span>: [770, 1209], <span class="charliteral">&#39;5&#39;</span>: [770, 1336], <span class="charliteral">&#39;6&#39;</span>: [770, 1477],
+<a name="l00009"></a>00009   <span class="charliteral">&#39;7&#39;</span>: [852, 1209], <span class="charliteral">&#39;8&#39;</span>: [852, 1336], <span class="charliteral">&#39;9&#39;</span>: [852, 1477],
+<a name="l00010"></a>00010   <span class="charliteral">&#39;*&#39;</span>: [941, 1209], <span class="charliteral">&#39;0&#39;</span>: [941, 1336], <span class="charliteral">&#39;#&#39;</span>: [941, 1477]
+<a name="l00011"></a>00011 };
+<a name="l00012"></a>00012 
+<a name="l00013"></a><a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a6bb33e209d454220f323639d1db25de1">00013</a> var <a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a6bb33e209d454220f323639d1db25de1">keypadSoundIsEnabled</a> = <span class="keyword">false</span>;
+<a name="l00014"></a><a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a4631d5119b47ef7689fbabd5283894df">00014</a> var <a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a4631d5119b47ef7689fbabd5283894df">dtmfShortTone</a> = <span class="keyword">false</span>;
+<a name="l00015"></a>00015 
+<a name="l00016"></a><a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#ae0750353a62375f7d354bf86bd71bf52">00016</a> <span class="keyword">function</span> <a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#ae0750353a62375f7d354bf86bd71bf52">observePreferences</a>() {
+<a name="l00017"></a>00017   <a class="code" href="../../df/d2c/build__stage_2email_2shared_2js_2settings__listener_8js.html#abe3dd8a60bd635e3d2261110570f3c29">SettingsListener</a>.observe(<span class="stringliteral">&#39;phone.ring.keypad&#39;</span>, <span class="keyword">false</span>, <span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00018"></a>00018     <a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a6bb33e209d454220f323639d1db25de1">keypadSoundIsEnabled</a> = !!<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>;
+<a name="l00019"></a>00019   });
+<a name="l00020"></a>00020 
+<a name="l00021"></a>00021   <a class="code" href="../../df/d2c/build__stage_2email_2shared_2js_2settings__listener_8js.html#abe3dd8a60bd635e3d2261110570f3c29">SettingsListener</a>.observe(<span class="stringliteral">&#39;phone.dtmf.type&#39;</span>, <span class="keyword">false</span>, <span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00022"></a>00022     <a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a4631d5119b47ef7689fbabd5283894df">dtmfShortTone</a> = (<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> == <span class="stringliteral">&#39;short&#39;</span>);
+<a name="l00023"></a>00023   });
+<a name="l00024"></a>00024 }
+<a name="l00025"></a>00025 
+<a name="l00026"></a><a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a0afdd2bc6d083f5253d386b2023917a3">00026</a> <span class="keywordflow">if</span> (<a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.SettingsListener) {
+<a name="l00027"></a>00027   <a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#ae0750353a62375f7d354bf86bd71bf52">observePreferences</a>();
+<a name="l00028"></a>00028 } <span class="keywordflow">else</span> {
+<a name="l00029"></a>00029   <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;load&#39;</span>, <span class="keyword">function</span> onLoad() {
+<a name="l00030"></a>00030     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.removeEventListener(<span class="stringliteral">&#39;load&#39;</span>, onLoad);
+<a name="l00031"></a>00031     <a class="code" href="../../d3/db5/build__stage_2email_2shared_2js_2lazy__loader_8js.html#aaf5eec8afd0243eeb2166f74e472c877">LazyLoader</a>.load(<span class="stringliteral">&#39;/shared/js/settings_listener.js&#39;</span>, <a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#ae0750353a62375f7d354bf86bd71bf52">observePreferences</a>);
+<a name="l00032"></a>00032   });
+<a name="l00033"></a>00033 }
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 var <a class="code" href="../../da/d70/system_2emergency-call_2js_2keypad_8js.html#a9fe03a527e974f5046624d73241f8f85">KeypadManager</a> = {
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037   _MAX_FONT_SIZE_DIAL_PAD: 18,
+<a name="l00038"></a>00038   _MAX_FONT_SIZE_ON_CALL: 16,
+<a name="l00039"></a>00039   _DTMF_SHORT_TONE_LENGTH: 120,
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041   _phoneNumber: <span class="stringliteral">&#39;&#39;</span>,
+<a name="l00042"></a>00042   _onCall: <span class="keyword">false</span>,
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044   onValueChanged: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046   <span class="keyword">get</span> phoneNumberView() {
+<a name="l00047"></a>00047     <span class="keyword">delete</span> this.phoneNumberView;
+<a name="l00048"></a>00048     <span class="keywordflow">return</span> this.phoneNumberView = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;phone-number-view&#39;</span>);
+<a name="l00049"></a>00049   },
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051   <span class="keyword">get</span> fakePhoneNumberView() {
+<a name="l00052"></a>00052     <span class="keyword">delete</span> this.fakePhoneNumberView;
+<a name="l00053"></a>00053     <span class="keywordflow">return</span> this.fakePhoneNumberView =
+<a name="l00054"></a>00054       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;fake-phone-number-view&#39;</span>);
+<a name="l00055"></a>00055   },
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057   <span class="keyword">get</span> phoneNumberViewContainer() {
+<a name="l00058"></a>00058     <span class="keyword">delete</span> this.phoneNumberViewContainer;
+<a name="l00059"></a>00059     <span class="keywordflow">return</span> this.phoneNumberViewContainer =
+<a name="l00060"></a>00060       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;phone-number-view-container&#39;</span>);
+<a name="l00061"></a>00061   },
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063   <span class="keyword">get</span> keypad() {
+<a name="l00064"></a>00064     <span class="keyword">delete</span> this.keypad;
+<a name="l00065"></a>00065     <span class="keywordflow">return</span> this.keypad = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;keypad&#39;</span>);
+<a name="l00066"></a>00066   },
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068   <span class="keyword">get</span> callBar() {
+<a name="l00069"></a>00069     <span class="keyword">delete</span> this.callBar;
+<a name="l00070"></a>00070     <span class="keywordflow">return</span> this.callBar =
+<a name="l00071"></a>00071       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;keypad-callbar&#39;</span>);
+<a name="l00072"></a>00072   },
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074   <span class="keyword">get</span> hideBar() {
+<a name="l00075"></a>00075     <span class="keyword">delete</span> this.hideBar;
+<a name="l00076"></a>00076     <span class="keywordflow">return</span> this.hideBar = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;keypad-hidebar&#39;</span>);
+<a name="l00077"></a>00077   },
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079   <span class="keyword">get</span> callBarAddContact() {
+<a name="l00080"></a>00080     <span class="keyword">delete</span> this.callBarAddContact;
+<a name="l00081"></a>00081     <span class="keywordflow">return</span> this.callBarAddContact =
+<a name="l00082"></a>00082       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;keypad-callbar-add-contact&#39;</span>);
+<a name="l00083"></a>00083   },
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085   <span class="keyword">get</span> callBarCallAction() {
+<a name="l00086"></a>00086     <span class="keyword">delete</span> this.callBarCallAction;
+<a name="l00087"></a>00087     <span class="keywordflow">return</span> this.callBarCallAction =
+<a name="l00088"></a>00088       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;keypad-callbar-call-action&#39;</span>);
+<a name="l00089"></a>00089   },
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091   <span class="keyword">get</span> callBarCancelAction() {
+<a name="l00092"></a>00092     <span class="keyword">delete</span> this.callBarCancelAction;
+<a name="l00093"></a>00093     <span class="keywordflow">return</span> this.callBarCancelAction =
+<a name="l00094"></a>00094       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;keypad-callbar-cancel&#39;</span>);
+<a name="l00095"></a>00095   },
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097   <span class="keyword">get</span> deleteButton() {
+<a name="l00098"></a>00098     <span class="keyword">delete</span> this.deleteButton;
+<a name="l00099"></a>00099     <span class="keywordflow">return</span> this.deleteButton = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;keypad-delete&#39;</span>);
+<a name="l00100"></a>00100   },
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102   <span class="keyword">get</span> hideBarHangUpAction() {
+<a name="l00103"></a>00103     <span class="keyword">delete</span> this.hideBarHangUpAction;
+<a name="l00104"></a>00104     <span class="keywordflow">return</span> this.hideBarHangUpAction =
+<a name="l00105"></a>00105       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;keypad-hidebar-hang-up-action-wrapper&#39;</span>);
+<a name="l00106"></a>00106   },
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108   <span class="keyword">get</span> hideBarHideAction() {
+<a name="l00109"></a>00109     <span class="keyword">delete</span> this.hideBarHideAction;
+<a name="l00110"></a>00110     <span class="keywordflow">return</span> this.hideBarHideAction =
+<a name="l00111"></a>00111       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;keypad-hidebar-hide-keypad-action&#39;</span>);
+<a name="l00112"></a>00112   },
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114   <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>: <span class="keyword">function</span> kh_init(oncall) {
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116     this._onCall = !!oncall;
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118     <span class="comment">// Update the minimum phone number phone size.</span>
+<a name="l00119"></a>00119     <span class="comment">// The UX team states that the minimum font size should be</span>
+<a name="l00120"></a>00120     <span class="comment">// 10pt. First off, we convert it to px multiplying it 0.226 times,</span>
+<a name="l00121"></a>00121     <span class="comment">// then we convert it to rem multiplying it a number of times equal</span>
+<a name="l00122"></a>00122     <span class="comment">// to the font-size property of the body element.</span>
+<a name="l00123"></a>00123     var defaultFontSize = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.getComputedStyle(<a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.body, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>)
+<a name="l00124"></a>00124                                 .getPropertyValue(<span class="stringliteral">&#39;font-size&#39;</span>);
+<a name="l00125"></a>00125     this.<a class="code" href="../../da/d70/system_2emergency-call_2js_2keypad_8js.html#a453cac451627db85b744ba02772891e2">minFontSize</a> = parseInt(parseInt(defaultFontSize) * 10 * 0.226);
+<a name="l00126"></a>00126     this.maxFontSize = this._onCall ?
+<a name="l00127"></a>00127       parseInt(parseInt(defaultFontSize) * this._MAX_FONT_SIZE_ON_CALL *
+<a name="l00128"></a>00128         0.226) :
+<a name="l00129"></a>00129       parseInt(parseInt(defaultFontSize) * <a class="code" href="../../d5/d09/apps_2email_2test_2integration_2_r_e_a_d_m_e_8md.html#ad995d7ecb156c0e4738ce089b58e2714">this</a>._MAX_FONT_SIZE_DIAL_PAD *
+<a name="l00130"></a>00130         0.226);
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132     this.phoneNumberView.value = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00133"></a>00133     this._phoneNumber = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135     var keyHandler = this.keyHandler.bind(<span class="keyword">this</span>);
+<a name="l00136"></a>00136     this.keypad.addEventListener(<span class="stringliteral">&#39;touchstart&#39;</span>, keyHandler, <span class="keyword">true</span>);
+<a name="l00137"></a>00137     this.keypad.addEventListener(<span class="stringliteral">&#39;touchend&#39;</span>, keyHandler, <span class="keyword">true</span>);
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139     this.keypad.addEventListener(<span class="stringliteral">&#39;touchmove&#39;</span>, keyHandler, <span class="keyword">true</span>);
+<a name="l00140"></a>00140     this.deleteButton.addEventListener(<span class="stringliteral">&#39;touchstart&#39;</span>, keyHandler);
+<a name="l00141"></a>00141     this.deleteButton.addEventListener(<span class="stringliteral">&#39;touchend&#39;</span>, keyHandler);
+<a name="l00142"></a>00142     <span class="comment">// The keypad add contact bar is only included in the normal version of</span>
+<a name="l00143"></a>00143     <span class="comment">// the keypad.</span>
+<a name="l00144"></a>00144     <span class="keywordflow">if</span> (this.callBarAddContact) {
+<a name="l00145"></a>00145       this.callBarAddContact.addEventListener(<span class="stringliteral">&#39;click&#39;</span>,
+<a name="l00146"></a>00146                                               this.addContact.bind(<span class="keyword">this</span>));
+<a name="l00147"></a>00147     }
+<a name="l00148"></a>00148 
+<a name="l00149"></a>00149     <span class="comment">// The keypad call bar is only included in the normal version and</span>
+<a name="l00150"></a>00150     <span class="comment">// the emergency call version of the keypad.</span>
+<a name="l00151"></a>00151     <span class="keywordflow">if</span> (this.callBarCallAction) {
+<a name="l00152"></a>00152       this.callBarCallAction.addEventListener(<span class="stringliteral">&#39;click&#39;</span>,
+<a name="l00153"></a>00153                                               this.makeCall.bind(<span class="keyword">this</span>));
+<a name="l00154"></a>00154     }
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156     <span class="comment">// The keypad cancel bar is only the emergency call version of the keypad.</span>
+<a name="l00157"></a>00157     <span class="keywordflow">if</span> (this.callBarCancelAction) {
+<a name="l00158"></a>00158       this.callBarCancelAction.addEventListener(<span class="stringliteral">&#39;click&#39;</span>, <span class="keyword">function</span>() {
+<a name="l00159"></a>00159         <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.parent.LockScreen.switchPanel();
+<a name="l00160"></a>00160       });
+<a name="l00161"></a>00161     }
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163     <span class="comment">// The keypad hide bar is only included in the on call version of the</span>
+<a name="l00164"></a>00164     <span class="comment">// keypad.</span>
+<a name="l00165"></a>00165     <span class="keywordflow">if</span> (this.hideBarHideAction) {
+<a name="l00166"></a>00166       this.hideBarHideAction.addEventListener(<span class="stringliteral">&#39;click&#39;</span>,
+<a name="l00167"></a>00167                                               this.callbarBackAction);
+<a name="l00168"></a>00168     }
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170     <span class="keywordflow">if</span> (this.hideBarHangUpAction) {
+<a name="l00171"></a>00171       this.hideBarHangUpAction.addEventListener(<span class="stringliteral">&#39;click&#39;</span>,
+<a name="l00172"></a>00172                                                 this.hangUpCallFromKeypad);
+<a name="l00173"></a>00173     }
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175     <a class="code" href="../../d9/dcf/tone__player_8js.html#ad9b38944dc3a12013e91b6622aa29f08">TonePlayer</a>.init(this._onCall ? <span class="stringliteral">&#39;telephony&#39;</span> : <span class="stringliteral">&#39;normal&#39;</span>);
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177     this.<a class="code" href="../../de/df6/homescreen_2js_2page_8js.html#ae7817194480cfc900873938c8e7dd602">render</a>();
+<a name="l00178"></a>00178     <a class="code" href="../../d3/db5/build__stage_2email_2shared_2js_2lazy__loader_8js.html#aaf5eec8afd0243eeb2166f74e472c877">LazyLoader</a>.load([<span class="stringliteral">&#39;/shared/style/action_menu.css&#39;</span>,
+<a name="l00179"></a>00179                      <span class="stringliteral">&#39;/dialer/js/suggestion_bar.js&#39;</span>]);
+<a name="l00180"></a>00180   },
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182   moveCaretToEnd: <span class="keyword">function</span> hk_util_moveCaretToEnd(el) {
+<a name="l00183"></a>00183     <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> el.selectionStart == <span class="stringliteral">&#39;number&#39;</span>) {
+<a name="l00184"></a>00184       el.selectionStart = el.selectionEnd = el.value.length;
+<a name="l00185"></a>00185     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> el.createTextRange != <span class="stringliteral">&#39;undefined&#39;</span>) {
+<a name="l00186"></a>00186       el.focus();
+<a name="l00187"></a>00187       var range = el.createTextRange();
+<a name="l00188"></a>00188       range.collapse(<span class="keyword">false</span>);
+<a name="l00189"></a>00189       range.select();
+<a name="l00190"></a>00190     }
+<a name="l00191"></a>00191   },
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193   <a class="code" href="../../de/df6/homescreen_2js_2page_8js.html#ae7817194480cfc900873938c8e7dd602">render</a>: <span class="keyword">function</span> hk_render(layoutType) {
+<a name="l00194"></a>00194     <span class="keywordflow">if</span> (layoutType == <span class="stringliteral">&#39;oncall&#39;</span>) {
+<a name="l00195"></a>00195       <span class="keywordflow">if</span> (<a class="code" href="../../df/d96/calls__handler_8js.html#a983114be038875c3eb4d598f66339ff9">CallsHandler</a>.activeCall) {
+<a name="l00196"></a>00196         this._phoneNumber = <a class="code" href="../../df/d96/calls__handler_8js.html#a983114be038875c3eb4d598f66339ff9">CallsHandler</a>.activeCall.call.number;
+<a name="l00197"></a>00197       }
+<a name="l00198"></a>00198       this._isKeypadClicked = <span class="keyword">false</span>;
+<a name="l00199"></a>00199       this.phoneNumberViewContainer.classList.add(<span class="stringliteral">&#39;keypad-visible&#39;</span>);
+<a name="l00200"></a>00200       <span class="keywordflow">if</span> (this.callBar) {
+<a name="l00201"></a>00201         this.callBar.classList.add(<span class="stringliteral">&#39;hide&#39;</span>);
+<a name="l00202"></a>00202       }
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204       <span class="keywordflow">if</span> (this.hideBar) {
+<a name="l00205"></a>00205         this.hideBar.classList.remove(<span class="stringliteral">&#39;hide&#39;</span>);
+<a name="l00206"></a>00206       }
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208       this.deleteButton.classList.add(<span class="stringliteral">&#39;hide&#39;</span>);
+<a name="l00209"></a>00209     } <span class="keywordflow">else</span> {
+<a name="l00210"></a>00210       this.phoneNumberViewContainer.classList.remove(<span class="stringliteral">&#39;keypad-visible&#39;</span>);
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212       <span class="keywordflow">if</span> (this.callBar) {
+<a name="l00213"></a>00213         this.callBar.classList.remove(<span class="stringliteral">&#39;hide&#39;</span>);
+<a name="l00214"></a>00214       }
+<a name="l00215"></a>00215 
+<a name="l00216"></a>00216       <span class="keywordflow">if</span> (this.hideBar) {
+<a name="l00217"></a>00217         this.hideBar.classList.add(<span class="stringliteral">&#39;hide&#39;</span>);
+<a name="l00218"></a>00218       }
+<a name="l00219"></a>00219 
+<a name="l00220"></a>00220       this.deleteButton.classList.remove(<span class="stringliteral">&#39;hide&#39;</span>);
+<a name="l00221"></a>00221     }
+<a name="l00222"></a>00222   },
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224   makeCall: <span class="keyword">function</span> hk_makeCall(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00225"></a>00225     <span class="keywordflow">if</span> (<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>)
+<a name="l00226"></a>00226       <span class="keyword">event</span>.stopPropagation();
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228     <span class="keywordflow">if</span> (this._phoneNumber === <span class="stringliteral">&#39;&#39;</span>) {
+<a name="l00229"></a>00229       var <span class="keyword">self</span> = <span class="keyword">this</span>;
+<a name="l00230"></a>00230       <a class="code" href="../../dc/d75/call__log__db_8js.html#a98d3f5eb2c76fecd77dabb87e00e1116">CallLogDBManager</a>.getGroupAtPosition(1, <span class="stringliteral">&#39;lastEntryDate&#39;</span>, <span class="keyword">true</span>, <span class="stringliteral">&#39;dialing&#39;</span>,
+<a name="l00231"></a>00231         <span class="keyword">function</span> hk_ggap_callback(<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>) {
+<a name="l00232"></a>00232           <span class="keywordflow">if</span> (<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a> &amp;&amp; (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> <a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a> === <span class="stringliteral">&#39;object&#39;</span>) &amp;&amp; <a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>.number) {
+<a name="l00233"></a>00233             <span class="keyword">self</span>.updatePhoneNumber(<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>.number);
+<a name="l00234"></a>00234           }
+<a name="l00235"></a>00235         }
+<a name="l00236"></a>00236       );
+<a name="l00237"></a>00237     } <span class="keywordflow">else</span> {
+<a name="l00238"></a>00238       <a class="code" href="../../da/d77/communications_2dialer_2js_2dialer_8js.html#acfa1d177ba81e112001a0ae98ee33645">CallHandler</a>.call(KeypadManager._phoneNumber);
+<a name="l00239"></a>00239     }
+<a name="l00240"></a>00240   },
+<a name="l00241"></a>00241 
+<a name="l00242"></a>00242   addContact: <span class="keyword">function</span> hk_addContact(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00243"></a>00243     var number = this._phoneNumber;
+<a name="l00244"></a>00244     <span class="keywordflow">if</span> (!number)
+<a name="l00245"></a>00245       <span class="keywordflow">return</span>;
+<a name="l00246"></a>00246     <a class="code" href="../../d3/db5/build__stage_2email_2shared_2js_2lazy__loader_8js.html#aaf5eec8afd0243eeb2166f74e472c877">LazyLoader</a>.load([<span class="stringliteral">&#39;/dialer/js/phone_action_menu.js&#39;</span>],
+<a name="l00247"></a>00247       <span class="keyword">function</span> hk_showPhoneNumberActionMenu() {
+<a name="l00248"></a>00248         <a class="code" href="../../d5/d2a/phone__action__menu_8js.html#a611d8ed1cab120c0a59000f8e2d1e977">PhoneNumberActionMenu</a>.show(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>, number,
+<a name="l00249"></a>00249           [<span class="stringliteral">&#39;new-contact&#39;</span>, <span class="stringliteral">&#39;add-to-existent&#39;</span>]);
+<a name="l00250"></a>00250     });
+<a name="l00251"></a>00251   },
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253   callbarBackAction: <span class="keyword">function</span> hk_callbarBackAction(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00254"></a>00254     <a class="code" href="../../db/ddb/call__screen_8js.html#af388f17a32e1829a07ae84409f9f73bc">CallScreen</a>.hideKeypad();
+<a name="l00255"></a>00255   },
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257   hangUpCallFromKeypad: <span class="keyword">function</span> hk_hangUpCallFromKeypad(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00258"></a>00258     <a class="code" href="../../db/ddb/call__screen_8js.html#af388f17a32e1829a07ae84409f9f73bc">CallScreen</a>.body.classList.remove(<span class="stringliteral">&#39;showKeypad&#39;</span>);
+<a name="l00259"></a>00259     <a class="code" href="../../df/d96/calls__handler_8js.html#a983114be038875c3eb4d598f66339ff9">CallsHandler</a>.end();
+<a name="l00260"></a>00260   },
+<a name="l00261"></a>00261 
+<a name="l00262"></a>00262   <a class="code" href="../../d4/dc5/handled__call_8js.html#a3eb187c0b72e6bd44c747308b121e34f">formatPhoneNumber</a>: <span class="keyword">function</span> kh_formatPhoneNumber(ellipsisSide, maxFontSize) {
+<a name="l00263"></a>00263     var fakeView = this.fakePhoneNumberView;
+<a name="l00264"></a>00264     var <a class="code" href="../../db/d80/download_8js.html#acc4e419f5bedc9e697af56e25c615638">view</a> = this.phoneNumberView;
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266     <span class="comment">// We consider the case where the delete button may have</span>
+<a name="l00267"></a>00267     <span class="comment">// been used to delete the whole phone number.</span>
+<a name="l00268"></a>00268     <span class="keywordflow">if</span> (view.value == <span class="stringliteral">&#39;&#39;</span>) {
+<a name="l00269"></a>00269       view.style.fontSize = this.maxFontSize;
+<a name="l00270"></a>00270       <span class="keywordflow">return</span>;
+<a name="l00271"></a>00271     }
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273     var newFontSize;
+<a name="l00274"></a>00274     <span class="keywordflow">if</span> (maxFontSize) {
+<a name="l00275"></a>00275       newFontSize = this.maxFontSize;
+<a name="l00276"></a>00276     } <span class="keywordflow">else</span> {
+<a name="l00277"></a>00277       newFontSize =
+<a name="l00278"></a>00278         <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.getNextFontSize(view, fakeView, this.maxFontSize,
+<a name="l00279"></a>00279           this.<a class="code" href="../../da/d70/system_2emergency-call_2js_2keypad_8js.html#a453cac451627db85b744ba02772891e2">minFontSize</a>, <a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a5c85bcf45fb7484c9a379d921a390b9d">kFontStep</a>);
+<a name="l00280"></a>00280     }
+<a name="l00281"></a>00281     view.style.fontSize = newFontSize + <span class="stringliteral">&#39;px&#39;</span>;
+<a name="l00282"></a>00282     <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.addEllipsis(view, fakeView, ellipsisSide);
+<a name="l00283"></a>00283   },
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285   _lastPressedKey: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00286"></a>00286   _keyPressStart: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00287"></a>00287   _dtmfToneTimer: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289   _dtmfToneLength: <span class="keyword">function</span> kh_dtmfToneLength(<a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>) {
+<a name="l00290"></a>00290     <span class="keywordflow">if</span> (<a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a4631d5119b47ef7689fbabd5283894df">dtmfShortTone</a>) {
+<a name="l00291"></a>00291       <span class="keywordflow">return</span> this._DTMF_SHORT_TONE_LENGTH;
+<a name="l00292"></a>00292     } <span class="keywordflow">else</span> {
+<a name="l00293"></a>00293       <span class="keywordflow">return</span> <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>;
+<a name="l00294"></a>00294     }
+<a name="l00295"></a>00295   },
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297   keyHandler: <span class="keyword">function</span> kh_keyHandler(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299     var <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> = <span class="keyword">event</span>.target.dataset.value;
+<a name="l00300"></a>00300 
+<a name="l00301"></a>00301     <span class="comment">// We could receive this event from an element that</span>
+<a name="l00302"></a>00302     <span class="comment">// doesn&#39;t have the dataset value. Got the last key</span>
+<a name="l00303"></a>00303     <span class="comment">// pressed and assing this value to continue with the</span>
+<a name="l00304"></a>00304     <span class="comment">// proccess.</span>
+<a name="l00305"></a>00305     <span class="keywordflow">if</span> (!key) {
+<a name="l00306"></a>00306       <span class="keywordflow">return</span>;
+<a name="l00307"></a>00307     }
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309     <span class="comment">// Per certification requirement, we need to send an MMI request to</span>
+<a name="l00310"></a>00310     <span class="comment">// get the device&#39;s IMEI as soon as the user enters the last # key from</span>
+<a name="l00311"></a>00311     <span class="comment">// the &quot;*#06#&quot; MMI string. See bug 857944.</span>
+<a name="l00312"></a>00312     <span class="keywordflow">if</span> (key === <span class="charliteral">&#39;#&#39;</span> &amp;&amp; this._phoneNumber === <span class="stringliteral">&#39;*#06#&#39;</span>) {
+<a name="l00313"></a>00313       this.makeCall(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>);
+<a name="l00314"></a>00314       <span class="keywordflow">return</span>;
+<a name="l00315"></a>00315     }
+<a name="l00316"></a>00316 
+<a name="l00317"></a>00317     <span class="comment">// If user input number more 50 digits, app shouldn&#39;t accept.</span>
+<a name="l00318"></a>00318     <span class="keywordflow">if</span> (key != <span class="stringliteral">&#39;delete&#39;</span> &amp;&amp; this._phoneNumber.length &gt;= 50) {
+<a name="l00319"></a>00319       <span class="keywordflow">return</span>;
+<a name="l00320"></a>00320     }
+<a name="l00321"></a>00321 
+<a name="l00322"></a>00322     var telephony = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozTelephony;
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324     <span class="keyword">event</span>.stopPropagation();
+<a name="l00325"></a>00325     <span class="keywordflow">switch</span> (<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>.type) {
+<a name="l00326"></a>00326       <span class="keywordflow">case</span> <span class="stringliteral">&#39;touchstart&#39;</span>:
+<a name="l00327"></a>00327         this._longPress = <span class="keyword">false</span>;
+<a name="l00328"></a>00328         this._keyPressStart = Date.now();
+<a name="l00329"></a>00329         this._lastPressedKey = <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>;
+<a name="l00330"></a>00330 
+<a name="l00331"></a>00331         <span class="keywordflow">if</span> (key != <span class="stringliteral">&#39;delete&#39;</span>) {
+<a name="l00332"></a>00332           <span class="keywordflow">if</span> (<a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a6bb33e209d454220f323639d1db25de1">keypadSoundIsEnabled</a>) {
+<a name="l00333"></a>00333             <span class="comment">// We do not support long press if not on a call</span>
+<a name="l00334"></a>00334             <a class="code" href="../../d9/dcf/tone__player_8js.html#ad9b38944dc3a12013e91b6622aa29f08">TonePlayer</a>.start(<a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a04d3f04800007499d6e7b7d420832dc6">gTonesFrequencies</a>[key], !this._onCall);
+<a name="l00335"></a>00335           }
+<a name="l00336"></a>00336         }
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338         <span class="comment">// Manage long press</span>
+<a name="l00339"></a>00339         <span class="keywordflow">if</span> ((key == <span class="charliteral">&#39;0&#39;</span> &amp;&amp; !this._onCall) || key == <span class="stringliteral">&#39;delete&#39;</span>) {
+<a name="l00340"></a>00340           this._holdTimer = <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span>(<span class="keyword">self</span>) {
+<a name="l00341"></a>00341             <span class="keywordflow">if</span> (key == <span class="stringliteral">&#39;delete&#39;</span>) {
+<a name="l00342"></a>00342               <span class="keyword">self</span>._phoneNumber = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00343"></a>00343             } <span class="keywordflow">else</span> {
+<a name="l00344"></a>00344               var <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> = <span class="keyword">self</span>._phoneNumber.length - 1;
+<a name="l00345"></a>00345               <span class="comment">//Remove last 0, this is a long press and we want to add the &#39;+&#39;</span>
+<a name="l00346"></a>00346               <span class="keywordflow">if</span> (index &gt;= 0 &amp;&amp; <span class="keyword">self</span>._phoneNumber[index] === <span class="charliteral">&#39;0&#39;</span>) {
+<a name="l00347"></a>00347                 <span class="keyword">self</span>._phoneNumber = <span class="keyword">self</span>._phoneNumber.substr(0, index);
+<a name="l00348"></a>00348               }
+<a name="l00349"></a>00349               <span class="keyword">self</span>._phoneNumber += <span class="charliteral">&#39;+&#39;</span>;
+<a name="l00350"></a>00350             }
+<a name="l00351"></a>00351 
+<a name="l00352"></a>00352             <span class="keyword">self</span>._longPress = <span class="keyword">true</span>;
+<a name="l00353"></a>00353             <span class="keyword">self</span>._updatePhoneNumberView(<span class="stringliteral">&#39;begin&#39;</span>, <span class="keyword">false</span>);
+<a name="l00354"></a>00354           }, 400, <span class="keyword">this</span>);
+<a name="l00355"></a>00355         }
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357         <span class="comment">// Voicemail long press (needs to be longer since it actually dials)</span>
+<a name="l00358"></a>00358         <span class="keywordflow">if</span> (<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>.target.dataset.voicemail) {
+<a name="l00359"></a>00359           this._holdTimer = <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span> vm_call(<span class="keyword">self</span>) {
+<a name="l00360"></a>00360             <span class="keyword">self</span>._longPress = <span class="keyword">true</span>;
+<a name="l00361"></a>00361             <span class="keyword">self</span>._callVoicemail();
+<a name="l00362"></a>00362           }, 1500, <span class="keyword">this</span>);
+<a name="l00363"></a>00363         }
+<a name="l00364"></a>00364 
+<a name="l00365"></a>00365         <span class="keywordflow">if</span> (key == <span class="stringliteral">&#39;delete&#39;</span>) {
+<a name="l00366"></a>00366           this._phoneNumber = this._phoneNumber.slice(0, -1);
+<a name="l00367"></a>00367         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this.phoneNumberViewContainer.classList.
+<a name="l00368"></a>00368             contains(<span class="stringliteral">&#39;keypad-visible&#39;</span>)) {
+<a name="l00369"></a>00369           <span class="keywordflow">if</span> (!this._isKeypadClicked) {
+<a name="l00370"></a>00370             this._isKeypadClicked = <span class="keyword">true</span>;
+<a name="l00371"></a>00371             this._phoneNumber = <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>;
+<a name="l00372"></a>00372             this.<a class="code" href="../../d4/dc5/handled__call_8js.html#aded9baf2def676fca462c33be1478848">replaceAdditionalContactInfo</a>(<span class="stringliteral">&#39;&#39;</span>);
+<a name="l00373"></a>00373           } <span class="keywordflow">else</span> {
+<a name="l00374"></a>00374             this._phoneNumber += <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>;
+<a name="l00375"></a>00375           }
+<a name="l00376"></a>00376         } <span class="keywordflow">else</span> {
+<a name="l00377"></a>00377           this._phoneNumber += <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>;
+<a name="l00378"></a>00378         }
+<a name="l00379"></a>00379         this._updatePhoneNumberView(<span class="stringliteral">&#39;begin&#39;</span>, <span class="keyword">false</span>);
+<a name="l00380"></a>00380         <span class="keywordflow">break</span>;
+<a name="l00381"></a>00381       <span class="keywordflow">case</span> <span class="stringliteral">&#39;touchmove&#39;</span>:
+<a name="l00382"></a>00382         var <a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">target</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.elementFromPoint(
+<a name="l00383"></a>00383           <a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>.touches[0].pageX, <a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>.touches[0].pageY);
+<a name="l00384"></a>00384         key = target.dataset ? target.dataset.value : <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00385"></a>00385         <span class="keywordflow">if</span> (key !== this._lastPressedKey || key === <span class="stringliteral">&#39;delete&#39;</span>) {
+<a name="l00386"></a>00386           this._keyPressStart = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00387"></a>00387           this._lastPressedKey = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00388"></a>00388         }
+<a name="l00389"></a>00389         <span class="keywordflow">break</span>;
+<a name="l00390"></a>00390       <span class="keywordflow">case</span> <span class="stringliteral">&#39;touchend&#39;</span>:
+<a name="l00391"></a>00391         <span class="comment">// Stop playing the DTMF/tone after a small delay</span>
+<a name="l00392"></a>00392         <span class="comment">// or right away if this is a long press</span>
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394         <span class="comment">// Sending the DTMF tone if on a call on touchend or touchleave</span>
+<a name="l00395"></a>00395         <span class="comment">// to prevent sending unwanted tones (BUG #829406);</span>
+<a name="l00396"></a>00396         <span class="keywordflow">if</span> (key !== <span class="stringliteral">&#39;delete&#39;</span> &amp;&amp; key === this._lastPressedKey) {
+<a name="l00397"></a>00397           var keyPressStop = Date.now(),
+<a name="l00398"></a>00398               toneLength = keyPressStop - this._keyPressStart;
+<a name="l00399"></a>00399 
+<a name="l00400"></a>00400           <span class="keywordflow">if</span> (<a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a6bb33e209d454220f323639d1db25de1">keypadSoundIsEnabled</a>) {
+<a name="l00401"></a>00401             <a class="code" href="../../d9/dcf/tone__player_8js.html#ad9b38944dc3a12013e91b6622aa29f08">TonePlayer</a>.stop();
+<a name="l00402"></a>00402           }
+<a name="l00403"></a>00403 
+<a name="l00404"></a>00404           this._keyPressStart = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00405"></a>00405           this._lastPressedKey = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00406"></a>00406 
+<a name="l00407"></a>00407           <span class="keywordflow">if</span> (this._onCall) {
+<a name="l00408"></a>00408             <a class="code" href="../../da/da1/timers_8js.html#ab37ff0db33a3bf80b0163adc40a58424">clearTimeout</a>(this._dtmfToneTimer);
+<a name="l00409"></a>00409             <span class="comment">// Stop previous tone before dispatching a new one</span>
+<a name="l00410"></a>00410             telephony.stopTone();
+<a name="l00411"></a>00411             telephony.startTone(key);
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413             this._dtmfToneTimer = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(<span class="keyword">function</span> ch_playDTMF() {
+<a name="l00414"></a>00414               telephony.stopTone();
+<a name="l00415"></a>00415             }, this._dtmfToneLength(toneLength), <span class="keyword">this</span>);
+<a name="l00416"></a>00416           }
+<a name="l00417"></a>00417         }
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419         var <a class="code" href="../../d2/db9/newnotification_8js.html#ad26070262d4c1d2238051d300ac46a8b">delay</a> = this._longPress ? 0 : 100;
+<a name="l00420"></a>00420         <span class="keywordflow">if</span> (<a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a6bb33e209d454220f323639d1db25de1">keypadSoundIsEnabled</a>) {
+<a name="l00421"></a>00421           <a class="code" href="../../d9/dcf/tone__player_8js.html#ad9b38944dc3a12013e91b6622aa29f08">TonePlayer</a>.stop();
+<a name="l00422"></a>00422         }
+<a name="l00423"></a>00423         <span class="keywordflow">if</span> (this._onCall) {
+<a name="l00424"></a>00424           <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(<span class="keyword">function</span> ch_stopTone() {
+<a name="l00425"></a>00425             telephony.stopTone();
+<a name="l00426"></a>00426           }, this._dtmfToneLength(delay));
+<a name="l00427"></a>00427         }
+<a name="l00428"></a>00428 
+<a name="l00429"></a>00429         <span class="comment">// If it was a long press our work is already done</span>
+<a name="l00430"></a>00430         <span class="keywordflow">if</span> (this._longPress) {
+<a name="l00431"></a>00431           this._longPress = <span class="keyword">false</span>;
+<a name="l00432"></a>00432           this._holdTimer = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00433"></a>00433           <span class="keywordflow">return</span>;
+<a name="l00434"></a>00434         }
+<a name="l00435"></a>00435 
+<a name="l00436"></a>00436         <span class="keywordflow">if</span> (this._holdTimer)
+<a name="l00437"></a>00437           <a class="code" href="../../da/da1/timers_8js.html#ab37ff0db33a3bf80b0163adc40a58424">clearTimeout</a>(this._holdTimer);
+<a name="l00438"></a>00438         <span class="keywordflow">break</span>;
+<a name="l00439"></a>00439     }
+<a name="l00440"></a>00440   },
+<a name="l00441"></a>00441 
+<a name="l00442"></a>00442   sanitizePhoneNumber: <span class="keyword">function</span>(number) {
+<a name="l00443"></a>00443     <span class="keywordflow">return</span> number.replace(/\<a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a>+/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <span class="stringliteral">&#39;&#39;</span>);
+<a name="l00444"></a>00444   },
+<a name="l00445"></a>00445 
+<a name="l00446"></a>00446   updatePhoneNumber: <span class="keyword">function</span> kh_updatePhoneNumber(number, ellipsisSide,
+<a name="l00447"></a>00447     maxFontSize) {
+<a name="l00448"></a>00448     number = this.sanitizePhoneNumber(number);
+<a name="l00449"></a>00449     this._phoneNumber = number;
+<a name="l00450"></a>00450     this._updatePhoneNumberView(ellipsisSide, maxFontSize);
+<a name="l00451"></a>00451   },
+<a name="l00452"></a>00452 
+<a name="l00453"></a>00453   press: <span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>) {
+<a name="l00454"></a>00454     var telephony = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozTelephony;
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456     telephony.stopTone();
+<a name="l00457"></a>00457     telephony.startTone(<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00458"></a>00458     <a class="code" href="../../d9/dcf/tone__player_8js.html#ad9b38944dc3a12013e91b6622aa29f08">TonePlayer</a>.start(<a class="code" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html#a04d3f04800007499d6e7b7d420832dc6">gTonesFrequencies</a>[<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>], <span class="keyword">true</span>);
+<a name="l00459"></a>00459     <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span> <a class="code" href="../../d6/dec/mocha-bin_8js.html#a537e168ad693c5794e1977de944002a0">nextTick</a>() {
+<a name="l00460"></a>00460       telephony.stopTone();
+<a name="l00461"></a>00461       <a class="code" href="../../d9/dcf/tone__player_8js.html#ad9b38944dc3a12013e91b6622aa29f08">TonePlayer</a>.stop();
+<a name="l00462"></a>00462     }, this._dtmfToneLength(0));
+<a name="l00463"></a>00463   },
+<a name="l00464"></a>00464 
+<a name="l00465"></a>00465   _updatePhoneNumberView: <span class="keyword">function</span> kh_updatePhoneNumberview(ellipsisSide,
+<a name="l00466"></a>00466     maxFontSize) {
+<a name="l00467"></a>00467     var phoneNumber = this._phoneNumber;
+<a name="l00468"></a>00468 
+<a name="l00469"></a>00469     <span class="comment">// If there are digits in the phone number, show the delete button</span>
+<a name="l00470"></a>00470     <span class="comment">// and enable the add contact button</span>
+<a name="l00471"></a>00471     <span class="keywordflow">if</span> (this._onCall) {
+<a name="l00472"></a>00472       this.<a class="code" href="../../d4/dc5/handled__call_8js.html#a537deabe42ecdf326006b130737dad7a">replacePhoneNumber</a>(phoneNumber, ellipsisSide, maxFontSize);
+<a name="l00473"></a>00473     } <span class="keywordflow">else</span> {
+<a name="l00474"></a>00474       var <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#acc14a0c6668e68b49c91fb961cdfbf40">visibility</a>;
+<a name="l00475"></a>00475       <span class="keywordflow">if</span> (phoneNumber.length &gt; 0) {
+<a name="l00476"></a>00476         visibility = <span class="stringliteral">&#39;visible&#39;</span>;
+<a name="l00477"></a>00477         this.callBarAddContact.classList.remove(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00478"></a>00478       } <span class="keywordflow">else</span> {
+<a name="l00479"></a>00479         visibility = <span class="stringliteral">&#39;hidden&#39;</span>;
+<a name="l00480"></a>00480         this.callBarAddContact.classList.add(<span class="stringliteral">&#39;disabled&#39;</span>);
+<a name="l00481"></a>00481       }
+<a name="l00482"></a>00482       this.deleteButton.style.visibility = <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#acc14a0c6668e68b49c91fb961cdfbf40">visibility</a>;
+<a name="l00483"></a>00483 
+<a name="l00484"></a>00484       this.phoneNumberView.value = phoneNumber;
+<a name="l00485"></a>00485       this.moveCaretToEnd(this.phoneNumberView);
+<a name="l00486"></a>00486 
+<a name="l00487"></a>00487       this.<a class="code" href="../../d4/dc5/handled__call_8js.html#a3eb187c0b72e6bd44c747308b121e34f">formatPhoneNumber</a>(ellipsisSide, maxFontSize);
+<a name="l00488"></a>00488     }
+<a name="l00489"></a>00489 
+<a name="l00490"></a>00490     <span class="keywordflow">if</span> (this.onValueChanged)
+<a name="l00491"></a>00491       this.onValueChanged(this._phoneNumber);
+<a name="l00492"></a>00492   },
+<a name="l00493"></a>00493 
+<a name="l00494"></a>00494   <a class="code" href="../../d4/dc5/handled__call_8js.html#a537deabe42ecdf326006b130737dad7a">replacePhoneNumber</a>:
+<a name="l00495"></a>00495     <span class="keyword">function</span> kh_replacePhoneNumber(phoneNumber, ellipsisSide, maxFontSize) {
+<a name="l00496"></a>00496       <span class="keywordflow">if</span> (this._onCall) {
+<a name="l00497"></a>00497         <a class="code" href="../../df/d96/calls__handler_8js.html#a983114be038875c3eb4d598f66339ff9">CallsHandler</a>.activeCall.
+<a name="l00498"></a>00498           <a class="code" href="../../d4/dc5/handled__call_8js.html#a537deabe42ecdf326006b130737dad7a">replacePhoneNumber</a>(phoneNumber, ellipsisSide, maxFontSize);
+<a name="l00499"></a>00499       }
+<a name="l00500"></a>00500   },
+<a name="l00501"></a>00501 
+<a name="l00502"></a>00502   <a class="code" href="../../d4/dc5/handled__call_8js.html#a995b3558ddd24a1da70950c40e8d2778">restorePhoneNumber</a>: <span class="keyword">function</span> kh_restorePhoneNumber() {
+<a name="l00503"></a>00503     <span class="keywordflow">if</span> (this._onCall) {
+<a name="l00504"></a>00504       <a class="code" href="../../df/d96/calls__handler_8js.html#a983114be038875c3eb4d598f66339ff9">CallsHandler</a>.activeCall.restorePhoneNumber();
+<a name="l00505"></a>00505     }
+<a name="l00506"></a>00506   },
+<a name="l00507"></a>00507 
+<a name="l00508"></a>00508   <a class="code" href="../../d4/dc5/handled__call_8js.html#aded9baf2def676fca462c33be1478848">replaceAdditionalContactInfo</a>:
+<a name="l00509"></a>00509     <span class="keyword">function</span> kh_updateAdditionalContactInfo(additionalContactInfo) {
+<a name="l00510"></a>00510     <a class="code" href="../../df/d96/calls__handler_8js.html#a983114be038875c3eb4d598f66339ff9">CallsHandler</a>.activeCall.replaceAdditionalContactInfo(additionalContactInfo);
+<a name="l00511"></a>00511   },
+<a name="l00512"></a>00512 
+<a name="l00513"></a>00513   <a class="code" href="../../d4/dc5/handled__call_8js.html#ac146c02fa46a0c97c6db2e4eac8ade1f">restoreAdditionalContactInfo</a>: <span class="keyword">function</span> kh_restoreAdditionalContactInfo() {
+<a name="l00514"></a>00514     <span class="keywordflow">if</span> (this._onCall) {
+<a name="l00515"></a>00515       <a class="code" href="../../df/d96/calls__handler_8js.html#a983114be038875c3eb4d598f66339ff9">CallsHandler</a>.activeCall.restoreAdditionalContactInfo();
+<a name="l00516"></a>00516     }
+<a name="l00517"></a>00517   },
+<a name="l00518"></a>00518 
+<a name="l00519"></a>00519   _callVoicemail: <span class="keyword">function</span> kh_callVoicemail() {
+<a name="l00520"></a>00520      var settings = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozSettings;
+<a name="l00521"></a>00521      <span class="keywordflow">if</span> (!settings) {
+<a name="l00522"></a>00522       <span class="keywordflow">return</span>;
+<a name="l00523"></a>00523      }
+<a name="l00524"></a>00524      var transaction = settings.createLock();
+<a name="l00525"></a>00525      var <a class="code" href="../../df/d44/permission__manager_8js.html#ad9abb423164fcb98d6ad9333893e4682">request</a> = transaction.get(<span class="stringliteral">&#39;ril.iccInfo.mbdn&#39;</span>);
+<a name="l00526"></a>00526      request.onsuccess = <span class="keyword">function</span>() {
+<a name="l00527"></a>00527        var number = request.result[<span class="stringliteral">&#39;ril.iccInfo.mbdn&#39;</span>];
+<a name="l00528"></a>00528        var voicemail = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozVoicemail;
+<a name="l00529"></a>00529        <span class="keywordflow">if</span> (!number &amp;&amp; voicemail &amp;&amp; voicemail.number) {
+<a name="l00530"></a>00530          number = voicemail.number;
+<a name="l00531"></a>00531        }
+<a name="l00532"></a>00532        <span class="keywordflow">if</span> (number) {
+<a name="l00533"></a>00533          <a class="code" href="../../da/d77/communications_2dialer_2js_2dialer_8js.html#acfa1d177ba81e112001a0ae98ee33645">CallHandler</a>.call(number);
+<a name="l00534"></a>00534        }
+<a name="l00535"></a>00535        <span class="comment">// TODO: Bug 881178 - [Dialer] Invite the user to go set a voicemail</span>
+<a name="l00536"></a>00536        <span class="comment">// number in the setting app.</span>
+<a name="l00537"></a>00537      };
+<a name="l00538"></a>00538      request.onerror = <span class="keyword">function</span>() {};
+<a name="l00539"></a>00539   }
+<a name="l00540"></a>00540 };
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d4/d7e/communications_2dialer_2js_2keypad_8js.html">keypad.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:31に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

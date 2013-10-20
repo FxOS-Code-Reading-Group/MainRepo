@@ -1,0 +1,26 @@
+var structns_char_traits_3_01_p_r_unichar_01_4 =
+[
+    [ "char_type", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#aed94a6641f16eddd284081b610301fba", null ],
+    [ "incompatible_char_type", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#aaab8373bb558202816f17ecd5cb9455e", null ],
+    [ "int_type", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#ab888b9a926d2d8a2da4b7bfcf4634319", null ],
+    [ "unsigned_char_type", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#adb6834f42b81bb704168c31365ae2b02", null ],
+    [ "ASCIIToLower", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#ac71435937b807c2fd7d897e2be83ee56", null ],
+    [ "assign", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#ae89607dab8381715ef244195eda850cc", null ],
+    [ "assign", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a94b728685c9cea72235b22de8d150bed", null ],
+    [ "compare", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a90d0118dc2ac92ba9ff599f090dd69bb", null ],
+    [ "compareASCII", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#ac0c8360f2a87a26c0f2ea18aaead6377", null ],
+    [ "compareASCIINullTerminated", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a74c47644da539222d82e9a453104072e", null ],
+    [ "compareLowerCaseToASCII", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a053d3b26b3295ebf5c42380f663aefc7", null ],
+    [ "compareLowerCaseToASCIINullTerminated", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a6be26758dd0dad9f164aa08d2e44b5c0", null ],
+    [ "copy", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#aa5664d834b3466c6c147a44f1a5d88ad", null ],
+    [ "copyASCII", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#af14cbd7fd5a691197c988f25f9551e62", null ],
+    [ "eq", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a5f62c3fd67da8d9c4e18a84e8a52d499", null ],
+    [ "eq_int_type", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a60c583fb28f3a9c35b8b23c110d1218b", null ],
+    [ "find", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a832c7ee0a15ad6b75f6648d3f1a353b5", null ],
+    [ "length", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a6cf130d6b9dc2747bdb9a65c441a6e02", null ],
+    [ "lt", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a3a1af60778bdcaa7abbb1c9a0b1f8abf", null ],
+    [ "move", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#abaa9612af742fa866d76f570d44c508b", null ],
+    [ "to_char_type", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a32e7bbd788b7ae76fe9e5a3a3798aa12", null ],
+    [ "to_int_type", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#ade0b7de306430f52ec320d7fd7c858b0", null ],
+    [ "sEmptyBuffer", "db/db8/structns_char_traits_3_01_p_r_unichar_01_4.html#a20c603dab62e6c7f85e6556997db1bba", null ]
+];

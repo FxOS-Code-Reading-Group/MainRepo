@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: curtain.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d1/d20/curtain_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">curtain.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d1/d20/curtain_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../d1/d20/curtain_8js.html#ae2475e10618961c050dcba04e8c42331">00001</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00002"></a>00002 
+<a name="l00003"></a><a class="code" href="../../d1/d20/curtain_8js.html#aef52eeb3e521f64e99c0321d21640d81">00003</a> var <a class="code" href="../../d1/d20/curtain_8js.html#aef52eeb3e521f64e99c0321d21640d81">Curtain</a> = (<span class="keyword">function</span>() {
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005   var <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007   var curtainFrame = <a class="code" href="../../d2/d7d/jsapi_8h.html#a8a4058d98ae1bca3d5fa2d01726cf734">parent</a>.document.querySelector(<span class="stringliteral">&#39;#fb-curtain&#39;</span>);
+<a name="l00008"></a>00008   var doc = curtainFrame.contentDocument;
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010   var cpuWakeLock, cancelButton, retryButton, okButton, progressElement, form,
+<a name="l00011"></a>00011       progressTitle;
+<a name="l00012"></a>00012   var messages = [];
+<a name="l00013"></a>00013   var elements = [<span class="stringliteral">&#39;error&#39;</span>, <span class="stringliteral">&#39;timeout&#39;</span>, <span class="stringliteral">&#39;wait&#39;</span>, <span class="stringliteral">&#39;message&#39;</span>, <span class="stringliteral">&#39;progress&#39;</span>, <span class="stringliteral">&#39;alert&#39;</span>];
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015   <span class="keywordflow">if</span> (doc.readyState === <span class="stringliteral">&#39;complete&#39;</span>) {
+<a name="l00016"></a>00016     <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>();
+<a name="l00017"></a>00017   } <span class="keywordflow">else</span> {
+<a name="l00018"></a>00018     <span class="comment">// The curtain could not be loaded at this moment</span>
+<a name="l00019"></a>00019     curtainFrame.addEventListener(<span class="stringliteral">&#39;load&#39;</span>, <span class="keyword">function</span> <a class="code" href="../../da/ddf/ns_i_d_o_m_progress_event_8idl.html#a683cd33cf7f2552e240f57d453a4717d">loaded</a>() {
+<a name="l00020"></a>00020       curtainFrame.removeEventListener(<span class="stringliteral">&#39;load&#39;</span>, <a class="code" href="../../da/ddf/ns_i_d_o_m_progress_event_8idl.html#a683cd33cf7f2552e240f57d453a4717d">loaded</a>);
+<a name="l00021"></a>00021       <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>();
+<a name="l00022"></a>00022     });
+<a name="l00023"></a>00023   }
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025   <span class="keyword">function</span> <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>() {
+<a name="l00026"></a>00026     cancelButton = doc.querySelector(<span class="stringliteral">&#39;#cancel&#39;</span>);
+<a name="l00027"></a>00027     retryButton = doc.querySelector(<span class="stringliteral">&#39;#retry&#39;</span>);
+<a name="l00028"></a>00028     okButton = doc.querySelector(<span class="stringliteral">&#39;#ok&#39;</span>);
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030     progressElement = doc.querySelector(<span class="stringliteral">&#39;#progressElement&#39;</span>);
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032     form = doc.querySelector(<span class="stringliteral">&#39;form&#39;</span>);
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034     elements.forEach(<span class="keyword">function</span> createElementRef(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>) {
+<a name="l00035"></a>00035       messages[<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>] = doc.getElementById(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> + <span class="stringliteral">&#39;Msg&#39;</span>);
+<a name="l00036"></a>00036     });
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038     progressTitle = doc.getElementById(<span class="stringliteral">&#39;progressTitle&#39;</span>);
+<a name="l00039"></a>00039   }
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041   <span class="keyword">function</span> doShow(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00042"></a>00042     form.classList.remove(<span class="stringliteral">&#39;no-menu&#39;</span>);
+<a name="l00043"></a>00043     form.dataset.state = <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>;
+<a name="l00044"></a>00044     curtainFrame.classList.add(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00045"></a>00045     curtainFrame.classList.remove(<span class="stringliteral">&#39;fade-out&#39;</span>);
+<a name="l00046"></a>00046     curtainFrame.classList.add(<span class="stringliteral">&#39;fade-in&#39;</span>);
+<a name="l00047"></a>00047   }
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049   <span class="keyword">function</span> <a class="code" href="../../df/d12/latin__test_8js.html#a7093a43f51594c66dffb705ff2b0063d">capitalize</a>(<a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>) {
+<a name="l00050"></a>00050     <span class="keywordflow">return</span> <a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>.charAt(0).toUpperCase() + <a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>.slice(1);
+<a name="l00051"></a>00051   }
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053   <span class="keyword">function</span> Progress(pfrom) {
+<a name="l00054"></a>00054     var from = pfrom;
+<a name="l00055"></a>00055     var counter = 0;
+<a name="l00056"></a>00056     var <a class="code" href="../../da/ddf/ns_i_d_o_m_progress_event_8idl.html#ac3db248c35e11a75b4e99f0087d77c90">total</a> = 0;
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058     progressElement.setAttribute(<span class="stringliteral">&#39;value&#39;</span>, 0);
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     <span class="keyword">function</span> showMessage() {
+<a name="l00061"></a>00061       messages[<span class="stringliteral">&#39;progress&#39;</span>].textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;progressFB&#39;</span>, {
+<a name="l00062"></a>00062         current: counter,
+<a name="l00063"></a>00063         total: total
+<a name="l00064"></a>00064       });
+<a name="l00065"></a>00065     }
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067     this.<a class="code" href="../../dd/d6d/mock__spinner_8js.html#ab10b009b0da48f61217a18daf8e20cd8">update</a> = <span class="keyword">function</span>() {
+<a name="l00068"></a>00068       progressElement.setAttribute(<span class="stringliteral">&#39;value&#39;</span>, (++counter * 100) / total);
+<a name="l00069"></a>00069       showMessage();
+<a name="l00070"></a>00070     };
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072     this.setFrom = <span class="keyword">function</span>(pfrom) {
+<a name="l00073"></a>00073       from = <a class="code" href="../../df/d12/latin__test_8js.html#a7093a43f51594c66dffb705ff2b0063d">capitalize</a>(pfrom);
+<a name="l00074"></a>00074       progressTitle.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;progressFB3&#39;</span> + from + <span class="stringliteral">&#39;Title&#39;</span>);
+<a name="l00075"></a>00075     };
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077     this.setTotal = <span class="keyword">function</span>(ptotal) {
+<a name="l00078"></a>00078       total = ptotal;
+<a name="l00079"></a>00079       showMessage();
+<a name="l00080"></a>00080     };
+<a name="l00081"></a>00081 
+<a name="l00085"></a>00085     this.<a class="code" href="../../d6/da5/libpinyin_8js.html#a3462cc6eb617727abfabace38088095d">getValue</a> = <span class="keyword">function</span>() {
+<a name="l00086"></a>00086       <span class="keywordflow">return</span> counter;
+<a name="l00087"></a>00087     };
+<a name="l00088"></a>00088   }
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090   <span class="keywordflow">return</span> {
+<a name="l00091"></a>00091 
+<a name="l00106"></a>00106     <a class="code" href="../../d4/dc5/handled__call_8js.html#a849945b83cbf2e6fcd68a90c133c1824">show</a>: <span class="keyword">function</span>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, from) {
+<a name="l00107"></a>00107       var <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109       from = <a class="code" href="../../df/d12/latin__test_8js.html#a7093a43f51594c66dffb705ff2b0063d">capitalize</a>(from);
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111       <span class="keywordflow">switch</span> (<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00112"></a>00112         <span class="keywordflow">case</span> <span class="stringliteral">&#39;wait&#39;</span>:
+<a name="l00113"></a>00113           messages[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>].textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> + from);
+<a name="l00114"></a>00114         <span class="keywordflow">break</span>;
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116         <span class="keywordflow">case</span> <span class="stringliteral">&#39;timeout&#39;</span>:
+<a name="l00117"></a>00117           messages[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>].textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;timeout1&#39;</span>, {
+<a name="l00118"></a>00118             from: <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;timeout&#39;</span> + from)
+<a name="l00119"></a>00119           });
+<a name="l00120"></a>00120         <span class="keywordflow">break</span>;
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122         <span class="keywordflow">case</span> <span class="stringliteral">&#39;error&#39;</span>:
+<a name="l00123"></a>00123           messages[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>].textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;error1&#39;</span>, {
+<a name="l00124"></a>00124             from: <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> + from)
+<a name="l00125"></a>00125           });
+<a name="l00126"></a>00126         <span class="keywordflow">break</span>;
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128         <span class="keywordflow">case</span> <span class="stringliteral">&#39;alert&#39;</span>:
+<a name="l00129"></a>00129         <span class="keywordflow">case</span> <span class="stringliteral">&#39;message&#39;</span>:
+<a name="l00130"></a>00130           messages[<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>].textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> + from);
+<a name="l00131"></a>00131         <span class="keywordflow">break</span>;
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133         <span class="keywordflow">case</span> <span class="stringliteral">&#39;progress&#39;</span>:
+<a name="l00134"></a>00134           progressTitle.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> + <span class="stringliteral">&#39;FB3&#39;</span> + from + <span class="stringliteral">&#39;Title&#39;</span>);
+<a name="l00135"></a>00135           out = <span class="keyword">new</span> Progress(from);
+<a name="l00136"></a>00136           cpuWakeLock = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.requestWakeLock(<span class="stringliteral">&#39;cpu&#39;</span>);
+<a name="l00137"></a>00137         <span class="keywordflow">break</span>;
+<a name="l00138"></a>00138       }
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140       doShow(<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>);
+<a name="l00141"></a>00141 
+<a name="l00142"></a>00142       <span class="keywordflow">return</span> <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00143"></a>00143     },
+<a name="l00144"></a>00144 
+<a name="l00152"></a>00152     <a class="code" href="../../d4/dc5/handled__call_8js.html#a28d5a0efd4d16e885ff9a16e6b30a6a2">hide</a>: <span class="keyword">function</span> c_hide(hiddenCB) {
+<a name="l00153"></a>00153       <span class="keywordflow">if</span> (cpuWakeLock) {
+<a name="l00154"></a>00154         cpuWakeLock.unlock();
+<a name="l00155"></a>00155         cpuWakeLock = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00156"></a>00156       }
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158       curtainFrame.classList.remove(<span class="stringliteral">&#39;fade-in&#39;</span>);
+<a name="l00159"></a>00159       curtainFrame.classList.add(<span class="stringliteral">&#39;fade-out&#39;</span>);
+<a name="l00160"></a>00160       curtainFrame.addEventListener(<span class="stringliteral">&#39;animationend&#39;</span>, <span class="keyword">function</span> cu_fadeOut(ev) {
+<a name="l00161"></a>00161         curtainFrame.removeEventListener(<span class="stringliteral">&#39;animationend&#39;</span>, cu_fadeOut);
+<a name="l00162"></a>00162         curtainFrame.classList.remove(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00163"></a>00163         <span class="keyword">delete</span> form.dataset.state;
+<a name="l00164"></a>00164         <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> hiddenCB === <span class="stringliteral">&#39;function&#39;</span>) {
+<a name="l00165"></a>00165           hiddenCB();
+<a name="l00166"></a>00166         }
+<a name="l00167"></a>00167       });
+<a name="l00168"></a>00168     },
+<a name="l00169"></a>00169 
+<a name="l00177"></a>00177     <span class="keyword">set</span> oncancel(cancelCb) {
+<a name="l00178"></a>00178       <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> cancelCb === <span class="stringliteral">&#39;function&#39;</span>) {
+<a name="l00179"></a>00179         cancelButton.onclick = <span class="keyword">function</span> on_cancel(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00180"></a>00180           <span class="keyword">delete</span> cancelButton.onclick;
+<a name="l00181"></a>00181           cancelCb();
+<a name="l00182"></a>00182           <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00183"></a>00183         };
+<a name="l00184"></a>00184       }
+<a name="l00185"></a>00185     },
+<a name="l00186"></a>00186 
+<a name="l00194"></a>00194     <span class="keyword">set</span> onretry(retryCb) {
+<a name="l00195"></a>00195       <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> retryCb === <span class="stringliteral">&#39;function&#39;</span>) {
+<a name="l00196"></a>00196         retryButton.onclick = <span class="keyword">function</span> on_retry(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00197"></a>00197           <span class="keyword">delete</span> retryButton.onclick;
+<a name="l00198"></a>00198           retryCb();
+<a name="l00199"></a>00199           <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00200"></a>00200         };
+<a name="l00201"></a>00201       }
+<a name="l00202"></a>00202     },
+<a name="l00203"></a>00203 
+<a name="l00211"></a>00211     <span class="keyword">set</span> onok(okCb) {
+<a name="l00212"></a>00212       <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> okCb === <span class="stringliteral">&#39;function&#39;</span>) {
+<a name="l00213"></a>00213         okButton.onclick = <span class="keyword">function</span> on_ok(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00214"></a>00214           <span class="keyword">delete</span> okButton.onclick;
+<a name="l00215"></a>00215           okCb();
+<a name="l00216"></a>00216           <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00217"></a>00217         };
+<a name="l00218"></a>00218       }
+<a name="l00219"></a>00219     },
+<a name="l00220"></a>00220 
+<a name="l00227"></a>00227     <span class="keyword">get</span> <a class="code" href="../../d3/d4a/mock__recipients_8js.html#a6d342aea8f30c5f641ed5ff6e0f4de13">visible</a>() {
+<a name="l00228"></a>00228       <span class="keywordflow">return</span> curtainFrame.classList.contains(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00229"></a>00229     },
+<a name="l00230"></a>00230 
+<a name="l00234"></a>00234     hideMenu: <span class="keyword">function</span> c_hideMenu() {
+<a name="l00235"></a>00235       form.classList.add(<span class="stringliteral">&#39;no-menu&#39;</span>);
+<a name="l00236"></a>00236     }
+<a name="l00237"></a>00237   };
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239 })();
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d1/d20/curtain_8js.html">curtain.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:51:48に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

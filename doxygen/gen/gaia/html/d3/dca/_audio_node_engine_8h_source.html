@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: AudioNodeEngine.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d3/dca/_audio_node_engine_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">AudioNodeEngine.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d3/dca/_audio_node_engine_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim:set ts=2 sw=2 sts=2 et cindent: */</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef MOZILLA_AUDIONODEENGINE_H_</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define MOZILLA_AUDIONODEENGINE_H_</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/dad/_audio_segment_8h.html">AudioSegment.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/dfd/_audio_node_8h.html">mozilla/dom/AudioNode.h</a>&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d27/_audio_param_8h.html">mozilla/dom/AudioParam.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d78/_mutex_8h.html">mozilla/Mutex.h</a>&quot;</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="keyword">namespace </span>mozilla {
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="keyword">namespace </span><a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a> {
+<a name="l00017"></a>00017 <span class="keyword">struct </span>ThreeDPoint;
+<a name="l00018"></a>00018 }
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="keyword">class </span>AudioNodeStream;
+<a name="l00021"></a>00021 
+<a name="l00028"></a><a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html">00028</a> <span class="keyword">class </span><a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html">ThreadSharedFloatArrayBufferList</a> : <span class="keyword">public</span> <a class="code" href="../../de/dbe/classmozilla_1_1_thread_shared_object.html">ThreadSharedObject</a> {
+<a name="l00029"></a>00029 <span class="keyword">public</span>:
+<a name="l00033"></a><a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html#a1cb0ed8c1b0283f1d0c1a1c7cb3a2661">00033</a>   <a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html#a1cb0ed8c1b0283f1d0c1a1c7cb3a2661">ThreadSharedFloatArrayBufferList</a>(uint32_t aCount)
+<a name="l00034"></a>00034   {
+<a name="l00035"></a>00035     mContents.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#a6c1e0345e46212d049e4f0b2a1f0e003">SetLength</a>(aCount);
+<a name="l00036"></a>00036   }
+<a name="l00037"></a>00037 
+<a name="l00038"></a><a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html">00038</a>   <span class="keyword">struct </span><a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html">Storage</a> {
+<a name="l00039"></a><a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#ac5ce9b54a7b94c6b326ecb8d1e703deb">00039</a>     <a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#ac5ce9b54a7b94c6b326ecb8d1e703deb">Storage</a>()
+<a name="l00040"></a>00040     {
+<a name="l00041"></a>00041       <a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#a174be0506db3ce3b4e484a15525f205c">mDataToFree</a> = <span class="keyword">nullptr</span>;
+<a name="l00042"></a>00042       <a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#ac51310ade96a18123fee2b3a79523816">mSampleData</a> = <span class="keyword">nullptr</span>;
+<a name="l00043"></a>00043     }
+<a name="l00044"></a><a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#a4e2ec394097b1ad8392eeac5472cbc2b">00044</a>     <a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#a4e2ec394097b1ad8392eeac5472cbc2b">~Storage</a>() { <a class="code" href="../../d1/de4/mozalloc__macro__wrappers_8h.html#a3194dc214682024d727de5f9b358fb3d">free</a>(<a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#a174be0506db3ce3b4e484a15525f205c">mDataToFree</a>); }
+<a name="l00045"></a><a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#a174be0506db3ce3b4e484a15525f205c">00045</a>     <span class="keywordtype">void</span>* <a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#a174be0506db3ce3b4e484a15525f205c">mDataToFree</a>;
+<a name="l00046"></a><a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#ac51310ade96a18123fee2b3a79523816">00046</a>     <span class="keyword">const</span> <span class="keywordtype">float</span>* <a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#ac51310ade96a18123fee2b3a79523816">mSampleData</a>;
+<a name="l00047"></a>00047   };
+<a name="l00048"></a>00048 
+<a name="l00052"></a><a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html#a636084067abd9ff717488361e3197d93">00052</a>   uint32_t <a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html#a636084067abd9ff717488361e3197d93">GetChannels</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mContents.<a class="code" href="../../db/d9f/classns_t_array__base.html#a9ff8fa91fb766d44982e50ac82558141">Length</a>(); }
+<a name="l00056"></a><a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html#a87f17f97ecf6225fe6d35cc40835b890">00056</a>   <span class="keyword">const</span> <span class="keywordtype">float</span>* <a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html#a87f17f97ecf6225fe6d35cc40835b890">GetData</a>(uint32_t aIndex)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mContents[aIndex].mSampleData; }
+<a name="l00057"></a>00057 
+<a name="l00062"></a><a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html#adb5c7d39ec4f3794c2c4dc4e06ba7866">00062</a>   <span class="keywordtype">void</span> <a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html#adb5c7d39ec4f3794c2c4dc4e06ba7866">SetData</a>(uint32_t aIndex, <span class="keywordtype">void</span>* aDataToFree, <span class="keyword">const</span> <span class="keywordtype">float</span>* <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>)
+<a name="l00063"></a>00063   {
+<a name="l00064"></a>00064     <a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html">Storage</a>* <a class="code" href="../../d9/d04/expat_8h.html#afa4d928795b38748c167cba7f7b9f04c">s</a> = &amp;mContents[aIndex];
+<a name="l00065"></a>00065     <a class="code" href="../../d1/de4/mozalloc__macro__wrappers_8h.html#a3194dc214682024d727de5f9b358fb3d">free</a>(s-&gt;<a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#a174be0506db3ce3b4e484a15525f205c">mDataToFree</a>);
+<a name="l00066"></a>00066     s-&gt;<a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#a174be0506db3ce3b4e484a15525f205c">mDataToFree</a> = aDataToFree;
+<a name="l00067"></a>00067     s-&gt;<a class="code" href="../../d1/d8f/structmozilla_1_1_thread_shared_float_array_buffer_list_1_1_storage.html#ac51310ade96a18123fee2b3a79523816">mSampleData</a> = <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>;
+<a name="l00068"></a>00068   }
+<a name="l00069"></a>00069 
+<a name="l00073"></a><a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html#a24720b10ba476670f1201fb80b7aa9bf">00073</a>   <span class="keywordtype">void</span> <a class="code" href="../../d0/d80/classmozilla_1_1_thread_shared_float_array_buffer_list.html#a24720b10ba476670f1201fb80b7aa9bf">Clear</a>() { mContents.<a class="code" href="../../d4/dd8/classns_t_array___impl.html#aecdf2a08be8419812dbe8d23e84fe789">Clear</a>(); }
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 <span class="keyword">private</span>:
+<a name="l00076"></a>00076   <a class="code" href="../../d0/dc3/class_auto_fallible_t_array.html">AutoFallibleTArray&lt;Storage,2&gt;</a> mContents;
+<a name="l00077"></a>00077 };
+<a name="l00078"></a>00078 
+<a name="l00083"></a>00083 <span class="keywordtype">void</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a7fd425f2b13730672ba33caa5d41222f">AllocateAudioBlock</a>(uint32_t aChannelCount, AudioChunk* aChunk);
+<a name="l00084"></a>00084 
+<a name="l00088"></a>00088 <span class="keywordtype">void</span> <a class="code" href="../../d2/d93/namespacemozilla.html#aff4c9aa03f73a45f925423c8f09e662c">WriteZeroesToAudioBlock</a>(AudioChunk* aChunk, uint32_t aStart, uint32_t aLength);
+<a name="l00089"></a>00089 
+<a name="l00093"></a>00093 <span class="keywordtype">void</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a5f0969fdaca04f9c43aa2456d393934f">AudioBufferCopyWithScale</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>* aInput,
+<a name="l00094"></a>00094                               <span class="keywordtype">float</span> aScale,
+<a name="l00095"></a>00095                               <span class="keywordtype">float</span>* aOutput,
+<a name="l00096"></a>00096                               uint32_t aSize);
+<a name="l00097"></a>00097 
+<a name="l00101"></a>00101 <span class="keywordtype">void</span> <a class="code" href="../../d2/d93/namespacemozilla.html#afcec10fb60e372e5d656441fe6a89dc0">AudioBufferAddWithScale</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>* aInput,
+<a name="l00102"></a>00102                              <span class="keywordtype">float</span> aScale,
+<a name="l00103"></a>00103                              <span class="keywordtype">float</span>* aOutput,
+<a name="l00104"></a>00104                              uint32_t aSize);
+<a name="l00105"></a>00105 
+<a name="l00109"></a>00109 <span class="keywordtype">void</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a50e6dbe83866aac8d0b30686dbc6fb28">AudioBlockAddChannelWithScale</a>(<span class="keyword">const</span> <span class="keywordtype">float</span> aInput[<a class="code" href="../../d2/d93/namespacemozilla.html#a970753ee86947f2c8d898376ed4ed4d1">WEBAUDIO_BLOCK_SIZE</a>],
+<a name="l00110"></a>00110                                    <span class="keywordtype">float</span> aScale,
+<a name="l00111"></a>00111                                    <span class="keywordtype">float</span> aOutput[WEBAUDIO_BLOCK_SIZE]);
+<a name="l00112"></a>00112 
+<a name="l00118"></a>00118 <span class="keywordtype">void</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a1648c3e9c88fab1e7789b5d24fed75f4">AudioBlockCopyChannelWithScale</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>* aInput,
+<a name="l00119"></a>00119                                     <span class="keywordtype">float</span> aScale,
+<a name="l00120"></a>00120                                     <span class="keywordtype">float</span>* aOutput);
+<a name="l00121"></a>00121 
+<a name="l00125"></a>00125 <span class="keywordtype">void</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a1648c3e9c88fab1e7789b5d24fed75f4">AudioBlockCopyChannelWithScale</a>(<span class="keyword">const</span> <span class="keywordtype">float</span> aInput[<a class="code" href="../../d2/d93/namespacemozilla.html#a970753ee86947f2c8d898376ed4ed4d1">WEBAUDIO_BLOCK_SIZE</a>],
+<a name="l00126"></a>00126                                     <span class="keyword">const</span> <span class="keywordtype">float</span> aScale[WEBAUDIO_BLOCK_SIZE],
+<a name="l00127"></a>00127                                     <span class="keywordtype">float</span> aOutput[WEBAUDIO_BLOCK_SIZE]);
+<a name="l00128"></a>00128 
+<a name="l00132"></a>00132 <span class="keywordtype">void</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a1f3a691950b97790457246b1cb9a5548">BufferComplexMultiply</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>* aInput,
+<a name="l00133"></a>00133                            <span class="keyword">const</span> <span class="keywordtype">float</span>* aScale,
+<a name="l00134"></a>00134                            <span class="keywordtype">float</span>* aOutput,
+<a name="l00135"></a>00135                            uint32_t aSize);
+<a name="l00136"></a>00136 
+<a name="l00140"></a>00140 <span class="keywordtype">void</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a66fc9567aee49cafc1c86e9936148917">AudioBufferInPlaceScale</a>(<span class="keywordtype">float</span> aBlock[<a class="code" href="../../d2/d93/namespacemozilla.html#a970753ee86947f2c8d898376ed4ed4d1">WEBAUDIO_BLOCK_SIZE</a>],
+<a name="l00141"></a>00141                              uint32_t aChannelCount,
+<a name="l00142"></a>00142                              <span class="keywordtype">float</span> aScale);
+<a name="l00143"></a>00143 
+<a name="l00147"></a>00147 <span class="keywordtype">void</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a66fc9567aee49cafc1c86e9936148917">AudioBufferInPlaceScale</a>(<span class="keywordtype">float</span>* aBlock,
+<a name="l00148"></a>00148                              uint32_t aChannelCount,
+<a name="l00149"></a>00149                              <span class="keywordtype">float</span> aScale,
+<a name="l00150"></a>00150                              uint32_t aSize);
+<a name="l00151"></a>00151 
+<a name="l00157"></a>00157 <span class="keywordtype">void</span>
+<a name="l00158"></a>00158 <a class="code" href="../../d2/d93/namespacemozilla.html#afa9e79cbf29d7aa36fd4e5cfc516f848">AudioBlockPanMonoToStereo</a>(<span class="keyword">const</span> <span class="keywordtype">float</span> aInput[<a class="code" href="../../d2/d93/namespacemozilla.html#a970753ee86947f2c8d898376ed4ed4d1">WEBAUDIO_BLOCK_SIZE</a>],
+<a name="l00159"></a>00159                           <span class="keywordtype">float</span> aGainL, <span class="keywordtype">float</span> aGainR,
+<a name="l00160"></a>00160                           <span class="keywordtype">float</span> aOutputL[WEBAUDIO_BLOCK_SIZE],
+<a name="l00161"></a>00161                           <span class="keywordtype">float</span> aOutputR[WEBAUDIO_BLOCK_SIZE]);
+<a name="l00167"></a>00167 <span class="keywordtype">void</span>
+<a name="l00168"></a>00168 <a class="code" href="../../d2/d93/namespacemozilla.html#a0cbd9d6ac4a67b558a385fceee62f040">AudioBlockPanStereoToStereo</a>(<span class="keyword">const</span> <span class="keywordtype">float</span> aInputL[<a class="code" href="../../d2/d93/namespacemozilla.html#a970753ee86947f2c8d898376ed4ed4d1">WEBAUDIO_BLOCK_SIZE</a>],
+<a name="l00169"></a>00169                             <span class="keyword">const</span> <span class="keywordtype">float</span> aInputR[WEBAUDIO_BLOCK_SIZE],
+<a name="l00170"></a>00170                             <span class="keywordtype">float</span> aGainL, <span class="keywordtype">float</span> aGainR, <span class="keywordtype">bool</span> aIsOnTheLeft,
+<a name="l00171"></a>00171                             <span class="keywordtype">float</span> aOutputL[WEBAUDIO_BLOCK_SIZE],
+<a name="l00172"></a>00172                             <span class="keywordtype">float</span> aOutputR[WEBAUDIO_BLOCK_SIZE]);
+<a name="l00173"></a>00173 
+<a name="l00177"></a>00177 <span class="keywordtype">float</span>
+<a name="l00178"></a>00178 <a class="code" href="../../d2/d93/namespacemozilla.html#a85408361abf1672601d1873c2b1210e9">AudioBufferSumOfSquares</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>* aInput, uint32_t aLength);
+<a name="l00179"></a>00179 
+<a name="l00184"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html">00184</a> <span class="keyword">class </span><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html">AudioNodeEngine</a> {
+<a name="l00185"></a>00185 <span class="keyword">public</span>:
+<a name="l00186"></a>00186   <span class="comment">// This should be compatible with AudioNodeStream::OutputChunks.</span>
+<a name="l00187"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#ad8dcafe47ab1112bbd7ec195e4304702">00187</a>   <span class="keyword">typedef</span> <a class="code" href="../../d2/dcf/classns_auto_t_array.html">nsAutoTArray&lt;AudioChunk, 1&gt;</a> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#ad8dcafe47ab1112bbd7ec195e4304702">OutputChunks</a>;
+<a name="l00188"></a>00188 
+<a name="l00189"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#ae5c8cf5bf5350523f43c256daa670b2c">00189</a>   <span class="keyword">explicit</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#ae5c8cf5bf5350523f43c256daa670b2c">AudioNodeEngine</a>(<a class="code" href="../../d5/dd8/classmozilla_1_1dom_1_1_audio_node.html">dom::AudioNode</a>* aNode)
+<a name="l00190"></a>00190     : mNode(aNode)
+<a name="l00191"></a>00191     , mNodeMutex(<span class="stringliteral">&quot;AudioNodeEngine::mNodeMutex&quot;</span>)
+<a name="l00192"></a>00192     , mInputCount(aNode ? aNode-&gt;NumberOfInputs() : 1)
+<a name="l00193"></a>00193     , mOutputCount(aNode ? aNode-&gt;NumberOfOutputs() : 0)
+<a name="l00194"></a>00194   {
+<a name="l00195"></a>00195     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>());
+<a name="l00196"></a>00196     <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#aa7716d29a6749d766b19b8b880b448f1">MOZ_COUNT_CTOR</a>(<a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html">AudioNodeEngine</a>);
+<a name="l00197"></a>00197   }
+<a name="l00198"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#add402ad7d72dc882ecbaec15a7b22dc6">00198</a>   <span class="keyword">virtual</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#add402ad7d72dc882ecbaec15a7b22dc6">~AudioNodeEngine</a>()
+<a name="l00199"></a>00199   {
+<a name="l00200"></a>00200     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(!mNode, <span class="stringliteral">&quot;The node reference must be already cleared&quot;</span>);
+<a name="l00201"></a>00201     <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#a8a91532bfafbc5b73fad1b4127faf725">MOZ_COUNT_DTOR</a>(<a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html">AudioNodeEngine</a>);
+<a name="l00202"></a>00202   }
+<a name="l00203"></a>00203 
+<a name="l00204"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#adf370c964a7ae5159814b6cf8be8a499">00204</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#adf370c964a7ae5159814b6cf8be8a499">SetStreamTimeParameter</a>(uint32_t aIndex, <a class="code" href="../../d2/d93/namespacemozilla.html#add9d3b21ff8e231e99de9f2c8eabee93">TrackTicks</a> aParam)
+<a name="l00205"></a>00205   {
+<a name="l00206"></a>00206     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ab105b12886cfa61141f617c05ce4a11b">NS_ERROR</a>(<span class="stringliteral">&quot;Invalid SetStreamTimeParameter index&quot;</span>);
+<a name="l00207"></a>00207   }
+<a name="l00208"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a2e9bc8d6b1a7064cc441b6ce49e9fa10">00208</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a2e9bc8d6b1a7064cc441b6ce49e9fa10">SetDoubleParameter</a>(uint32_t aIndex, <span class="keywordtype">double</span> aParam)
+<a name="l00209"></a>00209   {
+<a name="l00210"></a>00210     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ab105b12886cfa61141f617c05ce4a11b">NS_ERROR</a>(<span class="stringliteral">&quot;Invalid SetDoubleParameter index&quot;</span>);
+<a name="l00211"></a>00211   }
+<a name="l00212"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a0fa13309c6c2503a78615b00734fabca">00212</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a0fa13309c6c2503a78615b00734fabca">SetInt32Parameter</a>(uint32_t aIndex, int32_t aParam)
+<a name="l00213"></a>00213   {
+<a name="l00214"></a>00214     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ab105b12886cfa61141f617c05ce4a11b">NS_ERROR</a>(<span class="stringliteral">&quot;Invalid SetInt32Parameter index&quot;</span>);
+<a name="l00215"></a>00215   }
+<a name="l00216"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a799fd83e7bae3cadb036dc451f0a20a2">00216</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a799fd83e7bae3cadb036dc451f0a20a2">SetTimelineParameter</a>(uint32_t aIndex,
+<a name="l00217"></a>00217                                     <span class="keyword">const</span> <a class="code" href="../../d6/d0e/classmozilla_1_1dom_1_1_audio_param_timeline.html">dom::AudioParamTimeline</a>&amp; aValue,
+<a name="l00218"></a>00218                                     <a class="code" href="../../d2/d93/namespacemozilla.html#acf81b6e20faab433fa9185d587305bbc">TrackRate</a> aSampleRate)
+<a name="l00219"></a>00219   {
+<a name="l00220"></a>00220     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ab105b12886cfa61141f617c05ce4a11b">NS_ERROR</a>(<span class="stringliteral">&quot;Invalid SetTimelineParameter index&quot;</span>);
+<a name="l00221"></a>00221   }
+<a name="l00222"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a45e1a28e242b3f2f3dfa9614d7723342">00222</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a45e1a28e242b3f2f3dfa9614d7723342">SetThreeDPointParameter</a>(uint32_t aIndex,
+<a name="l00223"></a>00223                                        <span class="keyword">const</span> <a class="code" href="../../db/d88/structmozilla_1_1dom_1_1_three_d_point.html">dom::ThreeDPoint</a>&amp; aValue)
+<a name="l00224"></a>00224   {
+<a name="l00225"></a>00225     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ab105b12886cfa61141f617c05ce4a11b">NS_ERROR</a>(<span class="stringliteral">&quot;Invalid SetThreeDPointParameter index&quot;</span>);
+<a name="l00226"></a>00226   }
+<a name="l00227"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a9ad19a00ef2b67b0f3e94703284911f2">00227</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a9ad19a00ef2b67b0f3e94703284911f2">SetBuffer</a>(<a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;ThreadSharedFloatArrayBufferList&gt;</a> aBuffer)
+<a name="l00228"></a>00228   {
+<a name="l00229"></a>00229     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ab105b12886cfa61141f617c05ce4a11b">NS_ERROR</a>(<span class="stringliteral">&quot;SetBuffer called on engine that doesn&#39;t support it&quot;</span>);
+<a name="l00230"></a>00230   }
+<a name="l00231"></a>00231   <span class="comment">// This consumes the contents of aData.  aData will be emptied after this returns.</span>
+<a name="l00232"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a1ca002bb3a16a428633843e4d1712c4d">00232</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a1ca002bb3a16a428633843e4d1712c4d">SetRawArrayData</a>(<a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;float&gt;</a>&amp; <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>)
+<a name="l00233"></a>00233   {
+<a name="l00234"></a>00234     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ab105b12886cfa61141f617c05ce4a11b">NS_ERROR</a>(<span class="stringliteral">&quot;SetRawArrayData called on an engine that doesn&#39;t support it&quot;</span>);
+<a name="l00235"></a>00235   }
+<a name="l00236"></a>00236 
+<a name="l00246"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a77a81e198a918d948adc743973a219ef">00246</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a77a81e198a918d948adc743973a219ef">ProduceAudioBlock</a>(<a class="code" href="../../d2/d65/classmozilla_1_1_audio_node_stream.html">AudioNodeStream</a>* aStream,
+<a name="l00247"></a>00247                                  <span class="keyword">const</span> <a class="code" href="../../d2/dea/structmozilla_1_1_audio_chunk.html">AudioChunk</a>&amp; aInput,
+<a name="l00248"></a>00248                                  <a class="code" href="../../d2/dea/structmozilla_1_1_audio_chunk.html">AudioChunk</a>* aOutput,
+<a name="l00249"></a>00249                                  <span class="keywordtype">bool</span>* aFinished)
+<a name="l00250"></a>00250   {
+<a name="l00251"></a>00251     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(mInputCount &lt;= 1 &amp;&amp; mOutputCount &lt;= 1);
+<a name="l00252"></a>00252     *aOutput = aInput;
+<a name="l00253"></a>00253   }
+<a name="l00254"></a>00254 
+<a name="l00270"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a987276ea64effd2c66c9a02895edf0ce">00270</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a987276ea64effd2c66c9a02895edf0ce">ProduceAudioBlocksOnPorts</a>(<a class="code" href="../../d2/d65/classmozilla_1_1_audio_node_stream.html">AudioNodeStream</a>* aStream,
+<a name="l00271"></a>00271                                          <span class="keyword">const</span> <a class="code" href="../../d2/dcf/classns_auto_t_array.html">OutputChunks</a>&amp; aInput,
+<a name="l00272"></a>00272                                          <a class="code" href="../../d2/dcf/classns_auto_t_array.html">OutputChunks</a>&amp; aOutput,
+<a name="l00273"></a>00273                                          <span class="keywordtype">bool</span>* aFinished)
+<a name="l00274"></a>00274   {
+<a name="l00275"></a>00275     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(mInputCount &gt; 1 || mOutputCount &gt; 1);
+<a name="l00276"></a>00276     <span class="comment">// Only produce one output port, and drop all other input ports.</span>
+<a name="l00277"></a>00277     aOutput[0] = aInput[0];
+<a name="l00278"></a>00278   }
+<a name="l00279"></a>00279 
+<a name="l00280"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#affd413c19e294349e872b2e86bc6b2f8">00280</a>   <a class="code" href="../../d9/d12/classmozilla_1_1_mutex.html">Mutex</a>&amp; <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#affd413c19e294349e872b2e86bc6b2f8">NodeMutex</a>() { <span class="keywordflow">return</span> mNodeMutex;}
+<a name="l00281"></a>00281 
+<a name="l00282"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a836b4e50c9978e0141d1af9db9e5974b">00282</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a836b4e50c9978e0141d1af9db9e5974b">HasNode</a>()<span class="keyword"> const</span>
+<a name="l00283"></a>00283 <span class="keyword">  </span>{
+<a name="l00284"></a>00284     <span class="keywordflow">return</span> !!mNode;
+<a name="l00285"></a>00285   }
+<a name="l00286"></a>00286 
+<a name="l00287"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a549f0fe863bd30944a7cf5a8e72f40d3">00287</a>   <a class="code" href="../../d5/dd8/classmozilla_1_1dom_1_1_audio_node.html">dom::AudioNode</a>* <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a549f0fe863bd30944a7cf5a8e72f40d3">Node</a>()<span class="keyword"> const</span>
+<a name="l00288"></a>00288 <span class="keyword">  </span>{
+<a name="l00289"></a>00289     mNodeMutex.<a class="code" href="../../de/d42/classmozilla_1_1_off_the_books_mutex.html#a5eb96a5934d1412f735b8db33fc081bf">AssertCurrentThreadOwns</a>();
+<a name="l00290"></a>00290     <span class="keywordflow">return</span> mNode;
+<a name="l00291"></a>00291   }
+<a name="l00292"></a>00292 
+<a name="l00293"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a770979d6dbdc9247989dd1c19b09a128">00293</a>   <a class="code" href="../../d5/dd8/classmozilla_1_1dom_1_1_audio_node.html">dom::AudioNode</a>* <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a770979d6dbdc9247989dd1c19b09a128">NodeMainThread</a>()<span class="keyword"> const</span>
+<a name="l00294"></a>00294 <span class="keyword">  </span>{
+<a name="l00295"></a>00295     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>());
+<a name="l00296"></a>00296     <span class="keywordflow">return</span> mNode;
+<a name="l00297"></a>00297   }
+<a name="l00298"></a>00298 
+<a name="l00299"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#af13b2456b8108eb1640d1986e6b42774">00299</a>   <span class="keywordtype">void</span> <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#af13b2456b8108eb1640d1986e6b42774">ClearNode</a>()
+<a name="l00300"></a>00300   {
+<a name="l00301"></a>00301     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>());
+<a name="l00302"></a>00302     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(mNode != <span class="keyword">nullptr</span>);
+<a name="l00303"></a>00303     mNodeMutex.<a class="code" href="../../de/d42/classmozilla_1_1_off_the_books_mutex.html#a5eb96a5934d1412f735b8db33fc081bf">AssertCurrentThreadOwns</a>();
+<a name="l00304"></a>00304     mNode = <span class="keyword">nullptr</span>;
+<a name="l00305"></a>00305   }
+<a name="l00306"></a>00306 
+<a name="l00307"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a0455d23154e38ebe95121c94b83d14e3">00307</a>   uint16_t <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a0455d23154e38ebe95121c94b83d14e3">InputCount</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mInputCount; }
+<a name="l00308"></a><a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a8c49283a6511ea34e757734f1f4c5d74">00308</a>   uint16_t <a class="code" href="../../d3/d21/classmozilla_1_1_audio_node_engine.html#a8c49283a6511ea34e757734f1f4c5d74">OutputCount</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mOutputCount; }
+<a name="l00309"></a>00309 
+<a name="l00310"></a>00310 <span class="keyword">private</span>:
+<a name="l00311"></a>00311   <a class="code" href="../../d5/dd8/classmozilla_1_1dom_1_1_audio_node.html">dom::AudioNode</a>* mNode;
+<a name="l00312"></a>00312   <a class="code" href="../../d9/d12/classmozilla_1_1_mutex.html">Mutex</a> mNodeMutex;
+<a name="l00313"></a>00313   <span class="keyword">const</span> uint16_t mInputCount;
+<a name="l00314"></a>00314   <span class="keyword">const</span> uint16_t mOutputCount;
+<a name="l00315"></a>00315 };
+<a name="l00316"></a>00316 
+<a name="l00317"></a>00317 }
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319 <span class="preprocessor">#endif </span><span class="comment">/* MOZILLA_AUDIONODEENGINE_H_ */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d3/dca/_audio_node_engine_8h.html">AudioNodeEngine.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:50:55に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

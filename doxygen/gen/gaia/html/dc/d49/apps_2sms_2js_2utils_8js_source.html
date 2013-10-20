@@ -1,0 +1,615 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: utils.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dc/d49/apps_2sms_2js_2utils_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">utils.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dc/d49/apps_2sms_2js_2utils_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- /</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */</span>
+<a name="l00003"></a>00003 (<span class="keyword">function</span>(<a class="code" href="../../d8/deb/test_2marionette_2lib_2browser_8js.html#aa4072ba4b6b56b0fb6f4801f17ab2b34">exports</a>) {
+<a name="l00004"></a>00004   <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00005"></a>00005   var rdashes = /-(.)/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>;
+<a name="l00006"></a>00006   var rescape = /[.?*+^$[\]\\(){}|-]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>;
+<a name="l00007"></a>00007   var rparams = /([^?=&amp;]+)(?:=([^&amp;]*))?/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>;
+<a name="l00008"></a>00008   var rnondialablechars = /[^,#+\*\d]/<a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>;
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010   var <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a> = {
+<a name="l00011"></a>00011     <a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>: {
+<a name="l00012"></a>00012       <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a88b8a0ec29ea19ab8a79e10dd9cf3c04">shared</a>: <span class="keyword">new</span> Date(),
+<a name="l00013"></a>00013       <span class="keyword">get</span> <a class="code" href="../../d5/dca/reply__imap__email__test_8js.html#a63214d8f1727e71292b73e09dc39644f">format</a>() {
+<a name="l00014"></a>00014         <span class="comment">// Remove the accessor</span>
+<a name="l00015"></a>00015         <span class="keyword">delete</span> Utils.date.format;
+<a name="l00016"></a>00016         <span class="comment">// Late initialization allows us to safely mock the mozL10n object</span>
+<a name="l00017"></a>00017         <span class="comment">// without creating race conditions or hard script dependencies</span>
+<a name="l00018"></a>00018         <span class="keywordflow">return</span> Utils.date.format = <span class="keyword">new</span> <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.DateTimeFormat();
+<a name="l00019"></a>00019       }
+<a name="l00020"></a>00020     },
+<a name="l00021"></a>00021     updateTimeHeaders: <span class="keyword">function</span> ut_updateTimeHeaders() {
+<a name="l00022"></a>00022       var <a class="code" href="../../da/d32/prio_8h.html#ae514094796205f27cbccab72be2e8826">headers</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.querySelectorAll(<span class="stringliteral">&#39;header[data-time-update]&#39;</span>),
+<a name="l00023"></a>00023           <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a> = headers.length,
+<a name="l00024"></a>00024           <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>, ts, <a class="code" href="../../d8/dbd/namespaceheader.html#aa5b53e6fddfb0e2e76fa4f5cf837317b">header</a>, headerDate, formattedHour, newHeader;
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026       <span class="keywordflow">for</span> (<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00027"></a>00027         Utils.updateTimeHeader(headers[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]);
+<a name="l00028"></a>00028       }
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030       FixedHeader.updateHeaderContent();
+<a name="l00031"></a>00031     },
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033     updateTimeHeader: <span class="keyword">function</span> ut_updateTimeHeader(header) {
+<a name="l00034"></a>00034       var ts = header.dataset.time;
+<a name="l00035"></a>00035       <span class="keywordflow">if</span> (!ts) {
+<a name="l00036"></a>00036         <span class="keywordflow">return</span>;
+<a name="l00037"></a>00037       }
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039       var newHeader;
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041       <span class="comment">// only date</span>
+<a name="l00042"></a>00042       <span class="keywordflow">if</span> (header.dataset.isThread === <span class="stringliteral">&#39;true&#39;</span>) {
+<a name="l00043"></a>00043         newHeader = Utils.getHeaderDate(ts);
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045       <span class="comment">// only time</span>
+<a name="l00046"></a>00046       } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (header.dataset.timeOnly === <span class="stringliteral">&#39;true&#39;</span>) {
+<a name="l00047"></a>00047         newHeader = Utils.getFormattedHour(ts);
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049       <span class="comment">// date + time</span>
+<a name="l00050"></a>00050       } <span class="keywordflow">else</span> {
+<a name="l00051"></a>00051         newHeader = Utils.getHeaderDate(ts) + <span class="charliteral">&#39; &#39;</span> + Utils.getFormattedHour(ts);
+<a name="l00052"></a>00052       }
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054       <span class="keywordflow">if</span> (newHeader !== header.textContent) {
+<a name="l00055"></a>00055         header.textContent = newHeader;
+<a name="l00056"></a>00056       }
+<a name="l00057"></a>00057     },
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059     startTimeHeaderScheduler: <span class="keyword">function</span> ut_startTimeHeaderScheduler() {
+<a name="l00060"></a>00060       var updateFunction = (<span class="keyword">function</span>() {
+<a name="l00061"></a>00061         this.updateTimeHeaders();
+<a name="l00062"></a>00062         var now = Date.now(),
+<a name="l00063"></a>00063             nextTimeout = <span class="keyword">new</span> Date(now + 60000);
+<a name="l00064"></a>00064         nextTimeout.setSeconds(0);
+<a name="l00065"></a>00065         nextTimeout.setMilliseconds(0);
+<a name="l00066"></a>00066         <a class="code" href="../../da/da1/timers_8js.html#ab37ff0db33a3bf80b0163adc40a58424">clearTimeout</a>(this.updateTimer);
+<a name="l00067"></a>00067         this.updateTimer = <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(updateFunction,
+<a name="l00068"></a>00068           nextTimeout.getTime() - now);
+<a name="l00069"></a>00069       }).<a class="code" href="../../d3/d91/j3d_8js.html#a1ad2f17c038f79ef240a44e21a46ef14">bind</a>(<span class="keyword">this</span>);
+<a name="l00070"></a>00070       updateFunction();
+<a name="l00071"></a>00071     },
+<a name="l00072"></a>00072     escapeRegex: <span class="keyword">function</span> ut_escapeRegex(<a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>) {
+<a name="l00073"></a>00073       <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> <a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a> !== <span class="stringliteral">&#39;string&#39;</span>) {
+<a name="l00074"></a>00074         <span class="keywordflow">return</span> <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00075"></a>00075       }
+<a name="l00076"></a>00076       <span class="keywordflow">return</span> <a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>.replace(rescape, <span class="stringliteral">&#39;\\$&amp;&#39;</span>);
+<a name="l00077"></a>00077     },
+<a name="l00078"></a>00078     getFormattedHour: <span class="keyword">function</span> ut_getFormattedHour(<a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>) {
+<a name="l00079"></a>00079       this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.shared.setTime(+<a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>);
+<a name="l00080"></a>00080       <span class="keywordflow">return</span> this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.format.localeFormat(
+<a name="l00081"></a>00081         this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.shared, <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get(<span class="stringliteral">&#39;shortTimeFormat&#39;</span>)
+<a name="l00082"></a>00082       );
+<a name="l00083"></a>00083     },
+<a name="l00084"></a>00084     getDayDate: <span class="keyword">function</span> re_getDayDate(<a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>) {
+<a name="l00085"></a>00085       this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.shared.setTime(+<a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>);
+<a name="l00086"></a>00086       this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.shared.setHours(0, 0, 0, 0);
+<a name="l00087"></a>00087       <span class="keywordflow">return</span> this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.shared.getTime();
+<a name="l00088"></a>00088     },
+<a name="l00089"></a>00089     getHeaderDate: <span class="keyword">function</span> ut_giveHeaderDate(<a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>) {
+<a name="l00090"></a>00090       var <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00091"></a>00091       var today = Utils.getDayDate(Date.now());
+<a name="l00092"></a>00092       var otherDay = Utils.getDayDate(<a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>);
+<a name="l00093"></a>00093       var dayDiff = (today - otherDay) / 86400000;
+<a name="l00094"></a>00094       this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.shared.setTime(+<a class="code" href="../../d6/da5/certt_8h.html#a5e84b1bdd0770310d2a7fd739ab6dbee">time</a>);
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096       <span class="keywordflow">if</span> (isNaN(dayDiff)) {
+<a name="l00097"></a>00097         <span class="keywordflow">return</span> <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;incorrectDate&#39;</span>);
+<a name="l00098"></a>00098       }
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100       <span class="keywordflow">if</span> (dayDiff &lt; 0) {
+<a name="l00101"></a>00101         <span class="comment">// future time</span>
+<a name="l00102"></a>00102         <span class="keywordflow">return</span> this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.format.localeFormat(
+<a name="l00103"></a>00103           this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.shared, <span class="stringliteral">&#39;%x&#39;</span>
+<a name="l00104"></a>00104         );
+<a name="l00105"></a>00105       }
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107       <span class="keywordflow">return</span> dayDiff === 0 &amp;&amp; <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;today&#39;</span>) ||
+<a name="l00108"></a>00108         dayDiff === 1 &amp;&amp; <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;yesterday&#39;</span>) ||
+<a name="l00109"></a>00109         dayDiff &lt; 6 &amp;&amp; this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.format.localeFormat(this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.shared, <span class="stringliteral">&#39;%A&#39;</span>) ||
+<a name="l00110"></a>00110         this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.format.localeFormat(this.<a class="code" href="../../d3/d4b/lockscreen_8js.html#a94ea84d1e418dad15ea65e006b293fdd">date</a>.shared, <span class="stringliteral">&#39;%x&#39;</span>);
+<a name="l00111"></a>00111     },
+<a name="l00112"></a>00112     getFontSize: <span class="keyword">function</span> ut_getFontSize() {
+<a name="l00113"></a>00113       <span class="keywordflow">if</span> (!this.rootFontSize) {
+<a name="l00114"></a>00114         var htmlCss = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.getComputedStyle(<a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.documentElement, <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00115"></a>00115         this.rootFontSize = parseInt(htmlCss.getPropertyValue(<span class="stringliteral">&#39;font-size&#39;</span>), 10);
+<a name="l00116"></a>00116       }
+<a name="l00117"></a>00117       <span class="keywordflow">return</span> this.rootFontSize;
+<a name="l00118"></a>00118     },
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120     <span class="comment">// We will apply createObjectURL for details.photoURL if contact image exist</span>
+<a name="l00121"></a>00121     <span class="comment">// Please remember to revoke the photoURL after utilizing it.</span>
+<a name="l00122"></a>00122     getContactDetails:
+<a name="l00123"></a>00123       <span class="keyword">function</span> ut_getContactDetails(number, <a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>, <a class="code" href="../../d8/dbd/namespaceheader.html#a6f9ec483f4e1742b19181c9e9950f70b">include</a>) {
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125       var details = {};
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127       <a class="code" href="../../d8/dbd/namespaceheader.html#a6f9ec483f4e1742b19181c9e9950f70b">include</a> = <a class="code" href="../../d8/dbd/namespaceheader.html#a6f9ec483f4e1742b19181c9e9950f70b">include</a> || {};
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129       <span class="keyword">function</span> updateDetails(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>) {
+<a name="l00130"></a>00130         var <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, phone, carrier, <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>, <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>, subscriber, org;
+<a name="l00131"></a>00131         name = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.name[0];
+<a name="l00132"></a>00132         org = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.org &amp;&amp; <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.org[0];
+<a name="l00133"></a>00133         length = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel ? <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel.length : 0;
+<a name="l00134"></a>00134         phone = length &amp;&amp; <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel[0].value ? <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel[0] : {
+<a name="l00135"></a>00135           <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>: <span class="stringliteral">&#39;&#39;</span>,
+<a name="l00136"></a>00136           <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <span class="stringliteral">&#39;&#39;</span>,
+<a name="l00137"></a>00137           carrier: <span class="stringliteral">&#39;&#39;</span>
+<a name="l00138"></a>00138         };
+<a name="l00139"></a>00139         carrier = phone.carrier;
+<a name="l00140"></a>00140         subscriber = number.length &gt; 7 ? number.substr(-8) : number;
+<a name="l00141"></a>00141 
+<a name="l00142"></a>00142         <span class="comment">// Check which of the contacts phone number are we using</span>
+<a name="l00143"></a>00143         <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>; i++) {
+<a name="l00144"></a>00144           <span class="comment">// Based on E.164 (http://en.wikipedia.org/wiki/E.164)</span>
+<a name="l00145"></a>00145           <span class="keywordflow">if</span> (<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel[i].value.indexOf(subscriber) !== -1) {
+<a name="l00146"></a>00146             phone = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00147"></a>00147             carrier = phone.carrier;
+<a name="l00148"></a>00148             <span class="keywordflow">break</span>;
+<a name="l00149"></a>00149           }
+<a name="l00150"></a>00150         }
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152         <span class="comment">// Add data values for contact activity interaction</span>
+<a name="l00153"></a>00153         details.isContact = <span class="keyword">true</span>;
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155         <span class="comment">// Add photo</span>
+<a name="l00156"></a>00156         <span class="keywordflow">if</span> (<a class="code" href="../../d8/dbd/namespaceheader.html#a6f9ec483f4e1742b19181c9e9950f70b">include</a>.photoURL) {
+<a name="l00157"></a>00157           <span class="keywordflow">if</span> (<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.photo &amp;&amp; <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.photo[0]) {
+<a name="l00158"></a>00158             details.photoURL = <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.createObjectURL(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.photo[0]);
+<a name="l00159"></a>00159           }
+<a name="l00160"></a>00160         }
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162         <span class="comment">// Carrier logic</span>
+<a name="l00163"></a>00163         <span class="keywordflow">if</span> (name) {
+<a name="l00164"></a>00164           <span class="comment">// Check if other phones with same type and carrier</span>
+<a name="l00165"></a>00165           <span class="comment">// Convert the tel-type to string before tel-type comparison.</span>
+<a name="l00166"></a>00166           <span class="comment">// TODO : We might need to handle multiple tel type in the future.</span>
+<a name="l00167"></a>00167           <span class="keywordflow">for</span> (i = 0; i &lt; <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>; i++) {
+<a name="l00168"></a>00168             var telType = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>].type &amp;&amp; <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>].type.toString();
+<a name="l00169"></a>00169             var phoneType = phone.type &amp;&amp; phone.type.toString();
+<a name="l00170"></a>00170             <span class="keywordflow">if</span> (<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel[i].value !== phone.value &amp;&amp;
+<a name="l00171"></a>00171                 telType === phoneType &amp;&amp;
+<a name="l00172"></a>00172                 <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel[i].carrier === phone.carrier) {
+<a name="l00173"></a>00173               carrier = phone.value;
+<a name="l00174"></a>00174             }
+<a name="l00175"></a>00175           }
+<a name="l00176"></a>00176         }
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178         details.name = <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>;
+<a name="l00179"></a>00179         details.carrier = carrier || phone.value || <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00180"></a>00180         <span class="comment">// We pick the first discovered org name as the phone number&#39;s detail</span>
+<a name="l00181"></a>00181         <span class="comment">// org information.</span>
+<a name="l00182"></a>00182         details.org = details.org || org;
+<a name="l00183"></a>00183 
+<a name="l00184"></a>00184         <span class="keywordflow">if</span> (phone.type) {
+<a name="l00185"></a>00185           details.carrier = phone.type + <span class="stringliteral">&#39; | &#39;</span> + details.carrier;
+<a name="l00186"></a>00186         }
+<a name="l00187"></a>00187       }
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189       <span class="comment">// In no contact or contact with empty information cases, we will leave</span>
+<a name="l00190"></a>00190       <span class="comment">// the title as the empty string and let caller to decide the title.</span>
+<a name="l00191"></a>00191       <span class="keywordflow">if</span> (!<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a> || (Array.isArray(<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>) &amp;&amp; <a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>.length === 0)) {
+<a name="l00192"></a>00192         details.title = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00193"></a>00193       } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!Array.isArray(<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>)) {
+<a name="l00194"></a>00194         updateDetails(<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>);
+<a name="l00195"></a>00195         details.title = details.name || details.org;
+<a name="l00196"></a>00196       } <span class="keywordflow">else</span> {
+<a name="l00197"></a>00197         <span class="comment">// Rule for fetching details with multiple contact entries:</span>
+<a name="l00198"></a>00198         <span class="comment">// 1) If we got more than 1 contact entry, find another entry if</span>
+<a name="l00199"></a>00199         <span class="comment">//    current entry got no name/company.</span>
+<a name="l00200"></a>00200         <span class="comment">// 2) If we could not get any information from all the entries,</span>
+<a name="l00201"></a>00201         <span class="comment">//    just display phone number.</span>
+<a name="l00202"></a>00202         <span class="keywordflow">for</span> (var i = 0, <a class="code" href="../../d9/d6a/ns_color_8h.html#a0ad4b5fc255f59a8dace6aa74c5ca790">l</a> = <a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>.length; i &lt; <a class="code" href="../../d9/d6a/ns_color_8h.html#a0ad4b5fc255f59a8dace6aa74c5ca790">l</a>; i++) {
+<a name="l00203"></a>00203           updateDetails(<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>[i]);
+<a name="l00204"></a>00204           <span class="keywordflow">if</span> (details.name)
+<a name="l00205"></a>00205             <span class="keywordflow">break</span>;
+<a name="l00206"></a>00206         }
+<a name="l00207"></a>00207         details.title = details.name || details.org;
+<a name="l00208"></a>00208       }
+<a name="l00209"></a>00209 
+<a name="l00210"></a>00210       <span class="keywordflow">return</span> details;
+<a name="l00211"></a>00211     },
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213     getCarrierTag: <span class="keyword">function</span> ut_getCarrierTag(<a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>, tels, details) {
+<a name="l00238"></a>00238       var length = tels.length;
+<a name="l00239"></a>00239       var hasDetails = <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> details !== <span class="stringliteral">&#39;undefined&#39;</span>;
+<a name="l00240"></a>00240       var hasUniqueCarriers = <span class="keyword">true</span>;
+<a name="l00241"></a>00241       var hasUniqueTypes = <span class="keyword">true</span>;
+<a name="l00242"></a>00242       var name = hasDetails ? details.name : <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00243"></a>00243       var found, tel, <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>, carrier, <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>, ending;
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245       <span class="keywordflow">for</span> (var i = 0; i &lt; <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>; i++) {
+<a name="l00246"></a>00246         tel = tels[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00247"></a>00247 
+<a name="l00248"></a>00248         <span class="keywordflow">if</span> (tel.value &amp;&amp; Utils.compareDialables(tel.value, <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>)) {
+<a name="l00249"></a>00249           found = tel;
+<a name="l00250"></a>00250         }
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252         <span class="keywordflow">if</span> (carrier &amp;&amp; carrier === tel.carrier) {
+<a name="l00253"></a>00253           hasUniqueCarriers = <span class="keyword">false</span>;
+<a name="l00254"></a>00254         }
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256         <span class="keywordflow">if</span> (type &amp;&amp; type === tel.type[0]) {
+<a name="l00257"></a>00257           hasUniqueTypes = <span class="keyword">false</span>;
+<a name="l00258"></a>00258         }
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260         carrier = tel.carrier;
+<a name="l00261"></a>00261         type = (tel.type &amp;&amp; tel.type[0]) || <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00262"></a>00262       }
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264       <span class="keywordflow">if</span> (!found) {
+<a name="l00265"></a>00265         <span class="keywordflow">return</span> <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00266"></a>00266       }
+<a name="l00267"></a>00267 
+<a name="l00268"></a>00268       type = (found.type &amp;&amp; found.type[0]) || <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00269"></a>00269       carrier = (hasUniqueCarriers || hasUniqueTypes) ? found.carrier : <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00270"></a>00270       value = carrier || found.value;
+<a name="l00271"></a>00271       ending = <span class="stringliteral">&#39; | &#39;</span> + (carrier || value);
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273       <span class="keywordflow">if</span> (hasDetails &amp;&amp; !name &amp;&amp; !carrier) {
+<a name="l00274"></a>00274         ending = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00275"></a>00275       }
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277       <span class="keywordflow">return</span> type + ending;
+<a name="l00278"></a>00278     },
+<a name="l00279"></a>00279 
+<a name="l00280"></a>00280     <span class="comment">// Based on &quot;non-dialables&quot; in https://github.com/andreasgal/PhoneNumber.js</span>
+<a name="l00281"></a>00281     <span class="comment">//</span>
+<a name="l00282"></a>00282     <span class="comment">// @param {String} input Value to remove nondialiable chars from.</span>
+<a name="l00283"></a>00283     <span class="comment">//</span>
+<a name="l00284"></a>00284     removeNonDialables: <span class="keyword">function</span> ut_removeNonDialables(<a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>) {
+<a name="l00285"></a>00285       <span class="keywordflow">return</span> <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>.replace(rnondialablechars, <span class="stringliteral">&#39;&#39;</span>);
+<a name="l00286"></a>00286     },
+<a name="l00287"></a>00287     <span class="comment">// @param {String} a First number string to compare.</span>
+<a name="l00288"></a>00288     <span class="comment">// @param {String} b Second number string to compare.</span>
+<a name="l00289"></a>00289     <span class="comment">//</span>
+<a name="l00290"></a>00290     <span class="comment">// Based on...</span>
+<a name="l00291"></a>00291     <span class="comment">//  - ITU-T E.123 (http://www.itu.int/rec/T-REC-E.123-200102-I/)</span>
+<a name="l00292"></a>00292     <span class="comment">//  - ITU-T E.164 (http://www.itu.int/rec/T-REC-E.164-201011-I/)</span>
+<a name="l00293"></a>00293     <span class="comment">//</span>
+<a name="l00294"></a>00294     <span class="comment">// ...It would appear that a maximally-minimal</span>
+<a name="l00295"></a>00295     <span class="comment">// 7 digit comparison is safe.</span>
+<a name="l00296"></a>00296     compareDialables: <span class="keyword">function</span> ut_compareDialables(<a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>, <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>) {
+<a name="l00297"></a>00297       <a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a> = Utils.removeNonDialables(<a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>).slice(-7);
+<a name="l00298"></a>00298       <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a> = Utils.removeNonDialables(<a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>).slice(-7);
+<a name="l00299"></a>00299       <span class="keywordflow">return</span> <a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a> === <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>;
+<a name="l00300"></a>00300     },
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302     <span class="comment">// Default image size limitation is set to 300KB for MMS user story.</span>
+<a name="l00303"></a>00303     <span class="comment">// If limit is not given or bigger than default 300KB, default value need</span>
+<a name="l00304"></a>00304     <span class="comment">// to be applied here for size checking. Parameters could be:</span>
+<a name="l00305"></a>00305     <span class="comment">// (blob, callback) : Resizing image to default limit 300k.</span>
+<a name="l00306"></a>00306     <span class="comment">// (blob, limit, callback) : Resizing image to given limitation.</span>
+<a name="l00307"></a>00307     getResizedImgBlob: <span class="keyword">function</span> ut_getResizedImgBlob(blob, limit, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00308"></a>00308       var defaultLimit = 300 * 1024;
+<a name="l00309"></a>00309       <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> limit === <span class="stringliteral">&#39;function&#39;</span>) {
+<a name="l00310"></a>00310         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a> = limit;
+<a name="l00311"></a>00311         limit = defaultLimit;
+<a name="l00312"></a>00312       }
+<a name="l00313"></a>00313       limit = limit === 0 ? defaultLimit : Math.min(limit, defaultLimit);
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315       <span class="keywordflow">if</span> (blob.size &lt; limit) {
+<a name="l00316"></a>00316         <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span> blobCb() {
+<a name="l00317"></a>00317           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(blob);
+<a name="l00318"></a>00318         });
+<a name="l00319"></a>00319         <span class="keywordflow">return</span>;
+<a name="l00320"></a>00320       }
+<a name="l00321"></a>00321       var ratio = Math.sqrt(blob.size / limit);
+<a name="l00322"></a>00322       Utils.resizeImageBlobWithRatio({
+<a name="l00323"></a>00323         blob: blob,
+<a name="l00324"></a>00324         limit: limit,
+<a name="l00325"></a>00325         ratio: ratio,
+<a name="l00326"></a>00326         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>: <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>
+<a name="l00327"></a>00327       });
+<a name="l00328"></a>00328     },
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330     <span class="comment">//  resizeImageBlobWithRatio have additional ratio to force image</span>
+<a name="l00331"></a>00331     <span class="comment">//  resize to smaller size to avoid edge case about quality adjustment</span>
+<a name="l00332"></a>00332     <span class="comment">//  not working.</span>
+<a name="l00333"></a>00333     resizeImageBlobWithRatio: <span class="keyword">function</span> ut_resizeImageBlobWithRatio(<a class="code" href="../../d2/d7d/jsapi_8h.html#a2219cf9467e8547184b3cf2b051e8067">obj</a>) {
+<a name="l00334"></a>00334       var blob = <a class="code" href="../../d2/d7d/jsapi_8h.html#a2219cf9467e8547184b3cf2b051e8067">obj</a>.blob;
+<a name="l00335"></a>00335       var <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a> = <a class="code" href="../../d2/d7d/jsapi_8h.html#a2219cf9467e8547184b3cf2b051e8067">obj</a>.callback;
+<a name="l00336"></a>00336       var limit = <a class="code" href="../../d2/d7d/jsapi_8h.html#a2219cf9467e8547184b3cf2b051e8067">obj</a>.limit;
+<a name="l00337"></a>00337       var ratio = <a class="code" href="../../d2/d7d/jsapi_8h.html#a2219cf9467e8547184b3cf2b051e8067">obj</a>.ratio;
+<a name="l00338"></a>00338       var qualities = [0.75, 0.5, 0.25];
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340       <span class="keywordflow">if</span> (blob.size &lt; limit) {
+<a name="l00341"></a>00341         <a class="code" href="../../da/da1/timers_8js.html#a619d004395c481cc1032f1c3747a04b9">setTimeout</a>(<span class="keyword">function</span> blobCb() {
+<a name="l00342"></a>00342           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(blob);
+<a name="l00343"></a>00343         });
+<a name="l00344"></a>00344         <span class="keywordflow">return</span>;
+<a name="l00345"></a>00345       }
+<a name="l00346"></a>00346 
+<a name="l00347"></a>00347       var img = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;img&#39;</span>);
+<a name="l00348"></a>00348       var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> = <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.createObjectURL(blob);
+<a name="l00349"></a>00349       img.src = <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>;
+<a name="l00350"></a>00350       img.onload = <span class="keyword">function</span> onBlobLoaded() {
+<a name="l00351"></a>00351         <a class="code" href="../../d6/dfe/class_u_r_l.html">URL</a>.revokeObjectURL(url);
+<a name="l00352"></a>00352         var imageWidth = img.width;
+<a name="l00353"></a>00353         var imageHeight = img.height;
+<a name="l00354"></a>00354         var targetWidth = imageWidth / ratio;
+<a name="l00355"></a>00355         var targetHeight = imageHeight / ratio;
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357         var <a class="code" href="../../d3/d2e/webgl-demo_8js.html#a1c82fafbefefac03f47e6f1a3cad5b73">canvas</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createElement(<span class="stringliteral">&#39;canvas&#39;</span>);
+<a name="l00358"></a>00358         canvas.width = targetWidth;
+<a name="l00359"></a>00359         canvas.height = targetHeight;
+<a name="l00360"></a>00360         var <a class="code" href="../../d9/d04/expat_8h.html#afe0934df1732463fe5378d8c8724edc6">context</a> = canvas.getContext(<span class="stringliteral">&#39;2d&#39;</span>);
+<a name="l00361"></a>00361 
+<a name="l00362"></a>00362         context.drawImage(img, 0, 0, targetWidth, targetHeight);
+<a name="l00363"></a>00363         <span class="comment">// Bug 889765: Since we couldn&#39;t know the quality of the original jpg</span>
+<a name="l00364"></a>00364         <span class="comment">// The &#39;resized&#39; image might have a bigger size because it was saved</span>
+<a name="l00365"></a>00365         <span class="comment">// with quality or dpi. Here we will adjust the jpg quality(or resize</span>
+<a name="l00366"></a>00366         <span class="comment">// blob again if low quality blob size still exceed limit) to make</span>
+<a name="l00367"></a>00367         <span class="comment">// sure the size won&#39;t exceed the limitation.</span>
+<a name="l00368"></a>00368         var level = 0;
+<a name="l00369"></a>00369 
+<a name="l00370"></a>00370         <span class="keyword">function</span> ensureSizeLimit(resizedBlob) {
+<a name="l00371"></a>00371           <span class="keywordflow">if</span> (resizedBlob.size &lt; limit) {
+<a name="l00372"></a>00372             <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(resizedBlob);
+<a name="l00373"></a>00373           } <span class="keywordflow">else</span> {
+<a name="l00374"></a>00374             <span class="comment">// Reduce image quality for match limitation. Here we set quality</span>
+<a name="l00375"></a>00375             <span class="comment">// to 0.75, 0.5 and 0.25 for image blob resizing.</span>
+<a name="l00376"></a>00376             <span class="comment">// (Default image quality is 0.92 for jpeg)</span>
+<a name="l00377"></a>00377             <span class="keywordflow">if</span> (level &lt; qualities.length) {
+<a name="l00378"></a>00378               canvas.toBlob(ensureSizeLimit, <span class="stringliteral">&#39;image/jpeg&#39;</span>,
+<a name="l00379"></a>00379                 qualities[level++]);
+<a name="l00380"></a>00380             } <span class="keywordflow">else</span> {
+<a name="l00381"></a>00381               <span class="comment">// We will resize the blob if image quality = 0.25 still exceed</span>
+<a name="l00382"></a>00382               <span class="comment">// size limitation.</span>
+<a name="l00383"></a>00383               Utils.resizeImageBlobWithRatio({
+<a name="l00384"></a>00384                 blob: blob,
+<a name="l00385"></a>00385                 limit: limit,
+<a name="l00386"></a>00386                 ratio: ratio * 2,
+<a name="l00387"></a>00387                 callback: callback
+<a name="l00388"></a>00388               });
+<a name="l00389"></a>00389             }
+<a name="l00390"></a>00390           }
+<a name="l00391"></a>00391         }
+<a name="l00392"></a>00392         canvas.toBlob(ensureSizeLimit, blob.type);
+<a name="l00393"></a>00393       };
+<a name="l00394"></a>00394     },
+<a name="l00395"></a>00395     camelCase: <span class="keyword">function</span> ut_camelCase(<a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>) {
+<a name="l00396"></a>00396       <span class="keywordflow">return</span> <a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>.replace(rdashes, <span class="keyword">function</span> replacer(<a class="code" href="../../df/d44/permission__manager_8js.html#a176e0fe9a3e516f5aa501f9dcf2eb97b">str</a>, p1) {
+<a name="l00397"></a>00397         <span class="keywordflow">return</span> p1.toUpperCase();
+<a name="l00398"></a>00398       });
+<a name="l00399"></a>00399     },
+<a name="l00400"></a>00400     typeFromMimeType: <span class="keyword">function</span> ut_typeFromMimeType(mime) {
+<a name="l00401"></a>00401       var MAX_MIME_TYPE_LENGTH = 256; <span class="comment">// ought to be enough for anybody</span>
+<a name="l00402"></a>00402       <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> mime !== <span class="stringliteral">&#39;string&#39;</span> || mime.length &gt; MAX_MIME_TYPE_LENGTH) {
+<a name="l00403"></a>00403         <span class="keywordflow">return</span> <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00404"></a>00404       }
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406       var <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a> = mime.indexOf(<span class="charliteral">&#39;/&#39;</span>);
+<a name="l00407"></a>00407       <span class="keywordflow">if</span> (index === -1) {
+<a name="l00408"></a>00408         <span class="keywordflow">return</span> <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00409"></a>00409       }
+<a name="l00410"></a>00410       var mainPart = mime.slice(0, index);
+<a name="l00411"></a>00411       <span class="keywordflow">switch</span> (mainPart) {
+<a name="l00412"></a>00412         <span class="keywordflow">case</span> <span class="stringliteral">&#39;image&#39;</span>:
+<a name="l00413"></a>00413           <span class="keywordflow">return</span> <span class="stringliteral">&#39;img&#39;</span>;
+<a name="l00414"></a>00414         <span class="keywordflow">case</span> <span class="stringliteral">&#39;video&#39;</span>:
+<a name="l00415"></a>00415         <span class="keywordflow">case</span> <span class="stringliteral">&#39;audio&#39;</span>:
+<a name="l00416"></a>00416         <span class="keywordflow">case</span> <span class="stringliteral">&#39;text&#39;</span>:
+<a name="l00417"></a>00417           <span class="keywordflow">return</span> mainPart;
+<a name="l00418"></a>00418         <span class="keywordflow">default</span>:
+<a name="l00419"></a>00419           <span class="keywordflow">return</span> <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00420"></a>00420       }
+<a name="l00421"></a>00421     },
+<a name="l00422"></a>00422     <a class="code" href="../../d6/d54/parameters_8js.html#a4ad646d0ee2fc69a53b50783ca7465dc">params</a>: <span class="keyword">function</span>(<a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>) {
+<a name="l00423"></a>00423       var <a class="code" href="../../dc/d89/wappush_2js_2message_8js.html#aff20ba08f7d492b66afd68fb3b3ff5d1">parsed</a> = {};
+<a name="l00424"></a>00424       <a class="code" href="../../d6/da7/wire__format__lite_8h.html#a2965939d8d22ec60c89f74062f0c370c">input</a>.replace(rparams, <span class="keyword">function</span>($0, $1, $2) {
+<a name="l00425"></a>00425         parsed[$1] = $2;
+<a name="l00426"></a>00426       });
+<a name="l00427"></a>00427       <span class="keywordflow">return</span> <a class="code" href="../../dc/d89/wappush_2js_2message_8js.html#aff20ba08f7d492b66afd68fb3b3ff5d1">parsed</a>;
+<a name="l00428"></a>00428     },
+<a name="l00429"></a>00429     <span class="comment">/*</span>
+<a name="l00430"></a>00430 <span class="comment">      Using a contact resolver, a function that can looks for contacts,</span>
+<a name="l00431"></a>00431 <span class="comment">      get the format for the dissambiguation.</span>
+<a name="l00432"></a>00432 <span class="comment"></span>
+<a name="l00433"></a>00433 <span class="comment">      Used mainly in activities since they need to pick a contact from just</span>
+<a name="l00434"></a>00434 <span class="comment">      the number.</span>
+<a name="l00435"></a>00435 <span class="comment"></span>
+<a name="l00436"></a>00436 <span class="comment">      In order to workaround facebook contact issue(bug 895817), it should be</span>
+<a name="l00437"></a>00437 <span class="comment">      able to handle the case about phone number without matched contact.</span>
+<a name="l00438"></a>00438 <span class="comment"></span>
+<a name="l00439"></a>00439 <span class="comment">      Phone number comes directly from the activity in the case we call &#39;pick&#39;</span>
+<a name="l00440"></a>00440 <span class="comment">      from SMS App.</span>
+<a name="l00441"></a>00441 <span class="comment">    */</span>
+<a name="l00442"></a>00442     getContactDisplayInfo: <span class="keyword">function</span>(<a class="code" href="../../d6/dbd/fb__resolver_8js.html#a43cd25dc07f674a494addc472b5ed706">resolver</a>, phoneNumber, <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>) {
+<a name="l00443"></a>00443       <a class="code" href="../../d6/dbd/fb__resolver_8js.html#a43cd25dc07f674a494addc472b5ed706">resolver</a>(phoneNumber, <span class="keyword">function</span> onContacts(<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>) {
+<a name="l00444"></a>00444         var <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>;
+<a name="l00445"></a>00445         <span class="keywordflow">if</span> (Array.isArray(<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>)) {
+<a name="l00446"></a>00446           <span class="keywordflow">if</span> (<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>.length &gt; 0) {
+<a name="l00447"></a>00447             contact = <a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>[0];
+<a name="l00448"></a>00448           }
+<a name="l00449"></a>00449         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a> !== <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00450"></a>00450           contact = <a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>;
+<a name="l00451"></a>00451         }
+<a name="l00452"></a>00452 
+<a name="l00453"></a>00453         <span class="comment">// Only exit when no contact and no phone number case.</span>
+<a name="l00454"></a>00454         <span class="keywordflow">if</span> (!contact &amp;&amp; !phoneNumber) {
+<a name="l00455"></a>00455           <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>);
+<a name="l00456"></a>00456           <span class="keywordflow">return</span>;
+<a name="l00457"></a>00457         }
+<a name="l00458"></a>00458 
+<a name="l00459"></a>00459         var telLength = (contact &amp;&amp; contact.tel) ? contact.tel.length : 0;
+<a name="l00460"></a>00460         var tel;
+<a name="l00461"></a>00461         <span class="comment">// Look for the right tel. A contact can contains more than</span>
+<a name="l00462"></a>00462         <span class="comment">// one contact, so we need to identify which one is the right one.</span>
+<a name="l00463"></a>00463         <a class="code" href="../../da/d7d/cook_8js.html#a418be7b86002fda137e5310961853062">for</a> (var i = 0; i &lt; telLength; i++) {
+<a name="l00464"></a>00464           <span class="keywordflow">if</span> (contact.tel[i].value === phoneNumber) {
+<a name="l00465"></a>00465             tel = contact.tel[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00466"></a>00466             <span class="keywordflow">break</span>;
+<a name="l00467"></a>00467           }
+<a name="l00468"></a>00468         }
+<a name="l00469"></a>00469         <span class="comment">// If after looking there is no tel. matching, we apply</span>
+<a name="l00470"></a>00470         <span class="comment">// directly the phoneNumber</span>
+<a name="l00471"></a>00471         <span class="keywordflow">if</span> (!tel) {
+<a name="l00472"></a>00472           tel = {type: [<span class="stringliteral">&#39;&#39;</span>], value: phoneNumber, carrier: <span class="stringliteral">&#39;&#39;</span>};
+<a name="l00473"></a>00473         }
+<a name="l00474"></a>00474         <span class="comment">// Get the title in the standard way</span>
+<a name="l00475"></a>00475         var details = Utils.getContactDetails(tel, contact);
+<a name="l00476"></a>00476         var <a class="code" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a> = Utils.getDisplayObject(details.title || <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>, tel);
+<a name="l00477"></a>00477 
+<a name="l00478"></a>00478         <a class="code" href="../../df/d44/permission__manager_8js.html#ab95eebdb2a4acb8510417bf0bdabc3c5">callback</a>(info);
+<a name="l00479"></a>00479       });
+<a name="l00480"></a>00480     },
+<a name="l00481"></a>00481     <span class="comment">/*</span>
+<a name="l00482"></a>00482 <span class="comment">      Given a title for a contact, a the current information for</span>
+<a name="l00483"></a>00483 <span class="comment">      an specific phone, of that contact, creates an object with</span>
+<a name="l00484"></a>00484 <span class="comment">      all the information needed to display data.</span>
+<a name="l00485"></a>00485 <span class="comment">    */</span>
+<a name="l00486"></a>00486     getDisplayObject: <span class="keyword">function</span>(theTitle, tel) {
+<a name="l00487"></a>00487       var number = tel.value;
+<a name="l00488"></a>00488       var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a> = theTitle || number;
+<a name="l00489"></a>00489       var type = tel.type &amp;&amp; tel.type.length ? tel.type[0] : <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00490"></a>00490       var carrier = tel.carrier ? (tel.carrier + <span class="stringliteral">&#39;, &#39;</span>) : <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00491"></a>00491       var separator = type || carrier ? <span class="stringliteral">&#39; | &#39;</span> : <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00492"></a>00492       var <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a> = {
+<a name="l00493"></a>00493         name: <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a>,
+<a name="l00494"></a>00494         number: number,
+<a name="l00495"></a>00495         type: <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00496"></a>00496         carrier: carrier,
+<a name="l00497"></a>00497         separator: separator,
+<a name="l00498"></a>00498         nameHTML: <span class="stringliteral">&#39;&#39;</span>,
+<a name="l00499"></a>00499         numberHTML: <span class="stringliteral">&#39;&#39;</span>
+<a name="l00500"></a>00500       };
+<a name="l00501"></a>00501 
+<a name="l00502"></a>00502       <span class="keywordflow">return</span> <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>;
+<a name="l00503"></a>00503     }
+<a name="l00504"></a>00504   };
+<a name="l00505"></a>00505 
+<a name="l00506"></a>00506   <a class="code" href="../../d8/deb/test_2marionette_2lib_2browser_8js.html#aa4072ba4b6b56b0fb6f4801f17ab2b34">exports</a>.Utils = <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>;
+<a name="l00507"></a>00507 
+<a name="l00508"></a>00508 }(<span class="keyword">this</span>));
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dc/d49/apps_2sms_2js_2utils_8js.html">utils.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:29に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

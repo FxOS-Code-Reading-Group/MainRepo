@@ -1,0 +1,25 @@
+var classmozilla_1_1dom_1_1_gamepad_service =
+[
+    [ "GamepadService", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a784392c172bc7c6bf2f608f729642eb9", null ],
+    [ "~GamepadService", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#ac7e8e4574a60078d38dd91dbdb51fdd0", null ],
+    [ "AddGamepad", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a4a4990bdfe69c5c6216409eb07530374", null ],
+    [ "AddListener", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a31eda97ebb405308badac86530000d91", null ],
+    [ "BeginShutdown", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#aaf2593a7296fbee531a03b319324aa94", null ],
+    [ "FireAxisMoveEvent", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#afad0f737d66f62244ac368c80a1c9e9a", null ],
+    [ "FireButtonEvent", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#ad7dd94f33ed632f3d483a1de4e515792", null ],
+    [ "FireConnectionEvent", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#afcddc2c4f2eeb91af473d394a7eda8b4", null ],
+    [ "GetService", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#ad6cafb456dc0abff546a2c483285ca0b", null ],
+    [ "IsAPIEnabled", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#af6b8a28ddf0bb200a44972543d01dc59", null ],
+    [ "NewAxisMoveEvent", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a7fa9e0af4630ef4be0335c045cbdc6e9", null ],
+    [ "NewButtonEvent", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a03dfe570b5267d4309a002ddb8ef1a5b", null ],
+    [ "NewButtonEvent", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#aec2300f76e0279445a097c23e0923977", null ],
+    [ "NewConnectionEvent", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#ac2498949c8fac05981009dcf264ad3dc", null ],
+    [ "RemoveGamepad", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a4b0169378dcb9482e0ac242da826e24b", null ],
+    [ "RemoveListener", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a216723539d5afe2c1e02ec6f36a3aa9c", null ],
+    [ "StartCleanupTimer", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a3fcb1c5882fa38507fd55f22807b7031", null ],
+    [ "SyncGamepadState", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a54fa3296838b604bce6c3ef6bef8e08f", null ],
+    [ "mEnabled", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a109df75f3bda9727d688f68565f105db", null ],
+    [ "mNonstandardEventsEnabled", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#aca388a48fa306cc9e47cc0643a2216fc", null ],
+    [ "mShuttingDown", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a30c500d4dc4e7e8d7bd1663e1e99533f", null ],
+    [ "mStarted", "df/d43/classmozilla_1_1dom_1_1_gamepad_service.html#a2f5a3362628808dfac7e54d720bd250f", null ]
+];

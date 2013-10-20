@@ -1,0 +1,989 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: TextureHostOGL.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('da/d65/_texture_host_o_g_l_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">TextureHostOGL.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/d65/_texture_host_o_g_l_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 20; indent-tabs-mode: nil; c-basic-offset: 2 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef MOZILLA_GFX_TEXTUREOGL_H</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define MOZILLA_GFX_TEXTUREOGL_H</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d92/_image_layer_o_g_l_8h.html">ImageLayerOGL.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../db/df0/_g_l_context_types_8h.html">GLContextTypes.h</a>&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d12/gfx2_d_glue_8h.html">gfx2DGlue.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d22/_effects_8h.html">mozilla/layers/Effects.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/db6/gfx_reusable_surface_wrapper_8h.html">gfxReusableSurfaceWrapper.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;TiledLayerBuffer.h&quot;</span> <span class="comment">// for TILEDLAYERBUFFER_TILE_SIZE</span>
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="preprocessor">#ifdef MOZ_WIDGET_GONK</span>
+<a name="l00017"></a>00017 <span class="preprocessor"></span><span class="preprocessor">#include &lt;ui/GraphicBuffer.h&gt;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#endif</span>
+<a name="l00019"></a>00019 <span class="preprocessor"></span>
+<a name="l00020"></a>00020 <span class="keyword">namespace </span>mozilla {
+<a name="l00021"></a>00021 <span class="keyword">namespace </span>layers {
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 <span class="keyword">class </span>TextureImageDeprecatedTextureHostOGL;
+<a name="l00024"></a>00024 <span class="keyword">class </span>CompositorOGL;
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="comment">/*</span>
+<a name="l00027"></a>00027 <span class="comment"> * TextureHost implementations for the OpenGL backend.</span>
+<a name="l00028"></a>00028 <span class="comment"> *</span>
+<a name="l00029"></a>00029 <span class="comment"> * Note that it is important to be careful about the ownership model with</span>
+<a name="l00030"></a>00030 <span class="comment"> * the OpenGL backend, due to some widget limitation on Linux: before</span>
+<a name="l00031"></a>00031 <span class="comment"> * the nsBaseWidget associated with our OpenGL context has been completely</span>
+<a name="l00032"></a>00032 <span class="comment"> * deleted, every resource belonging to the OpenGL context MUST have been</span>
+<a name="l00033"></a>00033 <span class="comment"> * released. At the moment the teardown sequence happens in the middle of</span>
+<a name="l00034"></a>00034 <span class="comment"> * the nsBaseWidget&#39;s destructor, meaning that at a given moment we must be</span>
+<a name="l00035"></a>00035 <span class="comment"> * able to easily find and release all the GL resources.</span>
+<a name="l00036"></a>00036 <span class="comment"> * The point is: be careful about the ownership model and limit the number</span>
+<a name="l00037"></a>00037 <span class="comment"> * of objects sharing references to GL resources to make the tear down</span>
+<a name="l00038"></a>00038 <span class="comment"> * sequence as simple as possible.</span>
+<a name="l00039"></a>00039 <span class="comment"> */</span>
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="keyword">inline</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57">ShaderProgramType</a>
+<a name="l00042"></a><a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a3598167fc76d3f7dcff21ef6890134fd">00042</a> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a3598167fc76d3f7dcff21ef6890134fd">GetProgramTypeForSurfaceFormat</a>(<a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> aFormat)
+<a name="l00043"></a>00043  {
+<a name="l00044"></a>00044   <span class="keywordflow">switch</span> (aFormat) {
+<a name="l00045"></a>00045   <span class="keywordflow">case</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331fa67384f3090111cc6b3409f89e4ee92dc">gfx::FORMAT_B8G8R8A8</a>:
+<a name="l00046"></a>00046     <span class="keywordflow">return</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57ae5dbfe8e386782547108af6bf6d7bec5">BGRALayerProgramType</a>;;
+<a name="l00047"></a>00047   <span class="keywordflow">case</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331fa36608dba2983349d34efe4e830390f4d">gfx::FORMAT_B8G8R8X8</a>:
+<a name="l00048"></a>00048     <span class="keywordflow">return</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57a6ffa5333d399e3e9ae52f75b03a2025c">BGRXLayerProgramType</a>;;
+<a name="l00049"></a>00049   <span class="keywordflow">case</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331fabaf89dc3259f02c95abff50228eae965">gfx::FORMAT_R8G8B8X8</a>:
+<a name="l00050"></a>00050     <span class="keywordflow">return</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57a628c8b4279d3a58f4a5f95d0e3b66987">RGBXLayerProgramType</a>;;
+<a name="l00051"></a>00051   <span class="keywordflow">case</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331fa297b7219387fce67b4494290a8937e38">gfx::FORMAT_R8G8B8A8</a>:
+<a name="l00052"></a>00052     <span class="keywordflow">return</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57a51974257fc9a257e0e1a9d5df6f37cf8">RGBALayerProgramType</a>;;
+<a name="l00053"></a>00053   <span class="keywordflow">default</span>:
+<a name="l00054"></a>00054     <a class="code" href="../../d9/de9/_assertions_8h.html#ade424fb68519c60abbd7b93bc8239805">MOZ_CRASH</a>(<span class="stringliteral">&quot;unhandled program type&quot;</span>);
+<a name="l00055"></a>00055   }
+<a name="l00056"></a>00056 }
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 <span class="keyword">inline</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#ab53ec26eaa2e694eb1e304ac24945b57">ShaderProgramType</a>
+<a name="l00059"></a><a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a862000e32fc53468a92da177e7a58506">00059</a> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a862000e32fc53468a92da177e7a58506">GetProgramTypeForTexture</a>(<span class="keyword">const</span> <a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html">DeprecatedTextureHost</a> *aDeprecatedTextureHost)
+<a name="l00060"></a>00060 {
+<a name="l00061"></a>00061   <span class="keywordflow">return</span> <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a3598167fc76d3f7dcff21ef6890134fd">GetProgramTypeForSurfaceFormat</a>(aDeprecatedTextureHost-&gt;<a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html#a300c7c74083050cf83fcbb73c762d788">GetFormat</a>());
+<a name="l00062"></a>00062 }
+<a name="l00063"></a>00063 
+<a name="l00068"></a><a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">00068</a> <span class="keyword">class </span><a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>
+<a name="l00069"></a>00069 {
+<a name="l00070"></a>00070 <span class="keyword">public</span>:
+<a name="l00071"></a>00071   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#afa56ca391f80f7a90c905e50e057e399">IsValid</a>() <span class="keyword">const</span> = 0;
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#a6334080f5a795ae99c961285b107c0ab">BindTexture</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aTextureUnit) = 0;
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#a5a70d27c81389b30d0a9cd961aceacd2">UnbindTexture</a>() = 0;
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077   <span class="keyword">virtual</span> <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#a3a2c960edd8f35591b6d98770412123b">GetSize</a>() <span class="keyword">const</span> = 0;
+<a name="l00078"></a>00078 
+<a name="l00079"></a><a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#a127d9fc6f565f510f8957b201860411e">00079</a>   <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#a127d9fc6f565f510f8957b201860411e">GetTextureTarget</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code" href="../../df/de6/_g_l_defs_8h.html#ac0991f40e84587134d33afe7de63bfec">LOCAL_GL_TEXTURE_2D</a>; }
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081   <span class="keyword">virtual</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#a6fbaa6a8823019a0a8c56c53cf139972">GetFormat</a>() <span class="keyword">const</span> = 0;
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083   <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#acb45df5550b7eef06ff7f514e575a6cf">GetWrapMode</a>() <span class="keyword">const</span> = 0;
+<a name="l00084"></a>00084 
+<a name="l00085"></a><a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#a14fa4fbef751efb430805b413958a547">00085</a>   <span class="keyword">virtual</span> <a class="code" href="../../d6/d3b/classgfx3_d_matrix.html">gfx3DMatrix</a> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#a14fa4fbef751efb430805b413958a547">GetTextureTransform</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d6/d3b/classgfx3_d_matrix.html">gfx3DMatrix</a>(); }
+<a name="l00086"></a>00086 
+<a name="l00087"></a><a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#a3a35af301b04890e99384db80ef0e425">00087</a>   <span class="keyword">virtual</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html">TextureImageDeprecatedTextureHostOGL</a>* <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html#a3a35af301b04890e99384db80ef0e425">AsTextureImageDeprecatedTextureHost</a>() { <span class="keywordflow">return</span> <span class="keyword">nullptr</span>; }
+<a name="l00088"></a>00088 };
+<a name="l00089"></a>00089 
+<a name="l00099"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html">00099</a> <span class="keyword">class </span><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html">TextureImageTextureSourceOGL</a> : <span class="keyword">public</span> <a class="code" href="../../df/d13/classmozilla_1_1layers_1_1_data_texture_source.html">DataTextureSource</a>
+<a name="l00100"></a>00100                                    , <span class="keyword">public</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>
+<a name="l00101"></a>00101                                    , <span class="keyword">public</span> <a class="code" href="../../dd/dc9/classmozilla_1_1layers_1_1_tile_iterator.html">TileIterator</a>
+<a name="l00102"></a>00102 {
+<a name="l00103"></a>00103 <span class="keyword">public</span>:
+<a name="l00104"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#acf130f44f79cd2da6282563252f472eb">00104</a>   <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#acf130f44f79cd2da6282563252f472eb">TextureImageTextureSourceOGL</a>(<a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">gl::GLContext</a>* aGL, <span class="keywordtype">bool</span> aAllowBiImage = <span class="keyword">true</span>)
+<a name="l00105"></a>00105     : <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a892078646099dec638eb90b9d307025f">mGL</a>(aGL)
+<a name="l00106"></a>00106     , <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#aff6545cee9ce24d59890a76f71a15ec8">mAllowBigImage</a>(aAllowBiImage)
+<a name="l00107"></a>00107     , <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a146d2508ef6d66db30e54f1d4ba29284">mIterating</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00108"></a>00108   {}
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110   <span class="comment">// DataTextureSource</span>
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#ad0f64eb87cffa6257cb4120d90460e95">Update</a>(<a class="code" href="../../df/d2f/classmozilla_1_1gfx_1_1_data_source_surface.html">gfx::DataSourceSurface</a>* aSurface,
+<a name="l00113"></a>00113                       <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a5f68a7c1f86dbc52c73db9bd755e6b3b">TextureFlags</a> aFlags,
+<a name="l00114"></a>00114                       <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>* aDestRegion = <span class="keyword">nullptr</span>,
+<a name="l00115"></a>00115                       <a class="code" href="../../de/de1/structmozilla_1_1gfx_1_1_int_point_typed.html">gfx::IntPoint</a>* aSrcOffset = <span class="keyword">nullptr</span>) MOZ_OVERRIDE;
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117   <span class="comment">// TextureSource</span>
+<a name="l00118"></a>00118 
+<a name="l00119"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a24fce1318bd00539e7e7d52a8a8c76dd">00119</a>   virtual <span class="keywordtype">void</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a24fce1318bd00539e7e7d52a8a8c76dd">DeallocateDeviceData</a>() MOZ_OVERRIDE
+<a name="l00120"></a>00120   {
+<a name="l00121"></a>00121     <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a457b12e38a4c516e86d985294a4e65a3">mTexImage</a> = <span class="keyword">nullptr</span>;
+<a name="l00122"></a>00122     <a class="code" href="../../df/d13/classmozilla_1_1layers_1_1_data_texture_source.html#a02df85c09c86b21f3c9f724c540bd4bd">SetUpdateSerial</a>(0);
+<a name="l00123"></a>00123   }
+<a name="l00124"></a>00124 
+<a name="l00125"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#affed0333a312489a543be561d14f1e70">00125</a>   <span class="keyword">virtual</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>* <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#affed0333a312489a543be561d14f1e70">AsSourceOGL</a>() MOZ_OVERRIDE { <span class="keywordflow">return</span> <span class="keyword">this</span>; }
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a5770523f4baa33e9db10c9790e7bb458">BindTexture</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aTextureUnit) MOZ_OVERRIDE;
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129   <span class="keyword">virtual</span> <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#ad4667d8e2be5b824fda2a56dfa30a314">GetSize</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131   virtual gfx::<a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">SurfaceFormat</a> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#ad2e57eb1ea7939ceb5f52be72d297ab7">GetFormat</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00132"></a>00132 
+<a name="l00133"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a14a81938f56d24ac71bffdb4cb6a84cd">00133</a>   virtual <span class="keywordtype">bool</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a14a81938f56d24ac71bffdb4cb6a84cd">IsValid</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> !!<a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a457b12e38a4c516e86d985294a4e65a3">mTexImage</a>; }
+<a name="l00134"></a>00134 
+<a name="l00135"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a04f58f596b5dc232ac164030893b4a0b">00135</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a04f58f596b5dc232ac164030893b4a0b">UnbindTexture</a>() MOZ_OVERRIDE
+<a name="l00136"></a>00136   {
+<a name="l00137"></a>00137     <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a457b12e38a4c516e86d985294a4e65a3">mTexImage</a>-&gt;ReleaseTexture();
+<a name="l00138"></a>00138   }
+<a name="l00139"></a>00139 
+<a name="l00140"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a61f9c257684e8283f06f86825f4296c2">00140</a>   <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a61f9c257684e8283f06f86825f4296c2">GetWrapMode</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00141"></a>00141   {
+<a name="l00142"></a>00142     <span class="keywordflow">return</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a457b12e38a4c516e86d985294a4e65a3">mTexImage</a>-&gt;GetWrapMode();
+<a name="l00143"></a>00143   }
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145   <span class="comment">// TileIterator</span>
+<a name="l00146"></a>00146 
+<a name="l00147"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#aa51f79d38711fc42dec45e8983a12575">00147</a>   <span class="keyword">virtual</span> <a class="code" href="../../dd/dc9/classmozilla_1_1layers_1_1_tile_iterator.html">TileIterator</a>* <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#aa51f79d38711fc42dec45e8983a12575">AsTileIterator</a>() MOZ_OVERRIDE { <span class="keywordflow">return</span> <span class="keyword">this</span>; }
+<a name="l00148"></a>00148 
+<a name="l00149"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a1ce9ca77b1b99358c0f5212022c3ccd8">00149</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a1ce9ca77b1b99358c0f5212022c3ccd8">BeginTileIteration</a>() MOZ_OVERRIDE
+<a name="l00150"></a>00150   {
+<a name="l00151"></a>00151     <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a457b12e38a4c516e86d985294a4e65a3">mTexImage</a>-&gt;BeginTileIteration();
+<a name="l00152"></a>00152     <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a146d2508ef6d66db30e54f1d4ba29284">mIterating</a> = <span class="keyword">true</span>;
+<a name="l00153"></a>00153   }
+<a name="l00154"></a>00154 
+<a name="l00155"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a04fcbd87d1500b8271ef0379cb3b8b86">00155</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a04fcbd87d1500b8271ef0379cb3b8b86">EndTileIteration</a>() MOZ_OVERRIDE
+<a name="l00156"></a>00156   {
+<a name="l00157"></a>00157     <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a146d2508ef6d66db30e54f1d4ba29284">mIterating</a> = <span class="keyword">false</span>;
+<a name="l00158"></a>00158   }
+<a name="l00159"></a>00159 
+<a name="l00160"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#adc5deb1e500512e3424bc0b9e67e5f8f">00160</a>   <span class="keyword">virtual</span> <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#adc5deb1e500512e3424bc0b9e67e5f8f">GetTileRect</a>() MOZ_OVERRIDE
+<a name="l00161"></a>00161   {
+<a name="l00162"></a>00162     <span class="keywordflow">return</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a457b12e38a4c516e86d985294a4e65a3">mTexImage</a>-&gt;GetTileRect();
+<a name="l00163"></a>00163   }
+<a name="l00164"></a>00164 
+<a name="l00165"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a7167abb8416e810d7863f9fc4ac9fd30">00165</a>   <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a7167abb8416e810d7863f9fc4ac9fd30">GetTileCount</a>() MOZ_OVERRIDE
+<a name="l00166"></a>00166   {
+<a name="l00167"></a>00167     <span class="keywordflow">return</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a457b12e38a4c516e86d985294a4e65a3">mTexImage</a>-&gt;GetTileCount();
+<a name="l00168"></a>00168   }
+<a name="l00169"></a>00169 
+<a name="l00170"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#ae4052164234d5e7e21228aeb5f9e143b">00170</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#ae4052164234d5e7e21228aeb5f9e143b">NextTile</a>() MOZ_OVERRIDE
+<a name="l00171"></a>00171   {
+<a name="l00172"></a>00172     <span class="keywordflow">return</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a457b12e38a4c516e86d985294a4e65a3">mTexImage</a>-&gt;NextTile();
+<a name="l00173"></a>00173   }
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175 <span class="keyword">protected</span>:
+<a name="l00176"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a457b12e38a4c516e86d985294a4e65a3">00176</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;gl::TextureImage&gt;</a> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a457b12e38a4c516e86d985294a4e65a3">mTexImage</a>;
+<a name="l00177"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a892078646099dec638eb90b9d307025f">00177</a>   <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">gl::GLContext</a>* <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a892078646099dec638eb90b9d307025f">mGL</a>;
+<a name="l00178"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#aff6545cee9ce24d59890a76f71a15ec8">00178</a>   <span class="keywordtype">bool</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#aff6545cee9ce24d59890a76f71a15ec8">mAllowBigImage</a>;
+<a name="l00179"></a><a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a146d2508ef6d66db30e54f1d4ba29284">00179</a>   <span class="keywordtype">bool</span> <a class="code" href="../../de/dbe/classmozilla_1_1layers_1_1_texture_image_texture_source_o_g_l.html#a146d2508ef6d66db30e54f1d4ba29284">mIterating</a>;
+<a name="l00180"></a>00180 };
+<a name="l00181"></a>00181 
+<a name="l00190"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html">00190</a> <span class="keyword">class </span><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html">SharedTextureSourceOGL</a> : <span class="keyword">public</span> <a class="code" href="../../d6/df5/classmozilla_1_1layers_1_1_new_texture_source.html">NewTextureSource</a>
+<a name="l00191"></a>00191                              , <span class="keyword">public</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>
+<a name="l00192"></a>00192 {
+<a name="l00193"></a>00193 <span class="keyword">public</span>:
+<a name="l00194"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#aa632c096b51949dfc224b98f5ad46728">00194</a>   <span class="keyword">typedef</span> <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html#a1d2b5670a593c9a39334aaf13d36de9b">gl::GLContext::SharedTextureShareType</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#aa632c096b51949dfc224b98f5ad46728">SharedTextureShareType</a>;
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196   <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a2bb3b82626a30904301937cb42676715">SharedTextureSourceOGL</a>(<a class="code" href="../../d1/d98/classmozilla_1_1layers_1_1_compositor_o_g_l.html">CompositorOGL</a>* aCompositor,
+<a name="l00197"></a>00197                          <a class="code" href="../../d8/d00/namespacemozilla_1_1gl.html#a302049ebfee0c4749af66db0c445d0f0">gl::SharedTextureHandle</a> aHandle,
+<a name="l00198"></a>00198                          <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> aFormat,
+<a name="l00199"></a>00199                          <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aTarget,
+<a name="l00200"></a>00200                          <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aWrapMode,
+<a name="l00201"></a>00201                          <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html#a1d2b5670a593c9a39334aaf13d36de9b">SharedTextureShareType</a> aShareType,
+<a name="l00202"></a>00202                          <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> aSize,
+<a name="l00203"></a>00203                          <span class="keyword">const</span> <a class="code" href="../../d6/d3b/classgfx3_d_matrix.html">gfx3DMatrix</a>&amp; aTexTransform);
+<a name="l00204"></a>00204 
+<a name="l00205"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a473c9bb270ef2407e1aaa3fe5f58186a">00205</a>   <span class="keyword">virtual</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>* <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a473c9bb270ef2407e1aaa3fe5f58186a">AsSourceOGL</a>() { <span class="keywordflow">return</span> <span class="keyword">this</span>; }
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a8e1739c656dc448d14b88eebf97b97db">BindTexture</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> activetex) MOZ_OVERRIDE;
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a7f4d4424005478184b979b1217c00bc0">IsValid</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00210"></a>00210 
+<a name="l00211"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a8cef38280079336cd05ba4a0986e17f3">00211</a>   virtual gfx::<a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#af49f74f3d4a508693b21f2e49234a3f9">IntSize</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a8cef38280079336cd05ba4a0986e17f3">GetSize</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#aeee6625a467a221ebd704c646ad8fdd7">mSize</a>; }
+<a name="l00212"></a>00212 
+<a name="l00213"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a7a35e912b406b9e9798a0f551c468590">00213</a>   <span class="keyword">virtual</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a7a35e912b406b9e9798a0f551c468590">GetFormat</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a8f308ba7d6de109bf7a9feb0c5c94add">mFormat</a>; }
+<a name="l00214"></a>00214 
+<a name="l00215"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#aae8cbf7decae03f8fe98cdfe5bfb6262">00215</a>   <span class="keyword">virtual</span> <a class="code" href="../../d6/d3b/classgfx3_d_matrix.html">gfx3DMatrix</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#aae8cbf7decae03f8fe98cdfe5bfb6262">GetTextureTransform</a>() MOZ_OVERRIDE { <span class="keywordflow">return</span> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a78e0bdfb07e3b28d4f83d180a3ab6bff">mTextureTransform</a>; }
+<a name="l00216"></a>00216 
+<a name="l00217"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a490fb931d0eb8cb3eacc58174f4497ca">00217</a>   <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a490fb931d0eb8cb3eacc58174f4497ca">GetWrapMode</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#ae1ee544dfb97c89f4dc18ab94620f1e5">mWrapMode</a>; }
+<a name="l00218"></a>00218 
+<a name="l00219"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#af5af0de699c1f5a46846697fbe992a97">00219</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#af5af0de699c1f5a46846697fbe992a97">UnbindTexture</a>() MOZ_OVERRIDE {}
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221   <span class="comment">// SharedTextureSource doesn&#39;t own any gl texture</span>
+<a name="l00222"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a663794ccb7b1748ed0323672f9f86bc6">00222</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a663794ccb7b1748ed0323672f9f86bc6">DeallocateDeviceData</a>() {}
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224   <span class="keywordtype">void</span> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#ac65027fbe8b49668d672bb6f151cd601">DetachSharedHandle</a>();
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226   <span class="keywordtype">void</span> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#ab240f8f93501bdacebcbd0798ba26b5c">SetCompositor</a>(<a class="code" href="../../d1/d98/classmozilla_1_1layers_1_1_compositor_o_g_l.html">CompositorOGL</a>* aCompositor);
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228   <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">gl::GLContext</a>* <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a5733511a21996dc2e71d06cddad31625">gl</a>() <span class="keyword">const</span>;
+<a name="l00229"></a>00229 
+<a name="l00230"></a>00230 <span class="keyword">protected</span>:
+<a name="l00231"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a78e0bdfb07e3b28d4f83d180a3ab6bff">00231</a>   <a class="code" href="../../d6/d3b/classgfx3_d_matrix.html">gfx3DMatrix</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a78e0bdfb07e3b28d4f83d180a3ab6bff">mTextureTransform</a>;
+<a name="l00232"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#aeee6625a467a221ebd704c646ad8fdd7">00232</a>   <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#aeee6625a467a221ebd704c646ad8fdd7">mSize</a>;
+<a name="l00233"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a4a8cefbe1124435c7e3de4d93637401e">00233</a>   <a class="code" href="../../d1/d98/classmozilla_1_1layers_1_1_compositor_o_g_l.html">CompositorOGL</a>* <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a4a8cefbe1124435c7e3de4d93637401e">mCompositor</a>;
+<a name="l00234"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a70e6045b42615ac20743d439176a8d40">00234</a>   <a class="code" href="../../d8/d00/namespacemozilla_1_1gl.html#a302049ebfee0c4749af66db0c445d0f0">gl::SharedTextureHandle</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a70e6045b42615ac20743d439176a8d40">mSharedHandle</a>;
+<a name="l00235"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a8f308ba7d6de109bf7a9feb0c5c94add">00235</a>   <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a8f308ba7d6de109bf7a9feb0c5c94add">mFormat</a>;
+<a name="l00236"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a15fe3b8c7ba45c932d170b8f53cecdaa">00236</a>   <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html#a1d2b5670a593c9a39334aaf13d36de9b">SharedTextureShareType</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a15fe3b8c7ba45c932d170b8f53cecdaa">mShareType</a>;
+<a name="l00237"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a403f8fbaa04b1e7438ef4f5a457cec10">00237</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#a403f8fbaa04b1e7438ef4f5a457cec10">mTextureTarget</a>;
+<a name="l00238"></a><a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#ae1ee544dfb97c89f4dc18ab94620f1e5">00238</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../dc/d91/classmozilla_1_1layers_1_1_shared_texture_source_o_g_l.html#ae1ee544dfb97c89f4dc18ab94620f1e5">mWrapMode</a>;
+<a name="l00239"></a>00239 };
+<a name="l00240"></a>00240 
+<a name="l00246"></a><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html">00246</a> <span class="keyword">class </span><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html">SharedTextureHostOGL</a> : <span class="keyword">public</span> <a class="code" href="../../d0/dfd/classmozilla_1_1layers_1_1_texture_host.html">TextureHost</a>
+<a name="l00247"></a>00247 {
+<a name="l00248"></a>00248 <span class="keyword">public</span>:
+<a name="l00249"></a>00249   <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#aa27044d148811cd3de131b2d468b74d7">SharedTextureHostOGL</a>(uint64_t aID,
+<a name="l00250"></a>00250                        <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a5f68a7c1f86dbc52c73db9bd755e6b3b">TextureFlags</a> aFlags,
+<a name="l00251"></a>00251                        <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html#a1d2b5670a593c9a39334aaf13d36de9b">gl::GLContext::SharedTextureShareType</a> aShareType,
+<a name="l00252"></a>00252                      <a class="code" href="../../d8/d00/namespacemozilla_1_1gl.html#a302049ebfee0c4749af66db0c445d0f0">gl::SharedTextureHandle</a> aSharedhandle,
+<a name="l00253"></a>00253                        <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> aSize,
+<a name="l00254"></a>00254                        <span class="keywordtype">bool</span> inverted);
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256   <span class="keyword">virtual</span> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#addfadcaaafcba76ee912d215fa49622b">~SharedTextureHostOGL</a>();
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258   <span class="comment">// SharedTextureHostOGL doesn&#39;t own any GL texture</span>
+<a name="l00259"></a><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#ab4f46054cfecf3849ffc10609188a3b0">00259</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#ab4f46054cfecf3849ffc10609188a3b0">DeallocateDeviceData</a>() MOZ_OVERRIDE {}
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a68b86b56e38a52c9ae229ed40d748321">SetCompositor</a>(<a class="code" href="../../d0/dbf/classmozilla_1_1layers_1_1_compositor.html">Compositor</a>* aCompositor) MOZ_OVERRIDE;
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#acba56e19c8d84d10931040085a27f7c3">Lock</a>() MOZ_OVERRIDE;
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265   virtual <span class="keywordtype">void</span> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a84aded3e284766f92ff92b785cc702f6">Unlock</a>() MOZ_OVERRIDE;
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267   virtual gfx::<a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">SurfaceFormat</a> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a2916aba43acc9ea5144c3e26da140049">GetFormat</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00268"></a>00268 
+<a name="l00269"></a><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a0f020550af4b2da0320720c4bf2b8b24">00269</a>   virtual <a class="code" href="../../d6/df5/classmozilla_1_1layers_1_1_new_texture_source.html">NewTextureSource</a>* <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a0f020550af4b2da0320720c4bf2b8b24">GetTextureSources</a>() MOZ_OVERRIDE
+<a name="l00270"></a>00270   {
+<a name="l00271"></a>00271     <span class="keywordflow">return</span> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#ada83ca081a83d36a39f96800c7f2c9da">mTextureSource</a>;
+<a name="l00272"></a>00272   }
+<a name="l00273"></a>00273 
+<a name="l00274"></a><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#af154d7b98b6e3b9c143abcdcac6c7401">00274</a>   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxImageSurface&gt;</a> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#af154d7b98b6e3b9c143abcdcac6c7401">GetAsSurface</a>() MOZ_OVERRIDE
+<a name="l00275"></a>00275   {
+<a name="l00276"></a>00276     <span class="keywordflow">return</span> <span class="keyword">nullptr</span>; <span class="comment">// XXX - implement this (for MOZ_DUMP_PAINTING)</span>
+<a name="l00277"></a>00277   }
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279   <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">gl::GLContext</a>* <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a34b4981d45d6840864b9f60d68936777">gl</a>() <span class="keyword">const</span>;
+<a name="l00280"></a>00280 
+<a name="l00281"></a><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#ac35a6df58831796c56dad5fc21eae904">00281</a>   <span class="keyword">virtual</span> <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#ac35a6df58831796c56dad5fc21eae904">GetSize</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#ac99908d2bb94af93be0b4c59ae0c22c4">mSize</a>; }
+<a name="l00282"></a>00282 
+<a name="l00283"></a>00283 <span class="preprocessor">#ifdef MOZ_LAYERS_HAVE_LOG</span>
+<a name="l00284"></a>00284 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* Name() { <span class="keywordflow">return</span> <span class="stringliteral">&quot;SharedTextureHostOGL&quot;</span>; }
+<a name="l00285"></a>00285 <span class="preprocessor">#endif</span>
+<a name="l00286"></a>00286 <span class="preprocessor"></span>
+<a name="l00287"></a>00287 <span class="keyword">protected</span>:
+<a name="l00288"></a><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#ac99908d2bb94af93be0b4c59ae0c22c4">00288</a>   <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#ac99908d2bb94af93be0b4c59ae0c22c4">mSize</a>;
+<a name="l00289"></a><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a3df0f4060e783485bd2bb50eb745c927">00289</a>   <a class="code" href="../../d1/d98/classmozilla_1_1layers_1_1_compositor_o_g_l.html">CompositorOGL</a>* <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a3df0f4060e783485bd2bb50eb745c927">mCompositor</a>;
+<a name="l00290"></a><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a6bbfef0061150fd6aa95ae09aa7e7114">00290</a>   <a class="code" href="../../d8/d00/namespacemozilla_1_1gl.html#a302049ebfee0c4749af66db0c445d0f0">gl::SharedTextureHandle</a> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a6bbfef0061150fd6aa95ae09aa7e7114">mSharedHandle</a>;
+<a name="l00291"></a><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a3f878dca07a85f5eaf25d84f0356054b">00291</a>   <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html#a1d2b5670a593c9a39334aaf13d36de9b">gl::GLContext::SharedTextureShareType</a> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#a3f878dca07a85f5eaf25d84f0356054b">mShareType</a>;
+<a name="l00292"></a>00292 
+<a name="l00293"></a><a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#ada83ca081a83d36a39f96800c7f2c9da">00293</a>   <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;SharedTextureSourceOGL&gt;</a> <a class="code" href="../../db/d07/classmozilla_1_1layers_1_1_shared_texture_host_o_g_l.html#ada83ca081a83d36a39f96800c7f2c9da">mTextureSource</a>;
+<a name="l00294"></a>00294 };
+<a name="l00295"></a>00295 
+<a name="l00299"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html">00299</a> <span class="keyword">class </span><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html">TextureImageDeprecatedTextureHostOGL</a> : <span class="keyword">public</span> <a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html">DeprecatedTextureHost</a>
+<a name="l00300"></a>00300                                            , <span class="keyword">public</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>
+<a name="l00301"></a>00301                                            , <span class="keyword">public</span> <a class="code" href="../../dd/dc9/classmozilla_1_1layers_1_1_tile_iterator.html">TileIterator</a>
+<a name="l00302"></a>00302 {
+<a name="l00303"></a>00303 <span class="keyword">public</span>:
+<a name="l00304"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a559dc27ef4e9661a37ff531d66e643cc">00304</a>   <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a559dc27ef4e9661a37ff531d66e643cc">TextureImageDeprecatedTextureHostOGL</a>(<a class="code" href="../../d7/d5b/classmozilla_1_1gl_1_1_texture_image.html">gl::TextureImage</a>* aTexImage = <span class="keyword">nullptr</span>)
+<a name="l00305"></a>00305     : <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>(aTexImage)
+<a name="l00306"></a>00306     , <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ac38a80a09d2f99911984c0215d15a1b8">mGL</a>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>)
+<a name="l00307"></a>00307     , <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a6c0d77f26c9ca78bd6a7c6cccf3469bf">mIterating</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00308"></a>00308   {
+<a name="l00309"></a>00309     <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#aa7716d29a6749d766b19b8b880b448f1">MOZ_COUNT_CTOR</a>(<a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html">TextureImageDeprecatedTextureHostOGL</a>);
+<a name="l00310"></a>00310   }
+<a name="l00311"></a>00311 
+<a name="l00312"></a>00312   <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a52c045297ddffffc90407b17ebe4c46e">~TextureImageDeprecatedTextureHostOGL</a>();
+<a name="l00313"></a>00313 
+<a name="l00314"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a6d30688b10f63b6808c7ec062fab0a2e">00314</a>   <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>* <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a6d30688b10f63b6808c7ec062fab0a2e">AsSourceOGL</a>() MOZ_OVERRIDE
+<a name="l00315"></a>00315   {
+<a name="l00316"></a>00316     <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00317"></a>00317   }
+<a name="l00318"></a>00318 
+<a name="l00319"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ab341b43554cb675117e99f0c4937b2ff">00319</a>   <span class="keyword">virtual</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html">TextureImageDeprecatedTextureHostOGL</a>* <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ab341b43554cb675117e99f0c4937b2ff">AsTextureImageDeprecatedTextureHost</a>() MOZ_OVERRIDE
+<a name="l00320"></a>00320   {
+<a name="l00321"></a>00321     <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00322"></a>00322   }
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324   <span class="comment">// This is a hack that is here to not break on-main-thread ThebesLayerBuffer</span>
+<a name="l00325"></a>00325   <span class="comment">// please do not use it anywhere else, use SetCompositor instead.</span>
+<a name="l00326"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a29106e4f4738f2ad20ce1f3e548fd446">00326</a>   <span class="keywordtype">void</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a29106e4f4738f2ad20ce1f3e548fd446">SetGLContext</a>(<a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">gl::GLContext</a>* aGL)
+<a name="l00327"></a>00327   {
+<a name="l00328"></a>00328     <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ac38a80a09d2f99911984c0215d15a1b8">mGL</a> = aGL;
+<a name="l00329"></a>00329   }
+<a name="l00330"></a>00330 
+<a name="l00331"></a>00331   <span class="comment">// DeprecatedTextureHost</span>
+<a name="l00332"></a>00332 
+<a name="l00333"></a>00333   <span class="keywordtype">void</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a67368426a938adfde23d254e932b9c36">UpdateImpl</a>(<span class="keyword">const</span> SurfaceDescriptor&amp; aImage,
+<a name="l00334"></a>00334                   <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>* aRegion = <span class="keyword">nullptr</span>,
+<a name="l00335"></a>00335                   <a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>* aOffset = <span class="keyword">nullptr</span>) MOZ_OVERRIDE;
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337   virtual <span class="keywordtype">void</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ac6037e118a319ae1b06a043b9e50e6fd">SetCompositor</a>(<a class="code" href="../../d0/dbf/classmozilla_1_1layers_1_1_compositor.html">Compositor</a>* aCompositor) MOZ_OVERRIDE;
+<a name="l00338"></a>00338 
+<a name="l00339"></a>00339   virtual <span class="keywordtype">void</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#aea5b8ac6605df31703a0302176395098">EnsureBuffer</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../dc/d43/structns_int_size.html">nsIntSize</a>&amp; aSize, <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">gfxContentType</a> <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>) MOZ_OVERRIDE;
+<a name="l00340"></a>00340 
+<a name="l00341"></a>00341   virtual <span class="keywordtype">void</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a69875f5941fb46ff3a3c5e0b0851f828">CopyTo</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>&amp; aSourceRect,
+<a name="l00342"></a>00342                       <a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html">DeprecatedTextureHost</a> *aDest,
+<a name="l00343"></a>00343                       <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a>&amp; aDestRect) MOZ_OVERRIDE;
+<a name="l00344"></a>00344 
+<a name="l00345"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a26d654f0da6b027c492228833f3bf897">00345</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a26d654f0da6b027c492228833f3bf897">IsValid</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00346"></a>00346   {
+<a name="l00347"></a>00347     <span class="keywordflow">return</span> !!<a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>;
+<a name="l00348"></a>00348   }
+<a name="l00349"></a>00349 
+<a name="l00350"></a>00350   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a633272e9387b8a8b635590617fd759e0">Lock</a>() MOZ_OVERRIDE;
+<a name="l00351"></a>00351 
+<a name="l00352"></a>00352   virtual <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;<a class="code" href="../../db/d54/classgfx_image_surface.html">gfxImageSurface</a>&gt; <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a191dcbe792b2a7343457d81e47d15da3">GetAsSurface</a>() MOZ_OVERRIDE;
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354   <span class="comment">// textureSource</span>
+<a name="l00355"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ad6623669f527eb53b99dbb0ac2ffbbac">00355</a>   <span class="keywordtype">void</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ad6623669f527eb53b99dbb0ac2ffbbac">BindTexture</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aTextureUnit) MOZ_OVERRIDE
+<a name="l00356"></a>00356   {
+<a name="l00357"></a>00357     <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>-&gt;BindTexture(aTextureUnit);
+<a name="l00358"></a>00358   }
+<a name="l00359"></a>00359 
+<a name="l00360"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ae7e78d7e627a555f666ce8adc64888fb">00360</a>   <span class="keywordtype">void</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ae7e78d7e627a555f666ce8adc64888fb">UnbindTexture</a>() MOZ_OVERRIDE
+<a name="l00361"></a>00361   {
+<a name="l00362"></a>00362     <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>-&gt;ReleaseTexture();
+<a name="l00363"></a>00363   }
+<a name="l00364"></a>00364 
+<a name="l00365"></a>00365   <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ac9c3917f19df2c5dfd3e9c7428525f1f">GetSize</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00366"></a>00366 
+<a name="l00367"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a6360de0944cdb8d7bc4b1546dab2c4c0">00367</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a6360de0944cdb8d7bc4b1546dab2c4c0">GetWrapMode</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00368"></a>00368   {
+<a name="l00369"></a>00369     <span class="keywordflow">return</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>-&gt;GetWrapMode();
+<a name="l00370"></a>00370   }
+<a name="l00371"></a>00371 
+<a name="l00372"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a436e6429c029d871b297c8f814a63ba9">00372</a>   <a class="code" href="../../d7/d5b/classmozilla_1_1gl_1_1_texture_image.html">gl::TextureImage</a>* <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a436e6429c029d871b297c8f814a63ba9">GetTextureImage</a>()
+<a name="l00373"></a>00373   {
+<a name="l00374"></a>00374     <span class="keywordflow">return</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>;
+<a name="l00375"></a>00375   }
+<a name="l00376"></a>00376 
+<a name="l00377"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a1d9777cdf6af77bee0a61ed9ad5aab68">00377</a>   <span class="keywordtype">void</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a1d9777cdf6af77bee0a61ed9ad5aab68">SetTextureImage</a>(<a class="code" href="../../d7/d5b/classmozilla_1_1gl_1_1_texture_image.html">gl::TextureImage</a>* aImage)
+<a name="l00378"></a>00378   {
+<a name="l00379"></a>00379     <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a> = aImage;
+<a name="l00380"></a>00380   }
+<a name="l00381"></a>00381 
+<a name="l00382"></a>00382   <span class="comment">// TileIterator</span>
+<a name="l00383"></a>00383 
+<a name="l00384"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a1f7c0230d5834041d59d0733d703c5f7">00384</a>   <a class="code" href="../../dd/dc9/classmozilla_1_1layers_1_1_tile_iterator.html">TileIterator</a>* <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a1f7c0230d5834041d59d0733d703c5f7">AsTileIterator</a>() MOZ_OVERRIDE
+<a name="l00385"></a>00385   {
+<a name="l00386"></a>00386     <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00387"></a>00387   }
+<a name="l00388"></a>00388 
+<a name="l00389"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a3c2d4e8d6c2651c11b81a81252675373">00389</a>   <span class="keywordtype">void</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a3c2d4e8d6c2651c11b81a81252675373">BeginTileIteration</a>() MOZ_OVERRIDE
+<a name="l00390"></a>00390   {
+<a name="l00391"></a>00391     <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>-&gt;BeginTileIteration();
+<a name="l00392"></a>00392     <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a6c0d77f26c9ca78bd6a7c6cccf3469bf">mIterating</a> = <span class="keyword">true</span>;
+<a name="l00393"></a>00393   }
+<a name="l00394"></a>00394 
+<a name="l00395"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a86986c79041612a1c4aa22fc78d27f3f">00395</a>   <span class="keywordtype">void</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a86986c79041612a1c4aa22fc78d27f3f">EndTileIteration</a>() MOZ_OVERRIDE
+<a name="l00396"></a>00396   {
+<a name="l00397"></a>00397     <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a6c0d77f26c9ca78bd6a7c6cccf3469bf">mIterating</a> = <span class="keyword">false</span>;
+<a name="l00398"></a>00398   }
+<a name="l00399"></a>00399 
+<a name="l00400"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#add34245741a529cc32e4ed517d9a945b">00400</a>   <a class="code" href="../../d7/dc7/structns_int_rect.html">nsIntRect</a> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#add34245741a529cc32e4ed517d9a945b">GetTileRect</a>() MOZ_OVERRIDE
+<a name="l00401"></a>00401   {
+<a name="l00402"></a>00402     <span class="keywordflow">return</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>-&gt;GetTileRect();
+<a name="l00403"></a>00403   }
+<a name="l00404"></a>00404 
+<a name="l00405"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#addc138a5edd95776c9d1f6696403fbf0">00405</a>   <span class="keywordtype">size_t</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#addc138a5edd95776c9d1f6696403fbf0">GetTileCount</a>() MOZ_OVERRIDE
+<a name="l00406"></a>00406   {
+<a name="l00407"></a>00407     <span class="keywordflow">return</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>-&gt;GetTileCount();
+<a name="l00408"></a>00408   }
+<a name="l00409"></a>00409 
+<a name="l00410"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a7c2ec30c04db1e7bad0efb61559dfe22">00410</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a7c2ec30c04db1e7bad0efb61559dfe22">NextTile</a>() MOZ_OVERRIDE
+<a name="l00411"></a>00411   {
+<a name="l00412"></a>00412     <span class="keywordflow">return</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>-&gt;NextTile();
+<a name="l00413"></a>00413   }
+<a name="l00414"></a>00414 
+<a name="l00415"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a37b29cb55b15732b3179533f54a09e4f">00415</a>   <span class="keyword">virtual</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a37b29cb55b15732b3179533f54a09e4f">GetFormat</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00416"></a>00416   {
+<a name="l00417"></a>00417     <span class="keywordflow">return</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a37b29cb55b15732b3179533f54a09e4f">DeprecatedTextureHost::GetFormat</a>();
+<a name="l00418"></a>00418   }
+<a name="l00419"></a>00419 
+<a name="l00420"></a>00420 <span class="preprocessor">#ifdef MOZ_LAYERS_HAVE_LOG</span>
+<a name="l00421"></a>00421 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* Name() { <span class="keywordflow">return</span> <span class="stringliteral">&quot;TextureImageDeprecatedTextureHostOGL&quot;</span>; }
+<a name="l00422"></a>00422 <span class="preprocessor">#endif</span>
+<a name="l00423"></a>00423 <span class="preprocessor"></span>
+<a name="l00424"></a>00424 <span class="keyword">protected</span>:
+<a name="l00425"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">00425</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;gl::TextureImage&gt;</a> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a82e448a98ff5160ddaee3117f6436ecf">mTexture</a>;
+<a name="l00426"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ac38a80a09d2f99911984c0215d15a1b8">00426</a>   <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">gl::GLContext</a>* <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#ac38a80a09d2f99911984c0215d15a1b8">mGL</a>;
+<a name="l00427"></a><a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a6c0d77f26c9ca78bd6a7c6cccf3469bf">00427</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d87/classmozilla_1_1layers_1_1_texture_image_deprecated_texture_host_o_g_l.html#a6c0d77f26c9ca78bd6a7c6cccf3469bf">mIterating</a>;
+<a name="l00428"></a>00428 };
+<a name="l00429"></a>00429 
+<a name="l00441"></a><a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html">00441</a> <span class="keyword">class </span><a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html">YCbCrDeprecatedTextureHostOGL</a> : <span class="keyword">public</span> <a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html">DeprecatedTextureHost</a>
+<a name="l00442"></a>00442 {
+<a name="l00443"></a>00443 <span class="keyword">public</span>:
+<a name="l00444"></a><a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#a1bb061ecf4734a21c3c2473d6e1da398">00444</a>   <a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#a1bb061ecf4734a21c3c2473d6e1da398">YCbCrDeprecatedTextureHostOGL</a>()
+<a name="l00445"></a>00445     : mGL(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>)
+<a name="l00446"></a>00446   {
+<a name="l00447"></a>00447     <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#aa7716d29a6749d766b19b8b880b448f1">MOZ_COUNT_CTOR</a>(<a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html">YCbCrDeprecatedTextureHostOGL</a>);
+<a name="l00448"></a>00448     mYTexture  = <span class="keyword">new</span> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html">Channel</a>;
+<a name="l00449"></a>00449     mCbTexture = <span class="keyword">new</span> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html">Channel</a>;
+<a name="l00450"></a>00450     mCrTexture = <span class="keyword">new</span> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html">Channel</a>;
+<a name="l00451"></a>00451     <a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html#a3bf986813c9ca1403565bf6dfd2b0aa7">mFormat</a> = <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331fa386c09fac692e22f9435b37fcf829280">gfx::FORMAT_YUV</a>;
+<a name="l00452"></a>00452   }
+<a name="l00453"></a>00453 
+<a name="l00454"></a><a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#af92bd31803c0cb128babecb3fb999743">00454</a>   <a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#af92bd31803c0cb128babecb3fb999743">~YCbCrDeprecatedTextureHostOGL</a>()
+<a name="l00455"></a>00455   {
+<a name="l00456"></a>00456     <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#a8a91532bfafbc5b73fad1b4127faf725">MOZ_COUNT_DTOR</a>(<a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html">YCbCrDeprecatedTextureHostOGL</a>);
+<a name="l00457"></a>00457   }
+<a name="l00458"></a>00458 
+<a name="l00459"></a>00459   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#a5a251fd626544029e0c37149d95c8846">SetCompositor</a>(<a class="code" href="../../d0/dbf/classmozilla_1_1layers_1_1_compositor.html">Compositor</a>* aCompositor) MOZ_OVERRIDE;
+<a name="l00460"></a>00460 
+<a name="l00461"></a>00461   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#adf3f552ccac2d3612704c00924d8b94d">UpdateImpl</a>(<span class="keyword">const</span> SurfaceDescriptor&amp; aImage,
+<a name="l00462"></a>00462                           <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>* aRegion = <span class="keyword">nullptr</span>,
+<a name="l00463"></a>00463                           <a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>* aOffset = <span class="keyword">nullptr</span>) MOZ_OVERRIDE;
+<a name="l00464"></a>00464 
+<a name="l00465"></a>00465   virtual <span class="keywordtype">bool</span> <a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#a4cd8e2ae0195c30771eb5d55abc8b42b">Lock</a>() MOZ_OVERRIDE;
+<a name="l00466"></a>00466 
+<a name="l00467"></a><a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#a8584307d61f26e6e33ecbe9740e8746e">00467</a>   virtual <span class="keywordtype">bool</span> <a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#a8584307d61f26e6e33ecbe9740e8746e">IsValid</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00468"></a>00468   {
+<a name="l00469"></a>00469     <span class="keywordflow">return</span> mYTexture-&gt;<a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a38c35c63ac738c49cf1c7dda752d831e">IsValid</a>()
+<a name="l00470"></a>00470         &amp;&amp; mCbTexture-&gt;<a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a38c35c63ac738c49cf1c7dda752d831e">IsValid</a>()
+<a name="l00471"></a>00471         &amp;&amp; mCrTexture-&gt;<a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a38c35c63ac738c49cf1c7dda752d831e">IsValid</a>();
+<a name="l00472"></a>00472   }
+<a name="l00473"></a>00473 
+<a name="l00474"></a><a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html">00474</a>   <span class="keyword">struct </span><a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html">Channel</a> : <span class="keyword">public</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>
+<a name="l00475"></a>00475                  , <span class="keyword">public</span> <a class="code" href="../../dc/d92/classmozilla_1_1layers_1_1_texture_source.html">TextureSource</a>
+<a name="l00476"></a>00476   {
+<a name="l00477"></a><a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#ae834f714e38360a126826d47d518dc94">00477</a>     <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>* <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#ae834f714e38360a126826d47d518dc94">AsSourceOGL</a>() MOZ_OVERRIDE
+<a name="l00478"></a>00478     {
+<a name="l00479"></a>00479       <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00480"></a>00480     }
+<a name="l00481"></a><a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a5327b24a3e47f756c8a502129b7b2f27">00481</a>     <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;gl::TextureImage&gt;</a> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a5327b24a3e47f756c8a502129b7b2f27">mTexImage</a>;
+<a name="l00482"></a>00482 
+<a name="l00483"></a><a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#ac9fb9a98fcba60c030c08ff30fc0a6b4">00483</a>     <span class="keywordtype">void</span> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#ac9fb9a98fcba60c030c08ff30fc0a6b4">BindTexture</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aUnit) MOZ_OVERRIDE
+<a name="l00484"></a>00484     {
+<a name="l00485"></a>00485       <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a5327b24a3e47f756c8a502129b7b2f27">mTexImage</a>-&gt;BindTexture(aUnit);
+<a name="l00486"></a>00486     }
+<a name="l00487"></a><a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a08dfbedfd77965beae090f3905b8c0ef">00487</a>     <span class="keywordtype">void</span> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a08dfbedfd77965beae090f3905b8c0ef">UnbindTexture</a>() MOZ_OVERRIDE
+<a name="l00488"></a>00488     {
+<a name="l00489"></a>00489       <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a5327b24a3e47f756c8a502129b7b2f27">mTexImage</a>-&gt;ReleaseTexture();
+<a name="l00490"></a>00490     }
+<a name="l00491"></a><a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a38c35c63ac738c49cf1c7dda752d831e">00491</a>     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a38c35c63ac738c49cf1c7dda752d831e">IsValid</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00492"></a>00492     {
+<a name="l00493"></a>00493       <span class="keywordflow">return</span> !!<a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a5327b24a3e47f756c8a502129b7b2f27">mTexImage</a>;
+<a name="l00494"></a>00494     }
+<a name="l00495"></a><a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#adae26a483628b0eea909e36c45a75ab4">00495</a>     <span class="keyword">virtual</span> <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#adae26a483628b0eea909e36c45a75ab4">GetSize</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00496"></a>00496     {
+<a name="l00497"></a>00497       <span class="keywordflow">return</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#af49f74f3d4a508693b21f2e49234a3f9">gfx::IntSize</a>(<a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a5327b24a3e47f756c8a502129b7b2f27">mTexImage</a>-&gt;GetSize().width, <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a5327b24a3e47f756c8a502129b7b2f27">mTexImage</a>-&gt;GetSize().height);
+<a name="l00498"></a>00498     }
+<a name="l00499"></a><a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a450ddda56e426459837ef99f30fd8b39">00499</a>     <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a450ddda56e426459837ef99f30fd8b39">GetWrapMode</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00500"></a>00500     {
+<a name="l00501"></a>00501       <span class="keywordflow">return</span> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a5327b24a3e47f756c8a502129b7b2f27">mTexImage</a>-&gt;GetWrapMode();
+<a name="l00502"></a>00502     }
+<a name="l00503"></a><a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a1acabb1a41092f3d3b29d69ed326df34">00503</a>     <span class="keyword">virtual</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> <a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a1acabb1a41092f3d3b29d69ed326df34">GetFormat</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00504"></a>00504     {
+<a name="l00505"></a>00505       <span class="keywordflow">return</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331fa5a5e2cf99905ff38ceb0218b1a0c4b6e">gfx::FORMAT_A8</a>;
+<a name="l00506"></a>00506     }
+<a name="l00507"></a>00507   };
+<a name="l00508"></a>00508 
+<a name="l00509"></a>00509   <span class="comment">// TextureSource implementation</span>
+<a name="l00510"></a>00510 
+<a name="l00511"></a><a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#ab8eda90728224580ef7f9b19eebd07e2">00511</a>   <a class="code" href="../../dc/d92/classmozilla_1_1layers_1_1_texture_source.html">TextureSource</a>* <a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#ab8eda90728224580ef7f9b19eebd07e2">GetSubSource</a>(<span class="keywordtype">int</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>) MOZ_OVERRIDE
+<a name="l00512"></a>00512   {
+<a name="l00513"></a>00513     <span class="keywordflow">switch</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#aafd95f8c7a99b9189ede7cdf0871ebe8">index</a>) {
+<a name="l00514"></a>00514       <span class="keywordflow">case</span> 0 : <span class="keywordflow">return</span> mYTexture.<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#aabc2911118bb03e4ed92bed41f76b33f">get</a>();
+<a name="l00515"></a>00515       <span class="keywordflow">case</span> 1 : <span class="keywordflow">return</span> mCbTexture.<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#aabc2911118bb03e4ed92bed41f76b33f">get</a>();
+<a name="l00516"></a>00516       <span class="keywordflow">case</span> 2 : <span class="keywordflow">return</span> mCrTexture.<a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html#aabc2911118bb03e4ed92bed41f76b33f">get</a>();
+<a name="l00517"></a>00517     }
+<a name="l00518"></a>00518     <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00519"></a>00519   }
+<a name="l00520"></a>00520 
+<a name="l00521"></a><a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#aefe5dc48d6227d1c0cc610f7a5a0010f">00521</a>   <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#aefe5dc48d6227d1c0cc610f7a5a0010f">GetSize</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00522"></a>00522   {
+<a name="l00523"></a>00523     <span class="keywordflow">if</span> (!mYTexture-&gt;<a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#a5327b24a3e47f756c8a502129b7b2f27">mTexImage</a>) {
+<a name="l00524"></a>00524       <a class="code" href="../../dc/d6d/ns_debug_8h.html#aa7f3deb23fbcb284ef465fd28ccaaa35">NS_WARNING</a>(<span class="stringliteral">&quot;YCbCrDeprecatedTextureHost::GetSize called but no data has been set yet&quot;</span>);
+<a name="l00525"></a>00525       <span class="keywordflow">return</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#af49f74f3d4a508693b21f2e49234a3f9">gfx::IntSize</a>(0,0);
+<a name="l00526"></a>00526     }
+<a name="l00527"></a>00527     <span class="keywordflow">return</span> mYTexture-&gt;<a class="code" href="../../dd/d74/structmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l_1_1_channel.html#adae26a483628b0eea909e36c45a75ab4">GetSize</a>();
+<a name="l00528"></a>00528   }
+<a name="l00529"></a>00529 
+<a name="l00530"></a>00530   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxImageSurface&gt;</a> <a class="code" href="../../dc/d01/classmozilla_1_1layers_1_1_y_cb_cr_deprecated_texture_host_o_g_l.html#a4ea0d3c1c6c0bbe6185f190b0f5a2f9b">GetAsSurface</a>() MOZ_OVERRIDE;
+<a name="l00531"></a>00531 
+<a name="l00532"></a>00532 <span class="preprocessor">#ifdef MOZ_LAYERS_HAVE_LOG</span>
+<a name="l00533"></a>00533 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* Name() { <span class="keywordflow">return</span> <span class="stringliteral">&quot;YCbCrDeprecatedTextureHostOGL&quot;</span>; }
+<a name="l00534"></a>00534 <span class="preprocessor">#endif</span>
+<a name="l00535"></a>00535 <span class="preprocessor"></span>
+<a name="l00536"></a>00536 <span class="keyword">private</span>:
+<a name="l00537"></a>00537   <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Channel&gt;</a> mYTexture;
+<a name="l00538"></a>00538   <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Channel&gt;</a> mCbTexture;
+<a name="l00539"></a>00539   <a class="code" href="../../d9/dc3/classmozilla_1_1_ref_ptr.html">RefPtr&lt;Channel&gt;</a> mCrTexture;
+<a name="l00540"></a>00540   <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">gl::GLContext</a>* mGL;
+<a name="l00541"></a>00541 };
+<a name="l00542"></a>00542 
+<a name="l00543"></a>00543 
+<a name="l00544"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html">00544</a> <span class="keyword">class </span><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html">SharedDeprecatedTextureHostOGL</a> : <span class="keyword">public</span> <a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html">DeprecatedTextureHost</a>
+<a name="l00545"></a>00545                            , <span class="keyword">public</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>
+<a name="l00546"></a>00546 {
+<a name="l00547"></a>00547 <span class="keyword">public</span>:
+<a name="l00548"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#ad3897ad6eab6f4362f975ae5a849eef5">00548</a>   <span class="keyword">typedef</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">gfxASurface::gfxContentType</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#ad3897ad6eab6f4362f975ae5a849eef5">ContentType</a>;
+<a name="l00549"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5e78afe31854832707970923c531ae2c">00549</a>   <span class="keyword">typedef</span> <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">mozilla::gl::GLContext</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5e78afe31854832707970923c531ae2c">GLContext</a>;
+<a name="l00550"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a1a5beab43764643271316eae2c6c164a">00550</a>   <span class="keyword">typedef</span> <a class="code" href="../../d7/d5b/classmozilla_1_1gl_1_1_texture_image.html">mozilla::gl::TextureImage</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a1a5beab43764643271316eae2c6c164a">TextureImage</a>;
+<a name="l00551"></a>00551 
+<a name="l00552"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a09954588c50bde7837682190ba8f925b">00552</a>   <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a09954588c50bde7837682190ba8f925b">SharedDeprecatedTextureHostOGL</a>()
+<a name="l00553"></a>00553     : <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#adca612a2d00f63413ad66877c74b378b">mGL</a>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>)
+<a name="l00554"></a>00554     , <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a33688210d27f786da7e257d0d3174a70">mTextureHandle</a>(0)
+<a name="l00555"></a>00555     , <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a60340c9f8b1712320fc411aaad220c2b">mWrapMode</a>(<a class="code" href="../../df/de6/_g_l_defs_8h.html#a0d4a5ee5d89fb8c603dfb380a4e1de2b">LOCAL_GL_CLAMP_TO_EDGE</a>)
+<a name="l00556"></a>00556     , <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5e7046fba135ff1a1e9ba54f083737c9">mSharedHandle</a>(0)
+<a name="l00557"></a>00557     , <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a9743fbbd230d269884ff0f1557f85732">mShareType</a>(<a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">GLContext</a>::SameProcess)
+<a name="l00558"></a>00558   {}
+<a name="l00559"></a>00559 
+<a name="l00560"></a>00560   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#ab54db4086bb57967e7736fe81ca7e290">SetCompositor</a>(<a class="code" href="../../d0/dbf/classmozilla_1_1layers_1_1_compositor.html">Compositor</a>* aCompositor) MOZ_OVERRIDE;
+<a name="l00561"></a>00561 
+<a name="l00562"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a357502fa015fee7159828d35ccaf2823">00562</a>   <span class="keyword">virtual</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a357502fa015fee7159828d35ccaf2823">~SharedDeprecatedTextureHostOGL</a>()
+<a name="l00563"></a>00563   {
+<a name="l00564"></a>00564     <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5e7046fba135ff1a1e9ba54f083737c9">mSharedHandle</a> || <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a33688210d27f786da7e257d0d3174a70">mTextureHandle</a>) {
+<a name="l00565"></a>00565       <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a1ce43228d3125bc010af926712ac9b99">DeleteTextures</a>();
+<a name="l00566"></a>00566     }
+<a name="l00567"></a>00567   }
+<a name="l00568"></a>00568 
+<a name="l00569"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5cdcd726be9d971991a71d963d17d7cb">00569</a>   <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5cdcd726be9d971991a71d963d17d7cb">GetTextureHandle</a>()
+<a name="l00570"></a>00570   {
+<a name="l00571"></a>00571     <span class="keywordflow">return</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a33688210d27f786da7e257d0d3174a70">mTextureHandle</a>;
+<a name="l00572"></a>00572   }
+<a name="l00573"></a>00573 
+<a name="l00574"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a0ecb983956f9dfcc7281d2db828f264f">00574</a>   <span class="keyword">virtual</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a0ecb983956f9dfcc7281d2db828f264f">GetFormat</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00575"></a>00575   {
+<a name="l00576"></a>00576     <span class="keywordflow">return</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a0ecb983956f9dfcc7281d2db828f264f">DeprecatedTextureHost::GetFormat</a>();
+<a name="l00577"></a>00577   }
+<a name="l00578"></a>00578 
+<a name="l00579"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#aa3f8fa2dafe5e8160334a03d7c7d19ce">00579</a>   <span class="keyword">virtual</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>* <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#aa3f8fa2dafe5e8160334a03d7c7d19ce">AsSourceOGL</a>() MOZ_OVERRIDE { <span class="keywordflow">return</span> <span class="keyword">this</span>; }
+<a name="l00580"></a>00580 
+<a name="l00581"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a7a4f679746f63e0273a4a037056083a2">00581</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a7a4f679746f63e0273a4a037056083a2">IsValid</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> !!<a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5e7046fba135ff1a1e9ba54f083737c9">mSharedHandle</a>; }
+<a name="l00582"></a>00582 
+<a name="l00583"></a>00583   <span class="comment">// override from DeprecatedTextureHost, we support both buffered</span>
+<a name="l00584"></a>00584   <span class="comment">// and unbuffered operation.</span>
+<a name="l00585"></a>00585   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a0bc69ffe8a8908ca6baad7d6faae2b46">UpdateImpl</a>(<span class="keyword">const</span> SurfaceDescriptor&amp; aImage,
+<a name="l00586"></a>00586                           <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>* aRegion = <span class="keyword">nullptr</span>,
+<a name="l00587"></a>00587                           <a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>* aOffset = <span class="keyword">nullptr</span>) MOZ_OVERRIDE;
+<a name="l00588"></a>00588   virtual <span class="keywordtype">void</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a4046af03ae26aafadb73333103e9b159">SwapTexturesImpl</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> SurfaceDescriptor&amp; aImage,
+<a name="l00589"></a>00589                                 <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>* aRegion = <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>) MOZ_OVERRIDE;
+<a name="l00590"></a>00590   virtual <span class="keywordtype">bool</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a63697877eed314e1075dcb756929982a">Lock</a>() MOZ_OVERRIDE;
+<a name="l00591"></a>00591   virtual <span class="keywordtype">void</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a49303e14a4c9a19349e5aec7cc39b29a">Unlock</a>() MOZ_OVERRIDE;
+<a name="l00592"></a>00592 
+<a name="l00593"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a47f4c9dd9a5d2878b8837f86b594bba2">00593</a>   virtual <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a47f4c9dd9a5d2878b8837f86b594bba2">GetWrapMode</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a60340c9f8b1712320fc411aaad220c2b">mWrapMode</a>; }
+<a name="l00594"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a39ea3edc2f2214feb8c561e619c4d573">00594</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a39ea3edc2f2214feb8c561e619c4d573">SetWrapMode</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aMode) { <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a60340c9f8b1712320fc411aaad220c2b">mWrapMode</a> = aMode; }
+<a name="l00595"></a>00595 
+<a name="l00596"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a1db413bb23130e4557f3cbd699d1e2ba">00596</a>   <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a1db413bb23130e4557f3cbd699d1e2ba">GetTextureTarget</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00597"></a>00597   {
+<a name="l00598"></a>00598     <span class="keywordflow">return</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a1dc34c6d92fbc7a9feeeffeaf65fd8d6">mTextureTarget</a>;
+<a name="l00599"></a>00599   }
+<a name="l00600"></a>00600 
+<a name="l00601"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a183ab6381623ed1060b9979c4ba44ad1">00601</a>   <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a183ab6381623ed1060b9979c4ba44ad1">GetSize</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE {
+<a name="l00602"></a>00602     <span class="keywordflow">return</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5ef852d606175019b5f16f622a2f4f18">mSize</a>;
+<a name="l00603"></a>00603   }
+<a name="l00604"></a>00604 
+<a name="l00605"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#af3628c343504283d98b229d3c0a1d5c7">00605</a>   <span class="keywordtype">void</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#af3628c343504283d98b229d3c0a1d5c7">BindTexture</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> activetex) MOZ_OVERRIDE
+<a name="l00606"></a>00606   {
+<a name="l00607"></a>00607     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#adca612a2d00f63413ad66877c74b378b">mGL</a>);
+<a name="l00608"></a>00608     <span class="comment">// Lock already bound us!</span>
+<a name="l00609"></a>00609     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(activetex == <a class="code" href="../../df/de6/_g_l_defs_8h.html#a7870fcf0e6458046e299ee59a4da4577">LOCAL_GL_TEXTURE0</a>);
+<a name="l00610"></a>00610   }
+<a name="l00611"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#ae033d689ae7cd0b1190776c92b91e574">00611</a>   <span class="keywordtype">void</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#ae033d689ae7cd0b1190776c92b91e574">UnbindTexture</a>() MOZ_OVERRIDE {}
+<a name="l00612"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a7eaa78e81de168f3b291a4f9b54a5e2a">00612</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a7eaa78e81de168f3b291a4f9b54a5e2a">GetTextureID</a>() { <span class="keywordflow">return</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a33688210d27f786da7e257d0d3174a70">mTextureHandle</a>; }
+<a name="l00613"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a6ff457c2b953fbe78749d57defd45fd6">00613</a>   <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">ContentType</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a6ff457c2b953fbe78749d57defd45fd6">GetContentType</a>()
+<a name="l00614"></a>00614   {
+<a name="l00615"></a>00615     <span class="keywordflow">return</span> (<a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html#a3bf986813c9ca1403565bf6dfd2b0aa7">mFormat</a> == <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331fa67384f3090111cc6b3409f89e4ee92dc">gfx::FORMAT_B8G8R8A8</a>) ?
+<a name="l00616"></a>00616              <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360a7c23c84c574c4ce1c870f49cba085072">gfxASurface::CONTENT_COLOR_ALPHA</a> :
+<a name="l00617"></a>00617              <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360ad5368db6fb001e911e277158f467f2a1">gfxASurface::CONTENT_COLOR</a>;
+<a name="l00618"></a>00618   }
+<a name="l00619"></a>00619 
+<a name="l00620"></a>00620   <span class="keyword">virtual</span> <a class="code" href="../../d6/d3b/classgfx3_d_matrix.html">gfx3DMatrix</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a645265d9964c1bb8152d45f5c131d97c">GetTextureTransform</a>() MOZ_OVERRIDE;
+<a name="l00621"></a>00621 
+<a name="l00622"></a>00622   virtual <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;<a class="code" href="../../db/d54/classgfx_image_surface.html">gfxImageSurface</a>&gt; <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a74fdb5edb8c34c981dac59ceb0c5af30">GetAsSurface</a>() MOZ_OVERRIDE;
+<a name="l00623"></a>00623 
+<a name="l00624"></a>00624 <span class="preprocessor">#ifdef MOZ_LAYERS_HAVE_LOG</span>
+<a name="l00625"></a>00625 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* Name() { <span class="keywordflow">return</span> <span class="stringliteral">&quot;SharedDeprecatedTextureHostOGL&quot;</span>; }
+<a name="l00626"></a>00626 <span class="preprocessor">#endif</span>
+<a name="l00627"></a>00627 <span class="preprocessor"></span>
+<a name="l00628"></a>00628 <span class="keyword">protected</span>:
+<a name="l00629"></a>00629   <span class="keywordtype">void</span> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a1ce43228d3125bc010af926712ac9b99">DeleteTextures</a>();
+<a name="l00630"></a>00630 
+<a name="l00631"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5ef852d606175019b5f16f622a2f4f18">00631</a>   <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5ef852d606175019b5f16f622a2f4f18">mSize</a>;
+<a name="l00632"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#adca612a2d00f63413ad66877c74b378b">00632</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;gl::GLContext&gt;</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#adca612a2d00f63413ad66877c74b378b">mGL</a>;
+<a name="l00633"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a33688210d27f786da7e257d0d3174a70">00633</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a33688210d27f786da7e257d0d3174a70">mTextureHandle</a>;
+<a name="l00634"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a60340c9f8b1712320fc411aaad220c2b">00634</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a60340c9f8b1712320fc411aaad220c2b">mWrapMode</a>;
+<a name="l00635"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a1dc34c6d92fbc7a9feeeffeaf65fd8d6">00635</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a1dc34c6d92fbc7a9feeeffeaf65fd8d6">mTextureTarget</a>;
+<a name="l00636"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5e7046fba135ff1a1e9ba54f083737c9">00636</a>   <a class="code" href="../../d8/d00/namespacemozilla_1_1gl.html#a302049ebfee0c4749af66db0c445d0f0">gl::SharedTextureHandle</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a5e7046fba135ff1a1e9ba54f083737c9">mSharedHandle</a>;
+<a name="l00637"></a><a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a9743fbbd230d269884ff0f1557f85732">00637</a>   <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html#a1d2b5670a593c9a39334aaf13d36de9b">gl::GLContext::SharedTextureShareType</a> <a class="code" href="../../dd/d6e/classmozilla_1_1layers_1_1_shared_deprecated_texture_host_o_g_l.html#a9743fbbd230d269884ff0f1557f85732">mShareType</a>;
+<a name="l00638"></a>00638 };
+<a name="l00639"></a>00639 
+<a name="l00640"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html">00640</a> <span class="keyword">class </span><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html">SurfaceStreamHostOGL</a> : <span class="keyword">public</span> <a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html">DeprecatedTextureHost</a>
+<a name="l00641"></a>00641                            , <span class="keyword">public</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>
+<a name="l00642"></a>00642 {
+<a name="l00643"></a>00643 <span class="keyword">public</span>:
+<a name="l00644"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#abce41f8e6cddb28af2a2bc5b0cda74f8">00644</a>   <span class="keyword">typedef</span> <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">gfxASurface::gfxContentType</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#abce41f8e6cddb28af2a2bc5b0cda74f8">ContentType</a>;
+<a name="l00645"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ab564349219cf81fcd10c5d777040d22f">00645</a>   <span class="keyword">typedef</span> <a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html">mozilla::gl::GLContext</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ab564349219cf81fcd10c5d777040d22f">GLContext</a>;
+<a name="l00646"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a4741dbff3a2fc94c43185d7c02fe719e">00646</a>   <span class="keyword">typedef</span> <a class="code" href="../../d7/d5b/classmozilla_1_1gl_1_1_texture_image.html">mozilla::gl::TextureImage</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a4741dbff3a2fc94c43185d7c02fe719e">TextureImage</a>;
+<a name="l00647"></a>00647 
+<a name="l00648"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ab46245e495cfda9713b49d926483c213">00648</a>   <span class="keyword">virtual</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ab46245e495cfda9713b49d926483c213">~SurfaceStreamHostOGL</a>()
+<a name="l00649"></a>00649   {
+<a name="l00650"></a>00650     <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ab6acacd0c74587ad894988b4f47e8a0f">DeleteTextures</a>();
+<a name="l00651"></a>00651   }
+<a name="l00652"></a>00652 
+<a name="l00653"></a>00653   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a486b83631493b9f239fbd9b2e6dac497">SetCompositor</a>(<a class="code" href="../../d0/dbf/classmozilla_1_1layers_1_1_compositor.html">Compositor</a>* aCompositor) MOZ_OVERRIDE;
+<a name="l00654"></a>00654 
+<a name="l00655"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#af692d941e83430fc44490e2ff203a308">00655</a>   <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#af692d941e83430fc44490e2ff203a308">GetTextureHandle</a>()
+<a name="l00656"></a>00656   {
+<a name="l00657"></a>00657     <span class="keywordflow">return</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a1f2fbcd539dabf75b6ba6901488dcefd">mTextureHandle</a>;
+<a name="l00658"></a>00658   }
+<a name="l00659"></a>00659 
+<a name="l00660"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a405a95dd601f74cf2ae1baec06ef32d1">00660</a>   <span class="keyword">virtual</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a405a95dd601f74cf2ae1baec06ef32d1">GetFormat</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00661"></a>00661   {
+<a name="l00662"></a>00662     <span class="keywordflow">return</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a405a95dd601f74cf2ae1baec06ef32d1">DeprecatedTextureHost::GetFormat</a>();
+<a name="l00663"></a>00663   }
+<a name="l00664"></a>00664 
+<a name="l00665"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#afd85eb8ab81d0702331fbd68eecc645d">00665</a>   <span class="keyword">virtual</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>* <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#afd85eb8ab81d0702331fbd68eecc645d">AsSourceOGL</a>() MOZ_OVERRIDE { <span class="keywordflow">return</span> <span class="keyword">this</span>; }
+<a name="l00666"></a>00666 
+<a name="l00667"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a9a7b322794eb687688751f3334d0cd5e">00667</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a9a7b322794eb687688751f3334d0cd5e">IsValid</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> <span class="keyword">true</span>; }
+<a name="l00668"></a>00668 
+<a name="l00669"></a>00669   <span class="comment">// override from DeprecatedTextureHost</span>
+<a name="l00670"></a>00670   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ac2c010976347803ac929b2276b32cdd6">UpdateImpl</a>(<span class="keyword">const</span> SurfaceDescriptor&amp; aImage,
+<a name="l00671"></a>00671                           <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>* aRegion,
+<a name="l00672"></a>00672                           <a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>* aOffset);
+<a name="l00673"></a>00673   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ad40249ea484d9d838a103afe657416cf">Lock</a>() MOZ_OVERRIDE;
+<a name="l00674"></a>00674   virtual <span class="keywordtype">void</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a64f2a36dffe24fab4d2670509c596a38">Unlock</a>() MOZ_OVERRIDE;
+<a name="l00675"></a>00675 
+<a name="l00676"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#aaec694adb93582ab27c4507b3d9d7f10">00676</a>   virtual <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#aaec694adb93582ab27c4507b3d9d7f10">GetWrapMode</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE {
+<a name="l00677"></a>00677     <span class="keywordflow">return</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a30f751276e62f37bc6e34f09acc4e036">mWrapMode</a>;
+<a name="l00678"></a>00678   }
+<a name="l00679"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a13b1610ca6fccf034bed44d212c080f2">00679</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a13b1610ca6fccf034bed44d212c080f2">SetWrapMode</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aMode) {
+<a name="l00680"></a>00680     <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a30f751276e62f37bc6e34f09acc4e036">mWrapMode</a> = aMode;
+<a name="l00681"></a>00681   }
+<a name="l00682"></a>00682 
+<a name="l00683"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a20c1ffeb6b9f91b5695cbc4e44cf1eaf">00683</a>   <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a20c1ffeb6b9f91b5695cbc4e44cf1eaf">GetSize</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE {
+<a name="l00684"></a>00684     <span class="keywordflow">return</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a3a5f16794b87a9098c3089ea693ded2d">mSize</a>;
+<a name="l00685"></a>00685   }
+<a name="l00686"></a>00686 
+<a name="l00687"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ae708fe8b25ae034217779cc6135c85e9">00687</a>   <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ae708fe8b25ae034217779cc6135c85e9">GetTextureTarget</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00688"></a>00688   {
+<a name="l00689"></a>00689     <span class="keywordflow">return</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a2c66ddde83c7b0b985721138412bd7e5">mTextureTarget</a>;
+<a name="l00690"></a>00690   }
+<a name="l00691"></a>00691 
+<a name="l00692"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a58d73df854b9011333a218a2f6febff9">00692</a>   <span class="keywordtype">void</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a58d73df854b9011333a218a2f6febff9">BindTexture</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> activetex) MOZ_OVERRIDE {
+<a name="l00693"></a>00693     <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a09b0673fbb0a487bd7762ba31d6c28f8">mGL</a>);
+<a name="l00694"></a>00694     <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a09b0673fbb0a487bd7762ba31d6c28f8">mGL</a>-&gt;<a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html#aed322a4bd6065bb55626d36a9729976b">fActiveTexture</a>(activetex);
+<a name="l00695"></a>00695     <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a09b0673fbb0a487bd7762ba31d6c28f8">mGL</a>-&gt;<a class="code" href="../../df/d68/classmozilla_1_1gl_1_1_g_l_context.html#addafb9d95fc784f741c3a989f0bd2e2a">fBindTexture</a>(<a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a2c66ddde83c7b0b985721138412bd7e5">mTextureTarget</a>, <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a1f2fbcd539dabf75b6ba6901488dcefd">mTextureHandle</a>);
+<a name="l00696"></a>00696   }
+<a name="l00697"></a>00697 
+<a name="l00698"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a7ba21ee7420eac3df101a9bf2af48e43">00698</a>   <span class="keywordtype">void</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a7ba21ee7420eac3df101a9bf2af48e43">UnbindTexture</a>() MOZ_OVERRIDE {}
+<a name="l00699"></a>00699 
+<a name="l00700"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a34066616476447dd10a32b816d0996b9">00700</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a34066616476447dd10a32b816d0996b9">GetTextureID</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a1f2fbcd539dabf75b6ba6901488dcefd">mTextureHandle</a>; }
+<a name="l00701"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#add8d2ab7520fe75bcc89d32ee2b6199b">00701</a>   <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360">ContentType</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#add8d2ab7520fe75bcc89d32ee2b6199b">GetContentType</a>() {
+<a name="l00702"></a>00702     <span class="keywordflow">return</span> (<a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html#a3bf986813c9ca1403565bf6dfd2b0aa7">mFormat</a> == <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331fa67384f3090111cc6b3409f89e4ee92dc">gfx::FORMAT_B8G8R8A8</a>) ?
+<a name="l00703"></a>00703              <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360a7c23c84c574c4ce1c870f49cba085072">gfxASurface::CONTENT_COLOR_ALPHA</a> :
+<a name="l00704"></a>00704              <a class="code" href="../../d4/d14/classgfx_a_surface.html#af12afcfae2a9102ab6efbf1b57546360ad5368db6fb001e911e277158f467f2a1">gfxASurface::CONTENT_COLOR</a>;
+<a name="l00705"></a>00705   }
+<a name="l00706"></a>00706 
+<a name="l00707"></a>00707   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxImageSurface&gt;</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a6814059b3a00ee58a61a43e1a6aaf8ac">GetAsSurface</a>() MOZ_OVERRIDE;
+<a name="l00708"></a>00708 
+<a name="l00709"></a>00709 <span class="preprocessor">#ifdef MOZ_LAYERS_HAVE_LOG</span>
+<a name="l00710"></a>00710 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* Name() { <span class="keywordflow">return</span> <span class="stringliteral">&quot;SurfaceStreamHostOGL&quot;</span>; }
+<a name="l00711"></a>00711 <span class="preprocessor">#endif</span>
+<a name="l00712"></a>00712 <span class="preprocessor"></span>
+<a name="l00713"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a68d6b6291e089952db10c297303fdaff">00713</a>   <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a68d6b6291e089952db10c297303fdaff">SurfaceStreamHostOGL</a>()
+<a name="l00714"></a>00714     : <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a09b0673fbb0a487bd7762ba31d6c28f8">mGL</a>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>)
+<a name="l00715"></a>00715     , <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a1f2fbcd539dabf75b6ba6901488dcefd">mTextureHandle</a>(0)
+<a name="l00716"></a>00716     , <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a2c66ddde83c7b0b985721138412bd7e5">mTextureTarget</a>(<a class="code" href="../../df/de6/_g_l_defs_8h.html#ac0991f40e84587134d33afe7de63bfec">LOCAL_GL_TEXTURE_2D</a>)
+<a name="l00717"></a>00717     , <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a3f58930d4c167d717f5dee8009105723">mUploadTexture</a>(0)
+<a name="l00718"></a>00718     , <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a30f751276e62f37bc6e34f09acc4e036">mWrapMode</a>(<a class="code" href="../../df/de6/_g_l_defs_8h.html#a0d4a5ee5d89fb8c603dfb380a4e1de2b">LOCAL_GL_CLAMP_TO_EDGE</a>)
+<a name="l00719"></a>00719     , <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a2445f3c33ea8a4e20f75051079de1560">mStream</a>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>)
+<a name="l00720"></a>00720   {}
+<a name="l00721"></a>00721 
+<a name="l00722"></a>00722 <span class="keyword">protected</span>:
+<a name="l00723"></a>00723   <span class="keywordtype">void</span> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ab6acacd0c74587ad894988b4f47e8a0f">DeleteTextures</a>();
+<a name="l00724"></a>00724 
+<a name="l00725"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a3a5f16794b87a9098c3089ea693ded2d">00725</a>   <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a3a5f16794b87a9098c3089ea693ded2d">mSize</a>;
+<a name="l00726"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a09b0673fbb0a487bd7762ba31d6c28f8">00726</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;GLContext&gt;</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a09b0673fbb0a487bd7762ba31d6c28f8">mGL</a>;
+<a name="l00727"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a1f2fbcd539dabf75b6ba6901488dcefd">00727</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a1f2fbcd539dabf75b6ba6901488dcefd">mTextureHandle</a>;
+<a name="l00728"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a2c66ddde83c7b0b985721138412bd7e5">00728</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a2c66ddde83c7b0b985721138412bd7e5">mTextureTarget</a>;
+<a name="l00729"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a3f58930d4c167d717f5dee8009105723">00729</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a3f58930d4c167d717f5dee8009105723">mUploadTexture</a>;
+<a name="l00730"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a30f751276e62f37bc6e34f09acc4e036">00730</a>   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a30f751276e62f37bc6e34f09acc4e036">mWrapMode</a>;
+<a name="l00731"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ac30567f3cce3fdffd51e6a0408a03d5f">00731</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;GLContext&gt;</a> <a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#ac30567f3cce3fdffd51e6a0408a03d5f">mStreamGL</a>;
+<a name="l00732"></a><a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a2445f3c33ea8a4e20f75051079de1560">00732</a>   <a class="code" href="../../d3/d24/classmozilla_1_1gfx_1_1_surface_stream.html">gfx::SurfaceStream</a> *<a class="code" href="../../d5/dc7/classmozilla_1_1layers_1_1_surface_stream_host_o_g_l.html#a2445f3c33ea8a4e20f75051079de1560">mStream</a>;
+<a name="l00733"></a>00733 };
+<a name="l00734"></a>00734 
+<a name="l00735"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html">00735</a> <span class="keyword">class </span><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html">TiledDeprecatedTextureHostOGL</a> : <span class="keyword">public</span> <a class="code" href="../../d0/d12/classmozilla_1_1layers_1_1_deprecated_texture_host.html">DeprecatedTextureHost</a>
+<a name="l00736"></a>00736                           , <span class="keyword">public</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>
+<a name="l00737"></a>00737 {
+<a name="l00738"></a>00738 <span class="keyword">public</span>:
+<a name="l00739"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a96933e99af09bed23567bdf888fdac0f">00739</a>   <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a96933e99af09bed23567bdf888fdac0f">TiledDeprecatedTextureHostOGL</a>()
+<a name="l00740"></a>00740     : mTextureHandle(0)
+<a name="l00741"></a>00741     , mGL(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>)
+<a name="l00742"></a>00742   {}
+<a name="l00743"></a>00743   <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a8bac263e173ace6d2a6b9a14721cbeab">~TiledDeprecatedTextureHostOGL</a>();
+<a name="l00744"></a>00744 
+<a name="l00745"></a>00745   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#adf0a17bd75608a8f6ddfd3d32f53e46d">SetCompositor</a>(<a class="code" href="../../d0/dbf/classmozilla_1_1layers_1_1_compositor.html">Compositor</a>* aCompositor);
+<a name="l00746"></a>00746 
+<a name="l00747"></a>00747   <span class="comment">// have to pass the size in here (every time) because of DrawQuad API :-(</span>
+<a name="l00748"></a>00748   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#adc125ea71d928321f5e11378d6ae99f3">Update</a>(<a class="code" href="../../dd/d78/classgfx_reusable_surface_wrapper.html">gfxReusableSurfaceWrapper</a>* aReusableSurface, <a class="code" href="../../d5/d27/namespacemozilla_1_1layers.html#a5f68a7c1f86dbc52c73db9bd755e6b3b">TextureFlags</a> aFlags, <span class="keyword">const</span> <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a>&amp; aSize) MOZ_OVERRIDE;
+<a name="l00749"></a>00749   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a543a55622402d06e10018cc4522906fc">Lock</a>() MOZ_OVERRIDE;
+<a name="l00750"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a606abc3f7d98ae0189b763b2bdd9ed6f">00750</a>   virtual <span class="keywordtype">void</span> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a606abc3f7d98ae0189b763b2bdd9ed6f">Unlock</a>() MOZ_OVERRIDE {}
+<a name="l00751"></a>00751 
+<a name="l00752"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a3cc85439f726dbda60af732f32baebb2">00752</a>   <span class="keyword">virtual</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a3cc85439f726dbda60af732f32baebb2">GetFormat</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00753"></a>00753   {
+<a name="l00754"></a>00754     <span class="keywordflow">return</span> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a3cc85439f726dbda60af732f32baebb2">DeprecatedTextureHost::GetFormat</a>();
+<a name="l00755"></a>00755   }
+<a name="l00756"></a>00756 
+<a name="l00757"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a6436a5b212ae7a405b1ed3f5d08e9ac4">00757</a>   <span class="keyword">virtual</span> <a class="code" href="../../d1/db2/classmozilla_1_1layers_1_1_texture_source_o_g_l.html">TextureSourceOGL</a>* <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a6436a5b212ae7a405b1ed3f5d08e9ac4">AsSourceOGL</a>() MOZ_OVERRIDE { <span class="keywordflow">return</span> <span class="keyword">this</span>; }
+<a name="l00758"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a72e568c8562130c7bd0beb727e202d13">00758</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a72e568c8562130c7bd0beb727e202d13">IsValid</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> <span class="keyword">true</span>; }
+<a name="l00759"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a6917bf12d3226cbccab5ceefff634feb">00759</a>   <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a6917bf12d3226cbccab5ceefff634feb">GetWrapMode</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE { <span class="keywordflow">return</span> <a class="code" href="../../df/de6/_g_l_defs_8h.html#a0d4a5ee5d89fb8c603dfb380a4e1de2b">LOCAL_GL_CLAMP_TO_EDGE</a>; }
+<a name="l00760"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#abf09ef7d51f8f756c440f3c71a14a22e">00760</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#abf09ef7d51f8f756c440f3c71a14a22e">BindTexture</a>(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aTextureUnit) MOZ_OVERRIDE
+<a name="l00761"></a>00761   {
+<a name="l00762"></a>00762     mGL-&gt;fActiveTexture(aTextureUnit);
+<a name="l00763"></a>00763     mGL-&gt;fBindTexture(<a class="code" href="../../df/de6/_g_l_defs_8h.html#ac0991f40e84587134d33afe7de63bfec">LOCAL_GL_TEXTURE_2D</a>, mTextureHandle);
+<a name="l00764"></a>00764   }
+<a name="l00765"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a2d36e2235f697c2ed45fbe2750956cb2">00765</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a2d36e2235f697c2ed45fbe2750956cb2">UnbindTexture</a>() MOZ_OVERRIDE {}
+<a name="l00766"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a7646068ac13d5accb024b46cd5cda701">00766</a>   <span class="keyword">virtual</span> <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a7646068ac13d5accb024b46cd5cda701">GetSize</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00767"></a>00767   {
+<a name="l00768"></a>00768     <span class="keywordflow">return</span> mSize;
+<a name="l00769"></a>00769   }
+<a name="l00770"></a>00770 
+<a name="l00771"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a68063879efea35606a2eccdf203b7b33">00771</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a68063879efea35606a2eccdf203b7b33">SwapTexturesImpl</a>(<span class="keyword">const</span> SurfaceDescriptor&amp; aImage,
+<a name="l00772"></a>00772                                 <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>* aRegion = <span class="keyword">nullptr</span>)
+<a name="l00773"></a>00773   { <a class="code" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<span class="keyword">false</span>, <span class="stringliteral">&quot;Tiles should not use this path&quot;</span>); }
+<a name="l00774"></a>00774 
+<a name="l00775"></a>00775   <span class="keyword">virtual</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;gfxImageSurface&gt;</a> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#aec22611a0e4cebe59b9c5bf579c521c9">GetAsSurface</a>() MOZ_OVERRIDE;
+<a name="l00776"></a>00776 
+<a name="l00777"></a>00777 <span class="preprocessor">#ifdef MOZ_LAYERS_HAVE_LOG</span>
+<a name="l00778"></a>00778 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* Name() { <span class="keywordflow">return</span> <span class="stringliteral">&quot;TiledDeprecatedTextureHostOGL&quot;</span>; }
+<a name="l00779"></a>00779 <span class="preprocessor">#endif</span>
+<a name="l00780"></a>00780 <span class="preprocessor"></span>
+<a name="l00781"></a>00781 <span class="keyword">protected</span>:
+<a name="l00782"></a>00782   <span class="keywordtype">void</span> <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#ab8bd19f8d30e4a4841569e80301f80a4">DeleteTextures</a>();
+<a name="l00783"></a>00783 
+<a name="l00784"></a><a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a9086bc51d926667b7c6e6a5d2484c234">00784</a>   <span class="keyword">virtual</span> uint64_t <a class="code" href="../../d5/d94/classmozilla_1_1layers_1_1_tiled_deprecated_texture_host_o_g_l.html#a9086bc51d926667b7c6e6a5d2484c234">GetIdentifier</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE {
+<a name="l00785"></a>00785     <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(mTextureHandle);
+<a name="l00786"></a>00786   }
+<a name="l00787"></a>00787 
+<a name="l00788"></a>00788 <span class="keyword">private</span>:
+<a name="l00789"></a>00789   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> GetTileType()
+<a name="l00790"></a>00790   {
+<a name="l00791"></a>00791     <span class="comment">// Deduce the type that was assigned in GetFormatAndTileForImageFormat</span>
+<a name="l00792"></a>00792     <span class="keywordflow">return</span> mGLFormat == <a class="code" href="../../df/de6/_g_l_defs_8h.html#af2e79b4116c390dfc3d15279896477b5">LOCAL_GL_RGB</a> ? <a class="code" href="../../df/de6/_g_l_defs_8h.html#a3642216f6c05adf02531f1b641257aed">LOCAL_GL_UNSIGNED_SHORT_5_6_5</a> : <a class="code" href="../../df/de6/_g_l_defs_8h.html#ae9dfd0e1b06a2a4b64a67faf01f724e8">LOCAL_GL_UNSIGNED_BYTE</a>;
+<a name="l00793"></a>00793   }
+<a name="l00794"></a>00794 
+<a name="l00795"></a>00795   <a class="code" href="../../d8/d6f/structmozilla_1_1gfx_1_1_int_size_typed.html">gfx::IntSize</a> mSize;
+<a name="l00796"></a>00796   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> mTextureHandle;
+<a name="l00797"></a>00797   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> mGLFormat;
+<a name="l00798"></a>00798   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;gl::GLContext&gt;</a> mGL;
+<a name="l00799"></a>00799 };
+<a name="l00800"></a>00800 
+<a name="l00801"></a>00801 <span class="preprocessor">#ifdef MOZ_WIDGET_GONK</span>
+<a name="l00802"></a>00802 <span class="preprocessor"></span>
+<a name="l00803"></a>00803 <span class="comment">// For direct texturing with gralloc buffers. The corresponding DeprecatedTextureClient is DeprecatedTextureClientShmem,</span>
+<a name="l00804"></a>00804 <span class="comment">// which automatically gets gralloc when it can, in which case the compositor sees that the</span>
+<a name="l00805"></a>00805 <span class="comment">// SurfaceDescriptor is gralloc, and decides to use a GrallocDeprecatedTextureHostOGL to do direct texturing,</span>
+<a name="l00806"></a>00806 <span class="comment">// saving the cost of a texture upload.</span>
+<a name="l00807"></a>00807 <span class="keyword">class </span>GrallocDeprecatedTextureHostOGL
+<a name="l00808"></a>00808   : <span class="keyword">public</span> DeprecatedTextureHost
+<a name="l00809"></a>00809   , <span class="keyword">public</span> TextureSourceOGL
+<a name="l00810"></a>00810 {
+<a name="l00811"></a>00811 <span class="keyword">public</span>:
+<a name="l00812"></a>00812   GrallocDeprecatedTextureHostOGL();
+<a name="l00813"></a>00813 
+<a name="l00814"></a>00814   ~GrallocDeprecatedTextureHostOGL();
+<a name="l00815"></a>00815 
+<a name="l00816"></a>00816   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetCompositor(Compositor* aCompositor) MOZ_OVERRIDE;
+<a name="l00817"></a>00817 
+<a name="l00818"></a>00818   <span class="keyword">virtual</span> <span class="keywordtype">void</span> UpdateImpl(<span class="keyword">const</span> SurfaceDescriptor&amp; aImage,
+<a name="l00819"></a>00819                           <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>* aRegion = <span class="keyword">nullptr</span>,
+<a name="l00820"></a>00820                           <a class="code" href="../../da/d1b/structns_int_point.html">nsIntPoint</a>* aOffset = <span class="keyword">nullptr</span>) MOZ_OVERRIDE;
+<a name="l00821"></a>00821   virtual <span class="keywordtype">void</span> SwapTexturesImpl(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> SurfaceDescriptor&amp; aImage,
+<a name="l00822"></a>00822                           <a class="code" href="../../d5/d82/classns_int_region.html">nsIntRegion</a>* aRegion = <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>) MOZ_OVERRIDE;
+<a name="l00823"></a>00823   virtual <span class="keywordtype">bool</span> Lock() MOZ_OVERRIDE;
+<a name="l00824"></a>00824   virtual <span class="keywordtype">void</span> Unlock() MOZ_OVERRIDE;
+<a name="l00825"></a>00825 
+<a name="l00826"></a>00826   virtual gfx::<a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#af49f74f3d4a508693b21f2e49234a3f9">IntSize</a> GetSize() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00827"></a>00827   {
+<a name="l00828"></a>00828     <span class="keywordflow">return</span> mGraphicBuffer.get() ? <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#af49f74f3d4a508693b21f2e49234a3f9">gfx::IntSize</a>(mGraphicBuffer-&gt;getWidth(), mGraphicBuffer-&gt;getHeight()) : <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#af49f74f3d4a508693b21f2e49234a3f9">gfx::IntSize</a>(0, 0);
+<a name="l00829"></a>00829   }
+<a name="l00830"></a>00830 
+<a name="l00831"></a>00831   <span class="keyword">virtual</span> <a class="code" href="../../da/d8e/namespacemozilla_1_1gfx.html#a8ad07eb68c5f5eab704c5a0934a5331f">gfx::SurfaceFormat</a> GetFormat() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00832"></a>00832 
+<a name="l00833"></a>00833   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> GetWrapMode() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00834"></a>00834   {
+<a name="l00835"></a>00835     <span class="keywordflow">return</span> <a class="code" href="../../df/de6/_g_l_defs_8h.html#a0d4a5ee5d89fb8c603dfb380a4e1de2b">LOCAL_GL_CLAMP_TO_EDGE</a>;
+<a name="l00836"></a>00836   }
+<a name="l00837"></a>00837 
+<a name="l00838"></a>00838   <span class="keyword">virtual</span> <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> GetTextureTarget() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE
+<a name="l00839"></a>00839   {
+<a name="l00840"></a>00840     <span class="keywordflow">return</span> mTextureTarget;
+<a name="l00841"></a>00841   }
+<a name="l00842"></a>00842 
+<a name="l00843"></a>00843   <span class="keywordtype">bool</span> IsValid() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE;
+<a name="l00844"></a>00844 
+<a name="l00845"></a>00845   virtual <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;<a class="code" href="../../db/d54/classgfx_image_surface.html">gfxImageSurface</a>&gt; GetAsSurface() MOZ_OVERRIDE;
+<a name="l00846"></a>00846 
+<a name="l00847"></a>00847 <span class="preprocessor">#ifdef MOZ_LAYERS_HAVE_LOG</span>
+<a name="l00848"></a>00848 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* Name() { <span class="keywordflow">return</span> <span class="stringliteral">&quot;GrallocDeprecatedTextureHostOGL&quot;</span>; }
+<a name="l00849"></a>00849 <span class="preprocessor">#endif</span>
+<a name="l00850"></a>00850 <span class="preprocessor"></span>
+<a name="l00851"></a>00851   <span class="keywordtype">void</span> BindTexture(<a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> aTextureUnit) MOZ_OVERRIDE;
+<a name="l00852"></a>00852   <span class="keywordtype">void</span> UnbindTexture() MOZ_OVERRIDE {}
+<a name="l00853"></a>00853 
+<a name="l00854"></a>00854   <span class="keyword">virtual</span> TextureSourceOGL* AsSourceOGL() MOZ_OVERRIDE
+<a name="l00855"></a>00855   {
+<a name="l00856"></a>00856     <span class="keywordflow">return</span> <span class="keyword">this</span>;
+<a name="l00857"></a>00857   }
+<a name="l00858"></a>00858 
+<a name="l00859"></a>00859   <span class="comment">// only overridden for hacky fix in gecko 23 for bug 862324</span>
+<a name="l00860"></a>00860   <span class="comment">// see bug 865908 about fixing this.</span>
+<a name="l00861"></a>00861   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetBuffer(SurfaceDescriptor* aBuffer, ISurfaceAllocator* aAllocator) MOZ_OVERRIDE;
+<a name="l00862"></a>00862 
+<a name="l00863"></a>00863   <span class="comment">// used only for hacky fix in gecko 23 for bug 862324</span>
+<a name="l00864"></a>00864   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ForgetBuffer()
+<a name="l00865"></a>00865   {
+<a name="l00866"></a>00866     <span class="keywordflow">if</span> (mBuffer) {
+<a name="l00867"></a>00867       <span class="comment">// Intentionally don&#39;t destroy the actor held by mBuffer here.</span>
+<a name="l00868"></a>00868       <span class="comment">// The point is that this is only called from GrallocBufferActor::ActorDestroy</span>
+<a name="l00869"></a>00869       <span class="comment">// where we know that the actor is already being deleted.</span>
+<a name="l00870"></a>00870       <span class="comment">// See bug 862324 comment 39.</span>
+<a name="l00871"></a>00871       <span class="keyword">delete</span> mBuffer;
+<a name="l00872"></a>00872       mBuffer = <span class="keyword">nullptr</span>;
+<a name="l00873"></a>00873     }
+<a name="l00874"></a>00874 
+<a name="l00875"></a>00875     mGraphicBuffer = <span class="keyword">nullptr</span>;
+<a name="l00876"></a>00876     DeleteTextures();
+<a name="l00877"></a>00877   }
+<a name="l00878"></a>00878 
+<a name="l00879"></a>00879   <span class="keyword">virtual</span> LayerRenderState GetRenderState() MOZ_OVERRIDE;
+<a name="l00880"></a>00880 
+<a name="l00881"></a>00881 private:
+<a name="l00882"></a>00882   <a class="code" href="../../d3/d91/j3d_8js.html#ac073c982f25059138823f2cb600ddb78">gl</a>::GLContext* <a class="code" href="../../d3/d91/j3d_8js.html#ac073c982f25059138823f2cb600ddb78">gl</a>() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a>;
+<a name="l00883"></a>00883 
+<a name="l00884"></a>00884   <span class="keywordtype">void</span> DeleteTextures();
+<a name="l00885"></a>00885 
+<a name="l00886"></a>00886   RefPtr&lt;CompositorOGL&gt; mCompositor;
+<a name="l00887"></a>00887   android::sp&lt;android::GraphicBuffer&gt; mGraphicBuffer;
+<a name="l00888"></a>00888   <a class="code" href="../../db/df0/_g_l_context_types_8h.html#a7efd7809e1632cdae75603fd1fee61c0">GLenum</a> mTextureTarget;
+<a name="l00889"></a>00889   <a class="code" href="../../df/de6/_g_l_defs_8h.html#aa9560ffaf1a461cef7f8e3c3d28c12e5">EGLImage</a> mEGLImage;
+<a name="l00890"></a>00890   <span class="comment">//Set when the composer needs to swap RB pixels of gralloc buffer</span>
+<a name="l00891"></a>00891   <span class="keywordtype">bool</span> mIsRBSwapped;
+<a name="l00892"></a>00892 };
+<a name="l00893"></a>00893 <span class="preprocessor">#endif</span>
+<a name="l00894"></a>00894 <span class="preprocessor"></span>
+<a name="l00895"></a>00895 } <span class="comment">// namespace</span>
+<a name="l00896"></a>00896 } <span class="comment">// namespace</span>
+<a name="l00897"></a>00897 
+<a name="l00898"></a>00898 <span class="preprocessor">#endif </span><span class="comment">/* MOZILLA_GFX_TEXTUREOGL_H */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../da/d65/_texture_host_o_g_l_8h.html">TextureHostOGL.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:24に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

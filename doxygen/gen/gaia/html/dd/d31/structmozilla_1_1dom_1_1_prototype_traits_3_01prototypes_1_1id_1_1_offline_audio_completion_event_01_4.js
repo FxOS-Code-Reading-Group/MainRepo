@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_offline_audio_completion_event_01_4 =
+[
+    [ "NativeType", "dd/d31/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_offline_audio_completion_event_01_4.html#ae6ff9478002bb7cd39af0812842eacf5", null ]
+];

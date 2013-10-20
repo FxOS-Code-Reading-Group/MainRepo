@@ -1,0 +1,494 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsContentSink.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d6/da7/ns_content_sink_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsContentSink.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d6/da7/ns_content_sink_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/*</span>
+<a name="l00007"></a>00007 <span class="comment"> * Base class for the XML and HTML content sinks, which construct a</span>
+<a name="l00008"></a>00008 <span class="comment"> * DOM based on information from the parser.</span>
+<a name="l00009"></a>00009 <span class="comment"> */</span>
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="preprocessor">#ifndef _nsContentSink_h_</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span><span class="preprocessor">#define _nsContentSink_h_</span>
+<a name="l00013"></a>00013 <span class="preprocessor"></span>
+<a name="l00014"></a>00014 <span class="comment">// Base class for contentsink implementations.</span>
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/da8/_attributes_8h.html">mozilla/Attributes.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d40/ns_i_c_s_s_loader_observer_8h.html">nsICSSLoaderObserver.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/dc8/ns_weak_reference_8h.html">nsWeakReference.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/d37/ns_string_8h.html">nsString.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/dfa/ns_gk_atoms_8h.html">nsGkAtoms.h</a>&quot;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d1c/ns_i_timer_8h.html">nsITimer.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/de6/ns_stub_document_observer_8h.html">nsStubDocumentObserver.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d5a/ns_i_content_sink_8h.html">nsIContentSink.h</a>&quot;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6e/prlog_8h.html">prlog.h</a>&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d4f/ns_cycle_collection_participant_8h.html">nsCycleCollectionParticipant.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html">nsThreadUtils.h</a>&quot;</span>
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="keyword">class </span><a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>;
+<a name="l00031"></a>00031 <span class="keyword">class </span><a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>;
+<a name="l00032"></a>00032 <span class="keyword">class </span><a class="code" href="../../d1/d2d/interfacens_i_channel.html">nsIChannel</a>;
+<a name="l00033"></a>00033 <span class="keyword">class </span><a class="code" href="../../db/da5/interfacens_i_doc_shell.html">nsIDocShell</a>;
+<a name="l00034"></a>00034 <span class="keyword">class </span><a class="code" href="../../d0/db2/classns_i_parser.html">nsIParser</a>;
+<a name="l00035"></a>00035 <span class="keyword">class </span><a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>;
+<a name="l00036"></a>00036 <span class="keyword">class </span><a class="code" href="../../d1/d2d/interfacens_i_channel.html">nsIChannel</a>;
+<a name="l00037"></a>00037 <span class="keyword">class </span><a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>;
+<a name="l00038"></a>00038 <span class="keyword">class </span>nsViewManager;
+<a name="l00039"></a>00039 <span class="keyword">class </span>nsNodeInfoManager;
+<a name="l00040"></a>00040 <span class="keyword">class </span><a class="code" href="../../dc/df4/classns_script_loader.html">nsScriptLoader</a>;
+<a name="l00041"></a>00041 <span class="keyword">class </span><a class="code" href="../../d2/d55/interfacens_i_application_cache.html">nsIApplicationCache</a>;
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 <span class="keyword">namespace </span>mozilla {
+<a name="l00044"></a>00044 <span class="keyword">namespace </span>css {
+<a name="l00045"></a>00045 <span class="keyword">class </span><a class="code" href="../../d3/d91/j3d_8js.html#ab93dcd73e1665631700ef9dbfcd50c89">Loader</a>;
+<a name="l00046"></a>00046 }
+<a name="l00047"></a>00047 }
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>
+<a name="l00051"></a>00051 <span class="keyword">extern</span> <a class="code" href="../../da/d4e/struct_p_r_log_module_info.html">PRLogModuleInfo</a>* gContentSinkLogModuleInfo;
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053 <span class="preprocessor">#define SINK_TRACE_CALLS              0x1</span>
+<a name="l00054"></a>00054 <span class="preprocessor"></span><span class="preprocessor">#define SINK_TRACE_REFLOW             0x2</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span><span class="preprocessor">#define SINK_ALWAYS_REFLOW            0x4</span>
+<a name="l00056"></a>00056 <span class="preprocessor"></span>
+<a name="l00057"></a>00057 <span class="preprocessor">#define SINK_LOG_TEST(_lm, _bit) (int((_lm)-&gt;level) &amp; (_bit))</span>
+<a name="l00058"></a>00058 <span class="preprocessor"></span>
+<a name="l00059"></a>00059 <span class="preprocessor">#define SINK_TRACE(_lm, _bit, _args) \</span>
+<a name="l00060"></a>00060 <span class="preprocessor">  PR_BEGIN_MACRO                     \</span>
+<a name="l00061"></a>00061 <span class="preprocessor">    if (SINK_LOG_TEST(_lm, _bit)) {  \</span>
+<a name="l00062"></a>00062 <span class="preprocessor">      PR_LogPrint _args;             \</span>
+<a name="l00063"></a>00063 <span class="preprocessor">    }                                \</span>
+<a name="l00064"></a>00064 <span class="preprocessor">  PR_END_MACRO</span>
+<a name="l00065"></a>00065 <span class="preprocessor"></span>
+<a name="l00066"></a>00066 <span class="preprocessor">#else</span>
+<a name="l00067"></a><a class="code" href="../../d6/da7/ns_content_sink_8h.html#a8b4d3e41330e3327f5726e3222454152">00067</a> <span class="preprocessor"></span><span class="preprocessor">#define SINK_TRACE(_lm, _bit, _args)</span>
+<a name="l00068"></a>00068 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00069"></a>00069 <span class="preprocessor"></span>
+<a name="l00070"></a>00070 <span class="preprocessor">#undef SINK_NO_INCREMENTAL</span>
+<a name="l00071"></a>00071 <span class="preprocessor"></span>
+<a name="l00072"></a>00072 <span class="comment">//----------------------------------------------------------------------</span>
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 <span class="comment">// 1/2 second fudge factor for window creation</span>
+<a name="l00075"></a><a class="code" href="../../d6/da7/ns_content_sink_8h.html#af548b24e9259389bd6988d939447491e">00075</a> <span class="preprocessor">#define NS_DELAY_FOR_WINDOW_CREATION  500000</span>
+<a name="l00076"></a>00076 <span class="preprocessor"></span>
+<a name="l00077"></a><a class="code" href="../../d7/d64/classns_content_sink.html">00077</a> <span class="keyword">class </span><a class="code" href="../../d7/d64/classns_content_sink.html">nsContentSink</a> : <span class="keyword">public</span> <a class="code" href="../../df/dc0/classns_i_c_s_s_loader_observer.html">nsICSSLoaderObserver</a>,
+<a name="l00078"></a>00078                       <span class="keyword">public</span> <a class="code" href="../../d0/d50/classns_supports_weak_reference.html">nsSupportsWeakReference</a>,
+<a name="l00079"></a>00079                       <span class="keyword">public</span> <a class="code" href="../../db/df4/classns_stub_document_observer.html">nsStubDocumentObserver</a>,
+<a name="l00080"></a>00080                       <span class="keyword">public</span> <a class="code" href="../../de/dc8/interfacens_i_timer_callback.html">nsITimerCallback</a>
+<a name="l00081"></a>00081 {
+<a name="l00082"></a>00082   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#ab396d595c983350cd489cccf23b555c5">NS_DECL_CYCLE_COLLECTING_ISUPPORTS</a>
+<a name="l00083"></a>00083   NS_DECL_CYCLE_COLLECTION_CLASS_AMBIGUOUS(<a class="code" href="../../d7/d64/classns_content_sink.html">nsContentSink</a>,
+<a name="l00084"></a>00084                                            <a class="code" href="../../df/dc0/classns_i_c_s_s_loader_observer.html">nsICSSLoaderObserver</a>)
+<a name="l00085"></a>00085     <span class="comment">// nsITimerCallback</span>
+<a name="l00086"></a>00086   <a class="code" href="../../d6/d1c/ns_i_timer_8h.html#ac446f38d8fcc5755e2c3f4a5bc198849">NS_DECL_NSITIMERCALLBACK</a>
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088   <span class="comment">// nsICSSLoaderObserver</span>
+<a name="l00089"></a>00089   <a class="code" href="../../d3/dd8/nscore_8h.html#abbc6d740d4f54ed1c90bbed28dcef65a">NS_IMETHOD</a> <a class="code" href="../../df/dc0/classns_i_c_s_s_loader_observer.html#a15f76f82bdfabc054a49f30d6fedc3ed">StyleSheetLoaded</a>(<a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>* aSheet, <span class="keywordtype">bool</span> aWasAlternate,
+<a name="l00090"></a>00090                               <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> aStatus) MOZ_OVERRIDE;
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> ProcessMETATag(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aContent);
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094   <span class="comment">// nsIContentSink implementation helpers</span>
+<a name="l00095"></a>00095   NS_HIDDEN_(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) WillParseImpl(<span class="keywordtype">void</span>);
+<a name="l00096"></a>00096   NS_HIDDEN_(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) WillInterruptImpl(<span class="keywordtype">void</span>);
+<a name="l00097"></a>00097   NS_HIDDEN_(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) WillResumeImpl(<span class="keywordtype">void</span>);
+<a name="l00098"></a>00098   NS_HIDDEN_(<a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a>) DidProcessATokenImpl(<span class="keywordtype">void</span>);
+<a name="l00099"></a>00099   NS_HIDDEN_(<span class="keywordtype">void</span>) WillBuildModelImpl(<span class="keywordtype">void</span>);
+<a name="l00100"></a>00100   NS_HIDDEN_(<span class="keywordtype">void</span>) DidBuildModelImpl(<span class="keywordtype">bool</span> aTerminated);
+<a name="l00101"></a>00101   NS_HIDDEN_(<span class="keywordtype">void</span>) DropParserAndPerfHint(<span class="keywordtype">void</span>);
+<a name="l00102"></a>00102   <span class="keywordtype">bool</span> IsScriptExecutingImpl();
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104   <span class="keywordtype">void</span> NotifyAppend(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aContent, uint32_t aStartIndex);
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106   <span class="comment">// nsIDocumentObserver</span>
+<a name="l00107"></a>00107   <a class="code" href="../../d0/d5b/ns_i_document_observer_8h.html#a324d1ccc8501629e8cb4a569b6418985">NS_DECL_NSIDOCUMENTOBSERVER_BEGINUPDATE</a>
+<a name="l00108"></a>00108   <a class="code" href="../../d0/d5b/ns_i_document_observer_8h.html#a7722e6a861535a48c4d387512c3e0018">NS_DECL_NSIDOCUMENTOBSERVER_ENDUPDATE</a>
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110   <span class="keyword">virtual</span> <span class="keywordtype">void</span> UpdateChildCounts() = 0;
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112   <span class="keywordtype">bool</span> IsTimeToNotify();
+<a name="l00113"></a>00113   <span class="keywordtype">bool</span> LinkContextIsOurDocument(<span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; aAnchor);
+<a name="l00114"></a>00114   <span class="keywordtype">bool</span> Decode5987Format(nsAString&amp; aEncoded);
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116   <span class="keyword">static</span> <span class="keywordtype">void</span> InitializeStatics();
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118 <span class="keyword">protected</span>:
+<a name="l00119"></a>00119   <a class="code" href="../../d7/d64/classns_content_sink.html#acc1324aa6a4d738e7fac9927f63d5b1f">nsContentSink</a>();
+<a name="l00120"></a>00120   <span class="keyword">virtual</span> <a class="code" href="../../d7/d64/classns_content_sink.html#a19d85750a7ac01cac07d8f04c46a377e">~nsContentSink</a>();
+<a name="l00121"></a>00121 
+<a name="l00122"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472">00122</a>   <span class="keyword">enum</span> <a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472">CacheSelectionAction</a> {
+<a name="l00123"></a>00123     <span class="comment">// There is no offline cache manifest specified by the document,</span>
+<a name="l00124"></a>00124     <span class="comment">// or the document was loaded from a cache other than the one it</span>
+<a name="l00125"></a>00125     <span class="comment">// specifies via its manifest attribute and IS NOT a top-level</span>
+<a name="l00126"></a>00126     <span class="comment">// document, or an error occurred during the cache selection</span>
+<a name="l00127"></a>00127     <span class="comment">// algorithm.</span>
+<a name="l00128"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472ac1d1d8c26b6595f9f68491e5a1c834e5">00128</a>     <a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472ac1d1d8c26b6595f9f68491e5a1c834e5">CACHE_SELECTION_NONE</a> = 0,
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130     <span class="comment">// The offline cache manifest must be updated.</span>
+<a name="l00131"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472a90ae51c9e77c881d71aaf23b52668b6c">00131</a>     <a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472a90ae51c9e77c881d71aaf23b52668b6c">CACHE_SELECTION_UPDATE</a> = 1,
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133     <span class="comment">// The document was loaded from a cache other than the one it</span>
+<a name="l00134"></a>00134     <span class="comment">// specifies via its manifest attribute and IS a top-level</span>
+<a name="l00135"></a>00135     <span class="comment">// document.  In this case, the document is marked as foreign in</span>
+<a name="l00136"></a>00136     <span class="comment">// the cache it was loaded from and must be reloaded from the</span>
+<a name="l00137"></a>00137     <span class="comment">// correct cache (the one it specifies).</span>
+<a name="l00138"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472a707e6df5110b267019fb5d4fe1b2de04">00138</a>     <a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472a707e6df5110b267019fb5d4fe1b2de04">CACHE_SELECTION_RELOAD</a> = 2,
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140     <span class="comment">// Some conditions require we must reselect the cache without the manifest</span>
+<a name="l00141"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472a5c11b3e23be32a8b626b04cef0098e8e">00141</a>     <a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472a5c11b3e23be32a8b626b04cef0098e8e">CACHE_SELECTION_RESELECT_WITHOUT_MANIFEST</a> = 3
+<a name="l00142"></a>00142   };
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d7/d64/classns_content_sink.html#a6a6957fe4f3676070f9e5bba81adc1ce">Init</a>(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDoc, <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>* aURI,
+<a name="l00145"></a>00145                 <a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a>* aContainer, <a class="code" href="../../d1/d2d/interfacens_i_channel.html">nsIChannel</a>* aChannel);
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d7/d64/classns_content_sink.html#aaf7c67cf30043c07ff4ffa4082d20025">ProcessHTTPHeaders</a>(<a class="code" href="../../d1/d2d/interfacens_i_channel.html">nsIChannel</a>* aChannel);
+<a name="l00148"></a>00148   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d7/d64/classns_content_sink.html#afb600b964d80baaf228fc8cf0829800f">ProcessHeaderData</a>(<a class="code" href="../../dc/dcf/interfacens_i_atom.html">nsIAtom</a>* <a class="code" href="../../de/d81/xpt__struct_8h.html#af71186e73cea4bee641c417dca50fe45">aHeader</a>, <span class="keyword">const</span> nsAString&amp; aValue,
+<a name="l00149"></a>00149                              <a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aContent = <span class="keyword">nullptr</span>);
+<a name="l00150"></a>00150   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d7/d64/classns_content_sink.html#a10a0c4dde472804ed0fb364653120e9d">ProcessLinkHeader</a>(<span class="keyword">const</span> nsAString&amp; aLinkData);
+<a name="l00151"></a>00151   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d7/d64/classns_content_sink.html#a019d99aad3188c680e5ed4ede9b7af01">ProcessLink</a>(<span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; aAnchor,
+<a name="l00152"></a>00152                        <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; aHref, <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; aRel,
+<a name="l00153"></a>00153                        <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; aTitle, <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00154"></a>00154                        <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; aMedia);
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d7/d64/classns_content_sink.html#a9750e46c511f934a81d1febd96c6954f">ProcessStyleLink</a>(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a>* aElement,
+<a name="l00157"></a>00157                                     <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; aHref,
+<a name="l00158"></a>00158                                     <span class="keywordtype">bool</span> aAlternate,
+<a name="l00159"></a>00159                                     <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; aTitle,
+<a name="l00160"></a>00160                                     <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00161"></a>00161                                     <span class="keyword">const</span> <a class="code" href="../../de/d85/ns_string_fwd_8h.html#a3bfb7177cb2aa43e731478f9ae2209a2">nsSubstring</a>&amp; aMedia);
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163   <span class="keywordtype">void</span> <a class="code" href="../../d7/d64/classns_content_sink.html#a55cf256cef76de944618d12ce1d5d450">PrefetchHref</a>(<span class="keyword">const</span> nsAString &amp;aHref, <a class="code" href="../../d7/de8/classns_i_node.html">nsINode</a> *aSource,
+<a name="l00164"></a>00164                     <span class="keywordtype">bool</span> aExplicit);
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166   <span class="comment">// aHref can either be the usual URI format or of the form &quot;//www.hostname.com&quot;</span>
+<a name="l00167"></a>00167   <span class="comment">// without a scheme.</span>
+<a name="l00168"></a>00168   <span class="keywordtype">void</span> <a class="code" href="../../d7/d64/classns_content_sink.html#a9adead8314e7a347d63ca31b5584e45d">PrefetchDNS</a>(<span class="keyword">const</span> nsAString &amp;aHref);
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170   <span class="comment">// Gets the cache key (used to identify items in a cache) of the channel.</span>
+<a name="l00171"></a>00171   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d7/d64/classns_content_sink.html#a96595dc6a151af8e44fc33fac5555176">GetChannelCacheKey</a>(<a class="code" href="../../d1/d2d/interfacens_i_channel.html">nsIChannel</a>* aChannel, nsACString&amp; aCacheKey);
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173   <span class="comment">// There is an offline cache manifest attribute specified and the</span>
+<a name="l00174"></a>00174   <span class="comment">// document is allowed to use the offline cache.  Process the cache</span>
+<a name="l00175"></a>00175   <span class="comment">// selection algorithm for this document and the manifest. Result is</span>
+<a name="l00176"></a>00176   <span class="comment">// an action that must be taken on the manifest, see</span>
+<a name="l00177"></a>00177   <span class="comment">// CacheSelectionAction enum above.</span>
+<a name="l00178"></a>00178   <span class="comment">//</span>
+<a name="l00179"></a>00179   <span class="comment">// @param aLoadApplicationCache</span>
+<a name="l00180"></a>00180   <span class="comment">//        The application cache from which the load originated, if</span>
+<a name="l00181"></a>00181   <span class="comment">//        any.</span>
+<a name="l00182"></a>00182   <span class="comment">// @param aManifestURI</span>
+<a name="l00183"></a>00183   <span class="comment">//        The manifest URI listed in the document.</span>
+<a name="l00184"></a>00184   <span class="comment">// @param aFetchedWithHTTPGetOrEquiv</span>
+<a name="l00185"></a>00185   <span class="comment">//        TRUE if this was fetched using the HTTP GET method.</span>
+<a name="l00186"></a>00186   <span class="comment">// @param aAction</span>
+<a name="l00187"></a>00187   <span class="comment">//        Out parameter, returns the action that should be performed</span>
+<a name="l00188"></a>00188   <span class="comment">//        by the calling function.</span>
+<a name="l00189"></a>00189   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d7/d64/classns_content_sink.html#a8fe74f5f27551a09813fb06d8718366f">SelectDocAppCache</a>(<a class="code" href="../../d2/d55/interfacens_i_application_cache.html">nsIApplicationCache</a> *aLoadApplicationCache,
+<a name="l00190"></a>00190                              <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a> *aManifestURI,
+<a name="l00191"></a>00191                              <span class="keywordtype">bool</span> aFetchedWithHTTPGetOrEquiv,
+<a name="l00192"></a>00192                              <a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472">CacheSelectionAction</a> *aAction);
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194   <span class="comment">// There is no offline cache manifest attribute specified.  Process</span>
+<a name="l00195"></a>00195   <span class="comment">// the cache selection algorithm w/o the manifest. Result is an</span>
+<a name="l00196"></a>00196   <span class="comment">// action that must be taken, see CacheSelectionAction enum</span>
+<a name="l00197"></a>00197   <span class="comment">// above. In case the offline cache manifest has to be updated the</span>
+<a name="l00198"></a>00198   <span class="comment">// manifest URI is returned in aManifestURI.</span>
+<a name="l00199"></a>00199   <span class="comment">//</span>
+<a name="l00200"></a>00200   <span class="comment">// @param aLoadApplicationCache</span>
+<a name="l00201"></a>00201   <span class="comment">//        The application cache from which the load originated, if</span>
+<a name="l00202"></a>00202   <span class="comment">//        any.</span>
+<a name="l00203"></a>00203   <span class="comment">// @param aManifestURI</span>
+<a name="l00204"></a>00204   <span class="comment">//        Out parameter, returns the manifest URI of the cache that</span>
+<a name="l00205"></a>00205   <span class="comment">//        was selected.</span>
+<a name="l00206"></a>00206   <span class="comment">// @param aAction</span>
+<a name="l00207"></a>00207   <span class="comment">//        Out parameter, returns the action that should be performed</span>
+<a name="l00208"></a>00208   <span class="comment">//        by the calling function.</span>
+<a name="l00209"></a>00209   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d7/d64/classns_content_sink.html#a40f3a7b4a2275c045ef33bc0a1252d47">SelectDocAppCacheNoManifest</a>(<a class="code" href="../../d2/d55/interfacens_i_application_cache.html">nsIApplicationCache</a> *aLoadApplicationCache,
+<a name="l00210"></a>00210                                        <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a> **aManifestURI,
+<a name="l00211"></a>00211                                        <a class="code" href="../../d7/d64/classns_content_sink.html#a72996c55a112e6eae80204a5ea054472">CacheSelectionAction</a> *aAction);
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213 <span class="keyword">public</span>:
+<a name="l00214"></a>00214   <span class="comment">// Searches for the offline cache manifest attribute and calls one</span>
+<a name="l00215"></a>00215   <span class="comment">// of the above defined methods to select the document&#39;s application</span>
+<a name="l00216"></a>00216   <span class="comment">// cache, let it be associated with the document and eventually</span>
+<a name="l00217"></a>00217   <span class="comment">// schedule the cache update process.</span>
+<a name="l00218"></a>00218   <span class="comment">// This method MUST be called with the empty string as the argument</span>
+<a name="l00219"></a>00219   <span class="comment">// when there is no manifest attribute!</span>
+<a name="l00220"></a>00220   <span class="keywordtype">void</span> <a class="code" href="../../d7/d64/classns_content_sink.html#afa378a127853f9489ef60256fda88b7e">ProcessOfflineManifest</a>(<span class="keyword">const</span> nsAString&amp; aManifestSpec);
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222   <span class="comment">// Extracts the manifest attribute from the element if it is the root </span>
+<a name="l00223"></a>00223   <span class="comment">// element and calls the above method.</span>
+<a name="l00224"></a>00224   <span class="keywordtype">void</span> <a class="code" href="../../d7/d64/classns_content_sink.html#afa378a127853f9489ef60256fda88b7e">ProcessOfflineManifest</a>(<a class="code" href="../../d7/d68/classns_i_content.html">nsIContent</a> *aElement);
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226 <span class="keyword">protected</span>:
+<a name="l00227"></a>00227   <span class="comment">// Tries to scroll to the URI&#39;s named anchor. Once we&#39;ve successfully</span>
+<a name="l00228"></a>00228   <span class="comment">// done that, further calls to this method will be ignored.</span>
+<a name="l00229"></a>00229   <span class="keywordtype">void</span> <a class="code" href="../../d7/d64/classns_content_sink.html#acaedb0f1fc99f94ec196646850148dac">ScrollToRef</a>();
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231   <span class="comment">// Start layout.  If aIgnorePendingSheets is true, this will happen even if</span>
+<a name="l00232"></a>00232   <span class="comment">// we still have stylesheet loads pending.  Otherwise, we&#39;ll wait until the</span>
+<a name="l00233"></a>00233   <span class="comment">// stylesheets are all done loading.</span>
+<a name="l00234"></a>00234 <span class="keyword">public</span>:
+<a name="l00235"></a>00235   <span class="keywordtype">void</span> <a class="code" href="../../d7/d64/classns_content_sink.html#ab814f48e514618bb24926bd80478e1ce">StartLayout</a>(<span class="keywordtype">bool</span> aIgnorePendingSheets);
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../d7/d64/classns_content_sink.html#acc03316227cd8774156d8ceca19470c0">NotifyDocElementCreated</a>(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDoc);
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239 <span class="keyword">protected</span>:
+<a name="l00240"></a>00240   <span class="keywordtype">void</span>
+<a name="l00241"></a>00241   <a class="code" href="../../d7/d64/classns_content_sink.html#a71a81a6b09d5732ddeac882ba4ad4d35">FavorPerformanceHint</a>(<span class="keywordtype">bool</span> perfOverStarvation, uint32_t starvationDelay);
+<a name="l00242"></a>00242 
+<a name="l00243"></a><a class="code" href="../../d7/d64/classns_content_sink.html#ac050f7e3d501be0de32b9ca11a067aac">00243</a>   <span class="keyword">inline</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#ac050f7e3d501be0de32b9ca11a067aac">GetNotificationInterval</a>()
+<a name="l00244"></a>00244   {
+<a name="l00245"></a>00245     <span class="keywordflow">if</span> (<a class="code" href="../../d7/d64/classns_content_sink.html#ac04944c199b8f7afd705caad0503799d">mDynamicLowerValue</a>) {
+<a name="l00246"></a>00246       <span class="keywordflow">return</span> 1000;
+<a name="l00247"></a>00247     }
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249     <span class="keywordflow">return</span> <a class="code" href="../../d7/d64/classns_content_sink.html#a37b4ac13ef0f1bf204848954ed1f4a8c">sNotificationInterval</a>;
+<a name="l00250"></a>00250   }
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252   <span class="keyword">virtual</span> <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> <a class="code" href="../../d7/d64/classns_content_sink.html#abe7fe47baddf1bef8c0c2acfb4815137">FlushTags</a>() = 0;
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254   <span class="comment">// Later on we might want to make this more involved somehow</span>
+<a name="l00255"></a>00255   <span class="comment">// (e.g. stop waiting after some timeout or whatnot).</span>
+<a name="l00256"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a52d8cc63a8873e4375d9c53f770822db">00256</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d7/d64/classns_content_sink.html#a52d8cc63a8873e4375d9c53f770822db">WaitForPendingSheets</a>() { <span class="keywordflow">return</span> <a class="code" href="../../d7/d64/classns_content_sink.html#a9821cb7e6d83bb259746c8f04980d9b0">mPendingSheetCount</a> &gt; 0; }
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258   <span class="keywordtype">void</span> <a class="code" href="../../d7/d64/classns_content_sink.html#acf9b996c2386c8a23ec0774049d77678">DoProcessLinkHeader</a>();
+<a name="l00259"></a>00259 
+<a name="l00260"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a951f274beeab8fe1015f6b4130b7c345">00260</a>   <span class="keywordtype">void</span> <a class="code" href="../../d7/d64/classns_content_sink.html#a951f274beeab8fe1015f6b4130b7c345">StopDeflecting</a>() {
+<a name="l00261"></a>00261     <a class="code" href="../../d7/d64/classns_content_sink.html#a11b1f488e659c27c0a96248618653d08">mDeflectedCount</a> = <a class="code" href="../../d7/d64/classns_content_sink.html#ab89f6e7fb8e3b5e7cfcebe2cc57506e1">sPerfDeflectCount</a>;
+<a name="l00262"></a>00262   }
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264 <span class="keyword">private</span>:
+<a name="l00265"></a>00265   <span class="comment">// People shouldn&#39;t be allocating this class directly.  All subclasses should</span>
+<a name="l00266"></a>00266   <span class="comment">// be allocated using a zeroing operator new.</span>
+<a name="l00267"></a>00267   <span class="keywordtype">void</span>* operator new(<span class="keywordtype">size_t</span> sz) <a class="code" href="../../d7/d2d/xpcom-config_8h.html#a9a0878f36babdc2feb3a8352a64a434d">CPP_THROW_NEW</a>;  <span class="comment">// Not to be implemented</span>
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269 <span class="keyword">protected</span>:
+<a name="l00270"></a>00270 
+<a name="l00271"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a227b734cf671ce40ea0ea54d2d690bdc">00271</a>   nsCOMPtr&lt;nsIDocument&gt;         <a class="code" href="../../d7/d64/classns_content_sink.html#a227b734cf671ce40ea0ea54d2d690bdc">mDocument</a>;
+<a name="l00272"></a><a class="code" href="../../d7/d64/classns_content_sink.html#aff07c8384f1653228b25fc8ce3f9d0b2">00272</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsParserBase&gt;</a>        <a class="code" href="../../d7/d64/classns_content_sink.html#aff07c8384f1653228b25fc8ce3f9d0b2">mParser</a>;
+<a name="l00273"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a2b0daca38f1dd659c0aa002bca82674c">00273</a>   nsCOMPtr&lt;nsIURI&gt;              <a class="code" href="../../d7/d64/classns_content_sink.html#a2b0daca38f1dd659c0aa002bca82674c">mDocumentURI</a>;
+<a name="l00274"></a><a class="code" href="../../d7/d64/classns_content_sink.html#ac8ed6a9d298c705ee611f62b7e55fc97">00274</a>   nsCOMPtr&lt;nsIDocShell&gt;         <a class="code" href="../../d7/d64/classns_content_sink.html#ac8ed6a9d298c705ee611f62b7e55fc97">mDocShell</a>;
+<a name="l00275"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a2cc213bcc321a3ab4919763bd2d1c817">00275</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;mozilla::css::Loader&gt;</a> <a class="code" href="../../d7/d64/classns_content_sink.html#a2cc213bcc321a3ab4919763bd2d1c817">mCSSLoader</a>;
+<a name="l00276"></a><a class="code" href="../../d7/d64/classns_content_sink.html#aafd13b90b20e52045225dc0f65e7a095">00276</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsNodeInfoManager&gt;</a>   <a class="code" href="../../d7/d64/classns_content_sink.html#aafd13b90b20e52045225dc0f65e7a095">mNodeInfoManager</a>;
+<a name="l00277"></a><a class="code" href="../../d7/d64/classns_content_sink.html#abb0a23e903a5355b41fca72d5a704e0f">00277</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsScriptLoader&gt;</a>      <a class="code" href="../../d7/d64/classns_content_sink.html#abb0a23e903a5355b41fca72d5a704e0f">mScriptLoader</a>;
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279   <span class="comment">// back off timer notification after count</span>
+<a name="l00280"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a0e103ff2c36a072be096e324d787182d">00280</a>   int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a0e103ff2c36a072be096e324d787182d">mBackoffCount</a>;
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282   <span class="comment">// Time of last notification</span>
+<a name="l00283"></a>00283   <span class="comment">// Note: mLastNotificationTime is only valid once mLayoutStarted is true.</span>
+<a name="l00284"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a4d3aacb3f655f1c28a96a31a6af5e18c">00284</a>   <a class="code" href="../../db/d12/nsrootidl_8idl.html#a72b6a1b9e3f0db9889388315f0c24ab2">PRTime</a> <a class="code" href="../../d7/d64/classns_content_sink.html#a4d3aacb3f655f1c28a96a31a6af5e18c">mLastNotificationTime</a>;
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286   <span class="comment">// Timer used for notification</span>
+<a name="l00287"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a8def54930abdfa4de43c1cceff61c04d">00287</a>   nsCOMPtr&lt;nsITimer&gt; <a class="code" href="../../d7/d64/classns_content_sink.html#a8def54930abdfa4de43c1cceff61c04d">mNotificationTimer</a>;
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289   <span class="comment">// Have we already called BeginUpdate for this set of content changes?</span>
+<a name="l00290"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a0f80e7356100ff29c53fcb5579b883cf">00290</a>   uint8_t <a class="code" href="../../d7/d64/classns_content_sink.html#a0f80e7356100ff29c53fcb5579b883cf">mBeganUpdate</a> : 1;
+<a name="l00291"></a><a class="code" href="../../d7/d64/classns_content_sink.html#af294266a73fc68fee9a01888ce48628a">00291</a>   uint8_t <a class="code" href="../../d7/d64/classns_content_sink.html#af294266a73fc68fee9a01888ce48628a">mLayoutStarted</a> : 1;
+<a name="l00292"></a><a class="code" href="../../d7/d64/classns_content_sink.html#ac04944c199b8f7afd705caad0503799d">00292</a>   uint8_t <a class="code" href="../../d7/d64/classns_content_sink.html#ac04944c199b8f7afd705caad0503799d">mDynamicLowerValue</a> : 1;
+<a name="l00293"></a><a class="code" href="../../d7/d64/classns_content_sink.html#aa0863b822a4561e47fbd81ec1b947440">00293</a>   uint8_t <a class="code" href="../../d7/d64/classns_content_sink.html#aa0863b822a4561e47fbd81ec1b947440">mParsing</a> : 1;
+<a name="l00294"></a><a class="code" href="../../d7/d64/classns_content_sink.html#ab8774445886278350d7b720f63631f3f">00294</a>   uint8_t <a class="code" href="../../d7/d64/classns_content_sink.html#ab8774445886278350d7b720f63631f3f">mDroppedTimer</a> : 1;
+<a name="l00295"></a>00295   <span class="comment">// If true, we deferred starting layout until sheets load</span>
+<a name="l00296"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a7e63befdab8d57dc53e8d59239efbe2f">00296</a>   uint8_t <a class="code" href="../../d7/d64/classns_content_sink.html#a7e63befdab8d57dc53e8d59239efbe2f">mDeferredLayoutStart</a> : 1;
+<a name="l00297"></a>00297   <span class="comment">// If true, we deferred notifications until sheets load</span>
+<a name="l00298"></a><a class="code" href="../../d7/d64/classns_content_sink.html#ae4d14f3a965005fcdfa4810718b97080">00298</a>   uint8_t <a class="code" href="../../d7/d64/classns_content_sink.html#ae4d14f3a965005fcdfa4810718b97080">mDeferredFlushTags</a> : 1;
+<a name="l00299"></a>00299   <span class="comment">// If false, we&#39;re not ourselves a document observer; that means we</span>
+<a name="l00300"></a>00300   <span class="comment">// shouldn&#39;t be performing any more content model notifications,</span>
+<a name="l00301"></a>00301   <span class="comment">// since we&#39;re not longer updating our child counts.</span>
+<a name="l00302"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a110c7b20072d50d3f28b7fbb3d88b3a1">00302</a>   uint8_t <a class="code" href="../../d7/d64/classns_content_sink.html#a110c7b20072d50d3f28b7fbb3d88b3a1">mIsDocumentObserver</a> : 1;
+<a name="l00303"></a>00303   <span class="comment">// True if this is parser is a fragment parser or an HTML DOMParser.</span>
+<a name="l00304"></a>00304   <span class="comment">// XML DOMParser leaves this to false for now!</span>
+<a name="l00305"></a><a class="code" href="../../d7/d64/classns_content_sink.html#ada63e3c002dec1b0d5a84ba25faa365d">00305</a>   uint8_t <a class="code" href="../../d7/d64/classns_content_sink.html#ada63e3c002dec1b0d5a84ba25faa365d">mRunsToCompletion</a> : 1;
+<a name="l00306"></a>00306   
+<a name="l00307"></a>00307   <span class="comment">//</span>
+<a name="l00308"></a>00308   <span class="comment">// -- Can interrupt parsing members --</span>
+<a name="l00309"></a>00309   <span class="comment">//</span>
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311   <span class="comment">// The number of tokens that have been processed since we measured</span>
+<a name="l00312"></a>00312   <span class="comment">// if it&#39;s time to return to the main event loop.</span>
+<a name="l00313"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a11b1f488e659c27c0a96248618653d08">00313</a>   uint32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a11b1f488e659c27c0a96248618653d08">mDeflectedCount</a>;
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315   <span class="comment">// Is there currently a pending event?</span>
+<a name="l00316"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a368ea9ca55287bf87498c87791e67a31">00316</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d7/d64/classns_content_sink.html#a368ea9ca55287bf87498c87791e67a31">mHasPendingEvent</a>;
+<a name="l00317"></a>00317 
+<a name="l00318"></a>00318   <span class="comment">// When to return to the main event loop</span>
+<a name="l00319"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a71b891f9a0364ffb4d7da59b40a19ba2">00319</a>   uint32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a71b891f9a0364ffb4d7da59b40a19ba2">mCurrentParseEndTime</a>;
+<a name="l00320"></a>00320 
+<a name="l00321"></a><a class="code" href="../../d7/d64/classns_content_sink.html#aa02615643358d53e05eadaa1891e57ae">00321</a>   int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#aa02615643358d53e05eadaa1891e57ae">mBeginLoadTime</a>;
+<a name="l00322"></a>00322 
+<a name="l00323"></a>00323   <span class="comment">// Last mouse event or keyboard event time sampled by the content</span>
+<a name="l00324"></a>00324   <span class="comment">// sink</span>
+<a name="l00325"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a581d729856c84d78c0e751b44f0083d5">00325</a>   uint32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a581d729856c84d78c0e751b44f0083d5">mLastSampledUserEventTime</a>;
+<a name="l00326"></a>00326 
+<a name="l00327"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a7cf6ec29f5114210760038e6696c041a">00327</a>   int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a7cf6ec29f5114210760038e6696c041a">mInMonolithicContainer</a>;
+<a name="l00328"></a>00328 
+<a name="l00329"></a><a class="code" href="../../d7/d64/classns_content_sink.html#abd88469ba3a2285dcc0a15043ab27b0f">00329</a>   int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#abd88469ba3a2285dcc0a15043ab27b0f">mInNotification</a>;
+<a name="l00330"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a01d5f3cc85b5108daa89e0150d37fe62">00330</a>   uint32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a01d5f3cc85b5108daa89e0150d37fe62">mUpdatesInNotification</a>;
+<a name="l00331"></a>00331 
+<a name="l00332"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a9821cb7e6d83bb259746c8f04980d9b0">00332</a>   uint32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a9821cb7e6d83bb259746c8f04980d9b0">mPendingSheetCount</a>;
+<a name="l00333"></a>00333 
+<a name="l00334"></a>00334   <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html">nsRevocableEventPtr&lt;nsRunnableMethod&lt;nsContentSink, void, false&gt;</a> &gt;
+<a name="l00335"></a><a class="code" href="../../d7/d64/classns_content_sink.html#abf3009f8b8e38065a3c7a64f8ff29d75">00335</a>     <a class="code" href="../../d7/d64/classns_content_sink.html#abf3009f8b8e38065a3c7a64f8ff29d75">mProcessLinkHeaderEvent</a>;
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337   <span class="comment">// Do we notify based on time?</span>
+<a name="l00338"></a><a class="code" href="../../d7/d64/classns_content_sink.html#ad2d2f6e7ea0cea745595b56b7aadb39b">00338</a>   <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="../../d7/d64/classns_content_sink.html#ad2d2f6e7ea0cea745595b56b7aadb39b">sNotifyOnTimer</a>;
+<a name="l00339"></a>00339   <span class="comment">// Back off timer notification after count.</span>
+<a name="l00340"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a5d12fcd2606e99c4d037aedb02589605">00340</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a5d12fcd2606e99c4d037aedb02589605">sBackoffCount</a>;
+<a name="l00341"></a>00341   <span class="comment">// Notification interval in microseconds</span>
+<a name="l00342"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a37b4ac13ef0f1bf204848954ed1f4a8c">00342</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a37b4ac13ef0f1bf204848954ed1f4a8c">sNotificationInterval</a>;
+<a name="l00343"></a>00343   <span class="comment">// How many times to deflect in interactive/perf modes</span>
+<a name="l00344"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a02f7927e888057e2af78fe69b8f61e84">00344</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a02f7927e888057e2af78fe69b8f61e84">sInteractiveDeflectCount</a>;
+<a name="l00345"></a><a class="code" href="../../d7/d64/classns_content_sink.html#ab89f6e7fb8e3b5e7cfcebe2cc57506e1">00345</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#ab89f6e7fb8e3b5e7cfcebe2cc57506e1">sPerfDeflectCount</a>;
+<a name="l00346"></a>00346   <span class="comment">// 0 = don&#39;t check for pending events</span>
+<a name="l00347"></a>00347   <span class="comment">// 1 = don&#39;t deflect if there are pending events</span>
+<a name="l00348"></a>00348   <span class="comment">// 2 = bail if there are pending events</span>
+<a name="l00349"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a6a3884b2b4834343df8ae4779c3d360e">00349</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a6a3884b2b4834343df8ae4779c3d360e">sPendingEventMode</a>;
+<a name="l00350"></a>00350   <span class="comment">// How often to probe for pending events. 1=every token</span>
+<a name="l00351"></a><a class="code" href="../../d7/d64/classns_content_sink.html#aacc4cfa629ac42152201036dd10c63c8">00351</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#aacc4cfa629ac42152201036dd10c63c8">sEventProbeRate</a>;
+<a name="l00352"></a>00352   <span class="comment">// How long to stay off the event loop in interactive/perf modes</span>
+<a name="l00353"></a><a class="code" href="../../d7/d64/classns_content_sink.html#aa0961c6454a4f360baa527e2c219033c">00353</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#aa0961c6454a4f360baa527e2c219033c">sInteractiveParseTime</a>;
+<a name="l00354"></a><a class="code" href="../../d7/d64/classns_content_sink.html#afc2ec71a827188af45811d90508b593c">00354</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#afc2ec71a827188af45811d90508b593c">sPerfParseTime</a>;
+<a name="l00355"></a>00355   <span class="comment">// How long to be in interactive mode after an event</span>
+<a name="l00356"></a><a class="code" href="../../d7/d64/classns_content_sink.html#abaf1b95b40c23fe969272a64483f0591">00356</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#abaf1b95b40c23fe969272a64483f0591">sInteractiveTime</a>;
+<a name="l00357"></a>00357   <span class="comment">// How long to stay in perf mode after initial loading</span>
+<a name="l00358"></a><a class="code" href="../../d7/d64/classns_content_sink.html#a92c0d7a6e9d6be6b7888edb370cc3ddc">00358</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#a92c0d7a6e9d6be6b7888edb370cc3ddc">sInitialPerfTime</a>;
+<a name="l00359"></a>00359   <span class="comment">// Should we switch between perf-mode and interactive-mode</span>
+<a name="l00360"></a><a class="code" href="../../d7/d64/classns_content_sink.html#ab77078f656a36c9446f31e353eeaf72e">00360</a>   <span class="keyword">static</span> int32_t <a class="code" href="../../d7/d64/classns_content_sink.html#ab77078f656a36c9446f31e353eeaf72e">sEnablePerfMode</a>;
+<a name="l00361"></a>00361 };
+<a name="l00362"></a>00362 
+<a name="l00363"></a>00363 <span class="preprocessor">#endif // _nsContentSink_h_</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d6/da7/ns_content_sink_8h.html">nsContentSink.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:56に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

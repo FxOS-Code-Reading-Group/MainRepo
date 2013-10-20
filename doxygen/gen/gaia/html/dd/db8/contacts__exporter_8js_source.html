@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: contacts_exporter.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dd/db8/contacts__exporter_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">contacts_exporter.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dd/db8/contacts__exporter_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../dd/db8/contacts__exporter_8js.html#ae2475e10618961c050dcba04e8c42331">00001</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="comment">//</span>
+<a name="l00004"></a>00004 <span class="comment">//  Generic module to do contacts export.</span>
+<a name="l00005"></a>00005 <span class="comment">//</span>
+<a name="l00006"></a>00006 <span class="comment">//  Once passed to this module an array of mozContacts objects</span>
+<a name="l00007"></a>00007 <span class="comment">//  and setup the strategy (mechanism to export), will perform</span>
+<a name="l00008"></a>00008 <span class="comment">//  the common steps taken place during the process of exporting</span>
+<a name="l00009"></a>00009 <span class="comment">//  the information.</span>
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="comment">//  Those steps are:</span>
+<a name="l00012"></a>00012 
+<a name="l00013"></a>00013 <span class="comment">//  - Preparation: (optional), may launch extra UI to setup some configuration</span>
+<a name="l00014"></a>00014 <span class="comment">//    and transform the mozcontacts object to any extra format</span>
+<a name="l00015"></a>00015 <span class="comment">//  - Export: Here is where the real import happens, could provide three known</span>
+<a name="l00016"></a>00016 <span class="comment">//    scenarios:</span>
+<a name="l00017"></a>00017 <span class="comment">//      - External handling of the export (web activity, ect.)</span>
+<a name="l00018"></a>00018 <span class="comment">//      - Progress of the import:</span>
+<a name="l00019"></a>00019 <span class="comment">//        - Defined progress activity</span>
+<a name="l00020"></a>00020 <span class="comment">//        - Undefined progress</span>
+<a name="l00021"></a>00021 <span class="comment">//  - Result of the export</span>
+<a name="l00022"></a>00022 
+<a name="l00023"></a><a class="code" href="../../dd/db8/contacts__exporter_8js.html#a066a697613e8497c4f4aa5808a3cfe1f">00023</a> <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.ContactsExporter = <span class="keyword">function</span> <a class="code" href="../../dd/db8/contacts__exporter_8js.html#a066a697613e8497c4f4aa5808a3cfe1f">ContactsExporter</a>(theStrategy) {
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025   var <a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>;
+<a name="l00026"></a>00026   var strategy = theStrategy;
+<a name="l00027"></a>00027   var hasProgress = <span class="keyword">false</span>;
+<a name="l00028"></a>00028   var determinativeProgress = <span class="keyword">false</span>;
+<a name="l00029"></a>00029   var progress;
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031   <span class="comment">// XXX: Bug 904623 since we cannot fetch a list of contacts by</span>
+<a name="l00032"></a>00032   <span class="comment">// contact id, we will need to fetch them all and filter</span>
+<a name="l00033"></a>00033   var <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a> = <span class="keyword">function</span> <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>(theContacts, <a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>) {
+<a name="l00034"></a>00034     <span class="keywordflow">if</span> (theContacts == <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a> || theContacts.length == 0) {
+<a name="l00035"></a>00035       <span class="keywordflow">return</span>;
+<a name="l00036"></a>00036     }
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038     var <a class="code" href="../../df/d44/permission__manager_8js.html#ad9abb423164fcb98d6ad9333893e4682">request</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts.find({});
+<a name="l00039"></a>00039     request.onsuccess = <span class="keyword">function</span> onSuccess() {
+<a name="l00040"></a>00040       contacts = [];
+<a name="l00041"></a>00041       request.result.forEach(<span class="keyword">function</span> onContact(ct) {
+<a name="l00042"></a>00042         <span class="keywordflow">if</span> (theContacts.indexOf(ct.id) !== -1) {
+<a name="l00043"></a>00043           contacts.push(ct);
+<a name="l00044"></a>00044         }
+<a name="l00045"></a>00045       });
+<a name="l00046"></a>00046       <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>) {
+<a name="l00047"></a>00047         <a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>(contacts);
+<a name="l00048"></a>00048       }
+<a name="l00049"></a>00049     };
+<a name="l00050"></a>00050     request.onerror = <span class="keyword">function</span> onError() {
+<a name="l00051"></a>00051       <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>) {
+<a name="l00052"></a>00052         <a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>();
+<a name="l00053"></a>00053       }
+<a name="l00054"></a>00054     };
+<a name="l00055"></a>00055   };
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057   <span class="comment">//</span>
+<a name="l00058"></a>00058   <span class="comment">// Checks if the export module has been properly configured</span>
+<a name="l00059"></a>00059   <span class="comment">// and start the process of exporting.</span>
+<a name="l00060"></a>00060   <span class="comment">//</span>
+<a name="l00061"></a>00061   var <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a> = <span class="keyword">function</span> <a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>() {
+<a name="l00062"></a>00062     <span class="keywordflow">if</span> (!contacts || !strategy) {
+<a name="l00063"></a>00063       <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="../../dc/d06/calendar_2js_2error_8js.html#abd05c43175d3c93c6889542cefc822f3">Error</a>(<span class="stringliteral">&#39;Not properly configured&#39;</span>);
+<a name="l00064"></a>00064     }
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066     strategy.setContactsToExport(contacts);
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068     <span class="comment">// Check if we have a &#39;Preparation step&#39;</span>
+<a name="l00069"></a>00069     <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> strategy.prepare === <span class="stringliteral">&#39;function&#39;</span>) {
+<a name="l00070"></a>00070       strategy.prepare(doExport);
+<a name="l00071"></a>00071     } <span class="keywordflow">else</span> {
+<a name="l00072"></a>00072       doExport();
+<a name="l00073"></a>00073     }
+<a name="l00074"></a>00074   };
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076   var doExport = <span class="keyword">function</span> doExport() {
+<a name="l00077"></a>00077     <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> strategy.shouldShowProgress === <span class="stringliteral">&#39;function&#39;</span> &amp;&amp;
+<a name="l00078"></a>00078         strategy.shouldShowProgress()) {
+<a name="l00079"></a>00079       hasProgress = <span class="keyword">true</span>;
+<a name="l00080"></a>00080       configureProgress();
+<a name="l00081"></a>00081       displayProgress();
+<a name="l00082"></a>00082     }
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084     strategy.doExport(doHandleResult);
+<a name="l00085"></a>00085   };
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087   <span class="comment">//</span>
+<a name="l00088"></a>00088   <span class="comment">// Callback invoked when the exporting process finished.</span>
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090   <span class="comment">// @param: {Object} error Not null in case an error happened</span>
+<a name="l00091"></a>00091   <span class="comment">// @param: {Integer} exported Number of contacts successfuly exported</span>
+<a name="l00092"></a>00092   <span class="comment">// @param: {String} message Any extra message from the exporting mechanism</span>
+<a name="l00093"></a>00093   <span class="comment">//</span>
+<a name="l00094"></a>00094   var doHandleResult = <span class="keyword">function</span> doHandleResult(<a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>, exported, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>) {
+<a name="l00095"></a>00095     <span class="keywordflow">if</span> (hasProgress) {
+<a name="l00096"></a>00096       <a class="code" href="../../d0/df4/contacts__shortcuts_8js.html#a7b58b8887c6d26e09f79fbacfbda7f53">utils</a>.overlay.hide();
+<a name="l00097"></a>00097     }
+<a name="l00098"></a>00098     <span class="comment">// TODO: show error if any</span>
+<a name="l00099"></a>00099     <span class="keywordflow">if</span> (<a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>) {
+<a name="l00100"></a>00100       <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.error(<span class="stringliteral">&#39;An error occurred during the export: &#39;</span> + <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>.reason);
+<a name="l00101"></a>00101     }
+<a name="l00102"></a>00102     <span class="comment">// TODO: Better mechanism to show result</span>
+<a name="l00103"></a>00103     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a> = exported + <span class="stringliteral">&#39; out of &#39;</span> + contacts.length + <span class="stringliteral">&#39; exported&#39;</span>;
+<a name="l00104"></a>00104     <a class="code" href="../../d0/df4/contacts__shortcuts_8js.html#a7b58b8887c6d26e09f79fbacfbda7f53">utils</a>.status.show(msg);
+<a name="l00105"></a>00105   };
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107   <span class="comment">//</span>
+<a name="l00108"></a>00108   <span class="comment">// Based on the strategy configure the progress display to show a</span>
+<a name="l00109"></a>00109   <span class="comment">// determinative or indeterminate ui depending on the strategy</span>
+<a name="l00110"></a>00110   <span class="comment">//</span>
+<a name="l00111"></a>00111   var configureProgress = <span class="keyword">function</span> configureProgress() {
+<a name="l00112"></a>00112     determinativeProgress =
+<a name="l00113"></a>00113       strategy[<span class="stringliteral">&#39;hasDeterminativeProgress&#39;</span>] !== undefined &amp;&amp;
+<a name="l00114"></a>00114       strategy.hasDeterminativeProgress();
+<a name="l00115"></a>00115   };
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117   <span class="comment">//</span>
+<a name="l00118"></a>00118   <span class="comment">// Shows the progress dialog based on the</span>
+<a name="l00119"></a>00119   <span class="comment">//</span>
+<a name="l00120"></a>00120   var displayProgress = <span class="keyword">function</span> displayProgress() {
+<a name="l00121"></a>00121     var progressClass = determinativeProgress ? <span class="stringliteral">&#39;progressBar&#39;</span> : <span class="stringliteral">&#39;spinner&#39;</span>;
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123     <a class="code" href="../../d7/d68/apps_2communications_2contacts_2js_2contacts_8js.html#a55257a4a6c5aab93045fd427504a1c95">Contacts</a>.utility(<span class="stringliteral">&#39;Overlay&#39;</span>, <span class="keyword">function</span> _loaded() {
+<a name="l00124"></a>00124       progress = <a class="code" href="../../d0/df4/contacts__shortcuts_8js.html#a7b58b8887c6d26e09f79fbacfbda7f53">utils</a>.overlay.show(
+<a name="l00125"></a>00125         strategy.getExportTitle(),
+<a name="l00126"></a>00126         progressClass,
+<a name="l00127"></a>00127         <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>
+<a name="l00128"></a>00128       );
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130       <span class="comment">// Allow the strategy to setup the progress bar</span>
+<a name="l00131"></a>00131       <span class="keywordflow">if</span> (determinativeProgress) {
+<a name="l00132"></a>00132         progress.setTotal(contacts.length);
+<a name="l00133"></a>00133         strategy.setProgressStep(progress.update);
+<a name="l00134"></a>00134       }
+<a name="l00135"></a>00135     });
+<a name="l00136"></a>00136   };
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138   <span class="keywordflow">return</span> {
+<a name="l00139"></a>00139     <span class="stringliteral">&#39;init&#39;</span>: <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>,
+<a name="l00140"></a>00140     <span class="stringliteral">&#39;start&#39;</span>: start
+<a name="l00141"></a>00141   };
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143 };
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dd/db8/contacts__exporter_8js.html">contacts_exporter.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:51:47に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

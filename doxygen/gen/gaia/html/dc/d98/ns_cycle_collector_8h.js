@@ -1,0 +1,25 @@
+var ns_cycle_collector_8h =
+[
+    [ "NS_CYCLE_COLLECTOR_LOGGER_CID", "dc/d98/ns_cycle_collector_8h.html#ad3612396ff7d8d78cf1907b4ae367fd6", null ],
+    [ "CC_BeforeUnlinkCallback", "dc/d98/ns_cycle_collector_8h.html#adc1eb2170457f4ee4ac997a3abd27f93", null ],
+    [ "CC_ForgetSkippableCallback", "dc/d98/ns_cycle_collector_8h.html#a2c68010aa284b96dd53be7f41dc977d5", null ],
+    [ "CCThreadingModel", "dc/d98/ns_cycle_collector_8h.html#a84786da0161251df1f7a35416be9948b", null ],
+    [ "AddJSHolder", "d0/d9f/namespacemozilla_1_1cyclecollector.html#aaca9026e5b9a6951f242cd5efef66fb7", null ],
+    [ "DeferredFinalize", "d0/d9f/namespacemozilla_1_1cyclecollector.html#a9548090daf4e474332345e3f0706e4b0", null ],
+    [ "DeferredFinalize", "d0/d9f/namespacemozilla_1_1cyclecollector.html#a7d98071901780f63d5933fb68ac5123d", null ],
+    [ "nsCycleCollector_collect", "dc/d98/ns_cycle_collector_8h.html#ac74cc1d934a39b3243fc6855c527d5ab", null ],
+    [ "nsCycleCollector_dispatchDeferredDeletion", "dc/d98/ns_cycle_collector_8h.html#a8acf0c1a00bae7de45eb5a68e87bf3b0", null ],
+    [ "nsCycleCollector_doDeferredDeletion", "dc/d98/ns_cycle_collector_8h.html#af9221ac3243e8a863dc81529e5f81948", null ],
+    [ "nsCycleCollector_forgetJSRuntime", "dc/d98/ns_cycle_collector_8h.html#a9df6dbf832f2b5d201bbaff411381bf6", null ],
+    [ "nsCycleCollector_forgetSkippable", "dc/d98/ns_cycle_collector_8h.html#a1b142d05ee370d1fa592644b6db5e8ba", null ],
+    [ "nsCycleCollector_init", "dc/d98/ns_cycle_collector_8h.html#a324b0a910c265ea2c875e3348dac551b", null ],
+    [ "nsCycleCollector_registerJSRuntime", "dc/d98/ns_cycle_collector_8h.html#a5627e05e3a79f1594e17af291e1e0865", null ],
+    [ "nsCycleCollector_setBeforeUnlinkCallback", "dc/d98/ns_cycle_collector_8h.html#a0cbf810314b50aeceb9a8b5ffc1c0202", null ],
+    [ "nsCycleCollector_setForgetSkippableCallback", "dc/d98/ns_cycle_collector_8h.html#a488b1e5f6014e2bb37f6a5d5788ad691", null ],
+    [ "nsCycleCollector_shutdown", "dc/d98/ns_cycle_collector_8h.html#a5d1a7d1c91629c5c39f6ba602840ef67", null ],
+    [ "nsCycleCollector_shutdownThreads", "dc/d98/ns_cycle_collector_8h.html#a78816d9d78d203fbb889afde591203de", null ],
+    [ "nsCycleCollector_startup", "dc/d98/ns_cycle_collector_8h.html#ac0e0dbe1386c78899698807b031f080a", null ],
+    [ "nsCycleCollector_suspectedCount", "dc/d98/ns_cycle_collector_8h.html#ae0d3f0664882eb86a693efdeaec1d5a9", null ],
+    [ "nsCycleCollectorLoggerConstructor", "dc/d98/ns_cycle_collector_8h.html#a88d3e3201bf87752a94ac1193d8510e5", null ],
+    [ "RemoveJSHolder", "d0/d9f/namespacemozilla_1_1cyclecollector.html#af5b82fee39216f7bc26bfe6900b2884c", null ]
+];

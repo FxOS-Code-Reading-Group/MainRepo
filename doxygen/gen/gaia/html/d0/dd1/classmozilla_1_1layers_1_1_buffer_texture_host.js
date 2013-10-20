@@ -1,0 +1,25 @@
+var classmozilla_1_1layers_1_1_buffer_texture_host =
+[
+    [ "BufferTextureHost", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a057aded52322051565293a1e210633e1", null ],
+    [ "~BufferTextureHost", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a3365ce1624a14a4a83a021d9acb94bc7", null ],
+    [ "DeallocateDeviceData", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#aa9ae32061ec1289be2af32c6948768a9", null ],
+    [ "GetAsSurface", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a53b3ddbe6bd30aaf9e7e9f0f0ee52884", null ],
+    [ "GetBuffer", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a1c61f6c40f44c7f555443a3afaca008b", null ],
+    [ "GetFormat", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a3af4d6ef8ff70009f4826671639128d8", null ],
+    [ "GetSize", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a61a8dfebfbe031e61a72125685fa4702", null ],
+    [ "GetTextureSources", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#ad36066c9a035006425d598d0ad4e3f1b", null ],
+    [ "Lock", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a9f77c66c56ebf6d02bf4e825388a7c25", null ],
+    [ "MaybeUpload", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a800260eaae3f1336e5962487bb1359ff", null ],
+    [ "SetCompositor", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#ac66ab37469ed5a0f8f27de0e326068df", null ],
+    [ "Unlock", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#ae5513403cd6ec016a9253364a90047be", null ],
+    [ "Updated", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a3576f3122a306814ffd23903a3524187", null ],
+    [ "Upload", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a6c9c8ddbd23b0abd82411dc27089a05f", null ],
+    [ "mCompositor", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#aff6930a07aac996ede604a3359d2f852", null ],
+    [ "mFirstSource", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a2027c8b0c3b21a9b848f2e6e21c7ab6f", null ],
+    [ "mFormat", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#abbf118484825af716daf34751b268489", null ],
+    [ "mLocked", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a49ebe1ee12e1d7fb72cefd9bdca5d880", null ],
+    [ "mMaybeUpdatedRegion", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a9382b4b75b1a9ae0d57108342a02cf5e", null ],
+    [ "mPartialUpdate", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#adfa62f04218e09c6b6d1ebdbba756c09", null ],
+    [ "mSize", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#a715c8c267c507cc4111ef432ce5415d8", null ],
+    [ "mUpdateSerial", "d0/dd1/classmozilla_1_1layers_1_1_buffer_texture_host.html#acc08483e1c59710446cfe3658ea31c3d", null ]
+];

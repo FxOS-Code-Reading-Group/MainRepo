@@ -1,0 +1,25 @@
+var _checked_int_8h =
+[
+    [ "MOZ_CHECKEDINT_BASIC_BINARY_OPERATOR", "d1/d4a/_checked_int_8h.html#a98b0cbc78d549b8432ea74fbe56c9e5c", null ],
+    [ "MOZ_CHECKEDINT_CONVENIENCE_BINARY_OPERATORS", "d1/d4a/_checked_int_8h.html#a0a96ddf4a5c30bc9ecf75d734d6f8559", null ],
+    [ "MOZ_CHECKEDINT_USE_MFBT", "d1/d4a/_checked_int_8h.html#a0dd7b94984ba9725a8da071928cf79ea", null ],
+    [ "CheckedInt16", "d2/d93/namespacemozilla.html#ae77626d2496df884a08d68b54c6fe90e", null ],
+    [ "CheckedInt32", "d2/d93/namespacemozilla.html#a24bed291b0937a24a1c6cd07312e16c1", null ],
+    [ "CheckedInt64", "d2/d93/namespacemozilla.html#a5f6469016dda72654ede91f5468019ab", null ],
+    [ "CheckedInt8", "d2/d93/namespacemozilla.html#a0c0f9ba753c7157ab25672b160faa916", null ],
+    [ "CheckedUint16", "d2/d93/namespacemozilla.html#adb513bd7e6cd5c1858274e2259d07cf9", null ],
+    [ "CheckedUint32", "d2/d93/namespacemozilla.html#af9a3a2366ecb467166f4e0c43fcf5e51", null ],
+    [ "CheckedUint64", "d2/d93/namespacemozilla.html#a93a0ce832bfab719499ae2678a1111e5", null ],
+    [ "CheckedUint8", "d2/d93/namespacemozilla.html#aa237d5097c5bad813eec8ee06336ee83", null ],
+    [ "BinaryComplement", "d6/d7b/namespacemozilla_1_1detail.html#a341948f73cddf1d37d8f9ef357c91625", null ],
+    [ "castToCheckedInt", "d2/d93/namespacemozilla.html#aeb6e3803c32563aaaead7d6abf5e3eb2", null ],
+    [ "HasSignBit", "d6/d7b/namespacemozilla_1_1detail.html#a3734b9f6c100a198c08adf127299b21e", null ],
+    [ "IsAddValid", "d6/d7b/namespacemozilla_1_1detail.html#af6bdc3fc94f88b866f08735e32039c09", null ],
+    [ "IsDivValid", "d6/d7b/namespacemozilla_1_1detail.html#a4fdde8e826b7b9df3f54c8f3083e94e7", null ],
+    [ "IsInRange", "d6/d7b/namespacemozilla_1_1detail.html#a4955fc01ba74a063f4555cec625fe7bd", null ],
+    [ "IsModValid", "d6/d7b/namespacemozilla_1_1detail.html#a30e47da18611dd6b5cf10d83a0750b02", null ],
+    [ "IsMulValid", "d6/d7b/namespacemozilla_1_1detail.html#a40d3d9f06493f80716b1216d548e9be7", null ],
+    [ "IsSubValid", "d6/d7b/namespacemozilla_1_1detail.html#aa5e97ae27f6872232c359a45f0aa38de", null ],
+    [ "operator==", "d2/d93/namespacemozilla.html#a3b5997be3b637fe0050a7fc8b5f56a13", null ],
+    [ "operator==", "d2/d93/namespacemozilla.html#ad7fb2dd361a971497a642f1689e0caf2", null ]
+];

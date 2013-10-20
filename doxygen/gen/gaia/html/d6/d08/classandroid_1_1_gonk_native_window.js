@@ -1,0 +1,28 @@
+var classandroid_1_1_gonk_native_window =
+[
+    [ "GonkNativeWindow", "d6/d08/classandroid_1_1_gonk_native_window.html#a409d2c15dddd771ac5118caba0e3cb15", null ],
+    [ "~GonkNativeWindow", "d6/d08/classandroid_1_1_gonk_native_window.html#a2123e8ca68519d0cca5662925113f8b5", null ],
+    [ "abandon", "d6/d08/classandroid_1_1_gonk_native_window.html#a1458442205d80922cb8e2fa925837984", null ],
+    [ "cancelBuffer", "d6/d08/classandroid_1_1_gonk_native_window.html#a105102270c9a60a2ccee7467b12e0279", null ],
+    [ "clearRenderingStateBuffersLocked", "d6/d08/classandroid_1_1_gonk_native_window.html#a7a56a31650b07e1255b034953e99593f", null ],
+    [ "connect", "d6/d08/classandroid_1_1_gonk_native_window.html#af76b0b8b264820796d615b24024c0324", null ],
+    [ "dequeueBuffer", "d6/d08/classandroid_1_1_gonk_native_window.html#a91e9cbc7bb0b12e888e56c287fbee491", null ],
+    [ "disconnect", "d6/d08/classandroid_1_1_gonk_native_window.html#afe8e49edfe21ce0be60cd9a8e549e580", null ],
+    [ "freeAllBuffersLocked", "d6/d08/classandroid_1_1_gonk_native_window.html#a880320f913fa542df474d5ac6d02325b", null ],
+    [ "getCurrentBuffer", "d6/d08/classandroid_1_1_gonk_native_window.html#a07fdd46d1cdf24876afbca4d614f06dc", null ],
+    [ "getSurfaceDescriptorFromBuffer", "d6/d08/classandroid_1_1_gonk_native_window.html#acd30722b105268cb9fb1ab74bfa519cc", null ],
+    [ "performQcomOperation", "d6/d08/classandroid_1_1_gonk_native_window.html#a800a0ee64181f10d4034bb07d30568ec", null ],
+    [ "query", "d6/d08/classandroid_1_1_gonk_native_window.html#ad026230fc5c0ef2d4c68f58ccc0e7cfe", null ],
+    [ "queueBuffer", "d6/d08/classandroid_1_1_gonk_native_window.html#ad18641347edbecd32276bdbc711ea64b", null ],
+    [ "releaseBufferFreeListUnlocked", "d6/d08/classandroid_1_1_gonk_native_window.html#a2cca1ffe29466e3e7656bfbf338be5d5", null ],
+    [ "requestBuffer", "d6/d08/classandroid_1_1_gonk_native_window.html#ab43d142612b3b0608e57ec9f5975eda0", null ],
+    [ "returnBuffer", "d6/d08/classandroid_1_1_gonk_native_window.html#a7493ed0e72344d37da1a694cc97d6bcd", null ],
+    [ "setBufferCount", "d6/d08/classandroid_1_1_gonk_native_window.html#accfdd44b5a853d731e977fee892f1435", null ],
+    [ "setCrop", "d6/d08/classandroid_1_1_gonk_native_window.html#a55bbe833bdf86b1f712e8ce41fa624d0", null ],
+    [ "setDefaultBufferSize", "d6/d08/classandroid_1_1_gonk_native_window.html#af93acc75a6f3595f4a410cb71c11c428", null ],
+    [ "setNewFrameCallback", "d6/d08/classandroid_1_1_gonk_native_window.html#a88380d0e02d5a5aa13104b8b594fbf78", null ],
+    [ "setScalingMode", "d6/d08/classandroid_1_1_gonk_native_window.html#a05c0f7f62e7fba9dcf295684f2d2a36a", null ],
+    [ "setSynchronousMode", "d6/d08/classandroid_1_1_gonk_native_window.html#a679d2bfd64d2fdec6c591cf1461224ea", null ],
+    [ "setTransform", "d6/d08/classandroid_1_1_gonk_native_window.html#ab15b68664ff9dd6a6c4e95af8a8bbe8d", null ],
+    [ "GonkNativeWindowClient", "d6/d08/classandroid_1_1_gonk_native_window.html#ae8bfeab1ef9187daca53e184c47282c4", null ]
+];

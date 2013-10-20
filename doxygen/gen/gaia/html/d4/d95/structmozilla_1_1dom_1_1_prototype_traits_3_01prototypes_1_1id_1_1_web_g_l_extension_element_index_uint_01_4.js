@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_web_g_l_extension_element_index_uint_01_4 =
+[
+    [ "NativeType", "d4/d95/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_web_g_l_extension_element_index_uint_01_4.html#a8b459e72e980a851d298a184efb39163", null ]
+];

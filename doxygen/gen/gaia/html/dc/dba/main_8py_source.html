@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: main.py ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dc/dba/main_8py.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">main.py</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dc/dba/main_8py.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../de/dc7/namespacegaia__unit__test_1_1main.html">00001</a> <span class="keyword">import</span> json
+<a name="l00002"></a>00002 <span class="keyword">import</span> logging
+<a name="l00003"></a>00003 <span class="keyword">import</span> mozlog
+<a name="l00004"></a>00004 <span class="keyword">from</span> mozrunner <span class="keyword">import</span> Runner
+<a name="l00005"></a>00005 <span class="keyword">from</span> optparse <span class="keyword">import</span> OptionParser
+<a name="l00006"></a>00006 <span class="keyword">import</span> os
+<a name="l00007"></a>00007 <span class="keyword">import</span> shutil
+<a name="l00008"></a>00008 <span class="keyword">import</span> sys
+<a name="l00009"></a>00009 <span class="keyword">import</span> tempfile
+<a name="l00010"></a>00010 <span class="keyword">import</span> tornado.websocket
+<a name="l00011"></a>00011 <span class="keyword">import</span> tornado.ioloop
+<a name="l00012"></a>00012 <span class="keyword">import</span> tornado.httpserver
+<a name="l00013"></a>00013 <span class="keyword">import</span> traceback
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="keyword">import</span> reporters
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 
+<a name="l00018"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html">00018</a> <span class="keyword">class </span><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html">TestAgentServer</a>(tornado.websocket.WebSocketHandler):
+<a name="l00019"></a>00019 
+<a name="l00020"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#ad51ad3b41dad60e188811d46e1c804e1">00020</a>     increment = 0
+<a name="l00021"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a855304e7ea2db820ee7ebe3100fc618b">00021</a>     envs = {}
+<a name="l00022"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a3d87d15eff87a93ccb76285f3a401d62">00022</a>     pending_envs = []
+<a name="l00023"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a2148c6da94ab24c08a5902c4b96d2890">00023</a>     passes = 0
+<a name="l00024"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a9997ba053be7c60a2b558e5c25c487f1">00024</a>     failures = 0
+<a name="l00025"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#aa5c696f7dfecf554eba00fd26354321b">00025</a>     current_test = <span class="keywordtype">None</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a170246c31d51d042080cc41a838a321f">00027</a>     <span class="keyword">def </span><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a9804da726b0546571b252d240155bb88">initialize</a>(self, tests=None, runner=None, logger=None):
+<a name="l00028"></a>00028         self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a170246c31d51d042080cc41a838a321f">tests</a> = tests
+<a name="l00029"></a>00029         self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a2e8a88fb930a8bed9b2efe2b654c9878">runner</a> = runner
+<a name="l00030"></a>00030         self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a5c6abcea0fe9ff3bee44d26221108a67">logger</a> = logger
+<a name="l00031"></a>00031 
+<a name="l00032"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a4e75660a8d950005f6d495dd17cc3719">00032</a>     <span class="keyword">def </span><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a4e75660a8d950005f6d495dd17cc3719">emit</a>(self, event, data):
+<a name="l00033"></a>00033         command = (event, data)
+<a name="l00034"></a>00034         self.write_message(json.dumps(command))
+<a name="l00035"></a>00035 
+<a name="l00036"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#ae20f448ec895deb45a7fae9b2f98c1f3">00036</a>     <span class="keyword">def </span><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#ae20f448ec895deb45a7fae9b2f98c1f3">open</a>(self):
+<a name="l00037"></a>00037         self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#ad51ad3b41dad60e188811d46e1c804e1">increment</a> = self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#ad51ad3b41dad60e188811d46e1c804e1">increment</a> + 1
+<a name="l00038"></a>00038         self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a2a9300c3fc12e69fbac90cb1832d818d">run_tests</a>(self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a170246c31d51d042080cc41a838a321f">tests</a>)
+<a name="l00039"></a>00039 
+<a name="l00040"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a2a9300c3fc12e69fbac90cb1832d818d">00040</a>     <span class="keyword">def </span><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a2a9300c3fc12e69fbac90cb1832d818d">run_tests</a>(self, tests):
+<a name="l00041"></a>00041         self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a170246c31d51d042080cc41a838a321f">tests</a> = tests
+<a name="l00042"></a>00042         self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#afbee362ac9fbd58ab80f33287d8aeaf8">run_next_test</a>()
+<a name="l00043"></a>00043 
+<a name="l00044"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#afbee362ac9fbd58ab80f33287d8aeaf8">00044</a>     <span class="keyword">def </span><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#afbee362ac9fbd58ab80f33287d8aeaf8">run_next_test</a>(self):
+<a name="l00045"></a>00045         self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#aa5c696f7dfecf554eba00fd26354321b">current_test</a> = self.tests.pop()
+<a name="l00046"></a>00046         self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a4e75660a8d950005f6d495dd17cc3719">emit</a>(<span class="stringliteral">&#39;run tests&#39;</span>, {<span class="stringliteral">&#39;tests&#39;</span>: [<span class="stringliteral">&quot;/%s&quot;</span> % self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#aa5c696f7dfecf554eba00fd26354321b">current_test</a>] })
+<a name="l00047"></a>00047 
+<a name="l00048"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a687a3937fe2951da934c9f69fafffcb3">00048</a>     <span class="keyword">def </span><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a687a3937fe2951da934c9f69fafffcb3">on_envs_complete</a>(self):
+<a name="l00049"></a>00049         exitCode = 0
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051         <span class="keywordflow">for</span> env <span class="keywordflow">in</span> self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a855304e7ea2db820ee7ebe3100fc618b">envs</a>:
+<a name="l00052"></a>00052             <span class="keywordflow">if</span> (self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a855304e7ea2db820ee7ebe3100fc618b">envs</a>[env].failures &gt; 0):
+<a name="l00053"></a>00053                 exitCode = 10
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055             <span class="keywordflow">if</span> len(self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a855304e7ea2db820ee7ebe3100fc618b">envs</a>[env].output):
+<a name="l00056"></a>00056                 <span class="keywordflow">print</span> <span class="stringliteral">&#39;\ntest report: (&#39;</span> + env + <span class="stringliteral">&#39;)&#39;</span>
+<a name="l00057"></a>00057                 <span class="keywordflow">print</span> <span class="stringliteral">&#39;\n&#39;</span>.<a class="code" href="../../de/d11/path_8js.html#a9c4b06c29cf28f47c4f54ed4e30c85b3">join</a>(self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a855304e7ea2db820ee7ebe3100fc618b">envs</a>[env].output)
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059         self.close()
+<a name="l00060"></a>00060         self.runner.cleanup()
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062         self.logger.info(<span class="stringliteral">&#39;passed: %d&#39;</span> % self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a2148c6da94ab24c08a5902c4b96d2890">passes</a>)
+<a name="l00063"></a>00063         self.logger.info(<span class="stringliteral">&#39;failed: %d&#39;</span> % self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a9997ba053be7c60a2b558e5c25c487f1">failures</a>)
+<a name="l00064"></a>00064         self.logger.info(<span class="stringliteral">&#39;todo: 0&#39;</span>)
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066         sys.exit(exitCode)
+<a name="l00067"></a>00067 
+<a name="l00068"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a01572eefa8901dc1cdd6ee5a7e10f612">00068</a>     <span class="keyword">def </span><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a0524fe7efa36e1a38ee89293f7dd3f63">handle_event</a>(self, event, data):
+<a name="l00069"></a>00069         <span class="keywordflow">if</span> event == <span class="stringliteral">&#39;set test envs&#39;</span>:
+<a name="l00070"></a>00070             self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a3d87d15eff87a93ccb76285f3a401d62">pending_envs</a> = data[0]
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072         <span class="keywordflow">if</span> event == <span class="stringliteral">&#39;test data&#39;</span>:
+<a name="l00073"></a>00073             <span class="comment"># the &#39;test data&#39; event is a nested event</span>
+<a name="l00074"></a>00074             <span class="comment"># inside of the main event body. It is a direct</span>
+<a name="l00075"></a>00075             <span class="comment"># copy of the mocha reporter data with the addition</span>
+<a name="l00076"></a>00076             <span class="comment"># of the &#39;testAgentEnvId&#39; which is used to group</span>
+<a name="l00077"></a>00077             <span class="comment"># the results of different test runs.</span>
+<a name="l00078"></a>00078             (test_event, test_data) = json.loads(data[0])
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080             <span class="comment"># gaia &amp; test agent both use environment ids because</span>
+<a name="l00081"></a>00081             <span class="comment"># they nest test runners. This is a very special case</span>
+<a name="l00082"></a>00082             <span class="comment"># most test agent runners will not do this so add a</span>
+<a name="l00083"></a>00083             <span class="comment"># fallback environment name to make this simpler.</span>
+<a name="l00084"></a>00084             <span class="keywordflow">if</span> (<span class="stringliteral">&#39;testAgentEnvId&#39;</span> <span class="keywordflow">in</span> test_data):
+<a name="l00085"></a>00085                 test_env = test_data[<span class="stringliteral">&#39;testAgentEnvId&#39;</span>]
+<a name="l00086"></a>00086             <span class="keywordflow">else</span>:
+<a name="l00087"></a>00087                 test_env = <span class="stringliteral">&#39;global&#39;</span>
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089             <span class="comment"># add to pending</span>
+<a name="l00090"></a>00090             <span class="keywordflow">if</span> (test_event == <span class="stringliteral">&#39;start&#39;</span>):
+<a name="l00091"></a>00091                 self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a855304e7ea2db820ee7ebe3100fc618b">envs</a>[test_env] = reporters.TBPLLogger(stream=<span class="keyword">False</span>,
+<a name="l00092"></a>00092                                                            logger=self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a5c6abcea0fe9ff3bee44d26221108a67">logger</a>)
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094             <span class="comment"># don&#39;t process out of order commands</span>
+<a name="l00095"></a>00095             <span class="keywordflow">if</span> <span class="keywordflow">not</span> (test_env <span class="keywordflow">in</span> self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a855304e7ea2db820ee7ebe3100fc618b">envs</a>):
+<a name="l00096"></a>00096                 <span class="keywordflow">return</span>
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098             self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a855304e7ea2db820ee7ebe3100fc618b">envs</a>[test_env].<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a0524fe7efa36e1a38ee89293f7dd3f63">handle_event</a>(test_event, test_data, self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#aa5c696f7dfecf554eba00fd26354321b">current_test</a>)
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100             <span class="comment"># remove from pending and trigger test complete check.</span>
+<a name="l00101"></a>00101             <span class="keywordflow">if</span> (test_event == <span class="stringliteral">&#39;end&#39;</span>):
+<a name="l00102"></a>00102                 idx = self.pending_envs.index(test_env)
+<a name="l00103"></a>00103                 del self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a3d87d15eff87a93ccb76285f3a401d62">pending_envs</a>[idx]
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105                 self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a2148c6da94ab24c08a5902c4b96d2890">passes</a> += self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a855304e7ea2db820ee7ebe3100fc618b">envs</a>[test_env].passes
+<a name="l00106"></a>00106                 self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a9997ba053be7c60a2b558e5c25c487f1">failures</a> += self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a855304e7ea2db820ee7ebe3100fc618b">envs</a>[test_env].failures
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108                 <span class="keywordflow">if</span> self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a170246c31d51d042080cc41a838a321f">tests</a>:
+<a name="l00109"></a>00109                     self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#afbee362ac9fbd58ab80f33287d8aeaf8">run_next_test</a>()
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111                 <span class="comment"># now that envs are totally complete show results.</span>
+<a name="l00112"></a>00112                 <span class="keywordflow">elif</span> (len(self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a3d87d15eff87a93ccb76285f3a401d62">pending_envs</a>) == 0):
+<a name="l00113"></a>00113                     self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a687a3937fe2951da934c9f69fafffcb3">on_envs_complete</a>()
+<a name="l00114"></a>00114 
+<a name="l00115"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a24361140e324b78d66ef33a5796b502b">00115</a>     <span class="keyword">def </span><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a24361140e324b78d66ef33a5796b502b">on_close</a>(self):
+<a name="l00116"></a>00116         <span class="keywordflow">print</span> <span class="stringliteral">&quot;Closed down&quot;</span>
+<a name="l00117"></a>00117         sys.exit(1)
+<a name="l00118"></a>00118 
+<a name="l00119"></a><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a4e512826cc9717337ffb0b2517d1f08a">00119</a>     <span class="keyword">def </span><a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a4e512826cc9717337ffb0b2517d1f08a">on_message</a>(self, message):
+<a name="l00120"></a>00120         command = json.loads(message)
+<a name="l00121"></a>00121         <span class="comment"># test agent protocol always uses the [event, data] format.</span>
+<a name="l00122"></a>00122         self.<a class="code" href="../../d2/d1f/classgaia__unit__test_1_1main_1_1_test_agent_server.html#a0524fe7efa36e1a38ee89293f7dd3f63">handle_event</a>(command[0], [command[1]])
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124 
+<a name="l00125"></a><a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html">00125</a> <span class="keyword">class </span><a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html">GaiaUnitTestRunner</a>(<a class="code" href="../../d5/d62/build__stage_2email_2shared_2style_2_r_e_a_d_m_e_8md.html#a3324c12c8fd4a56057ace952fd0d4bc5">object</a>):
+<a name="l00126"></a>00126 
+<a name="l00127"></a><a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#a299526b1987675fdb63b0da69914336b">00127</a>     <span class="keyword">def </span><a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#ab52eac22dc4348117359f8b24229d1a7">__init__</a>(self, binary=None, profile=None):
+<a name="l00128"></a>00128         self.<a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#aaeebb44614f4e32b0d22e49a28d8c226">binary</a> = binary
+<a name="l00129"></a>00129         self.<a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#a299526b1987675fdb63b0da69914336b">profile</a> = profile
+<a name="l00130"></a>00130 
+<a name="l00131"></a><a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#abc5ff2dae737dbab3c601f6f93927fe4">00131</a>     <span class="keyword">def </span><a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#a7b876ef8c735fc59f077a527a5b6261f">run</a>(self):
+<a name="l00132"></a>00132         self.<a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#ad2ccead60e8e683493f1b44473e2e245">profile_dir</a> = os.path.join(tempfile.mkdtemp(suffix=<span class="stringliteral">&#39;.gaiaunittest&#39;</span>),
+<a name="l00133"></a>00133                                         <span class="stringliteral">&#39;profile&#39;</span>)
+<a name="l00134"></a>00134         shutil.copytree(self.<a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#a299526b1987675fdb63b0da69914336b">profile</a>, self.<a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#ad2ccead60e8e683493f1b44473e2e245">profile_dir</a>)
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136         self.<a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#abc5ff2dae737dbab3c601f6f93927fe4">runner</a> = Runner.create(binary=self.<a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#aaeebb44614f4e32b0d22e49a28d8c226">binary</a>,
+<a name="l00137"></a>00137                                     profile_args={<span class="stringliteral">&#39;profile&#39;</span>: self.<a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#ad2ccead60e8e683493f1b44473e2e245">profile_dir</a>},
+<a name="l00138"></a>00138                                     clean_profile=<span class="keyword">False</span>,
+<a name="l00139"></a>00139                                     cmdargs=[<span class="stringliteral">&#39;--runapp&#39;</span>, <span class="stringliteral">&#39;Test Agent&#39;</span>])
+<a name="l00140"></a>00140         self.runner.start()
+<a name="l00141"></a>00141 
+<a name="l00142"></a><a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#ac8476fbeae833cd7d6ba20ddcfb52b0c">00142</a>     <span class="keyword">def </span><a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#ac8476fbeae833cd7d6ba20ddcfb52b0c">cleanup</a>(self):
+<a name="l00143"></a>00143         self.runner.cleanup()
+<a name="l00144"></a>00144         shutil.rmtree(os.path.dirname(self.<a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html#ad2ccead60e8e683493f1b44473e2e245">profile_dir</a>))
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146     __del__ = cleanup
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148 
+<a name="l00149"></a><a class="code" href="../../de/dc7/namespacegaia__unit__test_1_1main.html#a3d0b696e234a6858bafd1ad9523890c0">00149</a> <span class="keyword">def </span><a class="code" href="../../de/dc7/namespacegaia__unit__test_1_1main.html#a3d0b696e234a6858bafd1ad9523890c0">cli</a>():
+<a name="l00150"></a>00150     parser = OptionParser(usage=<span class="stringliteral">&#39;%prog [options] &lt;test_file&gt; &lt;test_file&gt; ...&#39;</span>)
+<a name="l00151"></a>00151     parser.add_option(<span class="stringliteral">&quot;--binary&quot;</span>,
+<a name="l00152"></a>00152                       action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;binary&quot;</span>,
+<a name="l00153"></a>00153                       default=<span class="keywordtype">None</span>,
+<a name="l00154"></a>00154                       help=<span class="stringliteral">&quot;path to B2G desktop build binary&quot;</span>)
+<a name="l00155"></a>00155     parser.add_option(<span class="stringliteral">&quot;--profile&quot;</span>,
+<a name="l00156"></a>00156                       action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;profile&quot;</span>,
+<a name="l00157"></a>00157                       default=<span class="keywordtype">None</span>,
+<a name="l00158"></a>00158                       help=<span class="stringliteral">&quot;path to gaia profile directory&quot;</span>)
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160     options, tests = parser.parse_args()
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162     <span class="keywordflow">if</span> <span class="keywordflow">not</span> options.binary <span class="keywordflow">or</span> <span class="keywordflow">not</span> options.profile:
+<a name="l00163"></a>00163         parser.print_usage()
+<a name="l00164"></a>00164         parser.exit(<span class="stringliteral">&#39;--binary and --profile required&#39;</span>)
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166     <span class="keywordflow">if</span> <span class="keywordflow">not</span> tests:
+<a name="l00167"></a>00167         <span class="comment"># Read in a list of tests to skip from disabled.json, if it exists;</span>
+<a name="l00168"></a>00168         <span class="comment"># disabled.json should contain filenames with paths relative to the</span>
+<a name="l00169"></a>00169         <span class="comment"># apps directory, e.g., &quot;wallpaper/test/unit/pick_test.js&quot;.</span>
+<a name="l00170"></a>00170         disabled = []
+<a name="l00171"></a>00171         disabled_file = os.path.join(os.path.dirname(__file__), <span class="stringliteral">&#39;disabled.json&#39;</span>)
+<a name="l00172"></a>00172         <span class="keywordflow">if</span> os.access(disabled_file, os.F_OK):
+<a name="l00173"></a>00173             with <a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(disabled_file, <span class="stringliteral">&#39;</span><span class="stringliteral">r&#39;) as f:</span>
+<a name="l00174"></a>00174 <span class="stringliteral">                disabled_contents = f.read()</span>
+<a name="l00175"></a>00175 <span class="stringliteral">                </span><span class="keywordflow">try</span>:
+<a name="l00176"></a>00176                     disabled = json.loads(disabled_contents)
+<a name="l00177"></a>00177                 <span class="keywordflow">except</span>:
+<a name="l00178"></a>00178                     traceback.print_exc()
+<a name="l00179"></a>00179                     <span class="keywordflow">print</span> <span class="stringliteral">&quot;Error while decoding disabled.json; please make sure this file has valid JSON syntax.&quot;</span>
+<a name="l00180"></a>00180                     sys.exit(1)
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182         <span class="comment"># build a list of tests</span>
+<a name="l00183"></a>00183         appsdir = os.path.join(os.path.dirname(os.path.abspath(options.profile)), <span class="stringliteral">&#39;apps&#39;</span>)
+<a name="l00184"></a>00184         <span class="keywordflow">for</span> root, dirs, files <span class="keywordflow">in</span> os.walk(appsdir):
+<a name="l00185"></a>00185             <span class="keywordflow">for</span> file <span class="keywordflow">in</span> files:
+<a name="l00186"></a>00186                 <span class="comment"># only include tests in a &#39;unit&#39; directory</span>
+<a name="l00187"></a>00187                 <span class="keywordflow">if</span> os.path.basename(root) == <span class="stringliteral">&#39;unit&#39;</span>:
+<a name="l00188"></a>00188                     full_path = os.path.relpath(os.path.join(root, file), appsdir)
+<a name="l00189"></a>00189                     <span class="keywordflow">if</span> full_path.endswith(<span class="stringliteral">&#39;_test.js&#39;</span>) <span class="keywordflow">and</span> full_path <span class="keywordflow">not</span> <span class="keywordflow">in</span> disabled:
+<a name="l00190"></a>00190                         tests.append(full_path)
+<a name="l00191"></a>00191 
+<a name="l00192"></a>00192     runner = <a class="code" href="../../d6/de3/classgaia__unit__test_1_1main_1_1_gaia_unit_test_runner.html">GaiaUnitTestRunner</a>(binary=options.binary,
+<a name="l00193"></a>00193                                 profile=options.profile)
+<a name="l00194"></a>00194     runner.run()
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196     <span class="comment"># Lame but necessary hack to prevent tornado&#39;s logger from duplicating</span>
+<a name="l00197"></a>00197     <span class="comment"># every message from mozlog.</span>
+<a name="l00198"></a>00198     logger = logging.getLogger()
+<a name="l00199"></a>00199     handler = logging.NullHandler()
+<a name="l00200"></a>00200     logger.addHandler(handler)
+<a name="l00201"></a>00201 
+<a name="l00202"></a>00202     <span class="keywordflow">print</span> <span class="stringliteral">&#39;starting WebSocket Server&#39;</span>
+<a name="l00203"></a>00203     application = tornado.web.Application([
+<a name="l00204"></a>00204         (<span class="stringliteral">r&quot;/&quot;</span>, TestAgentServer, {<span class="stringliteral">&#39;tests&#39;</span>: tests,
+<a name="l00205"></a>00205                                  <span class="stringliteral">&#39;runner&#39;</span>: runner,
+<a name="l00206"></a>00206                                  <span class="stringliteral">&#39;logger&#39;</span>: mozlog.getLogger(<span class="stringliteral">&#39;gaia-unit-tests&#39;</span>)}),
+<a name="l00207"></a>00207     ])
+<a name="l00208"></a>00208     http_server = tornado.httpserver.HTTPServer(application)
+<a name="l00209"></a>00209     http_server.listen(8789)
+<a name="l00210"></a>00210     tornado.ioloop.IOLoop.instance().<a class="code" href="../../d7/dbf/build__stage_2email_2shared_2js_2media_2remote__controls_8js.html#afea9dd5375e7783397a6e3911cc64e28">start</a>()
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212 <span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:
+<a name="l00213"></a>00213     <a class="code" href="../../de/dc7/namespacegaia__unit__test_1_1main.html#a3d0b696e234a6858bafd1ad9523890c0">cli</a>()
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dc/dba/main_8py.html">main.py</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:44に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_web_g_l_extension_compressed_texture_p_v_r_t_c_01_4 =
+[
+    [ "NativeType", "de/de2/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_web_g_l_extension_compressed_texture_p_v_r_t_c_01_4.html#a9418100ce15527808759bbee37bc8c1d", null ]
+];

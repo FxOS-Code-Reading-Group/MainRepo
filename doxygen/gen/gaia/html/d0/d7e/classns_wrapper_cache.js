@@ -1,0 +1,27 @@
+var classns_wrapper_cache =
+[
+    [ "nsWrapperCache", "d0/d7e/classns_wrapper_cache.html#ab7c8f6fdb0e548f6d8ed353209ced78d", null ],
+    [ "~nsWrapperCache", "d0/d7e/classns_wrapper_cache.html#a8841af8fb318f1aeb65d9f3ed9e8c84d", null ],
+    [ "ClearWrapper", "d0/d7e/classns_wrapper_cache.html#a8bd46c367061527431bab87430b0fe08", null ],
+    [ "GetFlags", "d0/d7e/classns_wrapper_cache.html#a14af03606aabfdcb95b92e6974c07808", null ],
+    [ "GetWrapper", "d0/d7e/classns_wrapper_cache.html#a93688624ba7ed5aa0d7f2e4ac4c4635d", null ],
+    [ "GetWrapperPreserveColor", "d0/d7e/classns_wrapper_cache.html#a24257e00a4edba7e58cef8dbfd1cecef", null ],
+    [ "HasFlag", "d0/d7e/classns_wrapper_cache.html#a7abd41d540e95eaf14c70b8d5e95a396", null ],
+    [ "HasSystemOnlyWrapper", "d0/d7e/classns_wrapper_cache.html#a793de5d3bf1a7eb0809b546139269194", null ],
+    [ "IsBlack", "d0/d7e/classns_wrapper_cache.html#abdc5e92fb45b0ec4d8a0466de3ff1403", null ],
+    [ "IsBlackAndDoesNotNeedTracing", "d0/d7e/classns_wrapper_cache.html#a15634328d3e712ea2ecf8781c5dd1136", null ],
+    [ "IsDOMBinding", "d0/d7e/classns_wrapper_cache.html#a76ccab4b4d84ec3fb4e795b5c2d4bb16", null ],
+    [ "PreserveWrapper", "d0/d7e/classns_wrapper_cache.html#a4d7fa35de74c2d34835cd548ecb4fe14", null ],
+    [ "PreserveWrapper", "d0/d7e/classns_wrapper_cache.html#ae0f7a025b97024fbc8d22c8b88c06d9b", null ],
+    [ "PreservingWrapper", "d0/d7e/classns_wrapper_cache.html#aa22d58dd73b70a311fd694f59f1ab000", null ],
+    [ "ReleaseWrapper", "d0/d7e/classns_wrapper_cache.html#aacc4eb96d05287b11e535cfe95157b9e", null ],
+    [ "SetFlags", "d0/d7e/classns_wrapper_cache.html#a1090175608b84c831e643b094a0930ff", null ],
+    [ "SetHasSystemOnlyWrapper", "d0/d7e/classns_wrapper_cache.html#ae457594e56fc3c6aab5a903f3bda54da", null ],
+    [ "SetIsDOMBinding", "d0/d7e/classns_wrapper_cache.html#a5ea5c4e8480b26f2442e58b8c90dfcf8", null ],
+    [ "SetPreservingWrapper", "d0/d7e/classns_wrapper_cache.html#a34a5b55d8b048bfdbb122aa8b282692c", null ],
+    [ "SetWrapper", "d0/d7e/classns_wrapper_cache.html#a62c0354c596b4370222b84a23aa923d2", null ],
+    [ "TraceWrapper", "d0/d7e/classns_wrapper_cache.html#a81790fb1d671e31efa5aaa09f871a7fd", null ],
+    [ "UnsetFlags", "d0/d7e/classns_wrapper_cache.html#a166bfaba471f9e48d9c62663dfd63081", null ],
+    [ "WrapObject", "d0/d7e/classns_wrapper_cache.html#a4a56acbd17dcedaa9a442f385728c6af", null ],
+    [ "mozilla::dom::workers::DOMBindingBase", "d0/d7e/classns_wrapper_cache.html#ac7e4fd20502df28afffb8a488fc61303", null ]
+];

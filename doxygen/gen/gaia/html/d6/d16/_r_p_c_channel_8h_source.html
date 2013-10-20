@@ -1,0 +1,538 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: RPCChannel.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d6/d16/_r_p_c_channel_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">RPCChannel.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d6/d16/_r_p_c_channel_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * vim: sw=4 ts=4 et :</span>
+<a name="l00003"></a>00003 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="preprocessor">#ifndef ipc_glue_RPCChannel_h</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor">#define ipc_glue_RPCChannel_h 1</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="preprocessor">#include &lt;deque&gt;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &lt;stack&gt;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &lt;vector&gt;</span>
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;base/basictypes.h&quot;</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html">nsISupportsImpl.h</a>&quot;</span>
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/db7/_sync_channel_8h.html">mozilla/ipc/SyncChannel.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 <span class="keyword">namespace </span>mozilla {
+<a name="l00024"></a>00024 <span class="keyword">namespace </span>ipc {
+<a name="l00025"></a>00025 <span class="comment">//-----------------------------------------------------------------------------</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a><a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html">00027</a> <span class="keyword">class </span><a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html">RPCChannel</a> : <span class="keyword">public</span> <a class="code" href="../../d9/d6b/classmozilla_1_1ipc_1_1_sync_channel.html">SyncChannel</a>
+<a name="l00028"></a>00028 {
+<a name="l00029"></a><a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a99decdee2d842eb9b32feb9b6360553f">00029</a>     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a99decdee2d842eb9b32feb9b6360553f">CxxStackFrame</a>;
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="keyword">public</span>:
+<a name="l00032"></a>00032     <span class="comment">// What happens if RPC calls race?</span>
+<a name="l00033"></a><a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a1a2d87afbdfda6f15a0ad1ed22f7b9be">00033</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a1a2d87afbdfda6f15a0ad1ed22f7b9be">RacyRPCPolicy</a> {
+<a name="l00034"></a><a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a1a2d87afbdfda6f15a0ad1ed22f7b9beade1c00f3c493622b97fa60674febb6ff">00034</a>         <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a1a2d87afbdfda6f15a0ad1ed22f7b9beade1c00f3c493622b97fa60674febb6ff">RRPError</a>,
+<a name="l00035"></a><a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a1a2d87afbdfda6f15a0ad1ed22f7b9bea16a08d720ba27eccff54221fe4a96529">00035</a>         <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a1a2d87afbdfda6f15a0ad1ed22f7b9bea16a08d720ba27eccff54221fe4a96529">RRPChildWins</a>,
+<a name="l00036"></a><a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a1a2d87afbdfda6f15a0ad1ed22f7b9bea563096d9abef0208f8605a9d68f2df3b">00036</a>         <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a1a2d87afbdfda6f15a0ad1ed22f7b9bea563096d9abef0208f8605a9d68f2df3b">RRPParentWins</a>
+<a name="l00037"></a>00037     };
+<a name="l00038"></a>00038 
+<a name="l00039"></a><a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html">00039</a>     <span class="keyword">class </span><span class="comment">/*NS_INTERFACE_CLASS*/</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html">RPCListener</a> :
+<a name="l00040"></a>00040         <span class="keyword">public</span> <a class="code" href="../../d9/d6b/classmozilla_1_1ipc_1_1_sync_channel.html">SyncChannel</a>::<a class="code" href="../../df/df2/classmozilla_1_1ipc_1_1_sync_channel_1_1_sync_listener.html">SyncListener</a>
+<a name="l00041"></a>00041     {
+<a name="l00042"></a>00042     <span class="keyword">public</span>:
+<a name="l00043"></a><a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#ab872cd32b30703dfad78b9821653084d">00043</a>         <span class="keyword">virtual</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#ab872cd32b30703dfad78b9821653084d">~RPCListener</a>() { }
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#ac054d163ebe1b84160a9e66f88212b24">OnChannelClose</a>() = 0;
+<a name="l00046"></a>00046         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#a828024cf282b379143af828a59076e26">OnChannelError</a>() = 0;
+<a name="l00047"></a>00047         <span class="keyword">virtual</span> <a class="code" href="../../df/d8b/structmozilla_1_1ipc_1_1_has_result_codes.html#ae4ceb3b2a815774b1088ca96ba901fd4">Result</a> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#aecfaf1e153bd65b4b9b4b18567102f34">OnMessageReceived</a>(<span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>&amp; aMessage) = 0;
+<a name="l00048"></a>00048         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#a0f657665155cf39eea63422b3acb2a9d">OnProcessingError</a>(<a class="code" href="../../df/d8b/structmozilla_1_1ipc_1_1_has_result_codes.html#ae4ceb3b2a815774b1088ca96ba901fd4">Result</a> aError) = 0;
+<a name="l00049"></a>00049         <span class="keyword">virtual</span> int32_t <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#a3b3f2eab51f98d5a1497b93c302d32fd">GetProtocolTypeId</a>() = 0;
+<a name="l00050"></a>00050         <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#a32dd9bc62c88ea8297addccf40a3a4d7">OnReplyTimeout</a>() = 0;
+<a name="l00051"></a>00051         <span class="keyword">virtual</span> <a class="code" href="../../df/d8b/structmozilla_1_1ipc_1_1_has_result_codes.html#ae4ceb3b2a815774b1088ca96ba901fd4">Result</a> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#aecfaf1e153bd65b4b9b4b18567102f34">OnMessageReceived</a>(<span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>&amp; aMessage,
+<a name="l00052"></a>00052                                          <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>*&amp; aReply) = 0;
+<a name="l00053"></a>00053         <span class="keyword">virtual</span> <a class="code" href="../../df/d8b/structmozilla_1_1ipc_1_1_has_result_codes.html#ae4ceb3b2a815774b1088ca96ba901fd4">Result</a> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#adcc71e36905dba3be4ad177f786dc4dc">OnCallReceived</a>(<span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>&amp; aMessage,
+<a name="l00054"></a>00054                                       <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>*&amp; aReply) = 0;
+<a name="l00055"></a><a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#abf3b35269f4d0ed2ec6e91856a601d4d">00055</a>         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#abf3b35269f4d0ed2ec6e91856a601d4d">OnChannelConnected</a>(int32_t peer_pid) {}
+<a name="l00056"></a>00056 
+<a name="l00057"></a><a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#afb6ba23dbe915cb272d39777ac0f236c">00057</a>         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#afb6ba23dbe915cb272d39777ac0f236c">OnEnteredCxxStack</a>()
+<a name="l00058"></a>00058         {
+<a name="l00059"></a>00059             <a class="code" href="../../dc/d6d/ns_debug_8h.html#af23ce88454f9ea763d9e8a9b8a77b340">NS_RUNTIMEABORT</a>(<span class="stringliteral">&quot;default impl shouldn&#39;t be invoked&quot;</span>);
+<a name="l00060"></a>00060         }
+<a name="l00061"></a>00061 
+<a name="l00062"></a><a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#a6389e1f18c2cacdba1913449e74e38af">00062</a>         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#a6389e1f18c2cacdba1913449e74e38af">OnExitedCxxStack</a>()
+<a name="l00063"></a>00063         {
+<a name="l00064"></a>00064             <a class="code" href="../../dc/d6d/ns_debug_8h.html#af23ce88454f9ea763d9e8a9b8a77b340">NS_RUNTIMEABORT</a>(<span class="stringliteral">&quot;default impl shouldn&#39;t be invoked&quot;</span>);
+<a name="l00065"></a>00065         }
+<a name="l00066"></a>00066 
+<a name="l00067"></a><a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#abfa5425971bd2e064bf2d82dd2edb113">00067</a>         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#abfa5425971bd2e064bf2d82dd2edb113">OnEnteredCall</a>()
+<a name="l00068"></a>00068         {
+<a name="l00069"></a>00069             <a class="code" href="../../dc/d6d/ns_debug_8h.html#af23ce88454f9ea763d9e8a9b8a77b340">NS_RUNTIMEABORT</a>(<span class="stringliteral">&quot;default impl shouldn&#39;t be invoked&quot;</span>);
+<a name="l00070"></a>00070         }
+<a name="l00071"></a>00071 
+<a name="l00072"></a><a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#ad53c5ae5f1dd2794f89c3d4bb01c7a72">00072</a>         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#ad53c5ae5f1dd2794f89c3d4bb01c7a72">OnExitedCall</a>()
+<a name="l00073"></a>00073         {
+<a name="l00074"></a>00074             <a class="code" href="../../dc/d6d/ns_debug_8h.html#af23ce88454f9ea763d9e8a9b8a77b340">NS_RUNTIMEABORT</a>(<span class="stringliteral">&quot;default impl shouldn&#39;t be invoked&quot;</span>);
+<a name="l00075"></a>00075         }
+<a name="l00076"></a>00076 
+<a name="l00077"></a><a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#a27a74f2747cc85f0f74db6f66c5c0de4">00077</a>         <span class="keyword">virtual</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a1a2d87afbdfda6f15a0ad1ed22f7b9be">RacyRPCPolicy</a> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#a27a74f2747cc85f0f74db6f66c5c0de4">MediateRPCRace</a>(<span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>&amp; <a class="code" href="../../d2/d7d/jsapi_8h.html#a8a4058d98ae1bca3d5fa2d01726cf734">parent</a>,
+<a name="l00078"></a>00078                                              <span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>&amp; child)
+<a name="l00079"></a>00079         {
+<a name="l00080"></a>00080             <span class="keywordflow">return</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a1a2d87afbdfda6f15a0ad1ed22f7b9bea16a08d720ba27eccff54221fe4a96529">RRPChildWins</a>;
+<a name="l00081"></a>00081         }
+<a name="l00082"></a><a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#a59ac43c8758917dbc5da7b4e925fd4e9">00082</a>         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../df/df1/classmozilla_1_1ipc_1_1_r_p_c_channel_1_1_r_p_c_listener.html#a59ac43c8758917dbc5da7b4e925fd4e9">ProcessRemoteNativeEventsInRPCCall</a>() {};
+<a name="l00083"></a>00083     };
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085     <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a3a874ece87d5f99d706663de5f56c597">RPCChannel</a>(RPCListener* aListener);
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087     <span class="keyword">virtual</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a27f23f36f54ebd4a358737c60b9294a0">~RPCChannel</a>();
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089     <span class="keywordtype">void</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#af6bea7ad5f19cdce1485753a7db2a18e">Clear</a>() MOZ_OVERRIDE;
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091     <span class="comment">// Make an RPC to the other side of the channel</span>
+<a name="l00092"></a>00092     <span class="keywordtype">bool</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a19107e4e19d13556b4c9b2b44dedbbaf">Call</a>(<a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>* <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>, <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>* reply);
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094     <span class="comment">// RPCChannel overrides these so that the async and sync messages</span>
+<a name="l00095"></a>00095     <span class="comment">// can be counted against mStackFrames</span>
+<a name="l00096"></a>00096     virtual <span class="keywordtype">bool</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a09ecc1fc02221b4b3f069d3369dbe70f">Send</a>(<a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>* msg) MOZ_OVERRIDE;
+<a name="l00097"></a>00097     virtual <span class="keywordtype">bool</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a09ecc1fc02221b4b3f069d3369dbe70f">Send</a>(<a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>* msg, <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>* reply) MOZ_OVERRIDE;
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099     <span class="comment">// Return true iff this has code on the C++ stack.</span>
+<a name="l00100"></a><a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a9e7ac15dbf5cca93e44d3cbdf57961d7">00100</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a9e7ac15dbf5cca93e44d3cbdf57961d7">IsOnCxxStack</a>()<span class="keyword"> const </span>{
+<a name="l00101"></a>00101         <span class="keywordflow">return</span> !mCxxStackFrames.empty();
+<a name="l00102"></a>00102     }
+<a name="l00103"></a>00103 
+<a name="l00110"></a>00110     <span class="keywordtype">void</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#acf5a19c637382847b4d7703f8a8ec067">FlushPendingRPCQueue</a>();
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112 <span class="preprocessor">#ifdef OS_WIN</span>
+<a name="l00113"></a>00113 <span class="preprocessor"></span>    <span class="keywordtype">void</span> ProcessNativeEventsInRPCCall();
+<a name="l00114"></a>00114     <span class="keyword">static</span> <span class="keywordtype">void</span> NotifyGeckoEventDispatch();
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116 <span class="keyword">protected</span>:
+<a name="l00117"></a>00117     <span class="keywordtype">bool</span> <a class="code" href="../../d9/d6b/classmozilla_1_1ipc_1_1_sync_channel.html#ae176049bd861fadf11e517a1bde927d8">WaitForNotify</a>();
+<a name="l00118"></a>00118     <span class="keywordtype">void</span> SpinInternalEventLoop();
+<a name="l00119"></a>00119 <span class="preprocessor">#endif</span>
+<a name="l00120"></a>00120 <span class="preprocessor"></span>
+<a name="l00121"></a>00121 <span class="keyword">protected</span>:
+<a name="l00122"></a>00122     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a2bc9f8a62d2475fdafe09f44d5cf76e4">OnMessageReceivedFromLink</a>(<span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>&amp; <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>) MOZ_OVERRIDE;
+<a name="l00123"></a>00123     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#aeaa4027bda05dffbd309828e0f5b1894">OnChannelErrorFromLink</a>() MOZ_OVERRIDE;
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 private:
+<a name="l00126"></a>00126     <span class="comment">// Called on worker thread only</span>
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128     RPCListener* Listener()<span class="keyword"> const </span>{
+<a name="l00129"></a>00129         <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>RPCListener*<span class="keyword">&gt;</span>(<a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a35d8c9cf87361d9b45cc0f3626ae8885">mListener</a>.<a class="code" href="../../d7/d6b/classmozilla_1_1_weak_ptr_base.html#af1fb76b3f89d58d4e643bfb8576191c8">get</a>());
+<a name="l00130"></a>00130     }
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> ShouldDeferNotifyMaybeError() <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> MOZ_OVERRIDE {
+<a name="l00133"></a>00133         <span class="keywordflow">return</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a9e7ac15dbf5cca93e44d3cbdf57961d7">IsOnCxxStack</a>();
+<a name="l00134"></a>00134     }
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136     <span class="keywordtype">bool</span> EventOccurred() <span class="keyword">const</span>;
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138     <span class="keywordtype">void</span> MaybeUndeferIncall();
+<a name="l00139"></a>00139     <span class="keywordtype">void</span> EnqueuePendingMessages();
+<a name="l00140"></a>00140 
+<a name="l00145"></a>00145     <span class="keywordtype">bool</span> OnMaybeDequeueOne();
+<a name="l00146"></a>00146 
+<a name="l00157"></a>00157     <span class="keywordtype">size_t</span> RemoteViewOfStackDepth(<span class="keywordtype">size_t</span> stackDepth) <span class="keyword">const</span>;
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159     <span class="keywordtype">void</span> Incall(<span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>&amp; <a class="code" href="../../d3/d4b/lockscreen_8js.html#a8b146780469f40ff2867e5067d0d33f5">call</a>, <span class="keywordtype">size_t</span> stackDepth);
+<a name="l00160"></a>00160     <span class="keywordtype">void</span> DispatchIncall(<span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>&amp; <a class="code" href="../../d3/d4b/lockscreen_8js.html#a8b146780469f40ff2867e5067d0d33f5">call</a>);
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162     <span class="comment">// This helper class managed RPCChannel.mCxxStackDepth on behalf</span>
+<a name="l00163"></a>00163     <span class="comment">// of RPCChannel.  When the stack depth is incremented from zero</span>
+<a name="l00164"></a>00164     <span class="comment">// to non-zero, it invokes an RPCChannel callback, and similarly</span>
+<a name="l00165"></a>00165     <span class="comment">// for when the depth goes from non-zero to zero;</span>
+<a name="l00166"></a>00166     <span class="keywordtype">void</span> EnteredCxxStack()
+<a name="l00167"></a>00167     {
+<a name="l00168"></a>00168         Listener()-&gt;OnEnteredCxxStack();
+<a name="l00169"></a>00169     }
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171     <span class="keywordtype">void</span> ExitedCxxStack();
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173     <span class="keywordtype">void</span> EnteredCall()
+<a name="l00174"></a>00174     {
+<a name="l00175"></a>00175         Listener()-&gt;OnEnteredCall();
+<a name="l00176"></a>00176     }
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178     <span class="keywordtype">void</span> ExitedCall()
+<a name="l00179"></a>00179     {
+<a name="l00180"></a>00180         Listener()-&gt;OnExitedCall();
+<a name="l00181"></a>00181     }
+<a name="l00182"></a>00182 
+<a name="l00183"></a>00183     <span class="keyword">enum</span> Direction { IN_MESSAGE, OUT_MESSAGE };
+<a name="l00184"></a>00184     <span class="keyword">struct </span>RPCFrame {
+<a name="l00185"></a>00185         RPCFrame(Direction <a class="code" href="../../d3/d91/j3d_8js.html#ad0dea711cdf3eaf35d6e1dfde0f163b3">direction</a>, <span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>* <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>) :
+<a name="l00186"></a>00186             mDirection(direction), mMsg(msg)
+<a name="l00187"></a>00187         { }
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189         <span class="keywordtype">bool</span> IsRPCIncall()<span class="keyword"> const</span>
+<a name="l00190"></a>00190 <span class="keyword">        </span>{
+<a name="l00191"></a>00191             <span class="keywordflow">return</span> mMsg-&gt;is_rpc() &amp;&amp; IN_MESSAGE == mDirection;
+<a name="l00192"></a>00192         }
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194         <span class="keywordtype">bool</span> IsRPCOutcall()<span class="keyword"> const</span>
+<a name="l00195"></a>00195 <span class="keyword">        </span>{
+<a name="l00196"></a>00196             <span class="keywordflow">return</span> mMsg-&gt;is_rpc() &amp;&amp; OUT_MESSAGE == mDirection;
+<a name="l00197"></a>00197         }
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199         <span class="keywordtype">void</span> Describe(int32_t* <span class="keywordtype">id</span>, <span class="keyword">const</span> <span class="keywordtype">char</span>** <a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a>, <span class="keyword">const</span> <span class="keywordtype">char</span>** sems,
+<a name="l00200"></a>00200                       <span class="keyword">const</span> <span class="keywordtype">char</span>** <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>)<span class="keyword"> const</span>
+<a name="l00201"></a>00201 <span class="keyword">        </span>{
+<a name="l00202"></a>00202             *<span class="keywordtype">id</span> = mMsg-&gt;routing_id();
+<a name="l00203"></a>00203             *dir = (IN_MESSAGE == mDirection) ? <span class="stringliteral">&quot;in&quot;</span> : <span class="stringliteral">&quot;out&quot;</span>;
+<a name="l00204"></a>00204             *sems = mMsg-&gt;is_rpc() ? <span class="stringliteral">&quot;rpc&quot;</span> : mMsg-&gt;is_sync() ? <span class="stringliteral">&quot;sync&quot;</span> : <span class="stringliteral">&quot;async&quot;</span>;
+<a name="l00205"></a>00205             *name = mMsg-&gt;name();
+<a name="l00206"></a>00206         }
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208         <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2a9ece2a66508b59ec01d27c6abc72a8">Direction</a> mDirection;
+<a name="l00209"></a>00209         <span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>* mMsg;
+<a name="l00210"></a>00210     };
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212     <span class="keyword">class </span>MOZ_STACK_CLASS <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a99decdee2d842eb9b32feb9b6360553f">CxxStackFrame</a>
+<a name="l00213"></a>00213     {
+<a name="l00214"></a>00214     <span class="keyword">public</span>:
+<a name="l00215"></a>00215 
+<a name="l00216"></a>00216         <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a99decdee2d842eb9b32feb9b6360553f">CxxStackFrame</a>(<a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a3a874ece87d5f99d706663de5f56c597">RPCChannel</a>&amp; that, Direction <a class="code" href="../../d3/d91/j3d_8js.html#ad0dea711cdf3eaf35d6e1dfde0f163b3">direction</a>,
+<a name="l00217"></a>00217                       <span class="keyword">const</span> <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a4d0b7ee2f684312d3be9d03a7490c4ce">Message</a>* <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>) : mThat(that) {
+<a name="l00218"></a>00218             mThat.AssertWorkerThread();
+<a name="l00219"></a>00219 
+<a name="l00220"></a>00220             <span class="keywordflow">if</span> (mThat.mCxxStackFrames.empty())
+<a name="l00221"></a>00221                 mThat.EnteredCxxStack();
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223             mThat.mCxxStackFrames.push_back(RPCFrame(direction, msg));
+<a name="l00224"></a>00224             <span class="keyword">const</span> RPCFrame&amp; frame = mThat.mCxxStackFrames.back();
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226             <span class="keywordflow">if</span> (frame.IsRPCIncall())
+<a name="l00227"></a>00227                 mThat.EnteredCall();
+<a name="l00228"></a>00228 
+<a name="l00229"></a>00229             mThat.mSawRPCOutMsg |= frame.IsRPCOutcall();
+<a name="l00230"></a>00230         }
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232         ~<a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a99decdee2d842eb9b32feb9b6360553f">CxxStackFrame</a>() {
+<a name="l00233"></a>00233             <span class="keywordtype">bool</span> exitingCall = mThat.mCxxStackFrames.back().IsRPCIncall();
+<a name="l00234"></a>00234             mThat.mCxxStackFrames.pop_back();
+<a name="l00235"></a>00235             <span class="keywordtype">bool</span> exitingStack = mThat.mCxxStackFrames.empty();
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237             <span class="comment">// mListener could have gone away if Close() was called while</span>
+<a name="l00238"></a>00238             <span class="comment">// RPCChannel code was still on the stack</span>
+<a name="l00239"></a>00239             <span class="keywordflow">if</span> (!mThat.mListener)
+<a name="l00240"></a>00240                 <span class="keywordflow">return</span>;
+<a name="l00241"></a>00241 
+<a name="l00242"></a>00242             mThat.AssertWorkerThread();
+<a name="l00243"></a>00243             <span class="keywordflow">if</span> (exitingCall)
+<a name="l00244"></a>00244                 mThat.ExitedCall();
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246             <span class="keywordflow">if</span> (exitingStack)
+<a name="l00247"></a>00247                 mThat.ExitedCxxStack();
+<a name="l00248"></a>00248         }
+<a name="l00249"></a>00249     <span class="keyword">private</span>:
+<a name="l00250"></a>00250         <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a3a874ece87d5f99d706663de5f56c597">RPCChannel</a>&amp; mThat;
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252         <span class="comment">// disable harmful methods</span>
+<a name="l00253"></a>00253         <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a99decdee2d842eb9b32feb9b6360553f">CxxStackFrame</a>();
+<a name="l00254"></a>00254         <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a99decdee2d842eb9b32feb9b6360553f">CxxStackFrame</a>(<span class="keyword">const</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a99decdee2d842eb9b32feb9b6360553f">CxxStackFrame</a>&amp;);
+<a name="l00255"></a>00255         <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a99decdee2d842eb9b32feb9b6360553f">CxxStackFrame</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="../../de/d20/classmozilla_1_1ipc_1_1_r_p_c_channel.html#a99decdee2d842eb9b32feb9b6360553f">CxxStackFrame</a>&amp;);
+<a name="l00256"></a>00256     };
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258     <span class="comment">// Called from both threads</span>
+<a name="l00259"></a>00259     <span class="keywordtype">size_t</span> StackDepth()<span class="keyword"> const </span>{
+<a name="l00260"></a>00260         <a class="code" href="../../d6/d7e/classmozilla_1_1ipc_1_1_async_channel.html#a1256251e64fdefc2728f28fb0294bfcb">mMonitor</a>-&gt;AssertCurrentThreadOwns();
+<a name="l00261"></a>00261         <span class="keywordflow">return</span> mStack.size();
+<a name="l00262"></a>00262     }
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264     <span class="keywordtype">void</span> DebugAbort(<span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../db/d2a/_utility_8h.html#a5f21914f6755df23fc8ddbf42503beca">file</a>, <span class="keywordtype">int</span> <a class="code" href="../../da/d7d/cook_8js.html#ae379b8c31475b8ad7712b7ead5ce1173">line</a>, <span class="keyword">const</span> <span class="keywordtype">char</span>* cond,
+<a name="l00265"></a>00265                     <span class="keyword">const</span> <span class="keywordtype">char</span>* why,
+<a name="l00266"></a>00266                     <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>=<span class="stringliteral">&quot;rpc&quot;</span>, <span class="keywordtype">bool</span> reply=<span class="keyword">false</span>) <span class="keyword">const</span>;
+<a name="l00267"></a>00267 
+<a name="l00268"></a>00268     <span class="comment">// This method is only safe to call on the worker thread, or in a</span>
+<a name="l00269"></a>00269     <span class="comment">// debugger with all threads paused.</span>
+<a name="l00270"></a>00270     <span class="keywordtype">void</span> DumpRPCStack(<span class="keyword">const</span> <span class="keywordtype">char</span>* <span class="keyword">const</span> pfx=<span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272     <span class="comment">// </span>
+<a name="l00273"></a>00273     <span class="comment">// Queue of all incoming messages, except for replies to sync</span>
+<a name="l00274"></a>00274     <span class="comment">// messages, which are delivered directly to the SyncChannel</span>
+<a name="l00275"></a>00275     <span class="comment">// through its mRecvd member.</span>
+<a name="l00276"></a>00276     <span class="comment">//</span>
+<a name="l00277"></a>00277     <span class="comment">// If both this side and the other side are functioning correctly,</span>
+<a name="l00278"></a>00278     <span class="comment">// the queue can only be in certain configurations.  Let</span>
+<a name="l00279"></a>00279     <span class="comment">// </span>
+<a name="l00280"></a>00280     <span class="comment">//   |A&lt;| be an async in-message,</span>
+<a name="l00281"></a>00281     <span class="comment">//   |S&lt;| be a sync in-message,</span>
+<a name="l00282"></a>00282     <span class="comment">//   |C&lt;| be an RPC in-call,</span>
+<a name="l00283"></a>00283     <span class="comment">//   |R&lt;| be an RPC reply.</span>
+<a name="l00284"></a>00284     <span class="comment">// </span>
+<a name="l00285"></a>00285     <span class="comment">// The queue can only match this configuration</span>
+<a name="l00286"></a>00286     <span class="comment">// </span>
+<a name="l00287"></a>00287     <span class="comment">//  A&lt;* (S&lt; | C&lt; | R&lt; (?{mStack.size() == 1} A&lt;* (S&lt; | C&lt;)))</span>
+<a name="l00288"></a>00288     <span class="comment">//</span>
+<a name="l00289"></a>00289     <span class="comment">// The other side can send as many async messages |A&lt;*| as it</span>
+<a name="l00290"></a>00290     <span class="comment">// wants before sending us a blocking message.</span>
+<a name="l00291"></a>00291     <span class="comment">//</span>
+<a name="l00292"></a>00292     <span class="comment">// The first case is |S&lt;|, a sync in-msg.  The other side must be</span>
+<a name="l00293"></a>00293     <span class="comment">// blocked, and thus can&#39;t send us any more messages until we</span>
+<a name="l00294"></a>00294     <span class="comment">// process the sync in-msg.</span>
+<a name="l00295"></a>00295     <span class="comment">//</span>
+<a name="l00296"></a>00296     <span class="comment">// The second case is |C&lt;|, an RPC in-call; the other side must be</span>
+<a name="l00297"></a>00297     <span class="comment">// blocked.  (There&#39;s a subtlety here: this in-call might have</span>
+<a name="l00298"></a>00298     <span class="comment">// raced with an out-call, but we detect that with the mechanism</span>
+<a name="l00299"></a>00299     <span class="comment">// below, |mRemoteStackDepth|, and races don&#39;t matter to the</span>
+<a name="l00300"></a>00300     <span class="comment">// queue.)</span>
+<a name="l00301"></a>00301     <span class="comment">//</span>
+<a name="l00302"></a>00302     <span class="comment">// Final case, the other side replied to our most recent out-call</span>
+<a name="l00303"></a>00303     <span class="comment">// |R&lt;|.  If that was the *only* out-call on our stack,</span>
+<a name="l00304"></a>00304     <span class="comment">// |?{mStack.size() == 1}|, then other side &quot;finished with us,&quot;</span>
+<a name="l00305"></a>00305     <span class="comment">// and went back to its own business.  That business might have</span>
+<a name="l00306"></a>00306     <span class="comment">// included sending any number of async message |A&lt;*| until</span>
+<a name="l00307"></a>00307     <span class="comment">// sending a blocking message |(S&lt; | C&lt;)|.  If we had more than</span>
+<a name="l00308"></a>00308     <span class="comment">// one RPC call on our stack, the other side *better* not have</span>
+<a name="l00309"></a>00309     <span class="comment">// sent us another blocking message, because it&#39;s blocked on a</span>
+<a name="l00310"></a>00310     <span class="comment">// reply from us.</span>
+<a name="l00311"></a>00311     <span class="comment">//</span>
+<a name="l00312"></a>00312     <span class="keyword">typedef</span> std::deque&lt;Message&gt; MessageQueue;
+<a name="l00313"></a>00313     MessageQueue mPending;
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315     <span class="comment">// List of async and sync messages that have been received while waiting</span>
+<a name="l00316"></a>00316     <span class="comment">// for an urgent reply, that need to be deferred until that reply has been</span>
+<a name="l00317"></a>00317     <span class="comment">// received.</span>
+<a name="l00318"></a>00318     MessageQueue mNonUrgentDeferred;
+<a name="l00319"></a>00319 
+<a name="l00320"></a>00320     <span class="comment">// </span>
+<a name="l00321"></a>00321     <span class="comment">// Stack of all the RPC out-calls on which this RPCChannel is</span>
+<a name="l00322"></a>00322     <span class="comment">// awaiting a response.</span>
+<a name="l00323"></a>00323     <span class="comment">//</span>
+<a name="l00324"></a>00324     std::stack&lt;Message&gt; mStack;
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326     <span class="comment">//</span>
+<a name="l00327"></a>00327     <span class="comment">// Map of replies received &quot;out of turn&quot;, because of RPC</span>
+<a name="l00328"></a>00328     <span class="comment">// in-calls racing with replies to outstanding in-calls.  See</span>
+<a name="l00329"></a>00329     <span class="comment">// https://bugzilla.mozilla.org/show_bug.cgi?id=521929.</span>
+<a name="l00330"></a>00330     <span class="comment">//</span>
+<a name="l00331"></a>00331     <span class="keyword">typedef</span> std::map&lt;size_t, Message&gt; MessageMap;
+<a name="l00332"></a>00332     MessageMap mOutOfTurnReplies;
+<a name="l00333"></a>00333 
+<a name="l00334"></a>00334     <span class="comment">//</span>
+<a name="l00335"></a>00335     <span class="comment">// Stack of RPC in-calls that were deferred because of race</span>
+<a name="l00336"></a>00336     <span class="comment">// conditions.</span>
+<a name="l00337"></a>00337     <span class="comment">//</span>
+<a name="l00338"></a>00338     std::stack&lt;Message&gt; mDeferred;
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340     <span class="comment">//</span>
+<a name="l00341"></a>00341     <span class="comment">// This is what we think the RPC stack depth is on the &quot;other</span>
+<a name="l00342"></a>00342     <span class="comment">// side&quot; of this RPC channel.  We maintain this variable so that</span>
+<a name="l00343"></a>00343     <span class="comment">// we can detect racy RPC calls.  With each RPC out-call sent, we</span>
+<a name="l00344"></a>00344     <span class="comment">// send along what *we* think the stack depth of the remote side</span>
+<a name="l00345"></a>00345     <span class="comment">// is *before* it will receive the RPC call.</span>
+<a name="l00346"></a>00346     <span class="comment">//</span>
+<a name="l00347"></a>00347     <span class="comment">// After sending the out-call, our stack depth is &quot;incremented&quot;</span>
+<a name="l00348"></a>00348     <span class="comment">// by pushing that pending message onto mPending.</span>
+<a name="l00349"></a>00349     <span class="comment">//</span>
+<a name="l00350"></a>00350     <span class="comment">// Then when processing an in-call |c|, it must be true that</span>
+<a name="l00351"></a>00351     <span class="comment">//</span>
+<a name="l00352"></a>00352     <span class="comment">//   mStack.size() == c.remoteDepth</span>
+<a name="l00353"></a>00353     <span class="comment">//</span>
+<a name="l00354"></a>00354     <span class="comment">// i.e., my depth is actually the same as what the other side</span>
+<a name="l00355"></a>00355     <span class="comment">// thought it was when it sent in-call |c|.  If this fails to</span>
+<a name="l00356"></a>00356     <span class="comment">// hold, we have detected racy RPC calls.</span>
+<a name="l00357"></a>00357     <span class="comment">//</span>
+<a name="l00358"></a>00358     <span class="comment">// We then increment mRemoteStackDepth *just before* processing</span>
+<a name="l00359"></a>00359     <span class="comment">// the in-call, since we know the other side is waiting on it, and</span>
+<a name="l00360"></a>00360     <span class="comment">// decrement it *just after* finishing processing that in-call,</span>
+<a name="l00361"></a>00361     <span class="comment">// since our response will pop the top of the other side&#39;s</span>
+<a name="l00362"></a>00362     <span class="comment">// |mPending|.</span>
+<a name="l00363"></a>00363     <span class="comment">//</span>
+<a name="l00364"></a>00364     <span class="comment">// One nice aspect of this race detection is that it is symmetric;</span>
+<a name="l00365"></a>00365     <span class="comment">// if one side detects a race, then the other side must also </span>
+<a name="l00366"></a>00366     <span class="comment">// detect the same race.</span>
+<a name="l00367"></a>00367     <span class="comment">//</span>
+<a name="l00368"></a>00368     <span class="keywordtype">size_t</span> mRemoteStackDepthGuess;
+<a name="l00369"></a>00369 
+<a name="l00370"></a>00370     <span class="comment">// Approximation of Sync/RPCChannel-code frames on the C++ stack.</span>
+<a name="l00371"></a>00371     <span class="comment">// It can only be interpreted as the implication</span>
+<a name="l00372"></a>00372     <span class="comment">//</span>
+<a name="l00373"></a>00373     <span class="comment">//  !mCxxStackFrames.empty() =&gt; RPCChannel code on C++ stack</span>
+<a name="l00374"></a>00374     <span class="comment">//</span>
+<a name="l00375"></a>00375     <span class="comment">// This member is only accessed on the worker thread, and so is</span>
+<a name="l00376"></a>00376     <span class="comment">// not protected by mMonitor.  It is managed exclusively by the</span>
+<a name="l00377"></a>00377     <span class="comment">// helper |class CxxStackFrame|.</span>
+<a name="l00378"></a>00378     std::vector&lt;RPCFrame&gt; mCxxStackFrames;
+<a name="l00379"></a>00379 
+<a name="l00380"></a>00380     <span class="comment">// Did we process an RPC out-call during this stack?  Only</span>
+<a name="l00381"></a>00381     <span class="comment">// meaningful in ExitedCxxStack(), from which this variable is</span>
+<a name="l00382"></a>00382     <span class="comment">// reset.</span>
+<a name="l00383"></a>00383     <span class="keywordtype">bool</span> mSawRPCOutMsg;
+<a name="l00384"></a>00384 
+<a name="l00385"></a>00385 <span class="keyword">private</span>:
+<a name="l00386"></a>00386 
+<a name="l00387"></a>00387     <span class="comment">//</span>
+<a name="l00388"></a>00388     <span class="comment">// All dequeuing tasks require a single point of cancellation,</span>
+<a name="l00389"></a>00389     <span class="comment">// which is handled via a reference-counted task.</span>
+<a name="l00390"></a>00390     <span class="comment">//</span>
+<a name="l00391"></a>00391     <span class="keyword">class </span>RefCountedTask
+<a name="l00392"></a>00392     {
+<a name="l00393"></a>00393       <span class="keyword">public</span>:
+<a name="l00394"></a>00394         RefCountedTask(CancelableTask* aTask)
+<a name="l00395"></a>00395         : mTask(aTask) {}
+<a name="l00396"></a>00396         ~RefCountedTask() { <span class="keyword">delete</span> mTask; }
+<a name="l00397"></a>00397         <span class="keywordtype">void</span> <a class="code" href="../../dd/df5/ns_bidi_8h.html#a7ca5de84c4a55ba2a2caf8fad54ddc22">Run</a>() { mTask-&gt;Run(); }
+<a name="l00398"></a>00398         <span class="keywordtype">void</span> Cancel() { mTask-&gt;Cancel(); }
+<a name="l00399"></a>00399 
+<a name="l00400"></a>00400         <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#ac4bdc476a7f9eddfb535c3ff08591209">NS_INLINE_DECL_THREADSAFE_REFCOUNTING</a>(RefCountedTask)
+<a name="l00401"></a>00401 
+<a name="l00402"></a>00402       private:
+<a name="l00403"></a>00403         CancelableTask* mTask;
+<a name="l00404"></a>00404     };
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406     <span class="comment">//</span>
+<a name="l00407"></a>00407     <span class="comment">// Wrap an existing task which can be cancelled at any time</span>
+<a name="l00408"></a>00408     <span class="comment">// without the wrapper&#39;s knowledge.</span>
+<a name="l00409"></a>00409     <span class="comment">//</span>
+<a name="l00410"></a>00410     class DequeueTask : public Task
+<a name="l00411"></a>00411     {
+<a name="l00412"></a>00412       <span class="keyword">public</span>:
+<a name="l00413"></a>00413         DequeueTask(RefCountedTask* aTask) : mTask(aTask) {}
+<a name="l00414"></a>00414         <span class="keywordtype">void</span> <a class="code" href="../../dd/df5/ns_bidi_8h.html#a7ca5de84c4a55ba2a2caf8fad54ddc22">Run</a>() { mTask-&gt;Run(); }
+<a name="l00415"></a>00415         
+<a name="l00416"></a>00416       <span class="keyword">private</span>:
+<a name="l00417"></a>00417         <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;RefCountedTask&gt;</a> mTask;
+<a name="l00418"></a>00418     };
+<a name="l00419"></a>00419 
+<a name="l00420"></a>00420     <span class="comment">// A task encapsulating dequeuing one pending task</span>
+<a name="l00421"></a>00421     <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;RefCountedTask&gt;</a> mDequeueOneTask;
+<a name="l00422"></a>00422 };
+<a name="l00423"></a>00423 
+<a name="l00424"></a>00424 
+<a name="l00425"></a>00425 } <span class="comment">// namespace ipc</span>
+<a name="l00426"></a>00426 } <span class="comment">// namespace mozilla</span>
+<a name="l00427"></a>00427 <span class="preprocessor">#endif  // ifndef ipc_glue_RPCChannel_h</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d6/d16/_r_p_c_channel_8h.html">RPCChannel.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:05に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

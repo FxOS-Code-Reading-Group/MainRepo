@@ -1,0 +1,603 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: TypeTraits.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d4/dd5/_type_traits_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">TypeTraits.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d4/dd5/_type_traits_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set ts=8 sts=2 et sw=2 tw=80: */</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/* Template-based metaprogramming and type-testing facilities. */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="preprocessor">#ifndef mozilla_TypeTraits_h</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="preprocessor">#define mozilla_TypeTraits_h</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span>
+<a name="l00012"></a>00012 <span class="comment">/*</span>
+<a name="l00013"></a>00013 <span class="comment"> * These traits are approximate copies of the traits and semantics from C++11&#39;s</span>
+<a name="l00014"></a>00014 <span class="comment"> * &lt;type_traits&gt; header.  Don&#39;t add traits not in that header!  When all</span>
+<a name="l00015"></a>00015 <span class="comment"> * platforms provide that header, we can convert all users and remove this one.</span>
+<a name="l00016"></a>00016 <span class="comment"> */</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 <span class="preprocessor">#include &lt;wchar.h&gt;</span>
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="keyword">namespace </span>mozilla {
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="comment">/* Forward declarations. */</span>
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="keyword">template</span>&lt;<span class="keyword">typename</span>&gt; <span class="keyword">struct </span>RemoveCV;
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="comment">/* 20.9.3 Helper classes [meta.help] */</span>
+<a name="l00027"></a>00027 
+<a name="l00032"></a>00032 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, T Value&gt;
+<a name="l00033"></a><a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">00033</a> <span class="keyword">struct </span><a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">IntegralConstant</a>
+<a name="l00034"></a>00034 {
+<a name="l00035"></a><a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html#ae23ea784081b6edb2cc4bd88751eeb26">00035</a>     <span class="keyword">static</span> <span class="keyword">const</span> T <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a> = Value;
+<a name="l00036"></a><a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html#a9d70550f7bb22dab3b0f8607c1ff72f9">00036</a>     <span class="keyword">typedef</span> T <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html#a9d70550f7bb22dab3b0f8607c1ff72f9">ValueType</a>;
+<a name="l00037"></a><a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html#a2c94206a316e298f10c5a57bf90851f8">00037</a>     <span class="keyword">typedef</span> <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">IntegralConstant&lt;T, Value&gt;</a> <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html#a2c94206a316e298f10c5a57bf90851f8">Type</a>;
+<a name="l00038"></a>00038 };
+<a name="l00039"></a>00039 
+<a name="l00041"></a><a class="code" href="../../d2/d93/namespacemozilla.html#a92caabf3531a28ea9b3f57390ab7aced">00041</a> <span class="keyword">typedef</span> <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">IntegralConstant&lt;bool, true&gt;</a> <a class="code" href="../../d2/d93/namespacemozilla.html#a92caabf3531a28ea9b3f57390ab7aced">TrueType</a>;
+<a name="l00042"></a><a class="code" href="../../d2/d93/namespacemozilla.html#af02a79e671d86957734a5433a243679e">00042</a> <span class="keyword">typedef</span> <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">IntegralConstant&lt;bool, false&gt;</a> <a class="code" href="../../d2/d93/namespacemozilla.html#af02a79e671d86957734a5433a243679e">FalseType</a>;
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 <span class="comment">/* 20.9.4 Unary type traits [meta.unary] */</span>
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 <span class="comment">/* 20.9.4.1 Primary type categories [meta.unary.cat] */</span>
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 <span class="keyword">namespace </span>detail {
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050 <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
+<a name="l00051"></a><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">00051</a> <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a> : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">FalseType</a> {};
+<a name="l00052"></a>00052 
+<a name="l00053"></a><a class="code" href="../../d6/d14/structmozilla_1_1detail_1_1_is_integral_helper_3_01char_01_4.html">00053</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;char&gt;               : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00054"></a><a class="code" href="../../da/ddf/structmozilla_1_1detail_1_1_is_integral_helper_3_01signed_01char_01_4.html">00054</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;<a class="code" href="../../d6/d92/cdefs_8h.html#ae31516cd0c4adc3d52b93ef2e5c6117b">signed</a> char&gt;        : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00055"></a><a class="code" href="../../d5/d55/structmozilla_1_1detail_1_1_is_integral_helper_3_01unsigned_01char_01_4.html">00055</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;unsigned char&gt;      : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00056"></a><a class="code" href="../../d0/d9b/structmozilla_1_1detail_1_1_is_integral_helper_3_01short_01_4.html">00056</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;short&gt;              : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00057"></a><a class="code" href="../../dc/d6b/structmozilla_1_1detail_1_1_is_integral_helper_3_01unsigned_01short_01_4.html">00057</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;unsigned short&gt;     : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00058"></a><a class="code" href="../../d6/d1c/structmozilla_1_1detail_1_1_is_integral_helper_3_01int_01_4.html">00058</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;<a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a>&gt;                : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00059"></a><a class="code" href="../../df/d2a/structmozilla_1_1detail_1_1_is_integral_helper_3_01unsigned_01int_01_4.html">00059</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;unsigned <a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a>&gt;       : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00060"></a><a class="code" href="../../da/d3f/structmozilla_1_1detail_1_1_is_integral_helper_3_01long_01_4.html">00060</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;long&gt;               : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00061"></a><a class="code" href="../../de/d9f/structmozilla_1_1detail_1_1_is_integral_helper_3_01unsigned_01long_01_4.html">00061</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;unsigned long&gt;      : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00062"></a><a class="code" href="../../d2/d07/structmozilla_1_1detail_1_1_is_integral_helper_3_01long_01long_01_4.html">00062</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;long long&gt;          : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00063"></a><a class="code" href="../../d3/d51/structmozilla_1_1detail_1_1_is_integral_helper_3_01unsigned_01long_01long_01_4.html">00063</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;unsigned long long&gt; : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00064"></a><a class="code" href="../../d3/d20/structmozilla_1_1detail_1_1_is_integral_helper_3_01bool_01_4.html">00064</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;<a class="code" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>&gt;               : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00065"></a><a class="code" href="../../d2/d94/structmozilla_1_1detail_1_1_is_integral_helper_3_01wchar__t_01_4.html">00065</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../dd/db6/structmozilla_1_1detail_1_1_is_integral_helper.html">IsIntegralHelper</a>&lt;wchar_t&gt;            : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 } <span class="comment">/* namespace detail */</span>
+<a name="l00068"></a>00068 
+<a name="l00081"></a>00081 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00082"></a><a class="code" href="../../d3/d05/structmozilla_1_1_is_integral.html">00082</a> <span class="keyword">struct </span><a class="code" href="../../d3/d05/structmozilla_1_1_is_integral.html">IsIntegral</a> : detail::IsIntegralHelper&lt;typename RemoveCV&lt;T&gt;::Type&gt;
+<a name="l00083"></a>00083 {};
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;
+<a name="l00086"></a>00086 <span class="keyword">struct </span><a class="code" href="../../d4/d68/structmozilla_1_1_is_same.html">IsSame</a>;
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088 <span class="keyword">namespace </span>detail {
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00091"></a><a class="code" href="../../dd/dba/structmozilla_1_1detail_1_1_is_floating_point_helper.html">00091</a> <span class="keyword">struct </span><a class="code" href="../../dd/dba/structmozilla_1_1detail_1_1_is_floating_point_helper.html">IsFloatingPointHelper</a>
+<a name="l00092"></a>00092   : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">IntegralConstant</a>&lt;bool,
+<a name="l00093"></a>00093                      IsSame&lt;T, float&gt;::value ||
+<a name="l00094"></a>00094                      IsSame&lt;T, double&gt;::value ||
+<a name="l00095"></a>00095                      IsSame&lt;T, long double&gt;::value&gt;
+<a name="l00096"></a>00096 {};
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098 } <span class="comment">// namespace detail</span>
+<a name="l00099"></a>00099 
+<a name="l00109"></a>00109 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00110"></a><a class="code" href="../../d6/d78/structmozilla_1_1_is_floating_point.html">00110</a> <span class="keyword">struct </span><a class="code" href="../../d6/d78/structmozilla_1_1_is_floating_point.html">IsFloatingPoint</a>
+<a name="l00111"></a>00111   : detail::IsFloatingPointHelper&lt;typename RemoveCV&lt;T&gt;::Type&gt;
+<a name="l00112"></a>00112 {};
+<a name="l00113"></a>00113 
+<a name="l00124"></a>00124 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00125"></a><a class="code" href="../../d3/d20/structmozilla_1_1_is_pointer.html">00125</a> <span class="keyword">struct </span><a class="code" href="../../d3/d20/structmozilla_1_1_is_pointer.html">IsPointer</a> : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">FalseType</a> {};
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00128"></a><a class="code" href="../../de/da5/structmozilla_1_1_is_pointer_3_01_t_01_5_01_4.html">00128</a> <span class="keyword">struct </span><a class="code" href="../../d3/d20/structmozilla_1_1_is_pointer.html">IsPointer</a>&lt;T*&gt; : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130 <span class="keyword">namespace </span>detail {
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132 <span class="comment">// __is_enum is a supported extension across all of our supported compilers.</span>
+<a name="l00133"></a>00133 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00134"></a><a class="code" href="../../dc/dc8/structmozilla_1_1detail_1_1_is_enum_helper.html">00134</a> <span class="keyword">struct </span><a class="code" href="../../dc/dc8/structmozilla_1_1detail_1_1_is_enum_helper.html">IsEnumHelper</a>
+<a name="l00135"></a>00135   : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">IntegralConstant</a>&lt;bool, __is_enum(T)&gt;
+<a name="l00136"></a>00136 {};
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138 } <span class="comment">// namespace detail</span>
+<a name="l00139"></a>00139 
+<a name="l00147"></a>00147 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00148"></a><a class="code" href="../../d3/daf/structmozilla_1_1_is_enum.html">00148</a> <span class="keyword">struct </span><a class="code" href="../../d3/daf/structmozilla_1_1_is_enum.html">IsEnum</a>
+<a name="l00149"></a>00149   : detail::IsEnumHelper&lt;typename RemoveCV&lt;T&gt;::Type&gt;
+<a name="l00150"></a>00150 {};
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152 <span class="comment">/* 20.9.4.2 Composite type traits [meta.unary.comp] */</span>
+<a name="l00153"></a>00153 
+<a name="l00162"></a>00162 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00163"></a><a class="code" href="../../da/d38/structmozilla_1_1_is_arithmetic.html">00163</a> <span class="keyword">struct </span><a class="code" href="../../da/d38/structmozilla_1_1_is_arithmetic.html">IsArithmetic</a>
+<a name="l00164"></a>00164   : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">IntegralConstant</a>&lt;bool, IsIntegral&lt;T&gt;::value || IsFloatingPoint&lt;T&gt;::value&gt;
+<a name="l00165"></a>00165 {};
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167 <span class="comment">/* 20.9.4.3 Type properties [meta.unary.prop] */</span>
+<a name="l00168"></a>00168 
+<a name="l00176"></a>00176 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00177"></a><a class="code" href="../../d1/d6a/structmozilla_1_1_is_const.html">00177</a> <span class="keyword">struct </span><a class="code" href="../../d1/d6a/structmozilla_1_1_is_const.html">IsConst</a> : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">FalseType</a> {};
+<a name="l00178"></a>00178 
+<a name="l00179"></a>00179 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00180"></a><a class="code" href="../../d0/da6/structmozilla_1_1_is_const_3_01const_01_t_01_4.html">00180</a> <span class="keyword">struct </span><a class="code" href="../../d1/d6a/structmozilla_1_1_is_const.html">IsConst</a>&lt;<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> T&gt; : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00181"></a>00181 
+<a name="l00189"></a>00189 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00190"></a><a class="code" href="../../d6/d22/structmozilla_1_1_is_volatile.html">00190</a> <span class="keyword">struct </span><a class="code" href="../../d6/d22/structmozilla_1_1_is_volatile.html">IsVolatile</a> : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">FalseType</a> {};
+<a name="l00191"></a>00191 
+<a name="l00192"></a>00192 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00193"></a><a class="code" href="../../d0/d28/structmozilla_1_1_is_volatile_3_01volatile_01_t_01_4.html">00193</a> <span class="keyword">struct </span><a class="code" href="../../d6/d22/structmozilla_1_1_is_volatile.html">IsVolatile</a>&lt;<a class="code" href="../../d6/d92/cdefs_8h.html#af55a5e48555be7d32ad73e76cf5d4db0">volatile</a> T&gt; : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00194"></a>00194 
+<a name="l00203"></a>00203 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00204"></a><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">00204</a> <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a> : <span class="keyword">public</span> <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">FalseType</a> {};
+<a name="l00205"></a>00205 
+<a name="l00206"></a><a class="code" href="../../d5/d3c/structmozilla_1_1_is_pod_3_01char_01_4.html">00206</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;char&gt;               : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00207"></a><a class="code" href="../../dd/d14/structmozilla_1_1_is_pod_3_01signed_01char_01_4.html">00207</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;<a class="code" href="../../d6/d92/cdefs_8h.html#ae31516cd0c4adc3d52b93ef2e5c6117b">signed</a> char&gt;        : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00208"></a><a class="code" href="../../df/dae/structmozilla_1_1_is_pod_3_01unsigned_01char_01_4.html">00208</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;unsigned char&gt;      : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00209"></a><a class="code" href="../../dd/d14/structmozilla_1_1_is_pod_3_01short_01_4.html">00209</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;short&gt;              : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00210"></a><a class="code" href="../../d8/d33/structmozilla_1_1_is_pod_3_01unsigned_01short_01_4.html">00210</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;unsigned short&gt;     : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00211"></a><a class="code" href="../../d7/d03/structmozilla_1_1_is_pod_3_01int_01_4.html">00211</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;<a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a>&gt;                : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00212"></a><a class="code" href="../../da/d69/structmozilla_1_1_is_pod_3_01unsigned_01int_01_4.html">00212</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;unsigned <a class="code" href="../../d9/d04/expat_8h.html#a14bb8924daea0b48c7803f281f66e390">int</a>&gt;       : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00213"></a><a class="code" href="../../d1/d24/structmozilla_1_1_is_pod_3_01long_01_4.html">00213</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;long&gt;               : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00214"></a><a class="code" href="../../d1/da0/structmozilla_1_1_is_pod_3_01unsigned_01long_01_4.html">00214</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;unsigned long&gt;      : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00215"></a><a class="code" href="../../d2/d4d/structmozilla_1_1_is_pod_3_01long_01long_01_4.html">00215</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;long long&gt;          : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00216"></a><a class="code" href="../../db/d8a/structmozilla_1_1_is_pod_3_01unsigned_01long_01long_01_4.html">00216</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;unsigned long long&gt; : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00217"></a><a class="code" href="../../dd/d23/structmozilla_1_1_is_pod_3_01bool_01_4.html">00217</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;<a class="code" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>&gt;               : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00218"></a><a class="code" href="../../dd/d03/structmozilla_1_1_is_pod_3_01float_01_4.html">00218</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a41c4c29f6d7869f7621f2549cecccbf0">float</a>&gt;              : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00219"></a><a class="code" href="../../d9/d50/structmozilla_1_1_is_pod_3_01double_01_4.html">00219</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;double&gt;             : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00220"></a><a class="code" href="../../db/dcb/structmozilla_1_1_is_pod_3_01wchar__t_01_4.html">00220</a> <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;wchar_t&gt;            : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00221"></a><a class="code" href="../../d3/dd5/structmozilla_1_1_is_pod_3_01_t_01_5_01_4.html">00221</a> <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="../../d6/d14/structmozilla_1_1_is_pod.html">IsPod</a>&lt;T*&gt;       : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223 <span class="keyword">namespace </span>detail {
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225 <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">template&lt;typename T, bool = IsFloatingPoint&lt;T&gt;::value</a>&gt;
+<a name="l00226"></a>00226 <span class="keyword">struct </span>IsSignedHelper;
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00229"></a><a class="code" href="../../d7/dc9/structmozilla_1_1detail_1_1_is_signed_helper_3_01_t_00_01true_01_4.html">00229</a> <span class="keyword">struct </span>IsSignedHelper&lt;T, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>&gt; : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">TrueType</a> {};
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
+<a name="l00232"></a>00232 <span class="keyword">struct </span>IsSignedHelper&lt;T, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;
+<a name="l00233"></a>00233   : <a class="code" href="../../d2/dbe/structmozilla_1_1_integral_constant.html">IntegralConstant</a>&lt;bool, IsArithmetic&lt;T&gt;::value &amp;&amp; T(-1) &lt; T(1)&gt;
+<a name="l00234"></a>00234 {};
+<a name="l00235"></a>00235 
+<a name="l00236"></a>00236 } <span class="comment">// namespace detail</span>
+<a name="l00237"></a>00237 
+<a name="l00250"></a>00250 template&lt;typename T&gt;
+<a name="l00251"></a><a class="code" href="../../db/d62/structmozilla_1_1_is_signed.html">00251</a> struct IsSigned : detail::IsSignedHelper&lt;T&gt; {};
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253 namespace detail {
+<a name="l00254"></a>00254 
+<a name="l00255"></a>00255 template&lt;typename T, bool = IsFloatingPoint&lt;T&gt;::value&gt;
+<a name="l00256"></a>00256 struct IsUnsignedHelper;
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258 template&lt;typename T&gt;
+<a name="l00259"></a><a class="code" href="../../d4/d68/structmozilla_1_1detail_1_1_is_unsigned_helper_3_01_t_00_01true_01_4.html">00259</a> struct IsUnsignedHelper&lt;T, true&gt; : FalseType {};
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261 template&lt;typename T&gt;
+<a name="l00262"></a><a class="code" href="../../d8/d2d/structmozilla_1_1detail_1_1_is_unsigned_helper_3_01_t_00_01false_01_4.html">00262</a> struct IsUnsignedHelper&lt;T, false&gt;
+<a name="l00263"></a>00263   : IntegralConstant&lt;bool,
+<a name="l00264"></a>00264                      IsArithmetic&lt;T&gt;::value &amp;&amp;
+<a name="l00265"></a>00265                      (IsSame&lt;typename RemoveCV&lt;T&gt;::Type, bool&gt;::value ||
+<a name="l00266"></a>00266                       T(1) &lt; T(-1))&gt;
+<a name="l00267"></a>00267 {};
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269 } <span class="comment">// namespace detail</span>
+<a name="l00270"></a>00270 
+<a name="l00282"></a>00282 template&lt;typename T&gt;
+<a name="l00283"></a><a class="code" href="../../de/ded/structmozilla_1_1_is_unsigned.html">00283</a> struct IsUnsigned : detail::IsUnsignedHelper&lt;T&gt; {};
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285 <span class="comment">/* 20.9.5 Type property queries [meta.unary.prop.query] */</span>
+<a name="l00286"></a>00286 
+<a name="l00287"></a>00287 <span class="comment">/* 20.9.6 Relationships between types [meta.rel] */</span>
+<a name="l00288"></a>00288 
+<a name="l00299"></a>00299 template&lt;typename T, typename U&gt;
+<a name="l00300"></a><a class="code" href="../../d4/d68/structmozilla_1_1_is_same.html">00300</a> struct IsSame : FalseType {};
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302 template&lt;typename T&gt;
+<a name="l00303"></a><a class="code" href="../../d0/d00/structmozilla_1_1_is_same_3_01_t_00_01_t_01_4.html">00303</a> struct IsSame&lt;T, T&gt; : TrueType {};
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305 namespace detail {
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307 <span class="comment">// The trickery used to implement IsBaseOf here makes it possible to use it for</span>
+<a name="l00308"></a>00308 <span class="comment">// the cases of private and multiple inheritance.  This code was inspired by the</span>
+<a name="l00309"></a>00309 <span class="comment">// sample code here:</span>
+<a name="l00310"></a>00310 <span class="comment">//</span>
+<a name="l00311"></a>00311 <span class="comment">// http://stackoverflow.com/questions/2910979/how-is-base-of-works</span>
+<a name="l00312"></a>00312 template&lt;class Base, class Derived&gt;
+<a name="l00313"></a><a class="code" href="../../de/d28/structmozilla_1_1detail_1_1_base_of_helper.html">00313</a> struct BaseOfHelper
+<a name="l00314"></a>00314 {
+<a name="l00315"></a>00315   public:
+<a name="l00316"></a>00316     operator Base*() const;
+<a name="l00317"></a>00317     operator Derived*();
+<a name="l00318"></a>00318 };
+<a name="l00319"></a>00319 
+<a name="l00320"></a>00320 template&lt;class Base, class Derived&gt;
+<a name="l00321"></a><a class="code" href="../../dc/d68/structmozilla_1_1detail_1_1_base_of_tester.html">00321</a> struct BaseOfTester
+<a name="l00322"></a>00322 {
+<a name="l00323"></a>00323   private:
+<a name="l00324"></a>00324     template&lt;class T&gt;
+<a name="l00325"></a>00325     static char test(Derived*, T);
+<a name="l00326"></a>00326     static int test(Base*, int);
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328   public:
+<a name="l00329"></a><a class="code" href="../../dc/d68/structmozilla_1_1detail_1_1_base_of_tester.html#af58bb2286e1942b11571bb52c983f627">00329</a>     static const bool value =
+<a name="l00330"></a>00330       sizeof(test(BaseOfHelper&lt;Base, Derived&gt;(), int())) == sizeof(char);
+<a name="l00331"></a>00331 };
+<a name="l00332"></a>00332 
+<a name="l00333"></a>00333 template&lt;class Base, class Derived&gt;
+<a name="l00334"></a><a class="code" href="../../d9/d91/structmozilla_1_1detail_1_1_base_of_tester_3_01_base_00_01const_01_derived_01_4.html">00334</a> struct BaseOfTester&lt;Base, const Derived&gt;
+<a name="l00335"></a>00335 {
+<a name="l00336"></a>00336   private:
+<a name="l00337"></a>00337     template&lt;class T&gt;
+<a name="l00338"></a>00338     static char test(Derived*, T);
+<a name="l00339"></a>00339     static int test(Base*, int);
+<a name="l00340"></a>00340 
+<a name="l00341"></a>00341   public:
+<a name="l00342"></a><a class="code" href="../../d9/d91/structmozilla_1_1detail_1_1_base_of_tester_3_01_base_00_01const_01_derived_01_4.html#a563184760a9fc2a7fc34a21e2d140cfb">00342</a>     static const bool value =
+<a name="l00343"></a>00343       sizeof(test(BaseOfHelper&lt;Base, Derived&gt;(), int())) == sizeof(char);
+<a name="l00344"></a>00344 };
+<a name="l00345"></a>00345 
+<a name="l00346"></a>00346 template&lt;class Base, class Derived&gt;
+<a name="l00347"></a><a class="code" href="../../d1/de7/structmozilla_1_1detail_1_1_base_of_tester_3_01_base_01_6_00_01_derived_01_6_01_4.html">00347</a> struct BaseOfTester&lt;Base&amp;, Derived&amp;&gt; : FalseType {};
+<a name="l00348"></a>00348 
+<a name="l00349"></a>00349 template&lt;class Type&gt;
+<a name="l00350"></a><a class="code" href="../../d3/da4/structmozilla_1_1detail_1_1_base_of_tester_3_01_type_00_01_type_01_4.html">00350</a> struct BaseOfTester&lt;Type, Type&gt; : TrueType {};
+<a name="l00351"></a>00351 
+<a name="l00352"></a>00352 template&lt;class Type&gt;
+<a name="l00353"></a><a class="code" href="../../d5/d9f/structmozilla_1_1detail_1_1_base_of_tester_3_01_type_00_01const_01_type_01_4.html">00353</a> struct BaseOfTester&lt;Type, const Type&gt; : TrueType {};
+<a name="l00354"></a>00354 
+<a name="l00355"></a>00355 } <span class="comment">/* namespace detail */</span>
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357 <span class="comment">/*</span>
+<a name="l00358"></a>00358 <span class="comment"> * IsBaseOf allows to know whether a given class is derived from another.</span>
+<a name="l00359"></a>00359 <span class="comment"> *</span>
+<a name="l00360"></a>00360 <span class="comment"> * Consider the following class definitions:</span>
+<a name="l00361"></a>00361 <span class="comment"> *</span>
+<a name="l00362"></a>00362 <span class="comment"> *   class A {};</span>
+<a name="l00363"></a>00363 <span class="comment"> *   class B : public A {};</span>
+<a name="l00364"></a>00364 <span class="comment"> *   class C {};</span>
+<a name="l00365"></a>00365 <span class="comment"> *</span>
+<a name="l00366"></a>00366 <span class="comment"> * mozilla::IsBaseOf&lt;A, B&gt;::value is true;</span>
+<a name="l00367"></a>00367 <span class="comment"> * mozilla::IsBaseOf&lt;A, C&gt;::value is false;</span>
+<a name="l00368"></a>00368 <span class="comment"> */</span>
+<a name="l00369"></a>00369 template&lt;class Base, class Derived&gt;
+<a name="l00370"></a><a class="code" href="../../dd/d76/structmozilla_1_1_is_base_of.html">00370</a> struct IsBaseOf
+<a name="l00371"></a>00371   : IntegralConstant&lt;bool, detail::BaseOfTester&lt;Base, Derived&gt;::value&gt;
+<a name="l00372"></a>00372 {};
+<a name="l00373"></a>00373 
+<a name="l00374"></a>00374 namespace detail {
+<a name="l00375"></a>00375 
+<a name="l00376"></a>00376 template&lt;typename From, typename To&gt;
+<a name="l00377"></a><a class="code" href="../../de/dbe/structmozilla_1_1detail_1_1_convertible_tester.html">00377</a> struct ConvertibleTester
+<a name="l00378"></a>00378 {
+<a name="l00379"></a>00379   private:
+<a name="l00380"></a>00380     static From create();
+<a name="l00381"></a>00381 
+<a name="l00382"></a>00382     template&lt;typename From1, typename To1&gt;
+<a name="l00383"></a>00383     static char test(To to);
+<a name="l00384"></a>00384 
+<a name="l00385"></a>00385     template&lt;typename From1, typename To1&gt;
+<a name="l00386"></a>00386     static int test(...);
+<a name="l00387"></a>00387 
+<a name="l00388"></a>00388   public:
+<a name="l00389"></a><a class="code" href="../../de/dbe/structmozilla_1_1detail_1_1_convertible_tester.html#ad8b1538c73a05e1c9a474b5bc02b0e34">00389</a>     static const bool value =
+<a name="l00390"></a>00390       sizeof(test&lt;From, To&gt;(create())) == sizeof(char);
+<a name="l00391"></a>00391 };
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393 } <span class="comment">// namespace detail</span>
+<a name="l00394"></a>00394 
+<a name="l00416"></a>00416 template&lt;typename From, typename To&gt;
+<a name="l00417"></a><a class="code" href="../../db/db5/structmozilla_1_1_is_convertible.html">00417</a> struct IsConvertible
+<a name="l00418"></a>00418   : IntegralConstant&lt;bool, detail::ConvertibleTester&lt;From, To&gt;::value&gt;
+<a name="l00419"></a>00419 {};
+<a name="l00420"></a>00420 
+<a name="l00421"></a>00421 <span class="comment">/* 20.9.7 Transformations between types [meta.trans] */</span>
+<a name="l00422"></a>00422 
+<a name="l00423"></a>00423 <span class="comment">/* 20.9.7.1 Const-volatile modifications [meta.trans.cv] */</span>
+<a name="l00424"></a>00424 
+<a name="l00433"></a>00433 template&lt;typename T&gt;
+<a name="l00434"></a><a class="code" href="../../d4/dc7/structmozilla_1_1_remove_const.html">00434</a> struct RemoveConst
+<a name="l00435"></a>00435 {
+<a name="l00436"></a><a class="code" href="../../d4/dc7/structmozilla_1_1_remove_const.html#ad8edd088e734d7db9aecd76e972dff7e">00436</a>     typedef T Type;
+<a name="l00437"></a>00437 };
+<a name="l00438"></a>00438 
+<a name="l00439"></a>00439 template&lt;typename T&gt;
+<a name="l00440"></a><a class="code" href="../../d2/d0d/structmozilla_1_1_remove_const_3_01const_01_t_01_4.html">00440</a> struct RemoveConst&lt;const T&gt;
+<a name="l00441"></a>00441 {
+<a name="l00442"></a><a class="code" href="../../d2/d0d/structmozilla_1_1_remove_const_3_01const_01_t_01_4.html#aa39d99141d9d0d582b61cdf7f92ebfb4">00442</a>     typedef T Type;
+<a name="l00443"></a>00443 };
+<a name="l00444"></a>00444 
+<a name="l00453"></a>00453 template&lt;typename T&gt;
+<a name="l00454"></a><a class="code" href="../../d9/d20/structmozilla_1_1_remove_volatile.html">00454</a> struct RemoveVolatile
+<a name="l00455"></a>00455 {
+<a name="l00456"></a><a class="code" href="../../d9/d20/structmozilla_1_1_remove_volatile.html#a8993e422c0612c334615de6e44874f22">00456</a>     typedef T Type;
+<a name="l00457"></a>00457 };
+<a name="l00458"></a>00458 
+<a name="l00459"></a>00459 template&lt;typename T&gt;
+<a name="l00460"></a><a class="code" href="../../df/dc8/structmozilla_1_1_remove_volatile_3_01volatile_01_t_01_4.html">00460</a> struct RemoveVolatile&lt;volatile T&gt;
+<a name="l00461"></a>00461 {
+<a name="l00462"></a><a class="code" href="../../df/dc8/structmozilla_1_1_remove_volatile_3_01volatile_01_t_01_4.html#a0114cfe47955b0cb956e690245e0c12e">00462</a>     typedef T Type;
+<a name="l00463"></a>00463 };
+<a name="l00464"></a>00464 
+<a name="l00473"></a>00473 template&lt;typename T&gt;
+<a name="l00474"></a><a class="code" href="../../d7/d38/structmozilla_1_1_remove_c_v.html">00474</a> struct RemoveCV
+<a name="l00475"></a>00475 {
+<a name="l00476"></a><a class="code" href="../../d7/d38/structmozilla_1_1_remove_c_v.html#a0f0ebe5398dcfb96b03e3b3a6772c168">00476</a>     typedef typename RemoveConst&lt;typename RemoveVolatile&lt;T&gt;::Type&gt;::Type Type;
+<a name="l00477"></a>00477 };
+<a name="l00478"></a>00478 
+<a name="l00479"></a>00479 <span class="comment">/* 20.9.7.2 Reference modifications [meta.trans.ref] */</span>
+<a name="l00480"></a>00480 
+<a name="l00481"></a>00481 <span class="comment">/* 20.9.7.3 Sign modifications [meta.trans.sign] */</span>
+<a name="l00482"></a>00482 
+<a name="l00483"></a>00483 template&lt;bool B, typename T = void&gt;
+<a name="l00484"></a>00484 struct EnableIf;
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486 template&lt;bool Condition, typename A, typename B&gt;
+<a name="l00487"></a>00487 struct Conditional;
+<a name="l00488"></a>00488 
+<a name="l00489"></a>00489 namespace detail {
+<a name="l00490"></a>00490 
+<a name="l00491"></a>00491 template&lt;bool MakeConst, typename T&gt;
+<a name="l00492"></a><a class="code" href="../../dc/da4/structmozilla_1_1detail_1_1_with_c.html">00492</a> struct WithC : Conditional&lt;MakeConst, const T, T&gt;
+<a name="l00493"></a>00493 {};
+<a name="l00494"></a>00494 
+<a name="l00495"></a>00495 template&lt;bool MakeVolatile, typename T&gt;
+<a name="l00496"></a><a class="code" href="../../d7/d88/structmozilla_1_1detail_1_1_with_v.html">00496</a> struct WithV : Conditional&lt;MakeVolatile, volatile T, T&gt;
+<a name="l00497"></a>00497 {};
+<a name="l00498"></a>00498 
+<a name="l00499"></a>00499 
+<a name="l00500"></a>00500 template&lt;bool MakeConst, bool MakeVolatile, typename T&gt;
+<a name="l00501"></a><a class="code" href="../../d8/d79/structmozilla_1_1detail_1_1_with_c_v.html">00501</a> struct WithCV : WithC&lt;MakeConst, typename WithV&lt;MakeVolatile, T&gt;::Type&gt;
+<a name="l00502"></a>00502 {};
+<a name="l00503"></a>00503 
+<a name="l00504"></a>00504 template&lt;typename T&gt;
+<a name="l00505"></a>00505 struct CorrespondingSigned;
+<a name="l00506"></a>00506 
+<a name="l00507"></a>00507 template&lt;&gt;
+<a name="l00508"></a><a class="code" href="../../d6/d2a/structmozilla_1_1detail_1_1_corresponding_signed_3_01char_01_4.html#af97435ead4d6be3a1c4f53eb05472aa7">00508</a> struct CorrespondingSigned&lt;char&gt; { typedef signed char Type; };
+<a name="l00509"></a>00509 template&lt;&gt;
+<a name="l00510"></a><a class="code" href="../../db/df4/structmozilla_1_1detail_1_1_corresponding_signed_3_01unsigned_01char_01_4.html#a1ff2fc3a115180e59356a753cfb9318b">00510</a> struct CorrespondingSigned&lt;unsigned char&gt; { typedef signed char Type; };
+<a name="l00511"></a>00511 template&lt;&gt;
+<a name="l00512"></a><a class="code" href="../../da/d82/structmozilla_1_1detail_1_1_corresponding_signed_3_01unsigned_01short_01_4.html#ab16b6c79a529a07f7f2edf9947964843">00512</a> struct CorrespondingSigned&lt;unsigned short&gt; { typedef short Type; };
+<a name="l00513"></a>00513 template&lt;&gt;
+<a name="l00514"></a><a class="code" href="../../da/d3a/structmozilla_1_1detail_1_1_corresponding_signed_3_01unsigned_01int_01_4.html#ade98e484d257976dcda34e3c9bc95f7d">00514</a> struct CorrespondingSigned&lt;unsigned int&gt; { typedef int Type; };
+<a name="l00515"></a>00515 template&lt;&gt;
+<a name="l00516"></a><a class="code" href="../../d7/d0d/structmozilla_1_1detail_1_1_corresponding_signed_3_01unsigned_01long_01_4.html#a29a6fb5f8fef1e6c78fb1fcbf04cf7c7">00516</a> struct CorrespondingSigned&lt;unsigned long&gt; { typedef long Type; };
+<a name="l00517"></a>00517 template&lt;&gt;
+<a name="l00518"></a><a class="code" href="../../d8/dc5/structmozilla_1_1detail_1_1_corresponding_signed_3_01unsigned_01long_01long_01_4.html#a5dc92a7bc592057772de08d451b37c05">00518</a> struct CorrespondingSigned&lt;unsigned long long&gt; { typedef long long Type; };
+<a name="l00519"></a>00519 
+<a name="l00520"></a>00520 template&lt;typename T,
+<a name="l00521"></a>00521          typename CVRemoved = typename RemoveCV&lt;T&gt;::Type,
+<a name="l00522"></a>00522          bool IsSignedIntegerType = IsSigned&lt;CVRemoved&gt;::value &amp;&amp;
+<a name="l00523"></a>00523                                     !IsSame&lt;char, CVRemoved&gt;::value&gt;
+<a name="l00524"></a>00524 struct MakeSigned;
+<a name="l00525"></a>00525 
+<a name="l00526"></a>00526 template&lt;typename T, typename CVRemoved&gt;
+<a name="l00527"></a><a class="code" href="../../df/ddf/structmozilla_1_1detail_1_1_make_signed_3_01_t_00_01_c_v_removed_00_01true_01_4.html">00527</a> struct MakeSigned&lt;T, CVRemoved, true&gt;
+<a name="l00528"></a>00528 {
+<a name="l00529"></a><a class="code" href="../../df/ddf/structmozilla_1_1detail_1_1_make_signed_3_01_t_00_01_c_v_removed_00_01true_01_4.html#a128bbd86024ee42911c63d3e20ceea4d">00529</a>     typedef T Type;
+<a name="l00530"></a>00530 };
+<a name="l00531"></a>00531 
+<a name="l00532"></a>00532 template&lt;typename T, typename CVRemoved&gt;
+<a name="l00533"></a><a class="code" href="../../da/d70/structmozilla_1_1detail_1_1_make_signed_3_01_t_00_01_c_v_removed_00_01false_01_4.html">00533</a> struct MakeSigned&lt;T, CVRemoved, false&gt;
+<a name="l00534"></a>00534   : WithCV&lt;IsConst&lt;T&gt;::value, IsVolatile&lt;T&gt;::value,
+<a name="l00535"></a>00535            typename CorrespondingSigned&lt;CVRemoved&gt;::Type&gt;
+<a name="l00536"></a>00536 {};
+<a name="l00537"></a>00537 
+<a name="l00538"></a>00538 } <span class="comment">// namespace detail</span>
+<a name="l00539"></a>00539 
+<a name="l00562"></a>00562 template&lt;typename T&gt;
+<a name="l00563"></a><a class="code" href="../../dd/dbb/structmozilla_1_1_make_signed.html">00563</a> struct MakeSigned
+<a name="l00564"></a>00564   : EnableIf&lt;IsIntegral&lt;T&gt;::value &amp;&amp; !IsSame&lt;bool, typename RemoveCV&lt;T&gt;::Type&gt;::value,
+<a name="l00565"></a>00565              typename detail::MakeSigned&lt;T&gt;
+<a name="l00566"></a>00566             &gt;::Type
+<a name="l00567"></a>00567 {};
+<a name="l00568"></a>00568 
+<a name="l00569"></a>00569 namespace detail {
+<a name="l00570"></a>00570 
+<a name="l00571"></a>00571 template&lt;typename T&gt;
+<a name="l00572"></a>00572 struct CorrespondingUnsigned;
+<a name="l00573"></a>00573 
+<a name="l00574"></a>00574 template&lt;&gt;
+<a name="l00575"></a><a class="code" href="../../d3/d89/structmozilla_1_1detail_1_1_corresponding_unsigned_3_01char_01_4.html#aff8cae03df011f2f7ce6a1eab2ad0558">00575</a> struct CorrespondingUnsigned&lt;char&gt; { typedef unsigned char Type; };
+<a name="l00576"></a>00576 template&lt;&gt;
+<a name="l00577"></a><a class="code" href="../../dc/d33/structmozilla_1_1detail_1_1_corresponding_unsigned_3_01signed_01char_01_4.html#a764fb9b3cf77b307440fe85c66300167">00577</a> struct CorrespondingUnsigned&lt;signed char&gt; { typedef unsigned char Type; };
+<a name="l00578"></a>00578 template&lt;&gt;
+<a name="l00579"></a><a class="code" href="../../d0/dfc/structmozilla_1_1detail_1_1_corresponding_unsigned_3_01short_01_4.html#adaa55a11bf8a213185b8df08331e7caf">00579</a> struct CorrespondingUnsigned&lt;short&gt; { typedef unsigned short Type; };
+<a name="l00580"></a>00580 template&lt;&gt;
+<a name="l00581"></a><a class="code" href="../../de/d68/structmozilla_1_1detail_1_1_corresponding_unsigned_3_01int_01_4.html#a5c10846bd3dae012b5484cb594fa8bf4">00581</a> struct CorrespondingUnsigned&lt;int&gt; { typedef unsigned int Type; };
+<a name="l00582"></a>00582 template&lt;&gt;
+<a name="l00583"></a><a class="code" href="../../d0/dcc/structmozilla_1_1detail_1_1_corresponding_unsigned_3_01long_01_4.html#a72622958bbf89f3b7eb06b97f65777ed">00583</a> struct CorrespondingUnsigned&lt;long&gt; { typedef unsigned long Type; };
+<a name="l00584"></a>00584 template&lt;&gt;
+<a name="l00585"></a><a class="code" href="../../d3/d76/structmozilla_1_1detail_1_1_corresponding_unsigned_3_01long_01long_01_4.html#a68fe523008ff8ca360b7ccc53f12099c">00585</a> struct CorrespondingUnsigned&lt;long long&gt; { typedef unsigned long long Type; };
+<a name="l00586"></a>00586 
+<a name="l00587"></a>00587 
+<a name="l00588"></a>00588 template&lt;typename T,
+<a name="l00589"></a>00589          typename CVRemoved = typename RemoveCV&lt;T&gt;::Type,
+<a name="l00590"></a>00590          bool IsUnsignedIntegerType = IsUnsigned&lt;CVRemoved&gt;::value &amp;&amp;
+<a name="l00591"></a>00591                                       !IsSame&lt;char, CVRemoved&gt;::value&gt;
+<a name="l00592"></a>00592 struct MakeUnsigned;
+<a name="l00593"></a>00593 
+<a name="l00594"></a>00594 template&lt;typename T, typename CVRemoved&gt;
+<a name="l00595"></a><a class="code" href="../../d3/de6/structmozilla_1_1detail_1_1_make_unsigned_3_01_t_00_01_c_v_removed_00_01true_01_4.html">00595</a> struct MakeUnsigned&lt;T, CVRemoved, true&gt;
+<a name="l00596"></a>00596 {
+<a name="l00597"></a><a class="code" href="../../d3/de6/structmozilla_1_1detail_1_1_make_unsigned_3_01_t_00_01_c_v_removed_00_01true_01_4.html#a57a04276e400c5aebf5258e221efa0e9">00597</a>     typedef T Type;
+<a name="l00598"></a>00598 };
+<a name="l00599"></a>00599 
+<a name="l00600"></a>00600 template&lt;typename T, typename CVRemoved&gt;
+<a name="l00601"></a><a class="code" href="../../dc/d09/structmozilla_1_1detail_1_1_make_unsigned_3_01_t_00_01_c_v_removed_00_01false_01_4.html">00601</a> struct MakeUnsigned&lt;T, CVRemoved, false&gt;
+<a name="l00602"></a>00602   : WithCV&lt;IsConst&lt;T&gt;::value, IsVolatile&lt;T&gt;::value,
+<a name="l00603"></a>00603            typename CorrespondingUnsigned&lt;CVRemoved&gt;::Type&gt;
+<a name="l00604"></a>00604 {};
+<a name="l00605"></a>00605 
+<a name="l00606"></a>00606 } <span class="comment">// namespace detail</span>
+<a name="l00607"></a>00607 
+<a name="l00630"></a>00630 template&lt;typename T&gt;
+<a name="l00631"></a><a class="code" href="../../d1/d81/structmozilla_1_1_make_unsigned.html">00631</a> struct MakeUnsigned
+<a name="l00632"></a>00632   : EnableIf&lt;IsIntegral&lt;T&gt;::value &amp;&amp; !IsSame&lt;bool, typename RemoveCV&lt;T&gt;::Type&gt;::value,
+<a name="l00633"></a>00633              typename detail::MakeUnsigned&lt;T&gt;
+<a name="l00634"></a>00634             &gt;::Type
+<a name="l00635"></a>00635 {};
+<a name="l00636"></a>00636 
+<a name="l00637"></a>00637 <span class="comment">/* 20.9.7.4 Array modifications [meta.trans.arr] */</span>
+<a name="l00638"></a>00638 
+<a name="l00639"></a>00639 <span class="comment">/* 20.9.7.5 Pointer modifications [meta.trans.ptr] */</span>
+<a name="l00640"></a>00640 
+<a name="l00641"></a>00641 <span class="comment">/* 20.9.7.6 Other transformations [meta.trans.other] */</span>
+<a name="l00642"></a>00642 
+<a name="l00661"></a>00661 template&lt;bool B, typename T&gt;
+<a name="l00662"></a><a class="code" href="../../d2/d8e/structmozilla_1_1_enable_if.html">00662</a> struct EnableIf
+<a name="l00663"></a>00663 {};
+<a name="l00664"></a>00664 
+<a name="l00665"></a>00665 template&lt;typename T&gt;
+<a name="l00666"></a><a class="code" href="../../dc/d45/structmozilla_1_1_enable_if_3_01true_00_01_t_01_4.html">00666</a> struct EnableIf&lt;true, T&gt;
+<a name="l00667"></a>00667 {
+<a name="l00668"></a><a class="code" href="../../dc/d45/structmozilla_1_1_enable_if_3_01true_00_01_t_01_4.html#a4a7ff99c00c16bd2c38760d0ede3c354">00668</a>     typedef T Type;
+<a name="l00669"></a>00669 };
+<a name="l00670"></a>00670 
+<a name="l00677"></a>00677 template&lt;bool Condition, typename A, typename B&gt;
+<a name="l00678"></a><a class="code" href="../../df/dd5/structmozilla_1_1_conditional.html">00678</a> struct Conditional
+<a name="l00679"></a>00679 {
+<a name="l00680"></a><a class="code" href="../../df/dd5/structmozilla_1_1_conditional.html#aecd1f7e185778a4e35c587f5945b8597">00680</a>     typedef A Type;
+<a name="l00681"></a>00681 };
+<a name="l00682"></a>00682 
+<a name="l00683"></a>00683 template&lt;class A, class B&gt;
+<a name="l00684"></a><a class="code" href="../../d1/d92/structmozilla_1_1_conditional_3_01false_00_01_a_00_01_b_01_4.html">00684</a> struct Conditional&lt;false, A, B&gt;
+<a name="l00685"></a>00685 {
+<a name="l00686"></a><a class="code" href="../../d1/d92/structmozilla_1_1_conditional_3_01false_00_01_a_00_01_b_01_4.html#a564dedde25345fc2484bd59719ac76f7">00686</a>     typedef B Type;
+<a name="l00687"></a>00687 };
+<a name="l00688"></a>00688 
+<a name="l00689"></a>00689 } <span class="comment">/* namespace mozilla */</span>
+<a name="l00690"></a>00690 
+<a name="l00691"></a>00691 #endif <span class="comment">/* mozilla_TypeTraits_h */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d4/dd5/_type_traits_8h.html">TypeTraits.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:28に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

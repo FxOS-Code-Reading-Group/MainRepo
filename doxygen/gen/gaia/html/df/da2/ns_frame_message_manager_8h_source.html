@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsFrameMessageManager.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('df/da2/ns_frame_message_manager_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsFrameMessageManager.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../df/da2/ns_frame_message_manager_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: c++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim: set ts=8 sts=4 sw=4 tw=99 et: */</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef nsFrameMessageManager_h__</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define nsFrameMessageManager_h__</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../df/deb/ns_i_message_manager_8h.html">nsIMessageManager.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d73/ns_i_observer_8h.html">nsIObserver.h</a>&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/da8/ns_c_o_m_array_8h.html">nsCOMArray.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/db9/ns_t_array_8h.html">nsTArray.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d32/ns_i_atom_8h.html">nsIAtom.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d4f/ns_cycle_collection_participant_8h.html">nsCycleCollectionParticipant.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/db9/ns_t_array_8h.html">nsTArray.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/dec/ns_i_principal_8h.html">nsIPrincipal.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d97/ns_i_x_p_connect_8h.html">nsIXPConnect.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/d66/ns_data_hashtable_8h.html">nsDataHashtable.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d13/_services_8h.html">mozilla/Services.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/df1/ns_i_observer_service_8h.html">nsIObserverService.h</a>&quot;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html">nsThreadUtils.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/da8/_attributes_8h.html">mozilla/Attributes.h</a>&quot;</span>
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="keyword">namespace </span>mozilla {
+<a name="l00027"></a>00027 <span class="keyword">namespace </span><a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a> {
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="keyword">class </span>ContentParent;
+<a name="l00030"></a>00030 <span class="keyword">class </span>ContentChild;
+<a name="l00031"></a>00031 <span class="keyword">struct </span>StructuredCloneData;
+<a name="l00032"></a>00032 <span class="keyword">class </span>ClonedMessageData;
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034 <span class="keyword">namespace </span>ipc {
+<a name="l00035"></a>00035 
+<a name="l00036"></a><a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6a">00036</a> <span class="keyword">enum</span> <a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6a">MessageManagerFlags</a> {
+<a name="l00037"></a><a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa9414db080d5c3ac757284405d0eb24b3">00037</a>   <a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa9414db080d5c3ac757284405d0eb24b3">MM_CHILD</a> = 0,
+<a name="l00038"></a><a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aaa8946921cb62c81ee672abfdbf40203b">00038</a>   <a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aaa8946921cb62c81ee672abfdbf40203b">MM_CHROME</a> = 1,
+<a name="l00039"></a><a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa626c18b82322abcd4e7862295e4d4e24">00039</a>   <a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa626c18b82322abcd4e7862295e4d4e24">MM_GLOBAL</a> = 2,
+<a name="l00040"></a><a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa938517e5dec219de6157cb0b478a7327">00040</a>   <a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa938517e5dec219de6157cb0b478a7327">MM_PROCESSMANAGER</a> = 4,
+<a name="l00041"></a><a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aab72a6ab6125c6ef7c7534a3b62c0fc1d">00041</a>   <a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aab72a6ab6125c6ef7c7534a3b62c0fc1d">MM_BROADCASTER</a> = 8,
+<a name="l00042"></a><a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa149eaa64638e7af25480aea859bd7491">00042</a>   <a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa149eaa64638e7af25480aea859bd7491">MM_OWNSCALLBACK</a> = 16
+<a name="l00043"></a>00043 };
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html">00045</a> <span class="keyword">class </span><a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html">MessageManagerCallback</a>
+<a name="l00046"></a>00046 {
+<a name="l00047"></a>00047 <span class="keyword">public</span>:
+<a name="l00048"></a><a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a601e520e694bb7ba967df0c9f020ad9e">00048</a>   <span class="keyword">virtual</span> <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a601e520e694bb7ba967df0c9f020ad9e">~MessageManagerCallback</a>() {}
+<a name="l00049"></a>00049 
+<a name="l00050"></a><a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#aee86a67f65f60d6f3022daf36016af5f">00050</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#aee86a67f65f60d6f3022daf36016af5f">DoLoadFrameScript</a>(<span class="keyword">const</span> nsAString&amp; aURL)
+<a name="l00051"></a>00051   {
+<a name="l00052"></a>00052     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00053"></a>00053   }
+<a name="l00054"></a>00054 
+<a name="l00055"></a><a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#adea0f195178d4d1646fb9fdc7788d8ed">00055</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#adea0f195178d4d1646fb9fdc7788d8ed">DoSendSyncMessage</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>* aCx,
+<a name="l00056"></a>00056                                  <span class="keyword">const</span> nsAString&amp; aMessage,
+<a name="l00057"></a>00057                                  <span class="keyword">const</span> <a class="code" href="../../d4/ddf/structmozilla_1_1dom_1_1_structured_clone_data.html">mozilla::dom::StructuredCloneData</a>&amp; <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00058"></a>00058                                  <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">JS::Handle&lt;JSObject *&gt;</a> aCpows,
+<a name="l00059"></a>00059                                  InfallibleTArray&lt;nsString&gt;* aJSONRetVal)
+<a name="l00060"></a>00060   {
+<a name="l00061"></a>00061     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00062"></a>00062   }
+<a name="l00063"></a>00063 
+<a name="l00064"></a><a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a4528330ffa2583f2bce37de339659e6a">00064</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a4528330ffa2583f2bce37de339659e6a">DoSendAsyncMessage</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>* aCx,
+<a name="l00065"></a>00065                                   <span class="keyword">const</span> nsAString&amp; aMessage,
+<a name="l00066"></a>00066                                   <span class="keyword">const</span> <a class="code" href="../../d4/ddf/structmozilla_1_1dom_1_1_structured_clone_data.html">mozilla::dom::StructuredCloneData</a>&amp; <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00067"></a>00067                                   <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">JS::Handle&lt;JSObject *&gt;</a> aCpows)
+<a name="l00068"></a>00068   {
+<a name="l00069"></a>00069     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00070"></a>00070   }
+<a name="l00071"></a>00071 
+<a name="l00072"></a><a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#aae21206335fce879e33b30986cf61902">00072</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#aae21206335fce879e33b30986cf61902">CheckPermission</a>(<span class="keyword">const</span> nsAString&amp; aPermission)
+<a name="l00073"></a>00073   {
+<a name="l00074"></a>00074     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00075"></a>00075   }
+<a name="l00076"></a>00076 
+<a name="l00077"></a><a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a0e23da80e419b046cee30723c44c94ff">00077</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a0e23da80e419b046cee30723c44c94ff">CheckManifestURL</a>(<span class="keyword">const</span> nsAString&amp; aManifestURL)
+<a name="l00078"></a>00078   {
+<a name="l00079"></a>00079     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00080"></a>00080   }
+<a name="l00081"></a>00081 
+<a name="l00082"></a><a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a4d0e0599b9df366fb6f181fd615adc38">00082</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a4d0e0599b9df366fb6f181fd615adc38">CheckAppHasPermission</a>(<span class="keyword">const</span> nsAString&amp; aPermission)
+<a name="l00083"></a>00083   {
+<a name="l00084"></a>00084     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00085"></a>00085   }
+<a name="l00086"></a>00086 
+<a name="l00087"></a><a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a4612adb6ae7ab13e89807962157d1ed3">00087</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a4612adb6ae7ab13e89807962157d1ed3">CheckAppHasStatus</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> aStatus)
+<a name="l00088"></a>00088   {
+<a name="l00089"></a>00089     <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00090"></a>00090   }
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 <span class="keyword">protected</span>:
+<a name="l00093"></a>00093   <span class="keywordtype">bool</span> <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#a08e255aa5a02e63ac05527c53890e150">BuildClonedMessageDataForParent</a>(<a class="code" href="../../df/dd3/classmozilla_1_1dom_1_1_content_parent.html">ContentParent</a>* aParent,
+<a name="l00094"></a>00094                                        <span class="keyword">const</span> <a class="code" href="../../d4/ddf/structmozilla_1_1dom_1_1_structured_clone_data.html">StructuredCloneData</a>&amp; <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00095"></a>00095                                        ClonedMessageData&amp; aClonedData);
+<a name="l00096"></a>00096   <span class="keywordtype">bool</span> <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html#ad9eb3db83cfa839a3f05a75388736ffa">BuildClonedMessageDataForChild</a>(<a class="code" href="../../d7/ddf/classmozilla_1_1dom_1_1_content_child.html">ContentChild</a>* aChild,
+<a name="l00097"></a>00097                                       <span class="keyword">const</span> <a class="code" href="../../d4/ddf/structmozilla_1_1dom_1_1_structured_clone_data.html">StructuredCloneData</a>&amp; <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00098"></a>00098                                       ClonedMessageData&amp; aClonedData);
+<a name="l00099"></a>00099 };
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 <a class="code" href="../../d4/ddf/structmozilla_1_1dom_1_1_structured_clone_data.html">StructuredCloneData</a> <a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#a330f9b510479a9268b649e2401de8709">UnpackClonedMessageDataForParent</a>(<span class="keyword">const</span> ClonedMessageData&amp; <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>);
+<a name="l00102"></a>00102 <a class="code" href="../../d4/ddf/structmozilla_1_1dom_1_1_structured_clone_data.html">StructuredCloneData</a> <a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#ad8c19171f2aa4dc88b68cb19da69b1f7">UnpackClonedMessageDataForChild</a>(<span class="keyword">const</span> ClonedMessageData&amp; <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>);
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 } <span class="comment">// namespace ipc</span>
+<a name="l00105"></a>00105 } <span class="comment">// namespace dom</span>
+<a name="l00106"></a>00106 } <span class="comment">// namespace mozilla</span>
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108 <span class="keyword">class </span><a class="code" href="../../db/d90/classns_a_x_p_c_native_call_context.html">nsAXPCNativeCallContext</a>;
+<a name="l00109"></a>00109 <span class="keyword">struct </span><a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>;
+<a name="l00110"></a>00110 <span class="keyword">class </span>JSObject;
+<a name="l00111"></a>00111 
+<a name="l00112"></a><a class="code" href="../../d3/d42/structns_message_listener_info.html">00112</a> <span class="keyword">struct </span><a class="code" href="../../d3/d42/structns_message_listener_info.html">nsMessageListenerInfo</a>
+<a name="l00113"></a>00113 {
+<a name="l00114"></a><a class="code" href="../../d3/d42/structns_message_listener_info.html#a987d2495ab4dbc2acef7acf4fe5ffdfb">00114</a>   nsCOMPtr&lt;nsIMessageListener&gt; <a class="code" href="../../d3/d42/structns_message_listener_info.html#a987d2495ab4dbc2acef7acf4fe5ffdfb">mListener</a>;
+<a name="l00115"></a><a class="code" href="../../d3/d42/structns_message_listener_info.html#a443b670ee0b0e53ff64af4ff5c5941f7">00115</a>   nsCOMPtr&lt;nsIAtom&gt; <a class="code" href="../../d3/d42/structns_message_listener_info.html#a443b670ee0b0e53ff64af4ff5c5941f7">mMessage</a>;
+<a name="l00116"></a>00116 };
+<a name="l00117"></a>00117 
+<a name="l00118"></a><a class="code" href="../../de/d0a/class_cpow_holder.html">00118</a> <span class="keyword">class </span><a class="code" href="../../de/d0a/class_cpow_holder.html">CpowHolder</a>
+<a name="l00119"></a>00119 {
+<a name="l00120"></a>00120   <span class="keyword">public</span>:
+<a name="l00121"></a>00121     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../de/d0a/class_cpow_holder.html#a3c6bbe01bb3492fd3152c1fe3fe7c101">ToObject</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>* <a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, JSObject** <a class="code" href="../../d2/d7d/jsapi_8h.html#ad8f01ba3048838e38636e8f370778f21">objp</a>) = 0;
+<a name="l00122"></a>00122 };
+<a name="l00123"></a>00123 
+<a name="l00124"></a><a class="code" href="../../de/d2e/class_same_process_cpow_holder.html">00124</a> <span class="keyword">class </span>MOZ_STACK_CLASS <a class="code" href="../../de/d2e/class_same_process_cpow_holder.html">SameProcessCpowHolder</a> : <span class="keyword">public</span> <a class="code" href="../../de/d0a/class_cpow_holder.html">CpowHolder</a>
+<a name="l00125"></a>00125 {
+<a name="l00126"></a>00126   <span class="keyword">public</span>:
+<a name="l00127"></a><a class="code" href="../../de/d2e/class_same_process_cpow_holder.html#a2cd76365df9d52b6daeb1cbaa84b323b">00127</a>     <a class="code" href="../../de/d2e/class_same_process_cpow_holder.html">SameProcessCpowHolder</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *aRuntime, <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">JS::Handle&lt;JSObject *&gt;</a> aObj)
+<a name="l00128"></a>00128       : mObj(aRuntime, aObj)
+<a name="l00129"></a>00129     {
+<a name="l00130"></a>00130     }
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132     <span class="keywordtype">bool</span> <a class="code" href="../../de/d0a/class_cpow_holder.html#a3c6bbe01bb3492fd3152c1fe3fe7c101">ToObject</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>* aCx, JSObject** aObjp);
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134   <span class="keyword">private</span>:
+<a name="l00135"></a>00135     <a class="code" href="../../db/d76/class_j_s_1_1_rooted.html">JS::RootedObject</a> mObj;
+<a name="l00136"></a>00136 };
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138 <span class="keyword">class </span>nsFrameMessageManager <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> : <span class="keyword">public</span> <a class="code" href="../../d9/da1/interfacens_i_content_frame_message_manager.html">nsIContentFrameMessageManager</a>,
+<a name="l00139"></a>00139                                         <span class="keyword">public</span> <a class="code" href="../../d3/d80/interfacens_i_message_broadcaster.html">nsIMessageBroadcaster</a>,
+<a name="l00140"></a>00140                                         <span class="keyword">public</span> <a class="code" href="../../de/dc7/interfacens_i_frame_script_loader.html">nsIFrameScriptLoader</a>,
+<a name="l00141"></a>00141                                         <span class="keyword">public</span> <a class="code" href="../../d7/dc4/interfacens_i_process_checker.html">nsIProcessChecker</a>
+<a name="l00142"></a>00142 {
+<a name="l00143"></a>00143   <span class="keyword">typedef</span> <a class="code" href="../../d4/ddf/structmozilla_1_1dom_1_1_structured_clone_data.html">mozilla::dom::StructuredCloneData</a> StructuredCloneData;
+<a name="l00144"></a>00144 <span class="keyword">public</span>:
+<a name="l00145"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a2891c0a56203585088e51282210f4226">00145</a>   nsFrameMessageManager(<a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html">mozilla::dom::ipc::MessageManagerCallback</a>* aCallback,
+<a name="l00146"></a>00146                         nsFrameMessageManager* aParentManager,
+<a name="l00147"></a>00147                         <span class="comment">/* mozilla::dom::ipc::MessageManagerFlags */</span> uint32_t aFlags)
+<a name="l00148"></a>00148   : mChrome(!!(aFlags &amp; mozilla::<a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a>::ipc::<a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aaa8946921cb62c81ee672abfdbf40203b">MM_CHROME</a>)),
+<a name="l00149"></a>00149     mGlobal(!!(aFlags &amp; mozilla::<a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a>::ipc::<a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa626c18b82322abcd4e7862295e4d4e24">MM_GLOBAL</a>)),
+<a name="l00150"></a>00150     mIsProcessManager(!!(aFlags &amp; mozilla::<a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a>::ipc::<a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa938517e5dec219de6157cb0b478a7327">MM_PROCESSMANAGER</a>)),
+<a name="l00151"></a>00151     mIsBroadcaster(!!(aFlags &amp; mozilla::<a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a>::ipc::<a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aab72a6ab6125c6ef7c7534a3b62c0fc1d">MM_BROADCASTER</a>)),
+<a name="l00152"></a>00152     mOwnsCallback(!!(aFlags &amp; mozilla::<a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a>::ipc::<a class="code" href="../../d2/df8/namespacemozilla_1_1dom_1_1ipc.html#aba2ee942201b404ec91305a8b84daa6aa149eaa64638e7af25480aea859bd7491">MM_OWNSCALLBACK</a>)),
+<a name="l00153"></a>00153     mHandlingMessage(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>),
+<a name="l00154"></a>00154     mDisconnected(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>),
+<a name="l00155"></a>00155     mCallback(aCallback),
+<a name="l00156"></a>00156     mParentManager(aParentManager)
+<a name="l00157"></a>00157   {
+<a name="l00158"></a>00158     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(mChrome || !aParentManager, <span class="stringliteral">&quot;Should not set parent manager!&quot;</span>);
+<a name="l00159"></a>00159     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(!mIsBroadcaster || !mCallback,
+<a name="l00160"></a>00160                  <span class="stringliteral">&quot;Broadcasters cannot have callbacks!&quot;</span>);
+<a name="l00161"></a>00161     <span class="comment">// This is a bit hackish. When parent manager is global, we want</span>
+<a name="l00162"></a>00162     <span class="comment">// to attach the window message manager to it immediately.</span>
+<a name="l00163"></a>00163     <span class="comment">// Is it just the frame message manager which waits until the</span>
+<a name="l00164"></a>00164     <span class="comment">// content process is running.</span>
+<a name="l00165"></a>00165     <span class="keywordflow">if</span> (mParentManager &amp;&amp; (mCallback || IsWindowLevel())) {
+<a name="l00166"></a>00166       mParentManager-&gt;AddChildManager(<span class="keyword">this</span>);
+<a name="l00167"></a>00167     }
+<a name="l00168"></a>00168     <span class="keywordflow">if</span> (mOwnsCallback) {
+<a name="l00169"></a>00169       mOwnedCallback = aCallback;
+<a name="l00170"></a>00170     }
+<a name="l00171"></a>00171   }
+<a name="l00172"></a>00172 
+<a name="l00173"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a4198fd9a5a25e1f5c3c8897eb02f3116">00173</a>   ~nsFrameMessageManager()
+<a name="l00174"></a>00174   {
+<a name="l00175"></a>00175     <span class="keywordflow">for</span> (int32_t <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = mChildManagers.Count(); <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &gt; 0; --<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>) {
+<a name="l00176"></a>00176       <span class="keyword">static_cast&lt;</span>nsFrameMessageManager*<span class="keyword">&gt;</span>(mChildManagers[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> - 1])-&gt;
+<a name="l00177"></a>00177         Disconnect(<span class="keyword">false</span>);
+<a name="l00178"></a>00178     }
+<a name="l00179"></a>00179     <span class="keywordflow">if</span> (mIsProcessManager) {
+<a name="l00180"></a>00180       <span class="keywordflow">if</span> (<span class="keyword">this</span> == sParentProcessManager) {
+<a name="l00181"></a>00181         sParentProcessManager = <span class="keyword">nullptr</span>;
+<a name="l00182"></a>00182       }
+<a name="l00183"></a>00183       <span class="keywordflow">if</span> (<span class="keyword">this</span> == sChildProcessManager) {
+<a name="l00184"></a>00184         sChildProcessManager = <span class="keyword">nullptr</span>;
+<a name="l00185"></a>00185         <span class="keyword">delete</span> sPendingSameProcessAsyncMessages;
+<a name="l00186"></a>00186         sPendingSameProcessAsyncMessages = <span class="keyword">nullptr</span>;
+<a name="l00187"></a>00187       }
+<a name="l00188"></a>00188       <span class="keywordflow">if</span> (<span class="keyword">this</span> == sSameProcessParentManager) {
+<a name="l00189"></a>00189         sSameProcessParentManager = <span class="keyword">nullptr</span>;
+<a name="l00190"></a>00190       }
+<a name="l00191"></a>00191     }
+<a name="l00192"></a>00192   }
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#ab396d595c983350cd489cccf23b555c5">NS_DECL_CYCLE_COLLECTING_ISUPPORTS</a>
+<a name="l00195"></a>00195   <a class="code" href="../../d2/d4f/ns_cycle_collection_participant_8h.html#a6a1601be68db6c864faf976f595d79b1">NS_DECL_CYCLE_COLLECTION_CLASS_AMBIGUOUS</a>(nsFrameMessageManager,
+<a name="l00196"></a>00196                                            <a class="code" href="../../d9/da1/interfacens_i_content_frame_message_manager.html">nsIContentFrameMessageManager</a>)
+<a name="l00197"></a>00197   <a class="code" href="../../df/deb/ns_i_message_manager_8h.html#a0c761704cf2dab9eea29d9c7848605fe">NS_DECL_NSIMESSAGELISTENERMANAGER</a>
+<a name="l00198"></a>00198   <a class="code" href="../../df/deb/ns_i_message_manager_8h.html#afca5e7344f68e35e4195c82376eaaa08">NS_DECL_NSIMESSAGESENDER</a>
+<a name="l00199"></a>00199   <a class="code" href="../../df/deb/ns_i_message_manager_8h.html#a8c4a20f1858519efa7454d8a30ccd828">NS_DECL_NSIMESSAGEBROADCASTER</a>
+<a name="l00200"></a>00200   <a class="code" href="../../df/deb/ns_i_message_manager_8h.html#a9ad316c6a1e2d0ed276596f6d38d2626">NS_DECL_NSISYNCMESSAGESENDER</a>
+<a name="l00201"></a>00201   <a class="code" href="../../df/deb/ns_i_message_manager_8h.html#ad3ffcea3d313d7e5fbdd5b0c22f17ae1">NS_DECL_NSICONTENTFRAMEMESSAGEMANAGER</a>
+<a name="l00202"></a>00202   <a class="code" href="../../df/deb/ns_i_message_manager_8h.html#a5befbb752a1f742f602966bef2f34385">NS_DECL_NSIFRAMESCRIPTLOADER</a>
+<a name="l00203"></a>00203   <a class="code" href="../../df/deb/ns_i_message_manager_8h.html#a577d543b115cf826d399eafbeaec3203">NS_DECL_NSIPROCESSCHECKER</a>
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205   static nsFrameMessageManager*
+<a name="l00206"></a>00206   NewProcessMessageManager(mozilla::<a class="code" href="../../da/dce/details__test_8js.html#a017102f866db15b37d9657454efde4ff">dom</a>::ContentParent* aProcess);
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> ReceiveMessage(<a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a>* aTarget, <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> nsAString&amp; aMessage,
+<a name="l00209"></a>00209                           <span class="keywordtype">bool</span> aSync, <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> StructuredCloneData* aCloneData,
+<a name="l00210"></a>00210                           <a class="code" href="../../de/d0a/class_cpow_holder.html">CpowHolder</a>* aCpows,
+<a name="l00211"></a>00211                           <a class="code" href="../../dc/dbd/ns_t_array_forward_declare_8h.html#a44494be00cf20bf8794a13fb95f2dc65">InfallibleTArray</a>&lt;nsString&gt;* aJSONRetVal);
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213   <span class="keywordtype">void</span> AddChildManager(nsFrameMessageManager* aManager,
+<a name="l00214"></a>00214                        <span class="keywordtype">bool</span> aLoadScripts = <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a41f9c5fb8b08eb5dc3edce4dcb37fee7">true</a>);
+<a name="l00215"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a33022114ac24f0ca100bea0a3e459631">00215</a>   <span class="keywordtype">void</span> RemoveChildManager(nsFrameMessageManager* aManager)
+<a name="l00216"></a>00216   {
+<a name="l00217"></a>00217     mChildManagers.RemoveObject(aManager);
+<a name="l00218"></a>00218   }
+<a name="l00219"></a>00219   <span class="keywordtype">void</span> Disconnect(<span class="keywordtype">bool</span> aRemoveFromParent = <span class="keyword">true</span>);
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221   <span class="keywordtype">void</span> SetCallback(<a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html">mozilla::dom::ipc::MessageManagerCallback</a>* aCallback,
+<a name="l00222"></a>00222                    <span class="keywordtype">bool</span> aLoadScripts = <span class="keyword">true</span>);
+<a name="l00223"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ac94b8900fc4d04f81ccb900c6e7c7ed6">00223</a>   <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html">mozilla::dom::ipc::MessageManagerCallback</a>* GetCallback()
+<a name="l00224"></a>00224   {
+<a name="l00225"></a>00225     <span class="keywordflow">return</span> mCallback;
+<a name="l00226"></a>00226   }
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> DispatchAsyncMessage(<span class="keyword">const</span> nsAString&amp; aMessageName,
+<a name="l00229"></a>00229                                 <span class="keyword">const</span> <a class="code" href="../../d1/d94/class_j_s_1_1_value.html">JS::Value</a>&amp; aJSON,
+<a name="l00230"></a>00230                                 <span class="keyword">const</span> <a class="code" href="../../d1/d94/class_j_s_1_1_value.html">JS::Value</a>&amp; aObjects,
+<a name="l00231"></a>00231                                 <a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>* aCx,
+<a name="l00232"></a>00232                                 uint8_t <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a105d69d76643afd6eea332b4bc45ddbd">aArgc</a>);
+<a name="l00233"></a>00233   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> DispatchAsyncMessageInternal(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>* aCx,
+<a name="l00234"></a>00234                                         <span class="keyword">const</span> nsAString&amp; aMessage,
+<a name="l00235"></a>00235                                         <span class="keyword">const</span> StructuredCloneData&amp; <a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>,
+<a name="l00236"></a>00236                                         <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">JS::Handle&lt;JSObject *&gt;</a> aCpows);
+<a name="l00237"></a>00237   <span class="keywordtype">void</span> RemoveFromParent();
+<a name="l00238"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a708d93216f3ac6966f951048d2f15f79">00238</a>   nsFrameMessageManager* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a708d93216f3ac6966f951048d2f15f79">GetParentManager</a>() { <span class="keywordflow">return</span> mParentManager; }
+<a name="l00239"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a12fb7c780c76e2431e5d7d9b2565b0fb">00239</a>   <span class="keywordtype">void</span> SetParentManager(nsFrameMessageManager* aParent)
+<a name="l00240"></a>00240   {
+<a name="l00241"></a>00241     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(!mParentManager, <span class="stringliteral">&quot;We have parent manager already!&quot;</span>);
+<a name="l00242"></a>00242     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(mChrome, <span class="stringliteral">&quot;Should not set parent manager!&quot;</span>);
+<a name="l00243"></a>00243     mParentManager = aParent;
+<a name="l00244"></a>00244   }
+<a name="l00245"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#af82b9e727b493dfee67243f484a2bdbd">00245</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#af82b9e727b493dfee67243f484a2bdbd">IsGlobal</a>() { <span class="keywordflow">return</span> mGlobal; }
+<a name="l00246"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a959f3ba169a2ab4393f1e5eb5f5034e5">00246</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a959f3ba169a2ab4393f1e5eb5f5034e5">IsWindowLevel</a>() { <span class="keywordflow">return</span> mParentManager &amp;&amp; mParentManager-&gt;IsGlobal(); }
+<a name="l00247"></a>00247 
+<a name="l00248"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a066e82a191510df28f015fbffee2f88c">00248</a>   <span class="keyword">static</span> nsFrameMessageManager* GetParentProcessManager()
+<a name="l00249"></a>00249   {
+<a name="l00250"></a>00250     <span class="keywordflow">return</span> sParentProcessManager;
+<a name="l00251"></a>00251   }
+<a name="l00252"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a73ce151b071c0a05663cd9971c26e69c">00252</a>   <span class="keyword">static</span> nsFrameMessageManager* GetChildProcessManager()
+<a name="l00253"></a>00253   {
+<a name="l00254"></a>00254     <span class="keywordflow">return</span> sChildProcessManager;
+<a name="l00255"></a>00255   }
+<a name="l00256"></a>00256 <span class="keyword">protected</span>:
+<a name="l00257"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a64b45d5eb46ebe66254776eff3d41fc8">00257</a>   <span class="keyword">friend</span> <span class="keyword">class </span>MMListenerRemover;
+<a name="l00258"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ab419969a826f6734b47ab65703db6755">00258</a>   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsMessageListenerInfo&gt;</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ab419969a826f6734b47ab65703db6755">mListeners</a>;
+<a name="l00259"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a9e6682f6fd175d6894e396cae3ba98f5">00259</a>   <a class="code" href="../../d3/d4e/classns_c_o_m_array.html">nsCOMArray&lt;nsIContentFrameMessageManager&gt;</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a9e6682f6fd175d6894e396cae3ba98f5">mChildManagers</a>;
+<a name="l00260"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a065c09e5a2553a33d35cd116b68c8e30">00260</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a065c09e5a2553a33d35cd116b68c8e30">mChrome</a>;     <span class="comment">// true if we&#39;re in the chrome process</span>
+<a name="l00261"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a37cc2646327404cffd487b5b509c4b84">00261</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a37cc2646327404cffd487b5b509c4b84">mGlobal</a>;     <span class="comment">// true if we&#39;re the global frame message manager</span>
+<a name="l00262"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a059c703e039bb791bec2626190c58ca9">00262</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a059c703e039bb791bec2626190c58ca9">mIsProcessManager</a>; <span class="comment">// true if the message manager belongs to the process realm</span>
+<a name="l00263"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a4daf094607756a7ccc1e57bd7049451f">00263</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a4daf094607756a7ccc1e57bd7049451f">mIsBroadcaster</a>; <span class="comment">// true if the message manager is a broadcaster</span>
+<a name="l00264"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ac5aebdc07b9573534c7ab09587be813a">00264</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ac5aebdc07b9573534c7ab09587be813a">mOwnsCallback</a>;
+<a name="l00265"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a6896e70b82c6e7a598bdff6704e4c711">00265</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a6896e70b82c6e7a598bdff6704e4c711">mHandlingMessage</a>;
+<a name="l00266"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ae61380cfc219fead7cb58e62e775b72f">00266</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ae61380cfc219fead7cb58e62e775b72f">mDisconnected</a>;
+<a name="l00267"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a2dfadb4e5aee6135b1919f44e3a9088c">00267</a>   <a class="code" href="../../df/d2a/classmozilla_1_1dom_1_1ipc_1_1_message_manager_callback.html">mozilla::dom::ipc::MessageManagerCallback</a>* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a2dfadb4e5aee6135b1919f44e3a9088c">mCallback</a>;
+<a name="l00268"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ac8afe2cc7dd6ac61bf315db8e2edc40e">00268</a>   <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;mozilla::dom::ipc::MessageManagerCallback&gt;</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ac8afe2cc7dd6ac61bf315db8e2edc40e">mOwnedCallback</a>;
+<a name="l00269"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#add31ab8a8cc785b129309e0ff58e2808">00269</a>   nsFrameMessageManager* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#add31ab8a8cc785b129309e0ff58e2808">mParentManager</a>;
+<a name="l00270"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a6ed7f994f2e3ac80ce57e447186d84eb">00270</a>   <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsString&gt;</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a6ed7f994f2e3ac80ce57e447186d84eb">mPendingScripts</a>;
+<a name="l00271"></a>00271 <span class="keyword">public</span>:
+<a name="l00272"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a9591060f59cc28c63bf1b5f86b31f1c4">00272</a>   <span class="keyword">static</span> nsFrameMessageManager* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a9591060f59cc28c63bf1b5f86b31f1c4">sParentProcessManager</a>;
+<a name="l00273"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a52c4fd1fa76eea01fae67490ac516f2f">00273</a>   <span class="keyword">static</span> nsFrameMessageManager* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a52c4fd1fa76eea01fae67490ac516f2f">sChildProcessManager</a>;
+<a name="l00274"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ae9a012f1602522c6469420ccd59c229e">00274</a>   <span class="keyword">static</span> nsFrameMessageManager* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ae9a012f1602522c6469420ccd59c229e">sSameProcessParentManager</a>;
+<a name="l00275"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa88339322b351ab0045446f40ff795ab">00275</a>   <span class="keyword">static</span> <a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsCOMPtr&lt;nsIRunnable&gt;</a> &gt;* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa88339322b351ab0045446f40ff795ab">sPendingSameProcessAsyncMessages</a>;
+<a name="l00276"></a>00276 <span class="keyword">private</span>:
+<a name="l00277"></a>00277   <span class="keyword">enum</span> ProcessCheckerType {
+<a name="l00278"></a>00278     PROCESS_CHECKER_PERMISSION,
+<a name="l00279"></a>00279     PROCESS_CHECKER_MANIFEST_URL,
+<a name="l00280"></a>00280     <a class="code" href="../../d2/d93/namespacemozilla.html#a0f575d6f38036f903af8805641c5eeacaf580abad7862091e995da31f375c9c73">ASSERT_APP_HAS_PERMISSION</a>
+<a name="l00281"></a>00281   };
+<a name="l00282"></a>00282   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> AssertProcessInternal(ProcessCheckerType <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>,
+<a name="l00283"></a>00283                                  <span class="keyword">const</span> nsAString&amp; aCapability,
+<a name="l00284"></a>00284                                  <span class="keywordtype">bool</span>* aValid);
+<a name="l00285"></a>00285 };
+<a name="l00286"></a>00286 
+<a name="l00287"></a>00287 <span class="keyword">class </span>nsScriptCacheCleaner;
+<a name="l00288"></a>00288 
+<a name="l00289"></a><a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html">00289</a> <span class="keyword">struct </span><a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html">nsFrameJSScriptExecutorHolder</a>
+<a name="l00290"></a>00290 {
+<a name="l00291"></a><a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html#a179b999a22b85a0c115cd5db3289ab53">00291</a>   <a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html#a179b999a22b85a0c115cd5db3289ab53">nsFrameJSScriptExecutorHolder</a>(JSScript* aScript) : <a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html#a04d25aa9e92b2eb101df7505b88a0f1d">mScript</a>(aScript)
+<a name="l00292"></a>00292   { <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#aa7716d29a6749d766b19b8b880b448f1">MOZ_COUNT_CTOR</a>(<a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html">nsFrameJSScriptExecutorHolder</a>); }
+<a name="l00293"></a><a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html#a8933ed2c9c2334c3f0ab3b3bf3877a0f">00293</a>   <a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html#a8933ed2c9c2334c3f0ab3b3bf3877a0f">~nsFrameJSScriptExecutorHolder</a>()
+<a name="l00294"></a>00294   { <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#a8a91532bfafbc5b73fad1b4127faf725">MOZ_COUNT_DTOR</a>(<a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html">nsFrameJSScriptExecutorHolder</a>); }
+<a name="l00295"></a><a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html#a04d25aa9e92b2eb101df7505b88a0f1d">00295</a>   JSScript* <a class="code" href="../../d1/d24/structns_frame_j_s_script_executor_holder.html#a04d25aa9e92b2eb101df7505b88a0f1d">mScript</a>;
+<a name="l00296"></a>00296 };
+<a name="l00297"></a>00297 
+<a name="l00298"></a><a class="code" href="../../d1/d63/classns_frame_script_executor.html">00298</a> <span class="keyword">class </span><a class="code" href="../../d1/d63/classns_frame_script_executor.html">nsFrameScriptExecutor</a>
+<a name="l00299"></a>00299 {
+<a name="l00300"></a>00300 <span class="keyword">public</span>:
+<a name="l00301"></a>00301   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="../../d1/d63/classns_frame_script_executor.html#a98477fd05c07be2cdfcf0a3f95def57a">Shutdown</a>();
+<a name="l00302"></a><a class="code" href="../../d1/d63/classns_frame_script_executor.html#aee10d6fc335224956facb0404b6eed47">00302</a>   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsIXPConnectJSObjectHolder&gt;</a> <a class="code" href="../../d1/d63/classns_frame_script_executor.html#aee10d6fc335224956facb0404b6eed47">GetGlobal</a>()
+<a name="l00303"></a>00303   {
+<a name="l00304"></a>00304     nsCOMPtr&lt;nsIXPConnectJSObjectHolder&gt; ref = <a class="code" href="../../d1/d63/classns_frame_script_executor.html#a176a225ff5484fda56de574c93fae5e7">mGlobal</a>;
+<a name="l00305"></a>00305     <span class="keywordflow">return</span> ref.forget();
+<a name="l00306"></a>00306   }
+<a name="l00307"></a>00307 <span class="keyword">protected</span>:
+<a name="l00308"></a><a class="code" href="../../d1/d63/classns_frame_script_executor.html#a033307620c6cd507cb8cb370d96d7777">00308</a>   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d1/d63/classns_frame_script_executor.html#a033307620c6cd507cb8cb370d96d7777">nsFrameScriptCx</a>;
+<a name="l00309"></a><a class="code" href="../../d1/d63/classns_frame_script_executor.html#adf8ac44fe3ac65248132cdaa679ef6c3">00309</a>   <a class="code" href="../../d1/d63/classns_frame_script_executor.html#adf8ac44fe3ac65248132cdaa679ef6c3">nsFrameScriptExecutor</a>()
+<a name="l00310"></a>00310   { <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#aa7716d29a6749d766b19b8b880b448f1">MOZ_COUNT_CTOR</a>(<a class="code" href="../../d1/d63/classns_frame_script_executor.html">nsFrameScriptExecutor</a>); }
+<a name="l00311"></a><a class="code" href="../../d1/d63/classns_frame_script_executor.html#a6123a209df02f63972a63b2563aedc7e">00311</a>   <a class="code" href="../../d1/d63/classns_frame_script_executor.html#a6123a209df02f63972a63b2563aedc7e">~nsFrameScriptExecutor</a>()
+<a name="l00312"></a>00312   { <a class="code" href="../../dc/d1c/ns_trace_refcnt_8h.html#a8a91532bfafbc5b73fad1b4127faf725">MOZ_COUNT_DTOR</a>(<a class="code" href="../../d1/d63/classns_frame_script_executor.html">nsFrameScriptExecutor</a>); }
+<a name="l00313"></a>00313   <span class="keywordtype">void</span> <a class="code" href="../../d1/d63/classns_frame_script_executor.html#ac0dbbe6362a9a9a9897aef58738cd1e4">DidCreateGlobal</a>();
+<a name="l00314"></a>00314   <span class="keywordtype">void</span> <a class="code" href="../../d1/d63/classns_frame_script_executor.html#af992dd14598b34430ca8b9f9a216a61e">LoadFrameScriptInternal</a>(<span class="keyword">const</span> nsAString&amp; aURL);
+<a name="l00315"></a><a class="code" href="../../d1/d63/classns_frame_script_executor.html#ad9f442c8feaa574770bdebc329b93d2aa58bb0586b710e41702f6491485965fb1">00315</a>   <span class="keyword">enum</span> <a class="code" href="../../d1/d63/classns_frame_script_executor.html#ad9f442c8feaa574770bdebc329b93d2a">CacheFailedBehavior</a> { <a class="code" href="../../d1/d63/classns_frame_script_executor.html#ad9f442c8feaa574770bdebc329b93d2aa58bb0586b710e41702f6491485965fb1">EXECUTE_IF_CANT_CACHE</a>, <a class="code" href="../../d1/d63/classns_frame_script_executor.html#ad9f442c8feaa574770bdebc329b93d2aadac9071f42c4e71be3bb97b3ecf629a2">DONT_EXECUTE</a> };
+<a name="l00316"></a>00316   <span class="keywordtype">void</span> <a class="code" href="../../d1/d63/classns_frame_script_executor.html#ad7429c661013c5cc7ef7e936d7987787">TryCacheLoadAndCompileScript</a>(<span class="keyword">const</span> nsAString&amp; aURL,
+<a name="l00317"></a>00317                                     <a class="code" href="../../d1/d63/classns_frame_script_executor.html#ad9f442c8feaa574770bdebc329b93d2a">CacheFailedBehavior</a> aBehavior = <a class="code" href="../../d1/d63/classns_frame_script_executor.html#ad9f442c8feaa574770bdebc329b93d2aadac9071f42c4e71be3bb97b3ecf629a2">DONT_EXECUTE</a>);
+<a name="l00318"></a>00318   <span class="keywordtype">bool</span> <a class="code" href="../../d1/d63/classns_frame_script_executor.html#a35497e8f88e8ecd8b79a8def61e8e827">InitTabChildGlobalInternal</a>(<a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a>* aScope, <span class="keyword">const</span> nsACString&amp; aID);
+<a name="l00319"></a><a class="code" href="../../d1/d63/classns_frame_script_executor.html#a176a225ff5484fda56de574c93fae5e7">00319</a>   nsCOMPtr&lt;nsIXPConnectJSObjectHolder&gt; <a class="code" href="../../d1/d63/classns_frame_script_executor.html#a176a225ff5484fda56de574c93fae5e7">mGlobal</a>;
+<a name="l00320"></a><a class="code" href="../../d1/d63/classns_frame_script_executor.html#a42ed539e417818af6c1f8d73cf661752">00320</a>   nsCOMPtr&lt;nsIPrincipal&gt; <a class="code" href="../../d1/d63/classns_frame_script_executor.html#a42ed539e417818af6c1f8d73cf661752">mPrincipal</a>;
+<a name="l00321"></a><a class="code" href="../../d1/d63/classns_frame_script_executor.html#a9fe369886a19b976842b865b7205f5e8">00321</a>   <span class="keyword">static</span> <a class="code" href="../../d4/dfc/classns_data_hashtable.html">nsDataHashtable&lt;nsStringHashKey, nsFrameJSScriptExecutorHolder*&gt;</a>* <a class="code" href="../../d1/d63/classns_frame_script_executor.html#a9fe369886a19b976842b865b7205f5e8">sCachedScripts</a>;
+<a name="l00322"></a><a class="code" href="../../d1/d63/classns_frame_script_executor.html#af8103c35b84409cc2f95d47e3537efea">00322</a>   <span class="keyword">static</span> nsScriptCacheCleaner* <a class="code" href="../../d1/d63/classns_frame_script_executor.html#af8103c35b84409cc2f95d47e3537efea">sScriptCacheCleaner</a>;
+<a name="l00323"></a>00323 };
+<a name="l00324"></a>00324 
+<a name="l00325"></a>00325 <span class="keyword">class </span>nsScriptCacheCleaner <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> : <span class="keyword">public</span> <a class="code" href="../../d5/d6a/interfacens_i_observer.html">nsIObserver</a>
+<a name="l00326"></a>00326 {
+<a name="l00327"></a>00327   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#a5084fc0869a6c828efdca6b17f8b5374">NS_DECL_ISUPPORTS</a>
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329   nsScriptCacheCleaner()
+<a name="l00330"></a>00330   {
+<a name="l00331"></a>00331     nsCOMPtr&lt;nsIObserverService&gt; obsSvc = mozilla::services::GetObserverService();
+<a name="l00332"></a>00332     <span class="keywordflow">if</span> (obsSvc)
+<a name="l00333"></a>00333       obsSvc-&gt;AddObserver(<span class="keyword">this</span>, <span class="stringliteral">&quot;xpcom-shutdown&quot;</span>, <span class="keyword">false</span>);
+<a name="l00334"></a>00334   }
+<a name="l00335"></a>00335 
+<a name="l00336"></a>00336   <a class="code" href="../../d3/dd8/nscore_8h.html#afc3adc01d2f9ecece5d5badcf841f9a7">NS_IMETHODIMP</a> <a class="code" href="../../d5/d6a/interfacens_i_observer.html#a7174ded5b1e8a21f4356cdc02dfa28d5">Observe</a>(<a class="code" href="../../d4/d6a/classns_i_supports.html">nsISupports</a> *aSubject,
+<a name="l00337"></a>00337                         <span class="keyword">const</span> <span class="keywordtype">char</span> *aTopic,
+<a name="l00338"></a>00338                         <span class="keyword">const</span> PRUnichar *<a class="code" href="../../d6/d1d/ns_x_p_c_o_m_strings_8h.html#a580e3d1c78551e30e0c97ab45dc8a3b5">aData</a>)
+<a name="l00339"></a>00339   {
+<a name="l00340"></a>00340     <a class="code" href="../../da/d5e/namespacemozilla_1_1_hang_monitor.html#a091d1602e707e37271b31cecc2244fe2">nsFrameScriptExecutor::Shutdown</a>();
+<a name="l00341"></a>00341     <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a>;
+<a name="l00342"></a>00342   }
+<a name="l00343"></a>00343 };
+<a name="l00344"></a>00344 
+<a name="l00345"></a>00345 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../df/da2/ns_frame_message_manager_8h.html">nsFrameMessageManager.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:53:01に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

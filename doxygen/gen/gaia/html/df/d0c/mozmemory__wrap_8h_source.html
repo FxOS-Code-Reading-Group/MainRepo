@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: mozmemory_wrap.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('df/d0c/mozmemory__wrap_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">mozmemory_wrap.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../df/d0c/mozmemory__wrap_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00002"></a>00002 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this file,</span>
+<a name="l00003"></a>00003 <span class="comment"> * You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="preprocessor">#ifndef mozmemory_wrap_h</span>
+<a name="l00006"></a>00006 <span class="preprocessor"></span><span class="preprocessor">#define mozmemory_wrap_h</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span>
+<a name="l00008"></a>00008 <span class="comment">/*</span>
+<a name="l00009"></a>00009 <span class="comment"> * This header contains #defines which tweak the names of various memory</span>
+<a name="l00010"></a>00010 <span class="comment"> * allocation functions.</span>
+<a name="l00011"></a>00011 <span class="comment"> *</span>
+<a name="l00012"></a>00012 <span class="comment"> * There are several types of functions related to memory allocation</span>
+<a name="l00013"></a>00013 <span class="comment"> * that are meant to be used publicly by the Gecko codebase:</span>
+<a name="l00014"></a>00014 <span class="comment"> *</span>
+<a name="l00015"></a>00015 <span class="comment"> * - malloc implementation functions:</span>
+<a name="l00016"></a>00016 <span class="comment"> *   - malloc</span>
+<a name="l00017"></a>00017 <span class="comment"> *   - posix_memalign</span>
+<a name="l00018"></a>00018 <span class="comment"> *   - aligned_alloc</span>
+<a name="l00019"></a>00019 <span class="comment"> *   - calloc</span>
+<a name="l00020"></a>00020 <span class="comment"> *   - realloc</span>
+<a name="l00021"></a>00021 <span class="comment"> *   - free</span>
+<a name="l00022"></a>00022 <span class="comment"> *   - memalign</span>
+<a name="l00023"></a>00023 <span class="comment"> *   - valloc</span>
+<a name="l00024"></a>00024 <span class="comment"> *   - malloc_usable_size</span>
+<a name="l00025"></a>00025 <span class="comment"> *   - malloc_good_size</span>
+<a name="l00026"></a>00026 <span class="comment"> *   Some of these functions are specific to some systems, but for</span>
+<a name="l00027"></a>00027 <span class="comment"> *   convenience, they are treated as being cross-platform, and available</span>
+<a name="l00028"></a>00028 <span class="comment"> *   as such.</span>
+<a name="l00029"></a>00029 <span class="comment"> *</span>
+<a name="l00030"></a>00030 <span class="comment"> * - duplication functions:</span>
+<a name="l00031"></a>00031 <span class="comment"> *   - strndup</span>
+<a name="l00032"></a>00032 <span class="comment"> *   - strdup</span>
+<a name="l00033"></a>00033 <span class="comment"> *   - wcsdup (Windows only)</span>
+<a name="l00034"></a>00034 <span class="comment"> *</span>
+<a name="l00035"></a>00035 <span class="comment"> * - jemalloc specific functions:</span>
+<a name="l00036"></a>00036 <span class="comment"> *   - jemalloc_stats</span>
+<a name="l00037"></a>00037 <span class="comment"> *   - jemalloc_purge_freed_pages</span>
+<a name="l00038"></a>00038 <span class="comment"> *   - jemalloc_free_dirty_pages</span>
+<a name="l00039"></a>00039 <span class="comment"> *   (these functions are native to mozjemalloc, and have compatibility</span>
+<a name="l00040"></a>00040 <span class="comment"> *   implementations for jemalloc3)</span>
+<a name="l00041"></a>00041 <span class="comment"> *</span>
+<a name="l00042"></a>00042 <span class="comment"> * These functions are all exported as part of libmozglue (see</span>
+<a name="l00043"></a>00043 <span class="comment"> * $(topsrcdir)/mozglue/build/Makefile.in), with a few implementation</span>
+<a name="l00044"></a>00044 <span class="comment"> * peculiarities:</span>
+<a name="l00045"></a>00045 <span class="comment"> *</span>
+<a name="l00046"></a>00046 <span class="comment"> * - On Windows, the malloc implementation functions are all prefixed with</span>
+<a name="l00047"></a>00047 <span class="comment"> *   &quot;je_&quot;, the duplication functions are prefixed with &quot;wrap_&quot;, and jemalloc</span>
+<a name="l00048"></a>00048 <span class="comment"> *   specific functions are left unprefixed. All these functions are however</span>
+<a name="l00049"></a>00049 <span class="comment"> *   aliased when exporting them, such that the resulting mozglue.dll exports</span>
+<a name="l00050"></a>00050 <span class="comment"> *   them unprefixed (see $(topsrcdir)/mozglue/build/mozglue.def.in). The</span>
+<a name="l00051"></a>00051 <span class="comment"> *   prefixed malloc implementation and duplication functions are not</span>
+<a name="l00052"></a>00052 <span class="comment"> *   exported.</span>
+<a name="l00053"></a>00053 <span class="comment"> *</span>
+<a name="l00054"></a>00054 <span class="comment"> * - On MacOSX, the system libc has a zone allocator, which allows us to</span>
+<a name="l00055"></a>00055 <span class="comment"> *   hook custom malloc implementation functions without exporting them.</span>
+<a name="l00056"></a>00056 <span class="comment"> *   The malloc implementation functions are all prefixed with &quot;je_&quot; and used</span>
+<a name="l00057"></a>00057 <span class="comment"> *   this way from the custom zone allocator. They are not exported.</span>
+<a name="l00058"></a>00058 <span class="comment"> *   Duplication functions are not included, since they will call the custom</span>
+<a name="l00059"></a>00059 <span class="comment"> *   zone allocator anyways. Jemalloc-specific functions are also left</span>
+<a name="l00060"></a>00060 <span class="comment"> *   unprefixed.</span>
+<a name="l00061"></a>00061 <span class="comment"> *</span>
+<a name="l00062"></a>00062 <span class="comment"> * - On Android, both malloc implementation and duplication functions are</span>
+<a name="l00063"></a>00063 <span class="comment"> *   prefixed with &quot;__wrap_&quot;. Additionally, C++ allocation functions</span>
+<a name="l00064"></a>00064 <span class="comment"> *   (operator new/delete) are also exported and prefixed with &quot;__wrap_&quot;.</span>
+<a name="l00065"></a>00065 <span class="comment"> *   Jemalloc specific functions are left unprefixed.</span>
+<a name="l00066"></a>00066 <span class="comment"> *</span>
+<a name="l00067"></a>00067 <span class="comment"> * - On Gonk, all functions are left unprefixed. Additionally, C++ allocation</span>
+<a name="l00068"></a>00068 <span class="comment"> *   functions (operator new/delete) are also exported and unprefixed.</span>
+<a name="l00069"></a>00069 <span class="comment"> *</span>
+<a name="l00070"></a>00070 <span class="comment"> * - On other systems (mostly Linux), all functions are left unprefixed.</span>
+<a name="l00071"></a>00071 <span class="comment"> *</span>
+<a name="l00072"></a>00072 <span class="comment"> * Only Android and Gonk add C++ allocation functions.</span>
+<a name="l00073"></a>00073 <span class="comment"> *</span>
+<a name="l00074"></a>00074 <span class="comment"> * Proper exporting of the various functions is done with the MOZ_MEMORY_API</span>
+<a name="l00075"></a>00075 <span class="comment"> * and MOZ_JEMALLOC_API macros. MOZ_MEMORY_API is meant to be used for malloc</span>
+<a name="l00076"></a>00076 <span class="comment"> * implementation and duplication functions, while MOZ_JEMALLOC_API is</span>
+<a name="l00077"></a>00077 <span class="comment"> * dedicated to jemalloc specific functions.</span>
+<a name="l00078"></a>00078 <span class="comment"> *</span>
+<a name="l00079"></a>00079 <span class="comment"> *</span>
+<a name="l00080"></a>00080 <span class="comment"> * All these functions are meant to be called with no prefix from Gecko code.</span>
+<a name="l00081"></a>00081 <span class="comment"> * In most cases, this is because that&#39;s how they are available at runtime.</span>
+<a name="l00082"></a>00082 <span class="comment"> * However, on Android, &quot;__wrap_&quot; prefixing is left to the build-time linker</span>
+<a name="l00083"></a>00083 <span class="comment"> * (with -Wl,--wrap), or to the mozmemory.h header for malloc_good_size and</span>
+<a name="l00084"></a>00084 <span class="comment"> * jemalloc specific functions.</span>
+<a name="l00085"></a>00085 <span class="comment"> *</span>
+<a name="l00086"></a>00086 <span class="comment"> *</span>
+<a name="l00087"></a>00087 <span class="comment"> * Within libmozglue (when MOZ_MEMORY_IMPL is defined), all the functions</span>
+<a name="l00088"></a>00088 <span class="comment"> * should be suffixed with &quot;_impl&quot; both for declarations and use.</span>
+<a name="l00089"></a>00089 <span class="comment"> * That is, the implementation declaration for e.g. strdup would look like:</span>
+<a name="l00090"></a>00090 <span class="comment"> *   char* strdup_impl(const char *)</span>
+<a name="l00091"></a>00091 <span class="comment"> * That implementation would call malloc by using &quot;malloc_impl&quot;.</span>
+<a name="l00092"></a>00092 <span class="comment"> *</span>
+<a name="l00093"></a>00093 <span class="comment"> * While mozjemalloc uses these &quot;_impl&quot; suffixed helpers, jemalloc3, being</span>
+<a name="l00094"></a>00094 <span class="comment"> * third-party code, doesn&#39;t, but instead has an elaborate way to mangle</span>
+<a name="l00095"></a>00095 <span class="comment"> * individual functions. See under &quot;Run jemalloc configure script&quot; in</span>
+<a name="l00096"></a>00096 <span class="comment"> * $(topsrcdir)/configure.in.</span>
+<a name="l00097"></a>00097 <span class="comment"> *</span>
+<a name="l00098"></a>00098 <span class="comment"> *</span>
+<a name="l00099"></a>00099 <span class="comment"> * When building with replace-malloc support, the above still holds, but</span>
+<a name="l00100"></a>00100 <span class="comment"> * the malloc implementation and jemalloc specific functions are the</span>
+<a name="l00101"></a>00101 <span class="comment"> * replace-malloc functions from replace_malloc.c.</span>
+<a name="l00102"></a>00102 <span class="comment"> *</span>
+<a name="l00103"></a>00103 <span class="comment"> * The actual jemalloc/mozjemalloc implementation is prefixed with &quot;je_&quot;.</span>
+<a name="l00104"></a>00104 <span class="comment"> *</span>
+<a name="l00105"></a>00105 <span class="comment"> * Thus, when MOZ_REPLACE_MALLOC is defined, the &quot;_impl&quot; suffixed macros</span>
+<a name="l00106"></a>00106 <span class="comment"> * expand to &quot;je_&quot; prefixed function when building mozjemalloc or</span>
+<a name="l00107"></a>00107 <span class="comment"> * jemalloc3/mozjemalloc_compat, where MOZ_JEMALLOC_IMPL is defined.</span>
+<a name="l00108"></a>00108 <span class="comment"> *</span>
+<a name="l00109"></a>00109 <span class="comment"> * In other cases, the &quot;_impl&quot; suffixed macros follow the original scheme,</span>
+<a name="l00110"></a>00110 <span class="comment"> * except on Windows and MacOSX, where they would expand to &quot;je_&quot; prefixed</span>
+<a name="l00111"></a>00111 <span class="comment"> * functions. Instead, they are left unmodified (malloc_impl expands to</span>
+<a name="l00112"></a>00112 <span class="comment"> * malloc_impl).</span>
+<a name="l00113"></a>00113 <span class="comment"> */</span>
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 <span class="preprocessor">#ifndef MOZ_MEMORY</span>
+<a name="l00116"></a>00116 <span class="preprocessor"></span><span class="preprocessor">#  error Should only include mozmemory_wrap.h when MOZ_MEMORY is set.</span>
+<a name="l00117"></a>00117 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00118"></a>00118 <span class="preprocessor"></span>
+<a name="l00119"></a>00119 <span class="preprocessor">#if defined(MOZ_JEMALLOC_IMPL) &amp;&amp; !defined(MOZ_MEMORY_IMPL)</span>
+<a name="l00120"></a>00120 <span class="preprocessor"></span><span class="preprocessor">#  define MOZ_MEMORY_IMPL</span>
+<a name="l00121"></a>00121 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00122"></a>00122 <span class="preprocessor"></span><span class="preprocessor">#if defined(MOZ_MEMORY_IMPL) &amp;&amp; !defined(IMPL_MFBT)</span>
+<a name="l00123"></a>00123 <span class="preprocessor"></span><span class="preprocessor">#  ifdef MFBT_API </span><span class="comment">/* mozilla/Types.h was already included */</span>
+<a name="l00124"></a>00124 <span class="preprocessor">#    error mozmemory_wrap.h has to be included before mozilla/Types.h when MOZ_MEMORY_IMPL is set and IMPL_MFBT is not.</span>
+<a name="l00125"></a>00125 <span class="preprocessor"></span><span class="preprocessor">#  endif</span>
+<a name="l00126"></a>00126 <span class="preprocessor"></span><span class="preprocessor">#  define IMPL_MFBT</span>
+<a name="l00127"></a>00127 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00128"></a>00128 <span class="preprocessor"></span>
+<a name="l00129"></a>00129 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/dae/mozilla_2_types_8h.html">mozilla/Types.h</a>&quot;</span>
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131 <span class="preprocessor">#if !defined(MOZ_NATIVE_JEMALLOC)</span>
+<a name="l00132"></a>00132 <span class="preprocessor"></span><span class="preprocessor">#  ifdef MOZ_MEMORY_IMPL</span>
+<a name="l00133"></a>00133 <span class="preprocessor"></span><span class="preprocessor">#    if defined(MOZ_JEMALLOC_IMPL) &amp;&amp; defined(MOZ_REPLACE_MALLOC)</span>
+<a name="l00134"></a>00134 <span class="preprocessor"></span><span class="preprocessor">#      define mozmem_malloc_impl(a)     je_ ## a</span>
+<a name="l00135"></a>00135 <span class="preprocessor"></span><span class="preprocessor">#      define mozmem_jemalloc_impl(a)   je_ ## a</span>
+<a name="l00136"></a>00136 <span class="preprocessor"></span><span class="preprocessor">#    else</span>
+<a name="l00137"></a>00137 <span class="preprocessor"></span><span class="preprocessor">#      define MOZ_JEMALLOC_API MFBT_API</span>
+<a name="l00138"></a>00138 <span class="preprocessor"></span><span class="preprocessor">#      ifdef MOZ_REPLACE_JEMALLOC</span>
+<a name="l00139"></a>00139 <span class="preprocessor"></span><span class="preprocessor">#        define MOZ_MEMORY_API MFBT_API</span>
+<a name="l00140"></a>00140 <span class="preprocessor"></span><span class="preprocessor">#        define mozmem_malloc_impl(a)     replace_ ## a</span>
+<a name="l00141"></a>00141 <span class="preprocessor"></span><span class="preprocessor">#        define mozmem_jemalloc_impl(a)   replace_ ## a</span>
+<a name="l00142"></a>00142 <span class="preprocessor"></span><span class="preprocessor">#      elif (defined(XP_WIN) || defined(XP_DARWIN))</span>
+<a name="l00143"></a>00143 <span class="preprocessor"></span><span class="preprocessor">#        if defined(MOZ_REPLACE_MALLOC)</span>
+<a name="l00144"></a>00144 <span class="preprocessor"></span><span class="preprocessor">#          define mozmem_malloc_impl(a)   a ## _impl</span>
+<a name="l00145"></a>00145 <span class="preprocessor"></span><span class="preprocessor">#        else</span>
+<a name="l00146"></a>00146 <span class="preprocessor"></span><span class="preprocessor">#          define mozmem_malloc_impl(a)   je_ ## a</span>
+<a name="l00147"></a>00147 <span class="preprocessor"></span><span class="preprocessor">#        endif</span>
+<a name="l00148"></a>00148 <span class="preprocessor"></span><span class="preprocessor">#      else</span>
+<a name="l00149"></a>00149 <span class="preprocessor"></span><span class="preprocessor">#        define MOZ_MEMORY_API MFBT_API</span>
+<a name="l00150"></a>00150 <span class="preprocessor"></span><span class="preprocessor">#        if defined(MOZ_WIDGET_ANDROID) || defined(MOZ_WIDGET_GONK)</span>
+<a name="l00151"></a>00151 <span class="preprocessor"></span><span class="preprocessor">#          define MOZ_WRAP_NEW_DELETE</span>
+<a name="l00152"></a>00152 <span class="preprocessor"></span><span class="preprocessor">#        endif</span>
+<a name="l00153"></a>00153 <span class="preprocessor"></span><span class="preprocessor">#      endif</span>
+<a name="l00154"></a>00154 <span class="preprocessor"></span><span class="preprocessor">#    endif</span>
+<a name="l00155"></a>00155 <span class="preprocessor"></span><span class="preprocessor">#    ifdef XP_WIN</span>
+<a name="l00156"></a>00156 <span class="preprocessor"></span><span class="preprocessor">#      define mozmem_dup_impl(a)      wrap_ ## a</span>
+<a name="l00157"></a>00157 <span class="preprocessor"></span><span class="preprocessor">#    endif</span>
+<a name="l00158"></a>00158 <span class="preprocessor"></span><span class="preprocessor">#  endif</span>
+<a name="l00159"></a>00159 <span class="preprocessor"></span>
+<a name="l00160"></a>00160 <span class="preprocessor">#  if defined(MOZ_WIDGET_ANDROID)</span>
+<a name="l00161"></a>00161 <span class="preprocessor"></span><span class="preprocessor">#    ifndef mozmem_malloc_impl</span>
+<a name="l00162"></a>00162 <span class="preprocessor"></span><span class="preprocessor">#      define mozmem_malloc_impl(a)   __wrap_ ## a</span>
+<a name="l00163"></a>00163 <span class="preprocessor"></span><span class="preprocessor">#    endif</span>
+<a name="l00164"></a>00164 <span class="preprocessor"></span><span class="preprocessor">#    define mozmem_dup_impl(a)      __wrap_ ## a</span>
+<a name="l00165"></a>00165 <span class="preprocessor"></span><span class="preprocessor">#  endif</span>
+<a name="l00166"></a>00166 <span class="preprocessor"></span>
+<a name="l00167"></a>00167 <span class="comment">/* All other jemalloc3 functions are prefixed with &quot;je_&quot;, except when</span>
+<a name="l00168"></a>00168 <span class="comment"> * building against an unprefixed system jemalloc library */</span>
+<a name="l00169"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a9098862b9d5acfdd7332494d8d9324ab">00169</a> <span class="preprocessor">#  define je_(a) je_ ## a</span>
+<a name="l00170"></a>00170 <span class="preprocessor"></span><span class="preprocessor">#else </span><span class="comment">/* defined(MOZ_NATIVE_JEMALLOC) */</span>
+<a name="l00171"></a>00171 <span class="preprocessor">#  define je_(a) a</span>
+<a name="l00172"></a>00172 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00173"></a>00173 <span class="preprocessor"></span>
+<a name="l00174"></a>00174 <span class="preprocessor">#if !defined(MOZ_MEMORY_IMPL) || defined(MOZ_NATIVE_JEMALLOC)</span>
+<a name="l00175"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a25bdc94ad24d14317ff1c0e06fc2ae96">00175</a> <span class="preprocessor"></span><span class="preprocessor">#  define MOZ_MEMORY_API MFBT_API</span>
+<a name="l00176"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#ab64e1e1819beda7d4ddd2310a5ff8640">00176</a> <span class="preprocessor"></span><span class="preprocessor">#  define MOZ_JEMALLOC_API MFBT_API</span>
+<a name="l00177"></a>00177 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00178"></a>00178 <span class="preprocessor"></span>
+<a name="l00179"></a>00179 <span class="preprocessor">#ifndef MOZ_MEMORY_API</span>
+<a name="l00180"></a>00180 <span class="preprocessor"></span><span class="preprocessor">#  define MOZ_MEMORY_API</span>
+<a name="l00181"></a>00181 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00182"></a>00182 <span class="preprocessor"></span><span class="preprocessor">#ifndef MOZ_JEMALLOC_API</span>
+<a name="l00183"></a>00183 <span class="preprocessor"></span><span class="preprocessor">#  define MOZ_JEMALLOC_API</span>
+<a name="l00184"></a>00184 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00185"></a>00185 <span class="preprocessor"></span>
+<a name="l00186"></a>00186 <span class="preprocessor">#ifndef mozmem_malloc_impl</span>
+<a name="l00187"></a>00187 <span class="preprocessor"></span><span class="preprocessor">#  define mozmem_malloc_impl(a)   a</span>
+<a name="l00188"></a>00188 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00189"></a>00189 <span class="preprocessor"></span><span class="preprocessor">#ifndef mozmem_dup_impl</span>
+<a name="l00190"></a>00190 <span class="preprocessor"></span><span class="preprocessor">#  define mozmem_dup_impl(a)      a</span>
+<a name="l00191"></a>00191 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00192"></a>00192 <span class="preprocessor"></span><span class="preprocessor">#ifndef mozmem_jemalloc_impl</span>
+<a name="l00193"></a>00193 <span class="preprocessor"></span><span class="preprocessor">#  define mozmem_jemalloc_impl(a) a</span>
+<a name="l00194"></a>00194 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00195"></a>00195 <span class="preprocessor"></span>
+<a name="l00196"></a>00196 <span class="comment">/* Malloc implementation functions */</span>
+<a name="l00197"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a8dabbfc3d142fd21f6a49eba6ce84112">00197</a> <span class="preprocessor">#define malloc_impl              mozmem_malloc_impl(malloc)</span>
+<a name="l00198"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a6be1cb39f4d9e539c6e8e1488f972497">00198</a> <span class="preprocessor"></span><span class="preprocessor">#define posix_memalign_impl      mozmem_malloc_impl(posix_memalign)</span>
+<a name="l00199"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a2662ab744a4d6ab53eb694446654a55e">00199</a> <span class="preprocessor"></span><span class="preprocessor">#define aligned_alloc_impl       mozmem_malloc_impl(aligned_alloc)</span>
+<a name="l00200"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a6aa9168a25d25952dbe6e75b512b8b43">00200</a> <span class="preprocessor"></span><span class="preprocessor">#define calloc_impl              mozmem_malloc_impl(calloc)</span>
+<a name="l00201"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a6f7e9fc532c1bbc4810e523989c3125b">00201</a> <span class="preprocessor"></span><span class="preprocessor">#define realloc_impl             mozmem_malloc_impl(realloc)</span>
+<a name="l00202"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a81af32d169d1e3fe1d24ddd80915d875">00202</a> <span class="preprocessor"></span><span class="preprocessor">#define free_impl                mozmem_malloc_impl(free)</span>
+<a name="l00203"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a74dc71d203f3024b16baf9e88026f144">00203</a> <span class="preprocessor"></span><span class="preprocessor">#define memalign_impl            mozmem_malloc_impl(memalign)</span>
+<a name="l00204"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a19074ae32f227a4c8f7189017072f725">00204</a> <span class="preprocessor"></span><span class="preprocessor">#define valloc_impl              mozmem_malloc_impl(valloc)</span>
+<a name="l00205"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a19f24a115ad4038cda81599854d04f81">00205</a> <span class="preprocessor"></span><span class="preprocessor">#define malloc_usable_size_impl  mozmem_malloc_impl(malloc_usable_size)</span>
+<a name="l00206"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a045cf4a5f3d13e9f0f32a665cc6c8d10">00206</a> <span class="preprocessor"></span><span class="preprocessor">#define malloc_good_size_impl    mozmem_malloc_impl(malloc_good_size)</span>
+<a name="l00207"></a>00207 <span class="preprocessor"></span>
+<a name="l00208"></a>00208 <span class="comment">/* Duplication functions */</span>
+<a name="l00209"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a58666def0f51a8d44b2e4e4309c4c395">00209</a> <span class="preprocessor">#define strndup_impl   mozmem_dup_impl(strndup)</span>
+<a name="l00210"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a769b3dac921784864ed7bcd9f88492c0">00210</a> <span class="preprocessor"></span><span class="preprocessor">#define strdup_impl    mozmem_dup_impl(strdup)</span>
+<a name="l00211"></a>00211 <span class="preprocessor"></span><span class="preprocessor">#ifdef XP_WIN</span>
+<a name="l00212"></a>00212 <span class="preprocessor"></span><span class="preprocessor">#  define wcsdup_impl  mozmem_dup_impl(wcsdup)</span>
+<a name="l00213"></a>00213 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00214"></a>00214 <span class="preprocessor"></span>
+<a name="l00215"></a>00215 <span class="comment">/* Jemalloc specific function */</span>
+<a name="l00216"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a964d6ac0210c79275a1ac6821697955f">00216</a> <span class="preprocessor">#define jemalloc_stats_impl              mozmem_jemalloc_impl(jemalloc_stats)</span>
+<a name="l00217"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#ab6832f343c954575a336123ac8de4325">00217</a> <span class="preprocessor"></span><span class="preprocessor">#define jemalloc_purge_freed_pages_impl  mozmem_jemalloc_impl(jemalloc_purge_freed_pages)</span>
+<a name="l00218"></a><a class="code" href="../../df/d0c/mozmemory__wrap_8h.html#a308eff52dc08209ecd9a379c5ec8a319">00218</a> <span class="preprocessor"></span><span class="preprocessor">#define jemalloc_free_dirty_pages_impl   mozmem_jemalloc_impl(jemalloc_free_dirty_pages)</span>
+<a name="l00219"></a>00219 <span class="preprocessor"></span>
+<a name="l00220"></a>00220 <span class="preprocessor">#endif </span><span class="comment">/* mozmemory_wrap_h */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../df/d0c/mozmemory__wrap_8h.html">mozmemory_wrap.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:51に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

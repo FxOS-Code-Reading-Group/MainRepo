@@ -1,0 +1,25 @@
+var interfacens_i_crash_reporter =
+[
+    [ "AnnotateCrashReport", "df/d00/interfacens_i_crash_reporter.html#afb6c4ade07d849e789e3be6a1f63f76e", null ],
+    [ "annotateCrashReport", "df/d00/interfacens_i_crash_reporter.html#a23f712f8ebf4403e8ef00839c01a1239", null ],
+    [ "AppendAppNotesToCrashReport", "df/d00/interfacens_i_crash_reporter.html#ad0e0c59744dd21cf9a64354b05814999", null ],
+    [ "appendAppNotesToCrashReport", "df/d00/interfacens_i_crash_reporter.html#a4afc06ada8e8f97239ddd92abb9f03c1", null ],
+    [ "AppendObjCExceptionInfoToAppNotes", "df/d00/interfacens_i_crash_reporter.html#af477bc0c45c1ce0a3e81b63b2c28219a", null ],
+    [ "appendObjCExceptionInfoToAppNotes", "df/d00/interfacens_i_crash_reporter.html#a2f184fa6560516ad6e6aba136932ec77", null ],
+    [ "GetEnabled", "df/d00/interfacens_i_crash_reporter.html#aac3732f424139488c659382a587b4d33", null ],
+    [ "GetMinidumpPath", "df/d00/interfacens_i_crash_reporter.html#a4bfeb3340023ed83b48dff6c8befa55b", null ],
+    [ "GetServerURL", "df/d00/interfacens_i_crash_reporter.html#ae0c560c8e611f7eb433db285215ebc29", null ],
+    [ "GetSubmitReports", "df/d00/interfacens_i_crash_reporter.html#a054a02921761c3f8a620592cf1916129", null ],
+    [ "RegisterAppMemory", "df/d00/interfacens_i_crash_reporter.html#a305b364545f5e369e018fa57436c2c0c", null ],
+    [ "registerAppMemory", "df/d00/interfacens_i_crash_reporter.html#a4dc9a23946d9ecd365b32a9c710eb4e7", null ],
+    [ "SetEnabled", "df/d00/interfacens_i_crash_reporter.html#ae6b8ef173b717e44f38a51d85fc6f817", null ],
+    [ "SetMinidumpPath", "df/d00/interfacens_i_crash_reporter.html#a13d8d8abab83d425cdf12ff9a8e2aac0", null ],
+    [ "SetServerURL", "df/d00/interfacens_i_crash_reporter.html#acc491deb6dc7402ca75df614c8e6564e", null ],
+    [ "SetSubmitReports", "df/d00/interfacens_i_crash_reporter.html#ac3a4043eea91d7821385d787cc59f073", null ],
+    [ "WriteMinidumpForException", "df/d00/interfacens_i_crash_reporter.html#a811537e3fa0cb7f62bb062c7f4272638", null ],
+    [ "writeMinidumpForException", "df/d00/interfacens_i_crash_reporter.html#aaf35d9498b65f516c4ced844f13d7ec9", null ],
+    [ "enabled", "df/d00/interfacens_i_crash_reporter.html#a8f3ead9a6702129df1f46d00786a9675", null ],
+    [ "minidumpPath", "df/d00/interfacens_i_crash_reporter.html#abbaa9dd48ae82c7f257a98311805fc79", null ],
+    [ "serverURL", "df/d00/interfacens_i_crash_reporter.html#a416a16c85b9f1298fbcd85353eac4e47", null ],
+    [ "submitReports", "df/d00/interfacens_i_crash_reporter.html#af21584e773da9671940f45cb227d8690", null ]
+];

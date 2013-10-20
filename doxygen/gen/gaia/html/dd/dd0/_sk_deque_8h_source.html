@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: SkDeque.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dd/dd0/_sk_deque_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">SkDeque.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dd/dd0/_sk_deque_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00002"></a>00002 <span class="comment">/*</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright 2006 The Android Open Source Project</span>
+<a name="l00004"></a>00004 <span class="comment"> *</span>
+<a name="l00005"></a>00005 <span class="comment"> * Use of this source code is governed by a BSD-style license that can be</span>
+<a name="l00006"></a>00006 <span class="comment"> * found in the LICENSE file.</span>
+<a name="l00007"></a>00007 <span class="comment"> */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="preprocessor">#ifndef SkDeque_DEFINED</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span><span class="preprocessor">#define SkDeque_DEFINED</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/d36/_sk_types_8h.html">SkTypes.h</a>&quot;</span>
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="comment">/*</span>
+<a name="l00016"></a>00016 <span class="comment"> * The deque class works by blindly creating memory space of a specified element</span>
+<a name="l00017"></a>00017 <span class="comment"> * size. It manages the memory as a doubly linked list of blocks each of which</span>
+<a name="l00018"></a>00018 <span class="comment"> * can contain multiple elements. Pushes and pops add/remove blocks from the</span>
+<a name="l00019"></a>00019 <span class="comment"> * beginning/end of the list as necessary while each block tracks the used</span>
+<a name="l00020"></a>00020 <span class="comment"> * portion of its memory.</span>
+<a name="l00021"></a>00021 <span class="comment"> * One behavior to be aware of is that the pops do not immediately remove an</span>
+<a name="l00022"></a>00022 <span class="comment"> * empty block from the beginning/end of the list (Presumably so push/pop pairs</span>
+<a name="l00023"></a>00023 <span class="comment"> * on the block boundaries don&#39;t cause thrashing). This can result in the first/</span>
+<a name="l00024"></a>00024 <span class="comment"> * last element not residing in the first/last block.</span>
+<a name="l00025"></a>00025 <span class="comment"> */</span>
+<a name="l00026"></a><a class="code" href="../../d4/d43/class_sk_deque.html">00026</a> <span class="keyword">class </span><a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a> : <a class="code" href="../../d2/ddd/class_sk_noncopyable.html">SkNoncopyable</a> {
+<a name="l00027"></a>00027 <span class="keyword">public</span>:
+<a name="l00032"></a>00032     <span class="keyword">explicit</span> <a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a>(<span class="keywordtype">size_t</span> elemSize, <span class="keywordtype">int</span> allocCount = 1);
+<a name="l00033"></a>00033     <a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a>(<span class="keywordtype">size_t</span> elemSize, <span class="keywordtype">void</span>* storage, <span class="keywordtype">size_t</span> storageSize, <span class="keywordtype">int</span> allocCount = 1);
+<a name="l00034"></a>00034     ~<a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a>();
+<a name="l00035"></a>00035 
+<a name="l00036"></a><a class="code" href="../../d4/d43/class_sk_deque.html#a228eaf4ebdbc208493df81ba8b6007bc">00036</a>     <span class="keywordtype">bool</span>    <a class="code" href="../../d4/d43/class_sk_deque.html#a228eaf4ebdbc208493df81ba8b6007bc">empty</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> 0 == fCount; }
+<a name="l00037"></a><a class="code" href="../../d4/d43/class_sk_deque.html#a6a3b38183c40a155239e16957f8924a6">00037</a>     <span class="keywordtype">int</span>     <a class="code" href="../../d4/d43/class_sk_deque.html#a6a3b38183c40a155239e16957f8924a6">count</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> fCount; }
+<a name="l00038"></a><a class="code" href="../../d4/d43/class_sk_deque.html#ae89eab7270dfaa787520d9e35fa6544f">00038</a>     <span class="keywordtype">size_t</span>  <a class="code" href="../../d4/d43/class_sk_deque.html#ae89eab7270dfaa787520d9e35fa6544f">elemSize</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> fElemSize; }
+<a name="l00039"></a>00039 
+<a name="l00040"></a><a class="code" href="../../d4/d43/class_sk_deque.html#ab35a811989f6a6de9186f3007c2d9e80">00040</a>     <span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../d4/d43/class_sk_deque.html#ab35a811989f6a6de9186f3007c2d9e80">front</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> fFront; }
+<a name="l00041"></a><a class="code" href="../../d4/d43/class_sk_deque.html#a419699cec6b17ad3a174b1d4e0051d51">00041</a>     <span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../d4/d43/class_sk_deque.html#a419699cec6b17ad3a174b1d4e0051d51">back</a>()<span class="keyword"> const  </span>{ <span class="keywordflow">return</span> fBack; }
+<a name="l00042"></a>00042 
+<a name="l00043"></a><a class="code" href="../../d4/d43/class_sk_deque.html#a631fe244039bcf2d713b4b2107afa45e">00043</a>     <span class="keywordtype">void</span>* <a class="code" href="../../d4/d43/class_sk_deque.html#a631fe244039bcf2d713b4b2107afa45e">front</a>() {
+<a name="l00044"></a>00044         <span class="keywordflow">return</span> (<span class="keywordtype">void</span>*)((<span class="keyword">const</span> <a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a>*)<span class="keyword">this</span>)-&gt;front();
+<a name="l00045"></a>00045     }
+<a name="l00046"></a>00046 
+<a name="l00047"></a><a class="code" href="../../d4/d43/class_sk_deque.html#a67c6e461f0ddd015784a3096bee747bc">00047</a>     <span class="keywordtype">void</span>* <a class="code" href="../../d4/d43/class_sk_deque.html#a67c6e461f0ddd015784a3096bee747bc">back</a>() {
+<a name="l00048"></a>00048         <span class="keywordflow">return</span> (<span class="keywordtype">void</span>*)((<span class="keyword">const</span> <a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a>*)<span class="keyword">this</span>)-&gt;back();
+<a name="l00049"></a>00049     }
+<a name="l00050"></a>00050 
+<a name="l00055"></a>00055     <span class="keywordtype">void</span>* push_front();
+<a name="l00056"></a>00056     <span class="keywordtype">void</span>* push_back();
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058     <span class="keywordtype">void</span> pop_front();
+<a name="l00059"></a>00059     <span class="keywordtype">void</span> pop_back();
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061 <span class="keyword">private</span>:
+<a name="l00062"></a>00062     <span class="keyword">struct </span>Block;
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 <span class="keyword">public</span>:
+<a name="l00065"></a><a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html">00065</a>     <span class="keyword">class </span><a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html">Iter</a> {
+<a name="l00066"></a>00066     <span class="keyword">public</span>:
+<a name="l00067"></a><a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html#a673595bd2560a49932f2b39470ee3ad5">00067</a>         <span class="keyword">enum</span> <a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html#a673595bd2560a49932f2b39470ee3ad5">IterStart</a> {
+<a name="l00068"></a><a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html#a673595bd2560a49932f2b39470ee3ad5a95cf8f86300675642a19d59693cbdc44">00068</a>             <a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html#a673595bd2560a49932f2b39470ee3ad5a95cf8f86300675642a19d59693cbdc44">kFront_IterStart</a>,
+<a name="l00069"></a><a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html#a673595bd2560a49932f2b39470ee3ad5a48a9d6a45a1a3be00d271abbbf36b8e0">00069</a>             kBack_IterStart
+<a name="l00070"></a>00070         };
+<a name="l00071"></a>00071 
+<a name="l00075"></a>00075         <a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html">Iter</a>();
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077         <a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html">Iter</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a>&amp; d, IterStart startLoc);
+<a name="l00078"></a>00078         <span class="keywordtype">void</span>* next();
+<a name="l00079"></a>00079         <span class="keywordtype">void</span>* <a class="code" href="../../d4/d00/tools_2xpcwindow_2lib_2modules_2debug_8js.html#aa8ce26f0d9a701e8f80cbff3ed272d85">prev</a>();
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081         <span class="keywordtype">void</span> <a class="code" href="../../db/dac/mock__picker_8js.html#aed26045338f591d889d2a8bf699451ef">reset</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a>&amp; d, IterStart startLoc);
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083     <span class="keyword">private</span>:
+<a name="l00084"></a>00084         SkDeque::Block*  fCurBlock;
+<a name="l00085"></a>00085         <span class="keywordtype">char</span>*           fPos;
+<a name="l00086"></a>00086         <span class="keywordtype">size_t</span>          fElemSize;
+<a name="l00087"></a>00087     };
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089     <span class="comment">// Inherit privately from Iter to prevent access to reverse iteration</span>
+<a name="l00090"></a><a class="code" href="../../dc/dd7/class_sk_deque_1_1_f2_b_iter.html">00090</a>     <span class="keyword">class </span><a class="code" href="../../dc/dd7/class_sk_deque_1_1_f2_b_iter.html">F2BIter</a> : <span class="keyword">private</span> <a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html">Iter</a> {
+<a name="l00091"></a>00091     <span class="keyword">public</span>:
+<a name="l00092"></a><a class="code" href="../../dc/dd7/class_sk_deque_1_1_f2_b_iter.html#aba2963dfa11f56673feede55a6517b52">00092</a>         <a class="code" href="../../dc/dd7/class_sk_deque_1_1_f2_b_iter.html#aba2963dfa11f56673feede55a6517b52">F2BIter</a>() {}
+<a name="l00093"></a>00093 
+<a name="l00098"></a><a class="code" href="../../dc/dd7/class_sk_deque_1_1_f2_b_iter.html#a246ac87daa7358a87255fe757b3a7c8d">00098</a>         <a class="code" href="../../dc/dd7/class_sk_deque_1_1_f2_b_iter.html#a246ac87daa7358a87255fe757b3a7c8d">F2BIter</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a>&amp; d) : <a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html">INHERITED</a>(d, kFront_IterStart) {}
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100         <span class="keyword">using</span> Iter::next;
+<a name="l00101"></a>00101 
+<a name="l00106"></a><a class="code" href="../../dc/dd7/class_sk_deque_1_1_f2_b_iter.html#ad34028b1368f4f74b548155da2fa7258">00106</a>         <span class="keywordtype">void</span> <a class="code" href="../../dc/dd7/class_sk_deque_1_1_f2_b_iter.html#ad34028b1368f4f74b548155da2fa7258">reset</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a>&amp; d) {
+<a name="l00107"></a>00107             this-&gt;<a class="code" href="../../db/dac/mock__picker_8js.html#aed26045338f591d889d2a8bf699451ef">INHERITED::reset</a>(d, kFront_IterStart);
+<a name="l00108"></a>00108         }
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110     <span class="keyword">private</span>:
+<a name="l00111"></a>00111         <span class="keyword">typedef</span> <a class="code" href="../../df/d35/class_sk_deque_1_1_iter.html">Iter</a> INHERITED;
+<a name="l00112"></a>00112     };
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 <span class="keyword">private</span>:
+<a name="l00115"></a>00115     <span class="comment">// allow unit test to call numBlocksAllocated</span>
+<a name="l00116"></a><a class="code" href="../../d4/d43/class_sk_deque.html#acb6878c89809ee48f8f1a2da66ea3b0b">00116</a>     <span class="keyword">friend</span> <span class="keyword">class </span>DequeUnitTestHelper;
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118     <span class="keywordtype">void</span>*   fFront;
+<a name="l00119"></a>00119     <span class="keywordtype">void</span>*   fBack;
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121     Block*  fFrontBlock;
+<a name="l00122"></a>00122     Block*  fBackBlock;
+<a name="l00123"></a>00123     <span class="keywordtype">size_t</span>  fElemSize;
+<a name="l00124"></a>00124     <span class="keywordtype">void</span>*   fInitialStorage;
+<a name="l00125"></a>00125     <span class="keywordtype">int</span>     fCount;             <span class="comment">// number of elements in the deque</span>
+<a name="l00126"></a>00126     <span class="keywordtype">int</span>     fAllocCount;        <span class="comment">// number of elements to allocate per block</span>
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128     Block*  allocateBlock(<span class="keywordtype">int</span> allocCount);
+<a name="l00129"></a>00129     <span class="keywordtype">void</span>    freeBlock(Block* block);
+<a name="l00130"></a>00130 
+<a name="l00135"></a>00135     <span class="keywordtype">int</span>  numBlocksAllocated() <span class="keyword">const</span>;
+<a name="l00136"></a>00136 };
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dd/dd0/_sk_deque_8h.html">SkDeque.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:11に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

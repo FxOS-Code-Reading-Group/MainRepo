@@ -1,0 +1,27 @@
+var homescreen_2js_2page_8js =
+[
+    [ "Dock", "de/df6/homescreen_2js_2page_8js.html#a33934370bc191cfa7673e0e0728a64e5", null ],
+    [ "extend", "de/df6/homescreen_2js_2page_8js.html#a3024b526ab18ca6ac2efbfb3cf177dcd", null ],
+    [ "getDefaultIcon", "de/df6/homescreen_2js_2page_8js.html#aa6bcd4dc418bb0efb5bc81b32871b840", null ],
+    [ "Icon", "de/df6/homescreen_2js_2page_8js.html#a19facd329fb2f940c5ad90e962828aca", null ],
+    [ "Page", "de/df6/homescreen_2js_2page_8js.html#ad56e4154f98ee95c4bf8c8942a2f6425", null ],
+    [ "TemplateIcon", "de/df6/homescreen_2js_2page_8js.html#acb578e407b7ccb17a8fe25207e7e7c6b", null ],
+    [ "baseRender", "de/df6/homescreen_2js_2page_8js.html#ac7b2337a19327ca2e844183347069271", null ],
+    [ "dockProto", "de/df6/homescreen_2js_2page_8js.html#a2482721a6e9eaa2f3e1ed61bdf191180", null ],
+    [ "DRAGGING_TRANSITION", "de/df6/homescreen_2js_2page_8js.html#a0eea4780de21d02d17f5a0a88400cc9a", null ],
+    [ "getLeft", "de/df6/homescreen_2js_2page_8js.html#a9ca727db19787905a22a480f7359ef77", null ],
+    [ "getRight", "de/df6/homescreen_2js_2page_8js.html#a544aa1f902d754721438e8c91bb9263e", null ],
+    [ "getTransform", "de/df6/homescreen_2js_2page_8js.html#a150b6912d3f8f5e5e2b40da2fd609dee", null ],
+    [ "getWidth", "de/df6/homescreen_2js_2page_8js.html#a0c26f95c8c613c19cf6734254fc5f464", null ],
+    [ "ICON_PADDING_IN_CANVAS", "de/df6/homescreen_2js_2page_8js.html#a9808de3722673f5ca7a881cdb994d3df", null ],
+    [ "ICONS_PER_ROW", "de/df6/homescreen_2js_2page_8js.html#a5c090fc6628b0210cf61884a6c25f75a", null ],
+    [ "MAX_ICON_SIZE", "de/df6/homescreen_2js_2page_8js.html#a86bc61a0f00d2ceb087886a5c6da92c1", null ],
+    [ "moveByWithDuration", "de/df6/homescreen_2js_2page_8js.html#a7d321b9d19470f399af4afab9a30b727", null ],
+    [ "moveByWithEffect", "de/df6/homescreen_2js_2page_8js.html#a60edfbbb86b389b69bc1a3a4a4900cb0", null ],
+    [ "placeIcon", "de/df6/homescreen_2js_2page_8js.html#a78f6c8393e8bb7c6e5c3bf383982408f", null ],
+    [ "prototype", "de/df6/homescreen_2js_2page_8js.html#a11766ffa2636a5071f93aca20241d11c", null ],
+    [ "render", "de/df6/homescreen_2js_2page_8js.html#ae7817194480cfc900873938c8e7dd602", null ],
+    [ "SCALE_RATIO", "de/df6/homescreen_2js_2page_8js.html#a55390d56661168977cb2f85733847f93", null ],
+    [ "strict", "de/df6/homescreen_2js_2page_8js.html#ae2475e10618961c050dcba04e8c42331", null ],
+    [ "TextOverflowDetective", "de/df6/homescreen_2js_2page_8js.html#a70ea7e9f645f301b4ebd1e8258acbb72", null ]
+];

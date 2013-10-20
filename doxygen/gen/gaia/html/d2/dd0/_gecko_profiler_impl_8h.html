@@ -1,0 +1,766 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: GeckoProfilerImpl.h</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d2/dd0/_gecko_profiler_impl_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">データ構造</a> &#124;
+<a href="#namespaces">パッケージ</a> &#124;
+<a href="#define-members">マクロ定義</a> &#124;
+<a href="#func-members">関数</a> &#124;
+<a href="#var-members">変数</a>  </div>
+  <div class="headertitle">
+<div class="title">GeckoProfilerImpl.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &lt;signal.h&gt;</code><br/>
+<code>#include &lt;stdarg.h&gt;</code><br/>
+<code>#include &lt;algorithm&gt;</code><br/>
+<code>#include &quot;<a class="el" href="../../d4/dee/_thread_local_8h_source.html">mozilla/ThreadLocal.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d9/de9/_assertions_8h_source.html">mozilla/Assertions.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d1/d77/_time_stamp_8h_source.html">mozilla/TimeStamp.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../dd/d90/_util_8h_source.html">mozilla/Util.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d6/dbf/ns_algorithm_8h_source.html">nsAlgorithm.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d3/dd8/nscore_8h_source.html">nscore.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../de/dc5/jsfriendapi_8h_source.html">jsfriendapi.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../db/d23/_gecko_profiler_func_8h_source.html">GeckoProfilerFunc.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../dd/d53/_pseudo_stack_8h_source.html">PseudoStack.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../de/d5a/ns_i_supports_8h_source.html">nsISupports.h</a>&quot;</code><br/>
+</div><div class="textblock"><div class="dynheader">
+GeckoProfilerImpl.hのインクルード依存関係図</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d6/d6c/_gecko_profiler_impl_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+</div>
+<p><a href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">ソースコードを見る。</a></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="nested-classes"></a>
+データ構造</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d00/classmozilla_1_1_sampler_stack_frame_r_a_i_i.html">mozilla::SamplerStackFrameRAII</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d96/classmozilla_1_1_sampler_stack_frame_printf_r_a_i_i.html">mozilla::SamplerStackFramePrintfRAII</a></td></tr>
+<tr><td colspan="2"><h2><a name="namespaces"></a>
+パッケージ</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d93/namespacemozilla.html">mozilla</a></td></tr>
+<tr><td colspan="2"><h2><a name="define-members"></a>
+マクロ定義</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a3712e4cdb3aaf7ded90b220e4f4cf602">SAMPLE_FUNCTION_NAME</a>&#160;&#160;&#160;<a class="el" href="../../d1/d5c/_camera_common_8h.html#a7d6e1cf1a8d53f38471e9e9db3faf740">__func__</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a4be66998c9984b15025916db3b218240">SAMPLER_APPEND_LINE_NUMBER_PASTE</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a>, <a class="el" href="../../de/d8f/jsdebug_8h.html#aec3acd6c5dec23078fc6753b40966f88">line</a>)&#160;&#160;&#160;<a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a> ## <a class="el" href="../../de/d8f/jsdebug_8h.html#aec3acd6c5dec23078fc6753b40966f88">line</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a89edd3c52ed50c8d2bb918a40fa94842">SAMPLER_APPEND_LINE_NUMBER_EXPAND</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a>, <a class="el" href="../../de/d8f/jsdebug_8h.html#aec3acd6c5dec23078fc6753b40966f88">line</a>)&#160;&#160;&#160;<a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a4be66998c9984b15025916db3b218240">SAMPLER_APPEND_LINE_NUMBER_PASTE</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a>, <a class="el" href="../../de/d8f/jsdebug_8h.html#aec3acd6c5dec23078fc6753b40966f88">line</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a6ae6532cc55a22d562038a294a49d51f">SAMPLER_APPEND_LINE_NUMBER</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a>)&#160;&#160;&#160;<a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a89edd3c52ed50c8d2bb918a40fa94842">SAMPLER_APPEND_LINE_NUMBER_EXPAND</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a>, __LINE__)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a5f8af1a013abcd1ec0fc1b246fbb88dd">PROFILER_LABEL</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a>, <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>)&#160;&#160;&#160;<a class="el" href="../../da/d00/classmozilla_1_1_sampler_stack_frame_r_a_i_i.html">mozilla::SamplerStackFrameRAII</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a6ae6532cc55a22d562038a294a49d51f">SAMPLER_APPEND_LINE_NUMBER</a>(sampler_raii)(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a> &quot;::&quot; <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>, __LINE__)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#afcc71ea6ec48445e4cadec0d2bb36760">PROFILER_LABEL_PRINTF</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a>, <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>,...)&#160;&#160;&#160;<a class="el" href="../../d4/d96/classmozilla_1_1_sampler_stack_frame_printf_r_a_i_i.html">mozilla::SamplerStackFramePrintfRAII</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a6ae6532cc55a22d562038a294a49d51f">SAMPLER_APPEND_LINE_NUMBER</a>(sampler_raii)(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a> &quot;::&quot; <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>, __LINE__, __VA_ARGS__)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a38d6eb771ee246ba8b9a782203a57202">PROFILER_MARKER</a>(<a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>)&#160;&#160;&#160;<a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a54cf799117e569c7219f74a38156cb13">mozilla_sampler_add_marker</a>(<a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#ac6ae339f484bd5d5f57e7a89f06c9eb1">PROFILER_MAIN_THREAD_LABEL</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a>, <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>)&#160;&#160;&#160;<a class="el" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>(), &quot;This can only be called <a class="el" href="../../d0/d6e/build__stage_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#ac00bf23adf7cb4c5253268889722ca05">on</a> the <a class="el" href="../../db/d0b/_image_editor_8js.html#a8fd8f854b393f98b5469a29042d701d1">main</a> <a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>&quot;); mozilla::SamplerStackFrameRAII <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a6ae6532cc55a22d562038a294a49d51f">SAMPLER_APPEND_LINE_NUMBER</a>(sampler_raii)(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a> &quot;::&quot; <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>, __LINE__)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a04978126e006a9b44c4271aa1c77cfb2">PROFILER_MAIN_THREAD_LABEL_PRINTF</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a>, <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>,...)&#160;&#160;&#160;<a class="el" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>(), &quot;This can only be called <a class="el" href="../../d0/d6e/build__stage_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#ac00bf23adf7cb4c5253268889722ca05">on</a> the <a class="el" href="../../db/d0b/_image_editor_8js.html#a8fd8f854b393f98b5469a29042d701d1">main</a> <a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>&quot;); mozilla::SamplerStackFramePrintfRAII <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a6ae6532cc55a22d562038a294a49d51f">SAMPLER_APPEND_LINE_NUMBER</a>(sampler_raii)(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a> &quot;::&quot; <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>, __LINE__, __VA_ARGS__)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#aea0f747385795bb6e02ca92e2e518837">PROFILER_MAIN_THREAD_MARKER</a>(<a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>)&#160;&#160;&#160;<a class="el" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>(), &quot;This can only be called <a class="el" href="../../d0/d6e/build__stage_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#ac00bf23adf7cb4c5253268889722ca05">on</a> the <a class="el" href="../../db/d0b/_image_editor_8js.html#a8fd8f854b393f98b5469a29042d701d1">main</a> <a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>&quot;); mozilla_sampler_add_marker(<a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#ae7b73f1360d4e004dc784c0acebda2bb">PROFILE_DEFAULT_ENTRY</a>&#160;&#160;&#160;1000000</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#afda9fc3ef86e1a76e71b41bc444b3d17">PROFILE_DEFAULT_INTERVAL</a>&#160;&#160;&#160;1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#ab230becd0c0fe15f87241ecf4258c541">PROFILE_DEFAULT_FEATURES</a>&#160;&#160;&#160;<a class="el" href="../../d7/d77/readstrings_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a2d08b2d27fc95461ff9051612722227c">PROFILE_DEFAULT_FEATURE_COUNT</a>&#160;&#160;&#160;0</td></tr>
+<tr><td colspan="2"><h2><a name="func-members"></a>
+関数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d16/struct_pseudo_stack.html">PseudoStack</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a2d2f4f8865f7db337a2b14b890190453">mozilla_get_pseudo_stack</a> (<a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a5dcec1f98d63916441d0fd9682955961">mozilla_sampler_call_enter</a> (<a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> char *aInfo, <a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a> *aFrameAddress, <a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a> aCopy, uint32_t <a class="el" href="../../de/d8f/jsdebug_8h.html#aec3acd6c5dec23078fc6753b40966f88">line</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a481541346d9b7d02a85d47c270b4330c">mozilla_sampler_call_exit</a> (<a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a> *aHandle)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a54cf799117e569c7219f74a38156cb13">mozilla_sampler_add_marker</a> (<a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> char *aMarker)</td></tr>
+<tr><td colspan="2"><h2><a name="var-members"></a>
+変数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/da5/classmozilla_1_1_thread_local.html">mozilla::ThreadLocal</a><br class="typebreak"/>
+&lt; <a class="el" href="../../dc/d16/struct_pseudo_stack.html">PseudoStack</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a8878cfd2c034dc09420bccfed9d67add">tlsPseudoStack</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/da5/classmozilla_1_1_thread_local.html">mozilla::ThreadLocal</a><br class="typebreak"/>
+&lt; TableTicker * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#abe5872dcf072991a78e75bad386d13e7">tlsTicker</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#af6269413b824962996bd3f8f8eae0afc">stack_key_initialized</a></td></tr>
+</table>
+<hr/><h2>マクロ定義</h2>
+<a class="anchor" id="ae7b73f1360d4e004dc784c0acebda2bb"></a><!-- doxytag: member="GeckoProfilerImpl.h::PROFILE_DEFAULT_ENTRY" ref="ae7b73f1360d4e004dc784c0acebda2bb" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#ae7b73f1360d4e004dc784c0acebda2bb">PROFILE_DEFAULT_ENTRY</a>&#160;&#160;&#160;1000000</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00206">206</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="a2d08b2d27fc95461ff9051612722227c"></a><!-- doxytag: member="GeckoProfilerImpl.h::PROFILE_DEFAULT_FEATURE_COUNT" ref="a2d08b2d27fc95461ff9051612722227c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a2d08b2d27fc95461ff9051612722227c">PROFILE_DEFAULT_FEATURE_COUNT</a>&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00233">233</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="ab230becd0c0fe15f87241ecf4258c541"></a><!-- doxytag: member="GeckoProfilerImpl.h::PROFILE_DEFAULT_FEATURES" ref="ab230becd0c0fe15f87241ecf4258c541" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#ab230becd0c0fe15f87241ecf4258c541">PROFILE_DEFAULT_FEATURES</a>&#160;&#160;&#160;<a class="el" href="../../d7/d77/readstrings_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00232">232</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="afda9fc3ef86e1a76e71b41bc444b3d17"></a><!-- doxytag: member="GeckoProfilerImpl.h::PROFILE_DEFAULT_INTERVAL" ref="afda9fc3ef86e1a76e71b41bc444b3d17" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#afda9fc3ef86e1a76e71b41bc444b3d17">PROFILE_DEFAULT_INTERVAL</a>&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00230">230</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="a5f8af1a013abcd1ec0fc1b246fbb88dd"></a><!-- doxytag: member="GeckoProfilerImpl.h::PROFILER_LABEL" ref="a5f8af1a013abcd1ec0fc1b246fbb88dd" args="(name_space, info)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a5f8af1a013abcd1ec0fc1b246fbb88dd">PROFILER_LABEL</a></td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="../../da/d00/classmozilla_1_1_sampler_stack_frame_r_a_i_i.html">mozilla::SamplerStackFrameRAII</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a6ae6532cc55a22d562038a294a49d51f">SAMPLER_APPEND_LINE_NUMBER</a>(sampler_raii)(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a> &quot;::&quot; <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>, __LINE__)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00190">190</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="afcc71ea6ec48445e4cadec0d2bb36760"></a><!-- doxytag: member="GeckoProfilerImpl.h::PROFILER_LABEL_PRINTF" ref="afcc71ea6ec48445e4cadec0d2bb36760" args="(name_space, info,...)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#afcc71ea6ec48445e4cadec0d2bb36760">PROFILER_LABEL_PRINTF</a></td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="../../d4/d96/classmozilla_1_1_sampler_stack_frame_printf_r_a_i_i.html">mozilla::SamplerStackFramePrintfRAII</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a6ae6532cc55a22d562038a294a49d51f">SAMPLER_APPEND_LINE_NUMBER</a>(sampler_raii)(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a> &quot;::&quot; <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>, __LINE__, __VA_ARGS__)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00191">191</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="ac6ae339f484bd5d5f57e7a89f06c9eb1"></a><!-- doxytag: member="GeckoProfilerImpl.h::PROFILER_MAIN_THREAD_LABEL" ref="ac6ae339f484bd5d5f57e7a89f06c9eb1" args="(name_space, info)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#ac6ae339f484bd5d5f57e7a89f06c9eb1">PROFILER_MAIN_THREAD_LABEL</a></td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>(), &quot;This can only be called <a class="el" href="../../d0/d6e/build__stage_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#ac00bf23adf7cb4c5253268889722ca05">on</a> the <a class="el" href="../../db/d0b/_image_editor_8js.html#a8fd8f854b393f98b5469a29042d701d1">main</a> <a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>&quot;); mozilla::SamplerStackFrameRAII <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a6ae6532cc55a22d562038a294a49d51f">SAMPLER_APPEND_LINE_NUMBER</a>(sampler_raii)(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a> &quot;::&quot; <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>, __LINE__)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00193">193</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="a04978126e006a9b44c4271aa1c77cfb2"></a><!-- doxytag: member="GeckoProfilerImpl.h::PROFILER_MAIN_THREAD_LABEL_PRINTF" ref="a04978126e006a9b44c4271aa1c77cfb2" args="(name_space, info,...)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a04978126e006a9b44c4271aa1c77cfb2">PROFILER_MAIN_THREAD_LABEL_PRINTF</a></td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>(), &quot;This can only be called <a class="el" href="../../d0/d6e/build__stage_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#ac00bf23adf7cb4c5253268889722ca05">on</a> the <a class="el" href="../../db/d0b/_image_editor_8js.html#a8fd8f854b393f98b5469a29042d701d1">main</a> <a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>&quot;); mozilla::SamplerStackFramePrintfRAII <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a6ae6532cc55a22d562038a294a49d51f">SAMPLER_APPEND_LINE_NUMBER</a>(sampler_raii)(<a class="el" href="../../de/d81/xpt__struct_8h.html#a9285d3c888fe84d07eff34e83c8d3d78">name_space</a> &quot;::&quot; <a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>, __LINE__, __VA_ARGS__)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00194">194</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="aea0f747385795bb6e02ca92e2e518837"></a><!-- doxytag: member="GeckoProfilerImpl.h::PROFILER_MAIN_THREAD_MARKER" ref="aea0f747385795bb6e02ca92e2e518837" args="(info)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#aea0f747385795bb6e02ca92e2e518837">PROFILER_MAIN_THREAD_MARKER</a></td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a></td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="../../d9/de9/_assertions_8h.html#aa2fa77a048d036cb2f902299ace18165">MOZ_ASSERT</a>(<a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>(), &quot;This can only be called <a class="el" href="../../d0/d6e/build__stage_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#ac00bf23adf7cb4c5253268889722ca05">on</a> the <a class="el" href="../../db/d0b/_image_editor_8js.html#a8fd8f854b393f98b5469a29042d701d1">main</a> <a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>&quot;); mozilla_sampler_add_marker(<a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00195">195</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="a38d6eb771ee246ba8b9a782203a57202"></a><!-- doxytag: member="GeckoProfilerImpl.h::PROFILER_MARKER" ref="a38d6eb771ee246ba8b9a782203a57202" args="(info)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a38d6eb771ee246ba8b9a782203a57202">PROFILER_MARKER</a></td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a></td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a54cf799117e569c7219f74a38156cb13">mozilla_sampler_add_marker</a>(<a class="el" href="../../d9/d04/expat_8h.html#ad737df79bb5419e4bac72f823f6fdec9">info</a>)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00192">192</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="a3712e4cdb3aaf7ded90b220e4f4cf602"></a><!-- doxytag: member="GeckoProfilerImpl.h::SAMPLE_FUNCTION_NAME" ref="a3712e4cdb3aaf7ded90b220e4f4cf602" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a3712e4cdb3aaf7ded90b220e4f4cf602">SAMPLE_FUNCTION_NAME</a>&#160;&#160;&#160;<a class="el" href="../../d1/d5c/_camera_common_8h.html#a7d6e1cf1a8d53f38471e9e9db3faf740">__func__</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00050">50</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="a6ae6532cc55a22d562038a294a49d51f"></a><!-- doxytag: member="GeckoProfilerImpl.h::SAMPLER_APPEND_LINE_NUMBER" ref="a6ae6532cc55a22d562038a294a49d51f" args="(id)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a6ae6532cc55a22d562038a294a49d51f">SAMPLER_APPEND_LINE_NUMBER</a></td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a></td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a89edd3c52ed50c8d2bb918a40fa94842">SAMPLER_APPEND_LINE_NUMBER_EXPAND</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a>, __LINE__)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00188">188</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="a89edd3c52ed50c8d2bb918a40fa94842"></a><!-- doxytag: member="GeckoProfilerImpl.h::SAMPLER_APPEND_LINE_NUMBER_EXPAND" ref="a89edd3c52ed50c8d2bb918a40fa94842" args="(id, line)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a89edd3c52ed50c8d2bb918a40fa94842">SAMPLER_APPEND_LINE_NUMBER_EXPAND</a></td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../de/d8f/jsdebug_8h.html#aec3acd6c5dec23078fc6753b40966f88">line</a>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a4be66998c9984b15025916db3b218240">SAMPLER_APPEND_LINE_NUMBER_PASTE</a>(<a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a>, <a class="el" href="../../de/d8f/jsdebug_8h.html#aec3acd6c5dec23078fc6753b40966f88">line</a>)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00187">187</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="a4be66998c9984b15025916db3b218240"></a><!-- doxytag: member="GeckoProfilerImpl.h::SAMPLER_APPEND_LINE_NUMBER_PASTE" ref="a4be66998c9984b15025916db3b218240" args="(id, line)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a4be66998c9984b15025916db3b218240">SAMPLER_APPEND_LINE_NUMBER_PASTE</a></td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="../../de/d8f/jsdebug_8h.html#aec3acd6c5dec23078fc6753b40966f88">line</a>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="../../de/d81/xpt__struct_8h.html#a0ad0ebb641411c0c63079e4440033275">id</a> ## <a class="el" href="../../de/d8f/jsdebug_8h.html#aec3acd6c5dec23078fc6753b40966f88">line</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00186">186</a> 行で定義されています。</p>
+
+</div>
+</div>
+<hr/><h2>関数</h2>
+<a class="anchor" id="a2d2f4f8865f7db337a2b14b890190453"></a><!-- doxytag: member="GeckoProfilerImpl.h::mozilla_get_pseudo_stack" ref="a2d2f4f8865f7db337a2b14b890190453" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d16/struct_pseudo_stack.html">PseudoStack</a>* <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a2d2f4f8865f7db337a2b14b890190453">mozilla_get_pseudo_stack</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00285">285</a> 行で定義されています。</p>
+
+<p>参照先 <a class="el" href="../../d4/dee/_thread_local_8h_source.html#l00118">mozilla::ThreadLocal&lt; T &gt;::get()</a>, <a class="el" href="../../db/df5/ncompat_8h_source.html#l00196">NULL</a>, と <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#af6269413b824962996bd3f8f8eae0afc">stack_key_initialized</a>.</p>
+<div class="fragment"><pre class="fragment">{
+  <span class="keywordflow">if</span> (!stack_key_initialized)
+    <span class="keywordflow">return</span> <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>;
+  <span class="keywordflow">return</span> <a class="code" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a8878cfd2c034dc09420bccfed9d67add">tlsPseudoStack</a>.get();
+}
+</pre></div>
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/dd0/_gecko_profiler_impl_8h_a2d2f4f8865f7db337a2b14b890190453_cgraph.svg" width="403" height="40"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a54cf799117e569c7219f74a38156cb13"></a><!-- doxytag: member="GeckoProfilerImpl.h::mozilla_sampler_add_marker" ref="a54cf799117e569c7219f74a38156cb13" args="(const char *aMarker)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a54cf799117e569c7219f74a38156cb13">mozilla_sampler_add_marker</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> char *&#160;</td>
+          <td class="paramname"><em>aMarker</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00327">327</a> 行で定義されています。</p>
+
+<p>参照先 <a class="el" href="../../dd/d53/_pseudo_stack_8h_source.html#l00130">PseudoStack::addMarker()</a>, <a class="el" href="../../d4/dee/_thread_local_8h_source.html#l00118">mozilla::ThreadLocal&lt; T &gt;::get()</a>, と <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#af6269413b824962996bd3f8f8eae0afc">stack_key_initialized</a>.</p>
+<div class="fragment"><pre class="fragment">{
+  <span class="keywordflow">if</span> (!stack_key_initialized)
+    <span class="keywordflow">return</span>;
+
+  <span class="comment">// Don&#39;t insert a marker if we&#39;re not profiling to avoid</span>
+  <span class="comment">// the heap copy (malloc).</span>
+  <span class="keywordflow">if</span> (!profiler_is_active()) {
+    <span class="keywordflow">return</span>;
+  }
+
+  <span class="comment">// Don&#39;t add a marker if we don&#39;t want to include personal information</span>
+  <span class="keywordflow">if</span> (profiler_in_privacy_mode()) {
+    <span class="keywordflow">return</span>;
+  }
+
+  <a class="code" href="../../dc/d16/struct_pseudo_stack.html">PseudoStack</a> *<a class="code" href="../../d6/d1b/pprthred_8h.html#afe76c3c951fe40bd646fbf0b89cbcd17">stack</a> = <a class="code" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a8878cfd2c034dc09420bccfed9d67add">tlsPseudoStack</a>.get();
+  <span class="keywordflow">if</span> (!stack) {
+    <span class="keywordflow">return</span>;
+  }
+  stack-&gt;<a class="code" href="../../dc/d16/struct_pseudo_stack.html#ada7cd48118075b8ee25edaff06827586">addMarker</a>(aMarker);
+}
+</pre></div>
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/dd0/_gecko_profiler_impl_8h_a54cf799117e569c7219f74a38156cb13_cgraph.svg" width="654" height="94"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a5dcec1f98d63916441d0fd9682955961"></a><!-- doxytag: member="GeckoProfilerImpl.h::mozilla_sampler_call_enter" ref="a5dcec1f98d63916441d0fd9682955961" args="(const char *aInfo, void *aFrameAddress, bool aCopy, uint32_t line)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a>* <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a5dcec1f98d63916441d0fd9682955961">mozilla_sampler_call_enter</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> char *&#160;</td>
+          <td class="paramname"><em>aInfo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a> *&#160;</td>
+          <td class="paramname"><em>aFrameAddress</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>&#160;</td>
+          <td class="paramname"><em>aCopy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00292">292</a> 行で定義されています。</p>
+
+<p>参照先 <a class="el" href="../../d4/dee/_thread_local_8h_source.html#l00118">mozilla::ThreadLocal&lt; T &gt;::get()</a>, <a class="el" href="../../db/df5/ncompat_8h_source.html#l00196">NULL</a>, <a class="el" href="../../dd/d53/_pseudo_stack_8h_source.html#l00179">PseudoStack::push()</a>, <a class="el" href="../../d6/d1b/pprthred_8h_source.html#l00042">stack</a>, と <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#af6269413b824962996bd3f8f8eae0afc">stack_key_initialized</a>.</p>
+
+<p>参照元 <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00254">mozilla::SamplerStackFramePrintfRAII::SamplerStackFramePrintfRAII()</a>, と <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00240">mozilla::SamplerStackFrameRAII::SamplerStackFrameRAII()</a>.</p>
+<div class="fragment"><pre class="fragment">{
+  <span class="comment">// check if we&#39;ve been initialized to avoid calling pthread_getspecific</span>
+  <span class="comment">// with a null tlsStack which will return undefined results.</span>
+  <span class="keywordflow">if</span> (!stack_key_initialized)
+    <span class="keywordflow">return</span> <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>;
+
+  <a class="code" href="../../dc/d16/struct_pseudo_stack.html">PseudoStack</a> *<a class="code" href="../../d6/d1b/pprthred_8h.html#afe76c3c951fe40bd646fbf0b89cbcd17">stack</a> = <a class="code" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a8878cfd2c034dc09420bccfed9d67add">tlsPseudoStack</a>.get();
+  <span class="comment">// we can&#39;t infer whether &#39;stack&#39; has been initialized</span>
+  <span class="comment">// based on the value of stack_key_intiailized because</span>
+  <span class="comment">// &#39;stack&#39; is only intialized when a thread is being</span>
+  <span class="comment">// profiled.</span>
+  <span class="keywordflow">if</span> (!stack) {
+    <span class="keywordflow">return</span> <a class="code" href="../../d6/d1b/pprthred_8h.html#afe76c3c951fe40bd646fbf0b89cbcd17">stack</a>;
+  }
+  stack-&gt;<a class="code" href="../../dc/d16/struct_pseudo_stack.html#ab970bc8d20cf1dc8262009be692ae0a0">push</a>(aInfo, aFrameAddress, aCopy, <a class="code" href="../../da/d7d/cook_8js.html#ae379b8c31475b8ad7712b7ead5ce1173">line</a>);
+
+  <span class="comment">// The handle is meant to support future changes</span>
+  <span class="comment">// but for now it is simply use to save a call to</span>
+  <span class="comment">// pthread_getspecific on exit. It also supports the</span>
+  <span class="comment">// case where the sampler is initialized between</span>
+  <span class="comment">// enter and exit.</span>
+  <span class="keywordflow">return</span> <a class="code" href="../../d6/d1b/pprthred_8h.html#afe76c3c951fe40bd646fbf0b89cbcd17">stack</a>;
+}
+</pre></div>
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/dd0/_gecko_profiler_impl_8h_a5dcec1f98d63916441d0fd9682955961_cgraph.svg" width="406" height="94"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d2/dd0/_gecko_profiler_impl_8h_a5dcec1f98d63916441d0fd9682955961_icgraph.svg" width="100%" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a481541346d9b7d02a85d47c270b4330c"></a><!-- doxytag: member="GeckoProfilerImpl.h::mozilla_sampler_call_exit" ref="a481541346d9b7d02a85d47c270b4330c" args="(void *aHandle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a481541346d9b7d02a85d47c270b4330c">mozilla_sampler_call_exit</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a> *&#160;</td>
+          <td class="paramname"><em>aHandle</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html">GeckoProfilerImpl.h</a> の <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00318">318</a> 行で定義されています。</p>
+
+<p>参照先 <a class="el" href="../../dd/d53/_pseudo_stack_8h_source.html#l00201">PseudoStack::pop()</a>.</p>
+
+<p>参照元 <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00275">mozilla::SamplerStackFramePrintfRAII::~SamplerStackFramePrintfRAII()</a>, と <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00243">mozilla::SamplerStackFrameRAII::~SamplerStackFrameRAII()</a>.</p>
+<div class="fragment"><pre class="fragment">{
+  <span class="keywordflow">if</span> (!aHandle)
+    <span class="keywordflow">return</span>;
+
+  <a class="code" href="../../dc/d16/struct_pseudo_stack.html">PseudoStack</a> *<a class="code" href="../../d6/d1b/pprthred_8h.html#afe76c3c951fe40bd646fbf0b89cbcd17">stack</a> = (<a class="code" href="../../dc/d16/struct_pseudo_stack.html">PseudoStack</a>*)aHandle;
+  stack-&gt;<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a2ace1cef72ff9d59edb717eb63d7ce3c">pop</a>();
+}
+</pre></div>
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/dd0/_gecko_profiler_impl_8h_a481541346d9b7d02a85d47c270b4330c_cgraph.svg" width="360" height="40"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d2/dd0/_gecko_profiler_impl_8h_a481541346d9b7d02a85d47c270b4330c_icgraph.svg" width="100%" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+</p>
+
+</div>
+</div>
+<hr/><h2>変数</h2>
+<a class="anchor" id="af6269413b824962996bd3f8f8eae0afc"></a><!-- doxytag: member="GeckoProfilerImpl.h::stack_key_initialized" ref="af6269413b824962996bd3f8f8eae0afc" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a> <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#af6269413b824962996bd3f8f8eae0afc">stack_key_initialized</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>参照元 <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00285">mozilla_get_pseudo_stack()</a>, <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00327">mozilla_sampler_add_marker()</a>, と <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h_source.html#l00292">mozilla_sampler_call_enter()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8878cfd2c034dc09420bccfed9d67add"></a><!-- doxytag: member="GeckoProfilerImpl.h::tlsPseudoStack" ref="a8878cfd2c034dc09420bccfed9d67add" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d1/da5/classmozilla_1_1_thread_local.html">mozilla::ThreadLocal</a>&lt;<a class="el" href="../../dc/d16/struct_pseudo_stack.html">PseudoStack</a> *&gt; <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#a8878cfd2c034dc09420bccfed9d67add">tlsPseudoStack</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="abe5872dcf072991a78e75bad386d13e7"></a><!-- doxytag: member="GeckoProfilerImpl.h::tlsTicker" ref="abe5872dcf072991a78e75bad386d13e7" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d1/da5/classmozilla_1_1_thread_local.html">mozilla::ThreadLocal</a>&lt;TableTicker *&gt; <a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html#abe5872dcf072991a78e75bad386d13e7">tlsTicker</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d2/dd0/_gecko_profiler_impl_8h.html">GeckoProfilerImpl.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:58に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

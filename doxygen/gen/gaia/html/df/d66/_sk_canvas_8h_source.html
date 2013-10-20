@@ -1,0 +1,628 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: SkCanvas.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('df/d66/_sk_canvas_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">SkCanvas.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../df/d66/_sk_canvas_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00002"></a>00002 <span class="comment">/*</span>
+<a name="l00003"></a>00003 <span class="comment"> * Copyright 2006 The Android Open Source Project</span>
+<a name="l00004"></a>00004 <span class="comment"> *</span>
+<a name="l00005"></a>00005 <span class="comment"> * Use of this source code is governed by a BSD-style license that can be</span>
+<a name="l00006"></a>00006 <span class="comment"> * found in the LICENSE file.</span>
+<a name="l00007"></a>00007 <span class="comment"> */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="preprocessor">#ifndef SkCanvas_DEFINED</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span><span class="preprocessor">#define SkCanvas_DEFINED</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/d36/_sk_types_8h.html">SkTypes.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../de/dad/_sk_bitmap_8h.html">SkBitmap.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../dd/dd0/_sk_deque_8h.html">SkDeque.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../df/dc9/_sk_clip_stack_8h.html">SkClipStack.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/dac/_sk_paint_8h.html">SkPaint.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d2b/_sk_ref_cnt_8h.html">SkRefCnt.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d4/d49/_sk_path_8h.html">SkPath.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/dda/_sk_region_8h.html">SkRegion.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d1c/_sk_scalar_compare_8h.html">SkScalarCompare.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d5a/_sk_xfermode_8h.html">SkXfermode.h</a>&quot;</span>
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="keyword">class </span><a class="code" href="../../d1/d1f/class_sk_bounder.html">SkBounder</a>;
+<a name="l00025"></a>00025 <span class="keyword">class </span><a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>;
+<a name="l00026"></a>00026 <span class="keyword">class </span><a class="code" href="../../d3/de0/class_sk_draw.html">SkDraw</a>;
+<a name="l00027"></a>00027 <span class="keyword">class </span><a class="code" href="../../d7/d67/class_sk_draw_filter.html">SkDrawFilter</a>;
+<a name="l00028"></a>00028 <span class="keyword">class </span><a class="code" href="../../d7/d76/class_sk_meta_data.html">SkMetaData</a>;
+<a name="l00029"></a>00029 <span class="keyword">class </span><a class="code" href="../../d4/d01/class_sk_picture.html">SkPicture</a>;
+<a name="l00030"></a>00030 <span class="keyword">class </span>SkRRect;
+<a name="l00031"></a>00031 <span class="keyword">class </span>SkSurface_Base;
+<a name="l00032"></a>00032 
+<a name="l00048"></a><a class="code" href="../../de/d49/class_sk_canvas.html">00048</a> <span class="keyword">class </span><a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a> : <span class="keyword">public</span> <a class="code" href="../../da/dec/class_sk_ref_cnt.html">SkRefCnt</a> {
+<a name="l00049"></a>00049 <span class="keyword">public</span>:
+<a name="l00050"></a>00050     <a class="code" href="../../dd/dac/_sk_inst_cnt_8h.html#a95287114455fa59e7b245b2def40b0ef">SK_DECLARE_INST_COUNT</a>(<a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>)
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052     <a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>();
+<a name="l00053"></a>00053 
+<a name="l00058"></a>00058     <span class="keyword">explicit</span> <a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>(<a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>* device);
+<a name="l00059"></a>00059 
+<a name="l00064"></a>00064     <span class="keyword">explicit</span> <a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap);
+<a name="l00065"></a>00065     <span class="keyword">virtual</span> ~<a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>();
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067     <a class="code" href="../../d7/d76/class_sk_meta_data.html">SkMetaData</a>&amp; getMetaData();
+<a name="l00068"></a>00068 
+<a name="l00070"></a>00070 
+<a name="l00074"></a>00074     <span class="keywordtype">void</span> flush();
+<a name="l00075"></a>00075 
+<a name="l00081"></a>00081     <a class="code" href="../../de/dba/struct_sk_t_size.html">SkISize</a> getDeviceSize() <span class="keyword">const</span>;
+<a name="l00082"></a>00082 
+<a name="l00087"></a>00087     <a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>* getDevice() <span class="keyword">const</span>;
+<a name="l00088"></a>00088 
+<a name="l00102"></a>00102     <a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>* getTopDevice(<span class="keywordtype">bool</span> updateMatrixClip = <span class="keyword">false</span>) <span class="keyword">const</span>;
+<a name="l00103"></a>00103 
+<a name="l00108"></a>00108     <a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>* createCompatibleDevice(<a class="code" href="../../d3/d6e/class_sk_bitmap.html#a62602e28fc755def34d7e261bfd0b74a">SkBitmap::Config</a> <a class="code" href="../../d1/d0b/fb__init_8js.html#aeac120c9ce32d189166215752b0b1a76">config</a>,
+<a name="l00109"></a>00109                                     <span class="keywordtype">int</span> <a class="code" href="../../d4/d8c/viewphoto_8js.html#adb90f9ed3668a895cc5b90a19bcdee13">width</a>, <span class="keywordtype">int</span> <a class="code" href="../../d4/d8c/viewphoto_8js.html#a06f7a63ceb91351a4c31800c9a7af42f">height</a>,
+<a name="l00110"></a>00110                                     <span class="keywordtype">bool</span> isOpaque);
+<a name="l00111"></a>00111 
+<a name="l00113"></a>00113 
+<a name="l00126"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3d">00126</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3d">Config8888</a> {
+<a name="l00135"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3da88f4632c9c5d8570062155a8cfee8cf2">00135</a>         <a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3da88f4632c9c5d8570062155a8cfee8cf2">kNative_Premul_Config8888</a>,
+<a name="l00136"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3dafd759b35e6550aab323bcf354938a28a">00136</a>         <a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3dafd759b35e6550aab323bcf354938a28a">kNative_Unpremul_Config8888</a>,
+<a name="l00140"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3dab91de8ca963c523bacc1fd71b539728e">00140</a>         <a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3dab91de8ca963c523bacc1fd71b539728e">kBGRA_Premul_Config8888</a>,
+<a name="l00141"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3da72c4bee58e8a631af0d2919bb93b470d">00141</a>         <a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3da72c4bee58e8a631af0d2919bb93b470d">kBGRA_Unpremul_Config8888</a>,
+<a name="l00145"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3daaada06ff36135975fcdbc5734ba3948e">00145</a>         <a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3daaada06ff36135975fcdbc5734ba3948e">kRGBA_Premul_Config8888</a>,
+<a name="l00146"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ae6518bf4a81074a9addd21be590afc3dae23b98ea2639b55f9272eb36115c1cfb">00146</a>         kRGBA_Unpremul_Config8888
+<a name="l00147"></a>00147     };
+<a name="l00148"></a>00148 
+<a name="l00185"></a>00185     <span class="keywordtype">bool</span> readPixels(<a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>* bitmap,
+<a name="l00186"></a>00186                     <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y,
+<a name="l00187"></a>00187                     Config8888 config8888 = kNative_Premul_Config8888);
+<a name="l00188"></a>00188 
+<a name="l00195"></a>00195     <span class="keywordtype">bool</span> readPixels(<span class="keyword">const</span> <a class="code" href="../../d4/dd5/struct_sk_i_rect.html">SkIRect</a>&amp; srcRect, <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>* bitmap);
+<a name="l00196"></a>00196 
+<a name="l00212"></a>00212     <span class="keywordtype">void</span> writePixels(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap,
+<a name="l00213"></a>00213                      <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y,
+<a name="l00214"></a>00214                      Config8888 config8888 = kNative_Premul_Config8888);
+<a name="l00215"></a>00215 
+<a name="l00217"></a>00217 
+<a name="l00218"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2">00218</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2">SaveFlags</a> {
+<a name="l00220"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2ad35ad56a0a2ad93e3cc100124f8d44fa">00220</a>         kMatrix_SaveFlag            = 0x01,
+<a name="l00222"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2ab646ea68b0d6d158273a68bc6db9be22">00222</a>         kClip_SaveFlag              = 0x02,
+<a name="l00224"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2a055e0bc0d3838dceb88affc0130549a1">00224</a>         kHasAlphaLayer_SaveFlag     = 0x04,
+<a name="l00226"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2aaeb11c127086083a15997540cf926bfc">00226</a>         kFullColorLayer_SaveFlag    = 0x08,
+<a name="l00228"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2a54e3974c1fdddb63e6ba2e4f223d559b">00228</a>         kClipToLayer_SaveFlag       = 0x10,
+<a name="l00229"></a>00229 
+<a name="l00230"></a>00230         <span class="comment">// helper masks for common choices</span>
+<a name="l00231"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2a3277ce701c097209f01a40327213664a">00231</a>         kMatrixClip_SaveFlag        = 0x03,
+<a name="l00232"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2a8dabc4096967ac1a38e702f8ef875eba">00232</a>         kARGB_NoClipLayer_SaveFlag  = 0x0F,
+<a name="l00233"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2abd7f1274a19813f76b3530429ed36bd5">00233</a>         kARGB_ClipLayer_SaveFlag    = 0x1F
+<a name="l00234"></a>00234     };
+<a name="l00235"></a>00235 
+<a name="l00244"></a>00244     <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="../../db/d3b/vcard__parser_8js.html#a718354ac603e0a010374cb7b41badb94">save</a>(SaveFlags <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a> = kMatrixClip_SaveFlag);
+<a name="l00245"></a>00245 
+<a name="l00259"></a>00259     <span class="keyword">virtual</span> <span class="keywordtype">int</span> saveLayer(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>* bounds, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint,
+<a name="l00260"></a>00260                           SaveFlags <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a> = kARGB_ClipLayer_SaveFlag);
+<a name="l00261"></a>00261 
+<a name="l00274"></a>00274     <span class="keywordtype">int</span> saveLayerAlpha(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>* bounds, <a class="code" href="../../d3/d36/_sk_types_8h.html#a6882636f582abdb2a130b7e5ff38aa83">U8CPU</a> alpha,
+<a name="l00275"></a>00275                        SaveFlags <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a> = kARGB_ClipLayer_SaveFlag);
+<a name="l00276"></a>00276 
+<a name="l00282"></a>00282     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d2/dc5/homescreen__launcher__test_8js.html#a19c66abfee1b46609f11c5320d6b0843">restore</a>();
+<a name="l00283"></a>00283 
+<a name="l00287"></a>00287     <span class="keywordtype">int</span> getSaveCount() <span class="keyword">const</span>;
+<a name="l00288"></a>00288 
+<a name="l00294"></a>00294     <span class="keywordtype">void</span> restoreToCount(<span class="keywordtype">int</span> saveCount);
+<a name="l00295"></a>00295 
+<a name="l00299"></a>00299     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> isDrawingToLayer() <span class="keyword">const</span>;
+<a name="l00300"></a>00300 
+<a name="l00306"></a>00306     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d3/d91/j3d_8js.html#aa896eca296d874b4719e6210a120ebe5">translate</a>(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dx, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> dy);
+<a name="l00307"></a>00307 
+<a name="l00313"></a>00313     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d3/d91/j3d_8js.html#a72467d06af86da2230d0bd24ace66356">scale</a>(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> sx, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> sy);
+<a name="l00314"></a>00314 
+<a name="l00319"></a>00319     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d3/d91/j3d_8js.html#a5041bc85ea6f28e6bcfea5bb0a4facad">rotate</a>(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> degrees);
+<a name="l00320"></a>00320 
+<a name="l00326"></a>00326     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> skew(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> sx, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> sy);
+<a name="l00327"></a>00327 
+<a name="l00332"></a>00332     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> concat(<span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>&amp; matrix);
+<a name="l00333"></a>00333 
+<a name="l00337"></a>00337     <span class="keyword">virtual</span> <span class="keywordtype">void</span> setMatrix(<span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>&amp; matrix);
+<a name="l00338"></a>00338 
+<a name="l00341"></a>00341     <span class="keywordtype">void</span> resetMatrix();
+<a name="l00342"></a>00342 
+<a name="l00350"></a>00350     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> clipRect(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; rect,
+<a name="l00351"></a>00351                           <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54">SkRegion::Op</a> op = <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54aa00c0597c1fbf86c99b98c6e52a0fda6" title="intersect the two regions">SkRegion::kIntersect_Op</a>,
+<a name="l00352"></a>00352                           <span class="keywordtype">bool</span> doAntiAlias = <span class="keyword">false</span>);
+<a name="l00353"></a>00353 
+<a name="l00361"></a>00361     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> clipRRect(<span class="keyword">const</span> SkRRect&amp; rrect,
+<a name="l00362"></a>00362                            <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54">SkRegion::Op</a> op = <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54aa00c0597c1fbf86c99b98c6e52a0fda6" title="intersect the two regions">SkRegion::kIntersect_Op</a>,
+<a name="l00363"></a>00363                            <span class="keywordtype">bool</span> doAntiAlias = <span class="keyword">false</span>);
+<a name="l00364"></a>00364 
+<a name="l00372"></a>00372     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> clipPath(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a>,
+<a name="l00373"></a>00373                           <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54">SkRegion::Op</a> op = <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54aa00c0597c1fbf86c99b98c6e52a0fda6" title="intersect the two regions">SkRegion::kIntersect_Op</a>,
+<a name="l00374"></a>00374                           <span class="keywordtype">bool</span> doAntiAlias = <span class="keyword">false</span>);
+<a name="l00375"></a>00375 
+<a name="l00380"></a><a class="code" href="../../de/d49/class_sk_canvas.html#af4f97bf3ae50f66f653d68e71b67fd9f">00380</a>     <span class="keywordtype">void</span> <a class="code" href="../../de/d49/class_sk_canvas.html#af4f97bf3ae50f66f653d68e71b67fd9f">setAllowSoftClip</a>(<span class="keywordtype">bool</span> allow) {
+<a name="l00381"></a>00381         fAllowSoftClip = allow;
+<a name="l00382"></a>00382     }
+<a name="l00383"></a>00383 
+<a name="l00392"></a>00392     <span class="keyword">virtual</span> <span class="keywordtype">bool</span> clipRegion(<span class="keyword">const</span> <a class="code" href="../../d1/d64/class_sk_region.html">SkRegion</a>&amp; deviceRgn,
+<a name="l00393"></a>00393                             <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54">SkRegion::Op</a> op = <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54aa00c0597c1fbf86c99b98c6e52a0fda6" title="intersect the two regions">SkRegion::kIntersect_Op</a>);
+<a name="l00394"></a>00394 
+<a name="l00401"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a203027a80c7da9db2f6311448bab45ae">00401</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/d49/class_sk_canvas.html#a203027a80c7da9db2f6311448bab45ae">setClipRegion</a>(<span class="keyword">const</span> <a class="code" href="../../d1/d64/class_sk_region.html">SkRegion</a>&amp; deviceRgn) {
+<a name="l00402"></a>00402         <span class="keywordflow">return</span> this-&gt;clipRegion(deviceRgn, <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54a9de12d8ccfa287794729769e00ef8c50" title="replace the dst region with the op region">SkRegion::kReplace_Op</a>);
+<a name="l00403"></a>00403     }
+<a name="l00404"></a>00404 
+<a name="l00413"></a>00413     <span class="keywordtype">bool</span> quickReject(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; rect) <span class="keyword">const</span>;
+<a name="l00414"></a>00414 
+<a name="l00425"></a>00425     <span class="keywordtype">bool</span> quickReject(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a>) <span class="keyword">const</span>;
+<a name="l00426"></a>00426 
+<a name="l00437"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a5cd8c47ee038a1d9599539345b06a2b6">00437</a>     <span class="keywordtype">bool</span> <a class="code" href="../../de/d49/class_sk_canvas.html#a5cd8c47ee038a1d9599539345b06a2b6">quickRejectY</a>(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2d367ff48e26f53b84f9b2fe7d6065d6">top</a>, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a1386b7cb1f9c56a6b37af9a4a37c5209">bottom</a>)<span class="keyword"> const </span>{
+<a name="l00438"></a>00438         <a class="code" href="../../d3/d36/_sk_types_8h.html#acc82ca88a67ae7ce95a107a9a4b81123">SkASSERT</a>(<a class="code" href="../../d0/d1c/_sk_scalar_compare_8h.html#af14edb1531f18f901f06ba021a2f0dcc">SkScalarToCompareType</a>(top) &lt;= <a class="code" href="../../d0/d1c/_sk_scalar_compare_8h.html#af14edb1531f18f901f06ba021a2f0dcc">SkScalarToCompareType</a>(bottom));
+<a name="l00439"></a>00439         <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRectCompareType</a>&amp; clipR = this-&gt;getLocalClipBoundsCompareType();
+<a name="l00440"></a>00440         <span class="comment">// In the case where the clip is empty and we are provided with a</span>
+<a name="l00441"></a>00441         <span class="comment">// negative top and positive bottom parameter then this test will return</span>
+<a name="l00442"></a>00442         <span class="comment">// false even though it will be clipped. We have chosen to exclude that</span>
+<a name="l00443"></a>00443         <span class="comment">// check as it is rare and would result double the comparisons.</span>
+<a name="l00444"></a>00444         <span class="keywordflow">return</span> <a class="code" href="../../d0/d1c/_sk_scalar_compare_8h.html#af14edb1531f18f901f06ba021a2f0dcc">SkScalarToCompareType</a>(top) &gt;= clipR.<a class="code" href="../../df/dfb/struct_sk_rect.html#a1ab76ea1693ef29c10ddb9ec061af275">fBottom</a>
+<a name="l00445"></a>00445             || <a class="code" href="../../d0/d1c/_sk_scalar_compare_8h.html#af14edb1531f18f901f06ba021a2f0dcc">SkScalarToCompareType</a>(bottom) &lt;= clipR.<a class="code" href="../../df/dfb/struct_sk_rect.html#af507e0e85766e2d3717c4d1ba269e0c2">fTop</a>;
+<a name="l00446"></a>00446     }
+<a name="l00447"></a>00447 
+<a name="l00453"></a>00453     <span class="keywordtype">bool</span> getClipBounds(<a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>* bounds) <span class="keyword">const</span>;
+<a name="l00454"></a>00454 
+<a name="l00459"></a>00459     <span class="keywordtype">bool</span> getClipDeviceBounds(<a class="code" href="../../d4/dd5/struct_sk_i_rect.html">SkIRect</a>* bounds) <span class="keyword">const</span>;
+<a name="l00460"></a>00460 
+<a name="l00461"></a>00461 
+<a name="l00470"></a>00470     <span class="keywordtype">void</span> drawARGB(<a class="code" href="../../d3/d36/_sk_types_8h.html#a6882636f582abdb2a130b7e5ff38aa83">U8CPU</a> <a class="code" href="../../d5/de7/jquery_8js.html#aa4d4888597588a84fd5b1184d00c91f3">a</a>, <a class="code" href="../../d3/d36/_sk_types_8h.html#a6882636f582abdb2a130b7e5ff38aa83">U8CPU</a> r, <a class="code" href="../../d3/d36/_sk_types_8h.html#a6882636f582abdb2a130b7e5ff38aa83">U8CPU</a> <a class="code" href="../../d8/dad/apps_2email_2js_2ext_2mailapi_2chewlayer_8js.html#a73c18c59a39b18382081ec00bb456d43">g</a>, <a class="code" href="../../d3/d36/_sk_types_8h.html#a6882636f582abdb2a130b7e5ff38aa83">U8CPU</a> <a class="code" href="../../da/ded/jpegint_8h.html#af320905358fa78701e4cc60b6135601f">b</a>,
+<a name="l00471"></a>00471                   <a class="code" href="../../db/d7c/class_sk_xfermode.html#a73b1831c1491b0a841a20ecf445fff40">SkXfermode::Mode</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#a5e94be9423b9de6b3ab4057aca59293f">mode</a> = <a class="code" href="../../db/d7c/class_sk_xfermode.html#a73b1831c1491b0a841a20ecf445fff40ad9ce55f93750f582bd1e2dbd1b4bc682" title="[Sa + Da - Sa*Da, Rc = Sc + (1 - Sa)*Dc]">SkXfermode::kSrcOver_Mode</a>);
+<a name="l00472"></a>00472 
+<a name="l00478"></a>00478     <span class="keywordtype">void</span> drawColor(<a class="code" href="../../d8/de1/_sk_color_8h.html#a84c81e6a24ff07a55333acf5603046a8">SkColor</a> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#aacb3a46fbd7c29fc555a0260d22f938c">color</a>,
+<a name="l00479"></a>00479                    <a class="code" href="../../db/d7c/class_sk_xfermode.html#a73b1831c1491b0a841a20ecf445fff40">SkXfermode::Mode</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#a5e94be9423b9de6b3ab4057aca59293f">mode</a> = <a class="code" href="../../db/d7c/class_sk_xfermode.html#a73b1831c1491b0a841a20ecf445fff40ad9ce55f93750f582bd1e2dbd1b4bc682" title="[Sa + Da - Sa*Da, Rc = Sc + (1 - Sa)*Dc]">SkXfermode::kSrcOver_Mode</a>);
+<a name="l00480"></a>00480 
+<a name="l00495"></a>00495     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d6/d40/build__stage_2email_2shared_2js_2media_2media__frame_8js.html#a1ac2b96f3c890c1170f3be034398a81d">clear</a>(<a class="code" href="../../d8/de1/_sk_color_8h.html#a84c81e6a24ff07a55333acf5603046a8">SkColor</a>);
+<a name="l00496"></a>00496 
+<a name="l00502"></a>00502     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawPaint(<span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00503"></a>00503 
+<a name="l00504"></a><a class="code" href="../../de/d49/class_sk_canvas.html#af1bcd412326a6886e0f260d4d2dc757b">00504</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d49/class_sk_canvas.html#af1bcd412326a6886e0f260d4d2dc757b">PointMode</a> {
+<a name="l00506"></a><a class="code" href="../../de/d49/class_sk_canvas.html#af1bcd412326a6886e0f260d4d2dc757baf596e2b9e5758fc2e5bc8dbdbc191e01">00506</a>         <a class="code" href="../../de/d49/class_sk_canvas.html#af1bcd412326a6886e0f260d4d2dc757baf596e2b9e5758fc2e5bc8dbdbc191e01">kPoints_PointMode</a>,
+<a name="l00508"></a><a class="code" href="../../de/d49/class_sk_canvas.html#af1bcd412326a6886e0f260d4d2dc757ba31b9758602c729b8e0fc9b7fac2ac0df">00508</a>         <a class="code" href="../../de/d49/class_sk_canvas.html#af1bcd412326a6886e0f260d4d2dc757ba31b9758602c729b8e0fc9b7fac2ac0df">kLines_PointMode</a>,
+<a name="l00510"></a><a class="code" href="../../de/d49/class_sk_canvas.html#af1bcd412326a6886e0f260d4d2dc757baa1fb56deddeccfc67fca4a7859d24480">00510</a>         kPolygon_PointMode
+<a name="l00511"></a>00511     };
+<a name="l00512"></a>00512 
+<a name="l00534"></a>00534     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawPoints(PointMode <a class="code" href="../../d2/d7d/jsapi_8h.html#a5e94be9423b9de6b3ab4057aca59293f">mode</a>, <span class="keywordtype">size_t</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>, <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> pts[],
+<a name="l00535"></a>00535                             <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00536"></a>00536 
+<a name="l00540"></a>00540     <span class="keywordtype">void</span> drawPoint(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00541"></a>00541 
+<a name="l00547"></a>00547     <span class="keywordtype">void</span> drawPoint(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y, <a class="code" href="../../d8/de1/_sk_color_8h.html#a84c81e6a24ff07a55333acf5603046a8">SkColor</a> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#aacb3a46fbd7c29fc555a0260d22f938c">color</a>);
+<a name="l00548"></a>00548 
+<a name="l00558"></a>00558     <span class="keywordtype">void</span> drawLine(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x0, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y0, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x1, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y1,
+<a name="l00559"></a>00559                   <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00560"></a>00560 
+<a name="l00566"></a>00566     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawRect(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; rect, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00567"></a>00567 
+<a name="l00573"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a9646a00be01648cb4b6206a84581e8fb">00573</a>     <span class="keywordtype">void</span> drawIRect(<span class="keyword">const</span> <a class="code" href="../../d4/dd5/struct_sk_i_rect.html">SkIRect</a>&amp; rect, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint)
+<a name="l00574"></a>00574     {
+<a name="l00575"></a>00575         <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a> r;
+<a name="l00576"></a>00576         r.<a class="code" href="../../df/dfb/struct_sk_rect.html#af0274cc20b107b6deecb1959e1a0cd88">set</a>(rect);    <span class="comment">// promotes the ints to scalars</span>
+<a name="l00577"></a>00577         this-&gt;drawRect(r, paint);
+<a name="l00578"></a>00578     }
+<a name="l00579"></a>00579 
+<a name="l00588"></a>00588     <span class="keywordtype">void</span> drawRectCoords(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d3/d91/j3d_8js.html#a47b6aed05bc344861b52fe3ffb7a1edd">left</a>, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2d367ff48e26f53b84f9b2fe7d6065d6">top</a>, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#a06a61119547d88fbcdf5e877c6c9057e">right</a>,
+<a name="l00589"></a>00589                         <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a1386b7cb1f9c56a6b37af9a4a37c5209">bottom</a>, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00590"></a>00590 
+<a name="l00596"></a>00596     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawOval(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; oval, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp;);
+<a name="l00597"></a>00597 
+<a name="l00605"></a>00605     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawRRect(<span class="keyword">const</span> SkRRect&amp; rrect, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00606"></a>00606 
+<a name="l00615"></a>00615     <span class="keywordtype">void</span> drawCircle(<a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> cy, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> radius,
+<a name="l00616"></a>00616                     <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00617"></a>00617 
+<a name="l00629"></a>00629     <span class="keywordtype">void</span> drawArc(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; oval, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> startAngle, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> sweepAngle,
+<a name="l00630"></a>00630                  <span class="keywordtype">bool</span> useCenter, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00631"></a>00631 
+<a name="l00639"></a>00639     <span class="keywordtype">void</span> drawRoundRect(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; rect, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> rx, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> ry,
+<a name="l00640"></a>00640                        <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00641"></a>00641 
+<a name="l00647"></a>00647     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawPath(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a>, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00648"></a>00648 
+<a name="l00660"></a>00660     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawBitmap(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d3/d91/j3d_8js.html#a47b6aed05bc344861b52fe3ffb7a1edd">left</a>, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2d367ff48e26f53b84f9b2fe7d6065d6">top</a>,
+<a name="l00661"></a>00661                             <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint = <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>);
+<a name="l00662"></a>00662 
+<a name="l00671"></a>00671     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawBitmapRectToRect(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap, <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>* src,
+<a name="l00672"></a>00672                                       <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; dst,
+<a name="l00673"></a>00673                                       <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint);
+<a name="l00674"></a>00674 
+<a name="l00675"></a><a class="code" href="../../de/d49/class_sk_canvas.html#af91fe57375944ef2a18dadeeb1c06a59">00675</a>     <span class="keywordtype">void</span> drawBitmapRect(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap, <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; dst,
+<a name="l00676"></a>00676                         <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint) {
+<a name="l00677"></a>00677         this-&gt;drawBitmapRectToRect(bitmap, <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>, dst, paint);
+<a name="l00678"></a>00678     }
+<a name="l00679"></a>00679 
+<a name="l00680"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a20be0f34a3d0f8f4ad3a11501ddcd3c1">00680</a>     <span class="keywordtype">void</span> drawBitmapRect(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap, <span class="keyword">const</span> <a class="code" href="../../d4/dd5/struct_sk_i_rect.html">SkIRect</a>* isrc,
+<a name="l00681"></a>00681                         <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; dst, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint = <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) {
+<a name="l00682"></a>00682         <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a> realSrcStorage;
+<a name="l00683"></a>00683         <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>* realSrcPtr = <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>;
+<a name="l00684"></a>00684         <span class="keywordflow">if</span> (isrc) {
+<a name="l00685"></a>00685             realSrcStorage.<a class="code" href="../../df/dfb/struct_sk_rect.html#af0274cc20b107b6deecb1959e1a0cd88">set</a>(*isrc);
+<a name="l00686"></a>00686             realSrcPtr = &amp;realSrcStorage;
+<a name="l00687"></a>00687         }
+<a name="l00688"></a>00688         this-&gt;drawBitmapRectToRect(bitmap, realSrcPtr, dst, paint);
+<a name="l00689"></a>00689     }
+<a name="l00690"></a>00690 
+<a name="l00691"></a>00691     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawBitmapMatrix(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap, <span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>&amp; m,
+<a name="l00692"></a>00692                                   <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint = <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>);
+<a name="l00693"></a>00693 
+<a name="l00708"></a>00708     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawBitmapNine(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap, <span class="keyword">const</span> <a class="code" href="../../d4/dd5/struct_sk_i_rect.html">SkIRect</a>&amp; center,
+<a name="l00709"></a>00709                                 <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; dst, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint = <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>);
+<a name="l00710"></a>00710 
+<a name="l00722"></a>00722     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawSprite(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap, <span class="keywordtype">int</span> <a class="code" href="../../d3/d91/j3d_8js.html#a47b6aed05bc344861b52fe3ffb7a1edd">left</a>, <span class="keywordtype">int</span> <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a2d367ff48e26f53b84f9b2fe7d6065d6">top</a>,
+<a name="l00723"></a>00723                             <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint = <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>);
+<a name="l00724"></a>00724 
+<a name="l00733"></a>00733     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawText(<span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../dd/dfa/classtext.html">text</a>, <span class="keywordtype">size_t</span> byteLength, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x,
+<a name="l00734"></a>00734                           <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00735"></a>00735 
+<a name="l00743"></a>00743     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawPosText(<span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../dd/dfa/classtext.html">text</a>, <span class="keywordtype">size_t</span> byteLength,
+<a name="l00744"></a>00744                              <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> pos[], <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00745"></a>00745 
+<a name="l00755"></a>00755     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawPosTextH(<span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../dd/dfa/classtext.html">text</a>, <span class="keywordtype">size_t</span> byteLength,
+<a name="l00756"></a>00756                               <span class="keyword">const</span> <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> xpos[], <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> constY,
+<a name="l00757"></a>00757                               <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00758"></a>00758 
+<a name="l00771"></a>00771     <span class="keywordtype">void</span> drawTextOnPathHV(<span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../dd/dfa/classtext.html">text</a>, <span class="keywordtype">size_t</span> byteLength,
+<a name="l00772"></a>00772                           <span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a>, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> hOffset,
+<a name="l00773"></a>00773                           <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> vOffset, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00774"></a>00774 
+<a name="l00785"></a>00785     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawTextOnPath(<span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../dd/dfa/classtext.html">text</a>, <span class="keywordtype">size_t</span> byteLength,
+<a name="l00786"></a>00786                                 <span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a>, <span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>* matrix,
+<a name="l00787"></a>00787                                 <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00788"></a>00788 
+<a name="l00789"></a>00789 <span class="preprocessor">#ifdef SK_BUILD_FOR_ANDROID</span>
+<a name="l00790"></a>00790 <span class="preprocessor"></span>
+<a name="l00799"></a>00799     <span class="keywordtype">void</span> drawPosTextOnPath(<span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../dd/dfa/classtext.html">text</a>, <span class="keywordtype">size_t</span> byteLength,
+<a name="l00800"></a>00800                            <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> pos[], <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint,
+<a name="l00801"></a>00801                            <span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp; <a class="code" href="../../db/d6d/mkdirp_8js.html#aa72e0c8a20e6bcc571d3a1c51846e627">path</a>, <span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>* matrix);
+<a name="l00802"></a>00802 <span class="preprocessor">#endif</span>
+<a name="l00803"></a>00803 <span class="preprocessor"></span>
+<a name="l00810"></a>00810     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawPicture(<a class="code" href="../../d4/d01/class_sk_picture.html">SkPicture</a>&amp; picture);
+<a name="l00811"></a>00811 
+<a name="l00812"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a9ec1e6851be5e6aaa7cab9797822ed58">00812</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d49/class_sk_canvas.html#a9ec1e6851be5e6aaa7cab9797822ed58">VertexMode</a> {
+<a name="l00813"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a9ec1e6851be5e6aaa7cab9797822ed58a4faee3534ecbc29aae2366af58f169a7">00813</a>         <a class="code" href="../../de/d49/class_sk_canvas.html#a9ec1e6851be5e6aaa7cab9797822ed58a4faee3534ecbc29aae2366af58f169a7">kTriangles_VertexMode</a>,
+<a name="l00814"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a9ec1e6851be5e6aaa7cab9797822ed58ad4a63070832b8c5dc144c9e932c960b9">00814</a>         <a class="code" href="../../de/d49/class_sk_canvas.html#a9ec1e6851be5e6aaa7cab9797822ed58ad4a63070832b8c5dc144c9e932c960b9">kTriangleStrip_VertexMode</a>,
+<a name="l00815"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a9ec1e6851be5e6aaa7cab9797822ed58a6b60b350ec992b73b4ab3dfe3a5e7636">00815</a>         kTriangleFan_VertexMode
+<a name="l00816"></a>00816     };
+<a name="l00817"></a>00817 
+<a name="l00836"></a>00836     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawVertices(VertexMode vmode, <span class="keywordtype">int</span> vertexCount,
+<a name="l00837"></a>00837                               <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> vertices[], <span class="keyword">const</span> <a class="code" href="../../d3/d20/struct_sk_point.html">SkPoint</a> texs[],
+<a name="l00838"></a>00838                               <span class="keyword">const</span> <a class="code" href="../../d8/de1/_sk_color_8h.html#a84c81e6a24ff07a55333acf5603046a8">SkColor</a> <a class="code" href="../../d4/d00/tools_2xpcwindow_2lib_2modules_2debug_8js.html#a205bb968a83c85324e6b50fecdb4b630">colors</a>[], <a class="code" href="../../db/d7c/class_sk_xfermode.html">SkXfermode</a>* xmode,
+<a name="l00839"></a>00839                               <span class="keyword">const</span> uint16_t indices[], <span class="keywordtype">int</span> indexCount,
+<a name="l00840"></a>00840                               <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00841"></a>00841 
+<a name="l00848"></a>00848     <span class="keyword">virtual</span> <span class="keywordtype">void</span> drawData(<span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>, <span class="keywordtype">size_t</span> <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>);
+<a name="l00849"></a>00849 
+<a name="l00851"></a>00851 
+<a name="l00856"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a16a8291155c07db7b034d566a45454ee">00856</a>     <a class="code" href="../../d1/d1f/class_sk_bounder.html">SkBounder</a>*  <a class="code" href="../../de/d49/class_sk_canvas.html#a16a8291155c07db7b034d566a45454ee">getBounder</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> fBounder; }
+<a name="l00857"></a>00857 
+<a name="l00866"></a>00866     <span class="keyword">virtual</span> <a class="code" href="../../d1/d1f/class_sk_bounder.html">SkBounder</a>* setBounder(<a class="code" href="../../d1/d1f/class_sk_bounder.html">SkBounder</a>* bounder);
+<a name="l00867"></a>00867 
+<a name="l00872"></a>00872     <a class="code" href="../../d7/d67/class_sk_draw_filter.html">SkDrawFilter</a>* getDrawFilter() <span class="keyword">const</span>;
+<a name="l00873"></a>00873 
+<a name="l00882"></a>00882     <span class="keyword">virtual</span> <a class="code" href="../../d7/d67/class_sk_draw_filter.html">SkDrawFilter</a>* setDrawFilter(<a class="code" href="../../d7/d67/class_sk_draw_filter.html">SkDrawFilter</a>* <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#ab628e67f85699825109c59795f6ece42">filter</a>);
+<a name="l00883"></a>00883 
+<a name="l00885"></a>00885 
+<a name="l00890"></a>00890     <span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>&amp; getTotalMatrix() <span class="keyword">const</span>;
+<a name="l00891"></a>00891 
+<a name="l00892"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ac716385fae21915d7919ea3ddcd77a93">00892</a>     <span class="keyword">enum</span> <a class="code" href="../../de/d49/class_sk_canvas.html#ac716385fae21915d7919ea3ddcd77a93">ClipType</a> {
+<a name="l00893"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ac716385fae21915d7919ea3ddcd77a93a61d43fce7f0425217ebc0c5fba4d19be">00893</a>         kEmpty_ClipType = 0,
+<a name="l00894"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ac716385fae21915d7919ea3ddcd77a93a8dac54e7f2c397dacd633b6029100b37">00894</a>         <a class="code" href="../../de/d49/class_sk_canvas.html#ac716385fae21915d7919ea3ddcd77a93a8dac54e7f2c397dacd633b6029100b37">kRect_ClipType</a>,
+<a name="l00895"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ac716385fae21915d7919ea3ddcd77a93a61cfc44e5ad498d9863cf8a0015ea2b5">00895</a>         kComplex_ClipType
+<a name="l00896"></a>00896     };
+<a name="l00897"></a>00897 
+<a name="l00901"></a>00901     ClipType getClipType() <span class="keyword">const</span>;
+<a name="l00902"></a>00902 
+<a name="l00909"></a>00909     <span class="keyword">const</span> <a class="code" href="../../d1/d64/class_sk_region.html">SkRegion</a>&amp; getTotalClip() <span class="keyword">const</span>;
+<a name="l00910"></a>00910 
+<a name="l00916"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a180635d0e7a5da4974140c6efcf66b72">00916</a>     <span class="keyword">const</span> <a class="code" href="../../d1/da5/class_sk_clip_stack.html">SkClipStack</a>* <a class="code" href="../../de/d49/class_sk_canvas.html#a180635d0e7a5da4974140c6efcf66b72">getClipStack</a>()<span class="keyword"> const </span>{
+<a name="l00917"></a>00917         <span class="keywordflow">return</span> &amp;fClipStack;
+<a name="l00918"></a>00918     }
+<a name="l00919"></a>00919 
+<a name="l00920"></a><a class="code" href="../../d0/d45/class_sk_canvas_1_1_clip_visitor.html">00920</a>     <span class="keyword">class </span><a class="code" href="../../d0/d45/class_sk_canvas_1_1_clip_visitor.html">ClipVisitor</a> {
+<a name="l00921"></a>00921     <span class="keyword">public</span>:
+<a name="l00922"></a>00922         <span class="keyword">virtual</span> ~<a class="code" href="../../d0/d45/class_sk_canvas_1_1_clip_visitor.html">ClipVisitor</a>();
+<a name="l00923"></a>00923         <span class="keyword">virtual</span> <span class="keywordtype">void</span> clipRect(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp;, <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54">SkRegion::Op</a>, <span class="keywordtype">bool</span> antialias) = 0;
+<a name="l00924"></a>00924         <span class="keyword">virtual</span> <span class="keywordtype">void</span> clipPath(<span class="keyword">const</span> <a class="code" href="../../de/d98/class_sk_path.html">SkPath</a>&amp;, <a class="code" href="../../d1/d64/class_sk_region.html#a2ced93c36095d876b020e20cf39f5b54">SkRegion::Op</a>, <span class="keywordtype">bool</span> antialias) = 0;
+<a name="l00925"></a>00925     };
+<a name="l00926"></a>00926 
+<a name="l00932"></a>00932     <span class="keywordtype">void</span> replayClips(<a class="code" href="../../d0/d45/class_sk_canvas_1_1_clip_visitor.html">ClipVisitor</a>*) <span class="keyword">const</span>;
+<a name="l00933"></a>00933 
+<a name="l00935"></a>00935 
+<a name="l00942"></a><a class="code" href="../../de/db4/class_sk_canvas_1_1_layer_iter.html">00942</a>     <span class="keyword">class </span><a class="code" href="../../da/dc5/_sk_pre_config_8h.html#a936e7881c7281ebf96732bf9df41a501">SK_API</a> <a class="code" href="../../de/db4/class_sk_canvas_1_1_layer_iter.html">LayerIter</a> <span class="comment">/*: SkNoncopyable*/</span> {
+<a name="l00943"></a>00943     <span class="keyword">public</span>:
+<a name="l00945"></a>00945         <a class="code" href="../../de/db4/class_sk_canvas_1_1_layer_iter.html">LayerIter</a>(<a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>*, <span class="keywordtype">bool</span> skipEmptyClips);
+<a name="l00946"></a>00946         ~<a class="code" href="../../de/db4/class_sk_canvas_1_1_layer_iter.html">LayerIter</a>();
+<a name="l00947"></a>00947 
+<a name="l00949"></a><a class="code" href="../../de/db4/class_sk_canvas_1_1_layer_iter.html#a92092d2fa3b847538209670c3ec844eb">00949</a>         <span class="keywordtype">bool</span> <a class="code" href="../../de/db4/class_sk_canvas_1_1_layer_iter.html#a92092d2fa3b847538209670c3ec844eb">done</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> fDone; }
+<a name="l00951"></a>00951         <span class="keywordtype">void</span> next();
+<a name="l00952"></a>00952 
+<a name="l00953"></a>00953         <span class="comment">// These reflect the current device in the iterator</span>
+<a name="l00954"></a>00954 
+<a name="l00955"></a>00955         <a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>*       device() <span class="keyword">const</span>;
+<a name="l00956"></a>00956         <span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>&amp; matrix() <span class="keyword">const</span>;
+<a name="l00957"></a>00957         <span class="keyword">const</span> <a class="code" href="../../d1/d64/class_sk_region.html">SkRegion</a>&amp; clip() <span class="keyword">const</span>;
+<a name="l00958"></a>00958         <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp;  paint() <span class="keyword">const</span>;
+<a name="l00959"></a>00959         <span class="keywordtype">int</span>             x() <span class="keyword">const</span>;
+<a name="l00960"></a>00960         <span class="keywordtype">int</span>             y() <span class="keyword">const</span>;
+<a name="l00961"></a>00961 
+<a name="l00962"></a>00962     <span class="keyword">private</span>:
+<a name="l00963"></a>00963         <span class="comment">// used to embed the SkDrawIter object directly in our instance, w/o</span>
+<a name="l00964"></a>00964         <span class="comment">// having to expose that class def to the public. There is an assert</span>
+<a name="l00965"></a>00965         <span class="comment">// in our constructor to ensure that fStorage is large enough</span>
+<a name="l00966"></a>00966         <span class="comment">// (though needs to be a compile-time-assert!). We use intptr_t to work</span>
+<a name="l00967"></a>00967         <span class="comment">// safely with 32 and 64 bit machines (to ensure the storage is enough)</span>
+<a name="l00968"></a>00968         intptr_t          fStorage[32];
+<a name="l00969"></a>00969         <span class="keyword">class </span>SkDrawIter* fImpl;    <span class="comment">// this points at fStorage</span>
+<a name="l00970"></a>00970         <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>           fDefaultPaint;
+<a name="l00971"></a>00971         <span class="keywordtype">bool</span>              fDone;
+<a name="l00972"></a>00972     };
+<a name="l00973"></a>00973 
+<a name="l00974"></a>00974 <span class="keyword">protected</span>:
+<a name="l00975"></a>00975     <span class="comment">// Returns the canvas to be used by DrawIter. Default implementation</span>
+<a name="l00976"></a>00976     <span class="comment">// returns this. Subclasses that encapsulate an indirect canvas may</span>
+<a name="l00977"></a>00977     <span class="comment">// need to overload this method. The impl must keep track of this, as it</span>
+<a name="l00978"></a>00978     <span class="comment">// is not released or deleted by the caller.</span>
+<a name="l00979"></a>00979     <span class="keyword">virtual</span> <a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>* canvasForDrawIter();
+<a name="l00980"></a>00980 
+<a name="l00981"></a>00981     <span class="comment">// all of the drawBitmap variants call this guy</span>
+<a name="l00982"></a>00982     <span class="keywordtype">void</span> commonDrawBitmap(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp;, <span class="keyword">const</span> <a class="code" href="../../d4/dd5/struct_sk_i_rect.html">SkIRect</a>*, <span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>&amp;,
+<a name="l00983"></a>00983                           <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l00984"></a>00984 
+<a name="l00985"></a>00985     <span class="comment">// Clip rectangle bounds. Called internally by saveLayer.</span>
+<a name="l00986"></a>00986     <span class="comment">// returns false if the entire rectangle is entirely clipped out</span>
+<a name="l00987"></a>00987     <span class="keywordtype">bool</span> clipRectBounds(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>* bounds, SaveFlags <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>,
+<a name="l00988"></a>00988                         <a class="code" href="../../d4/dd5/struct_sk_i_rect.html">SkIRect</a>* intersection);
+<a name="l00989"></a>00989 
+<a name="l00990"></a>00990     <span class="comment">// notify our surface (if we have one) that we are about to draw, so it</span>
+<a name="l00991"></a>00991     <span class="comment">// can perform copy-on-write or invalidate any cached images</span>
+<a name="l00992"></a>00992     <span class="keywordtype">void</span> predrawNotify();
+<a name="l00993"></a>00993 
+<a name="l01003"></a>01003     <span class="keyword">virtual</span> <a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>* setDevice(<a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>* device);
+<a name="l01004"></a>01004 
+<a name="l01005"></a>01005 <span class="keyword">private</span>:
+<a name="l01006"></a>01006     <span class="keyword">class </span>MCRec;
+<a name="l01007"></a>01007 
+<a name="l01008"></a>01008     <a class="code" href="../../d1/da5/class_sk_clip_stack.html">SkClipStack</a> fClipStack;
+<a name="l01009"></a>01009     <a class="code" href="../../d4/d43/class_sk_deque.html">SkDeque</a>     fMCStack;
+<a name="l01010"></a>01010     <span class="comment">// points to top of stack</span>
+<a name="l01011"></a>01011     MCRec*      fMCRec;
+<a name="l01012"></a>01012     <span class="comment">// the first N recs that can fit here mean we won&#39;t call malloc</span>
+<a name="l01013"></a>01013     uint32_t    fMCRecStorage[32];
+<a name="l01014"></a>01014 
+<a name="l01015"></a>01015     <a class="code" href="../../d1/d1f/class_sk_bounder.html">SkBounder</a>*  fBounder;
+<a name="l01016"></a>01016     <span class="keywordtype">int</span>         fSaveLayerCount;    <span class="comment">// number of successful saveLayer calls</span>
+<a name="l01017"></a>01017 
+<a name="l01018"></a>01018     <a class="code" href="../../d7/d76/class_sk_meta_data.html">SkMetaData</a>* fMetaData;
+<a name="l01019"></a>01019 
+<a name="l01020"></a>01020     SkSurface_Base*  fSurfaceBase;
+<a name="l01021"></a>01021     SkSurface_Base* getSurfaceBase()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> fSurfaceBase; }
+<a name="l01022"></a>01022     <span class="keywordtype">void</span> setSurfaceBase(SkSurface_Base* sb) {
+<a name="l01023"></a>01023         fSurfaceBase = sb;
+<a name="l01024"></a>01024     }
+<a name="l01025"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a8f66e144899422c0f7cee7b4b763d497">01025</a>     <span class="keyword">friend</span> <span class="keyword">class </span>SkSurface_Base;
+<a name="l01026"></a>01026 
+<a name="l01027"></a>01027     <span class="keywordtype">bool</span> fDeviceCMDirty;            <span class="comment">// cleared by updateDeviceCMCache()</span>
+<a name="l01028"></a>01028     <span class="keywordtype">void</span> updateDeviceCMCache();
+<a name="l01029"></a>01029 
+<a name="l01030"></a><a class="code" href="../../de/d49/class_sk_canvas.html#ad95d8ad7a9afbdcc63b08e57527c89f5">01030</a>     <span class="keyword">friend</span> <span class="keyword">class </span>SkDrawIter;    <span class="comment">// needs setupDrawForLayerDevice()</span>
+<a name="l01031"></a><a class="code" href="../../de/d49/class_sk_canvas.html#a4a71fe9eef74ec3e28c91c450badb921">01031</a>     <span class="keyword">friend</span> <span class="keyword">class </span>AutoDrawLooper;
+<a name="l01032"></a>01032 
+<a name="l01033"></a>01033     <a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>* createLayerDevice(<a class="code" href="../../d3/d6e/class_sk_bitmap.html#a62602e28fc755def34d7e261bfd0b74a">SkBitmap::Config</a>, <span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height,
+<a name="l01034"></a>01034                                 <span class="keywordtype">bool</span> isOpaque);
+<a name="l01035"></a>01035 
+<a name="l01036"></a>01036     <a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>* <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>(<a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>*);
+<a name="l01037"></a>01037 
+<a name="l01038"></a>01038     <span class="comment">// internal methods are not virtual, so they can safely be called by other</span>
+<a name="l01039"></a>01039     <span class="comment">// canvas apis, without confusing subclasses (like SkPictureRecording)</span>
+<a name="l01040"></a>01040     <span class="keywordtype">void</span> internalDrawBitmap(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp;, <span class="keyword">const</span> <a class="code" href="../../d4/dd5/struct_sk_i_rect.html">SkIRect</a>*, <span class="keyword">const</span> <a class="code" href="../../db/dd6/class_sk_matrix.html">SkMatrix</a>&amp; m,
+<a name="l01041"></a>01041                                   <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint);
+<a name="l01042"></a>01042     <span class="keywordtype">void</span> internalDrawBitmapRect(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap, <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>* src,
+<a name="l01043"></a>01043                                 <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; dst, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint);
+<a name="l01044"></a>01044     <span class="keywordtype">void</span> internalDrawBitmapNine(<span class="keyword">const</span> <a class="code" href="../../d3/d6e/class_sk_bitmap.html">SkBitmap</a>&amp; bitmap, <span class="keyword">const</span> <a class="code" href="../../d4/dd5/struct_sk_i_rect.html">SkIRect</a>&amp; center,
+<a name="l01045"></a>01045                                 <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; dst, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint);
+<a name="l01046"></a>01046     <span class="keywordtype">void</span> internalDrawPaint(<span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint);
+<a name="l01047"></a>01047     <span class="keywordtype">int</span> internalSaveLayer(<span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>* bounds, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>* paint,
+<a name="l01048"></a>01048                           <a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2">SaveFlags</a>, <span class="keywordtype">bool</span> justForImageFilter);
+<a name="l01049"></a>01049     <span class="keywordtype">void</span> internalDrawDevice(<a class="code" href="../../d9/d57/class_sk_device.html">SkDevice</a>*, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>*);
+<a name="l01050"></a>01050 
+<a name="l01051"></a>01051     <span class="comment">// shared by save() and saveLayer()</span>
+<a name="l01052"></a>01052     <span class="keywordtype">int</span> internalSave(<a class="code" href="../../de/d49/class_sk_canvas.html#a438a1ae606d773f95054f1df6ff2bdf2">SaveFlags</a> <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>);
+<a name="l01053"></a>01053     <span class="keywordtype">void</span> internalRestore();
+<a name="l01054"></a>01054     <span class="keyword">static</span> <span class="keywordtype">void</span> DrawRect(<span class="keyword">const</span> <a class="code" href="../../d3/de0/class_sk_draw.html">SkDraw</a>&amp; <a class="code" href="../../db/d0b/_image_editor_8js.html#a1a41bd0f68ff2fab7479e1eb88959c72">draw</a>, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint,
+<a name="l01055"></a>01055                          <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRect</a>&amp; r, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> textSize);
+<a name="l01056"></a>01056     <span class="keyword">static</span> <span class="keywordtype">void</span> DrawTextDecorations(<span class="keyword">const</span> <a class="code" href="../../d3/de0/class_sk_draw.html">SkDraw</a>&amp; <a class="code" href="../../db/d0b/_image_editor_8js.html#a1a41bd0f68ff2fab7479e1eb88959c72">draw</a>, <span class="keyword">const</span> <a class="code" href="../../d9/d8f/class_sk_paint.html">SkPaint</a>&amp; paint,
+<a name="l01057"></a>01057                                     <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="../../dd/dfa/classtext.html">text</a>[], <span class="keywordtype">size_t</span> byteLength,
+<a name="l01058"></a>01058                                     <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> x, <a class="code" href="../../d5/d8a/_sk_scalar_8h.html#ad0774e85c5aecc2c583888e41323443b">SkScalar</a> y);
+<a name="l01059"></a>01059 
+<a name="l01060"></a>01060     <span class="comment">/*  These maintain a cache of the clip bounds in local coordinates,</span>
+<a name="l01061"></a>01061 <span class="comment">        (converted to 2s-compliment if floats are slow).</span>
+<a name="l01062"></a>01062 <span class="comment">     */</span>
+<a name="l01063"></a>01063     <span class="keyword">mutable</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRectCompareType</a> fLocalBoundsCompareType;
+<a name="l01064"></a>01064     <span class="keyword">mutable</span> <span class="keywordtype">bool</span>              fLocalBoundsCompareTypeDirty;
+<a name="l01065"></a>01065     <span class="keywordtype">bool</span> fAllowSoftClip;
+<a name="l01066"></a>01066 
+<a name="l01067"></a>01067     <span class="keyword">const</span> <a class="code" href="../../df/dfb/struct_sk_rect.html">SkRectCompareType</a>&amp; getLocalClipBoundsCompareType()<span class="keyword"> const </span>{
+<a name="l01068"></a>01068         <span class="keywordflow">if</span> (fLocalBoundsCompareTypeDirty) {
+<a name="l01069"></a>01069             this-&gt;computeLocalClipBoundsCompareType();
+<a name="l01070"></a>01070             fLocalBoundsCompareTypeDirty = <span class="keyword">false</span>;
+<a name="l01071"></a>01071         }
+<a name="l01072"></a>01072         <span class="keywordflow">return</span> fLocalBoundsCompareType;
+<a name="l01073"></a>01073     }
+<a name="l01074"></a>01074     <span class="keywordtype">void</span> computeLocalClipBoundsCompareType() <span class="keyword">const</span>;
+<a name="l01075"></a>01075 
+<a name="l01076"></a>01076     <span class="keyword">class </span>AutoValidateClip : ::<a class="code" href="../../d2/ddd/class_sk_noncopyable.html">SkNoncopyable</a> {
+<a name="l01077"></a>01077     <span class="keyword">public</span>:
+<a name="l01078"></a>01078         <span class="keyword">explicit</span> AutoValidateClip(<a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>* <a class="code" href="../../d3/d2e/webgl-demo_8js.html#a1c82fafbefefac03f47e6f1a3cad5b73">canvas</a>) : fCanvas(canvas) {
+<a name="l01079"></a>01079             fCanvas-&gt;validateClip();
+<a name="l01080"></a>01080         }
+<a name="l01081"></a>01081         ~AutoValidateClip() { fCanvas-&gt;validateClip(); }
+<a name="l01082"></a>01082 
+<a name="l01083"></a>01083     <span class="keyword">private</span>:
+<a name="l01084"></a>01084         <span class="keyword">const</span> <a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>* fCanvas;
+<a name="l01085"></a>01085     };
+<a name="l01086"></a>01086 
+<a name="l01087"></a>01087 <span class="preprocessor">#ifdef SK_DEBUG</span>
+<a name="l01088"></a>01088 <span class="preprocessor"></span>    <span class="keywordtype">void</span> validateClip() <span class="keyword">const</span>;
+<a name="l01089"></a>01089 <span class="preprocessor">#else</span>
+<a name="l01090"></a>01090 <span class="preprocessor"></span>    <span class="keywordtype">void</span> validateClip()<span class="keyword"> const </span>{}
+<a name="l01091"></a>01091 <span class="preprocessor">#endif</span>
+<a name="l01092"></a>01092 <span class="preprocessor"></span>
+<a name="l01093"></a>01093     <span class="keyword">typedef</span> <a class="code" href="../../da/dec/class_sk_ref_cnt.html">SkRefCnt</a> INHERITED;
+<a name="l01094"></a>01094 };
+<a name="l01095"></a>01095 
+<a name="l01100"></a><a class="code" href="../../d4/d70/class_sk_auto_canvas_restore.html">01100</a> <span class="keyword">class </span><a class="code" href="../../d4/d70/class_sk_auto_canvas_restore.html">SkAutoCanvasRestore</a> : <a class="code" href="../../d2/ddd/class_sk_noncopyable.html">SkNoncopyable</a> {
+<a name="l01101"></a>01101 <span class="keyword">public</span>:
+<a name="l01102"></a><a class="code" href="../../d4/d70/class_sk_auto_canvas_restore.html#a3fe37770e17e1a968d91514d9a90ffdc">01102</a>     <a class="code" href="../../d4/d70/class_sk_auto_canvas_restore.html#a3fe37770e17e1a968d91514d9a90ffdc">SkAutoCanvasRestore</a>(<a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>* <a class="code" href="../../d3/d2e/webgl-demo_8js.html#a1c82fafbefefac03f47e6f1a3cad5b73">canvas</a>, <span class="keywordtype">bool</span> doSave) : fCanvas(canvas) {
+<a name="l01103"></a>01103         <a class="code" href="../../d3/d36/_sk_types_8h.html#acc82ca88a67ae7ce95a107a9a4b81123">SkASSERT</a>(canvas);
+<a name="l01104"></a>01104         fSaveCount = canvas-&gt;<a class="code" href="../../de/d49/class_sk_canvas.html#a55aa24fe45d4b6e59087d8cce81a956e">getSaveCount</a>();
+<a name="l01105"></a>01105         <span class="keywordflow">if</span> (doSave) {
+<a name="l01106"></a>01106             canvas-&gt;<a class="code" href="../../de/d49/class_sk_canvas.html#a19a04ec8b7f13043fbbf14355413af9f">save</a>();
+<a name="l01107"></a>01107         }
+<a name="l01108"></a>01108     }
+<a name="l01109"></a><a class="code" href="../../d4/d70/class_sk_auto_canvas_restore.html#a81c484a5a042bb071496d31dabea7be8">01109</a>     <a class="code" href="../../d4/d70/class_sk_auto_canvas_restore.html#a81c484a5a042bb071496d31dabea7be8">~SkAutoCanvasRestore</a>() {
+<a name="l01110"></a>01110         <span class="keywordflow">if</span> (fCanvas) {
+<a name="l01111"></a>01111             fCanvas-&gt;<a class="code" href="../../de/d49/class_sk_canvas.html#aae519c51173be795b59f4f4e10c67b9d">restoreToCount</a>(fSaveCount);
+<a name="l01112"></a>01112         }
+<a name="l01113"></a>01113     }
+<a name="l01114"></a>01114 
+<a name="l01119"></a><a class="code" href="../../d4/d70/class_sk_auto_canvas_restore.html#a057837d8704cea07bf3701f45226f460">01119</a>     <span class="keywordtype">void</span> <a class="code" href="../../d4/d70/class_sk_auto_canvas_restore.html#a057837d8704cea07bf3701f45226f460">restore</a>() {
+<a name="l01120"></a>01120         <span class="keywordflow">if</span> (fCanvas) {
+<a name="l01121"></a>01121             fCanvas-&gt;<a class="code" href="../../de/d49/class_sk_canvas.html#aae519c51173be795b59f4f4e10c67b9d">restoreToCount</a>(fSaveCount);
+<a name="l01122"></a>01122             fCanvas = <a class="code" href="../../db/df5/ncompat_8h.html#a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>;
+<a name="l01123"></a>01123         }
+<a name="l01124"></a>01124     }
+<a name="l01125"></a>01125 
+<a name="l01126"></a>01126 <span class="keyword">private</span>:
+<a name="l01127"></a>01127     <a class="code" href="../../de/d49/class_sk_canvas.html">SkCanvas</a>*   fCanvas;
+<a name="l01128"></a>01128     <span class="keywordtype">int</span>         fSaveCount;
+<a name="l01129"></a>01129 };
+<a name="l01130"></a>01130 
+<a name="l01131"></a>01131 <span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../df/d66/_sk_canvas_8h.html">SkCanvas.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:55:11に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

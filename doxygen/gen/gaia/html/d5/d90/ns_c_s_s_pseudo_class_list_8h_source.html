@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsCSSPseudoClassList.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d5/d90/ns_c_s_s_pseudo_class_list_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsCSSPseudoClassList.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d5/d90/ns_c_s_s_pseudo_class_list_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/* atom list for CSS pseudo-classes */</span>
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="comment">/*</span>
+<a name="l00009"></a>00009 <span class="comment"> * This file contains the list of nsIAtoms and their values for CSS</span>
+<a name="l00010"></a>00010 <span class="comment"> * pseudo-classes.  It is designed to be used as inline input to</span>
+<a name="l00011"></a>00011 <span class="comment"> * nsCSSPseudoClasses.cpp *only* through the magic of C preprocessing.</span>
+<a name="l00012"></a>00012 <span class="comment"> * All entries must be enclosed in the macros CSS_PSEUDO_CLASS,</span>
+<a name="l00013"></a>00013 <span class="comment"> * CSS_STATE_DEPENDENT_PSEUDO_CLASS, or CSS_STATE_PSEUDO_CLASS which</span>
+<a name="l00014"></a>00014 <span class="comment"> * will have cruel and unusual things done to them.  The entries should</span>
+<a name="l00015"></a>00015 <span class="comment"> * be kept in some sort of logical order.  The first argument to</span>
+<a name="l00016"></a>00016 <span class="comment"> * CSS_PSEUDO_CLASS is the C++ identifier of the atom.  The second</span>
+<a name="l00017"></a>00017 <span class="comment"> * argument is the string value of the atom.  The third argument is the</span>
+<a name="l00018"></a>00018 <span class="comment"> * name of the preference controlling whether the pseudo-class is</span>
+<a name="l00019"></a>00019 <span class="comment"> * recognized by the parser, or the empty string if it&#39;s unconditional.</span>
+<a name="l00020"></a>00020 <span class="comment"> *</span>
+<a name="l00021"></a>00021 <span class="comment"> * CSS_STATE_DEPENDENT_PSEUDO_CLASS and CSS_STATE_PSEUDO_CLASS also take</span>
+<a name="l00022"></a>00022 <span class="comment"> * the name of the state bits that the class corresponds to.  Only one</span>
+<a name="l00023"></a>00023 <span class="comment"> * of the bits needs to match for a CSS_STATE_PSEUDO_CLASS to match;</span>
+<a name="l00024"></a>00024 <span class="comment"> * CSS_STATE_DEPENDENT_PSEUDO_CLASS matching depends on a customized per-class</span>
+<a name="l00025"></a>00025 <span class="comment"> * algorithm which should be defined in SelectorMatches() in</span>
+<a name="l00026"></a>00026 <span class="comment"> * nsCSSRuleProcessor.cpp.</span>
+<a name="l00027"></a>00027 <span class="comment"> *</span>
+<a name="l00028"></a>00028 <span class="comment"> * If CSS_STATE_PSEUDO_CLASS is not defined, it&#39;ll be automatically</span>
+<a name="l00029"></a>00029 <span class="comment"> * defined to CSS_STATE_DEPENDENT_PSEUDO_CLASS;</span>
+<a name="l00030"></a>00030 <span class="comment"> * if CSS_STATE_DEPENDENT_PSEUDO_CLASS is not defined, it&#39;ll be</span>
+<a name="l00031"></a>00031 <span class="comment"> * automatically defined to CSS_PSEUDO_CLASS.</span>
+<a name="l00032"></a>00032 <span class="comment"> */</span>
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034 <span class="comment">// OUTPUT_CLASS=nsCSSPseudoClasses</span>
+<a name="l00035"></a>00035 <span class="comment">// MACRO_NAME=CSS_PSEUDO_CLASS</span>
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 <span class="preprocessor">#ifdef DEFINED_CSS_STATE_DEPENDENT_PSEUDO_CLASS</span>
+<a name="l00038"></a>00038 <span class="preprocessor"></span><span class="preprocessor">#error &quot;CSS_STATE_DEPENDENT_PSEUDO_CLASS shouldn&#39;t be defined&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00040"></a>00040 <span class="preprocessor"></span>
+<a name="l00041"></a>00041 <span class="preprocessor">#ifndef CSS_STATE_DEPENDENT_PSEUDO_CLASS</span>
+<a name="l00042"></a>00042 <span class="preprocessor"></span><span class="preprocessor">#define CSS_STATE_DEPENDENT_PSEUDO_CLASS(_name, _value, _pref, _bit)  \</span>
+<a name="l00043"></a>00043 <span class="preprocessor">  CSS_PSEUDO_CLASS(_name, _value, _pref)</span>
+<a name="l00044"></a>00044 <span class="preprocessor"></span><span class="preprocessor">#define DEFINED_CSS_STATE_DEPENDENT_PSEUDO_CLASS</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00046"></a>00046 <span class="preprocessor"></span>
+<a name="l00047"></a>00047 <span class="preprocessor">#ifdef DEFINED_CSS_STATE_PSEUDO_CLASS</span>
+<a name="l00048"></a>00048 <span class="preprocessor"></span><span class="preprocessor">#error &quot;CSS_STATE_PSEUDO_CLASS shouldn&#39;t be defined&quot;</span>
+<a name="l00049"></a>00049 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>
+<a name="l00051"></a>00051 <span class="preprocessor">#ifndef CSS_STATE_PSEUDO_CLASS</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span><span class="preprocessor">#define CSS_STATE_PSEUDO_CLASS(_name, _value, _pref, _bit)      \</span>
+<a name="l00053"></a>00053 <span class="preprocessor">  CSS_STATE_DEPENDENT_PSEUDO_CLASS(_name, _value, _pref, _bit)</span>
+<a name="l00054"></a>00054 <span class="preprocessor"></span><span class="preprocessor">#define DEFINED_CSS_STATE_PSEUDO_CLASS</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00056"></a>00056 <span class="preprocessor"></span>
+<a name="l00057"></a>00057 <span class="comment">// The CSS_PSEUDO_CLASS entries should all come before the</span>
+<a name="l00058"></a>00058 <span class="comment">// CSS_STATE_PSEUDO_CLASS entries.  The CSS_PSEUDO_CLASS entry order</span>
+<a name="l00059"></a>00059 <span class="comment">// must be the same as the order of cases in SelectorMatches.  :not</span>
+<a name="l00060"></a>00060 <span class="comment">// must be the last CSS_PSEUDO_CLASS.</span>
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(empty, <span class="stringliteral">&quot;:empty&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)
+<a name="l00063"></a>00063 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozOnlyWhitespace, &quot;:-moz-only-whitespace&quot;, &quot;&quot;)
+<a name="l00064"></a>00064 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozEmptyExceptChildrenWithLocalname, &quot;:-moz-empty-except-children-with-localname&quot;, &quot;&quot;)
+<a name="l00065"></a>00065 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(lang, &quot;:lang&quot;, &quot;&quot;)
+<a name="l00066"></a>00066 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozBoundElement, &quot;:-moz-bound-element&quot;, &quot;&quot;)
+<a name="l00067"></a>00067 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(<a class="code" href="../../d1/df9/apps_2email_2js_2ext_2mailapi_2activesync_2configurator_8js.html#a11a10a6834f3c54a5380f4ff04d002a9">root</a>, &quot;:root&quot;, &quot;&quot;)
+<a name="l00068"></a>00068 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(any, &quot;:-moz-any&quot;, &quot;&quot;)
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(firstChild, &quot;:<a class="code" href="../../d5/d12/build__stage_2email_2shared_2resources_2apn_2_r_e_a_d_m_e_8md.html#aab9764d7f9e519400127ef5189844ed3">first</a>-child&quot;, &quot;&quot;)
+<a name="l00071"></a>00071 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(firstNode, &quot;:-moz-<a class="code" href="../../d5/d12/build__stage_2email_2shared_2resources_2apn_2_r_e_a_d_m_e_8md.html#aab9764d7f9e519400127ef5189844ed3">first</a>-<a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>&quot;, &quot;&quot;)
+<a name="l00072"></a>00072 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(lastChild, &quot;:last-child&quot;, &quot;&quot;)
+<a name="l00073"></a>00073 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(lastNode, &quot;:-moz-last-node&quot;, &quot;&quot;)
+<a name="l00074"></a>00074 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(onlyChild, &quot;:only-child&quot;, &quot;&quot;)
+<a name="l00075"></a>00075 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(firstOfType, &quot;:<a class="code" href="../../d5/d12/build__stage_2email_2shared_2resources_2apn_2_r_e_a_d_m_e_8md.html#aab9764d7f9e519400127ef5189844ed3">first</a>-of-<a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>&quot;, &quot;&quot;)
+<a name="l00076"></a>00076 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(lastOfType, &quot;:last-of-type&quot;, &quot;&quot;)
+<a name="l00077"></a>00077 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(onlyOfType, &quot;:only-of-type&quot;, &quot;&quot;)
+<a name="l00078"></a>00078 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(nthChild, &quot;:nth-child&quot;, &quot;&quot;)
+<a name="l00079"></a>00079 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(nthLastChild, &quot;:nth-last-child&quot;, &quot;&quot;)
+<a name="l00080"></a>00080 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(nthOfType, &quot;:nth-of-type&quot;, &quot;&quot;)
+<a name="l00081"></a>00081 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(nthLastOfType, &quot;:nth-last-of-type&quot;, &quot;&quot;)
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 <span class="comment">// Match nodes that are HTML but not XHTML</span>
+<a name="l00084"></a>00084 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozIsHTML, &quot;:-moz-is-html&quot;, &quot;&quot;)
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086 <span class="comment">// Matches anything when the specified look-and-feel metric is set</span>
+<a name="l00087"></a>00087 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozSystemMetric, &quot;:-moz-system-metric&quot;, &quot;&quot;)
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 <span class="comment">// -moz-locale-dir(ltr) and -moz-locale-dir(rtl) may be used</span>
+<a name="l00090"></a>00090 <span class="comment">// to match based on the locale&#39;s chrome direction</span>
+<a name="l00091"></a>00091 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozLocaleDir, &quot;:-moz-<a class="code" href="../../d2/d7d/jsapi_8h.html#a38008f9ebcd87acfca726e35504b2e8d">locale</a>-<a class="code" href="../../d3/d4b/lockscreen_8js.html#aec4b49f6f844eec3e3877aef25ed0b84">dir</a>&quot;, &quot;&quot;)
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 <span class="comment">// -moz-lwtheme may be used to match a document that has a lightweight theme</span>
+<a name="l00094"></a>00094 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozLWTheme, &quot;:-moz-lwtheme&quot;, &quot;&quot;)
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="comment">// -moz-lwtheme-brighttext matches a document that has a dark lightweight theme</span>
+<a name="l00097"></a>00097 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozLWThemeBrightText, &quot;:-moz-lwtheme-brighttext&quot;, &quot;&quot;)
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099 <span class="comment">// -moz-lwtheme-darktext matches a document that has a bright lightweight theme</span>
+<a name="l00100"></a>00100 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozLWThemeDarkText, &quot;:-moz-lwtheme-darktext&quot;, &quot;&quot;)
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102 <span class="comment">// Matches anything when the containing window is inactive</span>
+<a name="l00103"></a>00103 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozWindowInactive, &quot;:-moz-<a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>-inactive&quot;, &quot;&quot;)
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105 <span class="comment">// Matches any table elements that have a nonzero border attribute,</span>
+<a name="l00106"></a>00106 <span class="comment">// according to HTML integer attribute parsing rules.</span>
+<a name="l00107"></a>00107 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(mozTableBorderNonzero, &quot;:-moz-<a class="code" href="../../d3/d82/prlink_8h.html#aae95f41aa336f8375a3415100cf9ffd4">table</a>-border-nonzero&quot;, &quot;&quot;)
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109 <span class="comment">// Matches whatever the contextual reference elements are for the</span>
+<a name="l00110"></a>00110 <span class="comment">// matching operation.</span>
+<a name="l00111"></a>00111 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(<a class="code" href="../../d6/d1b/pprthred_8h.html#abebc974dc471da8573244b14d2646069">scope</a>, &quot;:scope&quot;, &quot;layout.css.scope-pseudo.<a class="code" href="../../d2/d7d/jsapi_8h.html#ad40d8437f6cf8675f077c4117119c8c0">enabled</a>&quot;)
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113 <span class="comment">// :not needs to come at the end of the non-bit pseudo-class list, since</span>
+<a name="l00114"></a>00114 <span class="comment">// it doesn&#39;t actually get directly matched on in SelectorMatches.</span>
+<a name="l00115"></a>00115 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a82bf7ee216dcb76fc1643dab7dc4fddc">CSS_PSEUDO_CLASS</a>(notPseudo, &quot;:not&quot;, &quot;&quot;)
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117 <span class="comment">// :-moz-dir(ltr) and :-moz-dir(rtl) match elements whose resolved</span>
+<a name="l00118"></a>00118 <span class="comment">// directionality in the markup language is ltr or rtl respectively</span>
+<a name="l00119"></a>00119 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a48c9fe13e312473434b92c2093a5936e">CSS_STATE_DEPENDENT_PSEUDO_CLASS</a>(dir, &quot;:-moz-dir&quot;, &quot;&quot;,
+<a name="l00120"></a>00120                                  <a class="code" href="../../d5/d52/ns_event_states_8h.html#a374634a0d798f1cbba558b2182b2fe64">NS_EVENT_STATE_LTR</a> | <a class="code" href="../../d5/d52/ns_event_states_8h.html#a0a28842e325b920f01dc09161526df45">NS_EVENT_STATE_RTL</a>)
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(link, &quot;:link&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#abadebb9f9a7085ec3e9d9355abd8e375">NS_EVENT_STATE_UNVISITED</a>)
+<a name="l00123"></a>00123 <span class="comment">// what matches :link or :visited</span>
+<a name="l00124"></a><a class="code" href="../../d5/d90/ns_c_s_s_pseudo_class_list_8h.html#ae31ac69c75bb42f47c8d6a7cde4937c6">00124</a> <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozAnyLink, &quot;:-moz-any-link&quot;, &quot;&quot;,
+<a name="l00125"></a>00125                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#ace67340e59d8b9c2a0bc9b4e957294a4">NS_EVENT_STATE_VISITED</a> | <a class="code" href="../../d5/d52/ns_event_states_8h.html#abadebb9f9a7085ec3e9d9355abd8e375">NS_EVENT_STATE_UNVISITED</a>)
+<a name="l00126"></a>00126 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(visited, &quot;:visited&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#ace67340e59d8b9c2a0bc9b4e957294a4">NS_EVENT_STATE_VISITED</a>)
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(active, &quot;:active&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#ad7f49b3708a0b4136a1c0db2a32464bd">NS_EVENT_STATE_ACTIVE</a>)
+<a name="l00129"></a>00129 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(checked, &quot;:checked&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a06c412ee067608111d4c0e1c15f55628">NS_EVENT_STATE_CHECKED</a>)
+<a name="l00130"></a>00130 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(disabled, &quot;:disabled&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a216cc73537fbcb46401d1b68c7423273">NS_EVENT_STATE_DISABLED</a>)
+<a name="l00131"></a>00131 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(<a class="code" href="../../d2/d7d/jsapi_8h.html#ad40d8437f6cf8675f077c4117119c8c0">enabled</a>, &quot;:enabled&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#acf6295852107fa50cd200b4da6211b47">NS_EVENT_STATE_ENABLED</a>)
+<a name="l00132"></a>00132 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(<a class="code" href="../../d3/d4a/mock__recipients_8js.html#a872ddc88b9ec9139cb46823219ad16c8">focus</a>, &quot;:focus&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#ad0e6b3d2638e45698ca68f50f87083b3">NS_EVENT_STATE_FOCUS</a>)
+<a name="l00133"></a>00133 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(hover, &quot;:hover&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a75a93fdfb39faa40f0757519003dc03f">NS_EVENT_STATE_HOVER</a>)
+<a name="l00134"></a>00134 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozDragOver, &quot;:-moz-drag-over&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a91a1e38103bba1197d60cd888a0846b2">NS_EVENT_STATE_DRAGOVER</a>)
+<a name="l00135"></a>00135 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(<a class="code" href="../../d9/d04/expat_8h.html#acfcb72e11f425a604663d645d2a4ea80">target</a>, &quot;:target&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a2a62e50e051604c864af2599dab1fcea">NS_EVENT_STATE_URLTARGET</a>)
+<a name="l00136"></a>00136 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(indeterminate, &quot;:indeterminate&quot;, &quot;&quot;,
+<a name="l00137"></a>00137                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a2bea15b5262bd802254b79c04e300e6c">NS_EVENT_STATE_INDETERMINATE</a>)
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 <span class="comment">// Matches the element which is being displayed full-screen, and</span>
+<a name="l00140"></a>00140 <span class="comment">// any containing frames.</span>
+<a name="l00141"></a>00141 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozFullScreen, &quot;:-moz-<a class="code" href="../../d5/d62/build__stage_2email_2shared_2style_2_r_e_a_d_m_e_8md.html#abaf3e02143a769e9f1ebbe872183c95a">full</a>-<a class="code" href="../../dc/db8/system_2test_2unit_2action__menu__test_8js.html#a143b83738f9fab453e3116d14dfac0e7">screen</a>&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a92f32a3a719841acb391b274808effbf">NS_EVENT_STATE_FULL_SCREEN</a>)
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143 <span class="comment">// Matches any element which is an ancestor of the DOM full-screen element,</span>
+<a name="l00144"></a>00144 <span class="comment">// or an ancestor of a containing frame of the full-screen element.</span>
+<a name="l00145"></a>00145 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozFullScreenAncestor, &quot;:-moz-<a class="code" href="../../d5/d62/build__stage_2email_2shared_2style_2_r_e_a_d_m_e_8md.html#abaf3e02143a769e9f1ebbe872183c95a">full</a>-screen-ancestor&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a3af64026e99f13d63692f6cf3dac8f05">NS_EVENT_STATE_FULL_SCREEN_ANCESTOR</a>)
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147 <span class="comment">// Matches if the element is focused and should show a focus ring</span>
+<a name="l00148"></a>00148 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozFocusRing, &quot;:-moz-focusring&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#aa09fc11e36af1eebe4b89d67e57fe5e5">NS_EVENT_STATE_FOCUSRING</a>)
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150 <span class="comment">// Image, object, etc state pseudo-classes</span>
+<a name="l00151"></a>00151 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozBroken, &quot;:-moz-broken&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a4a33ee83afa58edece819dc54930f0c8">NS_EVENT_STATE_BROKEN</a>)
+<a name="l00152"></a>00152 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozUserDisabled, &quot;:-moz-<a class="code" href="../../de/d8f/jsdebug_8h.html#ad8babe1ecde8f9f6d224a06ea1a99480">user</a>-disabled&quot;, &quot;&quot;,
+<a name="l00153"></a>00153                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#aec02b3b4746a51d6e51263a1e1654164">NS_EVENT_STATE_USERDISABLED</a>)
+<a name="l00154"></a>00154 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozSuppressed, &quot;:-moz-suppressed&quot;, &quot;&quot;,
+<a name="l00155"></a>00155                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a8d584fa6f4b98df04299a019e3438cc4">NS_EVENT_STATE_SUPPRESSED</a>)
+<a name="l00156"></a>00156 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozLoading, &quot;:-moz-loading&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a85e1c3d41152ef9ebeae8bc4cf93c472">NS_EVENT_STATE_LOADING</a>)
+<a name="l00157"></a>00157 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozTypeUnsupported, &quot;:-moz-type-unsupported&quot;, &quot;&quot;,
+<a name="l00158"></a>00158                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a35854b368e2fa3267f046c0f3c529054">NS_EVENT_STATE_TYPE_UNSUPPORTED</a>)
+<a name="l00159"></a>00159 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozTypeUnsupportedPlatform, &quot;:-moz-type-unsupported-platform&quot;, &quot;&quot;,
+<a name="l00160"></a>00160                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a5111455439c531edca91d1f106e95a27">NS_EVENT_STATE_TYPE_UNSUPPORTED_PLATFORM</a>)
+<a name="l00161"></a>00161 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozHandlerClickToPlay, &quot;:-moz-<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>-clicktoplay&quot;, &quot;&quot;,
+<a name="l00162"></a>00162                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a3abdbb3375c64d650a4049a3059cb6b7">NS_EVENT_STATE_TYPE_CLICK_TO_PLAY</a>)
+<a name="l00163"></a>00163 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozHandlerPlayPreview, &quot;:-moz-<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>-playpreview&quot;, &quot;&quot;,
+<a name="l00164"></a>00164                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#ac958ea8f35814915c912dd1b6cbd3985">NS_EVENT_STATE_TYPE_PLAY_PREVIEW</a>)
+<a name="l00165"></a>00165 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozHandlerVulnerableUpdatable, &quot;:-moz-<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>-vulnerable-updatable&quot;, &quot;&quot;,
+<a name="l00166"></a>00166                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a76730b09a3a53e48fe83c777bd46aa98">NS_EVENT_STATE_VULNERABLE_UPDATABLE</a>)
+<a name="l00167"></a>00167 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozHandlerVulnerableNoUpdate, &quot;:-moz-<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>-vulnerable-no-<a class="code" href="../../dd/d6d/mock__spinner_8js.html#ab10b009b0da48f61217a18daf8e20cd8">update</a>&quot;, &quot;&quot;,
+<a name="l00168"></a>00168                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#ae1a9d40dacb66ce4c5d521cbb30b17aa">NS_EVENT_STATE_VULNERABLE_NO_UPDATE</a>)
+<a name="l00169"></a>00169 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozHandlerDisabled, &quot;:-moz-<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>-disabled&quot;, &quot;&quot;,
+<a name="l00170"></a>00170                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a17f22f77f95c80d316bb795dd7e89ef0">NS_EVENT_STATE_HANDLER_DISABLED</a>)
+<a name="l00171"></a>00171 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozHandlerBlocked, &quot;:-moz-<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>-blocked&quot;, &quot;&quot;,
+<a name="l00172"></a>00172                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#abb9c5904309e14fd864eb5299b018288">NS_EVENT_STATE_HANDLER_BLOCKED</a>)
+<a name="l00173"></a>00173 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozHandlerCrashed, &quot;:-moz-<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>-crashed&quot;, &quot;&quot;,
+<a name="l00174"></a>00174                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a5d81c1cb5f1e24b8e4fd42070692655c">NS_EVENT_STATE_HANDLER_CRASHED</a>)
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozMathIncrementScriptLevel,
+<a name="l00177"></a>00177                        &quot;:-moz-math-increment-<a class="code" href="../../d2/d7d/jsapi_8h.html#a31bd60a30b08f545ac3bb2e4c17c4d97">script</a>-level&quot;, &quot;&quot;,
+<a name="l00178"></a>00178                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#ac0ba1bbf381799f226c88dea8b300949">NS_EVENT_STATE_INCREMENT_SCRIPT_LEVEL</a>)
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180 <span class="comment">// CSS 3 UI</span>
+<a name="l00181"></a>00181 <span class="comment">// http://www.w3.org/TR/2004/CR-css3-ui-20040511/#pseudo-classes</span>
+<a name="l00182"></a>00182 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(required, &quot;:required&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#adf182bdff4d0e8606e35bce71794340f">NS_EVENT_STATE_REQUIRED</a>)
+<a name="l00183"></a>00183 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(optional, &quot;:optional&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a8e7a49c4964a7e9648bb05e2d414896e">NS_EVENT_STATE_OPTIONAL</a>)
+<a name="l00184"></a>00184 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(valid, &quot;:valid&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#aa5b3b2fcfb6dae44b7bd8deb768ea173">NS_EVENT_STATE_VALID</a>)
+<a name="l00185"></a>00185 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(invalid, &quot;:invalid&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#a70b5164858688c279aea7c537cd9a332">NS_EVENT_STATE_INVALID</a>)
+<a name="l00186"></a>00186 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(inRange, &quot;:in-range&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#aaa0dc296e6b2876a203ba0c1044e96ff">NS_EVENT_STATE_INRANGE</a>)
+<a name="l00187"></a>00187 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(outOfRange, &quot;:<a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>-of-range&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#af3576947440cedc43e6aca6c7b3c74bb">NS_EVENT_STATE_OUTOFRANGE</a>)
+<a name="l00188"></a>00188 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(defaultPseudo, &quot;:default&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#af2bee269c5e3cffaea85f14639723648">NS_EVENT_STATE_DEFAULT</a>)
+<a name="l00189"></a>00189 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozReadOnly, &quot;:-moz-read-only&quot;, &quot;&quot;,
+<a name="l00190"></a>00190                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#adeeac27575a4dbfdd892764afd4d4856">NS_EVENT_STATE_MOZ_READONLY</a>)
+<a name="l00191"></a>00191 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozReadWrite, &quot;:-moz-read-write&quot;, &quot;&quot;,
+<a name="l00192"></a>00192                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a1f315d977096db0b824419315a2b2ac2">NS_EVENT_STATE_MOZ_READWRITE</a>)
+<a name="l00193"></a>00193 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozSubmitInvalid, &quot;:-moz-submit-invalid&quot;, &quot;&quot;,
+<a name="l00194"></a>00194                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a78ebd73db44fb8d93043729d55b59a9d">NS_EVENT_STATE_MOZ_SUBMITINVALID</a>)
+<a name="l00195"></a>00195 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozUIInvalid, &quot;:-moz-ui-invalid&quot;, &quot;&quot;,
+<a name="l00196"></a>00196                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#aa38225b0cacaee30a4ec6733e83623bc">NS_EVENT_STATE_MOZ_UI_INVALID</a>)
+<a name="l00197"></a>00197 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozUIValid, &quot;:-moz-ui-valid&quot;, &quot;&quot;,
+<a name="l00198"></a>00198                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a2ee5731c7a714da76608357611ca3469">NS_EVENT_STATE_MOZ_UI_VALID</a>)
+<a name="l00199"></a>00199 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozMeterOptimum, &quot;:-moz-meter-optimum&quot;, &quot;&quot;,
+<a name="l00200"></a>00200                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#a51cece1eb2ea366ace7600a152f65c21">NS_EVENT_STATE_OPTIMUM</a>)
+<a name="l00201"></a>00201 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozMeterSubOptimum, &quot;:-moz-meter-<a class="code" href="../../d3/d91/j3d_8js.html#aaceec2222caaba9acc8a26f948e34afa">sub</a>-optimum&quot;, &quot;&quot;,
+<a name="l00202"></a>00202                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#af002801976a9b4c040ba23ab1e456a2d">NS_EVENT_STATE_SUB_OPTIMUM</a>)
+<a name="l00203"></a>00203 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozMeterSubSubOptimum, &quot;:-moz-meter-<a class="code" href="../../d3/d91/j3d_8js.html#aaceec2222caaba9acc8a26f948e34afa">sub</a>-<a class="code" href="../../d3/d91/j3d_8js.html#aaceec2222caaba9acc8a26f948e34afa">sub</a>-optimum&quot;, &quot;&quot;,
+<a name="l00204"></a>00204                        <a class="code" href="../../d5/d52/ns_event_states_8h.html#ab8e8614e68439b92ce115f8e5438f2f0">NS_EVENT_STATE_SUB_SUB_OPTIMUM</a>)
+<a name="l00205"></a>00205 
+<a name="l00206"></a>00206 <span class="comment">// Those values should be parsed but do nothing.</span>
+<a name="l00207"></a>00207 <a class="code" href="../../da/dcb/ns_c_s_s_pseudo_classes_8h.html#a17a5abc532e233c47b485027422d262f">CSS_STATE_PSEUDO_CLASS</a>(mozPlaceholder, &quot;:-moz-placeholder&quot;, &quot;&quot;, <a class="code" href="../../d5/d52/ns_event_states_8h.html#ab149930ec09f3c8d20f241732574b1e6">NS_EVENT_STATE_IGNORE</a>)
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209 <span class="preprocessor">#ifdef DEFINED_CSS_STATE_PSEUDO_CLASS</span>
+<a name="l00210"></a>00210 <span class="preprocessor"></span><span class="preprocessor">#undef DEFINED_CSS_STATE_PSEUDO_CLASS</span>
+<a name="l00211"></a>00211 <span class="preprocessor"></span><span class="preprocessor">#undef CSS_STATE_PSEUDO_CLASS</span>
+<a name="l00212"></a>00212 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00213"></a>00213 <span class="preprocessor"></span>
+<a name="l00214"></a>00214 <span class="preprocessor">#ifdef DEFINED_CSS_STATE_DEPENDENT_PSEUDO_CLASS</span>
+<a name="l00215"></a>00215 <span class="preprocessor"></span><span class="preprocessor">#undef DEFINED_CSS_STATE_DEPENDENT_PSEUDO_CLASS</span>
+<a name="l00216"></a>00216 <span class="preprocessor"></span><span class="preprocessor">#undef CSS_STATE_DEPENDENT_PSEUDO_CLASS</span>
+<a name="l00217"></a>00217 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d5/d90/ns_c_s_s_pseudo_class_list_8h.html">nsCSSPseudoClassList.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:59に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

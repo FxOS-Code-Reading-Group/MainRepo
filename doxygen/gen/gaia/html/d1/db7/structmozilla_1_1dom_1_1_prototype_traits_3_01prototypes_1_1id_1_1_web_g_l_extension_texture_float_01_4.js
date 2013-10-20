@@ -1,0 +1,4 @@
+var structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_web_g_l_extension_texture_float_01_4 =
+[
+    [ "NativeType", "d1/db7/structmozilla_1_1dom_1_1_prototype_traits_3_01prototypes_1_1id_1_1_web_g_l_extension_texture_float_01_4.html#a466ab00bd0b1fea3ad7619e383ac8398", null ]
+];

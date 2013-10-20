@@ -1,0 +1,27 @@
+var interfacens_i_application_cache_service =
+[
+    [ "buildGroupID", "d5/d02/interfacens_i_application_cache_service.html#a23013e160f66e34b909e2f032342877f", null ],
+    [ "BuildGroupID", "d5/d02/interfacens_i_application_cache_service.html#a8989f450583aa5dd4cc996be20d275b7", null ],
+    [ "buildGroupIDForApp", "d5/d02/interfacens_i_application_cache_service.html#ac2950cac8f9a810d708362caadbee02e", null ],
+    [ "BuildGroupIDForApp", "d5/d02/interfacens_i_application_cache_service.html#a2a5ed97377b7ca263537271eef3ed9bf", null ],
+    [ "CacheOpportunistically", "d5/d02/interfacens_i_application_cache_service.html#a4af210c36d493576e4360dadc096707f", null ],
+    [ "cacheOpportunistically", "d5/d02/interfacens_i_application_cache_service.html#a8bb01ddae8f721770076675b73057874", null ],
+    [ "ChooseApplicationCache", "d5/d02/interfacens_i_application_cache_service.html#a699c157c0e4a9aeabafb84d6d1678872", null ],
+    [ "chooseApplicationCache", "d5/d02/interfacens_i_application_cache_service.html#a99cdfe304a01cf30f253682cf2783fba", null ],
+    [ "createApplicationCache", "d5/d02/interfacens_i_application_cache_service.html#a0b7bdfa3d9279b8a88d87d9dc0d1aef3", null ],
+    [ "CreateApplicationCache", "d5/d02/interfacens_i_application_cache_service.html#a8ae87b670b804fbdcc6c1c53542c5f8e", null ],
+    [ "CreateCustomApplicationCache", "d5/d02/interfacens_i_application_cache_service.html#a25b56078ba2a58c91db12573f3056925", null ],
+    [ "createCustomApplicationCache", "d5/d02/interfacens_i_application_cache_service.html#aacecd2508cb228ba3bb49c1cb7198146", null ],
+    [ "DeactivateGroup", "d5/d02/interfacens_i_application_cache_service.html#a21de2e8d3f4ca3fd2e3d38bf859e0a9e", null ],
+    [ "deactivateGroup", "d5/d02/interfacens_i_application_cache_service.html#a42d0236a9fa45d44e708861c6776ddb6", null ],
+    [ "DiscardByAppId", "d5/d02/interfacens_i_application_cache_service.html#a013211feb2a06e77b7d045cfcf2706f1", null ],
+    [ "discardByAppId", "d5/d02/interfacens_i_application_cache_service.html#a60b72060804462560be42eb839cafc16", null ],
+    [ "GetActiveCache", "d5/d02/interfacens_i_application_cache_service.html#a7bbb86d32d8b40757022443ae2cbe4cb", null ],
+    [ "getActiveCache", "d5/d02/interfacens_i_application_cache_service.html#a1a159ecc9a4aa1aff0d4cdd70e521740", null ],
+    [ "GetApplicationCache", "d5/d02/interfacens_i_application_cache_service.html#a2e80e0c18dec1f48e66ba78fac94e8ea", null ],
+    [ "getApplicationCache", "d5/d02/interfacens_i_application_cache_service.html#a697896660c047ebdf8ec995c1c187a8e", null ],
+    [ "GetGroups", "d5/d02/interfacens_i_application_cache_service.html#ac53e6ab5bd0029a55d62127a2794b33b", null ],
+    [ "getGroups", "d5/d02/interfacens_i_application_cache_service.html#af461edf71b5b7c631f2d4696506955ae", null ],
+    [ "GetGroupsTimeOrdered", "d5/d02/interfacens_i_application_cache_service.html#a6947d0a5c2f3249aec479caa5ad232d4", null ],
+    [ "getGroupsTimeOrdered", "d5/d02/interfacens_i_application_cache_service.html#a782876828c9fd9e6d6905a339c20b8e4", null ]
+];

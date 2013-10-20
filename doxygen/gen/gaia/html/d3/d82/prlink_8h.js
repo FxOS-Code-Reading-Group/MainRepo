@@ -1,0 +1,25 @@
+var prlink_8h =
+[
+    [ "PR_LD_ALT_SEARCH_PATH", "d3/d82/prlink_8h.html#af34f205cc57e3061ce22665a52893b03", null ],
+    [ "PR_LD_GLOBAL", "d3/d82/prlink_8h.html#a213121974f40b7a508bb76103bc0d1e1", null ],
+    [ "PR_LD_LAZY", "d3/d82/prlink_8h.html#a52c6ab7649fc4fa9bb5e32287c5e3175", null ],
+    [ "PR_LD_LOCAL", "d3/d82/prlink_8h.html#a1a64813864ef109dd903fff7e33f3192", null ],
+    [ "PR_LD_NOW", "d3/d82/prlink_8h.html#a247f702f3cf1b45e22e82e6163cf1aac", null ],
+    [ "PRFuncPtr", "d3/d82/prlink_8h.html#a6f57efb24f77c7ba86e6364cc4ff834e", null ],
+    [ "PRLibrary", "d3/d82/prlink_8h.html#a3c3bf9c88701b69eb8ed0e48f8fb72c9", null ],
+    [ "PRLibSpec", "d3/d82/prlink_8h.html#aea2824f0e0799fdb5c5dd6d5c61112a6", null ],
+    [ "PRLibSpecType", "d3/d82/prlink_8h.html#a3ac5c28370b680212aed188aa4020625", null ],
+    [ "PRStaticLinkTable", "d3/d82/prlink_8h.html#a29ddf2b2f4d0c0b464451949684103cc", null ],
+    [ "PRLibSpecType", "d3/d82/prlink_8h.html#a7c5049db7552a79421a779a758b565c1", null ],
+    [ "NSPR_API", "d3/d82/prlink_8h.html#a695aa9062584138eed0c2f7c23359639", null ],
+    [ "NSPR_API", "d3/d82/prlink_8h.html#a818a8ce709301f09391b0e305541cfb8", null ],
+    [ "NSPR_API", "d3/d82/prlink_8h.html#a23984ba798ed204514e25912da3e6ec3", null ],
+    [ "NSPR_API", "d3/d82/prlink_8h.html#a3727ef78eb1fd7a93a270ceec622054d", null ],
+    [ "NSPR_API", "d3/d82/prlink_8h.html#ad57e42275c9ab2e3399f62f8b48126dd", null ],
+    [ "NSPR_API", "d3/d82/prlink_8h.html#a73f18b6455f1483ad0dcc226102f9aa0", null ],
+    [ "PR_LoadLibraryWithFlags", "d3/d82/prlink_8h.html#ab48780f02ce2d641790c27090bd68145", null ],
+    [ "addr", "d3/d82/prlink_8h.html#a472f885e573c7d784d33267130a378de", null ],
+    [ "lib", "d3/d82/prlink_8h.html#a1ef690eeae7c2feaa8e70855f35d6a1e", null ],
+    [ "name", "d3/d82/prlink_8h.html#a8f8f80d37794cde9472343e4487ba3eb", null ],
+    [ "table", "d3/d82/prlink_8h.html#aae95f41aa336f8375a3415100cf9ffd4", null ]
+];

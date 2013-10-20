@@ -1,0 +1,26 @@
+var _gecko_profiler_func_8h =
+[
+    [ "mozilla_sampler_add_marker", "db/d23/_gecko_profiler_func_8h.html#a8069d1e1b9022bfecc0f92b53eb108f1", null ],
+    [ "mozilla_sampler_call_enter", "db/d23/_gecko_profiler_func_8h.html#a4f5d32298ded6f4688c473b3f7d394b7", null ],
+    [ "mozilla_sampler_call_exit", "db/d23/_gecko_profiler_func_8h.html#ae926e2225e9a0976f23192049ee366a1", null ],
+    [ "mozilla_sampler_frame_number", "db/d23/_gecko_profiler_func_8h.html#ad8251d50356d6e0f33c657a5b03a3074", null ],
+    [ "mozilla_sampler_get_features", "db/d23/_gecko_profiler_func_8h.html#a4b0b6cb01312483671a704714e7a1b9a", null ],
+    [ "mozilla_sampler_get_profile", "db/d23/_gecko_profiler_func_8h.html#a27a6d5ae7bb2277bd39894be57d6b1ce", null ],
+    [ "mozilla_sampler_get_profile_data", "db/d23/_gecko_profiler_func_8h.html#a613be5b4e12098fef0e79e90660dc76f", null ],
+    [ "mozilla_sampler_get_responsiveness", "db/d23/_gecko_profiler_func_8h.html#a31f684aa42c50943390d13e5fe389895", null ],
+    [ "mozilla_sampler_init", "db/d23/_gecko_profiler_func_8h.html#ace7bf22543b3d0306876f9f42fb5ac74", null ],
+    [ "mozilla_sampler_is_active", "db/d23/_gecko_profiler_func_8h.html#abd361e1ec6264e1c9478a803eccf8172", null ],
+    [ "mozilla_sampler_lock", "db/d23/_gecko_profiler_func_8h.html#a624aa6f9ec98a731ae0437db4de26509", null ],
+    [ "mozilla_sampler_print_location1", "db/d23/_gecko_profiler_func_8h.html#ae664120988d093d9c28af73c09a5d54b", null ],
+    [ "mozilla_sampler_print_location2", "db/d23/_gecko_profiler_func_8h.html#a43feac53efabb86593bb092c4bf77933", null ],
+    [ "mozilla_sampler_register_thread", "db/d23/_gecko_profiler_func_8h.html#a7d9a50f15e89b380ee0ddd713f9f1754", null ],
+    [ "mozilla_sampler_responsiveness", "db/d23/_gecko_profiler_func_8h.html#a8d46402d8501b12b7dfecb1c409457b2", null ],
+    [ "mozilla_sampler_save", "db/d23/_gecko_profiler_func_8h.html#afc6bba6e08745e9573dcdae470d9d0f1", null ],
+    [ "mozilla_sampler_shutdown", "db/d23/_gecko_profiler_func_8h.html#aa5752cf2d3ef1d5b0e3f0d6f2df93a7d", null ],
+    [ "mozilla_sampler_start", "db/d23/_gecko_profiler_func_8h.html#a72c032ef6ea7daedf7b3214028402be4", null ],
+    [ "mozilla_sampler_stop", "db/d23/_gecko_profiler_func_8h.html#aad3c4862cba6ec4276b12c1a86932782", null ],
+    [ "mozilla_sampler_time", "db/d23/_gecko_profiler_func_8h.html#a8e9cecdf02af0c3b832c07bb9736fb2f", null ],
+    [ "mozilla_sampler_unlock", "db/d23/_gecko_profiler_func_8h.html#a09d56dae14cd83fd9e3ffe80113f659d", null ],
+    [ "mozilla_sampler_unregister_thread", "db/d23/_gecko_profiler_func_8h.html#a7ea4fe8396093f7f81f396e4a95782f2", null ],
+    [ "sps_version2", "db/d23/_gecko_profiler_func_8h.html#a96ae03686aee3f50c139ccbfa6ccabf3", null ]
+];

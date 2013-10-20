@@ -1,0 +1,25 @@
+var interfacens_i_helper_app_launcher =
+[
+    [ "GetContentLength", "d9/d8f/interfacens_i_helper_app_launcher.html#aed0303f03c37a9fc1deaf285298b13e2", null ],
+    [ "GetMIMEInfo", "d9/d8f/interfacens_i_helper_app_launcher.html#a72084d926fcad4a5fb76930354921ee5", null ],
+    [ "GetSource", "d9/d8f/interfacens_i_helper_app_launcher.html#acca2ac5e4c7ecb6464cd21943ae46830", null ],
+    [ "GetSuggestedFileName", "d9/d8f/interfacens_i_helper_app_launcher.html#a1e9203c4edbc8c45062a72a2c4d61565", null ],
+    [ "GetTargetFile", "d9/d8f/interfacens_i_helper_app_launcher.html#a65104c37de43a8fc8a8b2caa0ff125d5", null ],
+    [ "GetTargetFileIsExecutable", "d9/d8f/interfacens_i_helper_app_launcher.html#a909502e79fd92e2f8b1863b88a886fc4", null ],
+    [ "GetTimeDownloadStarted", "d9/d8f/interfacens_i_helper_app_launcher.html#a3fb385c93df90f9a42d6cdb273547a8b", null ],
+    [ "launchWithApplication", "d9/d8f/interfacens_i_helper_app_launcher.html#a88ab8701ebb8bae13789c46544aa1d97", null ],
+    [ "LaunchWithApplication", "d9/d8f/interfacens_i_helper_app_launcher.html#a16e7ea3f5b14f2a36017576d7915ccdc", null ],
+    [ "saveDestinationAvailable", "d9/d8f/interfacens_i_helper_app_launcher.html#a85a23d4b13399cd482b28299da5ff49c", null ],
+    [ "SaveDestinationAvailable", "d9/d8f/interfacens_i_helper_app_launcher.html#a9421bed3c5a8fe1b1489043af01a2cbf", null ],
+    [ "saveToDisk", "d9/d8f/interfacens_i_helper_app_launcher.html#af468a1307ef0ed1ed569cb5c00cefd9d", null ],
+    [ "SaveToDisk", "d9/d8f/interfacens_i_helper_app_launcher.html#a78a75e99d29267a8aa6076356b73299b", null ],
+    [ "setWebProgressListener", "d9/d8f/interfacens_i_helper_app_launcher.html#a51107a155cb1bf3d4c80e65f21be6ea3", null ],
+    [ "SetWebProgressListener", "d9/d8f/interfacens_i_helper_app_launcher.html#af18c65913701a73a8577d957baac6a62", null ],
+    [ "contentLength", "d9/d8f/interfacens_i_helper_app_launcher.html#a25373ad7cbeafae9870f2771ac7f6eca", null ],
+    [ "MIMEInfo", "d9/d8f/interfacens_i_helper_app_launcher.html#a5582fce140474d7ca0c09ff4ac7501e6", null ],
+    [ "source", "d9/d8f/interfacens_i_helper_app_launcher.html#ac58d70e91bdd802b7171fdda4dbbd2af", null ],
+    [ "suggestedFileName", "d9/d8f/interfacens_i_helper_app_launcher.html#a9f5422b3bad596673f2001f45a218573", null ],
+    [ "targetFile", "d9/d8f/interfacens_i_helper_app_launcher.html#a860e9de9a21df40363ed68997cf8480b", null ],
+    [ "targetFileIsExecutable", "d9/d8f/interfacens_i_helper_app_launcher.html#a39dbd98c3533dac747da1918e62fa2ba", null ],
+    [ "timeDownloadStarted", "d9/d8f/interfacens_i_helper_app_launcher.html#a9de6c18cd873b01ccdf3bdc9abf21fc9", null ]
+];

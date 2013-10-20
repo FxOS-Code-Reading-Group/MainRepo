@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['cache_5fsync',['cache_sync',['../d2/d57/namespacecache__sync.html',1,'']]],
+  ['cards_5fview',['cards_view',['../d9/dc9/namespacecards__view.html',1,'']]],
+  ['clock',['clock',['../d9/d1f/namespaceclock.html',1,'']]],
+  ['compare_5fprevious_5fresults',['compare_previous_results',['../d6/d70/namespacecompare__previous__results.html',1,'']]],
+  ['conv',['conv',['../dd/d9f/namespaceconv.html',1,'']]],
+  ['crashreporter',['CrashReporter',['../d9/db7/namespace_crash_reporter.html',1,'']]],
+  ['test_5fcards_5fview_5fkill_5fapp',['test_cards_view_kill_app',['../d5/d41/namespacecards__view_1_1test__cards__view__kill__app.html',1,'cards_view']]],
+  ['test_5fcards_5fview_5fkill_5fapp_5fwith_5fthree_5fapps',['test_cards_view_kill_app_with_three_apps',['../db/d1a/namespacecards__view_1_1test__cards__view__kill__app__with__three__apps.html',1,'cards_view']]],
+  ['test_5fcards_5fview_5flaunch_5fapp',['test_cards_view_launch_app',['../dc/d50/namespacecards__view_1_1test__cards__view__launch__app.html',1,'cards_view']]],
+  ['test_5fcards_5fview_5fwith_5fthree_5fapps',['test_cards_view_with_three_apps',['../d0/d0d/namespacecards__view_1_1test__cards__view__with__three__apps.html',1,'cards_view']]],
+  ['test_5fclock_5fadd_5falarm_5fmultiple_5ftimes',['test_clock_add_alarm_multiple_times',['../dc/d97/namespaceclock_1_1test__clock__add__alarm__multiple__times.html',1,'clock']]],
+  ['test_5fclock_5fall_5fitems_5fpresent_5fnew_5falarm',['test_clock_all_items_present_new_alarm',['../d9/d86/namespaceclock_1_1test__clock__all__items__present__new__alarm.html',1,'clock']]],
+  ['test_5fclock_5fcreate_5fnew_5falarm',['test_clock_create_new_alarm',['../df/d51/namespaceclock_1_1test__clock__create__new__alarm.html',1,'clock']]],
+  ['test_5fclock_5fdelete_5falarm',['test_clock_delete_alarm',['../d0/d29/namespaceclock_1_1test__clock__delete__alarm.html',1,'clock']]],
+  ['test_5fclock_5fset_5falarm_5frepeat',['test_clock_set_alarm_repeat',['../df/d81/namespaceclock_1_1test__clock__set__alarm__repeat.html',1,'clock']]],
+  ['test_5fclock_5fset_5falarm_5fsnooze',['test_clock_set_alarm_snooze',['../d1/de6/namespaceclock_1_1test__clock__set__alarm__snooze.html',1,'clock']]],
+  ['test_5fclock_5fset_5falarm_5fsound',['test_clock_set_alarm_sound',['../d0/d4a/namespaceclock_1_1test__clock__set__alarm__sound.html',1,'clock']]],
+  ['test_5fclock_5fset_5falarm_5ftime',['test_clock_set_alarm_time',['../de/dcf/namespaceclock_1_1test__clock__set__alarm__time.html',1,'clock']]],
+  ['test_5fclock_5fswitch_5fclock_5ftype',['test_clock_switch_clock_type',['../d0/d66/namespaceclock_1_1test__clock__switch__clock__type.html',1,'clock']]],
+  ['test_5fclock_5fturn_5fon_5foff_5falarm',['test_clock_turn_on_off_alarm',['../db/d15/namespaceclock_1_1test__clock__turn__on__off__alarm.html',1,'clock']]]
+];

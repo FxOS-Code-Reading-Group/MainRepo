@@ -1,0 +1,1653 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: jsdebug.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/d8f/jsdebug_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">jsdebug.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/d8f/jsdebug_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*-</span>
+<a name="l00002"></a>00002 <span class="comment"> * vim: set ts=8 sts=4 et sw=4 tw=99:</span>
+<a name="l00003"></a>00003 <span class="comment"> * This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/*</span>
+<a name="l00008"></a>00008 <span class="comment"> * Header for JavaScript Debugging support - All public functions</span>
+<a name="l00009"></a>00009 <span class="comment"> */</span>
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="preprocessor">#ifndef jsdebug_h___</span>
+<a name="l00012"></a>00012 <span class="preprocessor"></span><span class="preprocessor">#define jsdebug_h___</span>
+<a name="l00013"></a>00013 <span class="preprocessor"></span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d7d/jsapi_8h.html">jsapi.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../de/deb/jsdbgapi_8h.html">jsdbgapi.h</a>&quot;</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 <span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="comment">/*</span>
+<a name="l00020"></a>00020 <span class="comment"> * The linkage of JSD API functions differs depending on whether the file is</span>
+<a name="l00021"></a>00021 <span class="comment"> * used within the JSD library or not.  Any source file within the JSD</span>
+<a name="l00022"></a>00022 <span class="comment"> * libraray should define EXPORT_JSD_API whereas any client of the library</span>
+<a name="l00023"></a>00023 <span class="comment"> * should not.</span>
+<a name="l00024"></a>00024 <span class="comment"> */</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#ifdef EXPORT_JSD_API</span>
+<a name="l00026"></a>00026 <span class="preprocessor"></span><span class="preprocessor">#define JSD_PUBLIC_API(t)    JS_EXPORT_API(t)</span>
+<a name="l00027"></a>00027 <span class="preprocessor"></span><span class="preprocessor">#define JSD_PUBLIC_DATA(t)   JS_EXPORT_DATA(t)</span>
+<a name="l00028"></a>00028 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00029"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">00029</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_PUBLIC_API(t)    JS_IMPORT_API(t)</span>
+<a name="l00030"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a3a7caa8d499dc1517b72950bb8ccc146">00030</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_PUBLIC_DATA(t)   JS_IMPORT_DATA(t)</span>
+<a name="l00031"></a>00031 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00032"></a>00032 <span class="preprocessor"></span>
+<a name="l00033"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#ac2af1ae953650bffb1b89cd204ba1266">00033</a> <span class="preprocessor">#define JSD_FRIEND_API(t)    JSD_PUBLIC_API(t)</span>
+<a name="l00034"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a36f1e916977522f56a271dc09be59b52">00034</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_FRIEND_DATA(t)   JSD_PUBLIC_DATA(t)</span>
+<a name="l00035"></a>00035 <span class="preprocessor"></span>
+<a name="l00036"></a>00036 <span class="comment">/***************************************************************************/</span>
+<a name="l00037"></a>00037 <span class="comment">/* Opaque typedefs for handles */</span>
+<a name="l00038"></a>00038 
+<a name="l00039"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">00039</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>        <a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>;
+<a name="l00040"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">00040</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>         <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>;
+<a name="l00041"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">00041</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>     <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>;
+<a name="l00042"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">00042</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>    <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>;
+<a name="l00043"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">00043</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a> <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>;
+<a name="l00044"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">00044</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>          <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>;
+<a name="l00045"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">00045</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">JSDProperty</a>       <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">JSDProperty</a>;
+<a name="l00046"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">00046</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>         <a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>;
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 <span class="comment">/***************************************************************************/</span>
+<a name="l00049"></a>00049 <span class="comment">/* High Level calls */</span>
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051 <span class="comment">/*</span>
+<a name="l00052"></a>00052 <span class="comment">* callback stuff for calls in EXE to be accessed by this code</span>
+<a name="l00053"></a>00053 <span class="comment">* when it lives in an explicitly loaded DLL</span>
+<a name="l00054"></a>00054 <span class="comment">*/</span>
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 <span class="comment">/*</span>
+<a name="l00057"></a>00057 <span class="comment">* This callback allows JSD to inform the embedding when JSD has been</span>
+<a name="l00058"></a>00058 <span class="comment">* turned on or off. This is especially useful in the Java-based debugging</span>
+<a name="l00059"></a>00059 <span class="comment">* system used in mozilla because the debugger applet controls starting</span>
+<a name="l00060"></a>00060 <span class="comment">* up the JSD system.</span>
+<a name="l00061"></a>00061 <span class="comment">*/</span>
+<a name="l00062"></a>00062 <span class="keyword">typedef</span> <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a>
+<a name="l00063"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aab1687eb28d5084c5352f3fd5fe5ee76">00063</a> (* <a class="code" href="../../de/d8f/jsdebug_8h.html#aab1687eb28d5084c5352f3fd5fe5ee76">JSD_SetContextProc</a>)(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <span class="keywordtype">void</span>* <a class="code" href="../../de/d8f/jsdebug_8h.html#ad8babe1ecde8f9f6d224a06ea1a99480">user</a>);
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065 <span class="comment">/* This struct could have more fields in future versions */</span>
+<a name="l00066"></a><a class="code" href="../../d6/de0/struct_j_s_d___user_callbacks.html">00066</a> <span class="keyword">typedef</span> <span class="keyword">struct</span>
+<a name="l00067"></a>00067 {
+<a name="l00068"></a><a class="code" href="../../d6/de0/struct_j_s_d___user_callbacks.html#a4b7aef9556e076c5d1746bea84767347">00068</a>     <span class="keywordtype">unsigned</span>              <a class="code" href="../../d6/de0/struct_j_s_d___user_callbacks.html#a4b7aef9556e076c5d1746bea84767347">size</a>;       <span class="comment">/* size of this struct (init before use)*/</span>
+<a name="l00069"></a><a class="code" href="../../d6/de0/struct_j_s_d___user_callbacks.html#adba9336d18d899c5d3c55bb47103a5ab">00069</a>     <a class="code" href="../../de/d8f/jsdebug_8h.html#aab1687eb28d5084c5352f3fd5fe5ee76">JSD_SetContextProc</a> <a class="code" href="../../d6/de0/struct_j_s_d___user_callbacks.html#adba9336d18d899c5d3c55bb47103a5ab">setContext</a>;
+<a name="l00070"></a>00070 } <a class="code" href="../../d6/de0/struct_j_s_d___user_callbacks.html">JSD_UserCallbacks</a>;
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072 <span class="comment">/*</span>
+<a name="l00073"></a>00073 <span class="comment">* Used by an embedding to tell JSD what JSRuntime to use and to set</span>
+<a name="l00074"></a>00074 <span class="comment">* callbacks without starting up JSD. This assumes only one JSRuntime</span>
+<a name="l00075"></a>00075 <span class="comment">* will be used. This exists to support the mozilla Java-based debugger</span>
+<a name="l00076"></a>00076 <span class="comment">* system.</span>
+<a name="l00077"></a>00077 <span class="comment">*/</span>
+<a name="l00078"></a>00078 <span class="keyword">extern</span> <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00079"></a>00079 JSD_SetUserCallbacks(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a>*         jsrt,
+<a name="l00080"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#ad8babe1ecde8f9f6d224a06ea1a99480">00080</a>                      <a class="code" href="../../d6/de0/struct_j_s_d___user_callbacks.html">JSD_UserCallbacks</a>* <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>,
+<a name="l00081"></a>00081                      <span class="keywordtype">void</span>*              <a class="code" href="../../de/d8f/jsdebug_8h.html#ad8babe1ecde8f9f6d224a06ea1a99480">user</a>);
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 <span class="comment">/*</span>
+<a name="l00084"></a>00084 <span class="comment">* Startup JSD.</span>
+<a name="l00085"></a>00085 <span class="comment">* This version of the init function requires that JSD_SetUserCallbacks()</span>
+<a name="l00086"></a>00086 <span class="comment">* has been previously called (with a non-NULL callback struct pointer)</span>
+<a name="l00087"></a>00087 <span class="comment">*/</span>
+<a name="l00088"></a>00088 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*)
+<a name="l00089"></a>00089 JSD_DebuggerOn(<span class="keywordtype">void</span>);
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091 <span class="comment">/*</span>
+<a name="l00092"></a>00092 <span class="comment">* Startup JSD on a particular JSRuntime with (optional) callbacks</span>
+<a name="l00093"></a>00093 <span class="comment">*/</span>
+<a name="l00094"></a>00094 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*)
+<a name="l00095"></a>00095 JSD_DebuggerOnForUser(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a>*         jsrt,
+<a name="l00096"></a>00096                       <a class="code" href="../../d6/de0/struct_j_s_d___user_callbacks.html">JSD_UserCallbacks</a>* callbacks,
+<a name="l00097"></a>00097                       <span class="keywordtype">void</span>*              user);
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099 <span class="comment">/*</span>
+<a name="l00100"></a>00100 <span class="comment"> * Startup JSD in an application that uses compartments. Debugger</span>
+<a name="l00101"></a>00101 <span class="comment"> * objects will be allocated in the same compartment as scopeobj.</span>
+<a name="l00102"></a>00102 <span class="comment"> */</span>
+<a name="l00103"></a>00103 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*)
+<a name="l00104"></a>00104 JSD_DebuggerOnForUserWithCompartment(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a>*         jsrt,
+<a name="l00105"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a02bbd2006b2d4fefeb823bfd78fb16f9">00105</a>                                      <a class="code" href="../../d6/de0/struct_j_s_d___user_callbacks.html">JSD_UserCallbacks</a>* callbacks,
+<a name="l00106"></a>00106                                      <span class="keywordtype">void</span>*              user,
+<a name="l00107"></a>00107                                      JSObject*          <a class="code" href="../../de/d8f/jsdebug_8h.html#a02bbd2006b2d4fefeb823bfd78fb16f9">scopeobj</a>);
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109 <span class="comment">/*</span>
+<a name="l00110"></a>00110 <span class="comment">* Shutdown JSD for this JSDContext</span>
+<a name="l00111"></a>00111 <span class="comment">*/</span>
+<a name="l00112"></a>00112 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00113"></a>00113 JSD_DebuggerOff(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 <span class="comment">/*</span>
+<a name="l00116"></a>00116 <span class="comment"> * Pause JSD for this JSDContext</span>
+<a name="l00117"></a>00117 <span class="comment"> */</span>
+<a name="l00118"></a>00118 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00119"></a>00119 JSD_DebuggerPause(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121 <span class="comment">/*</span>
+<a name="l00122"></a>00122 <span class="comment"> * Unpause JSD for this JSDContext</span>
+<a name="l00123"></a>00123 <span class="comment"> */</span>
+<a name="l00124"></a>00124 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00125"></a>00125 JSD_DebuggerUnpause(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127 <span class="comment">/*</span>
+<a name="l00128"></a>00128 <span class="comment">* Get the Major Version (initial JSD release used major version = 1)</span>
+<a name="l00129"></a>00129 <span class="comment">*/</span>
+<a name="l00130"></a>00130 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00131"></a>00131 JSD_GetMajorVersion(<span class="keywordtype">void</span>);
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133 <span class="comment">/*</span>
+<a name="l00134"></a>00134 <span class="comment">* Get the Minor Version (initial JSD release used minor version = 0)</span>
+<a name="l00135"></a>00135 <span class="comment">*/</span>
+<a name="l00136"></a>00136 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00137"></a>00137 JSD_GetMinorVersion(<span class="keywordtype">void</span>);
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 <span class="comment">/*</span>
+<a name="l00140"></a>00140 <span class="comment">* Returns the default JSD global associated with a given JSDContext.</span>
+<a name="l00141"></a>00141 <span class="comment">*/</span>
+<a name="l00142"></a>00142 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSObject*)
+<a name="l00143"></a>00143 JSD_GetDefaultGlobal(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145 <span class="comment">/*</span>
+<a name="l00146"></a>00146 <span class="comment">* Returns a JSRuntime this context is associated with</span>
+<a name="l00147"></a>00147 <span class="comment">*/</span>
+<a name="l00148"></a>00148 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a>*)
+<a name="l00149"></a>00149 JSD_GetJSRuntime(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151 <span class="comment">/*</span>
+<a name="l00152"></a>00152 <span class="comment">* Set the private data for this context, returns previous value</span>
+<a name="l00153"></a>00153 <span class="comment">*/</span>
+<a name="l00154"></a>00154 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span> *)
+<a name="l00155"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a735984d41155bc1032e09bece8f8d66d">00155</a> JSD_SetContextPrivate(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a> *jsdc, <span class="keywordtype">void</span> *<a class="code" href="../../d9/d04/expat_8h.html#aa11c5d56dba0976f16f07ea50b1999ba">data</a>);
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157 <span class="comment">/*</span>
+<a name="l00158"></a>00158 <span class="comment">* Get the private data for this context</span>
+<a name="l00159"></a>00159 <span class="comment">*/</span>
+<a name="l00160"></a>00160 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span> *)
+<a name="l00161"></a>00161 JSD_GetContextPrivate(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a> *jsdc);
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163 <span class="comment">/*</span>
+<a name="l00164"></a>00164 <span class="comment">* Clear profile data for all scripts</span>
+<a name="l00165"></a>00165 <span class="comment">*/</span>
+<a name="l00166"></a>00166 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00167"></a>00167 JSD_ClearAllProfileData(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169 <span class="comment">/*</span>
+<a name="l00170"></a>00170 <span class="comment">* Context flags.</span>
+<a name="l00171"></a>00171 <span class="comment">*/</span>
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173 <span class="comment">/* Include native frames in JSDThreadStates. */</span>
+<a name="l00174"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a587104bd35ca31bb950c35ab8b78f17c">00174</a> <span class="preprocessor">#define JSD_INCLUDE_NATIVE_FRAMES 0x01</span>
+<a name="l00175"></a>00175 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00176"></a>00176 <span class="comment">* Normally, if a script has a 0 in JSD_SCRIPT_PROFILE_BIT it is included in</span>
+<a name="l00177"></a>00177 <span class="comment">* profile data, otherwise it is not profiled.  Setting the JSD_PROFILE_WHEN_SET</span>
+<a name="l00178"></a>00178 <span class="comment">* flag reverses this convention.</span>
+<a name="l00179"></a>00179 <span class="comment">*/</span>
+<a name="l00180"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a560c08384ae9ad6836b21c8f0c828564">00180</a> <span class="preprocessor">#define JSD_PROFILE_WHEN_SET      0x02</span>
+<a name="l00181"></a>00181 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00182"></a>00182 <span class="comment">* Normally, when the script in the top frame of a thread state has a 1 in</span>
+<a name="l00183"></a>00183 <span class="comment">* JSD_SCRIPT_DEBUG_BIT, the execution hook is ignored.  Setting the</span>
+<a name="l00184"></a>00184 <span class="comment">* JSD_DEBUG_WHEN_SET flag reverses this convention.</span>
+<a name="l00185"></a>00185 <span class="comment">*/</span>
+<a name="l00186"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a1495577fcf14509e4c321ef442aef8bb">00186</a> <span class="preprocessor">#define JSD_DEBUG_WHEN_SET        0x04</span>
+<a name="l00187"></a>00187 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00188"></a>00188 <span class="comment">* When this flag is set the internal call hook will collect profile data.</span>
+<a name="l00189"></a>00189 <span class="comment">*/</span>
+<a name="l00190"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#afc98dfa8902e85879c74d4208eafb12d">00190</a> <span class="preprocessor">#define JSD_COLLECT_PROFILE_DATA  0x08</span>
+<a name="l00191"></a>00191 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00192"></a>00192 <span class="comment">* When this flag is set, stack frames that are disabled for debugging</span>
+<a name="l00193"></a>00193 <span class="comment">* will not appear in the call stack chain.</span>
+<a name="l00194"></a>00194 <span class="comment">*/</span>
+<a name="l00195"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a0e199550787389460d20e165ecda9e35">00195</a> <span class="preprocessor">#define JSD_HIDE_DISABLED_FRAMES  0x10</span>
+<a name="l00196"></a>00196 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00197"></a>00197 <span class="comment">* When this flag is set, the debugger will only check the</span>
+<a name="l00198"></a>00198 <span class="comment">* JSD_SCRIPT_DEBUG_BIT on the top (most recent) stack frame.  This</span>
+<a name="l00199"></a>00199 <span class="comment">* makes it possible to stop in an enabled frame which was called from</span>
+<a name="l00200"></a>00200 <span class="comment">* a stack that contains a disabled frame.</span>
+<a name="l00201"></a>00201 <span class="comment">*</span>
+<a name="l00202"></a>00202 <span class="comment">* When this flag is *not* set, any stack that contains a disabled frame</span>
+<a name="l00203"></a>00203 <span class="comment">* will not be debugged (the execution hook will not be invoked.)</span>
+<a name="l00204"></a>00204 <span class="comment">*</span>
+<a name="l00205"></a>00205 <span class="comment">* This only applies when the reason for calling the hook would have</span>
+<a name="l00206"></a>00206 <span class="comment">* been JSD_HOOK_INTERRUPTED or JSD_HOOK_THROW.  JSD_HOOK_BREAKPOINT,</span>
+<a name="l00207"></a>00207 <span class="comment">* JSD_HOOK_DEBUG_REQUESTED, and JSD_HOOK_DEBUGGER_KEYWORD always stop,</span>
+<a name="l00208"></a>00208 <span class="comment">* regardless of this setting, as long as the top frame is not disabled.</span>
+<a name="l00209"></a>00209 <span class="comment">*</span>
+<a name="l00210"></a>00210 <span class="comment">* If JSD_HIDE_DISABLED_FRAMES is set, this is effectively set as well.</span>
+<a name="l00211"></a>00211 <span class="comment">*/</span>
+<a name="l00212"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a64cb49d39714bc1c29d05785aae340fb">00212</a> <span class="preprocessor">#define JSD_MASK_TOP_FRAME_ONLY   0x20</span>
+<a name="l00213"></a>00213 <span class="preprocessor"></span>
+<a name="l00214"></a>00214 <span class="comment">/*</span>
+<a name="l00215"></a>00215 <span class="comment">* 0x40 was formerly used to hook into object creation.</span>
+<a name="l00216"></a>00216 <span class="comment">*/</span>
+<a name="l00217"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a740b10aa03497e3081b5c8fdcde94c20">00217</a> <span class="preprocessor">#define JSD_DISABLE_OBJECT_TRACE_RETIRED 0x40</span>
+<a name="l00218"></a>00218 <span class="preprocessor"></span>
+<a name="l00219"></a>00219 
+<a name="l00220"></a>00220 <span class="keyword">extern</span> <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00221"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aafd3a7f87c349a410d423e0b9da91acf">00221</a> JSD_SetContextFlags (<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, uint32_t <a class="code" href="../../da/d32/prio_8h.html#aa2585d779da0ab21273a8d92de9a0ebe">flags</a>);
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(uint32_t)
+<a name="l00224"></a>00224 JSD_GetContextFlags (<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);     
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226 <span class="comment">/*</span>
+<a name="l00227"></a>00227 <span class="comment">* Notify JSD that this JSContext is &#39;in use&#39;. This allows JSD to hook the</span>
+<a name="l00228"></a>00228 <span class="comment">* ErrorReporter. For the most part this is done automatically whenever</span>
+<a name="l00229"></a>00229 <span class="comment">* events like script loading happen. But, it is a good idea to call this</span>
+<a name="l00230"></a>00230 <span class="comment">* from the embedding when new contexts come into use.</span>
+<a name="l00231"></a>00231 <span class="comment">*/</span>
+<a name="l00232"></a>00232 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00233"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a75487f193019d6fbf50c45c2e0fa413a">00233</a> JSD_JSContextInUse(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>* <a class="code" href="../../d9/d04/expat_8h.html#afe0934df1732463fe5378d8c8724edc6">context</a>);
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235 <span class="comment">/*</span>
+<a name="l00236"></a>00236 <span class="comment">* Find the JSDContext (if any) associated with the JSRuntime of a</span>
+<a name="l00237"></a>00237 <span class="comment">* given JSContext.</span>
+<a name="l00238"></a>00238 <span class="comment">*/</span>
+<a name="l00239"></a>00239 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*)
+<a name="l00240"></a>00240 JSD_JSDContextForJSContext(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>* context);
+<a name="l00241"></a>00241 
+<a name="l00242"></a>00242 <span class="comment">/***************************************************************************/</span>
+<a name="l00243"></a>00243 <span class="comment">/* Script functions */</span>
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245 <span class="comment">/*</span>
+<a name="l00246"></a>00246 <span class="comment">* Lock the entire script subsystem. This grabs a highlevel lock that</span>
+<a name="l00247"></a>00247 <span class="comment">* protects the JSD internal information about scripts. It is important</span>
+<a name="l00248"></a>00248 <span class="comment">* to wrap script related calls in this lock in multithreaded situations</span>
+<a name="l00249"></a>00249 <span class="comment">* -- i.e. where the debugger is running on a different thread than the</span>
+<a name="l00250"></a>00250 <span class="comment">* interpreter -- or when multiple debugger threads may be accessing this</span>
+<a name="l00251"></a>00251 <span class="comment">* subsystem. It is safe (and best) to use this locking even if the</span>
+<a name="l00252"></a>00252 <span class="comment">* environment might not be multi-threaded. Safely nestable.</span>
+<a name="l00253"></a>00253 <span class="comment">*/</span>
+<a name="l00254"></a>00254 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00255"></a>00255 JSD_LockScriptSubsystem(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257 <span class="comment">/*</span>
+<a name="l00258"></a>00258 <span class="comment">* Unlock the entire script subsystem -- see JSD_LockScriptSubsystem</span>
+<a name="l00259"></a>00259 <span class="comment">*/</span>
+<a name="l00260"></a>00260 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00261"></a>00261 JSD_UnlockScriptSubsystem(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263 <span class="comment">/*</span>
+<a name="l00264"></a>00264 <span class="comment">* Iterate through all the active scripts for this JSDContext.</span>
+<a name="l00265"></a>00265 <span class="comment">* NOTE: must initialize iterp to NULL to start iteration.</span>
+<a name="l00266"></a>00266 <span class="comment">* NOTE: must lock and unlock the subsystem</span>
+<a name="l00267"></a>00267 <span class="comment">* example:</span>
+<a name="l00268"></a>00268 <span class="comment">*</span>
+<a name="l00269"></a>00269 <span class="comment">*  JSDScript jsdscript;</span>
+<a name="l00270"></a>00270 <span class="comment">*  JSDScript iter = NULL;</span>
+<a name="l00271"></a>00271 <span class="comment">*</span>
+<a name="l00272"></a>00272 <span class="comment">*  JSD_LockScriptSubsystem(jsdc);</span>
+<a name="l00273"></a>00273 <span class="comment">*  while((jsdscript = JSD_IterateScripts(jsdc, &amp;iter)) != NULL) {</span>
+<a name="l00274"></a>00274 <span class="comment">*     *** use jsdscript here ***</span>
+<a name="l00275"></a>00275 <span class="comment">*  }</span>
+<a name="l00276"></a>00276 <span class="comment">*  JSD_UnlockScriptSubsystem(jsdc);</span>
+<a name="l00277"></a>00277 <span class="comment">*/</span>
+<a name="l00278"></a>00278 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>*)
+<a name="l00279"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aa3dcf522f8a0bc4de8f2138bd8b1bca3">00279</a> JSD_IterateScripts(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> **<a class="code" href="../../d2/d7d/jsapi_8h.html#ac60414bb1a89227541fe4a44df4c5faf">iterp</a>);
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281 <span class="comment">/*</span>
+<a name="l00282"></a>00282 <span class="comment">* Get the number of times this script has been called.</span>
+<a name="l00283"></a>00283 <span class="comment">*/</span>
+<a name="l00284"></a>00284 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00285"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a4e85acea17dc23652dc8aa0e32c3fa3e">00285</a> JSD_GetScriptCallCount(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a31bd60a30b08f545ac3bb2e4c17c4d97">script</a>);
+<a name="l00286"></a>00286 
+<a name="l00287"></a>00287 <span class="comment">/*</span>
+<a name="l00288"></a>00288 <span class="comment">* Get the max number of times this script called itself, directly or indirectly.</span>
+<a name="l00289"></a>00289 <span class="comment">*/</span>
+<a name="l00290"></a>00290 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00291"></a>00291 JSD_GetScriptMaxRecurseDepth(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *script);
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293 <span class="comment">/*</span>
+<a name="l00294"></a>00294 <span class="comment">* Get the shortest execution time recorded.</span>
+<a name="l00295"></a>00295 <span class="comment">*/</span>
+<a name="l00296"></a>00296 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">double</span>)
+<a name="l00297"></a>00297 JSD_GetScriptMinExecutionTime(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *script);
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299 <span class="comment">/*</span>
+<a name="l00300"></a>00300 <span class="comment">* Get the longest execution time recorded.</span>
+<a name="l00301"></a>00301 <span class="comment">*/</span>
+<a name="l00302"></a>00302 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">double</span>)
+<a name="l00303"></a>00303 JSD_GetScriptMaxExecutionTime(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *script);
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305 <span class="comment">/*</span>
+<a name="l00306"></a>00306 <span class="comment">* Get the total amount of time spent in this script.</span>
+<a name="l00307"></a>00307 <span class="comment">*/</span>
+<a name="l00308"></a>00308 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">double</span>)
+<a name="l00309"></a>00309 JSD_GetScriptTotalExecutionTime(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *script);
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311 <span class="comment">/*</span>
+<a name="l00312"></a>00312 <span class="comment">* Get the shortest execution time recorded, excluding time spent in called</span>
+<a name="l00313"></a>00313 <span class="comment">* functions.</span>
+<a name="l00314"></a>00314 <span class="comment">*/</span>
+<a name="l00315"></a>00315 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">double</span>)
+<a name="l00316"></a>00316 JSD_GetScriptMinOwnExecutionTime(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *script);
+<a name="l00317"></a>00317 
+<a name="l00318"></a>00318 <span class="comment">/*</span>
+<a name="l00319"></a>00319 <span class="comment">* Get the longest execution time recorded, excluding time spent in called</span>
+<a name="l00320"></a>00320 <span class="comment">* functions.</span>
+<a name="l00321"></a>00321 <span class="comment">*/</span>
+<a name="l00322"></a>00322 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">double</span>)
+<a name="l00323"></a>00323 JSD_GetScriptMaxOwnExecutionTime(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *script);
+<a name="l00324"></a>00324 
+<a name="l00325"></a>00325 <span class="comment">/*</span>
+<a name="l00326"></a>00326 <span class="comment">* Get the total amount of time spent in this script, excluding time spent</span>
+<a name="l00327"></a>00327 <span class="comment">* in called functions.</span>
+<a name="l00328"></a>00328 <span class="comment">*/</span>
+<a name="l00329"></a>00329 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">double</span>)
+<a name="l00330"></a>00330 JSD_GetScriptTotalOwnExecutionTime(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *script);
+<a name="l00331"></a>00331 
+<a name="l00332"></a>00332 <span class="comment">/*</span>
+<a name="l00333"></a>00333 <span class="comment">* Clear profile data for this script.</span>
+<a name="l00334"></a>00334 <span class="comment">*/</span>
+<a name="l00335"></a>00335 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00336"></a>00336 JSD_ClearScriptProfileData(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *script);
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338 <span class="comment">/*</span>
+<a name="l00339"></a>00339 <span class="comment">* Get the JSScript for a JSDScript</span>
+<a name="l00340"></a>00340 <span class="comment">*/</span>
+<a name="l00341"></a>00341 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSScript*)
+<a name="l00342"></a>00342 JSD_GetJSScript(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *script);
+<a name="l00343"></a>00343 
+<a name="l00344"></a>00344 <span class="comment">/*</span>
+<a name="l00345"></a>00345 <span class="comment">* Get the JSFunction for a JSDScript</span>
+<a name="l00346"></a>00346 <span class="comment">*/</span>
+<a name="l00347"></a>00347 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSFunction*)
+<a name="l00348"></a>00348 JSD_GetJSFunction(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *script);
+<a name="l00349"></a>00349 
+<a name="l00350"></a>00350 <span class="comment">/*</span>
+<a name="l00351"></a>00351 <span class="comment">* Determines whether or not to collect profile information for this</span>
+<a name="l00352"></a>00352 <span class="comment">* script.  The context flag JSD_PROFILE_WHEN_SET decides the logic.</span>
+<a name="l00353"></a>00353 <span class="comment">*/</span>
+<a name="l00354"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#ad7b9a6ca4aa9075eda56045a5b5a7f41">00354</a> <span class="preprocessor">#define JSD_SCRIPT_PROFILE_BIT 0x01</span>
+<a name="l00355"></a>00355 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00356"></a>00356 <span class="comment">* Determines whether or not to ignore breakpoints, etc. in this script.</span>
+<a name="l00357"></a>00357 <span class="comment">* The context flag JSD_DEBUG_WHEN_SET decides the logic.</span>
+<a name="l00358"></a>00358 <span class="comment">*/</span>
+<a name="l00359"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a2ddbf34424e1241ef314025275942ccc">00359</a> <span class="preprocessor">#define JSD_SCRIPT_DEBUG_BIT   0x02</span>
+<a name="l00360"></a>00360 <span class="preprocessor"></span><span class="comment">/*</span>
+<a name="l00361"></a>00361 <span class="comment"> * Determines whether to invoke the onScriptDestroy callback for this</span>
+<a name="l00362"></a>00362 <span class="comment"> * script. The default is for this to be true if the onScriptCreated</span>
+<a name="l00363"></a>00363 <span class="comment"> * callback was invoked for this script.</span>
+<a name="l00364"></a>00364 <span class="comment"> */</span>
+<a name="l00365"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#acfccb868aaccffa76d2a33367154e4f1">00365</a> <span class="preprocessor">#define JSD_SCRIPT_CALL_DESTROY_HOOK_BIT 0x04</span>
+<a name="l00366"></a>00366 <span class="preprocessor"></span>
+<a name="l00367"></a>00367 <span class="keyword">extern</span> <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(uint32_t)
+<a name="l00368"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#ac10a9cc81718fde5725cab962361d74f">00368</a> JSD_GetScriptFlags(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a> *jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>* <a class="code" href="../../de/d8f/jsdebug_8h.html#ac10a9cc81718fde5725cab962361d74f">jsdscript</a>);
+<a name="l00369"></a>00369 
+<a name="l00370"></a>00370 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00371"></a>00371 JSD_SetScriptFlags(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a> *jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>* jsdscript, uint32_t flags);
+<a name="l00372"></a>00372 
+<a name="l00373"></a>00373 <span class="comment">/*</span>
+<a name="l00374"></a>00374 <span class="comment">* Set the private data for this script, returns previous value</span>
+<a name="l00375"></a>00375 <span class="comment">*/</span>
+<a name="l00376"></a>00376 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span> *)
+<a name="l00377"></a>00377 JSD_SetScriptPrivate(<a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>* jsdscript, <span class="keywordtype">void</span> *data);
+<a name="l00378"></a>00378 
+<a name="l00379"></a>00379 <span class="comment">/*</span>
+<a name="l00380"></a>00380 <span class="comment">* Get the private data for this script</span>
+<a name="l00381"></a>00381 <span class="comment">*/</span>
+<a name="l00382"></a>00382 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span> *)
+<a name="l00383"></a>00383 JSD_GetScriptPrivate(<a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>* jsdscript);
+<a name="l00384"></a>00384 
+<a name="l00385"></a>00385 <span class="comment">/*</span>
+<a name="l00386"></a>00386 <span class="comment">* Determine if this script is still loaded in the interpreter</span>
+<a name="l00387"></a>00387 <span class="comment">*/</span>
+<a name="l00388"></a>00388 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00389"></a>00389 JSD_IsActiveScript(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *jsdscript);
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391 <span class="comment">/*</span>
+<a name="l00392"></a>00392 <span class="comment">* Get the filename associated with this script</span>
+<a name="l00393"></a>00393 <span class="comment">*/</span>
+<a name="l00394"></a>00394 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>*)
+<a name="l00395"></a>00395 JSD_GetScriptFilename(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *jsdscript);
+<a name="l00396"></a>00396 
+<a name="l00397"></a>00397 <span class="comment">/*</span>
+<a name="l00398"></a>00398 <span class="comment">* Get the function name associated with this script (NULL if not a function).</span>
+<a name="l00399"></a>00399 <span class="comment">* If the function does not have a name the result is the string &quot;anonymous&quot;.</span>
+<a name="l00400"></a>00400 <span class="comment">* *** new for gecko 2.0 ****</span>
+<a name="l00401"></a>00401 <span class="comment">*/</span>
+<a name="l00402"></a>00402 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSString *)
+<a name="l00403"></a>00403 JSD_GetScriptFunctionId(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *jsdscript);
+<a name="l00404"></a>00404 
+<a name="l00405"></a>00405 <span class="comment">/*</span>
+<a name="l00406"></a>00406 <span class="comment">* Get the base linenumber of the sourcefile from which this script was loaded.</span>
+<a name="l00407"></a>00407 <span class="comment">* This is one-based -- i.e. the first line of a file is line &#39;1&#39;. This may</span>
+<a name="l00408"></a>00408 <span class="comment">* return 0 if this infomation is unknown.</span>
+<a name="l00409"></a>00409 <span class="comment">*/</span>
+<a name="l00410"></a>00410 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00411"></a>00411 JSD_GetScriptBaseLineNumber(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *jsdscript);
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413 <span class="comment">/*</span>
+<a name="l00414"></a>00414 <span class="comment">* Get the count of source lines associated with this script (1 or greater)</span>
+<a name="l00415"></a>00415 <span class="comment">*/</span>
+<a name="l00416"></a>00416 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00417"></a>00417 JSD_GetScriptLineExtent(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *jsdscript);
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419 <span class="comment">/*</span>
+<a name="l00420"></a>00420 <span class="comment">* Declaration of callback for notification of script creation and destruction.</span>
+<a name="l00421"></a>00421 <span class="comment">* &#39;creating&#39; is JS_TRUE if creating new script, JS_FALSE if destroying existing</span>
+<a name="l00422"></a>00422 <span class="comment">* script (callback called just before actual destruction).</span>
+<a name="l00423"></a>00423 <span class="comment">* &#39;callerdata&#39; is what was passed to JSD_SetScriptHook to set the hook.</span>
+<a name="l00424"></a>00424 <span class="comment">*/</span>
+<a name="l00425"></a>00425 typedef <span class="keywordtype">void</span>
+<a name="l00426"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aa47105a85e4e6c4eebdfb0a0468f049d">00426</a> (* <a class="code" href="../../de/d8f/jsdebug_8h.html#aa47105a85e4e6c4eebdfb0a0468f049d">JSD_ScriptHookProc</a>)(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00427"></a>00427                        <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>*  jsdscript,
+<a name="l00428"></a>00428                        <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>      creating,
+<a name="l00429"></a>00429                        <span class="keywordtype">void</span>*       <a class="code" href="../../de/deb/jsdbgapi_8h.html#ab79c9575868b474842b632a7489d927d">callerdata</a>);
+<a name="l00430"></a>00430 
+<a name="l00431"></a>00431 <span class="comment">/*</span>
+<a name="l00432"></a>00432 <span class="comment">* Set a hook to be called when scripts are created or destroyed (loaded or</span>
+<a name="l00433"></a>00433 <span class="comment">* unloaded).</span>
+<a name="l00434"></a>00434 <span class="comment">* &#39;callerdata&#39; can be whatever you want it to be.</span>
+<a name="l00435"></a>00435 <span class="comment">*/</span>
+<a name="l00436"></a>00436 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00437"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a0709a3421ddc7fcae33d277721a9f702">00437</a> JSD_SetScriptHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#aa47105a85e4e6c4eebdfb0a0468f049d">JSD_ScriptHookProc</a> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a0709a3421ddc7fcae33d277721a9f702">hook</a>, <span class="keywordtype">void</span>* callerdata);
+<a name="l00438"></a>00438 
+<a name="l00439"></a>00439 <span class="comment">/*</span>
+<a name="l00440"></a>00440 <span class="comment">* Get the current script hook.</span>
+<a name="l00441"></a>00441 <span class="comment">*/</span>
+<a name="l00442"></a>00442 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00443"></a>00443 JSD_GetScriptHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#aa47105a85e4e6c4eebdfb0a0468f049d">JSD_ScriptHookProc</a>* hook, <span class="keywordtype">void</span>** callerdata);
+<a name="l00444"></a>00444 
+<a name="l00445"></a>00445 <span class="comment">/*</span>
+<a name="l00446"></a>00446 <span class="comment">* Get a &#39;Program Counter&#39; value for a given line. This represents the location</span>
+<a name="l00447"></a>00447 <span class="comment">* of the first bit of executable code for this line of source. This &#39;pc&#39; should </span>
+<a name="l00448"></a>00448 <span class="comment">* be considered an opaque handle.</span>
+<a name="l00449"></a>00449 <span class="comment">* 0 is returned for invalid scripts, or lines that lie outside the script.</span>
+<a name="l00450"></a>00450 <span class="comment">* If no code is on the given line, then the returned pc represents the first</span>
+<a name="l00451"></a>00451 <span class="comment">* code within the script (if any) after the given line.</span>
+<a name="l00452"></a>00452 <span class="comment">* This function can be used to set breakpoints -- see JSD_SetExecutionHook</span>
+<a name="l00453"></a>00453 <span class="comment">*/</span>
+<a name="l00454"></a>00454 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(uintptr_t)
+<a name="l00455"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aec3acd6c5dec23078fc6753b40966f88">00455</a> JSD_GetClosestPC(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>* jsdscript, <span class="keywordtype">unsigned</span> <a class="code" href="../../da/d7d/cook_8js.html#ae379b8c31475b8ad7712b7ead5ce1173">line</a>);
+<a name="l00456"></a>00456 
+<a name="l00457"></a>00457 <span class="comment">/*</span>
+<a name="l00458"></a>00458 <span class="comment">* Get the source line number for a given &#39;Program Counter&#39; location.</span>
+<a name="l00459"></a>00459 <span class="comment">* Returns 0 if no source line information is appropriate (or available) for</span>
+<a name="l00460"></a>00460 <span class="comment">* the given pc.</span>
+<a name="l00461"></a>00461 <span class="comment">*/</span>
+<a name="l00462"></a>00462 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00463"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a8771985c525e6da4ec7acbc045daa845">00463</a> JSD_GetClosestLine(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>* jsdscript, uintptr_t <a class="code" href="../../de/deb/jsdbgapi_8h.html#a8771985c525e6da4ec7acbc045daa845">pc</a>);
+<a name="l00464"></a>00464 
+<a name="l00465"></a>00465 <span class="comment">/*</span>
+<a name="l00466"></a>00466 <span class="comment"> * Get a list of lines and the corresponding earliest PC for each (see</span>
+<a name="l00467"></a>00467 <span class="comment"> * JSD_GetClosestPC). Lines with no PCs associated will not be returned. NULL</span>
+<a name="l00468"></a>00468 <span class="comment"> * may be passed for either lines or pcs to avoid filling anything in for that</span>
+<a name="l00469"></a>00469 <span class="comment"> * argument.</span>
+<a name="l00470"></a>00470 <span class="comment"> */</span>
+<a name="l00471"></a>00471 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00472"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aced644c25ba7a6de54410d1b4130000a">00472</a> JSD_GetLinePCs(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>* jsdscript,
+<a name="l00473"></a>00473                <span class="keywordtype">unsigned</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a44dbc80a98709fbc71ee9b4d624041f8">startLine</a>, <span class="keywordtype">unsigned</span> <a class="code" href="../../de/deb/jsdbgapi_8h.html#aa6bbcf494cafd6f9ce17df0c62ac09bd">maxLines</a>,
+<a name="l00474"></a>00474                <span class="keywordtype">unsigned</span>* <a class="code" href="../../de/deb/jsdbgapi_8h.html#af811e5c0ef06b777b160f87806b7285e">count</a>, <span class="keywordtype">unsigned</span>** <a class="code" href="../../de/deb/jsdbgapi_8h.html#a8e2960b7346236feeabed4635c5d39d6">lines</a>, uintptr_t** <a class="code" href="../../de/deb/jsdbgapi_8h.html#a28900fb4199491bb2a8efd139ac06e0d">pcs</a>);
+<a name="l00475"></a>00475 
+<a name="l00476"></a>00476 <span class="comment">/* these are only used in cases where scripts are created outside of JS*/</span>
+<a name="l00477"></a>00477 
+<a name="l00478"></a>00478 <span class="comment">/*</span>
+<a name="l00479"></a>00479 <span class="comment">* Direct call to notify JSD that a script has been created.</span>
+<a name="l00480"></a>00480 <span class="comment">* Embeddings that use the normal jsapi script functions need not call this.</span>
+<a name="l00481"></a>00481 <span class="comment">* Any embedding that follows the (discouraged!) practice of contructing script</span>
+<a name="l00482"></a>00482 <span class="comment">* structures manually should call this function to inform JSD. (older ssjs</span>
+<a name="l00483"></a>00483 <span class="comment">* systems do this).</span>
+<a name="l00484"></a>00484 <span class="comment">*/</span>
+<a name="l00485"></a>00485 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00486"></a>00486 JSD_ScriptCreated(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00487"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a960df79821128ba97ef5c6bbac8f3028">00487</a>                   <a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>   *<a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>,
+<a name="l00488"></a>00488                   <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>  *<a class="code" href="../../d2/d7d/jsapi_8h.html#a9b61fad0b15688b43345d3f5c3a3d44b">filename</a>,    <span class="comment">/* URL this script loads from */</span>
+<a name="l00489"></a>00489                   <span class="keywordtype">unsigned</span>       <a class="code" href="../../d2/d7d/jsapi_8h.html#a960df79821128ba97ef5c6bbac8f3028">lineno</a>,       <span class="comment">/* line where this script starts */</span>
+<a name="l00490"></a>00490                   JSScript    *script,
+<a name="l00491"></a>00491                   JSFunction  *<a class="code" href="../../d2/d7d/jsapi_8h.html#aad848dcccd4ec008220ff05f5e400551">fun</a>);
+<a name="l00492"></a>00492 
+<a name="l00493"></a>00493 <span class="comment">/*</span>
+<a name="l00494"></a>00494 <span class="comment">* see JSD_ScriptCreated</span>
+<a name="l00495"></a>00495 <span class="comment">*/</span>
+<a name="l00496"></a>00496 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00497"></a>00497 JSD_ScriptDestroyed(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00498"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a630fc409c25f21ada0becdc353549c30">00498</a>                     <a class="code" href="../../d2/d82/struct_j_s_free_op.html">JSFreeOp</a>    *<a class="code" href="../../de/d8f/jsdebug_8h.html#a630fc409c25f21ada0becdc353549c30">fop</a>,
+<a name="l00499"></a>00499                     JSScript    *script);
+<a name="l00500"></a>00500 
+<a name="l00501"></a>00501 <span class="comment">/***************************************************************************/</span>
+<a name="l00502"></a>00502 <span class="comment">/* Source Text functions */</span>
+<a name="l00503"></a>00503 
+<a name="l00504"></a>00504 <span class="comment">/*</span>
+<a name="l00505"></a>00505 <span class="comment">* In some embeddings (e.g. mozilla) JavaScript source code from a &#39;file&#39; may be</span>
+<a name="l00506"></a>00506 <span class="comment">* execute before the entire &#39;file&#39; has even been loaded. This system supports</span>
+<a name="l00507"></a>00507 <span class="comment">* access to such incrmentally loaded source. It also allows for the possibility</span>
+<a name="l00508"></a>00508 <span class="comment">* that source loading may fail or be aborted (though the source that did load</span>
+<a name="l00509"></a>00509 <span class="comment">* may still be usable). Remember that this source is the entire &#39;file&#39;</span>
+<a name="l00510"></a>00510 <span class="comment">* contents and that the JavaScript code may only be part of that source.</span>
+<a name="l00511"></a>00511 <span class="comment">*</span>
+<a name="l00512"></a>00512 <span class="comment">* For any given URL there can only be one source text item (the most recently</span>
+<a name="l00513"></a>00513 <span class="comment">* loaded).</span>
+<a name="l00514"></a>00514 <span class="comment">*/</span>
+<a name="l00515"></a>00515 
+<a name="l00516"></a>00516 <span class="comment">/* these coorespond to netscape.jsdebug.SourceTextItem.java values -</span>
+<a name="l00517"></a>00517 <span class="comment">*  change in both places if anywhere</span>
+<a name="l00518"></a>00518 <span class="comment">*/</span>
+<a name="l00519"></a>00519 
+<a name="l00520"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5">00520</a> typedef <a class="code" href="../../db/dc1/namespacexpt.html#a17cff18a1a6441f4466f5bd1eb6c9515">enum</a>
+<a name="l00521"></a>00521 {
+<a name="l00522"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5aacf4dded5b399e2e5651277c436b45eb">00522</a>     <a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5aacf4dded5b399e2e5651277c436b45eb">JSD_SOURCE_INITED</a>       = 0, <span class="comment">/* initialized, but contains no source yet */</span>
+<a name="l00523"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5a793f05b486e3cd044a6d05b627d5bb01">00523</a>     <a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5a793f05b486e3cd044a6d05b627d5bb01">JSD_SOURCE_PARTIAL</a>      = 1, <span class="comment">/* some source loaded, more expected */</span>
+<a name="l00524"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5ae93d108de567fcf70be3c5493669fa0b">00524</a>     <a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5ae93d108de567fcf70be3c5493669fa0b">JSD_SOURCE_COMPLETED</a>    = 2, <span class="comment">/* all source finished loading */</span>
+<a name="l00525"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5a72d7a37c15040445396595e6c2556d65">00525</a>     <a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5a72d7a37c15040445396595e6c2556d65">JSD_SOURCE_ABORTED</a>      = 3, <span class="comment">/* user aborted loading, some may be loaded */</span>
+<a name="l00526"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5a2eb33888211074388ec86f60ec9086f0">00526</a>     <a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5a2eb33888211074388ec86f60ec9086f0">JSD_SOURCE_FAILED</a>       = 4, <span class="comment">/* loading failed, some may be loaded */</span>
+<a name="l00527"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5a8cc343cbf0f0ac80b755566f88be2b61">00527</a>     <a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5a8cc343cbf0f0ac80b755566f88be2b61">JSD_SOURCE_CLEARED</a>      = 5  <span class="comment">/* text has been cleared by debugger */</span>
+<a name="l00528"></a>00528 } <a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5">JSDSourceStatus</a>;
+<a name="l00529"></a>00529 
+<a name="l00530"></a>00530 <span class="comment">/*</span>
+<a name="l00531"></a>00531 <span class="comment">* Lock the entire source text subsystem. This grabs a highlevel lock that</span>
+<a name="l00532"></a>00532 <span class="comment">* protects the JSD internal information about sources. It is important to</span>
+<a name="l00533"></a>00533 <span class="comment">* wrap source text related calls in this lock in multithreaded situations</span>
+<a name="l00534"></a>00534 <span class="comment">* -- i.e. where the debugger is running on a different thread than the</span>
+<a name="l00535"></a>00535 <span class="comment">* interpreter (or the loader of sources) -- or when multiple debugger</span>
+<a name="l00536"></a>00536 <span class="comment">* threads may be accessing this subsystem. It is safe (and best) to use</span>
+<a name="l00537"></a>00537 <span class="comment">* this locking even if the environment might not be multi-threaded.</span>
+<a name="l00538"></a>00538 <span class="comment">* Safely Nestable.</span>
+<a name="l00539"></a>00539 <span class="comment">*/</span>
+<a name="l00540"></a>00540 <span class="keyword">extern</span> <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00541"></a>00541 JSD_LockSourceTextSubsystem(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00542"></a>00542 
+<a name="l00543"></a>00543 <span class="comment">/*</span>
+<a name="l00544"></a>00544 <span class="comment">* Unlock the entire source text subsystem. see JSD_LockSourceTextSubsystem.</span>
+<a name="l00545"></a>00545 <span class="comment">*/</span>
+<a name="l00546"></a>00546 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00547"></a>00547 JSD_UnlockSourceTextSubsystem(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00548"></a>00548 
+<a name="l00549"></a>00549 <span class="comment">/*</span>
+<a name="l00550"></a>00550 <span class="comment">* Iterate the source test items. Use the same pattern of calls shown in</span>
+<a name="l00551"></a>00551 <span class="comment">* the example for JSD_IterateScripts - NOTE that the SourceTextSubsystem.</span>
+<a name="l00552"></a>00552 <span class="comment">* must be locked before and unlocked after iterating.</span>
+<a name="l00553"></a>00553 <span class="comment">*/</span>
+<a name="l00554"></a>00554 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>*)
+<a name="l00555"></a>00555 JSD_IterateSources(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a> **iterp);
+<a name="l00556"></a>00556 
+<a name="l00557"></a>00557 <span class="comment">/*</span>
+<a name="l00558"></a>00558 <span class="comment">* Find the source text item for the given URL (or filename - or whatever</span>
+<a name="l00559"></a>00559 <span class="comment">* string the given embedding uses to describe source locations).</span>
+<a name="l00560"></a>00560 <span class="comment">* Returns NULL is not found.</span>
+<a name="l00561"></a>00561 <span class="comment">*/</span>
+<a name="l00562"></a>00562 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>*)
+<a name="l00563"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a39bb9861b2cb39f94badb5db778de746">00563</a> JSD_FindSourceForURL(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>* <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>);
+<a name="l00564"></a>00564 
+<a name="l00565"></a>00565 <span class="comment">/*</span>
+<a name="l00566"></a>00566 <span class="comment">* Get the URL string associated with the given source text item</span>
+<a name="l00567"></a>00567 <span class="comment">*/</span>
+<a name="l00568"></a>00568 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>*)
+<a name="l00569"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a64594d9ae5dea0e6170f073618ed0a8e">00569</a> JSD_GetSourceURL(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>* <a class="code" href="../../de/d8f/jsdebug_8h.html#a64594d9ae5dea0e6170f073618ed0a8e">jsdsrc</a>);
+<a name="l00570"></a>00570 
+<a name="l00571"></a>00571 <span class="comment">/*</span>
+<a name="l00572"></a>00572 <span class="comment">* Get the actual source text. This gives access to the actual storage of</span>
+<a name="l00573"></a>00573 <span class="comment">* the source - it sHould *not* be written to.</span>
+<a name="l00574"></a>00574 <span class="comment">* The buffer is NOT zero terminated (nor is it guaranteed to have space to</span>
+<a name="l00575"></a>00575 <span class="comment">* hold a zero terminating char).</span>
+<a name="l00576"></a>00576 <span class="comment">* XXX this is 8-bit character data. Unicode source is not yet supported.</span>
+<a name="l00577"></a>00577 <span class="comment">*/</span>
+<a name="l00578"></a>00578 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00579"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#ac483af6c46f8670310fa34a6b3edbeb4">00579</a> JSD_GetSourceText(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>* jsdsrc,
+<a name="l00580"></a>00580                   <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>** <a class="code" href="../../de/d8f/jsdebug_8h.html#ac483af6c46f8670310fa34a6b3edbeb4">ppBuf</a>, <span class="keywordtype">int</span>* <a class="code" href="../../de/d8f/jsdebug_8h.html#a6ffa81bf41267d6c2c7801c5919d3e93">pLen</a>);
+<a name="l00581"></a>00581 
+<a name="l00582"></a>00582 <span class="comment">/*</span>
+<a name="l00583"></a>00583 <span class="comment">* Clear the text -- delete the text and set the status to JSD_SOURCE_CLEARED.</span>
+<a name="l00584"></a>00584 <span class="comment">* This is useful if source is done loading and the debugger wishes to store</span>
+<a name="l00585"></a>00585 <span class="comment">* the text data itself (e.g. in a Java String). This allows avoidance of</span>
+<a name="l00586"></a>00586 <span class="comment">* storing the same text in multiple places.</span>
+<a name="l00587"></a>00587 <span class="comment">*/</span>
+<a name="l00588"></a>00588 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00589"></a>00589 JSD_ClearSourceText(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>* jsdsrc);
+<a name="l00590"></a>00590 
+<a name="l00591"></a>00591 <span class="comment">/*</span>
+<a name="l00592"></a>00592 <span class="comment">* Return the status of the source text item. see JSDSourceStatus enum.</span>
+<a name="l00593"></a>00593 <span class="comment">*/</span>
+<a name="l00594"></a>00594 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5">JSDSourceStatus</a>)
+<a name="l00595"></a>00595 JSD_GetSourceStatus(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>* jsdsrc);
+<a name="l00596"></a>00596 
+<a name="l00597"></a>00597 <span class="comment">/*</span>
+<a name="l00598"></a>00598 <span class="comment">* Has the source been altered since the last call to JSD_SetSourceDirty?</span>
+<a name="l00599"></a>00599 <span class="comment">* Use of JSD_IsSourceDirty and JSD_SetSourceDirty is still supported, but</span>
+<a name="l00600"></a>00600 <span class="comment">* discouraged in favor of the JSD_GetSourceAlterCount system. This dirty</span>
+<a name="l00601"></a>00601 <span class="comment">* scheme ASSUMES that there is only one consumer of the data.</span>
+<a name="l00602"></a>00602 <span class="comment">*/</span>
+<a name="l00603"></a>00603 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00604"></a>00604 JSD_IsSourceDirty(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>* jsdsrc);
+<a name="l00605"></a>00605 
+<a name="l00606"></a>00606 <span class="comment">/*</span>
+<a name="l00607"></a>00607 <span class="comment">* Clear the dirty flag</span>
+<a name="l00608"></a>00608 <span class="comment">*/</span>
+<a name="l00609"></a>00609 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00610"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a925f695501afa6d8f375edcc8b30ea48">00610</a> JSD_SetSourceDirty(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>* jsdsrc, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../de/d8f/jsdebug_8h.html#a925f695501afa6d8f375edcc8b30ea48">dirty</a>);
+<a name="l00611"></a>00611 
+<a name="l00612"></a>00612 <span class="comment">/*</span>
+<a name="l00613"></a>00613 <span class="comment">* Each time a source text item is altered this value is incremented. Any</span>
+<a name="l00614"></a>00614 <span class="comment">* consumer can store this value when they retieve other data about the</span>
+<a name="l00615"></a>00615 <span class="comment">* source text item and then check later to see if the current value is</span>
+<a name="l00616"></a>00616 <span class="comment">* different from their stored value. Thus they can know if they have stale</span>
+<a name="l00617"></a>00617 <span class="comment">* data or not. NOTE: this value is not gauranteed to start at any given number.</span>
+<a name="l00618"></a>00618 <span class="comment">*/</span>
+<a name="l00619"></a>00619 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00620"></a>00620 JSD_GetSourceAlterCount(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>* jsdsrc);
+<a name="l00621"></a>00621 
+<a name="l00622"></a>00622 <span class="comment">/*</span>
+<a name="l00623"></a>00623 <span class="comment">* Force an increment in the alter count for a source text item. This is</span>
+<a name="l00624"></a>00624 <span class="comment">* normally automatic when the item changes, but a give consumer may want to</span>
+<a name="l00625"></a>00625 <span class="comment">* force this to amke an item appear to have changed even if it has not.</span>
+<a name="l00626"></a>00626 <span class="comment">*/</span>
+<a name="l00627"></a>00627 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00628"></a>00628 JSD_IncrementSourceAlterCount(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>* jsdsrc);
+<a name="l00629"></a>00629 
+<a name="l00630"></a>00630 <span class="comment">/*</span>
+<a name="l00631"></a>00631 <span class="comment">* Destroy *all* the source text items</span>
+<a name="l00632"></a>00632 <span class="comment">* (new for server-side USE WITH CARE)</span>
+<a name="l00633"></a>00633 <span class="comment">*/</span>
+<a name="l00634"></a>00634 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l00635"></a>00635 JSD_DestroyAllSources( <a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc );
+<a name="l00636"></a>00636 
+<a name="l00637"></a>00637 <span class="comment">/* functions for adding source items */</span>
+<a name="l00638"></a>00638 
+<a name="l00639"></a>00639 <span class="comment">/*</span>
+<a name="l00640"></a>00640 <span class="comment">* Add a new item for a given URL. If an item already exists for the given URL</span>
+<a name="l00641"></a>00641 <span class="comment">* then the old item is removed.</span>
+<a name="l00642"></a>00642 <span class="comment">* &#39;url&#39; may not be NULL.</span>
+<a name="l00643"></a>00643 <span class="comment">*/</span>
+<a name="l00644"></a>00644 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>*)
+<a name="l00645"></a>00645 JSD_NewSourceText(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>* url);
+<a name="l00646"></a>00646 
+<a name="l00647"></a>00647 <span class="comment">/*</span>
+<a name="l00648"></a>00648 <span class="comment">* Append text (or change status -- e.g. set completed) for a source text</span>
+<a name="l00649"></a>00649 <span class="comment">* item. Text need not be zero terminated. Callers should consider the returned</span>
+<a name="l00650"></a>00650 <span class="comment">* JSDSourceText to be the &#39;current&#39; item for future use. This may return NULL</span>
+<a name="l00651"></a>00651 <span class="comment">* if called after this item has been replaced by a call to JSD_NewSourceText.</span>
+<a name="l00652"></a>00652 <span class="comment">*/</span>
+<a name="l00653"></a>00653 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>*)
+<a name="l00654"></a>00654 JSD_AppendSourceText(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*     jsdc,
+<a name="l00655"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a16091ebf08fa389beba3576130e8860f">00655</a>                      <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>*  jsdsrc,
+<a name="l00656"></a>00656                      <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>*     <a class="code" href="../../dd/dfa/classtext.html">text</a>,       <span class="comment">/* *not* zero terminated */</span>
+<a name="l00657"></a>00657                      <span class="keywordtype">size_t</span>          <a class="code" href="../../d3/d91/j3d_8js.html#a3f87557d7488bfe7545844c394baa854">length</a>,
+<a name="l00658"></a>00658                      <a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5">JSDSourceStatus</a> <a class="code" href="../../da/da1/communications_2contacts_2js_2utilities_2status_8js.html#a0818854fd36b9ae0fdfe5872464dae94">status</a>);
+<a name="l00659"></a>00659 
+<a name="l00660"></a>00660 <span class="comment">/*</span>
+<a name="l00661"></a>00661 <span class="comment">* Unicode varient of JSD_AppendSourceText.</span>
+<a name="l00662"></a>00662 <span class="comment">*</span>
+<a name="l00663"></a>00663 <span class="comment">* NOTE: At this point text is stored in 8bit ASCII so this function just</span>
+<a name="l00664"></a>00664 <span class="comment">* extracts the bottom 8bits from each jschar. At some future point we may</span>
+<a name="l00665"></a>00665 <span class="comment">* switch to storing and exposing 16bit Unicode.</span>
+<a name="l00666"></a>00666 <span class="comment">*/</span>
+<a name="l00667"></a>00667 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>*)
+<a name="l00668"></a>00668 JSD_AppendUCSourceText(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*     jsdc,
+<a name="l00669"></a>00669                        <a class="code" href="../../de/d8f/jsdebug_8h.html#a0393385bd180e0025c006301be366741">JSDSourceText</a>*  jsdsrc,
+<a name="l00670"></a>00670                        <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d9/d28/jspubtd_8h.html#a402ffb3c791d4197e0bf8f3aaeaf1779">jschar</a>*   text,       <span class="comment">/* *not* zero terminated */</span>
+<a name="l00671"></a>00671                        <span class="keywordtype">size_t</span>          length,
+<a name="l00672"></a>00672                        <a class="code" href="../../de/d8f/jsdebug_8h.html#aa1717aed61542c2f7251ae5eb003e9b5">JSDSourceStatus</a> status);
+<a name="l00673"></a>00673 <span class="comment">/*</span>
+<a name="l00674"></a>00674 <span class="comment"> * Convienence function for adding complete source of url in one call.</span>
+<a name="l00675"></a>00675 <span class="comment"> * same as:</span>
+<a name="l00676"></a>00676 <span class="comment"> *   JSDSourceText* jsdsrc;</span>
+<a name="l00677"></a>00677 <span class="comment"> *   JSD_LOCK_SOURCE_TEXT(jsdc);</span>
+<a name="l00678"></a>00678 <span class="comment"> *   jsdsrc = jsd_NewSourceText(jsdc, url);</span>
+<a name="l00679"></a>00679 <span class="comment"> *   if(jsdsrc)</span>
+<a name="l00680"></a>00680 <span class="comment"> *       jsdsrc = jsd_AppendSourceText(jsdc, jsdsrc,</span>
+<a name="l00681"></a>00681 <span class="comment"> *                                     text, length, JSD_SOURCE_PARTIAL);</span>
+<a name="l00682"></a>00682 <span class="comment"> *   if(jsdsrc)</span>
+<a name="l00683"></a>00683 <span class="comment"> *       jsdsrc = jsd_AppendSourceText(jsdc, jsdsrc,</span>
+<a name="l00684"></a>00684 <span class="comment"> *                                     NULL, 0, JSD_SOURCE_COMPLETED);</span>
+<a name="l00685"></a>00685 <span class="comment"> *   JSD_UNLOCK_SOURCE_TEXT(jsdc);</span>
+<a name="l00686"></a>00686 <span class="comment"> *   return jsdsrc ? JS_TRUE : JS_FALSE;</span>
+<a name="l00687"></a>00687 <span class="comment"> */</span>
+<a name="l00688"></a>00688 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00689"></a>00689 JSD_AddFullSourceText(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00690"></a>00690                       <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>* text,       <span class="comment">/* *not* zero terminated */</span>
+<a name="l00691"></a>00691                       <span class="keywordtype">size_t</span>      length,
+<a name="l00692"></a>00692                       <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>* url);
+<a name="l00693"></a>00693 
+<a name="l00694"></a>00694 <span class="comment">/***************************************************************************/</span>
+<a name="l00695"></a>00695 <span class="comment">/* Execution/Interrupt Hook functions */</span>
+<a name="l00696"></a>00696 
+<a name="l00697"></a>00697 <span class="comment">/* possible &#39;type&#39; params for JSD_ExecutionHookProc */</span>
+<a name="l00698"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a337db7e39e67223f41d4d7a0b12f8e3d">00698</a> <span class="preprocessor">#define JSD_HOOK_INTERRUPTED            0</span>
+<a name="l00699"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a582905be35dd961a635cc8d639ea3eb1">00699</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_HOOK_BREAKPOINT             1</span>
+<a name="l00700"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a9c3b9e2a0f6ab38652e5d1aa8adee347">00700</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_HOOK_DEBUG_REQUESTED        2</span>
+<a name="l00701"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a439fa745a6980e804b54c0aab647f5da">00701</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_HOOK_DEBUGGER_KEYWORD       3</span>
+<a name="l00702"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a0b12f4f0ae40ed5e05fdb0d568055192">00702</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_HOOK_THROW                  4</span>
+<a name="l00703"></a>00703 <span class="preprocessor"></span>
+<a name="l00704"></a>00704 <span class="comment">/* legal return values for JSD_ExecutionHookProc */</span>
+<a name="l00705"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a040724c0641bbd529328ae75593dd467">00705</a> <span class="preprocessor">#define JSD_HOOK_RETURN_HOOK_ERROR      0</span>
+<a name="l00706"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a78eb1df8be0ed29c740f62422f482dda">00706</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_HOOK_RETURN_CONTINUE        1</span>
+<a name="l00707"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aaa62ca45e8f6a76281fbd3f4651d33cc">00707</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_HOOK_RETURN_ABORT           2</span>
+<a name="l00708"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#aef1625a4a25922e1ffc3e9400aef7d56">00708</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_HOOK_RETURN_RET_WITH_VAL    3</span>
+<a name="l00709"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a20cb39e32befd7ba2fe0025f616fd64f">00709</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_HOOK_RETURN_THROW_WITH_VAL  4</span>
+<a name="l00710"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a8689d37c46a521b2c3128a3d8b4bad56">00710</a> <span class="preprocessor"></span><span class="preprocessor">#define JSD_HOOK_RETURN_CONTINUE_THROW  5</span>
+<a name="l00711"></a>00711 <span class="preprocessor"></span>
+<a name="l00712"></a>00712 <span class="comment">/*</span>
+<a name="l00713"></a>00713 <span class="comment">* Implement a callback of this form in order to hook execution.</span>
+<a name="l00714"></a>00714 <span class="comment">*/</span>
+<a name="l00715"></a>00715 <span class="keyword">typedef</span> unsigned
+<a name="l00716"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a2787f20600adccc289174ae4490d0c5c">00716</a> (* <a class="code" href="../../de/d8f/jsdebug_8h.html#a2787f20600adccc289174ae4490d0c5c">JSD_ExecutionHookProc</a>)(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*     jsdc,
+<a name="l00717"></a>00717                           <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* <a class="code" href="../../de/d8f/jsdebug_8h.html#af30caec0a5a09cc3cab86a3765cb197e">jsdthreadstate</a>,
+<a name="l00718"></a>00718                           <span class="keywordtype">unsigned</span>           <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00719"></a>00719                           <span class="keywordtype">void</span>*           <a class="code" href="../../de/deb/jsdbgapi_8h.html#ab79c9575868b474842b632a7489d927d">callerdata</a>,
+<a name="l00720"></a>00720                           <a class="code" href="../../d1/d94/class_j_s_1_1_value.html">jsval</a>*          <a class="code" href="../../d2/d7d/jsapi_8h.html#a5a883d97b566da72dc454ea1438aaccb">rval</a>);
+<a name="l00721"></a>00721 
+<a name="l00722"></a>00722 <span class="comment">/* possible &#39;type&#39; params for JSD_CallHookProc */</span>
+<a name="l00723"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#ad18861005c999cda659cebc1e11b8250">00723</a> <span class="preprocessor">#define JSD_HOOK_TOPLEVEL_START  0   </span><span class="comment">/* about to evaluate top level script */</span>
+<a name="l00724"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a73a22bb87eab4cacee614a68328941b4">00724</a> <span class="preprocessor">#define JSD_HOOK_TOPLEVEL_END    1   </span><span class="comment">/* done evaluting top level script    */</span>
+<a name="l00725"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#accfb19c833aed66fa20441b5a9cc8bbd">00725</a> <span class="preprocessor">#define JSD_HOOK_FUNCTION_CALL   2   </span><span class="comment">/* about to call a function           */</span>
+<a name="l00726"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#ab8cd1b69d4f2c6f6d6a4394d3d8a8846">00726</a> <span class="preprocessor">#define JSD_HOOK_FUNCTION_RETURN 3   </span><span class="comment">/* done calling function              */</span>
+<a name="l00727"></a>00727 
+<a name="l00728"></a>00728 <span class="comment">/*</span>
+<a name="l00729"></a>00729 <span class="comment">* Implement a callback of this form in order to hook function call/returns.</span>
+<a name="l00730"></a>00730 <span class="comment">* Return JS_TRUE from a TOPLEVEL_START or FUNCTION_CALL type call hook if you</span>
+<a name="l00731"></a>00731 <span class="comment">* want to hear about the TOPLEVEL_END or FUNCTION_RETURN too.  Return value is</span>
+<a name="l00732"></a>00732 <span class="comment">* ignored to TOPLEVEL_END and FUNCTION_RETURN type hooks.</span>
+<a name="l00733"></a>00733 <span class="comment">*/</span>
+<a name="l00734"></a>00734 <span class="keyword">typedef</span> <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>
+<a name="l00735"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#afe68947e2ecd1a7069238e0eb6edc7e0">00735</a> (* <a class="code" href="../../de/d8f/jsdebug_8h.html#afe68947e2ecd1a7069238e0eb6edc7e0">JSD_CallHookProc</a>)(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*     jsdc,
+<a name="l00736"></a>00736                      <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* <a class="code" href="../../de/d8f/jsdebug_8h.html#af30caec0a5a09cc3cab86a3765cb197e">jsdthreadstate</a>,
+<a name="l00737"></a>00737                      <span class="keywordtype">unsigned</span>           <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00738"></a>00738                      <span class="keywordtype">void</span>*           <a class="code" href="../../de/deb/jsdbgapi_8h.html#ab79c9575868b474842b632a7489d927d">callerdata</a>);
+<a name="l00739"></a>00739 
+<a name="l00740"></a>00740 <span class="comment">/*</span>
+<a name="l00741"></a>00741 <span class="comment">* Set Hook to be called whenever the given pc is about to be executed --</span>
+<a name="l00742"></a>00742 <span class="comment">* i.e. for &#39;trap&#39; or &#39;breakpoint&#39;</span>
+<a name="l00743"></a>00743 <span class="comment">*/</span>
+<a name="l00744"></a>00744 <span class="keyword">extern</span> <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00745"></a>00745 JSD_SetExecutionHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*           jsdc,
+<a name="l00746"></a>00746                      <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>*            <a class="code" href="../../de/d8f/jsdebug_8h.html#ac10a9cc81718fde5725cab962361d74f">jsdscript</a>,
+<a name="l00747"></a>00747                      uintptr_t             <a class="code" href="../../de/deb/jsdbgapi_8h.html#a8771985c525e6da4ec7acbc045daa845">pc</a>,
+<a name="l00748"></a>00748                      <a class="code" href="../../de/d8f/jsdebug_8h.html#a2787f20600adccc289174ae4490d0c5c">JSD_ExecutionHookProc</a> <a class="code" href="../../de/deb/jsdbgapi_8h.html#a0709a3421ddc7fcae33d277721a9f702">hook</a>,
+<a name="l00749"></a>00749                      <span class="keywordtype">void</span>*                 callerdata);
+<a name="l00750"></a>00750 
+<a name="l00751"></a>00751 <span class="comment">/*</span>
+<a name="l00752"></a>00752 <span class="comment">* Clear the hook for this pc</span>
+<a name="l00753"></a>00753 <span class="comment">*/</span>
+<a name="l00754"></a>00754 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00755"></a>00755 JSD_ClearExecutionHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*          jsdc,
+<a name="l00756"></a>00756                        <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>*           jsdscript,
+<a name="l00757"></a>00757                        uintptr_t            pc);
+<a name="l00758"></a>00758 
+<a name="l00759"></a>00759 <span class="comment">/*</span>
+<a name="l00760"></a>00760 <span class="comment">* Clear all the pc specific hooks for this script</span>
+<a name="l00761"></a>00761 <span class="comment">*/</span>
+<a name="l00762"></a>00762 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00763"></a>00763 JSD_ClearAllExecutionHooksForScript(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>* jsdscript);
+<a name="l00764"></a>00764 
+<a name="l00765"></a>00765 <span class="comment">/*</span>
+<a name="l00766"></a>00766 <span class="comment">* Clear all the pc specific hooks for the entire JSRuntime associated with</span>
+<a name="l00767"></a>00767 <span class="comment">* this JSDContext</span>
+<a name="l00768"></a>00768 <span class="comment">*/</span>
+<a name="l00769"></a>00769 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00770"></a>00770 JSD_ClearAllExecutionHooks(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00771"></a>00771 
+<a name="l00772"></a>00772 <span class="comment">/*</span>
+<a name="l00773"></a>00773 <span class="comment">* Set a hook to be called before the next instruction is executed. Depending</span>
+<a name="l00774"></a>00774 <span class="comment">* on the threading situation and whether or not an JS code is currently</span>
+<a name="l00775"></a>00775 <span class="comment">* executing the hook might be called before this call returns, or at some</span>
+<a name="l00776"></a>00776 <span class="comment">* future time. The hook will continue to be called as each instruction</span>
+<a name="l00777"></a>00777 <span class="comment">* executes until cleared.</span>
+<a name="l00778"></a>00778 <span class="comment">*/</span>
+<a name="l00779"></a>00779 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00780"></a>00780 JSD_SetInterruptHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*           jsdc,
+<a name="l00781"></a>00781                      <a class="code" href="../../de/d8f/jsdebug_8h.html#a2787f20600adccc289174ae4490d0c5c">JSD_ExecutionHookProc</a> hook,
+<a name="l00782"></a>00782                      <span class="keywordtype">void</span>*                 callerdata);
+<a name="l00783"></a>00783 
+<a name="l00784"></a>00784 <span class="comment">/*</span>
+<a name="l00785"></a>00785 <span class="comment">* Call the interrupt hook at least once per source line</span>
+<a name="l00786"></a>00786 <span class="comment">*/</span>
+<a name="l00787"></a>00787 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00788"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a00ba9a0d44e78707ff6a1c8efb74fd36">00788</a> JSD_EnableSingleStepInterrupts(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a> *jsdscript, <a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a> <a class="code" href="../../dc/d5e/apps_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#a2a4446f5372ecee1fc4c166220222130">enable</a>);
+<a name="l00789"></a>00789 
+<a name="l00790"></a>00790 <span class="comment">/*</span>
+<a name="l00791"></a>00791 <span class="comment">* Clear the current interrupt hook.</span>
+<a name="l00792"></a>00792 <span class="comment">*/</span>
+<a name="l00793"></a>00793 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00794"></a>00794 JSD_ClearInterruptHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00795"></a>00795 
+<a name="l00796"></a>00796 <span class="comment">/*</span>
+<a name="l00797"></a>00797 <span class="comment">* Set the hook that should be called whenever a JSD_ErrorReporter hook</span>
+<a name="l00798"></a>00798 <span class="comment">* returns JSD_ERROR_REPORTER_DEBUG.</span>
+<a name="l00799"></a>00799 <span class="comment">*/</span>
+<a name="l00800"></a>00800 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00801"></a>00801 JSD_SetDebugBreakHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*           jsdc,
+<a name="l00802"></a>00802                       <a class="code" href="../../de/d8f/jsdebug_8h.html#a2787f20600adccc289174ae4490d0c5c">JSD_ExecutionHookProc</a> hook,
+<a name="l00803"></a>00803                       <span class="keywordtype">void</span>*                 callerdata);
+<a name="l00804"></a>00804 
+<a name="l00805"></a>00805 <span class="comment">/*</span>
+<a name="l00806"></a>00806 <span class="comment">* Clear the debug break hook</span>
+<a name="l00807"></a>00807 <span class="comment">*/</span>
+<a name="l00808"></a>00808 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00809"></a>00809 JSD_ClearDebugBreakHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00810"></a>00810 
+<a name="l00811"></a>00811 <span class="comment">/*</span>
+<a name="l00812"></a>00812 <span class="comment">* Set the hook that should be called when the &#39;debugger&#39; keyword is</span>
+<a name="l00813"></a>00813 <span class="comment">* encountered by the JavaScript interpreter during execution.</span>
+<a name="l00814"></a>00814 <span class="comment">*/</span>
+<a name="l00815"></a>00815 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00816"></a>00816 JSD_SetDebuggerHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*           jsdc,
+<a name="l00817"></a>00817                     <a class="code" href="../../de/d8f/jsdebug_8h.html#a2787f20600adccc289174ae4490d0c5c">JSD_ExecutionHookProc</a> hook,
+<a name="l00818"></a>00818                     <span class="keywordtype">void</span>*                 callerdata);
+<a name="l00819"></a>00819 
+<a name="l00820"></a>00820 <span class="comment">/*</span>
+<a name="l00821"></a>00821 <span class="comment">* Clear the &#39;debugger&#39; keyword hook</span>
+<a name="l00822"></a>00822 <span class="comment">*/</span>
+<a name="l00823"></a>00823 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00824"></a>00824 JSD_ClearDebuggerHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00825"></a>00825 
+<a name="l00826"></a>00826 <span class="comment">/*</span>
+<a name="l00827"></a>00827 <span class="comment">* Set the hook that should be called when a JS exception is thrown.</span>
+<a name="l00828"></a>00828 <span class="comment">* NOTE: the &#39;do default&#39; return value is: JSD_HOOK_RETURN_CONTINUE_THROW</span>
+<a name="l00829"></a>00829 <span class="comment">*/</span>
+<a name="l00830"></a>00830 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00831"></a>00831 JSD_SetThrowHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*           jsdc,
+<a name="l00832"></a>00832                  <a class="code" href="../../de/d8f/jsdebug_8h.html#a2787f20600adccc289174ae4490d0c5c">JSD_ExecutionHookProc</a> hook,
+<a name="l00833"></a>00833                  <span class="keywordtype">void</span>*                 callerdata);
+<a name="l00834"></a>00834 <span class="comment">/*</span>
+<a name="l00835"></a>00835 <span class="comment">* Clear the throw hook</span>
+<a name="l00836"></a>00836 <span class="comment">*/</span>
+<a name="l00837"></a>00837 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00838"></a>00838 JSD_ClearThrowHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00839"></a>00839 
+<a name="l00840"></a>00840 <span class="comment">/*</span>
+<a name="l00841"></a>00841 <span class="comment">* Set the hook that should be called when a toplevel script begins or completes.</span>
+<a name="l00842"></a>00842 <span class="comment">*/</span>
+<a name="l00843"></a>00843 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00844"></a>00844 JSD_SetTopLevelHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*      jsdc,
+<a name="l00845"></a>00845                     <a class="code" href="../../de/d8f/jsdebug_8h.html#afe68947e2ecd1a7069238e0eb6edc7e0">JSD_CallHookProc</a> hook,
+<a name="l00846"></a>00846                     <span class="keywordtype">void</span>*            callerdata);
+<a name="l00847"></a>00847 <span class="comment">/*</span>
+<a name="l00848"></a>00848 <span class="comment">* Clear the toplevel call hook</span>
+<a name="l00849"></a>00849 <span class="comment">*/</span>
+<a name="l00850"></a>00850 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00851"></a>00851 JSD_ClearTopLevelHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00852"></a>00852 
+<a name="l00853"></a>00853 <span class="comment">/*</span>
+<a name="l00854"></a>00854 <span class="comment">* Set the hook that should be called when a function call or return happens.</span>
+<a name="l00855"></a>00855 <span class="comment">*/</span>
+<a name="l00856"></a>00856 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00857"></a>00857 JSD_SetFunctionHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*      jsdc,
+<a name="l00858"></a>00858                     <a class="code" href="../../de/d8f/jsdebug_8h.html#afe68947e2ecd1a7069238e0eb6edc7e0">JSD_CallHookProc</a> hook,
+<a name="l00859"></a>00859                     <span class="keywordtype">void</span>*            callerdata);
+<a name="l00860"></a>00860 <span class="comment">/*</span>
+<a name="l00861"></a>00861 <span class="comment">* Clear the function call hook</span>
+<a name="l00862"></a>00862 <span class="comment">*/</span>
+<a name="l00863"></a>00863 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00864"></a>00864 JSD_ClearFunctionHook(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l00865"></a>00865 
+<a name="l00866"></a>00866 <span class="comment">/***************************************************************************/</span>
+<a name="l00867"></a>00867 <span class="comment">/* Stack Frame functions */</span>
+<a name="l00868"></a>00868 
+<a name="l00869"></a>00869 <span class="comment">/*</span>
+<a name="l00870"></a>00870 <span class="comment">* Get the count of call stack frames for the given JSDThreadState</span>
+<a name="l00871"></a>00871 <span class="comment">*/</span>
+<a name="l00872"></a>00872 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l00873"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#af30caec0a5a09cc3cab86a3765cb197e">00873</a> JSD_GetCountOfStackFrames(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate);
+<a name="l00874"></a>00874 
+<a name="l00875"></a>00875 <span class="comment">/*</span>
+<a name="l00876"></a>00876 <span class="comment">* Get the &#39;current&#39; call stack frame for the given JSDThreadState</span>
+<a name="l00877"></a>00877 <span class="comment">*/</span>
+<a name="l00878"></a>00878 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>*)
+<a name="l00879"></a>00879 JSD_GetStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate);
+<a name="l00880"></a>00880 
+<a name="l00881"></a>00881 <span class="comment">/*</span>
+<a name="l00882"></a>00882 <span class="comment">* Get the JSContext for the given JSDThreadState</span>
+<a name="l00883"></a>00883 <span class="comment">*/</span>
+<a name="l00884"></a>00884 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>*)
+<a name="l00885"></a>00885 JSD_GetJSContext(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate);
+<a name="l00886"></a>00886 
+<a name="l00887"></a>00887 <span class="comment">/*</span>
+<a name="l00888"></a>00888 <span class="comment">* Get the calling call stack frame for the given frame</span>
+<a name="l00889"></a>00889 <span class="comment">*/</span>
+<a name="l00890"></a>00890 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>*)
+<a name="l00891"></a>00891 JSD_GetCallingStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00892"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a75e1f9986b38cd13af7c556776255404">00892</a>                          <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00893"></a>00893                          <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* <a class="code" href="../../de/d8f/jsdebug_8h.html#a75e1f9986b38cd13af7c556776255404">jsdframe</a>);
+<a name="l00894"></a>00894 
+<a name="l00895"></a>00895 <span class="comment">/*</span>
+<a name="l00896"></a>00896 <span class="comment">* Get the script for the given call stack frame</span>
+<a name="l00897"></a>00897 <span class="comment">*/</span>
+<a name="l00898"></a>00898 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>*)
+<a name="l00899"></a>00899 JSD_GetScriptForStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00900"></a>00900                            <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00901"></a>00901                            <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe);
+<a name="l00902"></a>00902 
+<a name="l00903"></a>00903 <span class="comment">/*</span>
+<a name="l00904"></a>00904 <span class="comment">* Get the &#39;Program Counter&#39; for the given call stack frame</span>
+<a name="l00905"></a>00905 <span class="comment">*/</span>
+<a name="l00906"></a>00906 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(uintptr_t)
+<a name="l00907"></a>00907 JSD_GetPCForStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00908"></a>00908                        <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00909"></a>00909                        <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe);
+<a name="l00910"></a>00910 
+<a name="l00911"></a>00911 <span class="comment">/*</span>
+<a name="l00912"></a>00912 <span class="comment">* Get the JavaScript Call Object for the given call stack frame.</span>
+<a name="l00913"></a>00913 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l00914"></a>00914 <span class="comment">*/</span>
+<a name="l00915"></a>00915 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l00916"></a>00916 JSD_GetCallObjectForStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00917"></a>00917                                <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00918"></a>00918                                <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe);
+<a name="l00919"></a>00919 
+<a name="l00920"></a>00920 <span class="comment">/*</span>
+<a name="l00921"></a>00921 <span class="comment">* Get the head of the scope chain for the given call stack frame.</span>
+<a name="l00922"></a>00922 <span class="comment">* the chain can be traversed using JSD_GetValueParent.</span>
+<a name="l00923"></a>00923 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l00924"></a>00924 <span class="comment">*/</span>
+<a name="l00925"></a>00925 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l00926"></a>00926 JSD_GetScopeChainForStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00927"></a>00927                                <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00928"></a>00928                                <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe);
+<a name="l00929"></a>00929 
+<a name="l00930"></a>00930 <span class="comment">/*</span>
+<a name="l00931"></a>00931 <span class="comment">* Get the &#39;this&#39; Object for the given call stack frame.</span>
+<a name="l00932"></a>00932 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l00933"></a>00933 <span class="comment">*/</span>
+<a name="l00934"></a>00934 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l00935"></a>00935 JSD_GetThisForStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00936"></a>00936                          <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00937"></a>00937                          <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe);
+<a name="l00938"></a>00938 
+<a name="l00939"></a>00939 <span class="comment">/*</span>
+<a name="l00940"></a>00940 <span class="comment">* Get the name of the function executing in this stack frame.  Especially useful</span>
+<a name="l00941"></a>00941 <span class="comment">* for native frames (without script objects.)</span>
+<a name="l00942"></a>00942 <span class="comment">* *** new for gecko 2.0 ****</span>
+<a name="l00943"></a>00943 <span class="comment">*/</span>
+<a name="l00944"></a>00944 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSString *)
+<a name="l00945"></a>00945 JSD_GetIdForStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00946"></a>00946                        <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00947"></a>00947                        <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe);
+<a name="l00948"></a>00948 
+<a name="l00949"></a>00949 <span class="comment">/*</span>
+<a name="l00950"></a>00950 <span class="comment">* True if stack frame represents a frame created as a result of a debugger</span>
+<a name="l00951"></a>00951 <span class="comment">* evaluation.</span>
+<a name="l00952"></a>00952 <span class="comment">*/</span>
+<a name="l00953"></a>00953 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00954"></a>00954 JSD_IsStackFrameDebugger(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00955"></a>00955                          <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00956"></a>00956                          <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe);
+<a name="l00957"></a>00957 
+<a name="l00958"></a>00958 <span class="comment">/*</span>
+<a name="l00959"></a>00959 <span class="comment">* True if stack frame is constructing a new object.</span>
+<a name="l00960"></a>00960 <span class="comment">*/</span>
+<a name="l00961"></a>00961 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00962"></a>00962 JSD_IsStackFrameConstructing(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00963"></a>00963                              <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00964"></a>00964                              <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe);
+<a name="l00965"></a>00965 
+<a name="l00966"></a>00966 <span class="comment">/*</span>
+<a name="l00967"></a>00967 <span class="comment">* Evaluate the given unicode source code in the context of the given stack frame.</span>
+<a name="l00968"></a>00968 <span class="comment">* returns JS_TRUE and puts result in rval on success, JS_FALSE on failure.</span>
+<a name="l00969"></a>00969 <span class="comment">* NOTE: The ErrorReporter hook might be called if this fails.</span>
+<a name="l00970"></a>00970 <span class="comment">*/</span>
+<a name="l00971"></a>00971 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00972"></a>00972 JSD_EvaluateUCScriptInStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00973"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a5a883d97b566da72dc454ea1438aaccb">00973</a>                                  <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00974"></a>00974                                  <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe,
+<a name="l00975"></a>00975                                  <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d9/d28/jspubtd_8h.html#a402ffb3c791d4197e0bf8f3aaeaf1779">jschar</a> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a57d303dad1fd4039eecc9e7e5e8fd41f">bytes</a>, <span class="keywordtype">unsigned</span> length,
+<a name="l00976"></a>00976                                  <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *<a class="code" href="../../d2/d7d/jsapi_8h.html#a9b61fad0b15688b43345d3f5c3a3d44b">filename</a>, <span class="keywordtype">unsigned</span> <a class="code" href="../../d2/d7d/jsapi_8h.html#a960df79821128ba97ef5c6bbac8f3028">lineno</a>,
+<a name="l00977"></a>00977                                  JS::<a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> <a class="code" href="../../d2/d7d/jsapi_8h.html#a5a883d97b566da72dc454ea1438aaccb">rval</a>);
+<a name="l00978"></a>00978 
+<a name="l00979"></a>00979 <span class="comment">/*</span>
+<a name="l00980"></a>00980 <span class="comment">* Same as above, but does not eat exceptions.</span>
+<a name="l00981"></a>00981 <span class="comment">*/</span>
+<a name="l00982"></a>00982 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00983"></a>00983 JSD_AttemptUCScriptInStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00984"></a>00984                                 <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00985"></a>00985                                 <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe,
+<a name="l00986"></a>00986                                 <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d9/d28/jspubtd_8h.html#a402ffb3c791d4197e0bf8f3aaeaf1779">jschar</a> *bytes, <span class="keywordtype">unsigned</span> length,
+<a name="l00987"></a>00987                                 <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *filename, <span class="keywordtype">unsigned</span> lineno,
+<a name="l00988"></a>00988                                 JS::<a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> rval);
+<a name="l00989"></a>00989 
+<a name="l00990"></a>00990 <span class="comment">/* single byte character version of JSD_EvaluateUCScriptInStackFrame */</span>
+<a name="l00991"></a>00991 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l00992"></a>00992 JSD_EvaluateScriptInStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l00993"></a>00993                                <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l00994"></a>00994                                <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe,
+<a name="l00995"></a>00995                                <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *bytes, <span class="keywordtype">unsigned</span> length,
+<a name="l00996"></a>00996                                <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *filename, <span class="keywordtype">unsigned</span> lineno, JS::<a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> rval);
+<a name="l00997"></a>00997 
+<a name="l00998"></a>00998 <span class="comment">/*</span>
+<a name="l00999"></a>00999 <span class="comment">* Same as above, but does not eat exceptions.</span>
+<a name="l01000"></a>01000 <span class="comment">*/</span>
+<a name="l01001"></a>01001 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01002"></a>01002 JSD_AttemptScriptInStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l01003"></a>01003                               <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l01004"></a>01004                               <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe,
+<a name="l01005"></a>01005                               <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *bytes, <span class="keywordtype">unsigned</span> length,
+<a name="l01006"></a>01006                               <a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span> *filename, <span class="keywordtype">unsigned</span> lineno, JS::<a class="code" href="../../da/d7b/namespace_j_s.html#a3c796ebbafcdf51a26ea70b1a366a93e">MutableHandleValue</a> rval);
+<a name="l01007"></a>01007 
+<a name="l01008"></a>01008 <span class="comment">/*</span>
+<a name="l01009"></a>01009 <span class="comment">* Convert the given jsval to a string</span>
+<a name="l01010"></a>01010 <span class="comment">* NOTE: The ErrorReporter hook might be called if this fails.</span>
+<a name="l01011"></a>01011 <span class="comment">*/</span>
+<a name="l01012"></a>01012 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSString*)
+<a name="l01013"></a>01013 JSD_ValToStringInStackFrame(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc,
+<a name="l01014"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#abde23394a8cafaa525be2efd5c6d4b2e">01014</a>                             <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate,
+<a name="l01015"></a>01015                             <a class="code" href="../../de/d8f/jsdebug_8h.html#ab327a9d1976a084f2096f9ce50bd2931">JSDStackFrameInfo</a>* jsdframe,
+<a name="l01016"></a>01016                             <a class="code" href="../../d1/d94/class_j_s_1_1_value.html">jsval</a> <a class="code" href="../../d7/d27/jpeglib_8h.html#abde23394a8cafaa525be2efd5c6d4b2e">val</a>);
+<a name="l01017"></a>01017 
+<a name="l01018"></a>01018 <span class="comment">/*</span>
+<a name="l01019"></a>01019 <span class="comment">* Get the JSDValue currently being thrown as an exception (may be NULL).</span>
+<a name="l01020"></a>01020 <span class="comment">* NOTE: must eventually release by calling JSD_DropValue (if not NULL)</span>
+<a name="l01021"></a>01021 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01022"></a>01022 <span class="comment">*/</span>
+<a name="l01023"></a>01023 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l01024"></a>01024 JSD_GetException(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate);
+<a name="l01025"></a>01025 
+<a name="l01026"></a>01026 <span class="comment">/*</span>
+<a name="l01027"></a>01027 <span class="comment">* Set the JSDValue currently being thrown as an exception.</span>
+<a name="l01028"></a>01028 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01029"></a>01029 <span class="comment">*/</span>
+<a name="l01030"></a>01030 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01031"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a8324ae6f0e17db42ad387b282e5c098b">01031</a> JSD_SetException(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a1e008c711c67c70b27ed86c224a59fb8">JSDThreadState</a>* jsdthreadstate, 
+<a name="l01032"></a>01032                  <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* <a class="code" href="../../de/d8f/jsdebug_8h.html#a8324ae6f0e17db42ad387b282e5c098b">jsdval</a>);
+<a name="l01033"></a>01033 
+<a name="l01034"></a>01034 <span class="comment">/***************************************************************************/</span>
+<a name="l01035"></a>01035 <span class="comment">/* Error Reporter functions */</span>
+<a name="l01036"></a>01036 
+<a name="l01037"></a>01037 <span class="comment">/*</span>
+<a name="l01038"></a>01038 <span class="comment">* XXX The ErrorReporter Hook scheme is going to change soon to more</span>
+<a name="l01039"></a>01039 <span class="comment">*     Fully support exceptions.</span>
+<a name="l01040"></a>01040 <span class="comment">*/</span>
+<a name="l01041"></a>01041 
+<a name="l01042"></a>01042 <span class="comment">/* legal return values for JSD_ErrorReporter */</span>
+<a name="l01043"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a434c891a01b2eaa9fa647d9924c8cab6">01043</a> <span class="preprocessor">#define JSD_ERROR_REPORTER_PASS_ALONG   0 </span><span class="comment">/* pass along to regular reporter */</span>
+<a name="l01044"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a3e0e36615cbfedd1f4c01c4f76a7dc36">01044</a> <span class="preprocessor">#define JSD_ERROR_REPORTER_RETURN       1 </span><span class="comment">/* don&#39;t pass to error reporter */</span>
+<a name="l01045"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a0072a14408bddd90be992166b694e5e6">01045</a> <span class="preprocessor">#define JSD_ERROR_REPORTER_DEBUG        2 </span><span class="comment">/* force call to DebugBreakHook */</span>
+<a name="l01046"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a974d6e643c020582c471b85df84ac197">01046</a> <span class="preprocessor">#define JSD_ERROR_REPORTER_CLEAR_RETURN 3 </span><span class="comment">/* clear exception and don&#39;t pass */</span>
+<a name="l01047"></a>01047 
+<a name="l01048"></a>01048 <span class="comment">/*</span>
+<a name="l01049"></a>01049 <span class="comment">* Implement a callback of this form in order to hook the ErrorReporter</span>
+<a name="l01050"></a>01050 <span class="comment">*/</span>
+<a name="l01051"></a>01051 <span class="keyword">typedef</span> unsigned
+<a name="l01052"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a7162ce7a48d4082c6170715114b3a60a">01052</a> (* <a class="code" href="../../de/d8f/jsdebug_8h.html#a7162ce7a48d4082c6170715114b3a60a">JSD_ErrorReporter</a>)(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*     jsdc,
+<a name="l01053"></a>01053                       <a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>*      <a class="code" href="../../de/d8f/jsdebug_8h.html#ac84a9ad5e2527762d63c6001438948b3">cx</a>,
+<a name="l01054"></a>01054                       <span class="keyword">const</span> <span class="keywordtype">char</span>*     <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>,
+<a name="l01055"></a>01055                       <a class="code" href="../../da/d90/struct_j_s_error_report.html">JSErrorReport</a>*  <a class="code" href="../../da/ded/ds-test_8js.html#a3965fca7088910bf330fb0212a125cbb">report</a>,
+<a name="l01056"></a>01056                       <span class="keywordtype">void</span>*           <a class="code" href="../../de/deb/jsdbgapi_8h.html#ab79c9575868b474842b632a7489d927d">callerdata</a>);
+<a name="l01057"></a>01057 
+<a name="l01058"></a>01058 <span class="comment">/* Set ErrorReporter hook */</span>
+<a name="l01059"></a>01059 <span class="keyword">extern</span> <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01060"></a>01060 JSD_SetErrorReporter(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*       jsdc,
+<a name="l01061"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a345bfd71c51faeb6749e60c7c00f81d2">01061</a>                      <a class="code" href="../../de/d8f/jsdebug_8h.html#a7162ce7a48d4082c6170715114b3a60a">JSD_ErrorReporter</a> <a class="code" href="../../de/d8f/jsdebug_8h.html#a345bfd71c51faeb6749e60c7c00f81d2">reporter</a>,
+<a name="l01062"></a>01062                      <span class="keywordtype">void</span>*             callerdata);
+<a name="l01063"></a>01063 
+<a name="l01064"></a>01064 <span class="comment">/* Get Current ErrorReporter hook */</span>
+<a name="l01065"></a>01065 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01066"></a>01066 JSD_GetErrorReporter(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>*        jsdc,
+<a name="l01067"></a>01067                      <a class="code" href="../../de/d8f/jsdebug_8h.html#a7162ce7a48d4082c6170715114b3a60a">JSD_ErrorReporter</a>* reporter,
+<a name="l01068"></a>01068                      <span class="keywordtype">void</span>**             callerdata);
+<a name="l01069"></a>01069 
+<a name="l01070"></a>01070 <span class="comment">/***************************************************************************/</span>
+<a name="l01071"></a>01071 <span class="comment">/* Generic locks that callers can use for their own purposes */</span>
+<a name="l01072"></a>01072 
+<a name="l01073"></a>01073 struct JSDStaticLock;
+<a name="l01074"></a>01074 
+<a name="l01075"></a>01075 <span class="comment">/*</span>
+<a name="l01076"></a>01076 <span class="comment">* Is Locking and GetThread supported in this build?</span>
+<a name="l01077"></a>01077 <span class="comment">*/</span>
+<a name="l01078"></a>01078 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01079"></a>01079 JSD_IsLockingAndThreadIdSupported();
+<a name="l01080"></a>01080 
+<a name="l01081"></a>01081 <span class="comment">/*</span>
+<a name="l01082"></a>01082 <span class="comment">* Create a reentrant/nestable lock</span>
+<a name="l01083"></a>01083 <span class="comment">*/</span>
+<a name="l01084"></a>01084 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSDStaticLock*)
+<a name="l01085"></a>01085 JSD_CreateLock();
+<a name="l01086"></a>01086 
+<a name="l01087"></a>01087 <span class="comment">/*</span>
+<a name="l01088"></a>01088 <span class="comment">* Aquire lock for this thread (or block until available). Increments a</span>
+<a name="l01089"></a>01089 <span class="comment">* counter if this thread already owns the lock.</span>
+<a name="l01090"></a>01090 <span class="comment">*/</span>
+<a name="l01091"></a>01091 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l01092"></a>01092 JSD_Lock(JSDStaticLock* <a class="code" href="../../df/d6d/prpdce_8h.html#a3a0acaef79170339a71bc1c4c54ad225">lock</a>);
+<a name="l01093"></a>01093 
+<a name="l01094"></a>01094 <span class="comment">/*</span>
+<a name="l01095"></a>01095 <span class="comment">* Release lock for this thread (or decrement the counter if JSD_Lock</span>
+<a name="l01096"></a>01096 <span class="comment">* was previous called more than once).</span>
+<a name="l01097"></a>01097 <span class="comment">*/</span>
+<a name="l01098"></a>01098 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l01099"></a>01099 JSD_Unlock(JSDStaticLock* lock);
+<a name="l01100"></a>01100 
+<a name="l01101"></a>01101 <span class="comment">/*</span>
+<a name="l01102"></a>01102 <span class="comment">* For debugging only if not (JS_THREADSAFE AND DEBUG) then returns JS_TRUE</span>
+<a name="l01103"></a>01103 <span class="comment">*    So JSD_IsLocked(lock) may not equal !JSD_IsUnlocked(lock)</span>
+<a name="l01104"></a>01104 <span class="comment">*/</span>
+<a name="l01105"></a>01105 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01106"></a>01106 JSD_IsLocked(JSDStaticLock* lock);
+<a name="l01107"></a>01107 
+<a name="l01108"></a>01108 <span class="comment">/*</span>
+<a name="l01109"></a>01109 <span class="comment">* See above...</span>
+<a name="l01110"></a>01110 <span class="comment">*/</span>
+<a name="l01111"></a>01111 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01112"></a>01112 JSD_IsUnlocked(JSDStaticLock* lock);
+<a name="l01113"></a>01113 
+<a name="l01114"></a>01114 <span class="comment">/*</span>
+<a name="l01115"></a>01115 <span class="comment">* return an ID uniquely identifying this thread.</span>
+<a name="l01116"></a>01116 <span class="comment">*/</span>
+<a name="l01117"></a>01117 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>*)
+<a name="l01118"></a>01118 JSD_CurrentThread();
+<a name="l01119"></a>01119 
+<a name="l01120"></a>01120 <span class="comment">/***************************************************************************/</span>
+<a name="l01121"></a>01121 <span class="comment">/* Value and Property Functions  --- All NEW for 1.1 --- */</span>
+<a name="l01122"></a>01122 
+<a name="l01123"></a>01123 <span class="comment">/*</span>
+<a name="l01124"></a>01124 <span class="comment">* NOTE: JSDValue and JSDProperty objects are reference counted. This allows</span>
+<a name="l01125"></a>01125 <span class="comment">* for rooting these objects AND any underlying garbage collected jsvals.</span>
+<a name="l01126"></a>01126 <span class="comment">* ALL JSDValue and JSDProperty objects returned by the functions below</span>
+<a name="l01127"></a>01127 <span class="comment">* MUST eventually be released using the appropriate JSD_Dropxxx function.</span>
+<a name="l01128"></a>01128 <span class="comment">*/</span>
+<a name="l01129"></a>01129 
+<a name="l01130"></a>01130 <span class="comment">/*</span>
+<a name="l01131"></a>01131 <span class="comment">* Create a new JSDValue to wrap the given jsval</span>
+<a name="l01132"></a>01132 <span class="comment">* NOTE: must eventually release by calling JSD_DropValue (if not NULL)</span>
+<a name="l01133"></a>01133 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01134"></a>01134 <span class="comment">*/</span>
+<a name="l01135"></a>01135 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l01136"></a>01136 JSD_NewValue(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../d1/d94/class_j_s_1_1_value.html">jsval</a> val);
+<a name="l01137"></a>01137 
+<a name="l01138"></a>01138 <span class="comment">/*</span>
+<a name="l01139"></a>01139 <span class="comment">* Release the JSDValue. After this call the object MUST not be referenced again!</span>
+<a name="l01140"></a>01140 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01141"></a>01141 <span class="comment">*/</span>
+<a name="l01142"></a>01142 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l01143"></a>01143 JSD_DropValue(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01144"></a>01144 
+<a name="l01145"></a>01145 <span class="comment">/*</span>
+<a name="l01146"></a>01146 <span class="comment">* Get the jsval wrapped by this JSDValue</span>
+<a name="l01147"></a>01147 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01148"></a>01148 <span class="comment">*/</span>
+<a name="l01149"></a>01149 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d1/d94/class_j_s_1_1_value.html">jsval</a>)
+<a name="l01150"></a>01150 JSD_GetValueWrappedJSVal(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01151"></a>01151 
+<a name="l01152"></a>01152 <span class="comment">/*</span>
+<a name="l01153"></a>01153 <span class="comment">* Clear all property and association information about the given JSDValue.</span>
+<a name="l01154"></a>01154 <span class="comment">* Such information will be lazily regenerated when later accessed. This</span>
+<a name="l01155"></a>01155 <span class="comment">* function must be called to make changes to the properties of an object</span>
+<a name="l01156"></a>01156 <span class="comment">* visible to the accessor functions below (if the properties et.al. have</span>
+<a name="l01157"></a>01157 <span class="comment">* changed since a previous call to those accessors).</span>
+<a name="l01158"></a>01158 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01159"></a>01159 <span class="comment">*/</span>
+<a name="l01160"></a>01160 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l01161"></a>01161 JSD_RefreshValue(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01162"></a>01162 
+<a name="l01163"></a>01163 <span class="comment">/**************************************************/</span>
+<a name="l01164"></a>01164 
+<a name="l01165"></a>01165 <span class="comment">/*</span>
+<a name="l01166"></a>01166 <span class="comment">* Does the JSDValue wrap a JSObject?</span>
+<a name="l01167"></a>01167 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01168"></a>01168 <span class="comment">*/</span>
+<a name="l01169"></a>01169 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01170"></a>01170 JSD_IsValueObject(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01171"></a>01171 
+<a name="l01172"></a>01172 <span class="comment">/*</span>
+<a name="l01173"></a>01173 <span class="comment">* Does the JSDValue wrap a number (int or double)?</span>
+<a name="l01174"></a>01174 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01175"></a>01175 <span class="comment">*/</span>
+<a name="l01176"></a>01176 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01177"></a>01177 JSD_IsValueNumber(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01178"></a>01178 
+<a name="l01179"></a>01179 <span class="comment">/*</span>
+<a name="l01180"></a>01180 <span class="comment">* Does the JSDValue wrap an int?</span>
+<a name="l01181"></a>01181 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01182"></a>01182 <span class="comment">*/</span>
+<a name="l01183"></a>01183 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01184"></a>01184 JSD_IsValueInt(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01185"></a>01185 
+<a name="l01186"></a>01186 <span class="comment">/*</span>
+<a name="l01187"></a>01187 <span class="comment">* Does the JSDValue wrap a double?</span>
+<a name="l01188"></a>01188 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01189"></a>01189 <span class="comment">*/</span>
+<a name="l01190"></a>01190 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01191"></a>01191 JSD_IsValueDouble(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01192"></a>01192 
+<a name="l01193"></a>01193 <span class="comment">/*</span>
+<a name="l01194"></a>01194 <span class="comment">* Does the JSDValue wrap a JSString?</span>
+<a name="l01195"></a>01195 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01196"></a>01196 <span class="comment">*/</span>
+<a name="l01197"></a>01197 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01198"></a>01198 JSD_IsValueString(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01199"></a>01199 
+<a name="l01200"></a>01200 <span class="comment">/*</span>
+<a name="l01201"></a>01201 <span class="comment">* Does the JSDValue wrap a JSBool?</span>
+<a name="l01202"></a>01202 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01203"></a>01203 <span class="comment">*/</span>
+<a name="l01204"></a>01204 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01205"></a>01205 JSD_IsValueBoolean(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01206"></a>01206 
+<a name="l01207"></a>01207 <span class="comment">/*</span>
+<a name="l01208"></a>01208 <span class="comment">* Does the JSDValue wrap a JSVAL_NULL?</span>
+<a name="l01209"></a>01209 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01210"></a>01210 <span class="comment">*/</span>
+<a name="l01211"></a>01211 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01212"></a>01212 JSD_IsValueNull(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01213"></a>01213 
+<a name="l01214"></a>01214 <span class="comment">/*</span>
+<a name="l01215"></a>01215 <span class="comment">* Does the JSDValue wrap a JSVAL_VOID?</span>
+<a name="l01216"></a>01216 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01217"></a>01217 <span class="comment">*/</span>
+<a name="l01218"></a>01218 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01219"></a>01219 JSD_IsValueVoid(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01220"></a>01220 
+<a name="l01221"></a>01221 <span class="comment">/*</span>
+<a name="l01222"></a>01222 <span class="comment">* Does the JSDValue wrap a primative (not a JSObject)?</span>
+<a name="l01223"></a>01223 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01224"></a>01224 <span class="comment">*/</span>
+<a name="l01225"></a>01225 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01226"></a>01226 JSD_IsValuePrimitive(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01227"></a>01227 
+<a name="l01228"></a>01228 <span class="comment">/*</span>
+<a name="l01229"></a>01229 <span class="comment">* Does the JSDValue wrap a function?</span>
+<a name="l01230"></a>01230 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01231"></a>01231 <span class="comment">*/</span>
+<a name="l01232"></a>01232 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01233"></a>01233 JSD_IsValueFunction(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01234"></a>01234 
+<a name="l01235"></a>01235 <span class="comment">/*</span>
+<a name="l01236"></a>01236 <span class="comment">* Does the JSDValue wrap a native function?</span>
+<a name="l01237"></a>01237 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01238"></a>01238 <span class="comment">*/</span>
+<a name="l01239"></a>01239 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01240"></a>01240 JSD_IsValueNative(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01241"></a>01241 
+<a name="l01242"></a>01242 <span class="comment">/**************************************************/</span>
+<a name="l01243"></a>01243 
+<a name="l01244"></a>01244 <span class="comment">/*</span>
+<a name="l01245"></a>01245 <span class="comment">* Return JSBool value (does NOT do conversion).</span>
+<a name="l01246"></a>01246 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01247"></a>01247 <span class="comment">*/</span>
+<a name="l01248"></a>01248 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d9/d8c/jstypes_8h.html#ab8eba5ea71cb25a6434e714c547c62a7">JSBool</a>)
+<a name="l01249"></a>01249 JSD_GetValueBoolean(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01250"></a>01250 
+<a name="l01251"></a>01251 <span class="comment">/*</span>
+<a name="l01252"></a>01252 <span class="comment">* Return int32_t value (does NOT do conversion).</span>
+<a name="l01253"></a>01253 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01254"></a>01254 <span class="comment">*/</span>
+<a name="l01255"></a>01255 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(int32_t)
+<a name="l01256"></a>01256 JSD_GetValueInt(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01257"></a>01257 
+<a name="l01258"></a>01258 <span class="comment">/*</span>
+<a name="l01259"></a>01259 <span class="comment">* Return double value (does NOT do conversion).</span>
+<a name="l01260"></a>01260 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01261"></a>01261 <span class="comment">*/</span>
+<a name="l01262"></a>01262 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">double</span>)
+<a name="l01263"></a>01263 JSD_GetValueDouble(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01264"></a>01264 
+<a name="l01265"></a>01265 <span class="comment">/*</span>
+<a name="l01266"></a>01266 <span class="comment">* Return JSString value (DOES do conversion if necessary).</span>
+<a name="l01267"></a>01267 <span class="comment">* NOTE that the JSString returned is not protected from garbage</span>
+<a name="l01268"></a>01268 <span class="comment">* collection. It should be immediately read or wrapped using</span>
+<a name="l01269"></a>01269 <span class="comment">* JSD_NewValue(jsdc,STRING_TO_JSVAL(str)) if necessary.</span>
+<a name="l01270"></a>01270 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01271"></a>01271 <span class="comment">*/</span>
+<a name="l01272"></a>01272 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSString*)
+<a name="l01273"></a>01273 JSD_GetValueString(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01274"></a>01274 
+<a name="l01275"></a>01275 <span class="comment">/*</span>
+<a name="l01276"></a>01276 <span class="comment">* Return name of function IFF JSDValue represents a function.</span>
+<a name="l01277"></a>01277 <span class="comment">* *** new for gecko 2.0 ****</span>
+<a name="l01278"></a>01278 <span class="comment">*/</span>
+<a name="l01279"></a>01279 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSString *)
+<a name="l01280"></a>01280 JSD_GetValueFunctionId(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01281"></a>01281 
+<a name="l01282"></a>01282 <span class="comment">/*</span>
+<a name="l01283"></a>01283 <span class="comment">* Return function object IFF JSDValue represents a function or an object</span>
+<a name="l01284"></a>01284 <span class="comment">* wrapping a function.</span>
+<a name="l01285"></a>01285 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01286"></a>01286 <span class="comment">*/</span>
+<a name="l01287"></a>01287 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSFunction*)
+<a name="l01288"></a>01288 JSD_GetValueFunction(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01289"></a>01289 
+<a name="l01290"></a>01290 <span class="comment">/**************************************************/</span>
+<a name="l01291"></a>01291 
+<a name="l01292"></a>01292 <span class="comment">/*</span>
+<a name="l01293"></a>01293 <span class="comment">* Return the number of properties for the JSDValue.</span>
+<a name="l01294"></a>01294 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01295"></a>01295 <span class="comment">*/</span>
+<a name="l01296"></a>01296 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l01297"></a>01297 JSD_GetCountOfProperties(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01298"></a>01298 
+<a name="l01299"></a>01299 <span class="comment">/*</span>
+<a name="l01300"></a>01300 <span class="comment">* Iterate through the properties of the JSDValue.</span>
+<a name="l01301"></a>01301 <span class="comment">* Use form similar to that shown for JSD_IterateScripts (no locking required).</span>
+<a name="l01302"></a>01302 <span class="comment">* NOTE: each JSDProperty returned must eventually be released by calling</span>
+<a name="l01303"></a>01303 <span class="comment">* JSD_DropProperty.</span>
+<a name="l01304"></a>01304 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01305"></a>01305 <span class="comment">*/</span>
+<a name="l01306"></a>01306 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">JSDProperty</a>*)
+<a name="l01307"></a>01307 JSD_IterateProperties(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">JSDProperty</a> **iterp);
+<a name="l01308"></a>01308 
+<a name="l01309"></a>01309 <span class="comment">/* </span>
+<a name="l01310"></a>01310 <span class="comment">* Get the JSDProperty for the property of this JSDVal with this name.</span>
+<a name="l01311"></a>01311 <span class="comment">* NOTE: must eventually release by calling JSD_DropProperty (if not NULL)</span>
+<a name="l01312"></a>01312 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01313"></a>01313 <span class="comment">*/</span>
+<a name="l01314"></a>01314 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">JSDProperty</a>*)
+<a name="l01315"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a095c25b92850d0b5f91233087359b875">01315</a> JSD_GetValueProperty(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval, JSString* <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>);
+<a name="l01316"></a>01316 
+<a name="l01317"></a>01317 <span class="comment">/*</span>
+<a name="l01318"></a>01318 <span class="comment">* Get the prototype object for this JSDValue.</span>
+<a name="l01319"></a>01319 <span class="comment">* NOTE: must eventually release by calling JSD_DropValue (if not NULL)</span>
+<a name="l01320"></a>01320 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01321"></a>01321 <span class="comment">*/</span>
+<a name="l01322"></a>01322 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l01323"></a>01323 JSD_GetValuePrototype(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01324"></a>01324 
+<a name="l01325"></a>01325 <span class="comment">/*</span>
+<a name="l01326"></a>01326 <span class="comment">* Get the parent object for this JSDValue.</span>
+<a name="l01327"></a>01327 <span class="comment">* NOTE: must eventually release by calling JSD_DropValue (if not NULL)</span>
+<a name="l01328"></a>01328 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01329"></a>01329 <span class="comment">*/</span>
+<a name="l01330"></a>01330 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l01331"></a>01331 JSD_GetValueParent(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01332"></a>01332 
+<a name="l01333"></a>01333 <span class="comment">/*</span>
+<a name="l01334"></a>01334 <span class="comment">* Get the ctor object for this JSDValue (or likely its prototype&#39;s ctor).</span>
+<a name="l01335"></a>01335 <span class="comment">* NOTE: must eventually release by calling JSD_DropValue (if not NULL)</span>
+<a name="l01336"></a>01336 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01337"></a>01337 <span class="comment">*/</span>
+<a name="l01338"></a>01338 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l01339"></a>01339 JSD_GetValueConstructor(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01340"></a>01340 
+<a name="l01341"></a>01341 <span class="comment">/*</span>
+<a name="l01342"></a>01342 <span class="comment">* Get the name of the class for this object.</span>
+<a name="l01343"></a>01343 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01344"></a>01344 <span class="comment">*/</span>
+<a name="l01345"></a>01345 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>*)
+<a name="l01346"></a>01346 JSD_GetValueClassName(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01347"></a>01347 
+<a name="l01348"></a>01348 <span class="comment">/*</span>
+<a name="l01349"></a>01349 <span class="comment">* Get the script for the given value if the given value represents a</span>
+<a name="l01350"></a>01350 <span class="comment">* scripted function.  Otherwise, return null.</span>
+<a name="l01351"></a>01351 <span class="comment">*/</span>
+<a name="l01352"></a>01352 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#accb39f617a042010b5056f6245b611e3">JSDScript</a>*)
+<a name="l01353"></a>01353 JSD_GetScriptForValue(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01354"></a>01354 
+<a name="l01355"></a>01355 <span class="comment">/**************************************************/</span>
+<a name="l01356"></a>01356 
+<a name="l01357"></a>01357 <span class="comment">/* possible or&#39;d together bitflags returned by JSD_GetPropertyFlags</span>
+<a name="l01358"></a>01358 <span class="comment"> *</span>
+<a name="l01359"></a>01359 <span class="comment"> * XXX these must stay the same as the JSPD_ flags in jsdbgapi.h</span>
+<a name="l01360"></a>01360 <span class="comment"> */</span>
+<a name="l01361"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a805cd6b5a1f09f78a278b58c80a8556f">01361</a> <span class="preprocessor">#define JSDPD_ENUMERATE  JSPD_ENUMERATE    </span><span class="comment">/* visible to for/in loop */</span>
+<a name="l01362"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a74c30b63acec8b28414b2ae0cd21dbcf">01362</a> <span class="preprocessor">#define JSDPD_READONLY   JSPD_READONLY     </span><span class="comment">/* assignment is error */</span>
+<a name="l01363"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#affd18564c69613b8cfc407c7bf9aa463">01363</a> <span class="preprocessor">#define JSDPD_PERMANENT  JSPD_PERMANENT    </span><span class="comment">/* property cannot be deleted */</span>
+<a name="l01364"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#ad66bc0bf9d37ba3479d3c0cdf3af333e">01364</a> <span class="preprocessor">#define JSDPD_ALIAS      JSPD_ALIAS        </span><span class="comment">/* property has an alias id */</span>
+<a name="l01365"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a8d977da802c1564c4c41a033e4297523">01365</a> <span class="preprocessor">#define JSDPD_EXCEPTION  JSPD_EXCEPTION    </span><span class="comment">/* exception occurred looking up */</span>
+<a name="l01366"></a>01366                                            <span class="comment">/* proprety, value is exception  */</span>
+<a name="l01367"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a8ce26a331c4cb0ebdd592c57b93445ed">01367</a> <span class="preprocessor">#define JSDPD_ERROR      JSPD_ERROR        </span><span class="comment">/* native getter returned JS_FALSE */</span>
+<a name="l01368"></a>01368                                            <span class="comment">/* without throwing an exception */</span>
+<a name="l01369"></a>01369 <span class="comment">/* this is not one of the JSPD_ flags in jsdbgapi.h  - careful not to overlap*/</span>
+<a name="l01370"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a4d236898600958989ef9936424964642">01370</a> <span class="preprocessor">#define JSDPD_HINTED     0x800             </span><span class="comment">/* found via explicit lookup */</span>
+<a name="l01371"></a>01371 
+<a name="l01372"></a>01372 <span class="comment">/*</span>
+<a name="l01373"></a>01373 <span class="comment">* Release this JSDProperty</span>
+<a name="l01374"></a>01374 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01375"></a>01375 <span class="comment">*/</span>
+<a name="l01376"></a>01376 <span class="keyword">extern</span> <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l01377"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#ad155b544fa2ff94c0fc1229dc4fc45ef">01377</a> JSD_DropProperty(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">JSDProperty</a>* <a class="code" href="../../de/d8f/jsdebug_8h.html#ad155b544fa2ff94c0fc1229dc4fc45ef">jsdprop</a>);
+<a name="l01378"></a>01378 
+<a name="l01379"></a>01379 <span class="comment">/*</span>
+<a name="l01380"></a>01380 <span class="comment">* Get the JSDValue represeting the name of this property (int or string)</span>
+<a name="l01381"></a>01381 <span class="comment">* NOTE: must eventually release by calling JSD_DropValue</span>
+<a name="l01382"></a>01382 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01383"></a>01383 <span class="comment">*/</span>
+<a name="l01384"></a>01384 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l01385"></a>01385 JSD_GetPropertyName(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">JSDProperty</a>* jsdprop);
+<a name="l01386"></a>01386 
+<a name="l01387"></a>01387 <span class="comment">/*</span>
+<a name="l01388"></a>01388 <span class="comment">* Get the JSDValue represeting the current value of this property</span>
+<a name="l01389"></a>01389 <span class="comment">* NOTE: must eventually release by calling JSD_DropValue (if not NULL)</span>
+<a name="l01390"></a>01390 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01391"></a>01391 <span class="comment">*/</span>
+<a name="l01392"></a>01392 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l01393"></a>01393 JSD_GetPropertyValue(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">JSDProperty</a>* jsdprop);
+<a name="l01394"></a>01394 
+<a name="l01395"></a>01395 <span class="comment">/*</span>
+<a name="l01396"></a>01396 <span class="comment">* Get the JSDValue represeting the alias of this property (if JSDPD_ALIAS set)</span>
+<a name="l01397"></a>01397 <span class="comment">* NOTE: must eventually release by calling JSD_DropValue (if not NULL)</span>
+<a name="l01398"></a>01398 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01399"></a>01399 <span class="comment">*/</span>
+<a name="l01400"></a>01400 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l01401"></a>01401 JSD_GetPropertyAlias(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">JSDProperty</a>* jsdprop);
+<a name="l01402"></a>01402 
+<a name="l01403"></a>01403 <span class="comment">/*</span>
+<a name="l01404"></a>01404 <span class="comment">* Get the flags for this property</span>
+<a name="l01405"></a>01405 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01406"></a>01406 <span class="comment">*/</span>
+<a name="l01407"></a>01407 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l01408"></a>01408 JSD_GetPropertyFlags(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a7bd124be14e341e6c004368ac3857d">JSDProperty</a>* jsdprop);
+<a name="l01409"></a>01409 
+<a name="l01410"></a>01410 <span class="comment">/***************************************************************************/</span>
+<a name="l01411"></a>01411 <span class="comment">/* Object Functions  --- All NEW for 1.1 --- */</span>
+<a name="l01412"></a>01412 
+<a name="l01413"></a>01413 <span class="comment">/*</span>
+<a name="l01414"></a>01414 <span class="comment">* JSDObjects exist to allow a means of iterating through all JSObjects in the</span>
+<a name="l01415"></a>01415 <span class="comment">* engine. They are created and destroyed as the wrapped JSObjects are created</span>
+<a name="l01416"></a>01416 <span class="comment">* and destroyed in the engine. JSDObjects additionally track the location in</span>
+<a name="l01417"></a>01417 <span class="comment">* the JavaScript source where their wrapped JSObjects were created and the name</span>
+<a name="l01418"></a>01418 <span class="comment">* and location of the (non-native) constructor used.</span>
+<a name="l01419"></a>01419 <span class="comment">*</span>
+<a name="l01420"></a>01420 <span class="comment">* NOTE: JSDObjects are NOT reference counted. The have only weak links to</span>
+<a name="l01421"></a>01421 <span class="comment">* jsObjects - thus they do not inhibit garbage collection of JSObjects. If</span>
+<a name="l01422"></a>01422 <span class="comment">* you need a JSDObject to safely persist then wrap it in a JSDValue (using</span>
+<a name="l01423"></a>01423 <span class="comment">* jsd_GetValueForObject).</span>
+<a name="l01424"></a>01424 <span class="comment">*/</span>
+<a name="l01425"></a>01425 
+<a name="l01426"></a>01426 <span class="comment">/*</span>
+<a name="l01427"></a>01427 <span class="comment">* Lock the entire Object subsystem -- see JSD_UnlockObjectSubsystem</span>
+<a name="l01428"></a>01428 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01429"></a>01429 <span class="comment">*/</span>
+<a name="l01430"></a>01430 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l01431"></a>01431 JSD_LockObjectSubsystem(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l01432"></a>01432 
+<a name="l01433"></a>01433 <span class="comment">/*</span>
+<a name="l01434"></a>01434 <span class="comment">* Unlock the entire Object subsystem -- see JSD_LockObjectSubsystem</span>
+<a name="l01435"></a>01435 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01436"></a>01436 <span class="comment">*/</span>
+<a name="l01437"></a>01437 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">void</span>)
+<a name="l01438"></a>01438 JSD_UnlockObjectSubsystem(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc);
+<a name="l01439"></a>01439 
+<a name="l01440"></a>01440 <span class="comment">/*</span>
+<a name="l01441"></a>01441 <span class="comment">* Iterate through the known objects</span>
+<a name="l01442"></a>01442 <span class="comment">* Use form similar to that shown for JSD_IterateScripts.</span>
+<a name="l01443"></a>01443 <span class="comment">* NOTE: the ObjectSubsystem must be locked before and unlocked after iterating.</span>
+<a name="l01444"></a>01444 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01445"></a>01445 <span class="comment">*/</span>
+<a name="l01446"></a>01446 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>*)
+<a name="l01447"></a>01447 JSD_IterateObjects(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>** iterp);
+<a name="l01448"></a>01448 
+<a name="l01449"></a>01449 <span class="comment">/*</span>
+<a name="l01450"></a>01450 <span class="comment">* Get the JSObject represented by this JSDObject</span>
+<a name="l01451"></a>01451 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01452"></a>01452 <span class="comment">*/</span>
+<a name="l01453"></a>01453 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(JSObject*)
+<a name="l01454"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a725a433363610b83e2934c626e581276">01454</a> JSD_GetWrappedObject(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>* <a class="code" href="../../de/d8f/jsdebug_8h.html#a725a433363610b83e2934c626e581276">jsdobj</a>);
+<a name="l01455"></a>01455 
+<a name="l01456"></a>01456 <span class="comment">/*</span>
+<a name="l01457"></a>01457 <span class="comment">* Get the URL of the line of source that caused this object to be created.</span>
+<a name="l01458"></a>01458 <span class="comment">* May be NULL.</span>
+<a name="l01459"></a>01459 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01460"></a>01460 <span class="comment">*/</span>
+<a name="l01461"></a>01461 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>*)
+<a name="l01462"></a>01462 JSD_GetObjectNewURL(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>* jsdobj);
+<a name="l01463"></a>01463 
+<a name="l01464"></a>01464 <span class="comment">/*</span>
+<a name="l01465"></a>01465 <span class="comment">* Get the line number of the line of source that caused this object to be</span>
+<a name="l01466"></a>01466 <span class="comment">* created. May be 0 indicating that the line number is unknown.</span>
+<a name="l01467"></a>01467 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01468"></a>01468 <span class="comment">*/</span>
+<a name="l01469"></a>01469 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l01470"></a>01470 JSD_GetObjectNewLineNumber(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>* jsdobj);
+<a name="l01471"></a>01471 
+<a name="l01472"></a>01472 <span class="comment">/*</span>
+<a name="l01473"></a>01473 <span class="comment">* Get the URL of the line of source of the constructor for this object.</span>
+<a name="l01474"></a>01474 <span class="comment">* May be NULL.</span>
+<a name="l01475"></a>01475 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01476"></a>01476 <span class="comment">*/</span>
+<a name="l01477"></a>01477 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>*)
+<a name="l01478"></a>01478 JSD_GetObjectConstructorURL(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>* jsdobj);
+<a name="l01479"></a>01479 
+<a name="l01480"></a>01480 <span class="comment">/*</span>
+<a name="l01481"></a>01481 <span class="comment">* Get the line number of the line of source of the constructor for this object.</span>
+<a name="l01482"></a>01482 <span class="comment">* created. May be 0 indicating that the line number is unknown.</span>
+<a name="l01483"></a>01483 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01484"></a>01484 <span class="comment">*/</span>
+<a name="l01485"></a>01485 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<span class="keywordtype">unsigned</span>)
+<a name="l01486"></a>01486 JSD_GetObjectConstructorLineNumber(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>* jsdobj);
+<a name="l01487"></a>01487 
+<a name="l01488"></a>01488 <span class="comment">/*</span>
+<a name="l01489"></a>01489 <span class="comment">* Get the name of the constructor for this object.</span>
+<a name="l01490"></a>01490 <span class="comment">* May be NULL.</span>
+<a name="l01491"></a>01491 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01492"></a>01492 <span class="comment">*/</span>
+<a name="l01493"></a>01493 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <span class="keywordtype">char</span>*)
+<a name="l01494"></a>01494 JSD_GetObjectConstructorName(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>* jsdobj);
+<a name="l01495"></a>01495 
+<a name="l01496"></a>01496 <span class="comment">/*</span>
+<a name="l01497"></a>01497 <span class="comment">* Get JSDObject representing this JSObject.</span>
+<a name="l01498"></a>01498 <span class="comment">* May return NULL.</span>
+<a name="l01499"></a>01499 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01500"></a>01500 <span class="comment">*/</span>
+<a name="l01501"></a>01501 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>*)
+<a name="l01502"></a><a class="code" href="../../de/d8f/jsdebug_8h.html#a50a70e6666976e09ec013657e11830cb">01502</a> JSD_GetJSDObjectForJSObject(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, JSObject* <a class="code" href="../../de/d8f/jsdebug_8h.html#a50a70e6666976e09ec013657e11830cb">jsobj</a>);
+<a name="l01503"></a>01503 
+<a name="l01504"></a>01504 <span class="comment">/*</span>
+<a name="l01505"></a>01505 <span class="comment">* Get JSDObject representing this JSDValue.</span>
+<a name="l01506"></a>01506 <span class="comment">* May return NULL.</span>
+<a name="l01507"></a>01507 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01508"></a>01508 <span class="comment">*/</span>
+<a name="l01509"></a>01509 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>*)
+<a name="l01510"></a>01510 JSD_GetObjectForValue(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>* jsdval);
+<a name="l01511"></a>01511 
+<a name="l01512"></a>01512 <span class="comment">/*</span>
+<a name="l01513"></a>01513 <span class="comment">* Create a JSDValue to wrap (and root) this JSDObject.</span>
+<a name="l01514"></a>01514 <span class="comment">* NOTE: must eventually release by calling JSD_DropValue (if not NULL)</span>
+<a name="l01515"></a>01515 <span class="comment">* *** new for version 1.1 ****</span>
+<a name="l01516"></a>01516 <span class="comment">*/</span>
+<a name="l01517"></a>01517 extern <a class="code" href="../../de/d8f/jsdebug_8h.html#a6e72be8119362a2c9a7c0ac288c5eb66">JSD_PUBLIC_API</a>(<a class="code" href="../../de/d8f/jsdebug_8h.html#a6a39422060436aeba1c832cf26d2f2d3">JSDValue</a>*)
+<a name="l01518"></a>01518 JSD_GetValueForObject(<a class="code" href="../../de/d8f/jsdebug_8h.html#a8da124e7631a4bb7a09418bca5c339c2">JSDContext</a>* jsdc, <a class="code" href="../../de/d8f/jsdebug_8h.html#a9402c754487376eaadb4cd749a72fa70">JSDObject</a>* jsdobj);
+<a name="l01519"></a>01519 
+<a name="l01520"></a>01520 } <span class="comment">// extern &quot;C&quot;</span>
+<a name="l01521"></a>01521 
+<a name="l01522"></a>01522 <span class="preprocessor">#endif </span><span class="comment">/* jsdebug_h___ */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/d8f/jsdebug_8h.html">jsdebug.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:29に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

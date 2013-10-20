@@ -1,0 +1,25 @@
+var interfacens_i_d_o_m_moz_sms_message =
+[
+    [ "GetBody", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a60d3843ac8e8bd3ccc3002348c08c786", null ],
+    [ "GetDelivery", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#ac113709d7823e5e9b26fc010b6b7026b", null ],
+    [ "GetDeliveryStatus", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a7a3fcea75c565825f855e2c3238b6df6", null ],
+    [ "GetId", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a4ac3cc20685b25f7b18f87bed45a6e1e", null ],
+    [ "GetMessageClass", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a2808525e132eaf012483557434973efc", null ],
+    [ "GetRead", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#aa3336d76a1ac34d326da02787c8d356d", null ],
+    [ "GetReceiver", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a4feb45159721a7323958ff1ff3dc4279", null ],
+    [ "GetSender", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#ab322845a7f11f98ab0c56d1939f1c6d1", null ],
+    [ "GetThreadId", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a296749b875dd64c2e55c728a722c8049", null ],
+    [ "GetTimestamp", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#ab6bb2c5c3f57d499e45b86ab67c12179", null ],
+    [ "GetType", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a697802514838949c8bf5af217fb35603", null ],
+    [ "body", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a117b07279fa46f431551fc249e59c930", null ],
+    [ "delivery", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a5e4fcaead5a569d10502f002428d8b1d", null ],
+    [ "deliveryStatus", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a7f71ffa4cb811d4d1795598a0c681bd5", null ],
+    [ "id", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a84b63ab819b10537b0ea76b2d71d3c1b", null ],
+    [ "messageClass", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#acb4a2da260e638fe5f1819546394fb34", null ],
+    [ "read", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a6277b70e3d4d582faff8839493cbbe22", null ],
+    [ "receiver", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#ab642bb25cfa856b068c64c05712966ee", null ],
+    [ "sender", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a887ac301c5efc2a5be0d7d5a53637426", null ],
+    [ "threadId", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a7ee7ac23167eea91e9302956d866a995", null ],
+    [ "timestamp", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a6796fd6471a50c73603b14527b996097", null ],
+    [ "type", "d0/d20/interfacens_i_d_o_m_moz_sms_message.html#a9311b542c46f9b7fa97dcecafc0880e0", null ]
+];

@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsThreadUtils.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d6/d6b/ns_thread_utils_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsThreadUtils.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d6/d6b/ns_thread_utils_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* vim:set ts=2 sw=2 sts=2 et cindent: */</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="preprocessor">#ifndef nsThreadUtils_h__</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor">#define nsThreadUtils_h__</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/df8/prthread_8h.html">prthread.h</a>&quot;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/dc8/prinrval_8h.html">prinrval.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/d3a/ns_i_thread_manager_8h.html">nsIThreadManager.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../da/d24/ns_i_thread_8h.html">nsIThread.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d4d/ns_i_runnable_8h.html">nsIRunnable.h</a>&quot;</span>
+<a name="l00015"></a>00015 <span class="preprocessor">#include &quot;<a class="code" href="../../df/d83/ns_i_cancelable_runnable_8h.html">nsICancelableRunnable.h</a>&quot;</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../d7/d55/ns_string_glue_8h.html">nsStringGlue.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d4/d07/ns_thread_i_ds_8h.html">mozilla/threads/nsThreadIDs.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/d8a/_likely_8h.html">mozilla/Likely.h</a>&quot;</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="comment">//-----------------------------------------------------------------------------</span>
+<a name="l00023"></a>00023 <span class="comment">// These methods are alternatives to the methods on nsIThreadManager, provided</span>
+<a name="l00024"></a>00024 <span class="comment">// for convenience.</span>
+<a name="l00025"></a>00025 
+<a name="l00029"></a>00029 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <span class="keywordtype">void</span>
+<a name="l00030"></a>00030 <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a21e0442d954d23858e07c0ec20daeb23">NS_SetThreadName</a>(<a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>, <span class="keyword">const</span> nsACString &amp;<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>);
+<a name="l00031"></a>00031 
+<a name="l00036"></a>00036 <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> LEN&gt;
+<a name="l00037"></a>00037 <span class="keyword">inline</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <span class="keywordtype">void</span>
+<a name="l00038"></a><a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a4ad63441be30fd4b3216edb81b9626e1">00038</a> <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a21e0442d954d23858e07c0ec20daeb23">NS_SetThreadName</a>(<a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>, <span class="keyword">const</span> <span class="keywordtype">char</span> (&amp;<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>)[LEN])
+<a name="l00039"></a>00039 {
+<a name="l00040"></a>00040   <a class="code" href="../../d3/d68/_value_8h.html#a3b52e66790b3e7fa53b9794163d633e5">static_assert</a>(LEN &lt;= 16,
+<a name="l00041"></a>00041                 <span class="stringliteral">&quot;Thread name must be no more than 16 characters&quot;</span>);
+<a name="l00042"></a>00042   <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a21e0442d954d23858e07c0ec20daeb23">NS_SetThreadName</a>(thread, nsDependentCString(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>));
+<a name="l00043"></a>00043 }
+<a name="l00044"></a>00044 
+<a name="l00058"></a>00058 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="code" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>
+<a name="l00059"></a>00059 <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#adddc6067b168c668ea69073f68e97f71">NS_NewThread</a>(<a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>,
+<a name="l00060"></a>00060              <a class="code" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *initialEvent = <span class="keyword">nullptr</span>,
+<a name="l00061"></a>00061              uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#a46e5dff29239c8fa0aa9a630df41494a">stackSize</a> = <a class="code" href="../../db/d87/interfacens_i_thread_manager.html#a97960309d606ec90abdad3efd315f5e7">nsIThreadManager::DEFAULT_STACK_SIZE</a>);
+<a name="l00062"></a>00062 
+<a name="l00066"></a>00066 <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> LEN&gt;
+<a name="l00067"></a>00067 <span class="keyword">inline</span> <a class="code" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>
+<a name="l00068"></a><a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a837aaa583d5b8fe5d83ef69a79b097ae">00068</a> <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a837aaa583d5b8fe5d83ef69a79b097ae">NS_NewNamedThread</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> (&amp;<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>)[LEN],
+<a name="l00069"></a>00069                   <a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>,
+<a name="l00070"></a>00070                   <a class="code" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *initialEvent = <span class="keyword">nullptr</span>,
+<a name="l00071"></a>00071                   uint32_t <a class="code" href="../../d2/d7d/jsapi_8h.html#a46e5dff29239c8fa0aa9a630df41494a">stackSize</a> = <a class="code" href="../../db/d87/interfacens_i_thread_manager.html#a97960309d606ec90abdad3efd315f5e7">nsIThreadManager::DEFAULT_STACK_SIZE</a>)
+<a name="l00072"></a>00072 {
+<a name="l00073"></a>00073     <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> rv = <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#adddc6067b168c668ea69073f68e97f71">NS_NewThread</a>(result, initialEvent, <a class="code" href="../../d2/d7d/jsapi_8h.html#a46e5dff29239c8fa0aa9a630df41494a">stackSize</a>);
+<a name="l00074"></a>00074     NS_SetThreadName&lt;LEN&gt;(*<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>, <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>);
+<a name="l00075"></a>00075     <span class="keywordflow">return</span> rv;
+<a name="l00076"></a>00076 }
+<a name="l00077"></a>00077 
+<a name="l00084"></a>00084 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="code" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>
+<a name="l00085"></a>00085 <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a0e23955f86320c4cfa18dc879048a0b8">NS_GetCurrentThread</a>(<a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>);
+<a name="l00086"></a>00086 
+<a name="l00093"></a>00093 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="code" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>
+<a name="l00094"></a>00094 <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#ae4c5142b834aaae025ffce4a0a883179">NS_GetMainThread</a>(<a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>);
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="preprocessor">#if defined(MOZILLA_INTERNAL_API) &amp;&amp; defined(XP_WIN)</span>
+<a name="l00097"></a>00097 <span class="preprocessor"></span><span class="keywordtype">bool</span> <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>();
+<a name="l00098"></a>00098 <span class="preprocessor">#elif defined(MOZILLA_INTERNAL_API) &amp;&amp; defined(NS_TLS)</span>
+<a name="l00099"></a>00099 <span class="preprocessor"></span><span class="comment">// This is defined in nsThreadManager.cpp and initialized to `Main` for the</span>
+<a name="l00100"></a>00100 <span class="comment">// main thread by nsThreadManager::Init.</span>
+<a name="l00101"></a>00101 <span class="keyword">extern</span> NS_TLS <a class="code" href="../../d0/dbd/namespacemozilla_1_1threads.html#abed925db1ce870c04cef57bb3ef86a77">mozilla::threads::ID</a> gTLSThreadID;
+<a name="l00102"></a>00102 <span class="preprocessor">#ifdef MOZ_ASAN</span>
+<a name="l00103"></a>00103 <span class="preprocessor"></span><span class="comment">// Temporary workaround, see bug 895845</span>
+<a name="l00104"></a>00104 <a class="code" href="../../d1/da8/_attributes_8h.html#a49d85b91c7a7be897c8650d147e5a4a6">MOZ_ASAN_BLACKLIST</a> <span class="keyword">static</span>
+<a name="l00105"></a>00105 <span class="preprocessor">#else</span>
+<a name="l00106"></a>00106 <span class="preprocessor"></span><span class="keyword">inline</span>
+<a name="l00107"></a>00107 <span class="preprocessor">#endif</span>
+<a name="l00108"></a>00108 <span class="preprocessor"></span><span class="keywordtype">bool</span> <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>()
+<a name="l00109"></a>00109 {
+<a name="l00110"></a>00110   <span class="keywordflow">return</span> gTLSThreadID == <a class="code" href="../../d0/dbd/namespacemozilla_1_1threads.html#abed925db1ce870c04cef57bb3ef86a77a8f236a133f67574f32e721b7b2fe869c">mozilla::threads::Main</a>;
+<a name="l00111"></a>00111 }
+<a name="l00112"></a>00112 <span class="preprocessor">#else</span>
+<a name="l00113"></a>00113 <span class="preprocessor"></span>
+<a name="l00119"></a>00119 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <span class="keywordtype">bool</span> <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a>();
+<a name="l00120"></a>00120 <span class="preprocessor">#endif</span>
+<a name="l00121"></a>00121 <span class="preprocessor"></span>
+<a name="l00131"></a>00131 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="code" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>
+<a name="l00132"></a>00132 <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#ac209c4e6e9b9c3cb894231f001f0c9a2">NS_DispatchToCurrentThread</a>(<a class="code" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>);
+<a name="l00133"></a>00133 
+<a name="l00145"></a>00145 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="code" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>
+<a name="l00146"></a>00146 <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a0fc41a358332e9db1313c1f9935c90d4">NS_DispatchToMainThread</a>(<a class="code" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>,
+<a name="l00147"></a>00147                         uint32_t dispatchFlags = <a class="code" href="../../df/d74/ns_i_event_target_8idl.html#a31b4ddb25d7cd084d8939f3137816573">NS_DISPATCH_NORMAL</a>);
+<a name="l00148"></a>00148 
+<a name="l00149"></a>00149 <span class="preprocessor">#ifndef XPCOM_GLUE_AVOID_NSPR</span>
+<a name="l00150"></a>00150 <span class="preprocessor"></span>
+<a name="l00165"></a>00165 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="code" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>
+<a name="l00166"></a>00166 <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a2f7fb6bc4189e9c2e8bb8bb4318a6620">NS_ProcessPendingEvents</a>(<a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *thread,
+<a name="l00167"></a>00167                         <a class="code" href="../../d7/dc8/prinrval_8h.html#a8a324cccce4fc21e339a82315bc0a47f">PRIntervalTime</a> <a class="code" href="../../da/d32/prio_8h.html#a0f2163507f01dc9bb68ca5c72cacaa34">timeout</a> = <a class="code" href="../../d7/dc8/prinrval_8h.html#a53ea90d97ce2085229d4763478c09888">PR_INTERVAL_NO_TIMEOUT</a>);
+<a name="l00168"></a>00168 <span class="preprocessor">#endif</span>
+<a name="l00169"></a>00169 <span class="preprocessor"></span>
+<a name="l00184"></a>00184 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <span class="keywordtype">bool</span>
+<a name="l00185"></a>00185 <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a1acff48cf44c9425388ce048f16ced11">NS_HasPendingEvents</a>(<a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *thread = <span class="keyword">nullptr</span>);
+<a name="l00186"></a>00186 
+<a name="l00204"></a>00204 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <span class="keywordtype">bool</span>
+<a name="l00205"></a>00205 <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a88bbef60e7587e65f43afc9e9d41d440">NS_ProcessNextEvent</a>(<a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *thread = <span class="keyword">nullptr</span>, <span class="keywordtype">bool</span> mayWait = <span class="keyword">true</span>);
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207 <span class="comment">//-----------------------------------------------------------------------------</span>
+<a name="l00208"></a>00208 <span class="comment">// Helpers that work with nsCOMPtr:</span>
+<a name="l00209"></a>00209 
+<a name="l00210"></a>00210 <span class="keyword">inline</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsIThread&gt;</a>
+<a name="l00211"></a><a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#adc6c821c50e68b193aec6398ea698010">00211</a> <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#adc6c821c50e68b193aec6398ea698010">do_GetCurrentThread</a>() {
+<a name="l00212"></a>00212   <a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *thread = <span class="keyword">nullptr</span>;
+<a name="l00213"></a>00213   <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a0e23955f86320c4cfa18dc879048a0b8">NS_GetCurrentThread</a>(&amp;thread);
+<a name="l00214"></a>00214   <span class="keywordflow">return</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsIThread&gt;</a>(<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>);
+<a name="l00215"></a>00215 }
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217 <span class="keyword">inline</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsIThread&gt;</a>
+<a name="l00218"></a><a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#aff412a81d1086982d6780afc2a478eff">00218</a> <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#aff412a81d1086982d6780afc2a478eff">do_GetMainThread</a>() {
+<a name="l00219"></a>00219   <a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *thread = <span class="keyword">nullptr</span>;
+<a name="l00220"></a>00220   <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#ae4c5142b834aaae025ffce4a0a883179">NS_GetMainThread</a>(&amp;thread);
+<a name="l00221"></a>00221   <span class="keywordflow">return</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsIThread&gt;</a>(<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>);
+<a name="l00222"></a>00222 }
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224 <span class="comment">//-----------------------------------------------------------------------------</span>
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226 <span class="preprocessor">#ifdef MOZILLA_INTERNAL_API</span>
+<a name="l00227"></a>00227 <span class="preprocessor"></span><span class="comment">// Fast access to the current thread.  Do not release the returned pointer!  If</span>
+<a name="l00228"></a>00228 <span class="comment">// you want to use this pointer from some other thread, then you will need to</span>
+<a name="l00229"></a>00229 <span class="comment">// AddRef it.  Otherwise, you should only consider this pointer valid from code</span>
+<a name="l00230"></a>00230 <span class="comment">// running on the current thread.</span>
+<a name="l00231"></a>00231 <span class="keyword">extern</span> <a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *<a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a0e23955f86320c4cfa18dc879048a0b8">NS_GetCurrentThread</a>();
+<a name="l00232"></a>00232 <span class="preprocessor">#endif</span>
+<a name="l00233"></a>00233 <span class="preprocessor"></span>
+<a name="l00234"></a>00234 <span class="comment">//-----------------------------------------------------------------------------</span>
+<a name="l00235"></a>00235 
+<a name="l00236"></a>00236 <span class="preprocessor">#ifndef XPCOM_GLUE_AVOID_NSPR</span>
+<a name="l00237"></a>00237 <span class="preprocessor"></span>
+<a name="l00238"></a>00238 <span class="preprocessor">#undef  IMETHOD_VISIBILITY</span>
+<a name="l00239"></a>00239 <span class="preprocessor"></span><span class="preprocessor">#define IMETHOD_VISIBILITY NS_COM_GLUE</span>
+<a name="l00240"></a>00240 <span class="preprocessor"></span>
+<a name="l00241"></a>00241 <span class="comment">// This class is designed to be subclassed.</span>
+<a name="l00242"></a><a class="code" href="../../da/ddb/classns_runnable.html">00242</a> <span class="keyword">class </span><a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="code" href="../../da/ddb/classns_runnable.html">nsRunnable</a> : <span class="keyword">public</span> <a class="code" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a>
+<a name="l00243"></a>00243 {
+<a name="l00244"></a>00244 <span class="keyword">public</span>:
+<a name="l00245"></a>00245   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#adc7f4e7f315cf8145f2c1312234d960b">NS_DECL_THREADSAFE_ISUPPORTS</a>
+<a name="l00246"></a>00246   <a class="code" href="../../db/d4d/ns_i_runnable_8h.html#a32e000fef3ac0e812ff5a393949b97b4">NS_DECL_NSIRUNNABLE</a>
+<a name="l00247"></a>00247 
+<a name="l00248"></a><a class="code" href="../../da/ddb/classns_runnable.html#a6f89c980bbe9cf82b54ca138e95f6793">00248</a>   <a class="code" href="../../da/ddb/classns_runnable.html#a6f89c980bbe9cf82b54ca138e95f6793">nsRunnable</a>() {
+<a name="l00249"></a>00249   }
+<a name="l00250"></a>00250 
+<a name="l00251"></a>00251 <span class="keyword">protected</span>:
+<a name="l00252"></a><a class="code" href="../../da/ddb/classns_runnable.html#a9cc1c701d48af9044765fe118c6b7a2b">00252</a>   <span class="keyword">virtual</span> <a class="code" href="../../da/ddb/classns_runnable.html#a9cc1c701d48af9044765fe118c6b7a2b">~nsRunnable</a>() {
+<a name="l00253"></a>00253   }
+<a name="l00254"></a>00254 };
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256 <span class="comment">// This class is designed to be subclassed.</span>
+<a name="l00257"></a><a class="code" href="../../db/dd0/classns_cancelable_runnable.html">00257</a> <span class="keyword">class </span><a class="code" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="code" href="../../db/dd0/classns_cancelable_runnable.html">nsCancelableRunnable</a> : <span class="keyword">public</span> <a class="code" href="../../db/d84/interfacens_i_cancelable_runnable.html">nsICancelableRunnable</a>
+<a name="l00258"></a>00258 {
+<a name="l00259"></a>00259 <span class="keyword">public</span>:
+<a name="l00260"></a>00260   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#adc7f4e7f315cf8145f2c1312234d960b">NS_DECL_THREADSAFE_ISUPPORTS</a>
+<a name="l00261"></a>00261   <a class="code" href="../../db/d4d/ns_i_runnable_8h.html#a32e000fef3ac0e812ff5a393949b97b4">NS_DECL_NSIRUNNABLE</a>
+<a name="l00262"></a>00262   <a class="code" href="../../df/d83/ns_i_cancelable_runnable_8h.html#a0e8e935e3021da575ce72079e3c0fbdf">NS_DECL_NSICANCELABLERUNNABLE</a>
+<a name="l00263"></a>00263 
+<a name="l00264"></a><a class="code" href="../../db/dd0/classns_cancelable_runnable.html#a93f94fe75c5bb92df26564ce34043ab1">00264</a>   <a class="code" href="../../db/dd0/classns_cancelable_runnable.html#a93f94fe75c5bb92df26564ce34043ab1">nsCancelableRunnable</a>() {
+<a name="l00265"></a>00265   }
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267 <span class="keyword">protected</span>:
+<a name="l00268"></a><a class="code" href="../../db/dd0/classns_cancelable_runnable.html#a8cb36488462b720fc53b333400b40cf2">00268</a>   <span class="keyword">virtual</span> <a class="code" href="../../db/dd0/classns_cancelable_runnable.html#a8cb36488462b720fc53b333400b40cf2">~nsCancelableRunnable</a>() {
+<a name="l00269"></a>00269   }
+<a name="l00270"></a>00270 };
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272 <span class="preprocessor">#undef  IMETHOD_VISIBILITY</span>
+<a name="l00273"></a><a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#ae0733fa80af55f9336c16cbe1c6ac414">00273</a> <span class="preprocessor"></span><span class="preprocessor">#define IMETHOD_VISIBILITY NS_VISIBILITY_HIDDEN</span>
+<a name="l00274"></a>00274 <span class="preprocessor"></span>
+<a name="l00275"></a>00275 <span class="comment">// An event that can be used to call a method on a class.  The class type must</span>
+<a name="l00276"></a>00276 <span class="comment">// support reference counting. This event supports Revoke for use</span>
+<a name="l00277"></a>00277 <span class="comment">// with nsRevocableEventPtr.</span>
+<a name="l00278"></a>00278 <span class="keyword">template</span> &lt;<span class="keyword">class </span>ClassType,
+<a name="l00279"></a>00279           <span class="keyword">typename</span> ReturnType = <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a>,
+<a name="l00280"></a>00280           <span class="keywordtype">bool</span> Owning = <span class="keyword">true</span>&gt;
+<a name="l00281"></a><a class="code" href="../../da/d62/classns_runnable_method.html">00281</a> <span class="keyword">class </span><a class="code" href="../../da/d62/classns_runnable_method.html">nsRunnableMethod</a> : <span class="keyword">public</span> <a class="code" href="../../da/ddb/classns_runnable.html">nsRunnable</a>
+<a name="l00282"></a>00282 {
+<a name="l00283"></a>00283 <span class="keyword">public</span>:
+<a name="l00284"></a>00284   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../da/d62/classns_runnable_method.html#afc164f857a0577120c1ec466cbd4dae9">Revoke</a>() = 0;
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286   <span class="comment">// These ReturnTypeEnforcer classes set up a blacklist for return types that</span>
+<a name="l00287"></a>00287   <span class="comment">// we know are not safe. The default ReturnTypeEnforcer compiles just fine but</span>
+<a name="l00288"></a>00288   <span class="comment">// already_AddRefed will not.</span>
+<a name="l00289"></a>00289   <span class="keyword">template</span> &lt;<span class="keyword">typename</span> OtherReturnType&gt;
+<a name="l00290"></a><a class="code" href="../../d3/d9c/classns_runnable_method_1_1_return_type_enforcer.html">00290</a>   <span class="keyword">class </span><a class="code" href="../../d3/d9c/classns_runnable_method_1_1_return_type_enforcer.html">ReturnTypeEnforcer</a>
+<a name="l00291"></a>00291   {
+<a name="l00292"></a>00292   <span class="keyword">public</span>:
+<a name="l00293"></a><a class="code" href="../../d3/d9c/classns_runnable_method_1_1_return_type_enforcer.html#ad2d934e9941f6dad8ec945b77054e784">00293</a>     <span class="keyword">typedef</span> <span class="keywordtype">int</span> <a class="code" href="../../d3/d9c/classns_runnable_method_1_1_return_type_enforcer.html#ad2d934e9941f6dad8ec945b77054e784">ReturnTypeIsSafe</a>;
+<a name="l00294"></a>00294   };
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296   <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00297"></a><a class="code" href="../../d5/dd0/classns_runnable_method_1_1_return_type_enforcer_3_01already___add_refed_3_01_t_01_4_01_4.html">00297</a>   <span class="keyword">class </span><a class="code" href="../../d3/d9c/classns_runnable_method_1_1_return_type_enforcer.html">ReturnTypeEnforcer</a>&lt;<a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;T&gt; &gt;
+<a name="l00298"></a>00298   {
+<a name="l00299"></a>00299     <span class="comment">// No ReturnTypeIsSafe makes this illegal!</span>
+<a name="l00300"></a>00300   };
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302   <span class="comment">// Make sure this return type is safe.</span>
+<a name="l00303"></a><a class="code" href="../../da/d62/classns_runnable_method.html#af5721c5d6051ebd04092b98dc2e471a1">00303</a>   <span class="keyword">typedef</span> <span class="keyword">typename</span> ReturnTypeEnforcer&lt;ReturnType&gt;::ReturnTypeIsSafe <a class="code" href="../../da/d62/classns_runnable_method.html#af5721c5d6051ebd04092b98dc2e471a1">check</a>;
+<a name="l00304"></a>00304 };
+<a name="l00305"></a>00305 
+<a name="l00306"></a>00306 <span class="keyword">template</span> &lt;<span class="keyword">class</span> ClassType, <span class="keywordtype">bool</span> Owning&gt;
+<a name="l00307"></a><a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html">00307</a> <span class="keyword">struct </span><a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html">nsRunnableMethodReceiver</a> {
+<a name="l00308"></a><a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a814d48eb3243bc3c297a5d4844bea2db">00308</a>   ClassType *<a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a814d48eb3243bc3c297a5d4844bea2db">mObj</a>;
+<a name="l00309"></a><a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a297e79e6f911da6e1a17ac04271e13e0">00309</a>   <a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a297e79e6f911da6e1a17ac04271e13e0">nsRunnableMethodReceiver</a>(ClassType *<a class="code" href="../../d2/d7d/jsapi_8h.html#a2219cf9467e8547184b3cf2b051e8067">obj</a>) : <a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a814d48eb3243bc3c297a5d4844bea2db">mObj</a>(obj) { <a class="code" href="../../d9/d4b/ns_i_supports_utils_8h.html#ae9c407d2eae31f9b17060be487f98263">NS_IF_ADDREF</a>(<a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a814d48eb3243bc3c297a5d4844bea2db">mObj</a>); }
+<a name="l00310"></a><a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#ab69baf6ed68235bff136a924f202dd86">00310</a>  <a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#ab69baf6ed68235bff136a924f202dd86">~nsRunnableMethodReceiver</a>() { <a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a856614a710a65ce619fab25d99d994a3">Revoke</a>(); }
+<a name="l00311"></a><a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a856614a710a65ce619fab25d99d994a3">00311</a>   <span class="keywordtype">void</span> <a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a856614a710a65ce619fab25d99d994a3">Revoke</a>() { <a class="code" href="../../d9/d4b/ns_i_supports_utils_8h.html#aed3eee87153a8f0723fe674cf2138348">NS_IF_RELEASE</a>(<a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a814d48eb3243bc3c297a5d4844bea2db">mObj</a>); }
+<a name="l00312"></a>00312 };
+<a name="l00313"></a>00313 
+<a name="l00314"></a>00314 <span class="keyword">template</span> &lt;<span class="keyword">class</span> ClassType&gt;
+<a name="l00315"></a><a class="code" href="../../d7/d04/structns_runnable_method_receiver_3_01_class_type_00_01false_01_4.html">00315</a> <span class="keyword">struct </span><a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html">nsRunnableMethodReceiver</a>&lt;ClassType, <a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt; {
+<a name="l00316"></a><a class="code" href="../../d7/d04/structns_runnable_method_receiver_3_01_class_type_00_01false_01_4.html#afb618a9d05ce61f5e5431991be3a4876">00316</a>   ClassType *<a class="code" href="../../d7/d04/structns_runnable_method_receiver_3_01_class_type_00_01false_01_4.html#afb618a9d05ce61f5e5431991be3a4876">mObj</a>;
+<a name="l00317"></a><a class="code" href="../../d7/d04/structns_runnable_method_receiver_3_01_class_type_00_01false_01_4.html#a91a835437065a63929db6acc458bfb36">00317</a>   <a class="code" href="../../d7/d04/structns_runnable_method_receiver_3_01_class_type_00_01false_01_4.html#a91a835437065a63929db6acc458bfb36">nsRunnableMethodReceiver</a>(ClassType *<a class="code" href="../../d2/d7d/jsapi_8h.html#a2219cf9467e8547184b3cf2b051e8067">obj</a>) : <a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a814d48eb3243bc3c297a5d4844bea2db">mObj</a>(obj) {}
+<a name="l00318"></a><a class="code" href="../../d7/d04/structns_runnable_method_receiver_3_01_class_type_00_01false_01_4.html#a1baa065549a8a1d117fe9aba38070b1f">00318</a>   <span class="keywordtype">void</span> <a class="code" href="../../d7/d04/structns_runnable_method_receiver_3_01_class_type_00_01false_01_4.html#a1baa065549a8a1d117fe9aba38070b1f">Revoke</a>() { <a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html#a814d48eb3243bc3c297a5d4844bea2db">mObj</a> = <span class="keyword">nullptr</span>; }
+<a name="l00319"></a>00319 };
+<a name="l00320"></a>00320 
+<a name="l00321"></a>00321 <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Method, <span class="keywordtype">bool</span> Owning&gt; <span class="keyword">struct </span>nsRunnableMethodTraits;
+<a name="l00322"></a>00322 
+<a name="l00323"></a>00323 <span class="keyword">template</span> &lt;<span class="keyword">class</span> C, <span class="keyword">typename</span> R, <span class="keywordtype">bool</span> Owning&gt;
+<a name="l00324"></a><a class="code" href="../../d6/df9/structns_runnable_method_traits_3_01_r_07_c_1_1_5_08_07_08_00_01_owning_01_4.html">00324</a> <span class="keyword">struct </span>nsRunnableMethodTraits&lt;R (C::*)(), Owning&gt; {
+<a name="l00325"></a><a class="code" href="../../d6/df9/structns_runnable_method_traits_3_01_r_07_c_1_1_5_08_07_08_00_01_owning_01_4.html#a4ee108e99b566b86963c377cc2185f82">00325</a>   <span class="keyword">typedef</span> C <a class="code" href="../../d6/df9/structns_runnable_method_traits_3_01_r_07_c_1_1_5_08_07_08_00_01_owning_01_4.html#a4ee108e99b566b86963c377cc2185f82">class_type</a>;
+<a name="l00326"></a><a class="code" href="../../d6/df9/structns_runnable_method_traits_3_01_r_07_c_1_1_5_08_07_08_00_01_owning_01_4.html#aaf08f75cf0df8f9e82b6b1ec087c97f2">00326</a>   <span class="keyword">typedef</span> R <a class="code" href="../../d6/df9/structns_runnable_method_traits_3_01_r_07_c_1_1_5_08_07_08_00_01_owning_01_4.html#aaf08f75cf0df8f9e82b6b1ec087c97f2">return_type</a>;
+<a name="l00327"></a><a class="code" href="../../d6/df9/structns_runnable_method_traits_3_01_r_07_c_1_1_5_08_07_08_00_01_owning_01_4.html#aba6c32d4b41fe01147a8630fd2dfc86e">00327</a>   <span class="keyword">typedef</span> <a class="code" href="../../da/d62/classns_runnable_method.html">nsRunnableMethod&lt;C, R, Owning&gt;</a> <a class="code" href="../../d6/df9/structns_runnable_method_traits_3_01_r_07_c_1_1_5_08_07_08_00_01_owning_01_4.html#aba6c32d4b41fe01147a8630fd2dfc86e">base_type</a>;
+<a name="l00328"></a>00328 };
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330 <span class="preprocessor">#ifdef NS_HAVE_STDCALL</span>
+<a name="l00331"></a>00331 <span class="preprocessor"></span><span class="keyword">template</span> &lt;<span class="keyword">class</span> C, <span class="keyword">typename</span> R, <span class="keywordtype">bool</span> Owning&gt;
+<a name="l00332"></a>00332 <span class="keyword">struct </span>nsRunnableMethodTraits&lt;R (<a class="code" href="../../d3/dd8/nscore_8h.html#adf45c4705d2dad1dabd83aadfdee028b">NS_STDCALL</a> C::*)(), Owning&gt; {
+<a name="l00333"></a>00333   <span class="keyword">typedef</span> C class_type;
+<a name="l00334"></a>00334   <span class="keyword">typedef</span> R return_type;
+<a name="l00335"></a>00335   <span class="keyword">typedef</span> <a class="code" href="../../da/d62/classns_runnable_method.html">nsRunnableMethod&lt;C, R, Owning&gt;</a> base_type;
+<a name="l00336"></a>00336 };
+<a name="l00337"></a>00337 <span class="preprocessor">#endif</span>
+<a name="l00338"></a>00338 <span class="preprocessor"></span>
+<a name="l00339"></a>00339 <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Method, <span class="keywordtype">bool</span> Owning&gt;
+<a name="l00340"></a><a class="code" href="../../d9/d6b/classns_runnable_method_impl.html">00340</a> <span class="keyword">class </span><a class="code" href="../../d9/d6b/classns_runnable_method_impl.html">nsRunnableMethodImpl</a>
+<a name="l00341"></a>00341   : <span class="keyword">public</span> nsRunnableMethodTraits&lt;Method, Owning&gt;::base_type
+<a name="l00342"></a>00342 {
+<a name="l00343"></a>00343   <span class="keyword">typedef</span> <span class="keyword">typename</span> nsRunnableMethodTraits&lt;Method, Owning&gt;::class_type ClassType;
+<a name="l00344"></a>00344   <a class="code" href="../../d9/d9b/structns_runnable_method_receiver.html">nsRunnableMethodReceiver&lt;ClassType, Owning&gt;</a> mReceiver;
+<a name="l00345"></a>00345   Method mMethod;
+<a name="l00346"></a>00346 
+<a name="l00347"></a>00347 <span class="keyword">public</span>:
+<a name="l00348"></a><a class="code" href="../../d9/d6b/classns_runnable_method_impl.html#a79591fa417e843cfbbef57548c7715b7">00348</a>   <a class="code" href="../../d9/d6b/classns_runnable_method_impl.html#a79591fa417e843cfbbef57548c7715b7">nsRunnableMethodImpl</a>(ClassType *<a class="code" href="../../d2/d7d/jsapi_8h.html#a2219cf9467e8547184b3cf2b051e8067">obj</a>,
+<a name="l00349"></a>00349                        Method method)
+<a name="l00350"></a>00350     : mReceiver(obj)
+<a name="l00351"></a>00351     , mMethod(method)
+<a name="l00352"></a>00352   {}
+<a name="l00353"></a>00353 
+<a name="l00354"></a><a class="code" href="../../d9/d6b/classns_runnable_method_impl.html#adaab22df60cf01ed8988350e855f3fce">00354</a>   <a class="code" href="../../d3/dd8/nscore_8h.html#abbc6d740d4f54ed1c90bbed28dcef65a">NS_IMETHOD</a> <a class="code" href="../../d9/d6b/classns_runnable_method_impl.html#adaab22df60cf01ed8988350e855f3fce">Run</a>() {
+<a name="l00355"></a>00355     <span class="keywordflow">if</span> (<a class="code" href="../../d1/d8a/_likely_8h.html#a236550174793fca82d1650c15d4f85da">MOZ_LIKELY</a>(mReceiver.mObj))
+<a name="l00356"></a>00356       ((*mReceiver.mObj).*mMethod)();
+<a name="l00357"></a>00357     <span class="keywordflow">return</span> <a class="code" href="../../d7/dda/_error_list_c_defines_8h.html#a03a7f9e8069d114c0495679caefca965">NS_OK</a>;
+<a name="l00358"></a>00358   }
+<a name="l00359"></a>00359 
+<a name="l00360"></a><a class="code" href="../../d9/d6b/classns_runnable_method_impl.html#a6071eceb91ab6b9653cf37098de8ba4b">00360</a>   <span class="keywordtype">void</span> <a class="code" href="../../d9/d6b/classns_runnable_method_impl.html#a6071eceb91ab6b9653cf37098de8ba4b">Revoke</a>() {
+<a name="l00361"></a>00361     mReceiver.Revoke();
+<a name="l00362"></a>00362   }
+<a name="l00363"></a>00363 };
+<a name="l00364"></a>00364 
+<a name="l00365"></a>00365 <span class="comment">// Use this template function like so:</span>
+<a name="l00366"></a>00366 <span class="comment">//</span>
+<a name="l00367"></a>00367 <span class="comment">//   nsCOMPtr&lt;nsIRunnable&gt; event =</span>
+<a name="l00368"></a>00368 <span class="comment">//     NS_NewRunnableMethod(myObject, &amp;MyClass::HandleEvent);</span>
+<a name="l00369"></a>00369 <span class="comment">//   NS_DispatchToCurrentThread(event);</span>
+<a name="l00370"></a>00370 <span class="comment">//</span>
+<a name="l00371"></a>00371 <span class="comment">// Statically enforced constraints:</span>
+<a name="l00372"></a>00372 <span class="comment">//  - myObject must be of (or implicitly convertible to) type MyClass</span>
+<a name="l00373"></a>00373 <span class="comment">//  - MyClass must defined AddRef and Release methods</span>
+<a name="l00374"></a>00374 <span class="comment">//</span>
+<a name="l00375"></a>00375 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> PtrType, <span class="keyword">typename</span> Method&gt;
+<a name="l00376"></a>00376 <span class="keyword">typename</span> nsRunnableMethodTraits&lt;Method, true&gt;::base_type*
+<a name="l00377"></a><a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#af587a38959089a2b20092d49728ff4ac">00377</a> <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#af587a38959089a2b20092d49728ff4ac">NS_NewRunnableMethod</a>(PtrType ptr, Method method)
+<a name="l00378"></a>00378 {
+<a name="l00379"></a>00379   <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d9/d6b/classns_runnable_method_impl.html">nsRunnableMethodImpl&lt;Method, true&gt;</a>(ptr, method);
+<a name="l00380"></a>00380 }
+<a name="l00381"></a>00381 
+<a name="l00382"></a>00382 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> PtrType, <span class="keyword">typename</span> Method&gt;
+<a name="l00383"></a>00383 <span class="keyword">typename</span> nsRunnableMethodTraits&lt;Method, false&gt;::base_type*
+<a name="l00384"></a><a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a05579de186952af4b58ec5d0a32bf65f">00384</a> <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a05579de186952af4b58ec5d0a32bf65f">NS_NewNonOwningRunnableMethod</a>(PtrType ptr, Method method)
+<a name="l00385"></a>00385 {
+<a name="l00386"></a>00386   <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d9/d6b/classns_runnable_method_impl.html">nsRunnableMethodImpl&lt;Method, false&gt;</a>(ptr, method);
+<a name="l00387"></a>00387 }
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389 <span class="preprocessor">#endif  // XPCOM_GLUE_AVOID_NSPR</span>
+<a name="l00390"></a>00390 <span class="preprocessor"></span>
+<a name="l00391"></a>00391 <span class="comment">// This class is designed to be used when you have an event class E that has a</span>
+<a name="l00392"></a>00392 <span class="comment">// pointer back to resource class R.  If R goes away while E is still pending,</span>
+<a name="l00393"></a>00393 <span class="comment">// then it is important to &quot;revoke&quot; E so that it does not try use R after R has</span>
+<a name="l00394"></a>00394 <span class="comment">// been destroyed.  nsRevocableEventPtr makes it easy for R to manage such</span>
+<a name="l00395"></a>00395 <span class="comment">// situations:</span>
+<a name="l00396"></a>00396 <span class="comment">//</span>
+<a name="l00397"></a>00397 <span class="comment">//   class R;</span>
+<a name="l00398"></a>00398 <span class="comment">//</span>
+<a name="l00399"></a>00399 <span class="comment">//   class E : public nsRunnable {</span>
+<a name="l00400"></a>00400 <span class="comment">//   public:</span>
+<a name="l00401"></a>00401 <span class="comment">//     void Revoke() {</span>
+<a name="l00402"></a>00402 <span class="comment">//       mResource = nullptr;</span>
+<a name="l00403"></a>00403 <span class="comment">//     }</span>
+<a name="l00404"></a>00404 <span class="comment">//   private:</span>
+<a name="l00405"></a>00405 <span class="comment">//     R *mResource;</span>
+<a name="l00406"></a>00406 <span class="comment">//   };</span>
+<a name="l00407"></a>00407 <span class="comment">//</span>
+<a name="l00408"></a>00408 <span class="comment">//   class R {</span>
+<a name="l00409"></a>00409 <span class="comment">//   public:</span>
+<a name="l00410"></a>00410 <span class="comment">//     void EventHandled() {</span>
+<a name="l00411"></a>00411 <span class="comment">//       mEvent.Forget();</span>
+<a name="l00412"></a>00412 <span class="comment">//     }</span>
+<a name="l00413"></a>00413 <span class="comment">//   private:</span>
+<a name="l00414"></a>00414 <span class="comment">//     nsRevocableEventPtr&lt;E&gt; mEvent;</span>
+<a name="l00415"></a>00415 <span class="comment">//   };</span>
+<a name="l00416"></a>00416 <span class="comment">//</span>
+<a name="l00417"></a>00417 <span class="comment">//   void R::PostEvent() {</span>
+<a name="l00418"></a>00418 <span class="comment">//     // Make sure any pending event is revoked.</span>
+<a name="l00419"></a>00419 <span class="comment">//     mEvent-&gt;Revoke();</span>
+<a name="l00420"></a>00420 <span class="comment">//</span>
+<a name="l00421"></a>00421 <span class="comment">//     nsCOMPtr&lt;nsIRunnable&gt; event = new E();</span>
+<a name="l00422"></a>00422 <span class="comment">//     if (NS_SUCCEEDED(NS_DispatchToCurrentThread(event))) {</span>
+<a name="l00423"></a>00423 <span class="comment">//       // Keep pointer to event so we can revoke it.</span>
+<a name="l00424"></a>00424 <span class="comment">//       mEvent = event;</span>
+<a name="l00425"></a>00425 <span class="comment">//     }</span>
+<a name="l00426"></a>00426 <span class="comment">//   }</span>
+<a name="l00427"></a>00427 <span class="comment">//</span>
+<a name="l00428"></a>00428 <span class="comment">//   NS_IMETHODIMP E::Run() {</span>
+<a name="l00429"></a>00429 <span class="comment">//     if (!mResource)</span>
+<a name="l00430"></a>00430 <span class="comment">//       return NS_OK;</span>
+<a name="l00431"></a>00431 <span class="comment">//     ...</span>
+<a name="l00432"></a>00432 <span class="comment">//     mResource-&gt;EventHandled();</span>
+<a name="l00433"></a>00433 <span class="comment">//     return NS_OK;</span>
+<a name="l00434"></a>00434 <span class="comment">//   }</span>
+<a name="l00435"></a>00435 <span class="comment">//</span>
+<a name="l00436"></a>00436 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00437"></a><a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html">00437</a> <span class="keyword">class </span><a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html">nsRevocableEventPtr</a> {
+<a name="l00438"></a>00438 <span class="keyword">public</span>:
+<a name="l00439"></a><a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#add1cf909977ec1551489635b68dfbd97">00439</a>   <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#add1cf909977ec1551489635b68dfbd97">nsRevocableEventPtr</a>()
+<a name="l00440"></a>00440     : mEvent(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>) {
+<a name="l00441"></a>00441   }
+<a name="l00442"></a>00442 
+<a name="l00443"></a><a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a897080ac6f2cd8afc1337650e90600e2">00443</a>   <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a897080ac6f2cd8afc1337650e90600e2">~nsRevocableEventPtr</a>() {
+<a name="l00444"></a>00444     <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a17d822daabf25dbc028c510276378971">Revoke</a>();
+<a name="l00445"></a>00445   }
+<a name="l00446"></a>00446 
+<a name="l00447"></a><a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a44b93bd05a76bf319d313fdafd59296c">00447</a>   <span class="keyword">const</span> <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html">nsRevocableEventPtr</a>&amp; <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a44b93bd05a76bf319d313fdafd59296c">operator=</a>(T *<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>) {
+<a name="l00448"></a>00448     <span class="keywordflow">if</span> (mEvent != event) {
+<a name="l00449"></a>00449       <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a17d822daabf25dbc028c510276378971">Revoke</a>();
+<a name="l00450"></a>00450       mEvent = <a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>;
+<a name="l00451"></a>00451     }
+<a name="l00452"></a>00452     <span class="keywordflow">return</span> *<span class="keyword">this</span>;
+<a name="l00453"></a>00453   }
+<a name="l00454"></a>00454 
+<a name="l00455"></a><a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a17d822daabf25dbc028c510276378971">00455</a>   <span class="keywordtype">void</span> <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a17d822daabf25dbc028c510276378971">Revoke</a>() {
+<a name="l00456"></a>00456     <span class="keywordflow">if</span> (mEvent) {
+<a name="l00457"></a>00457       mEvent-&gt;Revoke();
+<a name="l00458"></a>00458       mEvent = <span class="keyword">nullptr</span>;
+<a name="l00459"></a>00459     }
+<a name="l00460"></a>00460   }
+<a name="l00461"></a>00461 
+<a name="l00462"></a><a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a843b6b76162f7b0cb900682ede625be7">00462</a>   <span class="keywordtype">void</span> <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a843b6b76162f7b0cb900682ede625be7">Forget</a>() {
+<a name="l00463"></a>00463     mEvent = <span class="keyword">nullptr</span>;
+<a name="l00464"></a>00464   }
+<a name="l00465"></a>00465 
+<a name="l00466"></a><a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a6c14cd81bb6d3da1b7985640dc666c0e">00466</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a6c14cd81bb6d3da1b7985640dc666c0e">IsPending</a>() {
+<a name="l00467"></a>00467     <span class="keywordflow">return</span> mEvent != <span class="keyword">nullptr</span>;
+<a name="l00468"></a>00468   }
+<a name="l00469"></a>00469   
+<a name="l00470"></a><a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a91469bf4f7b68a886a8cca22eb05f8e0">00470</a>   T *<span class="keyword">get</span>() { <span class="keywordflow">return</span> mEvent; }
+<a name="l00471"></a>00471 
+<a name="l00472"></a>00472 <span class="keyword">private</span>:
+<a name="l00473"></a>00473   <span class="comment">// Not implemented</span>
+<a name="l00474"></a>00474   <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#add1cf909977ec1551489635b68dfbd97">nsRevocableEventPtr</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html">nsRevocableEventPtr</a>&amp;);
+<a name="l00475"></a>00475   <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html">nsRevocableEventPtr</a>&amp; <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html#a44b93bd05a76bf319d313fdafd59296c">operator=</a>(<span class="keyword">const</span> <a class="code" href="../../d4/d6f/classns_revocable_event_ptr.html">nsRevocableEventPtr</a>&amp;);
+<a name="l00476"></a>00476 
+<a name="l00477"></a>00477   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;T&gt;</a> mEvent;
+<a name="l00478"></a>00478 };
+<a name="l00479"></a>00479 
+<a name="l00484"></a><a class="code" href="../../d3/dc1/classns_thread_pool_naming.html">00484</a> <span class="keyword">class </span><a class="code" href="../../d3/dc1/classns_thread_pool_naming.html">nsThreadPoolNaming</a>
+<a name="l00485"></a>00485 {
+<a name="l00486"></a>00486 <span class="keyword">public</span>:
+<a name="l00487"></a><a class="code" href="../../d3/dc1/classns_thread_pool_naming.html#ae41469b4668a7518d1eac137ae9c2f50">00487</a>   <a class="code" href="../../d3/dc1/classns_thread_pool_naming.html#ae41469b4668a7518d1eac137ae9c2f50">nsThreadPoolNaming</a>() : mCounter(0) {}
+<a name="l00488"></a>00488 
+<a name="l00494"></a>00494   <span class="keywordtype">void</span> <a class="code" href="../../d3/dc1/classns_thread_pool_naming.html#a0fcea046eb2e4447219319fb6a28945b">SetThreadPoolName</a>(<span class="keyword">const</span> nsACString &amp; aPoolName,
+<a name="l00495"></a>00495                          <a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> * aThread = <span class="keyword">nullptr</span>);
+<a name="l00496"></a>00496 
+<a name="l00497"></a>00497 <span class="keyword">private</span>:
+<a name="l00498"></a>00498   <span class="keyword">volatile</span> uint32_t mCounter;
+<a name="l00499"></a>00499 
+<a name="l00500"></a>00500   <a class="code" href="../../d3/dc1/classns_thread_pool_naming.html#ae41469b4668a7518d1eac137ae9c2f50">nsThreadPoolNaming</a>(<span class="keyword">const</span> <a class="code" href="../../d3/dc1/classns_thread_pool_naming.html">nsThreadPoolNaming</a> &amp;) MOZ_DELETE;
+<a name="l00501"></a>00501   <span class="keywordtype">void</span> operator=(<a class="code" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> <a class="code" href="../../d3/dc1/classns_thread_pool_naming.html">nsThreadPoolNaming</a> &amp;) MOZ_DELETE;
+<a name="l00502"></a>00502 };
+<a name="l00503"></a>00503 
+<a name="l00510"></a><a class="code" href="../../d6/d2e/classns_auto_low_priority_i_o.html">00510</a> class MOZ_STACK_CLASS <a class="code" href="../../d6/d2e/classns_auto_low_priority_i_o.html">nsAutoLowPriorityIO</a>
+<a name="l00511"></a>00511 {
+<a name="l00512"></a>00512 <span class="keyword">public</span>:
+<a name="l00513"></a>00513   nsAutoLowPriorityIO();
+<a name="l00514"></a>00514   ~nsAutoLowPriorityIO();
+<a name="l00515"></a>00515 
+<a name="l00516"></a>00516 <span class="keyword">private</span>:
+<a name="l00517"></a>00517   <span class="keywordtype">bool</span> lowIOPrioritySet;
+<a name="l00518"></a>00518 <span class="preprocessor">#if defined(XP_MACOSX)</span>
+<a name="l00519"></a>00519 <span class="preprocessor"></span>  <span class="keywordtype">int</span> oldPriority;
+<a name="l00520"></a>00520 <span class="preprocessor">#endif</span>
+<a name="l00521"></a>00521 <span class="preprocessor"></span>};
+<a name="l00522"></a>00522 
+<a name="l00523"></a>00523 
+<a name="l00524"></a>00524 
+<a name="l00525"></a>00525 <span class="preprocessor">#endif  // nsThreadUtils_h__</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html">nsThreadUtils.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:54:27に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

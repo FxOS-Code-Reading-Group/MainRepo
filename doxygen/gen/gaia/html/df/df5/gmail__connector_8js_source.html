@@ -1,0 +1,588 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: gmail_connector.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('df/df5/gmail__connector_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">gmail_connector.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../df/df5/gmail__connector_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../df/df5/gmail__connector_8js.html#ae2475e10618961c050dcba04e8c42331">00001</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="comment">/*</span>
+<a name="l00004"></a>00004 <span class="comment">  Gmail Contacts connector</span>
+<a name="l00005"></a>00005 <span class="comment"></span>
+<a name="l00006"></a>00006 <span class="comment">  Provides the capabilities to connect to the Gmail Contacts service</span>
+<a name="l00007"></a>00007 <span class="comment">  and return the contacts on a readable and importable format.</span>
+<a name="l00008"></a>00008 <span class="comment">*/</span>
+<a name="l00009"></a><a class="code" href="../../df/df5/gmail__connector_8js.html#a69c1ad53516fa45aa15e585f46d8a1e3">00009</a> var <a class="code" href="../../df/df5/gmail__connector_8js.html#a69c1ad53516fa45aa15e585f46d8a1e3">GmailConnector</a> = (<span class="keyword">function</span> <a class="code" href="../../df/df5/gmail__connector_8js.html#a69c1ad53516fa45aa15e585f46d8a1e3">GmailConnector</a>() {
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011   <span class="comment">// Google contacts service end point,</span>
+<a name="l00012"></a>00012   <span class="comment">// force a huge number of contacts to not paginate :S</span>
+<a name="l00013"></a>00013   var END_POINT =
+<a name="l00014"></a>00014     <span class="stringliteral">&#39;https://www.google.com/m8/feeds/contacts/default/full/?max-results=10000&#39;</span>;
+<a name="l00015"></a>00015   var GROUPS_END_POINT =
+<a name="l00016"></a>00016     <span class="stringliteral">&#39;https://www.google.com/m8/feeds/groups/default/full/&#39;</span>;
+<a name="l00017"></a>00017   var EXTRA_HEADERS = {
+<a name="l00018"></a>00018     <span class="stringliteral">&#39;GData-Version&#39;</span>: <span class="stringliteral">&#39;3.0&#39;</span>
+<a name="l00019"></a>00019   };
+<a name="l00020"></a>00020   var GD_NAMESPACE = <span class="stringliteral">&#39;http://schemas.google.com/g/2005&#39;</span>;
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022   var <a class="code" href="../../de/dc4/fb__contact__utils_8js.html#a1ac65d064b0cb4ff988790444b5c88db">CATEGORY</a> = <span class="stringliteral">&#39;gmail&#39;</span>;
+<a name="l00023"></a>00023   var URN_IDENTIFIER = <span class="stringliteral">&#39;urn:service:gmail:uid:&#39;</span>;
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025   <span class="comment">// Will be used as a cache for the thumbnail url for each contact</span>
+<a name="l00026"></a>00026   var photoUrls = {};
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028   <span class="comment">// In some cases we will need the access token, cache a copy</span>
+<a name="l00029"></a>00029   var accessToken = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031   <span class="comment">// We have a xml response from Google, all the entries in an array,</span>
+<a name="l00032"></a>00032   <span class="comment">// no matter if they are xml entries.</span>
+<a name="l00033"></a>00033   <span class="comment">// Despite of being a node, inject a &#39;uid&#39; as this will be necessary</span>
+<a name="l00034"></a>00034   <span class="comment">// for the selection</span>
+<a name="l00035"></a>00035   var nodeListToArray = <span class="keyword">function</span> nodeListToArray(response) {
+<a name="l00036"></a>00036     var entries = response.getElementsByTagName(<span class="stringliteral">&#39;entry&#39;</span>);
+<a name="l00037"></a>00037     var <a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a> = [];
+<a name="l00038"></a>00038     var numContacts = entries.length;
+<a name="l00039"></a>00039     <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; numContacts; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00040"></a>00040       contacts.push(gContactToJson(entries[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]));
+<a name="l00041"></a>00041     }
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043     <span class="keywordflow">return</span> <a class="code" href="../../db/d4e/contacts__matcher_8js.html#a9c02ff135182792b8b5b9cf246a368e8">contacts</a>;
+<a name="l00044"></a>00044   };
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046   <span class="comment">// Returns the object used to build the headers necesary by the service</span>
+<a name="l00047"></a>00047   var buildRequestHeaders = <span class="keyword">function</span> buildRequestHeaders(access_token) {
+<a name="l00048"></a>00048     var requestHeaders = EXTRA_HEADERS;
+<a name="l00049"></a>00049     requestHeaders[<span class="stringliteral">&#39;Authorization&#39;</span>] = <span class="stringliteral">&#39;OAuth &#39;</span> + access_token;
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051     <span class="keywordflow">return</span> requestHeaders;
+<a name="l00052"></a>00052   };
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054   <span class="comment">// Gets a list of all contacts giving a valid access token</span>
+<a name="l00055"></a>00055   var listAllContacts = <span class="keyword">function</span> listAllContacts(access_token,
+<a name="l00056"></a>00056     <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>) {
+<a name="l00057"></a>00057     <span class="comment">// Copy the access_token</span>
+<a name="l00058"></a>00058     accessToken = access_token;
+<a name="l00059"></a>00059     photoUrls = {};
+<a name="l00060"></a>00060     getContactsGroup(access_token, <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>);
+<a name="l00061"></a>00061   };
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063   var getContactsGroup = <span class="keyword">function</span> getContactsGroup(access_token,
+<a name="l00064"></a>00064     <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>) {
+<a name="l00065"></a>00065     var groupCallbacks = {
+<a name="l00066"></a>00066       <a class="code" href="../../db/df4/geoloc_8js.html#a15b4f92b0ef49ac05f43437f3d85ae46">success</a>: <span class="keyword">function</span> onSuccess(response) {
+<a name="l00067"></a>00067         <span class="comment">// Locate the entry witch systemGroup id is &#39;Contacts&#39;</span>
+<a name="l00068"></a>00068         var feed = response.querySelector(<span class="stringliteral">&#39;feed&#39;</span>);
+<a name="l00069"></a>00069         <span class="keywordflow">if</span> (feed === <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00070"></a>00070           <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>.error();
+<a name="l00071"></a>00071           <span class="keywordflow">return</span>;
+<a name="l00072"></a>00072         }
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074         var sgc = feed.querySelector(<span class="stringliteral">&#39;systemGroup[id=&quot;Contacts&quot;]&#39;</span>);
+<a name="l00075"></a>00075         <span class="keywordflow">if</span> (sgc !== <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00076"></a>00076            var <span class="keywordtype">id</span> = sgc.parentNode.querySelector(<span class="stringliteral">&#39;id&#39;</span>).textContent;
+<a name="l00077"></a>00077            getContactsByGroup(<span class="keywordtype">id</span>, access_token, <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>);
+<a name="l00078"></a>00078         } <span class="keywordflow">else</span> {
+<a name="l00079"></a>00079            <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>.error();
+<a name="l00080"></a>00080         }
+<a name="l00081"></a>00081       },
+<a name="l00082"></a>00082       <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>: <span class="keyword">function</span>(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00083"></a>00083         <span class="keywordflow">if</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a> &amp;&amp; <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.status === 401) {
+<a name="l00084"></a>00084           <span class="comment">// This is a token expired / invalid token problem</span>
+<a name="l00085"></a>00085           <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.console.warn(<span class="stringliteral">&#39;GMail Access token expired or invalid. &#39;</span>,
+<a name="l00086"></a>00086                               <span class="stringliteral">&#39;restarting flow!&#39;</span>);
+<a name="l00087"></a>00087           <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>.success({
+<a name="l00088"></a>00088             <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>: {
+<a name="l00089"></a>00089               <a class="code" href="../../d3/d4b/lockscreen_8js.html#a3bc1c2f8ec4ed34fc21f9f10eacbfa93">code</a>: 190
+<a name="l00090"></a>00090             }
+<a name="l00091"></a>00091           });
+<a name="l00092"></a>00092         }
+<a name="l00093"></a>00093         <span class="keywordflow">else</span> {
+<a name="l00094"></a>00094           <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>.error();
+<a name="l00095"></a>00095         }
+<a name="l00096"></a>00096       },
+<a name="l00097"></a>00097       <a class="code" href="../../da/d32/prio_8h.html#a0f2163507f01dc9bb68ca5c72cacaa34">timeout</a>: <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>.timeout
+<a name="l00098"></a>00098     };
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100     <span class="keywordflow">return</span> performAPIRequest(GROUPS_END_POINT, groupCallbacks, access_token);
+<a name="l00101"></a>00101   };
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103   <span class="comment">// Retrieve all the contacts for the specific groupId</span>
+<a name="l00104"></a>00104   var getContactsByGroup = <span class="keyword">function</span> getContactsByGroup(groupId, access_token,
+<a name="l00105"></a>00105     <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>) {
+<a name="l00106"></a>00106     var listingCallbacks = {
+<a name="l00107"></a>00107       <a class="code" href="../../db/df4/geoloc_8js.html#a15b4f92b0ef49ac05f43437f3d85ae46">success</a>: <span class="keyword">function</span> onSuccess(response) {
+<a name="l00108"></a>00108         <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>.success({
+<a name="l00109"></a>00109           <span class="stringliteral">&#39;data&#39;</span>: nodeListToArray(response)
+<a name="l00110"></a>00110         });
+<a name="l00111"></a>00111       },
+<a name="l00112"></a>00112       <a class="code" href="../../d0/de6/fake-oncall-desktop_8js.html#a6efd5e1eedff09b640ec574dc6dd2879">error</a>: <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>.error,
+<a name="l00113"></a>00113       <a class="code" href="../../da/d32/prio_8h.html#a0f2163507f01dc9bb68ca5c72cacaa34">timeout</a>: <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>.timeout
+<a name="l00114"></a>00114     };
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116     var groupUrl = END_POINT + <span class="stringliteral">&#39;&amp;group=&#39;</span> + groupId;
+<a name="l00117"></a>00117     <span class="keywordflow">return</span> performAPIRequest(groupUrl, listingCallbacks, access_token);
+<a name="l00118"></a>00118   };
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120   <span class="comment">// Given a Google contacts api url add the authentication and</span>
+<a name="l00121"></a>00121   <span class="comment">// extra headers to perform the correct request</span>
+<a name="l00122"></a>00122   var performAPIRequest = <span class="keyword">function</span> performAPIRequest(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>,
+<a name="l00123"></a>00123     access_token) {
+<a name="l00124"></a>00124     <span class="keywordflow">return</span> Rest.get(<a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a>, <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>, {
+<a name="l00125"></a>00125       <span class="stringliteral">&#39;requestHeaders&#39;</span>: buildRequestHeaders(access_token),
+<a name="l00126"></a>00126       <span class="stringliteral">&#39;responseType&#39;</span>: <span class="stringliteral">&#39;xml&#39;</span>
+<a name="l00127"></a>00127     });
+<a name="l00128"></a>00128   };
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130   <span class="comment">// Return the list of contacts on the device imported using this connector</span>
+<a name="l00131"></a>00131   var listDeviceContacts = <span class="keyword">function</span> listDeviceContacts(<a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>) {
+<a name="l00132"></a>00132     var filterOptions = {
+<a name="l00133"></a>00133       filterValue: <a class="code" href="../../de/dc4/fb__contact__utils_8js.html#a1ac65d064b0cb4ff988790444b5c88db">CATEGORY</a>,
+<a name="l00134"></a>00134       filterOp: <span class="stringliteral">&#39;contains&#39;</span>,
+<a name="l00135"></a>00135       filterBy: [<span class="stringliteral">&#39;category&#39;</span>]
+<a name="l00136"></a>00136     };
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138     var <a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a42c43c76081a7df8ae2954f16ee9338b">req</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozContacts.find(filterOptions);
+<a name="l00139"></a>00139     req.onsuccess = <span class="keyword">function</span>() {
+<a name="l00140"></a>00140       <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>.success(req.result);
+<a name="l00141"></a>00141     };
+<a name="l00142"></a>00142     req.onerror = <span class="keyword">function</span> onError() {
+<a name="l00143"></a>00143       <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>.success([]);
+<a name="l00144"></a>00144     };
+<a name="l00145"></a>00145   };
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147   var getImporter = <span class="keyword">function</span> getImporter(contactsList, access_token) {
+<a name="l00148"></a>00148     <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.ContactsImporter(contactsList, access_token, <span class="keyword">this</span>);
+<a name="l00149"></a>00149   };
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151   var cleanContacts = <span class="keyword">function</span> cleanContacts(contactsList, <a class="code" href="../../d2/d7d/jsapi_8h.html#a5e94be9423b9de6b3ab4057aca59293f">mode</a>, <a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>) {
+<a name="l00152"></a>00152     var cleaner = <span class="keyword">new</span> <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.ContactsCleaner(contactsList);
+<a name="l00153"></a>00153     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.setTimeout(cleaner.start, 0);
+<a name="l00154"></a>00154     <span class="keywordflow">if</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>) {
+<a name="l00155"></a>00155       <a class="code" href="../../d2/d7d/jsapi_8h.html#a9c0cec265243907d0da86b92bda26eca">cb</a>(cleaner);
+<a name="l00156"></a>00156     }
+<a name="l00157"></a>00157   };
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159   var getValueForNode = <span class="keyword">function</span> getValueForNode(doc, <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>, <a class="code" href="../../d2/d7d/jsapi_8h.html#a6d77125b32b2b42d84796493ad83a708">def</a>) {
+<a name="l00160"></a>00160     var defaultValue = <a class="code" href="../../d2/d7d/jsapi_8h.html#a6d77125b32b2b42d84796493ad83a708">def</a> || <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162     <span class="keywordflow">if</span> (doc == <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a> || <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> == <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00163"></a>00163       <span class="keywordflow">return</span> defaultValue;
+<a name="l00164"></a>00164     }
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a> = doc.querySelector(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>);
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168     <span class="keywordflow">if</span> (node &amp;&amp; node.textContent) {
+<a name="l00169"></a>00169       <span class="keywordflow">return</span> node.textContent;
+<a name="l00170"></a>00170     }
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172     <span class="keywordflow">return</span> defaultValue;
+<a name="l00173"></a>00173   };
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175   <span class="comment">/*</span>
+<a name="l00176"></a>00176 <span class="comment">    Given an xml contact entry from gmail contacts we will need to output</span>
+<a name="l00177"></a>00177 <span class="comment">    a json object that contains the minimun viable information to display</span>
+<a name="l00178"></a>00178 <span class="comment">    that contact into a list.</span>
+<a name="l00179"></a>00179 <span class="comment"></span>
+<a name="l00180"></a>00180 <span class="comment">    The fields for that minimun visualization object are:</span>
+<a name="l00181"></a>00181 <span class="comment">    uid</span>
+<a name="l00182"></a>00182 <span class="comment">    givenName</span>
+<a name="l00183"></a>00183 <span class="comment">    familyName</span>
+<a name="l00184"></a>00184 <span class="comment">    email1</span>
+<a name="l00185"></a>00185 <span class="comment">  */</span>
+<a name="l00186"></a>00186   var adaptDataForShowing = <span class="keyword">function</span> adaptDataForShowing(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>) {
+<a name="l00187"></a>00187     var <a class="code" href="../../df/d12/latin__test_8js.html#a34687689873d42dec2c94cc27f36e1e9">output</a> = {
+<a name="l00188"></a>00188       <span class="stringliteral">&#39;uid&#39;</span>: <span class="stringliteral">&#39;-1&#39;</span>,
+<a name="l00189"></a>00189       <span class="stringliteral">&#39;givenName&#39;</span>: <span class="stringliteral">&#39;&#39;</span>,
+<a name="l00190"></a>00190       <span class="stringliteral">&#39;familyName&#39;</span>: <span class="stringliteral">&#39;&#39;</span>,
+<a name="l00191"></a>00191       <span class="stringliteral">&#39;email1&#39;</span>: <span class="stringliteral">&#39;&#39;</span>,
+<a name="l00192"></a>00192       <span class="stringliteral">&#39;contactPictureUri&#39;</span>: <span class="stringliteral">&#39;&#39;</span>
+<a name="l00193"></a>00193     };
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195     output.uid = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.uid;
+<a name="l00196"></a>00196 
+<a name="l00197"></a>00197     <span class="keywordflow">if</span> (<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.familyName) {
+<a name="l00198"></a>00198       output.familyName = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.familyName;
+<a name="l00199"></a>00199     }
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201     <span class="keywordflow">if</span> (<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.email &amp;&amp; <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.email.length &gt; 0) {
+<a name="l00202"></a>00202       output.email1 = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.email[0].value;
+<a name="l00203"></a>00203     }
+<a name="l00204"></a>00204     var tel;
+<a name="l00205"></a>00205     <span class="keywordflow">if</span> (<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel &amp;&amp; <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel.length &gt; 0) {
+<a name="l00206"></a>00206       tel = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.tel[0].value;
+<a name="l00207"></a>00207     }
+<a name="l00208"></a>00208     output.givenName = <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.givenName || tel ||
+<a name="l00209"></a>00209                                             output.email1 || <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.org || <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211     var photoUrl = buildContactPhotoURL(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>, accessToken);
+<a name="l00212"></a>00212     <span class="keywordflow">if</span> (photoUrl) {
+<a name="l00213"></a>00213       output.contactPictureUri = photoUrl;
+<a name="l00214"></a>00214     }
+<a name="l00215"></a>00215 
+<a name="l00216"></a>00216     <span class="keywordflow">return</span> <a class="code" href="../../df/d12/latin__test_8js.html#a34687689873d42dec2c94cc27f36e1e9">output</a>;
+<a name="l00217"></a>00217   };
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219   var adaptDataForSaving = <span class="keyword">function</span> adaptDataForSaving(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>) {
+<a name="l00220"></a>00220     <span class="keywordflow">return</span> <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>;
+<a name="l00221"></a>00221   };
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223   <span class="comment">// Transform a Google contact entry into json format.</span>
+<a name="l00224"></a>00224   <span class="comment">// The json format is the same used in Contacts api ;P</span>
+<a name="l00225"></a>00225   var gContactToJson = <span class="keyword">function</span> gContactToJson(googleContact) {
+<a name="l00226"></a>00226     var <a class="code" href="../../df/d12/latin__test_8js.html#a34687689873d42dec2c94cc27f36e1e9">output</a> = {};
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228     <span class="comment">// This field will be needed for indexing within the</span>
+<a name="l00229"></a>00229     <span class="comment">// import process, not for the api</span>
+<a name="l00230"></a>00230     output.uid = getUid(googleContact);
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232     output.name = getValueForNode(googleContact, <span class="stringliteral">&#39;title&#39;</span>);
+<a name="l00233"></a>00233 
+<a name="l00234"></a>00234     <span class="comment">// Store the photo url, not in the contact itself</span>
+<a name="l00235"></a>00235     var photoUrl = googleContact.querySelector(<span class="stringliteral">&#39;link[type=&quot;image/*&quot;]&#39;</span>);
+<a name="l00236"></a>00236     <span class="keywordflow">if</span> (photoUrl) {
+<a name="l00237"></a>00237       photoUrl = photoUrl.getAttribute(<span class="stringliteral">&#39;href&#39;</span>);
+<a name="l00238"></a>00238     } <span class="keywordflow">else</span> {
+<a name="l00239"></a>00239       <span class="comment">// No image link</span>
+<a name="l00240"></a>00240       photoUrl = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00241"></a>00241     }
+<a name="l00242"></a>00242     photoUrls[output.uid] = photoUrl;
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244     var <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> = googleContact.querySelector(<span class="stringliteral">&#39;name&#39;</span>);
+<a name="l00245"></a>00245     <span class="keywordflow">if</span> (name) {
+<a name="l00246"></a>00246       var contactName = getValueForNode(name, <span class="stringliteral">&#39;givenName&#39;</span>);
+<a name="l00247"></a>00247       <span class="keywordflow">if</span> (contactName) {
+<a name="l00248"></a>00248         output.givenName = [contactName];
+<a name="l00249"></a>00249       }
+<a name="l00250"></a>00250       var contactFamilyName = getValueForNode(name, <span class="stringliteral">&#39;familyName&#39;</span>);
+<a name="l00251"></a>00251       <span class="keywordflow">if</span> (contactFamilyName) {
+<a name="l00252"></a>00252         output.familyName = [contactFamilyName];
+<a name="l00253"></a>00253       }
+<a name="l00254"></a>00254       var contactSuffix = getValueForNode(name, <span class="stringliteral">&#39;additionalName&#39;</span>);
+<a name="l00255"></a>00255       <span class="keywordflow">if</span> (contactSuffix) {
+<a name="l00256"></a>00256         output.additionalName = [contactSuffix];
+<a name="l00257"></a>00257       }
+<a name="l00258"></a>00258     }
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260     output.email = parseEmails(googleContact);
+<a name="l00261"></a>00261 
+<a name="l00262"></a>00262     output.adr = parseAddress(googleContact);
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264     output.tel = parsePhones(googleContact);
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266     var org = googleContact.querySelector(<span class="stringliteral">&#39;organization&#39;</span>);
+<a name="l00267"></a>00267     <span class="keywordflow">if</span> (org) {
+<a name="l00268"></a>00268       output.org = [getValueForNode(org, <span class="stringliteral">&#39;orgName&#39;</span>)];
+<a name="l00269"></a>00269       output.jobTitle = [getValueForNode(org, <span class="stringliteral">&#39;orgTitle&#39;</span>)];
+<a name="l00270"></a>00270     }
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272     var bday = googleContact.querySelector(<span class="stringliteral">&#39;birthday&#39;</span>);
+<a name="l00273"></a>00273     <span class="keywordflow">if</span> (bday) {
+<a name="l00274"></a>00274       output.bday = <span class="keyword">new</span> Date(Date.parse(bday.getAttribute(<span class="stringliteral">&#39;when&#39;</span>)));
+<a name="l00275"></a>00275     }
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277     var <a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a4a1b5640b674da15d6f1b87899e53789">content</a> = googleContact.querySelector(<span class="stringliteral">&#39;content&#39;</span>);
+<a name="l00278"></a>00278     <span class="keywordflow">if</span> (content) {
+<a name="l00279"></a>00279       output.note = [content.textContent];
+<a name="l00280"></a>00280     }
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282     output.category = [<a class="code" href="../../de/dc4/fb__contact__utils_8js.html#a1ac65d064b0cb4ff988790444b5c88db">CATEGORY</a>];
+<a name="l00283"></a>00283     output.url = [{
+<a name="l00284"></a>00284       <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: [<span class="stringliteral">&#39;source&#39;</span>],
+<a name="l00285"></a>00285       <a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>: getContactURI(output)
+<a name="l00286"></a>00286     }];
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288     <span class="keywordflow">return</span> <a class="code" href="../../df/d12/latin__test_8js.html#a34687689873d42dec2c94cc27f36e1e9">output</a>;
+<a name="l00289"></a>00289   };
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291   var getContactURI = <span class="keyword">function</span> getContactURI(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>) {
+<a name="l00292"></a>00292     <span class="keywordflow">return</span> URN_IDENTIFIER + <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.uid;
+<a name="l00293"></a>00293   };
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295   <span class="comment">// This will be a full url like:</span>
+<a name="l00296"></a>00296   <span class="comment">// http://www.google.com/m8/feeds/contacts/&lt;email&gt;/base/&lt;contact_id&gt;</span>
+<a name="l00297"></a>00297   <span class="comment">// for a specific contact node</span>
+<a name="l00298"></a>00298   var getUid = <span class="keyword">function</span> getUid(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>) {
+<a name="l00299"></a>00299     <span class="keywordflow">return</span> <a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.querySelector(<span class="stringliteral">&#39;id&#39;</span>).textContent;
+<a name="l00300"></a>00300   };
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302   <span class="comment">// Returns an array with the possible emails found in a contact</span>
+<a name="l00303"></a>00303   <span class="comment">// as a ContactField format</span>
+<a name="l00304"></a>00304   var parseEmails = <span class="keyword">function</span> parseEmails(googleContact) {
+<a name="l00305"></a>00305     var DEFAULT_EMAIL_TYPE = <span class="stringliteral">&#39;personal&#39;</span>;
+<a name="l00306"></a>00306     var emails = [];
+<a name="l00307"></a>00307     var fields = googleContact.getElementsByTagNameNS(GD_NAMESPACE,
+<a name="l00308"></a>00308       <span class="stringliteral">&#39;email&#39;</span>);
+<a name="l00309"></a>00309     <span class="keywordflow">if</span> (fields &amp;&amp; fields.length &gt; 0) {
+<a name="l00310"></a>00310       <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; fields.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00311"></a>00311         var emailField = fields.item(<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>);
+<a name="l00312"></a>00312 
+<a name="l00313"></a>00313         <span class="comment">// Type format: rel=&quot;http://schemas.google.com/g/2005#home&quot;</span>
+<a name="l00314"></a>00314         var <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> = emailField.getAttribute(<span class="stringliteral">&#39;rel&#39;</span>) || DEFAULT_EMAIL_TYPE;
+<a name="l00315"></a>00315         <span class="keywordflow">if</span> (type.indexOf(<span class="charliteral">&#39;#&#39;</span>) &gt; -1) {
+<a name="l00316"></a>00316           type = type.substr(type.indexOf(<span class="charliteral">&#39;#&#39;</span>) + 1);
+<a name="l00317"></a>00317         }
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319         emails.push({
+<a name="l00320"></a>00320           <span class="stringliteral">&#39;type&#39;</span>: <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00321"></a>00321           <span class="stringliteral">&#39;value&#39;</span>: emailField.getAttribute(<span class="stringliteral">&#39;address&#39;</span>)
+<a name="l00322"></a>00322         });
+<a name="l00323"></a>00323       }
+<a name="l00324"></a>00324     }
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326     <span class="keywordflow">return</span> emails;
+<a name="l00327"></a>00327   };
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329   <span class="comment">// Given a google contact returns an array of ContactAddress</span>
+<a name="l00330"></a>00330   var parseAddress = <span class="keyword">function</span> parseAddress(googleContact) {
+<a name="l00331"></a>00331     var addresses = [];
+<a name="l00332"></a>00332     var fields = googleContact.getElementsByTagNameNS(GD_NAMESPACE,
+<a name="l00333"></a>00333       <span class="stringliteral">&#39;structuredPostalAddress&#39;</span>);
+<a name="l00334"></a>00334     <span class="keywordflow">if</span> (fields &amp;&amp; fields.length &gt; 0) {
+<a name="l00335"></a>00335       <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; fields.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00336"></a>00336         var field = fields.item(<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>);
+<a name="l00337"></a>00337         var <a class="code" href="../../df/d9e/prnetdb_8h.html#a906995422a64396276c50a754ed3d21e">address</a> = {};
+<a name="l00338"></a>00338 
+<a name="l00339"></a>00339         address.streetAddress = getValueForNode(field, <span class="stringliteral">&#39;street&#39;</span>);
+<a name="l00340"></a>00340         address.locality = getValueForNode(field, <span class="stringliteral">&#39;city&#39;</span>);
+<a name="l00341"></a>00341         address.region = getValueForNode(field, <span class="stringliteral">&#39;region&#39;</span>);
+<a name="l00342"></a>00342         address.postalCode = getValueForNode(field, <span class="stringliteral">&#39;postcode&#39;</span>);
+<a name="l00343"></a>00343         address.countryName = getValueForNode(field, <span class="stringliteral">&#39;country&#39;</span>);
+<a name="l00344"></a>00344 
+<a name="l00345"></a>00345         addresses.push(address);
+<a name="l00346"></a>00346       }
+<a name="l00347"></a>00347     }
+<a name="l00348"></a>00348     <span class="keywordflow">return</span> addresses;
+<a name="l00349"></a>00349   };
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351   <span class="comment">// Given a google contact this function returns an array of</span>
+<a name="l00352"></a>00352   <span class="comment">// ContactField with the pones stored for that contact</span>
+<a name="l00353"></a>00353   var parsePhones = <span class="keyword">function</span> parsePhones(googleContact) {
+<a name="l00354"></a>00354     var DEFAULT_PHONE_TYPE = <span class="stringliteral">&#39;personal&#39;</span>;
+<a name="l00355"></a>00355     var phones = [];
+<a name="l00356"></a>00356     var fields = googleContact.getElementsByTagNameNS(GD_NAMESPACE,
+<a name="l00357"></a>00357       <span class="stringliteral">&#39;phoneNumber&#39;</span>);
+<a name="l00358"></a>00358     <span class="keywordflow">if</span> (fields &amp;&amp; fields.length &gt; 0) {
+<a name="l00359"></a>00359       <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; fields.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00360"></a>00360         var field = fields.item(<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>);
+<a name="l00361"></a>00361 
+<a name="l00362"></a>00362         <span class="comment">// Type format: rel=&quot;http://schemas.google.com/g/2005#home&quot;</span>
+<a name="l00363"></a>00363         var <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> = field.getAttribute(<span class="stringliteral">&#39;rel&#39;</span>) || DEFAULT_PHONE_TYPE;
+<a name="l00364"></a>00364         <span class="keywordflow">if</span> (type.indexOf(<span class="charliteral">&#39;#&#39;</span>) &gt; -1) {
+<a name="l00365"></a>00365           type = type.substr(type.indexOf(<span class="charliteral">&#39;#&#39;</span>) + 1);
+<a name="l00366"></a>00366         }
+<a name="l00367"></a>00367 
+<a name="l00368"></a>00368         phones.push({
+<a name="l00369"></a>00369           <span class="stringliteral">&#39;type&#39;</span>: <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>,
+<a name="l00370"></a>00370           <span class="stringliteral">&#39;value&#39;</span>: field.textContent
+<a name="l00371"></a>00371         });
+<a name="l00372"></a>00372       }
+<a name="l00373"></a>00373     }
+<a name="l00374"></a>00374 
+<a name="l00375"></a>00375     <span class="keywordflow">return</span> phones;
+<a name="l00376"></a>00376   };
+<a name="l00377"></a>00377 
+<a name="l00378"></a>00378   <span class="comment">// Given a contact from the mozcontact api, fetch the Google Contacts</span>
+<a name="l00379"></a>00379   <span class="comment">// identifier</span>
+<a name="l00380"></a>00380   var getContactUid = <span class="keyword">function</span> getContactUid(deviceContact) {
+<a name="l00381"></a>00381     var <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a> = -1;
+<a name="l00382"></a>00382 
+<a name="l00383"></a>00383     var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> = deviceContact.url;
+<a name="l00384"></a>00384     <span class="keywordflow">if</span> (Array.isArray(url)) {
+<a name="l00385"></a>00385       var targetUrls = url.filter(<span class="keyword">function</span>(aUrl) {
+<a name="l00386"></a>00386         <span class="keywordflow">return</span> Array.isArray(aUrl.type) &amp;&amp;
+<a name="l00387"></a>00387           aUrl.type.indexOf(<span class="stringliteral">&#39;source&#39;</span>) !== -1 &amp;&amp;
+<a name="l00388"></a>00388           aUrl.value;
+<a name="l00389"></a>00389       });
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391       <span class="keywordflow">if</span> (targetUrls[0]) {
+<a name="l00392"></a>00392         out = resolveURI(targetUrls[0].<a class="code" href="../../d9/d04/expat_8h.html#aebafa8f4412854cf6c37456c71ff5ee7">value</a>);
+<a name="l00393"></a>00393       }
+<a name="l00394"></a>00394     }
+<a name="l00395"></a>00395 
+<a name="l00396"></a>00396     <span class="keywordflow">return</span> <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a>;
+<a name="l00397"></a>00397   };
+<a name="l00398"></a>00398 
+<a name="l00399"></a>00399   <span class="comment">// From a contact URL, that we expect to be a URI</span>
+<a name="l00400"></a>00400   <span class="comment">// return the google contact id if we find it on</span>
+<a name="l00401"></a>00401   <span class="comment">// the uri, -1 otherwise</span>
+<a name="l00402"></a>00402   var resolveURI = <span class="keyword">function</span> resolveURI(<a class="code" href="../../d9/d04/expat_8h.html#a5a9fdd6c2606370ad12f24c078ac6585">uri</a>) {
+<a name="l00403"></a>00403     <span class="keywordflow">if</span> (<a class="code" href="../../d9/d04/expat_8h.html#a5a9fdd6c2606370ad12f24c078ac6585">uri</a> &amp;&amp; <a class="code" href="../../d9/d04/expat_8h.html#a5a9fdd6c2606370ad12f24c078ac6585">uri</a>.indexOf(URN_IDENTIFIER) == 0) {
+<a name="l00404"></a>00404       var <a class="code" href="../../df/d12/latin__test_8js.html#a34687689873d42dec2c94cc27f36e1e9">output</a> = <a class="code" href="../../d9/d04/expat_8h.html#a5a9fdd6c2606370ad12f24c078ac6585">uri</a>.substr(URN_IDENTIFIER.length);
+<a name="l00405"></a>00405       <span class="keywordflow">if</span> (output &amp;&amp; output.length &gt; 0) {
+<a name="l00406"></a>00406         <span class="keywordflow">return</span> <a class="code" href="../../df/d12/latin__test_8js.html#a34687689873d42dec2c94cc27f36e1e9">output</a>;
+<a name="l00407"></a>00407       }
+<a name="l00408"></a>00408     }
+<a name="l00409"></a>00409 
+<a name="l00410"></a>00410     <span class="keywordflow">return</span> -1;
+<a name="l00411"></a>00411   };
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413   var downloadContactPicture = <span class="keyword">function</span> downloadContactPicture(googleContact,
+<a name="l00414"></a>00414     access_token, <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>) {
+<a name="l00415"></a>00415     var <a class="code" href="../../d3/d4b/lockscreen_8js.html#a85c9a955e7da65bfd5fc9b87158c3570">url</a> = buildContactPhotoURL(googleContact, access_token);
+<a name="l00416"></a>00416     <span class="keywordflow">return</span> Rest.get(url, <a class="code" href="../../d2/d7d/jsapi_8h.html#a25a0884792aa259d1818e7f66ffa3937">callbacks</a>, {
+<a name="l00417"></a>00417       <span class="stringliteral">&#39;responseType&#39;</span>: <span class="stringliteral">&#39;blob&#39;</span>
+<a name="l00418"></a>00418     });
+<a name="l00419"></a>00419   };
+<a name="l00420"></a>00420 
+<a name="l00421"></a>00421   <span class="comment">// Build the url of the photo with the access token</span>
+<a name="l00422"></a>00422   var buildContactPhotoURL = <span class="keyword">function</span> contactPhotoURL(<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>, access_token) {
+<a name="l00423"></a>00423     <span class="keywordflow">if</span> (photoUrls &amp;&amp; photoUrls[<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.uid]) {
+<a name="l00424"></a>00424       <span class="keywordflow">return</span> photoUrls[<a class="code" href="../../d7/d91/contacts__matcher__test_8js.html#abbe82a925239cd8211cf7e835d3d20e1">contact</a>.uid] + <span class="stringliteral">&#39;?access_token=&#39;</span> + access_token;
+<a name="l00425"></a>00425     }
+<a name="l00426"></a>00426 
+<a name="l00427"></a>00427     <span class="keywordflow">return</span> <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00428"></a>00428   };
+<a name="l00429"></a>00429 
+<a name="l00430"></a>00430   var startSync = <span class="keyword">function</span> startSync() {
+<a name="l00431"></a>00431     <span class="comment">//We don&#39;t sync Google contacts (yet)</span>
+<a name="l00432"></a>00432   };
+<a name="l00433"></a>00433 
+<a name="l00434"></a>00434   var getServiceName = (<span class="keyword">function</span> getServiceName() {
+<a name="l00435"></a>00435     <span class="keywordflow">return</span> <span class="stringliteral">&#39;gmail&#39;</span>;
+<a name="l00436"></a>00436   })();
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438   var getAutomaticLogout = (<span class="keyword">function</span> getAutomaticLogout() {
+<a name="l00439"></a>00439     <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00440"></a>00440   })();
+<a name="l00441"></a>00441 
+<a name="l00442"></a>00442   <span class="keywordflow">return</span> {
+<a name="l00443"></a>00443     <span class="stringliteral">&#39;listAllContacts&#39;</span>: listAllContacts,
+<a name="l00444"></a>00444     <span class="stringliteral">&#39;listDeviceContacts&#39;</span>: listDeviceContacts,
+<a name="l00445"></a>00445     <span class="stringliteral">&#39;getImporter&#39;</span>: getImporter,
+<a name="l00446"></a>00446     <span class="stringliteral">&#39;cleanContacts&#39;</span>: cleanContacts,
+<a name="l00447"></a>00447     <span class="stringliteral">&#39;adaptDataForShowing&#39;</span>: adaptDataForShowing,
+<a name="l00448"></a>00448     <span class="stringliteral">&#39;adaptDataForSaving&#39;</span>: adaptDataForSaving,
+<a name="l00449"></a>00449     <span class="stringliteral">&#39;getContactUid&#39;</span>: getContactUid,
+<a name="l00450"></a>00450     <span class="stringliteral">&#39;downloadContactPicture&#39;</span>: downloadContactPicture,
+<a name="l00451"></a>00451     <span class="stringliteral">&#39;startSync&#39;</span>: startSync,
+<a name="l00452"></a>00452     <span class="stringliteral">&#39;name&#39;</span>: getServiceName,
+<a name="l00453"></a>00453     <span class="stringliteral">&#39;automaticLogout&#39;</span>: getAutomaticLogout,
+<a name="l00454"></a>00454     <span class="stringliteral">&#39;gContactToJson&#39;</span>: gContactToJson
+<a name="l00455"></a>00455   };
+<a name="l00456"></a>00456 
+<a name="l00457"></a>00457 })();
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../df/df5/gmail__connector_8js.html">gmail_connector.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:06に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: PseudoStack.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('dd/d53/_pseudo_stack_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">PseudoStack.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dd/d53/_pseudo_stack_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef PROFILER_PSEUDO_STACK_H_</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define PROFILER_PSEUDO_STACK_H_</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../df/dcf/_null_ptr_8h.html">mozilla/NullPtr.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &lt;stdint.h&gt;</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include &quot;<a class="code" href="../../de/dc5/jsfriendapi_8h.html">jsfriendapi.h</a>&quot;</span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &lt;algorithm&gt;</span>
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="comment">/* we duplicate this code here to avoid header dependencies</span>
+<a name="l00016"></a>00016 <span class="comment"> * which make it more difficult to include in other places */</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#if defined(_M_X64) || defined(__x86_64__)</span>
+<a name="l00018"></a>00018 <span class="preprocessor"></span><span class="preprocessor">#define V8_HOST_ARCH_X64 1</span>
+<a name="l00019"></a>00019 <span class="preprocessor"></span><span class="preprocessor">#elif defined(_M_IX86) || defined(__i386__) || defined(__i386)</span>
+<a name="l00020"></a>00020 <span class="preprocessor"></span><span class="preprocessor">#define V8_HOST_ARCH_IA32 1</span>
+<a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#elif defined(__ARMEL__)</span>
+<a name="l00022"></a>00022 <span class="preprocessor"></span><span class="preprocessor">#define V8_HOST_ARCH_ARM 1</span>
+<a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span><span class="preprocessor">#warning Please add support for your architecture in chromium_types.h</span>
+<a name="l00025"></a>00025 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00026"></a>00026 <span class="preprocessor"></span>
+<a name="l00027"></a>00027 <span class="comment">// STORE_SEQUENCER: Because signals can interrupt our profile modification</span>
+<a name="l00028"></a>00028 <span class="comment">//                  we need to make stores are not re-ordered by the compiler</span>
+<a name="l00029"></a>00029 <span class="comment">//                  or hardware to make sure the profile is consistent at</span>
+<a name="l00030"></a>00030 <span class="comment">//                  every point the signal can fire.</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#ifdef V8_HOST_ARCH_ARM</span>
+<a name="l00032"></a>00032 <span class="preprocessor"></span><span class="comment">// TODO Is there something cheaper that will prevent</span>
+<a name="l00033"></a>00033 <span class="comment">//      memory stores from being reordered</span>
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 <span class="keyword">typedef</span> <a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a> (*LinuxKernelMemoryBarrierFunc)(<a class="code" href="../../d4/da9/png_8h.html#ab30926da86712184b070e550789f8bf7">void</a>);
+<a name="l00036"></a>00036 LinuxKernelMemoryBarrierFunc pLinuxKernelMemoryBarrier <a class="code" href="../../d5/d15/ns_obj_c_exceptions_8h.html#a2549a178226b79d36766691780eff55b">__attribute__</a>((weak)) =
+<a name="l00037"></a>00037     (LinuxKernelMemoryBarrierFunc) 0xffff0fa0;
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039 <span class="preprocessor"># define STORE_SEQUENCER() pLinuxKernelMemoryBarrier()</span>
+<a name="l00040"></a>00040 <span class="preprocessor"></span><span class="preprocessor">#elif defined(V8_HOST_ARCH_IA32) || defined(V8_HOST_ARCH_X64)</span>
+<a name="l00041"></a>00041 <span class="preprocessor"></span><span class="preprocessor"># if defined(_MSC_VER)</span>
+<a name="l00042"></a>00042 <span class="preprocessor"></span><span class="preprocessor">#if _MSC_VER &gt; 1400</span>
+<a name="l00043"></a>00043 <span class="preprocessor"></span><span class="preprocessor">#  include &lt;intrin.h&gt;</span>
+<a name="l00044"></a>00044 <span class="preprocessor">#else // _MSC_VER &gt; 1400</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span>    <span class="comment">// MSVC2005 has a name collision bug caused when both &lt;intrin.h&gt; and &lt;winnt.h&gt; are included together.</span>
+<a name="l00046"></a>00046 <span class="preprocessor">#ifdef _WINNT_</span>
+<a name="l00047"></a>00047 <span class="preprocessor"></span><span class="preprocessor">#  define _interlockedbittestandreset _interlockedbittestandreset_NAME_CHANGED_TO_AVOID_MSVS2005_ERROR</span>
+<a name="l00048"></a>00048 <span class="preprocessor"></span><span class="preprocessor">#  define _interlockedbittestandset _interlockedbittestandset_NAME_CHANGED_TO_AVOID_MSVS2005_ERROR</span>
+<a name="l00049"></a>00049 <span class="preprocessor"></span><span class="preprocessor">#  include &lt;intrin.h&gt;</span>
+<a name="l00050"></a>00050 <span class="preprocessor">#else</span>
+<a name="l00051"></a>00051 <span class="preprocessor"></span><span class="preprocessor">#  include &lt;intrin.h&gt;</span>
+<a name="l00052"></a>00052 <span class="preprocessor">#  define _interlockedbittestandreset _interlockedbittestandreset_NAME_CHANGED_TO_AVOID_MSVS2005_ERROR</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span><span class="preprocessor">#  define _interlockedbittestandset _interlockedbittestandset_NAME_CHANGED_TO_AVOID_MSVS2005_ERROR</span>
+<a name="l00054"></a>00054 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span>   <span class="comment">// Even though MSVC2005 has the intrinsic _ReadWriteBarrier, it fails to link to it when it&#39;s</span>
+<a name="l00056"></a>00056    <span class="comment">// not explicitly declared.</span>
+<a name="l00057"></a>00057 <span class="preprocessor">#  pragma intrinsic(_ReadWriteBarrier)</span>
+<a name="l00058"></a>00058 <span class="preprocessor"></span><span class="preprocessor">#endif // _MSC_VER &gt; 1400</span>
+<a name="l00059"></a>00059 <span class="preprocessor"></span><span class="preprocessor">#  define STORE_SEQUENCER() _ReadWriteBarrier();</span>
+<a name="l00060"></a>00060 <span class="preprocessor"></span><span class="preprocessor"># elif defined(__INTEL_COMPILER)</span>
+<a name="l00061"></a>00061 <span class="preprocessor"></span><span class="preprocessor">#  define STORE_SEQUENCER() __memory_barrier();</span>
+<a name="l00062"></a>00062 <span class="preprocessor"></span><span class="preprocessor"># elif __GNUC__</span>
+<a name="l00063"></a>00063 <span class="preprocessor"></span><span class="preprocessor">#  define STORE_SEQUENCER() asm volatile(&quot;&quot; ::: &quot;memory&quot;);</span>
+<a name="l00064"></a>00064 <span class="preprocessor"></span><span class="preprocessor"># else</span>
+<a name="l00065"></a>00065 <span class="preprocessor"></span><span class="preprocessor">#  error &quot;Memory clobber not supported for your compiler.&quot;</span>
+<a name="l00066"></a>00066 <span class="preprocessor"></span><span class="preprocessor"># endif</span>
+<a name="l00067"></a>00067 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00068"></a>00068 <span class="preprocessor"></span><span class="preprocessor"># error &quot;Memory clobber not supported for your platform.&quot;</span>
+<a name="l00069"></a>00069 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00070"></a>00070 <span class="preprocessor"></span>
+<a name="l00071"></a>00071 <span class="comment">// A stack entry exists to allow the JS engine to inform SPS of the current</span>
+<a name="l00072"></a>00072 <span class="comment">// backtrace, but also to instrument particular points in C++ in case stack</span>
+<a name="l00073"></a>00073 <span class="comment">// walking is not available on the platform we are running on.</span>
+<a name="l00074"></a>00074 <span class="comment">//</span>
+<a name="l00075"></a>00075 <span class="comment">// Each entry has a descriptive string, a relevant stack address, and some extra</span>
+<a name="l00076"></a>00076 <span class="comment">// information the JS engine might want to inform SPS of. This class inherits</span>
+<a name="l00077"></a>00077 <span class="comment">// from the JS engine&#39;s version of the entry to ensure that the size and layout</span>
+<a name="l00078"></a>00078 <span class="comment">// of the two representations are consistent.</span>
+<a name="l00079"></a><a class="code" href="../../da/d09/class_stack_entry.html">00079</a> <span class="keyword">class </span><a class="code" href="../../da/d09/class_stack_entry.html">StackEntry</a> : <span class="keyword">public</span> <a class="code" href="../../d1/dc3/classjs_1_1_profile_entry.html#a6ffcd9b07e2acca469ffbca2ea4e6313">js</a>::ProfileEntry
+<a name="l00080"></a>00080 {
+<a name="l00081"></a>00081 <span class="keyword">public</span>:
+<a name="l00082"></a>00082 
+<a name="l00083"></a><a class="code" href="../../da/d09/class_stack_entry.html#abcf6538bebdb9b7fabd9adc0946185cc">00083</a>   <span class="keywordtype">bool</span> <a class="code" href="../../da/d09/class_stack_entry.html#abcf6538bebdb9b7fabd9adc0946185cc">isCopyLabel</a>()<span class="keyword"> volatile </span>{
+<a name="l00084"></a>00084     <span class="keywordflow">return</span> !((uintptr_t)<a class="code" href="../../d1/dc3/classjs_1_1_profile_entry.html#adebad93d797ec6e4ab50acc24ca3d2c9">stackAddress</a>() &amp; 0x1);
+<a name="l00085"></a>00085   }
+<a name="l00086"></a>00086 
+<a name="l00087"></a><a class="code" href="../../da/d09/class_stack_entry.html#aafb783034d809fe3a6e693151b60fb30">00087</a>   <span class="keywordtype">void</span> <a class="code" href="../../da/d09/class_stack_entry.html#aafb783034d809fe3a6e693151b60fb30">setStackAddressCopy</a>(<span class="keywordtype">void</span> *sparg, <span class="keywordtype">bool</span> <a class="code" href="../../dc/d5e/apps_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#a262add591dbf3cb720cb49ac89edcf02">copy</a>)<span class="keyword"> volatile </span>{
+<a name="l00088"></a>00088     <span class="comment">// Tagged pointer. Less significant bit used to track if mLabel needs a</span>
+<a name="l00089"></a>00089     <span class="comment">// copy. Note that we don&#39;t need the last bit of the stack address for</span>
+<a name="l00090"></a>00090     <span class="comment">// proper ordering. This is optimized for encoding within the JS engine&#39;s</span>
+<a name="l00091"></a>00091     <span class="comment">// instrumentation, so we do the extra work here of encoding a bit.</span>
+<a name="l00092"></a>00092     <span class="comment">// Last bit 1 = Don&#39;t copy, Last bit 0 = Copy.</span>
+<a name="l00093"></a>00093     <span class="keywordflow">if</span> (copy) {
+<a name="l00094"></a>00094       <a class="code" href="../../d1/dc3/classjs_1_1_profile_entry.html#a5f9aebe82e11d29292b2832cdd875da3">setStackAddress</a>(reinterpret_cast&lt;void*&gt;(
+<a name="l00095"></a>00095                         reinterpret_cast&lt;uintptr_t&gt;(sparg) &amp; ~0x1));
+<a name="l00096"></a>00096     } <span class="keywordflow">else</span> {
+<a name="l00097"></a>00097       <a class="code" href="../../d1/dc3/classjs_1_1_profile_entry.html#a5f9aebe82e11d29292b2832cdd875da3">setStackAddress</a>(reinterpret_cast&lt;void*&gt;(
+<a name="l00098"></a>00098                         reinterpret_cast&lt;uintptr_t&gt;(sparg) | 0x1));
+<a name="l00099"></a>00099     }
+<a name="l00100"></a>00100   }
+<a name="l00101"></a>00101 };
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103 <span class="comment">// the PseudoStack members are read by signal</span>
+<a name="l00104"></a>00104 <span class="comment">// handlers, so the mutation of them needs to be signal-safe.</span>
+<a name="l00105"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html">00105</a> <span class="keyword">struct </span><a class="code" href="../../dc/d16/struct_pseudo_stack.html">PseudoStack</a>
+<a name="l00106"></a>00106 {
+<a name="l00107"></a>00107 <span class="keyword">public</span>:
+<a name="l00108"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a98cb12a76c8c0863605ce85453c72b4b">00108</a>   <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a98cb12a76c8c0863605ce85453c72b4b">PseudoStack</a>()
+<a name="l00109"></a>00109     : mStackPointer(0)
+<a name="l00110"></a>00110     , mSignalLock(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00111"></a>00111     , <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a79a307789e73bfa75d53b15e591786ef">mMarkerPointer</a>(0)
+<a name="l00112"></a>00112     , <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a63b1476621fe9450a1c71735dd01a7c6">mQueueClearMarker</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00113"></a>00113     , <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a9614a43d9e75b67b1437b9ada3a250f8">mRuntime</a>(<a class="code" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>)
+<a name="l00114"></a>00114     , <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a73e816bb89f38c4634be3fc24da89cdf">mStartJSSampling</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00115"></a>00115     , <a class="code" href="../../dc/d16/struct_pseudo_stack.html#acbad2e8a654cb0622ef4a51ffc47d9af">mPrivacyMode</a>(<a class="code" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>)
+<a name="l00116"></a>00116   { }
+<a name="l00117"></a>00117 
+<a name="l00118"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a7809a79ef9fe00d0696fa165e2c3efea">00118</a>   <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a7809a79ef9fe00d0696fa165e2c3efea">~PseudoStack</a>() {
+<a name="l00119"></a>00119     <a class="code" href="../../dc/d16/struct_pseudo_stack.html#affe7f1920cd94ec7ade07a4c10c56667">clearMarkers</a>();
+<a name="l00120"></a>00120     <span class="keywordflow">if</span> (mStackPointer != 0 || mSignalLock != <span class="keyword">false</span> ||
+<a name="l00121"></a>00121         <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a79a307789e73bfa75d53b15e591786ef">mMarkerPointer</a> != 0) {
+<a name="l00122"></a>00122       <span class="comment">// We&#39;re releasing the pseudostack while it&#39;s still in use.</span>
+<a name="l00123"></a>00123       <span class="comment">// The label macros keep a non ref counted reference to the</span>
+<a name="l00124"></a>00124       <span class="comment">// stack to avoid a TLS. If these are not all cleared we will</span>
+<a name="l00125"></a>00125       <span class="comment">// get a use-after-free so better to crash now.</span>
+<a name="l00126"></a>00126       <a class="code" href="../../d6/da5/libpinyin_8js.html#a14987c2daddbcdc724afc8b8c0492b85">abort</a>();
+<a name="l00127"></a>00127     }
+<a name="l00128"></a>00128   }
+<a name="l00129"></a>00129 
+<a name="l00130"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#ada7cd48118075b8ee25edaff06827586">00130</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#ada7cd48118075b8ee25edaff06827586">addMarker</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *aMarker)
+<a name="l00131"></a>00131   {
+<a name="l00132"></a>00132     <span class="keywordtype">char</span>* markerCopy = <a class="code" href="../../d1/de4/mozalloc__macro__wrappers_8h.html#aa44d7a135e8b362d51aa3504d0454af9">strdup</a>(aMarker);
+<a name="l00133"></a>00133     mSignalLock = <span class="keyword">true</span>;
+<a name="l00134"></a>00134     STORE_SEQUENCER();
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136     <span class="keywordflow">if</span> (<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a63b1476621fe9450a1c71735dd01a7c6">mQueueClearMarker</a>) {
+<a name="l00137"></a>00137       <a class="code" href="../../dc/d16/struct_pseudo_stack.html#affe7f1920cd94ec7ade07a4c10c56667">clearMarkers</a>();
+<a name="l00138"></a>00138     }
+<a name="l00139"></a>00139     <span class="keywordflow">if</span> (!aMarker) {
+<a name="l00140"></a>00140       <span class="keywordflow">return</span>; <span class="comment">//discard</span>
+<a name="l00141"></a>00141     }
+<a name="l00142"></a>00142     <span class="keywordflow">if</span> (<span class="keywordtype">size_t</span>(<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a79a307789e73bfa75d53b15e591786ef">mMarkerPointer</a>) == mozilla::ArrayLength(<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a5a2298ba17aa1f1333fd50fdc17e5361">mMarkers</a>)) {
+<a name="l00143"></a>00143       <span class="keywordflow">return</span>; <span class="comment">//array full, silently drop</span>
+<a name="l00144"></a>00144     }
+<a name="l00145"></a>00145     <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a5a2298ba17aa1f1333fd50fdc17e5361">mMarkers</a>[<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a79a307789e73bfa75d53b15e591786ef">mMarkerPointer</a>] = markerCopy;
+<a name="l00146"></a>00146     <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a79a307789e73bfa75d53b15e591786ef">mMarkerPointer</a>++;
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148     mSignalLock = <span class="keyword">false</span>;
+<a name="l00149"></a>00149     STORE_SEQUENCER();
+<a name="l00150"></a>00150   }
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152   <span class="comment">// called within signal. Function must be reentrant</span>
+<a name="l00153"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4dd16efc6d1b0a5c08f0db5d9ea1c463">00153</a>   <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4dd16efc6d1b0a5c08f0db5d9ea1c463">getMarker</a>(<span class="keywordtype">int</span> aMarkerId)
+<a name="l00154"></a>00154   {
+<a name="l00155"></a>00155     <span class="comment">// if mSignalLock then the stack is inconsistent because it&#39;s being</span>
+<a name="l00156"></a>00156     <span class="comment">// modified by the profiled thread. Post pone these markers</span>
+<a name="l00157"></a>00157     <span class="comment">// for the next sample. The odds of a livelock are nearly impossible</span>
+<a name="l00158"></a>00158     <span class="comment">// and would show up in a profile as many sample in &#39;addMarker&#39; thus</span>
+<a name="l00159"></a>00159     <span class="comment">// we ignore this scenario.</span>
+<a name="l00160"></a>00160     <span class="comment">// if mQueueClearMarker then we&#39;ve the sampler thread has already</span>
+<a name="l00161"></a>00161     <span class="comment">// thread the markers then they are pending deletion.</span>
+<a name="l00162"></a>00162     <span class="keywordflow">if</span> (mSignalLock || <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a63b1476621fe9450a1c71735dd01a7c6">mQueueClearMarker</a> || aMarkerId &lt; 0 ||
+<a name="l00163"></a>00163       static_cast&lt;mozilla::sig_safe_t&gt;(aMarkerId) &gt;= <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a79a307789e73bfa75d53b15e591786ef">mMarkerPointer</a>) {
+<a name="l00164"></a>00164       <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;
+<a name="l00165"></a>00165     }
+<a name="l00166"></a>00166     <span class="keywordflow">return</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a5a2298ba17aa1f1333fd50fdc17e5361">mMarkers</a>[aMarkerId];
+<a name="l00167"></a>00167   }
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169   <span class="comment">// called within signal. Function must be reentrant</span>
+<a name="l00170"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#affe7f1920cd94ec7ade07a4c10c56667">00170</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#affe7f1920cd94ec7ade07a4c10c56667">clearMarkers</a>()
+<a name="l00171"></a>00171   {
+<a name="l00172"></a>00172     <span class="keywordflow">for</span> (<a class="code" href="../../d2/d93/namespacemozilla.html#a17bbea4c156c300fe73caa2cde806c45">mozilla::sig_safe_t</a> <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a79a307789e73bfa75d53b15e591786ef">mMarkerPointer</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00173"></a>00173       <a class="code" href="../../d1/de4/mozalloc__macro__wrappers_8h.html#a3194dc214682024d727de5f9b358fb3d">free</a>(<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a5a2298ba17aa1f1333fd50fdc17e5361">mMarkers</a>[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>]);
+<a name="l00174"></a>00174     }
+<a name="l00175"></a>00175     mMarkerPointer = 0;
+<a name="l00176"></a>00176     <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a63b1476621fe9450a1c71735dd01a7c6">mQueueClearMarker</a> = <span class="keyword">false</span>;
+<a name="l00177"></a>00177   }
+<a name="l00178"></a>00178 
+<a name="l00179"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#ab970bc8d20cf1dc8262009be692ae0a0">00179</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#ab970bc8d20cf1dc8262009be692ae0a0">push</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *aName, uint32_t <a class="code" href="../../da/d7d/cook_8js.html#ae379b8c31475b8ad7712b7ead5ce1173">line</a>)
+<a name="l00180"></a>00180   {
+<a name="l00181"></a>00181     <a class="code" href="../../dc/d16/struct_pseudo_stack.html#ab970bc8d20cf1dc8262009be692ae0a0">push</a>(aName, <span class="keyword">nullptr</span>, <span class="keyword">false</span>, line);
+<a name="l00182"></a>00182   }
+<a name="l00183"></a>00183 
+<a name="l00184"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#acfdf21354890fea898c0c35207411a4e">00184</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#ab970bc8d20cf1dc8262009be692ae0a0">push</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *aName, <span class="keywordtype">void</span> *aStackAddress, <span class="keywordtype">bool</span> aCopy, uint32_t <a class="code" href="../../da/d7d/cook_8js.html#ae379b8c31475b8ad7712b7ead5ce1173">line</a>)
+<a name="l00185"></a>00185   {
+<a name="l00186"></a>00186     <span class="keywordflow">if</span> (<span class="keywordtype">size_t</span>(mStackPointer) &gt;= mozilla::ArrayLength(<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4307990fbbebbc1ff2241399d86b5e05">mStack</a>)) {
+<a name="l00187"></a>00187       mStackPointer++;
+<a name="l00188"></a>00188       <span class="keywordflow">return</span>;
+<a name="l00189"></a>00189     }
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191     <span class="comment">// Make sure we increment the pointer after the name has</span>
+<a name="l00192"></a>00192     <span class="comment">// been written such that mStack is always consistent.</span>
+<a name="l00193"></a>00193     <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4307990fbbebbc1ff2241399d86b5e05">mStack</a>[mStackPointer].<a class="code" href="../../d1/dc3/classjs_1_1_profile_entry.html#a469346c1616fc94810a6a1656e1054f1">setLabel</a>(aName);
+<a name="l00194"></a>00194     <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4307990fbbebbc1ff2241399d86b5e05">mStack</a>[mStackPointer].<a class="code" href="../../da/d09/class_stack_entry.html#aafb783034d809fe3a6e693151b60fb30">setStackAddressCopy</a>(aStackAddress, aCopy);
+<a name="l00195"></a>00195     <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4307990fbbebbc1ff2241399d86b5e05">mStack</a>[mStackPointer].<a class="code" href="../../d1/dc3/classjs_1_1_profile_entry.html#ab0ce1e4240601232c44f7cb19767bced">setLine</a>(line);
+<a name="l00196"></a>00196 
+<a name="l00197"></a>00197     <span class="comment">// Prevent the optimizer from re-ordering these instructions</span>
+<a name="l00198"></a>00198     STORE_SEQUENCER();
+<a name="l00199"></a>00199     mStackPointer++;
+<a name="l00200"></a>00200   }
+<a name="l00201"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a2ace1cef72ff9d59edb717eb63d7ce3c">00201</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a2ace1cef72ff9d59edb717eb63d7ce3c">pop</a>()
+<a name="l00202"></a>00202   {
+<a name="l00203"></a>00203     mStackPointer--;
+<a name="l00204"></a>00204   }
+<a name="l00205"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a93ee7d85c96e58cbfd741b10b57b07d1">00205</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a93ee7d85c96e58cbfd741b10b57b07d1">isEmpty</a>()
+<a name="l00206"></a>00206   {
+<a name="l00207"></a>00207     <span class="keywordflow">return</span> mStackPointer == 0;
+<a name="l00208"></a>00208   }
+<a name="l00209"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#aff819ec2f6d3526e7215a753d1b9bb4b">00209</a>   uint32_t <a class="code" href="../../dc/d16/struct_pseudo_stack.html#aff819ec2f6d3526e7215a753d1b9bb4b">stackSize</a>()<span class="keyword"> const</span>
+<a name="l00210"></a>00210 <span class="keyword">  </span>{
+<a name="l00211"></a>00211     <span class="keywordflow">return</span> std::min&lt;uint32_t&gt;(mStackPointer, <a class="code" href="../../d2/d93/namespacemozilla.html#a17bbea4c156c300fe73caa2cde806c45">mozilla::sig_safe_t</a>(mozilla::ArrayLength(<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4307990fbbebbc1ff2241399d86b5e05">mStack</a>)));
+<a name="l00212"></a>00212   }
+<a name="l00213"></a>00213 
+<a name="l00214"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a6f9a5995648d27839feada0073b7aa11">00214</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a6f9a5995648d27839feada0073b7aa11">sampleRuntime</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *runtime) {
+<a name="l00215"></a>00215     <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a9614a43d9e75b67b1437b9ada3a250f8">mRuntime</a> = runtime;
+<a name="l00216"></a>00216     <span class="keywordflow">if</span> (!runtime) {
+<a name="l00217"></a>00217       <span class="comment">// JS shut down</span>
+<a name="l00218"></a>00218       <span class="keywordflow">return</span>;
+<a name="l00219"></a>00219     }
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221     <a class="code" href="../../db/d2a/_utility_8h.html#abdd762ed3dbe3155d9c047448f788eda">JS_STATIC_ASSERT</a>(<span class="keyword">sizeof</span>(<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4307990fbbebbc1ff2241399d86b5e05">mStack</a>[0]) == <span class="keyword">sizeof</span>(<a class="code" href="../../d1/dc3/classjs_1_1_profile_entry.html">js::ProfileEntry</a>));
+<a name="l00222"></a>00222     <a class="code" href="../../db/da2/namespacejs.html#a40ef3a31986f85d09db2e04cbf419f6b">js::SetRuntimeProfilingStack</a>(runtime,
+<a name="l00223"></a>00223                                  (<a class="code" href="../../d1/dc3/classjs_1_1_profile_entry.html">js::ProfileEntry</a>*) <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4307990fbbebbc1ff2241399d86b5e05">mStack</a>,
+<a name="l00224"></a>00224                                  (uint32_t*) &amp;mStackPointer,
+<a name="l00225"></a>00225                                  uint32_t(mozilla::ArrayLength(mStack)));
+<a name="l00226"></a>00226     <span class="keywordflow">if</span> (<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a73e816bb89f38c4634be3fc24da89cdf">mStartJSSampling</a>)
+<a name="l00227"></a>00227       <a class="code" href="../../dc/d16/struct_pseudo_stack.html#ab7e0069fde462bdfefafe5d6b700f2d7">enableJSSampling</a>();
+<a name="l00228"></a>00228   }
+<a name="l00229"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#ab7e0069fde462bdfefafe5d6b700f2d7">00229</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#ab7e0069fde462bdfefafe5d6b700f2d7">enableJSSampling</a>() {
+<a name="l00230"></a>00230     <span class="keywordflow">if</span> (<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a9614a43d9e75b67b1437b9ada3a250f8">mRuntime</a>) {
+<a name="l00231"></a>00231       <a class="code" href="../../db/da2/namespacejs.html#ac573d36c6742bf03c7fa0b1a3940be80">js::EnableRuntimeProfilingStack</a>(<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a9614a43d9e75b67b1437b9ada3a250f8">mRuntime</a>, <span class="keyword">true</span>);
+<a name="l00232"></a>00232       <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a73e816bb89f38c4634be3fc24da89cdf">mStartJSSampling</a> = <span class="keyword">false</span>;
+<a name="l00233"></a>00233     } <span class="keywordflow">else</span> {
+<a name="l00234"></a>00234       <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a73e816bb89f38c4634be3fc24da89cdf">mStartJSSampling</a> = <span class="keyword">true</span>;
+<a name="l00235"></a>00235     }
+<a name="l00236"></a>00236   }
+<a name="l00237"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#aefe5a28916a7992df8a151ada7760f15">00237</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#aefe5a28916a7992df8a151ada7760f15">jsOperationCallback</a>() {
+<a name="l00238"></a>00238     <span class="keywordflow">if</span> (<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a73e816bb89f38c4634be3fc24da89cdf">mStartJSSampling</a>)
+<a name="l00239"></a>00239       <a class="code" href="../../dc/d16/struct_pseudo_stack.html#ab7e0069fde462bdfefafe5d6b700f2d7">enableJSSampling</a>();
+<a name="l00240"></a>00240   }
+<a name="l00241"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a57f394045a7682186eef8004faccaa78">00241</a>   <span class="keywordtype">void</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a57f394045a7682186eef8004faccaa78">disableJSSampling</a>() {
+<a name="l00242"></a>00242     <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a73e816bb89f38c4634be3fc24da89cdf">mStartJSSampling</a> = <span class="keyword">false</span>;
+<a name="l00243"></a>00243     <span class="keywordflow">if</span> (<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a9614a43d9e75b67b1437b9ada3a250f8">mRuntime</a>)
+<a name="l00244"></a>00244       <a class="code" href="../../db/da2/namespacejs.html#ac573d36c6742bf03c7fa0b1a3940be80">js::EnableRuntimeProfilingStack</a>(<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a9614a43d9e75b67b1437b9ada3a250f8">mRuntime</a>, <span class="keyword">false</span>);
+<a name="l00245"></a>00245   }
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247   <span class="comment">// Keep a list of active checkpoints</span>
+<a name="l00248"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4307990fbbebbc1ff2241399d86b5e05">00248</a>   <a class="code" href="../../da/d09/class_stack_entry.html">StackEntry</a> <span class="keyword">volatile</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a4307990fbbebbc1ff2241399d86b5e05">mStack</a>[1024];
+<a name="l00249"></a>00249   <span class="comment">// Keep a list of active markers to be applied to the next sample taken</span>
+<a name="l00250"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a5a2298ba17aa1f1333fd50fdc17e5361">00250</a>   <span class="keywordtype">char</span>* <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a5a2298ba17aa1f1333fd50fdc17e5361">mMarkers</a>[1024];
+<a name="l00251"></a>00251  <span class="keyword">private</span>:
+<a name="l00252"></a>00252   <span class="comment">// This may exceed the length of mStack, so instead use the stackSize() method</span>
+<a name="l00253"></a>00253   <span class="comment">// to determine the number of valid samples in mStack</span>
+<a name="l00254"></a>00254   <a class="code" href="../../d2/d93/namespacemozilla.html#a17bbea4c156c300fe73caa2cde806c45">mozilla::sig_safe_t</a> mStackPointer;
+<a name="l00255"></a>00255   <span class="comment">// If this is set then it&#39;s not safe to read mStackPointer from the signal handler</span>
+<a name="l00256"></a>00256   <span class="keyword">volatile</span> <span class="keywordtype">bool</span> mSignalLock;
+<a name="l00257"></a>00257  <span class="keyword">public</span>:
+<a name="l00258"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a79a307789e73bfa75d53b15e591786ef">00258</a>   <span class="keyword">volatile</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a17bbea4c156c300fe73caa2cde806c45">mozilla::sig_safe_t</a> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a79a307789e73bfa75d53b15e591786ef">mMarkerPointer</a>;
+<a name="l00259"></a>00259   <span class="comment">// We don&#39;t want to modify _markers from within the signal so we allow</span>
+<a name="l00260"></a>00260   <span class="comment">// it to queue a clear operation.</span>
+<a name="l00261"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a63b1476621fe9450a1c71735dd01a7c6">00261</a>   <span class="keyword">volatile</span> <a class="code" href="../../d2/d93/namespacemozilla.html#a17bbea4c156c300fe73caa2cde806c45">mozilla::sig_safe_t</a> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a63b1476621fe9450a1c71735dd01a7c6">mQueueClearMarker</a>;
+<a name="l00262"></a>00262   <span class="comment">// The runtime which is being sampled</span>
+<a name="l00263"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a9614a43d9e75b67b1437b9ada3a250f8">00263</a>   <a class="code" href="../../d9/d28/jspubtd_8h.html#a3784945ce27c2255b53f51e5118c6728">JSRuntime</a> *<a class="code" href="../../dc/d16/struct_pseudo_stack.html#a9614a43d9e75b67b1437b9ada3a250f8">mRuntime</a>;
+<a name="l00264"></a>00264   <span class="comment">// Start JS Profiling when possible</span>
+<a name="l00265"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#a73e816bb89f38c4634be3fc24da89cdf">00265</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#a73e816bb89f38c4634be3fc24da89cdf">mStartJSSampling</a>;
+<a name="l00266"></a><a class="code" href="../../dc/d16/struct_pseudo_stack.html#acbad2e8a654cb0622ef4a51ffc47d9af">00266</a>   <span class="keywordtype">bool</span> <a class="code" href="../../dc/d16/struct_pseudo_stack.html#acbad2e8a654cb0622ef4a51ffc47d9af">mPrivacyMode</a>;
+<a name="l00267"></a>00267 };
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269 <span class="preprocessor">#endif</span>
+<a name="l00270"></a>00270 <span class="preprocessor"></span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../dd/d53/_pseudo_stack_8h.html">PseudoStack.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:54:50に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

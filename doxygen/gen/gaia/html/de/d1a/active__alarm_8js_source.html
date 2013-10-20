@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: active_alarm.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('de/d1a/active__alarm_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">active_alarm.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../de/d1a/active__alarm_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../de/d1a/active__alarm_8js.html#a4f0d896c4b0f6f35b0c097dc51c26d60">00001</a> var <a class="code" href="../../de/d1a/active__alarm_8js.html#a4f0d896c4b0f6f35b0c097dc51c26d60">ActiveAlarm</a> = {
+<a name="l00002"></a>00002 <span class="comment">/*</span>
+<a name="l00003"></a>00003 <span class="comment"> * We maintain an alarm&#39;s life cycle immediately when the alarm goes off.</span>
+<a name="l00004"></a>00004 <span class="comment"> * If user click the snooze button when the alarm goes off,</span>
+<a name="l00005"></a>00005 <span class="comment"> * we request a snooze alarm with snoozeAlarmId immediately.</span>
+<a name="l00006"></a>00006 <span class="comment"> *</span>
+<a name="l00007"></a>00007 <span class="comment"> * If multiple alarms goes off in a period of time(even if in the same time),</span>
+<a name="l00008"></a>00008 <span class="comment"> * we always stop the previous notification and handle it by its setting.</span>
+<a name="l00009"></a>00009 <span class="comment"> * Such as following case:</span>
+<a name="l00010"></a>00010 <span class="comment"> *   An once alarm should be turned off.</span>
+<a name="l00011"></a>00011 <span class="comment"> *   A repeat alarm should be requested its next alarm.</span>
+<a name="l00012"></a>00012 <span class="comment"> *   A snooze alarm should be turned off.</span>
+<a name="l00013"></a>00013 <span class="comment"> */</span>
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015   firedAlarm: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00016"></a>00016   <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00017"></a>00017   childwindow: <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>,
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019   <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>: <span class="keyword">function</span> am_init() {
+<a name="l00020"></a>00020     <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozSetMessageHandler(<span class="stringliteral">&#39;alarm&#39;</span>, this.<a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>.bind(<span class="keyword">this</span>));
+<a name="l00021"></a>00021     <a class="code" href="../../de/def/alarm__manager_8js.html#a3f1e8f56c6167081748c9860344fb340">AlarmManager</a>.updateAlarmStatusBar();
+<a name="l00022"></a>00022   },
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024   <a class="code" href="../../de/deb/jsdbgapi_8h.html#a309e0bc04bd5e2de367147b08241aa6b">handler</a>: <span class="keyword">function</span> aac_handler(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>) {
+<a name="l00025"></a>00025     <span class="comment">// Set a watchdog to avoid locking the CPU wake lock too long,</span>
+<a name="l00026"></a>00026     <span class="comment">// because it&#39;d exhaust the battery quickly which is very bad.</span>
+<a name="l00027"></a>00027     <span class="comment">// This could probably happen if the app failed to launch or</span>
+<a name="l00028"></a>00028     <span class="comment">// handle the alarm message due to any unexpected reasons.</span>
+<a name="l00029"></a>00029     <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.safeCpuLock(30000, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00030"></a>00030       <span class="comment">// receive and parse the alarm id from the message</span>
+<a name="l00031"></a>00031       var <span class="keywordtype">id</span> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.data.id;
+<a name="l00032"></a>00032       var <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>.data.type;
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034       <span class="comment">// Unlock the CPU when these functions have been called</span>
+<a name="l00035"></a>00035       var finalizer = <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.async.namedParallel([
+<a name="l00036"></a>00036         <span class="stringliteral">&#39;onReschedule&#39;</span>,
+<a name="l00037"></a>00037         <span class="stringliteral">&#39;onReceivedAlarm&#39;</span>
+<a name="l00038"></a>00038       ], <span class="keyword">function</span>(err) {
+<a name="l00039"></a>00039         <a class="code" href="../../d3/da7/alarm__list_8js.html#a10936525efe21347079b4da4394008d0">AlarmList</a>.refresh();
+<a name="l00040"></a>00040         <a class="code" href="../../de/def/alarm__manager_8js.html#a3f1e8f56c6167081748c9860344fb340">AlarmManager</a>.updateAlarmStatusBar();
+<a name="l00041"></a>00041         <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00042"></a>00042       });
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044       <span class="comment">// If previous active alarm is showing,</span>
+<a name="l00045"></a>00045       <span class="comment">// turn it off and stop its notification</span>
+<a name="l00046"></a>00046       <span class="keywordflow">if</span> (this.childwindow !== <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a> &amp;&amp;
+<a name="l00047"></a>00047         <a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> this.childwindow !== <span class="stringliteral">&#39;undefined&#39;</span> &amp;&amp;
+<a name="l00048"></a>00048         !this.childwindow.closed) {
+<a name="l00049"></a>00049         <span class="keywordflow">if</span> (this.childwindow.RingView) {
+<a name="l00050"></a>00050           this.childwindow.RingView.stopAlarmNotification();
+<a name="l00051"></a>00051         }
+<a name="l00052"></a>00052       }
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054       <a class="code" href="../../d5/d9d/alarmsdb_8js.html#a3ee863d451570b3d2c34763a5255fd43">AlarmsDB</a>.getAlarm(<span class="keywordtype">id</span>, <span class="keyword">function</span> aac_gotAlarm(err, alarm) {
+<a name="l00055"></a>00055         <span class="keywordflow">if</span> (err) {
+<a name="l00056"></a>00056           <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00057"></a>00057           <span class="keywordflow">return</span>;
+<a name="l00058"></a>00058         }
+<a name="l00059"></a>00059         this.firedAlarm = alarm;
+<a name="l00060"></a>00060         <span class="keywordflow">if</span> (type === <span class="stringliteral">&#39;normal&#39;</span>) {
+<a name="l00061"></a>00061           alarm.schedule({
+<a name="l00062"></a>00062             type: <span class="stringliteral">&#39;normal&#39;</span>,
+<a name="l00063"></a>00063             <a class="code" href="../../d5/d12/build__stage_2email_2shared_2resources_2apn_2_r_e_a_d_m_e_8md.html#aab9764d7f9e519400127ef5189844ed3">first</a>: <span class="keyword">false</span>
+<a name="l00064"></a>00064           }, alarm.saveCallback(finalizer.onReschedule));
+<a name="l00065"></a>00065         } <span class="keywordflow">else</span> {
+<a name="l00066"></a>00066           alarm.cancel(<span class="stringliteral">&#39;snooze&#39;</span>);
+<a name="l00067"></a>00067           alarm.save(finalizer.onReschedule);
+<a name="l00068"></a>00068         }
+<a name="l00069"></a>00069         <span class="comment">// prepare to pop out attention screen, ring the ringtone, vibrate</span>
+<a name="l00070"></a>00070         this.firedAlarm = alarm;
+<a name="l00071"></a>00071         this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>;
+<a name="l00072"></a>00072         var protocol = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.location.protocol;
+<a name="l00073"></a>00073         var host = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.location.host;
+<a name="l00074"></a>00074         this.childwindow =
+<a name="l00075"></a>00075           <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.open(protocol + <span class="stringliteral">&#39;//&#39;</span> + host + <span class="stringliteral">&#39;/onring.html&#39;</span>,
+<a name="l00076"></a>00076                       <span class="stringliteral">&#39;ring_screen&#39;</span>, <span class="stringliteral">&#39;attention&#39;</span>);
+<a name="l00077"></a>00077         finalizer.onReceivedAlarm();
+<a name="l00078"></a>00078       }.bind(<span class="keyword">this</span>));
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080     }.bind(<span class="keyword">this</span>));
+<a name="l00081"></a>00081   },
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083   snoozeHandler: <span class="keyword">function</span> aac_snoozeHandler() {
+<a name="l00084"></a>00084     <a class="code" href="../../d1/db7/apps_2communications_2dialer_2js_2utils_8js.html#af21ebfdaa2ee891fa5788a82b2e2586c">Utils</a>.safeCpuLock(30000, <span class="keyword">function</span>(<a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>) {
+<a name="l00085"></a>00085       var <span class="keywordtype">id</span> = this.firedAlarm.id;
+<a name="l00086"></a>00086       <a class="code" href="../../d5/d9d/alarmsdb_8js.html#a3ee863d451570b3d2c34763a5255fd43">AlarmsDB</a>.getAlarm(<span class="keywordtype">id</span>, <span class="keyword">function</span> aac_gotAlarm(err, alarm) {
+<a name="l00087"></a>00087         <span class="keywordflow">if</span> (err) {
+<a name="l00088"></a>00088           <span class="keywordflow">return</span>;
+<a name="l00089"></a>00089         }
+<a name="l00090"></a>00090         alarm.schedule({
+<a name="l00091"></a>00091           <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <span class="stringliteral">&#39;snooze&#39;</span>
+<a name="l00092"></a>00092         }, alarm.saveCallback(<span class="keyword">function</span>(err, alarm) {
+<a name="l00093"></a>00093           <a class="code" href="../../d3/da7/alarm__list_8js.html#a10936525efe21347079b4da4394008d0">AlarmList</a>.refreshItem(alarm);
+<a name="l00094"></a>00094           <a class="code" href="../../de/def/alarm__manager_8js.html#a3f1e8f56c6167081748c9860344fb340">AlarmManager</a>.updateAlarmStatusBar();
+<a name="l00095"></a>00095           <a class="code" href="../../d4/daf/video_2js_2view_8js.html#af9c6eaaef1f3af067f5ea1aff90ff861">done</a>();
+<a name="l00096"></a>00096         }.bind(<span class="keyword">this</span>)));
+<a name="l00097"></a>00097       });
+<a name="l00098"></a>00098     }.bind(<span class="keyword">this</span>));
+<a name="l00099"></a>00099   }
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 };
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../de/d1a/active__alarm_8js.html">active_alarm.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:50:50に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

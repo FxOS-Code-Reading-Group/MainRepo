@@ -1,0 +1,25 @@
+var prinit_8h =
+[
+    [ "PR_BETA", "d1/d70/prinit_8h.html#ae90bce91d621a84546959350c870f5ee", null ],
+    [ "PR_NAME", "d1/d70/prinit_8h.html#ac96a60dde1ac1eecfce1396fb19b92be", null ],
+    [ "PR_VERSION", "d1/d70/prinit_8h.html#a842fee7de16b5e78f1bdc6305eeabee5", null ],
+    [ "PR_VMAJOR", "d1/d70/prinit_8h.html#a083bdfd9ff954f75ba51b7908b08838a", null ],
+    [ "PR_VMINOR", "d1/d70/prinit_8h.html#a9162d63c74d7a9d1cdaaab2703672951", null ],
+    [ "PR_VPATCH", "d1/d70/prinit_8h.html#aa929b85ee91810bb51523be29473c76d", null ],
+    [ "PRCallOnceFN", "d1/d70/prinit_8h.html#a19fe804ecfaf5abbd92a4b605f4aead6", null ],
+    [ "PRCallOnceType", "d1/d70/prinit_8h.html#a64e32c44bc6abbc96e32324b3342645f", null ],
+    [ "PRCallOnceWithArgFN", "d1/d70/prinit_8h.html#aa55e1f18461fdcd2b613ac16542d99ed", null ],
+    [ "PRPrimordialFn", "d1/d70/prinit_8h.html#a667fdde72083b931c3a3cc5ef28df3b9", null ],
+    [ "PRVersionCheck", "d1/d70/prinit_8h.html#a913b865e39811c626499e82dcb58d67c", null ],
+    [ "NSPR_API", "d1/d70/prinit_8h.html#a9cb0b3deaef9c5edfc37ff210d81831b", null ],
+    [ "NSPR_API", "d1/d70/prinit_8h.html#a0da7df0a3090c067b622d34469d7e4f3", null ],
+    [ "NSPR_API", "d1/d70/prinit_8h.html#a3b61071e4b3c44f5bd7352a1bde2f2c9", null ],
+    [ "NSPR_API", "d1/d70/prinit_8h.html#a1270310cb5e6738f8953007a40da5927", null ],
+    [ "arg", "d1/d70/prinit_8h.html#a288b213dfaa098948a2f01d4ae1b6230", null ],
+    [ "argc", "d1/d70/prinit_8h.html#adfe6180a70442e514a9d4ec0d2c079c0", null ],
+    [ "argv", "d1/d70/prinit_8h.html#a23ec77572c869cb9dcf1d9d279de234c", null ],
+    [ "func", "d1/d70/prinit_8h.html#ad84b078786561118564537030cd7a8b1", null ],
+    [ "high", "d1/d70/prinit_8h.html#a884316428268cbd4f587015b1f436b53", null ],
+    [ "maxPTDs", "d1/d70/prinit_8h.html#a63432ccb085de8822138e46495debd1d", null ],
+    [ "priority", "d1/d70/prinit_8h.html#a4ad53c25565dabd85f99db07954d9eff", null ]
+];

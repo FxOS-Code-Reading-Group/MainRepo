@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsBoundingMetrics.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d9/d33/ns_bounding_metrics_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsBoundingMetrics.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d9/d33/ns_bounding_metrics_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 20; indent-tabs-mode: nil; c-basic-offset: 4 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00003"></a>00003 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00004"></a>00004 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="preprocessor">#ifndef __nsBoundingMetrics_h</span>
+<a name="l00007"></a>00007 <span class="preprocessor"></span><span class="preprocessor">#define __nsBoundingMetrics_h</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span>
+<a name="l00009"></a>00009 <span class="preprocessor">#include &quot;<a class="code" href="../../d6/ddb/ns_coord_8h.html">nsCoord.h</a>&quot;</span>
+<a name="l00010"></a>00010 <span class="preprocessor">#include &lt;algorithm&gt;</span>
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="comment">/* Struct used for accurate measurements of a string, in order to</span>
+<a name="l00013"></a>00013 <span class="comment"> * allow precise positioning when processing MathML.  This is in its</span>
+<a name="l00014"></a>00014 <span class="comment"> * own header file because some very-widely-included headers need it</span>
+<a name="l00015"></a>00015 <span class="comment"> * but not the rest of nsFontMetrics, or vice versa.</span>
+<a name="l00016"></a>00016 <span class="comment"> */</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a><a class="code" href="../../d2/d0f/structns_bounding_metrics.html">00018</a> <span class="keyword">struct </span><a class="code" href="../../d2/d0f/structns_bounding_metrics.html">nsBoundingMetrics</a> {
+<a name="l00019"></a>00019 
+<a name="l00021"></a>00021     <span class="comment">// Metrics that _exactly_ enclose the text:</span>
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023     <span class="comment">// The character coordinate system is the one used on X Windows:</span>
+<a name="l00024"></a>00024     <span class="comment">// 1. The origin is located at the intersection of the baseline</span>
+<a name="l00025"></a>00025     <span class="comment">//    with the left of the character&#39;s cell.</span>
+<a name="l00026"></a>00026     <span class="comment">// 2. All horizontal bearings are oriented from left to right.</span>
+<a name="l00027"></a>00027     <span class="comment">// 2. All horizontal bearings are oriented from left to right.</span>
+<a name="l00028"></a>00028     <span class="comment">// 3. The ascent is oriented from bottom to top (being 0 at the orgin).</span>
+<a name="l00029"></a>00029     <span class="comment">// 4. The descent is oriented from top to bottom (being 0 at the origin).</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031     <span class="comment">// Note that Win32/Mac/PostScript use a different convention for</span>
+<a name="l00032"></a>00032     <span class="comment">// the descent (all vertical measurements are oriented from bottom</span>
+<a name="l00033"></a>00033     <span class="comment">// to top on these palatforms). Make sure to flip the sign of the</span>
+<a name="l00034"></a>00034     <span class="comment">// descent on these platforms for cross-platform compatibility.</span>
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036     <span class="comment">// Any of the following member variables listed here can have</span>
+<a name="l00037"></a>00037     <span class="comment">// positive or negative value.</span>
+<a name="l00038"></a>00038 
+<a name="l00039"></a><a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a3614b3d23dff781132e8de55ba19a8ca">00039</a>     <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a3614b3d23dff781132e8de55ba19a8ca">leftBearing</a>;
+<a name="l00040"></a>00040     <span class="comment">/* The horizontal distance from the origin of the drawing</span>
+<a name="l00041"></a>00041 <span class="comment">       operation to the left-most part of the drawn string. */</span>
+<a name="l00042"></a>00042 
+<a name="l00043"></a><a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a48c0c50c962f42f7299d836f3df0e44a">00043</a>     <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a48c0c50c962f42f7299d836f3df0e44a">rightBearing</a>;
+<a name="l00044"></a>00044     <span class="comment">/* The horizontal distance from the origin of the drawing</span>
+<a name="l00045"></a>00045 <span class="comment">       operation to the right-most part of the drawn string.</span>
+<a name="l00046"></a>00046 <span class="comment">       The _exact_ width of the string is therefore:</span>
+<a name="l00047"></a>00047 <span class="comment">       rightBearing - leftBearing */</span>
+<a name="l00048"></a>00048 
+<a name="l00049"></a><a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a96f064cdb1390b5152d985b12eef755f">00049</a>     <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a96f064cdb1390b5152d985b12eef755f">ascent</a>;
+<a name="l00050"></a>00050     <span class="comment">/* The vertical distance from the origin of the drawing</span>
+<a name="l00051"></a>00051 <span class="comment">       operation to the top-most part of the drawn string. */</span>
+<a name="l00052"></a>00052 
+<a name="l00053"></a><a class="code" href="../../d2/d0f/structns_bounding_metrics.html#ae01f592dab0ac5da92ef734ebf824f59">00053</a>     <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#ae01f592dab0ac5da92ef734ebf824f59">descent</a>;
+<a name="l00054"></a>00054     <span class="comment">/* The vertical distance from the origin of the drawing</span>
+<a name="l00055"></a>00055 <span class="comment">       operation to the bottom-most part of the drawn string.</span>
+<a name="l00056"></a>00056 <span class="comment">       The _exact_ height of the string is therefore:</span>
+<a name="l00057"></a>00057 <span class="comment">       ascent + descent */</span>
+<a name="l00058"></a>00058 
+<a name="l00059"></a><a class="code" href="../../d2/d0f/structns_bounding_metrics.html#af74da8244ad7065cd25dae429fe5bb85">00059</a>     <a class="code" href="../../d6/ddb/ns_coord_8h.html#a0c2491d56285ed87d3ac31ee241e81e7">nscoord</a> <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#af74da8244ad7065cd25dae429fe5bb85">width</a>;
+<a name="l00060"></a>00060     <span class="comment">/* The horizontal distance from the origin of the drawing</span>
+<a name="l00061"></a>00061 <span class="comment">       operation to the correct origin for drawing another string</span>
+<a name="l00062"></a>00062 <span class="comment">       to follow the current one. Depending on the font, this</span>
+<a name="l00063"></a>00063 <span class="comment">       could be greater than or less than the right bearing. */</span>
+<a name="l00064"></a>00064 
+<a name="l00065"></a><a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a8228136211be33303d6ee9e38b7aee81">00065</a>     <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a8228136211be33303d6ee9e38b7aee81">nsBoundingMetrics</a>() : <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a3614b3d23dff781132e8de55ba19a8ca">leftBearing</a>(0), <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a48c0c50c962f42f7299d836f3df0e44a">rightBearing</a>(0),
+<a name="l00066"></a>00066                           <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a96f064cdb1390b5152d985b12eef755f">ascent</a>(0), <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#ae01f592dab0ac5da92ef734ebf824f59">descent</a>(0), <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#af74da8244ad7065cd25dae429fe5bb85">width</a>(0)
+<a name="l00067"></a>00067     {}
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069     <span class="keywordtype">void</span>
+<a name="l00070"></a><a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a35fd53d31f2af3d50d10aa4f8d190336">00070</a>     <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a35fd53d31f2af3d50d10aa4f8d190336">operator += </a>(<span class="keyword">const</span> <a class="code" href="../../d2/d0f/structns_bounding_metrics.html">nsBoundingMetrics</a>&amp; bm) {
+<a name="l00071"></a>00071         <span class="keywordflow">if</span> (<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a96f064cdb1390b5152d985b12eef755f">ascent</a> + <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#ae01f592dab0ac5da92ef734ebf824f59">descent</a> == 0 &amp;&amp; <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a48c0c50c962f42f7299d836f3df0e44a">rightBearing</a> - <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a3614b3d23dff781132e8de55ba19a8ca">leftBearing</a> == 0) {
+<a name="l00072"></a>00072             <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a96f064cdb1390b5152d985b12eef755f">ascent</a> = bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a96f064cdb1390b5152d985b12eef755f">ascent</a>;
+<a name="l00073"></a>00073             <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#ae01f592dab0ac5da92ef734ebf824f59">descent</a> = bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#ae01f592dab0ac5da92ef734ebf824f59">descent</a>;
+<a name="l00074"></a>00074             <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a3614b3d23dff781132e8de55ba19a8ca">leftBearing</a> = <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#af74da8244ad7065cd25dae429fe5bb85">width</a> + bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a3614b3d23dff781132e8de55ba19a8ca">leftBearing</a>;
+<a name="l00075"></a>00075             <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a48c0c50c962f42f7299d836f3df0e44a">rightBearing</a> = <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#af74da8244ad7065cd25dae429fe5bb85">width</a> + bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a48c0c50c962f42f7299d836f3df0e44a">rightBearing</a>;
+<a name="l00076"></a>00076         }
+<a name="l00077"></a>00077         <span class="keywordflow">else</span> {
+<a name="l00078"></a>00078             <span class="keywordflow">if</span> (<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a96f064cdb1390b5152d985b12eef755f">ascent</a> &lt; bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a96f064cdb1390b5152d985b12eef755f">ascent</a>) <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a96f064cdb1390b5152d985b12eef755f">ascent</a> = bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a96f064cdb1390b5152d985b12eef755f">ascent</a>;
+<a name="l00079"></a>00079             <span class="keywordflow">if</span> (<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#ae01f592dab0ac5da92ef734ebf824f59">descent</a> &lt; bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#ae01f592dab0ac5da92ef734ebf824f59">descent</a>) <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#ae01f592dab0ac5da92ef734ebf824f59">descent</a> = bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#ae01f592dab0ac5da92ef734ebf824f59">descent</a>;
+<a name="l00080"></a>00080             <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a3614b3d23dff781132e8de55ba19a8ca">leftBearing</a> = <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#aad36546e8175d2922bee165fe028fedc">std::min</a>(<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a3614b3d23dff781132e8de55ba19a8ca">leftBearing</a>, <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#af74da8244ad7065cd25dae429fe5bb85">width</a> + bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a3614b3d23dff781132e8de55ba19a8ca">leftBearing</a>);
+<a name="l00081"></a>00081             <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a48c0c50c962f42f7299d836f3df0e44a">rightBearing</a> = <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#a0b0ede69e8156eb97acc579b88e883de">std::max</a>(<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a48c0c50c962f42f7299d836f3df0e44a">rightBearing</a>, <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#af74da8244ad7065cd25dae429fe5bb85">width</a> + bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#a48c0c50c962f42f7299d836f3df0e44a">rightBearing</a>);
+<a name="l00082"></a>00082         }
+<a name="l00083"></a>00083         <a class="code" href="../../d2/d0f/structns_bounding_metrics.html#af74da8244ad7065cd25dae429fe5bb85">width</a> += bm.<a class="code" href="../../d2/d0f/structns_bounding_metrics.html#af74da8244ad7065cd25dae429fe5bb85">width</a>;
+<a name="l00084"></a>00084     }
+<a name="l00085"></a>00085 };
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 <span class="preprocessor">#endif // __nsBoundingMetrics_h</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d9/d33/ns_bounding_metrics_8h.html">nsBoundingMetrics.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:54に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

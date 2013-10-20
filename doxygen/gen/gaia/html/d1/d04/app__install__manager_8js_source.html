@@ -1,0 +1,713 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: app_install_manager.js ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d1/d04/app__install__manager_8js.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">app_install_manager.js</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d1/d04/app__install__manager_8js.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#ae2475e10618961c050dcba04e8c42331">00001</a> <span class="stringliteral">&#39;use strict&#39;</span>;
+<a name="l00002"></a>00002 
+<a name="l00003"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a2b9043c9efbb6b8d1481ffc011ebd051">00003</a> var <a class="code" href="../../d1/d04/app__install__manager_8js.html#ac0fdcb99ef3110d754ce4b2b6f9a50a8">AppInstallManager</a> = {
+<a name="l00004"></a>00004   mapDownloadErrorsToMessage: {
+<a name="l00005"></a>00005     <span class="stringliteral">&#39;NETWORK_ERROR&#39;</span>: <span class="stringliteral">&#39;download-failed&#39;</span>,
+<a name="l00006"></a>00006     <span class="stringliteral">&#39;DOWNLOAD_ERROR&#39;</span>: <span class="stringliteral">&#39;download-failed&#39;</span>,
+<a name="l00007"></a>00007     <span class="stringliteral">&#39;MISSING_MANIFEST&#39;</span>: <span class="stringliteral">&#39;install-failed&#39;</span>,
+<a name="l00008"></a>00008     <span class="stringliteral">&#39;INVALID_MANIFEST&#39;</span>: <span class="stringliteral">&#39;install-failed&#39;</span>,
+<a name="l00009"></a>00009     <span class="stringliteral">&#39;INSTALL_FROM_DENIED&#39;</span>: <span class="stringliteral">&#39;install-failed&#39;</span>,
+<a name="l00010"></a>00010     <span class="stringliteral">&#39;INVALID_SECURITY_LEVEL&#39;</span>: <span class="stringliteral">&#39;install-failed&#39;</span>,
+<a name="l00011"></a>00011     <span class="stringliteral">&#39;INVALID_PACKAGE&#39;</span>: <span class="stringliteral">&#39;install-failed&#39;</span>,
+<a name="l00012"></a>00012     <span class="stringliteral">&#39;APP_CACHE_DOWNLOAD_ERROR&#39;</span>: <span class="stringliteral">&#39;download-failed&#39;</span>
+<a name="l00013"></a>00013   },
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015   <a class="code" href="../../db/dc0/mock__fb_8js.html#ae9b28e7b58edd8f38cd717eed7b3deb4">init</a>: <span class="keyword">function</span> ai_init() {
+<a name="l00016"></a>00016     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-install-dialog&#39;</span>);
+<a name="l00017"></a>00017     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-install-message&#39;</span>);
+<a name="l00018"></a>00018     this.<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-install-size&#39;</span>);
+<a name="l00019"></a>00019     this.authorName = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-install-author-name&#39;</span>);
+<a name="l00020"></a>00020     this.authorUrl = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-install-author-url&#39;</span>);
+<a name="l00021"></a>00021     this.installButton = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-install-install-button&#39;</span>);
+<a name="l00022"></a>00022     this.cancelButton = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-install-cancel-button&#39;</span>);
+<a name="l00023"></a>00023     this.imeLayoutDialog = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;ime-layout-dialog&#39;</span>);
+<a name="l00024"></a>00024     this.imeListTemplate = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;ime-list-template&#39;</span>);
+<a name="l00025"></a>00025     this.imeList = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;ime-list&#39;</span>);
+<a name="l00026"></a>00026     this.imeCancelButton = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;ime-cancel-button&#39;</span>);
+<a name="l00027"></a>00027     this.imeConfirmButton = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;ime-confirm-button&#39;</span>);
+<a name="l00028"></a>00028     this.setupCancelButton =
+<a name="l00029"></a>00029       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;setup-cancel-button&#39;</span>);
+<a name="l00030"></a>00030     this.setupConfirmButton =
+<a name="l00031"></a>00031       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;setup-confirm-button&#39;</span>);
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033     this.installCancelDialog =
+<a name="l00034"></a>00034       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-install-cancel-dialog&#39;</span>);
+<a name="l00035"></a>00035     this.downloadCancelDialog =
+<a name="l00036"></a>00036       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-download-cancel-dialog&#39;</span>);
+<a name="l00037"></a>00037     this.setupInstalledAppDialog =
+<a name="l00038"></a>00038       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;setup-installed-app-dialog&#39;</span>);
+<a name="l00039"></a>00039     this.confirmCancelButton =
+<a name="l00040"></a>00040       <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-install-confirm-cancel-button&#39;</span>);
+<a name="l00041"></a>00041     this.setupAppName = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;setup-app-name&#39;</span>);
+<a name="l00042"></a>00042     this.setupAppDescription = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;setup-app-description&#39;</span>);
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044     this.resumeButton = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;app-install-resume-button&#39;</span>);
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     this.notifContainer =
+<a name="l00047"></a>00047             <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.getElementById(<span class="stringliteral">&#39;install-manager-notification-container&#39;</span>);
+<a name="l00048"></a>00048     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">appInfos</a> = {};
+<a name="l00049"></a>00049     this.setupQueue = [];
+<a name="l00050"></a>00050     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a96d3a2708d3800b559158e84cbe88728">isSetupInProgress</a> = <span class="keyword">false</span>;
+<a name="l00051"></a>00051     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;mozChromeEvent&#39;</span>,
+<a name="l00052"></a>00052       (<span class="keyword">function</span> ai_handleChromeEvent(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00053"></a>00053       <span class="keywordflow">if</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.type == <span class="stringliteral">&#39;webapps-ask-install&#39;</span>) {
+<a name="l00054"></a>00054         <span class="keyword">this</span>.handleAppInstallPrompt(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail);
+<a name="l00055"></a>00055       }
+<a name="l00056"></a>00056     }).<a class="code" href="../../d3/d91/j3d_8js.html#a1ad2f17c038f79ef240a44e21a46ef14">bind</a>(<span class="keyword">this</span>));
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;applicationinstall&#39;</span>,
+<a name="l00059"></a>00059       this.handleApplicationInstall.bind(<span class="keyword">this</span>));
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;applicationuninstall&#39;</span>,
+<a name="l00062"></a>00062       this.handleApplicationUninstall.bind(<span class="keyword">this</span>));
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064     this.installButton.onclick = this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a2b9043c9efbb6b8d1481ffc011ebd051">handleInstall</a>.bind(<span class="keyword">this</span>);
+<a name="l00065"></a>00065     this.cancelButton.onclick = this.showInstallCancelDialog.bind(<span class="keyword">this</span>);
+<a name="l00066"></a>00066     this.confirmCancelButton.onclick = this.handleInstallCancel.bind(<span class="keyword">this</span>);
+<a name="l00067"></a>00067     this.resumeButton.onclick = this.hideInstallCancelDialog.bind(<span class="keyword">this</span>);
+<a name="l00068"></a>00068     this.notifContainer.onclick = this.showDownloadCancelDialog.bind(<span class="keyword">this</span>);
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070     this.downloadCancelDialog.querySelector(<span class="stringliteral">&#39;.confirm&#39;</span>).onclick =
+<a name="l00071"></a>00071       this.handleConfirmDownloadCancel.bind(<span class="keyword">this</span>);
+<a name="l00072"></a>00072     this.downloadCancelDialog.querySelector(<span class="stringliteral">&#39;.cancel&#39;</span>).onclick =
+<a name="l00073"></a>00073       this.handleCancelDownloadCancel.bind(<span class="keyword">this</span>);
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075     this.setupCancelButton.onclick = this.handleSetupCancelAction.bind(<span class="keyword">this</span>);
+<a name="l00076"></a>00076     this.setupConfirmButton.onclick =
+<a name="l00077"></a>00077                              this.handleSetupConfirmAction.bind(<span class="keyword">this</span>);
+<a name="l00078"></a>00078     this.imeCancelButton.onclick = this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a2720e5e5d506051dc4d01e1c52fe94d0">hideIMEList</a>.bind(<span class="keyword">this</span>);
+<a name="l00079"></a>00079     this.imeConfirmButton.onclick = this.handleImeConfirmAction.bind(<span class="keyword">this</span>);
+<a name="l00080"></a>00080     <span class="comment">// lazy load template.js</span>
+<a name="l00081"></a>00081     <a class="code" href="../../d3/db5/build__stage_2email_2shared_2js_2lazy__loader_8js.html#aaf5eec8afd0243eeb2166f74e472c877">LazyLoader</a>.load(<span class="stringliteral">&#39;shared/js/template.js&#39;</span>);
+<a name="l00082"></a>00082     <span class="comment">// bind these handlers so that we can have only one instance and check</span>
+<a name="l00083"></a>00083     <span class="comment">// them later on</span>
+<a name="l00084"></a>00084     [<span class="stringliteral">&#39;handleDownloadSuccess&#39;</span>,
+<a name="l00085"></a>00085      <span class="stringliteral">&#39;handleDownloadError&#39;</span>,
+<a name="l00086"></a>00086      <span class="stringliteral">&#39;handleProgress&#39;</span>,
+<a name="l00087"></a>00087      <span class="stringliteral">&#39;handleApplicationReady&#39;</span>
+<a name="l00088"></a>00088     ].forEach(<span class="keyword">function</span>(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>) {
+<a name="l00089"></a>00089       <span class="keyword">this</span>[<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>] = <span class="keyword">this</span>[<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>].bind(<span class="keyword">this</span>);
+<a name="l00090"></a>00090     }, <span class="keyword">this</span>);
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.addEventListener(<span class="stringliteral">&#39;applicationready&#39;</span>,
+<a name="l00093"></a>00093         this.handleApplicationReady);
+<a name="l00094"></a>00094   },
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096   handleApplicationReady: <span class="keyword">function</span> ai_handleApplicationReady(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00097"></a>00097     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.removeEventListener(<span class="stringliteral">&#39;applicationready&#39;</span>,
+<a name="l00098"></a>00098         this.handleApplicationReady);
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100     var apps = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.applications;
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102     Object.keys(apps)
+<a name="l00103"></a>00103       .filter(<span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>) { return apps[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>].installState === <span class="stringliteral">&#39;pending&#39;</span>; })
+<a name="l00104"></a>00104       .map(<span class="keyword">function</span>(<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>) { <span class="keywordflow">return</span> apps[<a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a>]; })
+<a name="l00105"></a>00105       .<a class="code" href="../../d9/d42/caldav__worker_8js.html#a032b49ab17ef5d8b831bf4024d75aaad">forEach</a>(this.prepareForDownload, <span class="keyword">this</span>);
+<a name="l00106"></a>00106   },
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108   handleApplicationInstall: <span class="keyword">function</span> ai_handleApplicationInstallEvent(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00109"></a>00109     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a7b225fcb720e4d5ed2bbf60e28a25e6d">app</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.application;
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111     <span class="keywordflow">if</span> (app.installState === <span class="stringliteral">&#39;installed&#39;</span>) {
+<a name="l00112"></a>00112       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a9d12b4c06319ba1aa3b35929dccdd059">handleInstallSuccess</a>(app);
+<a name="l00113"></a>00113       <span class="keywordflow">return</span>;
+<a name="l00114"></a>00114     }
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116     this.prepareForDownload(app);
+<a name="l00117"></a>00117   },
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119   handleApplicationUninstall: <span class="keyword">function</span> ai_handleApplicationUninstall(<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00120"></a>00120     var app = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>.detail.application;
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#af8deb3c0023deb542906d4227e3e3614">onDownloadStop</a>(app);
+<a name="l00123"></a>00123     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a5bd0a82eeb71c81346809b2700455fbe">onDownloadFinish</a>(app);
+<a name="l00124"></a>00124   },
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126   handleAppInstallPrompt: <span class="keyword">function</span> ai_handleInstallPrompt(detail) {
+<a name="l00127"></a>00127     var <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a> = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00128"></a>00128     var app = detail.app;
+<a name="l00129"></a>00129     <span class="comment">// updateManifest is used by packaged apps until they are installed</span>
+<a name="l00130"></a>00130     var <a class="code" href="../../da/d88/mock__configurator_8js.html#a3c65d07fe933acaaf1205d12ce79b115">manifest</a> = app.manifest ? app.manifest : app.updateManifest;
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132     <span class="keywordflow">if</span> (!manifest)
+<a name="l00133"></a>00133       <span class="keywordflow">return</span>;
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a>.classList.add(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137     var <span class="keywordtype">id</span> = detail.id;
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139     <span class="keywordflow">if</span> (manifest.size) {
+<a name="l00140"></a>00140       this.<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>.textContent = this.humanizeSize(manifest.size);
+<a name="l00141"></a>00141     } <span class="keywordflow">else</span> {
+<a name="l00142"></a>00142       this.<a class="code" href="../../d5/dbd/camera_2js_2camera_8js.html#a6d7e27eaec1e5f6600e65858be43c18b">size</a>.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;size-unknown&#39;</span>);
+<a name="l00143"></a>00143     }
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145     <span class="comment">// Wrap manifest to get localized properties</span>
+<a name="l00146"></a>00146     manifest = <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(manifest);
+<a name="l00147"></a>00147     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a> = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;install-app&#39;</span>, {<span class="stringliteral">&#39;name&#39;</span>: manifest.name});
+<a name="l00148"></a>00148     this.msg.textContent = <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">msg</a>;
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150     <span class="keywordflow">if</span> (manifest.developer) {
+<a name="l00151"></a>00151       this.authorName.textContent = manifest.developer.name ||
+<a name="l00152"></a>00152         <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;author-unknown&#39;</span>);
+<a name="l00153"></a>00153       this.authorUrl.textContent = manifest.developer.url || <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00154"></a>00154     } <span class="keywordflow">else</span> {
+<a name="l00155"></a>00155       this.authorName.textContent = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;author-unknown&#39;</span>);
+<a name="l00156"></a>00156       this.authorUrl.textContent = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00157"></a>00157     }
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a5d8178dad412fb58e2dac9124dc5aaa9">installCallback</a> = (<span class="keyword">function</span> ai_installCallback() {
+<a name="l00160"></a>00160       this.<a class="code" href="../../df/d44/permission__manager_8js.html#af6de03a7554c777601f88bc39cb5e0dc">dispatchResponse</a>(<span class="keywordtype">id</span>, <span class="stringliteral">&#39;webapps-install-granted&#39;</span>);
+<a name="l00161"></a>00161     }).<a class="code" href="../../d3/d91/j3d_8js.html#a1ad2f17c038f79ef240a44e21a46ef14">bind</a>(<span class="keyword">this</span>);
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa2587de403e7b7582aa310cc75ce35b0">installCancelCallback</a> = (<span class="keyword">function</span> ai_cancelCallback() {
+<a name="l00164"></a>00164       this.<a class="code" href="../../df/d44/permission__manager_8js.html#af6de03a7554c777601f88bc39cb5e0dc">dispatchResponse</a>(<span class="keywordtype">id</span>, <span class="stringliteral">&#39;webapps-install-denied&#39;</span>);
+<a name="l00165"></a>00165     }).<a class="code" href="../../d3/d91/j3d_8js.html#a1ad2f17c038f79ef240a44e21a46ef14">bind</a>(<span class="keyword">this</span>);
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167   },
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169   <a class="code" href="../../d1/d04/app__install__manager_8js.html#a2b9043c9efbb6b8d1481ffc011ebd051">handleInstall</a>: <span class="keyword">function</span> ai_handleInstall(evt) {
+<a name="l00170"></a>00170     <span class="keywordflow">if</span> (evt)
+<a name="l00171"></a>00171       evt.preventDefault();
+<a name="l00172"></a>00172     <span class="keywordflow">if</span> (this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a5d8178dad412fb58e2dac9124dc5aaa9">installCallback</a>)
+<a name="l00173"></a>00173       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a5d8178dad412fb58e2dac9124dc5aaa9">installCallback</a>();
+<a name="l00174"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a5d8178dad412fb58e2dac9124dc5aaa9">00174</a>     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a5d8178dad412fb58e2dac9124dc5aaa9">installCallback</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00175"></a>00175     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a>.classList.remove(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00176"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a65d81a9d40f600e27e5a183b55c012c1">00176</a>   },
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178   prepareForDownload: <span class="keyword">function</span> ai_prepareForDownload(app) {
+<a name="l00179"></a>00179     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a5983b6d50c2fbf95ffe3907399e83a3c">manifestURL</a> = app.manifestURL;
+<a name="l00180"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">00180</a>     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">appInfos</a>[<a class="code" href="../../d1/d04/app__install__manager_8js.html#a5983b6d50c2fbf95ffe3907399e83a3c">manifestURL</a>] = {};
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182     <span class="comment">// these methods are already bound to |this|</span>
+<a name="l00183"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#ad1aa408955ad3bb7d62427094ae02b40">00183</a>     app.ondownloadsuccess = this.handleDownloadSuccess;
+<a name="l00184"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a81ca6a2ba706c758e45f70b053e341bd">00184</a>     app.ondownloaderror = this.handleDownloadError;
+<a name="l00185"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a287ef4df227a3ceb44fea5838f75a88e">00185</a>     app.onprogress = this.handleProgress;
+<a name="l00186"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a9d12b4c06319ba1aa3b35929dccdd059">00186</a>   },
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188   configurations: {
+<a name="l00189"></a>00189     <span class="stringliteral">&#39;keyboard&#39;</span>: {
+<a name="l00190"></a>00190       fnName: <span class="stringliteral">&#39;showIMEList&#39;</span>
+<a name="l00191"></a>00191     }
+<a name="l00192"></a>00192   },
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194   <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9d12b4c06319ba1aa3b35929dccdd059">handleInstallSuccess</a>: <span class="keyword">function</span> ai_handleInstallSuccess(app) {
+<a name="l00195"></a>00195     var manifest = app.manifest || app.updateManifest;
+<a name="l00196"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">00196</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a69aaa848e34bf456bea30e8a6b1fba1b">role</a> = manifest.role;
+<a name="l00197"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a2841d6ceaf63d04c493310793b43d145">00197</a>     <span class="keywordflow">if</span> (this.configurations[role]) {
+<a name="l00198"></a>00198       this.setupQueue.push(app);
+<a name="l00199"></a>00199       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a4279454811cf1f2fba1c7c6c68428feb">checkSetupQueue</a>();
+<a name="l00200"></a>00200     } <span class="keywordflow">else</span> {
+<a name="l00201"></a>00201       this.showInstallSuccess(app);
+<a name="l00202"></a>00202     }
+<a name="l00203"></a>00203     <span class="comment">// send event</span>
+<a name="l00204"></a>00204     var evt = <span class="keyword">new</span> <a class="code" href="../../d0/dfb/namespacemozilla_1_1dom_1_1prototypes_1_1id.html#addcec93baff9084aadf2519231ea4a28a9a0643019c2e900911fe21538df95595">CustomEvent</a>(<span class="stringliteral">&#39;applicationinstallsuccess&#39;</span>,
+<a name="l00205"></a>00205                            { detail: { application: app } });
+<a name="l00206"></a>00206     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.dispatchEvent(evt);
+<a name="l00207"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#aca5f696948ba19ad0d555eec762c23ba">00207</a>   },
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209   showInstallSuccess: <span class="keyword">function</span> ai_showInstallSuccess(app) {
+<a name="l00210"></a>00210     var manifest = app.manifest || app.updateManifest;
+<a name="l00211"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#ac272f1aad9dae45148b848558566ed55">00211</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#ac272f1aad9dae45148b848558566ed55">appManifest</a> = <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(manifest);
+<a name="l00212"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#adac2bcb4f01b574cbc63fe8ee2c56bf0">00212</a>     var <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a> = appManifest.name;
+<a name="l00213"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">00213</a>     var _ = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00214"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#aa32988dd09d5a9481dfadbb89d1426ab">00214</a>     var msg = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;app-install-success&#39;</span>, { <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9c89fb5ac9e7ad2b8b5e952b26a83577">appName</a>: name });
+<a name="l00215"></a>00215     <a class="code" href="../../db/d64/system__banner_8js.html#acdf9059669793cf5f5c3d4a15f750177">SystemBanner</a>.show(msg);
+<a name="l00216"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#add88434c30a8e23e027cf7eed8ef98be">00216</a>   },
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218   <a class="code" href="../../d1/d04/app__install__manager_8js.html#a4279454811cf1f2fba1c7c6c68428feb">checkSetupQueue</a>: <span class="keyword">function</span> ai_checkSetupQueue() {
+<a name="l00219"></a>00219     <span class="keywordflow">if</span> (this.setupQueue.length &amp;&amp; !(<span class="keyword">this</span>.isSetupInProgress)) {
+<a name="l00220"></a>00220       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a96d3a2708d3800b559158e84cbe88728">isSetupInProgress</a> = <span class="keyword">true</span>;
+<a name="l00221"></a>00221       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a520944630890e9e670c302fedd73d0a4">showSetupDialog</a>();
+<a name="l00222"></a>00222     }
+<a name="l00223"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a5ec11b13794ce7667fff2423a425db02">00223</a>   },
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225   <a class="code" href="../../d1/d04/app__install__manager_8js.html#aab243950472bc28ad2099de43f10e38e">completedSetupTask</a>: <span class="keyword">function</span> ai_completedSetupTask() {
+<a name="l00226"></a>00226     <span class="comment">// clean completed app</span>
+<a name="l00227"></a>00227     this.setupQueue.shift();
+<a name="l00228"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a96d3a2708d3800b559158e84cbe88728">00228</a>     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a96d3a2708d3800b559158e84cbe88728">isSetupInProgress</a> = <span class="keyword">false</span>;
+<a name="l00229"></a>00229     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a4279454811cf1f2fba1c7c6c68428feb">checkSetupQueue</a>();
+<a name="l00230"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#ac5b4f3f5738645a6e3eb73c4367a3b6a">00230</a>   },
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232   <a class="code" href="../../d1/d04/app__install__manager_8js.html#a52deb6c0e1cbcb517e1dac870b74259f">hideSetupDialog</a>: <span class="keyword">function</span> ai_hideSetupDialog() {
+<a name="l00233"></a>00233     this.setupAppName.textContent = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00234"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a231b448a4b70e9035748897db2fa1c2a">00234</a>     this.setupAppDescription.textContent = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00235"></a>00235     this.setupInstalledAppDialog.classList.remove(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00236"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a0d54d7d1badfb4f6b9dcbeb9e921c284">00236</a>   },
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238   <a class="code" href="../../d1/d04/app__install__manager_8js.html#a520944630890e9e670c302fedd73d0a4">showSetupDialog</a>: <span class="keyword">function</span> ai_showSetupDialog() {
+<a name="l00239"></a>00239     var app = this.setupQueue[0];
+<a name="l00240"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a3c65d07fe933acaaf1205d12ce79b115">00240</a>     var manifest = app.manifest;
+<a name="l00241"></a>00241     var appManifest = <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(manifest);
+<a name="l00242"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a9c89fb5ac9e7ad2b8b5e952b26a83577">00242</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9c89fb5ac9e7ad2b8b5e952b26a83577">appName</a> = appManifest.name;
+<a name="l00243"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a6b41456c459931879be313ce4fbdf4c4">00243</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a6b41456c459931879be313ce4fbdf4c4">appDescription</a> = appManifest.description;
+<a name="l00244"></a>00244     this.setupAppDescription.textContent = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a6b41456c459931879be313ce4fbdf4c4">appDescription</a>;
+<a name="l00245"></a>00245     <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.localize(this.setupAppName,
+<a name="l00246"></a>00246                               <span class="stringliteral">&#39;app-install-success&#39;</span>, { appName: appName });
+<a name="l00247"></a>00247     this.setupInstalledAppDialog.classList.add(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00248"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a6285b7d93088e79230ac4a43e84ee10c">00248</a>   },
+<a name="l00249"></a>00249 
+<a name="l00250"></a>00250   handleSetupCancelAction: <span class="keyword">function</span> ai_handleSetupCancelAction() {
+<a name="l00251"></a>00251     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a52deb6c0e1cbcb517e1dac870b74259f">hideSetupDialog</a>();
+<a name="l00252"></a>00252     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#aab243950472bc28ad2099de43f10e38e">completedSetupTask</a>();
+<a name="l00253"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a1f04628f8a53d4f4f28eaaa6882e34aa">00253</a>   },
+<a name="l00254"></a>00254 
+<a name="l00255"></a>00255   handleSetupConfirmAction: <span class="keyword">function</span> ai_handleSetupConfirmAction() {
+<a name="l00256"></a>00256     var fnName = this.configurations[this.setupQueue[0].manifest.role].fnName;
+<a name="l00257"></a>00257     <span class="keyword">this</span>[fnName].call(<span class="keyword">this</span>);
+<a name="l00258"></a>00258     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a52deb6c0e1cbcb517e1dac870b74259f">hideSetupDialog</a>();
+<a name="l00259"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a5febd0fea12944a84dbb62d4ca068c92">00259</a>   },
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261   <a class="code" href="../../d1/dbd/apps_2keyboard_2js_2keyboard_8js.html#af8d3efc13cc7c9040fb4976125ead3d5">showIMEList</a>: <span class="keyword">function</span> ai_showIMEList() {
+<a name="l00262"></a>00262     var app = this.setupQueue[0];
+<a name="l00263"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a9779bb7220e7fd0e5347cae6ef11236f">00263</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9779bb7220e7fd0e5347cae6ef11236f">entryPoints</a> = app.manifest.entry_points;
+<a name="l00264"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a8d4bfbec499146495bec162526a660af">00264</a>     <span class="keywordflow">if</span> (<a class="code" href="../../d1/d22/ical_8js.html#a6053319846c80bf9561a1958bb817380">typeof</a> entryPoints !== <span class="stringliteral">&#39;object&#39;</span>) {
+<a name="l00265"></a>00265       <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.error(<span class="stringliteral">&#39;entry_points must be an object for &#39;</span> +
+<a name="l00266"></a>00266                                           <span class="stringliteral">&#39;third-party keyboard layouts&#39;</span>);
+<a name="l00267"></a>00267       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#aab243950472bc28ad2099de43f10e38e">completedSetupTask</a>();
+<a name="l00268"></a>00268       <span class="keywordflow">return</span>;
+<a name="l00269"></a>00269     }
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271     <span class="comment">// build the list of keyboard layouts</span>
+<a name="l00272"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a10c6a30a6417876e0832dca86f5714d1">00272</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a10c6a30a6417876e0832dca86f5714d1">listHtml</a> = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00273"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a00b5e41cc7401019afe5884c7160e3b9">00273</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a00b5e41cc7401019afe5884c7160e3b9">imeListWrap</a> = <a class="code" href="../../d6/d5f/build__stage_2email_2shared_2js_2template_8js.html#aab83dedcadf384ff4b12e9316e74d266">Template</a>(this.imeListTemplate);
+<a name="l00274"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a27df8df8f7a8258ec7a6cab020e3b91b">00274</a>     <span class="keywordflow">for</span> (var name in entryPoints) {
+<a name="l00275"></a>00275       var displayIMEName = <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(entryPoints[name]).name;
+<a name="l00276"></a>00276       listHtml += imeListWrap.interpolate({
+<a name="l00277"></a>00277         imeName: <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>,
+<a name="l00278"></a>00278         displayName: displayIMEName
+<a name="l00279"></a>00279       });
+<a name="l00280"></a>00280     }
+<a name="l00281"></a>00281     <span class="comment">// keeping li template</span>
+<a name="l00282"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#acd145aedb51101ac15a526f73673b0b9">00282</a>     this.imeList.innerHTML = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a10c6a30a6417876e0832dca86f5714d1">listHtml</a>;
+<a name="l00283"></a>00283     this.imeLayoutDialog.classList.add(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00284"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#afe4bcff02f448846b58ee8bd50c3676b">00284</a>   },
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286   <a class="code" href="../../d1/d04/app__install__manager_8js.html#a2720e5e5d506051dc4d01e1c52fe94d0">hideIMEList</a>: <span class="keyword">function</span> ai_hideIMEList() {
+<a name="l00287"></a>00287     this.imeLayoutDialog.classList.remove(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00288"></a>00288     this.imeList.innerHTML = <span class="stringliteral">&#39;&#39;</span>;
+<a name="l00289"></a>00289     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#aab243950472bc28ad2099de43f10e38e">completedSetupTask</a>();
+<a name="l00290"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a7c85230713cb2dd9d076005441a9de2a">00290</a>   },
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292   handleImeConfirmAction: <span class="keyword">function</span> ai_handleImeConfirmAction() {
+<a name="l00293"></a>00293     var origin = this.setupQueue[0].origin;
+<a name="l00294"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a46ec18bfbcc6f8198bef7d7d9a6148a3">00294</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a46ec18bfbcc6f8198bef7d7d9a6148a3">keyboards</a> = this.imeList.getElementsByTagName(<span class="stringliteral">&#39;input&#39;</span>);
+<a name="l00295"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#aaa151348be874397e6e8a8dfe0d15cbb">00295</a>     <span class="keywordflow">for</span> (var <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> = 0, <a class="code" href="../../d9/d6a/ns_color_8h.html#a0ad4b5fc255f59a8dace6aa74c5ca790">l</a> = keyboards.length; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a> &lt; <a class="code" href="../../d9/d6a/ns_color_8h.html#a0ad4b5fc255f59a8dace6aa74c5ca790">l</a>; <a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>++) {
+<a name="l00296"></a>00296       var keyboardIME = keyboards[<a class="code" href="../../da/d7d/sylvester_8js.html#a091f0effa2d52e9315e1f032073e953b">i</a>];
+<a name="l00297"></a>00297       <span class="keywordflow">if</span> (keyboardIME.checked)
+<a name="l00298"></a>00298         <a class="code" href="../../de/dba/mock__keyboard__helper_8js.html#a89f4c4f9bc62c4af6d236a41027ade28">KeyboardHelper</a>.setLayoutEnabled(origin, keyboardIME.value, <span class="keyword">true</span>);
+<a name="l00299"></a>00299     }
+<a name="l00300"></a>00300     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a2720e5e5d506051dc4d01e1c52fe94d0">hideIMEList</a>();
+<a name="l00301"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a1ecc13e3dd248c0f470d52c23fe3fe32">00301</a>   },
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303   handleDownloadSuccess: <span class="keyword">function</span> ai_handleDownloadSuccess(evt) {
+<a name="l00304"></a>00304     var app = evt.application;
+<a name="l00305"></a>00305     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a9d12b4c06319ba1aa3b35929dccdd059">handleInstallSuccess</a>(app);
+<a name="l00306"></a>00306     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#af8deb3c0023deb542906d4227e3e3614">onDownloadStop</a>(app);
+<a name="l00307"></a>00307     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a5bd0a82eeb71c81346809b2700455fbe">onDownloadFinish</a>(app);
+<a name="l00308"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#affddb5bfba5d83a0f76eaf244cad8a4c">00308</a>   },
+<a name="l00309"></a>00309 
+<a name="l00310"></a>00310   handleDownloadError: <span class="keyword">function</span> ai_handleDownloadError(evt) {
+<a name="l00311"></a>00311     var app = evt.application;
+<a name="l00312"></a>00312     var _ = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00313"></a>00313     var manifest = app.manifest || app.updateManifest;
+<a name="l00314"></a>00314     var name = <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(manifest).name;
+<a name="l00315"></a>00315 
+<a name="l00316"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#ab4b2a299eb3988169558a8cf1da08232">00316</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab4b2a299eb3988169558a8cf1da08232">errorName</a> = app.downloadError.name;
+<a name="l00317"></a>00317 
+<a name="l00318"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a5645bbaca7b732b1bd28ec45c005a671">00318</a>     <span class="keywordflow">switch</span> (errorName) {
+<a name="l00319"></a>00319       <span class="keywordflow">case</span> <span class="stringliteral">&#39;INSUFFICIENT_STORAGE&#39;</span>:
+<a name="l00320"></a>00320         var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a> = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;not-enough-space&#39;</span>),
+<a name="l00321"></a>00321             buttonText = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;ok&#39;</span>),
+<a name="l00322"></a>00322             <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a> = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;not-enough-space-message&#39;</span>);
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324         <a class="code" href="../../d9/d71/browser_2js_2modal__dialog_8js.html#a6c2683010fcedc7e3ba7d2193506f7d7">ModalDialog</a>.alert(title, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>, {title: buttonText});
+<a name="l00325"></a>00325         <span class="keywordflow">break</span>;
+<a name="l00326"></a>00326       <span class="keywordflow">default</span>:
+<a name="l00327"></a>00327         <span class="comment">// showing the real error to a potential developer</span>
+<a name="l00328"></a>00328         <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.info(<span class="stringliteral">&#39;downloadError event, error code is&#39;</span>, errorName);
+<a name="l00329"></a>00329 
+<a name="l00330"></a>00330         var <a class="code" href="../../d2/d7d/jsapi_8h.html#a02d8cbd1392e102198d5bb521715f608">key</a> = this.mapDownloadErrorsToMessage[<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab4b2a299eb3988169558a8cf1da08232">errorName</a>] || <span class="stringliteral">&#39;generic-error&#39;</span>;
+<a name="l00331"></a>00331         var msg = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;app-install-&#39;</span> + key, { appName: name });
+<a name="l00332"></a>00332         <a class="code" href="../../db/d64/system__banner_8js.html#acdf9059669793cf5f5c3d4a15f750177">SystemBanner</a>.show(msg);
+<a name="l00333"></a>00333     }
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#af8deb3c0023deb542906d4227e3e3614">onDownloadStop</a>(app);
+<a name="l00336"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#ac4a44c8c4ee79612e3a81da5c21891a8">00336</a>   },
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338   <a class="code" href="../../d1/d04/app__install__manager_8js.html#af7baaefdbd9379caeab71ee5714b63ff">onDownloadStart</a>: <span class="keyword">function</span> ai_onDownloadStart(app) {
+<a name="l00339"></a>00339     <span class="keywordflow">if</span> (! this.hasNotification(app)) {
+<a name="l00340"></a>00340       <a class="code" href="../../d5/df2/statusbar_8js.html#aecd12bd678c2798875f7715ec3013e84">StatusBar</a>.incSystemDownloads();
+<a name="l00341"></a>00341       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa8abefd889849cc66ed63ef51f3f0619">addNotification</a>(app);
+<a name="l00342"></a>00342       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a09d7fc6361cff36d3359f2a88c4e22a0">requestWifiLock</a>(app);
+<a name="l00343"></a>00343     }
+<a name="l00344"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a5d13d5555850723f4d07c13e3a3df62a">00344</a>   },
+<a name="l00345"></a>00345 
+<a name="l00346"></a>00346   <a class="code" href="../../d1/d04/app__install__manager_8js.html#af8deb3c0023deb542906d4227e3e3614">onDownloadStop</a>: <span class="keyword">function</span> ai_onDownloadStop(app) {
+<a name="l00347"></a>00347     <span class="keywordflow">if</span> (this.hasNotification(app)) {
+<a name="l00348"></a>00348       <a class="code" href="../../d5/df2/statusbar_8js.html#aecd12bd678c2798875f7715ec3013e84">StatusBar</a>.decSystemDownloads();
+<a name="l00349"></a>00349       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#aba6e7e34473b6b84a2c53bb75ae3f1e4">removeNotification</a>(app);
+<a name="l00350"></a>00350       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#abc596e4f4d7d95e79ba0cd2f68cf2d01">releaseWifiLock</a>(app);
+<a name="l00351"></a>00351     }
+<a name="l00352"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a980a8eb19d11732e04054c93dc724e9a">00352</a>   },
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354   hasNotification: <span class="keyword">function</span> ai_hasNotification(app) {
+<a name="l00355"></a>00355     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a> = this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">appInfos</a>[app.manifestURL];
+<a name="l00356"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a830c9f638541747584aee2ac8dd211ac">00356</a>     <span class="keywordflow">return</span> appInfo &amp;&amp; !!appInfo.installNotification;
+<a name="l00357"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#ad2bdcdf33652557cfa0af0341abf8a84">00357</a>   },
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359   <a class="code" href="../../d1/d04/app__install__manager_8js.html#a5bd0a82eeb71c81346809b2700455fbe">onDownloadFinish</a>: <span class="keyword">function</span> ai_onDownloadFinish(app) {
+<a name="l00360"></a>00360     <span class="keyword">delete</span> this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">appInfos</a>[app.manifestURL];
+<a name="l00361"></a>00361 
+<a name="l00362"></a>00362     <span class="comment">// check if these are our handlers before removing them</span>
+<a name="l00363"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a39a83cf055bee6317a3aa85963f48a6b">00363</a>     <span class="keywordflow">if</span> (app.ondownloadsuccess === <span class="keyword">this</span>.handleDownloadSuccess) {
+<a name="l00364"></a>00364       app.ondownloadsuccess = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00365"></a>00365     }
+<a name="l00366"></a>00366 
+<a name="l00367"></a>00367     <span class="keywordflow">if</span> (app.ondownloaderror === <span class="keyword">this</span>.handleDownloadError) {
+<a name="l00368"></a>00368       app.ondownloaderror = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00369"></a>00369     }
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371     <span class="keywordflow">if</span> (app.onprogress === <span class="keyword">this</span>.handleProgress) {
+<a name="l00372"></a>00372       app.onprogress = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00373"></a>00373     }
+<a name="l00374"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a497b370c7cafc287fc200bd4d397b7c0">00374</a>   },
+<a name="l00375"></a>00375 
+<a name="l00376"></a>00376   <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa8abefd889849cc66ed63ef51f3f0619">addNotification</a>: <span class="keyword">function</span> ai_addNotification(app) {
+<a name="l00377"></a>00377     <span class="comment">// should be unique (this is used already in applications.js)</span>
+<a name="l00378"></a>00378     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a5983b6d50c2fbf95ffe3907399e83a3c">manifestURL</a> = app.manifestURL,
+<a name="l00379"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">00379</a>         <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a> = this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">appInfos</a>[<a class="code" href="../../d1/d04/app__install__manager_8js.html#a5983b6d50c2fbf95ffe3907399e83a3c">manifestURL</a>];
+<a name="l00380"></a>00380 
+<a name="l00381"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#ac043254db3ed7066a1a8975d94435b92">00381</a>     <span class="keywordflow">if</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a>.installNotification) {
+<a name="l00382"></a>00382       <span class="keywordflow">return</span>;
+<a name="l00383"></a>00383     }
+<a name="l00384"></a>00384 
+<a name="l00385"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a0c500646530790238d77adbddfd6a52f">00385</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0c500646530790238d77adbddfd6a52f">newNotif</a> =
+<a name="l00386"></a>00386       <span class="stringliteral">&#39;&lt;div class=&quot;fake-notification&quot;&gt;&#39;</span> +
+<a name="l00387"></a>00387         <span class="stringliteral">&#39;&lt;div class=&quot;message&quot;&gt;&lt;/div&gt;&#39;</span> +
+<a name="l00388"></a>00388         <span class="stringliteral">&#39;&lt;progress&gt;&lt;/progress&gt;&#39;</span> +
+<a name="l00389"></a>00389       <span class="stringliteral">&#39;&lt;/div&gt;&#39;</span>;
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391     this.notifContainer.insertAdjacentHTML(<span class="stringliteral">&#39;afterbegin&#39;</span>, newNotif);
+<a name="l00392"></a>00392 
+<a name="l00393"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a01545f4c3a7a484c889098e45bc78bc3">00393</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a01545f4c3a7a484c889098e45bc78bc3">newNode</a> = this.notifContainer.firstElementChild;
+<a name="l00394"></a>00394     newNode.dataset.manifest = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a5983b6d50c2fbf95ffe3907399e83a3c">manifestURL</a>;
+<a name="l00395"></a>00395 
+<a name="l00396"></a>00396     var _ = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00397"></a>00397 
+<a name="l00398"></a>00398     var manifest = app.manifest || app.updateManifest;
+<a name="l00399"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">00399</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a> = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;downloadingAppMessage&#39;</span>, {
+<a name="l00400"></a>00400       appName: <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(manifest).name
+<a name="l00401"></a>00401     });
+<a name="l00402"></a>00402 
+<a name="l00403"></a>00403     newNode.querySelector(<span class="stringliteral">&#39;.message&#39;</span>).textContent = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>;
+<a name="l00404"></a>00404 
+<a name="l00405"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a1a69e49d95a0e53bbbf029affe5f557b">00405</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a1a69e49d95a0e53bbbf029affe5f557b">progressNode</a> = newNode.querySelector(<span class="stringliteral">&#39;progress&#39;</span>);
+<a name="l00406"></a>00406     <span class="keywordflow">if</span> (app.updateManifest) {
+<a name="l00407"></a>00407       progressNode.max = app.updateManifest.size;
+<a name="l00408"></a>00408       <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a>.hasMax = <span class="keyword">true</span>;
+<a name="l00409"></a>00409     }
+<a name="l00410"></a>00410 
+<a name="l00411"></a>00411     <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a>.installNotification = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a01545f4c3a7a484c889098e45bc78bc3">newNode</a>;
+<a name="l00412"></a>00412     <a class="code" href="../../d0/d4a/notifications_8js.html#abea7376c25ab6ff3b87b593399cf19e4">NotificationScreen</a>.incExternalNotifications();
+<a name="l00413"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a90bc99b754d676a1251f42e5bc52d159">00413</a>   },
+<a name="l00414"></a>00414 
+<a name="l00415"></a>00415   getNotificationProgressNode: <span class="keyword">function</span> ai_getNotificationProgressNode(app) {
+<a name="l00416"></a>00416     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a> = this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">appInfos</a>[app.manifestURL];
+<a name="l00417"></a>00417     var progressNode = appInfo &amp;&amp;
+<a name="l00418"></a>00418       appInfo.installNotification &amp;&amp;
+<a name="l00419"></a>00419       appInfo.installNotification.querySelector(<span class="stringliteral">&#39;progress&#39;</span>);
+<a name="l00420"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">00420</a>     <span class="keywordflow">return</span> progressNode || <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00421"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#aaabab2072f20ae80fe6d96369f491278">00421</a>   },
+<a name="l00422"></a>00422 
+<a name="l00423"></a>00423   handleProgress: <span class="keyword">function</span> ai_handleProgress(evt) {
+<a name="l00424"></a>00424     var app = evt.application,
+<a name="l00425"></a>00425         <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a> = this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">appInfos</a>[app.manifestURL];
+<a name="l00426"></a>00426 
+<a name="l00427"></a>00427     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#af7baaefdbd9379caeab71ee5714b63ff">onDownloadStart</a>(app);
+<a name="l00428"></a>00428 
+<a name="l00429"></a>00429 
+<a name="l00430"></a>00430     var progressNode = this.getNotificationProgressNode(app);
+<a name="l00431"></a>00431     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>;
+<a name="l00432"></a>00432     var _ = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00433"></a>00433 
+<a name="l00434"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a1678be4cb270a5dc2014ffddc3a2a889">00434</a>     <span class="keywordflow">if</span> (isNaN(app.progress) || app.progress == <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>) {
+<a name="l00435"></a>00435       <span class="comment">// now we get NaN if there is no progress information but let&#39;s</span>
+<a name="l00436"></a>00436       <span class="comment">// handle the null and undefined cases as well</span>
+<a name="l00437"></a>00437       message = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;downloadingAppProgressIndeterminate&#39;</span>);
+<a name="l00438"></a>00438       progressNode.removeAttribute(<span class="stringliteral">&#39;value&#39;</span>); <span class="comment">// switch to indeterminate state</span>
+<a name="l00439"></a>00439     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a>.hasMax) {
+<a name="l00440"></a>00440       message = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;downloadingAppProgress&#39;</span>,
+<a name="l00441"></a>00441         {
+<a name="l00442"></a>00442           progress: this.humanizeSize(app.progress),
+<a name="l00443"></a>00443           <a class="code" href="../../db/d13/ns_i_d_o_m_device_proximity_event_8idl.html#a0b0ede69e8156eb97acc579b88e883de">max</a>: this.humanizeSize(progressNode.max)
+<a name="l00444"></a>00444         });
+<a name="l00445"></a>00445       progressNode.value = app.progress;
+<a name="l00446"></a>00446     } <span class="keywordflow">else</span> {
+<a name="l00447"></a>00447       message = <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(<span class="stringliteral">&#39;downloadingAppProgressNoMax&#39;</span>,
+<a name="l00448"></a>00448                  { progress: this.humanizeSize(app.progress) });
+<a name="l00449"></a>00449     }
+<a name="l00450"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#afc55347aa2ba2952583c288992f6f143">00450</a>     progressNode.textContent = <a class="code" href="../../d1/d04/app__install__manager_8js.html#ad031ac2c2bcd5e0fe9c6b67fc309acd4">message</a>;
+<a name="l00451"></a>00451   },
+<a name="l00452"></a>00452 
+<a name="l00453"></a>00453   <a class="code" href="../../d1/d04/app__install__manager_8js.html#aba6e7e34473b6b84a2c53bb75ae3f1e4">removeNotification</a>: <span class="keyword">function</span> ai_removeNotification(app) {
+<a name="l00454"></a>00454     var manifestURL = app.manifestURL,
+<a name="l00455"></a>00455         <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a> = this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">appInfos</a>[<a class="code" href="../../d1/d04/app__install__manager_8js.html#a5983b6d50c2fbf95ffe3907399e83a3c">manifestURL</a>],
+<a name="l00456"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">00456</a>         <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a>.installNotification;
+<a name="l00457"></a>00457 
+<a name="l00458"></a><a class="code" href="../../d3/d4b/lockscreen_8js.html#a70a5c569afc767dc6e76902c86e61ea4">00458</a>     <span class="keywordflow">if</span> (!<a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>) {
+<a name="l00459"></a>00459       <span class="keywordflow">return</span>;
+<a name="l00460"></a>00460     }
+<a name="l00461"></a>00461 
+<a name="l00462"></a>00462     <a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>.parentNode.removeChild(<a class="code" href="../../d1/d04/app__install__manager_8js.html#a9ed71aaefba3c241c5255080e6a99884">node</a>);
+<a name="l00463"></a>00463     <span class="keyword">delete</span> <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a>.installNotification;
+<a name="l00464"></a>00464     <a class="code" href="../../d0/d4a/notifications_8js.html#abea7376c25ab6ff3b87b593399cf19e4">NotificationScreen</a>.decExternalNotifications();
+<a name="l00465"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a316874edafef38f592d9f44448b5ae72">00465</a>   },
+<a name="l00466"></a>00466 
+<a name="l00467"></a>00467   <a class="code" href="../../d1/d04/app__install__manager_8js.html#a09d7fc6361cff36d3359f2a88c4e22a0">requestWifiLock</a>: <span class="keyword">function</span> ai_requestWifiLock(app) {
+<a name="l00468"></a>00468     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a0e279c6c39f40da8dcd567db6a9cd910">appInfo</a> = this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">appInfos</a>[app.manifestURL];
+<a name="l00469"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a057dab335ee025b04861e4be6ed18842">00469</a>     <span class="keywordflow">if</span> (! appInfo.wifiLock) {
+<a name="l00470"></a>00470       <span class="comment">// we don&#39;t want 2 locks for the same app</span>
+<a name="l00471"></a>00471       appInfo.wifiLock = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.requestWakeLock(<span class="stringliteral">&#39;wifi&#39;</span>);
+<a name="l00472"></a>00472     }
+<a name="l00473"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a458baafd4d7594cad1d8a452b4789b4f">00473</a>   },
+<a name="l00474"></a>00474 
+<a name="l00475"></a>00475   <a class="code" href="../../d1/d04/app__install__manager_8js.html#abc596e4f4d7d95e79ba0cd2f68cf2d01">releaseWifiLock</a>: <span class="keyword">function</span> ai_releaseWifiLock(app) {
+<a name="l00476"></a>00476     var appInfo = this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a1d58e49b01418fe80ae621d5aa7bfc07">appInfos</a>[app.manifestURL];
+<a name="l00477"></a>00477 
+<a name="l00478"></a>00478     <span class="keywordflow">if</span> (appInfo.wifiLock) {
+<a name="l00479"></a>00479       <span class="keywordflow">try</span> {
+<a name="l00480"></a>00480         appInfo.wifiLock.unlock();
+<a name="l00481"></a>00481       } <span class="keywordflow">catch</span> (<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>) {
+<a name="l00482"></a>00482         <span class="comment">// this can happen if the lock is already unlocked</span>
+<a name="l00483"></a>00483         <a class="code" href="../../d9/d42/caldav__worker_8js.html#ac798a668e63cdb5c7af2b97ab014f85f">console</a>.error(<span class="stringliteral">&#39;error during unlock&#39;</span>, <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a>);
+<a name="l00484"></a>00484       }
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486       <span class="keyword">delete</span> appInfo.wifiLock;
+<a name="l00487"></a>00487     }
+<a name="l00488"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a1185000924edfac0503bf48ba6fdcc90">00488</a>   },
+<a name="l00489"></a>00489 
+<a name="l00490"></a>00490   <a class="code" href="../../df/d44/permission__manager_8js.html#af6de03a7554c777601f88bc39cb5e0dc">dispatchResponse</a>: <span class="keyword">function</span> ai_dispatchResponse(<span class="keywordtype">id</span>, <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>) {
+<a name="l00491"></a>00491     var <span class="keyword">event</span> = <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#af61dbe660d8213297c7fed5b5c99d223">document</a>.createEvent(<span class="stringliteral">&#39;CustomEvent&#39;</span>);
+<a name="l00492"></a>00492 
+<a name="l00493"></a>00493     <span class="keyword">event</span>.initCustomEvent(<span class="stringliteral">&#39;mozContentEvent&#39;</span>, <span class="keyword">true</span>, <span class="keyword">true</span>, {
+<a name="l00494"></a>00494       <span class="keywordtype">id</span>: <a class="code" href="../../d2/d7d/jsapi_8h.html#a5a0801283c5c25416c0888dc53f332d0">id</a>,
+<a name="l00495"></a>00495       <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>: <a class="code" href="../../df/d44/permission__manager_8js.html#a5996578fe734dff3d2912807ee458e83">type</a>
+<a name="l00496"></a>00496     });
+<a name="l00497"></a>00497 
+<a name="l00498"></a>00498     <a class="code" href="../../dd/d64/apps_2email_2js_2ext_2mailapi_2worker-bootstrap_8js.html#a1f5517920aaab1f97bda91f10438fb05">window</a>.dispatchEvent(<a class="code" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>);
+<a name="l00499"></a>00499   },
+<a name="l00500"></a>00500 
+<a name="l00501"></a>00501   humanizeSize: <span class="keyword">function</span> ai_humanizeSize(<a class="code" href="../../d2/d7d/jsapi_8h.html#a57d303dad1fd4039eecc9e7e5e8fd41f">bytes</a>) {
+<a name="l00502"></a>00502     var _ = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get;
+<a name="l00503"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#af5370324e4420ac0d4513ad7056e050c">00503</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#af5370324e4420ac0d4513ad7056e050c">units</a> = [<span class="stringliteral">&#39;bytes&#39;</span>, <span class="stringliteral">&#39;kB&#39;</span>, <span class="stringliteral">&#39;MB&#39;</span>, <span class="stringliteral">&#39;GB&#39;</span>, <span class="stringliteral">&#39;TB&#39;</span>, <span class="stringliteral">&#39;PB&#39;</span>];
+<a name="l00504"></a>00504 
+<a name="l00505"></a>00505     <span class="keywordflow">if</span> (!<a class="code" href="../../d2/d7d/jsapi_8h.html#a57d303dad1fd4039eecc9e7e5e8fd41f">bytes</a>)
+<a name="l00506"></a>00506       <span class="keywordflow">return</span> <span class="stringliteral">&#39;0.00 &#39;</span> + <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(units[0]);
+<a name="l00507"></a>00507 
+<a name="l00508"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">00508</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab5902775854a8b8440bcd25e0fe1c120">e</a> = Math.floor(Math.log(<a class="code" href="../../d2/d7d/jsapi_8h.html#a57d303dad1fd4039eecc9e7e5e8fd41f">bytes</a>) / Math.log(1024));
+<a name="l00509"></a>00509     <span class="keywordflow">return</span> (<a class="code" href="../../d2/d7d/jsapi_8h.html#a57d303dad1fd4039eecc9e7e5e8fd41f">bytes</a> / Math.pow(1024, Math.floor(e))).toFixed(2) + <span class="charliteral">&#39; &#39;</span> +
+<a name="l00510"></a>00510       <a class="code" href="../../d6/d52/js_2browser_8js.html#a6e69a5af94d7d53886e51f89fb3bd6b4">_</a>(units[e]);
+<a name="l00511"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#aa3bc72288d05fbc5fd944a57e56c1e42">00511</a>   },
+<a name="l00512"></a>00512 
+<a name="l00513"></a>00513   showInstallCancelDialog: <span class="keyword">function</span> ai_showInstallCancelDialog(evt) {
+<a name="l00514"></a>00514     <span class="keywordflow">if</span> (evt)
+<a name="l00515"></a>00515       evt.preventDefault();
+<a name="l00516"></a>00516     this.installCancelDialog.classList.add(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00517"></a>00517     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a>.classList.remove(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00518"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#adf3027d501d1cdd2ca5338366106579f">00518</a>   },
+<a name="l00519"></a>00519 
+<a name="l00520"></a>00520   hideInstallCancelDialog: <span class="keyword">function</span> ai_hideInstallCancelDialog(evt) {
+<a name="l00521"></a>00521     <span class="keywordflow">if</span> (evt)
+<a name="l00522"></a>00522       evt.preventDefault();
+<a name="l00523"></a>00523     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a>.classList.add(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00524"></a>00524     this.installCancelDialog.classList.remove(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00525"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a9364db906393b841eb968eb9b1eb0d3f">00525</a>   },
+<a name="l00526"></a>00526 
+<a name="l00527"></a>00527   showDownloadCancelDialog: <span class="keyword">function</span> ai_showDownloadCancelDialog(e) {
+<a name="l00528"></a>00528     var currentNode = e.target;
+<a name="l00529"></a>00529 
+<a name="l00530"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a321eca69336c5e2a3a7026239cc77d05">00530</a>     <span class="keywordflow">if</span> (!currentNode.classList.contains(<span class="stringliteral">&#39;fake-notification&#39;</span>)) {
+<a name="l00531"></a>00531       <span class="comment">// tapped outside of a notification</span>
+<a name="l00532"></a>00532       <span class="keywordflow">return</span>;
+<a name="l00533"></a>00533     }
+<a name="l00534"></a>00534 
+<a name="l00535"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a5983b6d50c2fbf95ffe3907399e83a3c">00535</a>     var manifestURL = currentNode.dataset.manifest,
+<a name="l00536"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a7b225fcb720e4d5ed2bbf60e28a25e6d">00536</a>         app = <a class="code" href="../../dd/d1e/applications_8js.html#a5c3d12eb815fe1e1949fe2dfe491b7dd">Applications</a>.getByManifestURL(manifestURL),
+<a name="l00537"></a>00537         manifest = app.manifest || app.updateManifest,
+<a name="l00538"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">00538</a>         <a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a> = this.downloadCancelDialog;
+<a name="l00539"></a>00539 
+<a name="l00540"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">00540</a>     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#aa5a506cf1e53b91549e35a5d3bc3dc06">title</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a>.querySelector(<span class="stringliteral">&#39;h1&#39;</span>);
+<a name="l00541"></a>00541 
+<a name="l00542"></a>00542     title.textContent = <a class="code" href="../../d0/d94/tools_2xpcwindow_2lib_2loader_8js.html#a1ab79c9277f7648d0dfe676bab65dde4">navigator</a>.mozL10n.get(<span class="stringliteral">&#39;stopDownloading&#39;</span>, {
+<a name="l00543"></a>00543       app: <span class="keyword">new</span> <a class="code" href="../../de/d15/build__stage_2email_2shared_2js_2manifest__helper_8js.html#a9e0e7d589d3b2abe846fcb2e30f9e2d4">ManifestHelper</a>(manifest).name
+<a name="l00544"></a>00544     });
+<a name="l00545"></a>00545 
+<a name="l00546"></a>00546     <a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a>.classList.add(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00547"></a>00547     <a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a>.dataset.manifest = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a5983b6d50c2fbf95ffe3907399e83a3c">manifestURL</a>;
+<a name="l00548"></a>00548     <a class="code" href="../../da/d86/utility__tray_8js.html#a70bb8e6ea63bb2b4894d403a7a058d6d">UtilityTray</a>.hide();
+<a name="l00549"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a00db1db967be77556051290b0fa212a5">00549</a>   },
+<a name="l00550"></a>00550 
+<a name="l00551"></a>00551   handleInstallCancel: <span class="keyword">function</span> ai_handleInstallCancel() {
+<a name="l00552"></a>00552     <span class="keywordflow">if</span> (this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa2587de403e7b7582aa310cc75ce35b0">installCancelCallback</a>)
+<a name="l00553"></a>00553       this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa2587de403e7b7582aa310cc75ce35b0">installCancelCallback</a>();
+<a name="l00554"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#aa2587de403e7b7582aa310cc75ce35b0">00554</a>     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#aa2587de403e7b7582aa310cc75ce35b0">installCancelCallback</a> = <a class="code" href="../../d1/d04/app__install__manager_8js.html#a66d98f9009f0502b9a5ce70e907f8f27">null</a>;
+<a name="l00555"></a>00555     this.installCancelDialog.classList.remove(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00556"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a6847651c690bae064da089d8d5ee08d6">00556</a>   },
+<a name="l00557"></a>00557 
+<a name="l00558"></a>00558   handleConfirmDownloadCancel: <span class="keyword">function</span> ai_handleConfirmDownloadCancel(e) {
+<a name="l00559"></a>00559     e &amp;&amp; e.preventDefault();
+<a name="l00560"></a>00560     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a> = this.downloadCancelDialog,
+<a name="l00561"></a>00561         manifestURL = dialog.dataset.manifest;
+<a name="l00562"></a>00562     <span class="keywordflow">if</span> (manifestURL) {
+<a name="l00563"></a>00563       var app = <a class="code" href="../../dd/d1e/applications_8js.html#a5c3d12eb815fe1e1949fe2dfe491b7dd">Applications</a>.getByManifestURL(manifestURL);
+<a name="l00564"></a>00564       app &amp;&amp; app.cancelDownload();
+<a name="l00565"></a>00565     }
+<a name="l00566"></a>00566 
+<a name="l00567"></a>00567     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab825ce062fab08c5443b02fe25bc4189">hideDownloadCancelDialog</a>();
+<a name="l00568"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#a1264e86720aef7e05af186a54ac84e78">00568</a>   },
+<a name="l00569"></a>00569 
+<a name="l00570"></a>00570   handleCancelDownloadCancel: <span class="keyword">function</span> ai_handleCancelDownloadCancel(e) {
+<a name="l00571"></a>00571     e &amp;&amp; e.preventDefault();
+<a name="l00572"></a>00572     this.<a class="code" href="../../d1/d04/app__install__manager_8js.html#ab825ce062fab08c5443b02fe25bc4189">hideDownloadCancelDialog</a>();
+<a name="l00573"></a><a class="code" href="../../d1/d04/app__install__manager_8js.html#afa4e766ee422bcab87445e83f9c597bc">00573</a>   },
+<a name="l00574"></a>00574 
+<a name="l00575"></a>00575   <a class="code" href="../../d1/d04/app__install__manager_8js.html#ab825ce062fab08c5443b02fe25bc4189">hideDownloadCancelDialog</a>: <span class="keyword">function</span>() {
+<a name="l00576"></a>00576     var <a class="code" href="../../d1/d04/app__install__manager_8js.html#a888e6068bf00699dfddf2b6ee25e6c7a">dialog</a> = this.downloadCancelDialog;
+<a name="l00577"></a>00577     dialog.classList.remove(<span class="stringliteral">&#39;visible&#39;</span>);
+<a name="l00578"></a>00578     <span class="keyword">delete</span> dialog.dataset.manifest;
+<a name="l00579"></a>00579   }
+<a name="l00580"></a>00580 };
+<a name="l00581"></a>00581 
+<a name="l00582"></a>00582 <a class="code" href="../../d1/d04/app__install__manager_8js.html#ac0fdcb99ef3110d754ce4b2b6f9a50a8">AppInstallManager</a>.init();
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d1/d04/app__install__manager_8js.html">app_install_manager.js</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:50:53に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

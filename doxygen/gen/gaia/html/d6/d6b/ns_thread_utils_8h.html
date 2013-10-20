@@ -1,0 +1,835 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsThreadUtils.h</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d6/d6b/ns_thread_utils_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">データ構造</a> &#124;
+<a href="#define-members">マクロ定義</a> &#124;
+<a href="#func-members">関数</a>  </div>
+  <div class="headertitle">
+<div class="title">nsThreadUtils.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="../../d2/df8/prthread_8h_source.html">prthread.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d7/dc8/prinrval_8h_source.html">prinrval.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d6/d3a/ns_i_thread_manager_8h_source.html">nsIThreadManager.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../da/d24/ns_i_thread_8h_source.html">nsIThread.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../db/d4d/ns_i_runnable_8h_source.html">nsIRunnable.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../df/d83/ns_i_cancelable_runnable_8h_source.html">nsICancelableRunnable.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d7/d55/ns_string_glue_8h_source.html">nsStringGlue.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d5/d03/ns_c_o_m_ptr_8h_source.html">nsCOMPtr.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../de/db2/ns_auto_ptr_8h_source.html">nsAutoPtr.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d4/d07/ns_thread_i_ds_8h_source.html">mozilla/threads/nsThreadIDs.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="../../d1/d8a/_likely_8h_source.html">mozilla/Likely.h</a>&quot;</code><br/>
+</div><div class="textblock"><div class="dynheader">
+nsThreadUtils.hのインクルード依存関係図</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d6/d0e/ns_thread_utils_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+</div>
+<p><a href="../../d6/d6b/ns_thread_utils_8h_source.html">ソースコードを見る。</a></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="nested-classes"></a>
+データ構造</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/ddb/classns_runnable.html">nsRunnable</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dd0/classns_cancelable_runnable.html">nsCancelableRunnable</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d62/classns_runnable_method.html">nsRunnableMethod&lt; ClassType, ReturnType, Owning &gt;</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d9c/classns_runnable_method_1_1_return_type_enforcer.html">nsRunnableMethod&lt; ClassType, ReturnType, Owning &gt;::ReturnTypeEnforcer&lt; OtherReturnType &gt;</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd0/classns_runnable_method_1_1_return_type_enforcer_3_01already___add_refed_3_01_t_01_4_01_4.html">nsRunnableMethod&lt; ClassType, ReturnType, Owning &gt;::ReturnTypeEnforcer&lt; already_AddRefed&lt; T &gt; &gt;</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d9b/structns_runnable_method_receiver.html">nsRunnableMethodReceiver&lt; ClassType, Owning &gt;</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d04/structns_runnable_method_receiver_3_01_class_type_00_01false_01_4.html">nsRunnableMethodReceiver&lt; ClassType, false &gt;</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/df9/structns_runnable_method_traits_3_01_r_07_c_1_1_5_08_07_08_00_01_owning_01_4.html">nsRunnableMethodTraits&lt; R(C::*)(), Owning &gt;</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d6b/classns_runnable_method_impl.html">nsRunnableMethodImpl&lt; Method, Owning &gt;</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d6f/classns_revocable_event_ptr.html">nsRevocableEventPtr&lt; T &gt;</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dc1/classns_thread_pool_naming.html">nsThreadPoolNaming</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d2e/classns_auto_low_priority_i_o.html">nsAutoLowPriorityIO</a></td></tr>
+<tr><td colspan="2"><h2><a name="define-members"></a>
+マクロ定義</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#ae0733fa80af55f9336c16cbe1c6ac414">IMETHOD_VISIBILITY</a>&#160;&#160;&#160;<a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#ae0733fa80af55f9336c16cbe1c6ac414">IMETHOD_VISIBILITY</a>&#160;&#160;&#160;<a class="el" href="../../d3/dd8/nscore_8h.html#a04df1e5dd199e045c2ead0a74e94d0e5">NS_VISIBILITY_HIDDEN</a></td></tr>
+<tr><td colspan="2"><h2><a name="func-members"></a>
+関数</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a21e0442d954d23858e07c0ec20daeb23">NS_SetThreadName</a> (<a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *<a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>, <a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> nsACString &amp;<a class="el" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;size_t LEN&gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a4ad63441be30fd4b3216edb81b9626e1">NS_SetThreadName</a> (<a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *<a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>, <a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> char(&amp;<a class="el" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>)[LEN])</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#adddc6067b168c668ea69073f68e97f71">NS_NewThread</a> (<a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **<a class="el" href="../../d8/d64/ns_u_r_l_helper_8h.html#ad4dc7d3fd716004895ed4c669af1c61c">result</a>, <a class="el" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *initialEvent=<a class="el" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>, uint32_t <a class="el" href="../../d2/df8/prthread_8h.html#a9f02a4d9911ff195dedf5828f15d41d0">stackSize</a>=<a class="el" href="../../db/d87/interfacens_i_thread_manager.html#a97960309d606ec90abdad3efd315f5e7">nsIThreadManager::DEFAULT_STACK_SIZE</a>)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;size_t LEN&gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a837aaa583d5b8fe5d83ef69a79b097ae">NS_NewNamedThread</a> (<a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> char(&amp;<a class="el" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>)[LEN], <a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **<a class="el" href="../../d8/d64/ns_u_r_l_helper_8h.html#ad4dc7d3fd716004895ed4c669af1c61c">result</a>, <a class="el" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *initialEvent=<a class="el" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>, uint32_t <a class="el" href="../../d2/df8/prthread_8h.html#a9f02a4d9911ff195dedf5828f15d41d0">stackSize</a>=<a class="el" href="../../db/d87/interfacens_i_thread_manager.html#a97960309d606ec90abdad3efd315f5e7">nsIThreadManager::DEFAULT_STACK_SIZE</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a0e23955f86320c4cfa18dc879048a0b8">NS_GetCurrentThread</a> (<a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **<a class="el" href="../../d8/d64/ns_u_r_l_helper_8h.html#ad4dc7d3fd716004895ed4c669af1c61c">result</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#ae4c5142b834aaae025ffce4a0a883179">NS_GetMainThread</a> (<a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **<a class="el" href="../../d8/d64/ns_u_r_l_helper_8h.html#ad4dc7d3fd716004895ed4c669af1c61c">result</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#ac209c4e6e9b9c3cb894231f001f0c9a2">NS_DispatchToCurrentThread</a> (<a class="el" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *<a class="el" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a0fc41a358332e9db1313c1f9935c90d4">NS_DispatchToMainThread</a> (<a class="el" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *<a class="el" href="../../df/dea/pkcs11t_8h.html#afaa077e4b9760c92cbaf0d838e743d8c">event</a>, uint32_t dispatchFlags=<a class="el" href="../../dc/dc2/ns_i_event_target_8h.html#a31b4ddb25d7cd084d8939f3137816573">NS_DISPATCH_NORMAL</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a2f7fb6bc4189e9c2e8bb8bb4318a6620">NS_ProcessPendingEvents</a> (<a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *<a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>, <a class="el" href="../../d7/dc8/prinrval_8h.html#a8a324cccce4fc21e339a82315bc0a47f">PRIntervalTime</a> <a class="el" href="../../da/d32/prio_8h.html#a0f2163507f01dc9bb68ca5c72cacaa34">timeout</a>=<a class="el" href="../../d7/dc8/prinrval_8h.html#a53ea90d97ce2085229d4763478c09888">PR_INTERVAL_NO_TIMEOUT</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a1acff48cf44c9425388ce048f16ced11">NS_HasPendingEvents</a> (<a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *<a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>=<a class="el" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a88bbef60e7587e65f43afc9e9d41d440">NS_ProcessNextEvent</a> (<a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *<a class="el" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>=<a class="el" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a>, <a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a> mayWait=<a class="el" href="../../df/d49/system_2camera_2js_2camera_8js.html#a930920b2bc42824a5c03be681830f4b2">true</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt; <a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#adc6c821c50e68b193aec6398ea698010">do_GetCurrentThread</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt; <a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#aff412a81d1086982d6780afc2a478eff">do_GetMainThread</a> ()</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;typename PtrType , typename Method &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">nsRunnableMethodTraits&lt; Method, <br class="typebreak"/>
+<a class="el" href="../../df/d49/system_2camera_2js_2camera_8js.html#a930920b2bc42824a5c03be681830f4b2">true</a> &gt;::base_type *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#af587a38959089a2b20092d49728ff4ac">NS_NewRunnableMethod</a> (PtrType ptr, Method method)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;typename PtrType , typename Method &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">nsRunnableMethodTraits&lt; Method, <br class="typebreak"/>
+<a class="el" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a> &gt;::base_type *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a05579de186952af4b58ec5d0a32bf65f">NS_NewNonOwningRunnableMethod</a> (PtrType ptr, Method method)</td></tr>
+</table>
+<hr/><h2>マクロ定義</h2>
+<a class="anchor" id="ae0733fa80af55f9336c16cbe1c6ac414"></a><!-- doxytag: member="nsThreadUtils.h::IMETHOD_VISIBILITY" ref="ae0733fa80af55f9336c16cbe1c6ac414" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d1/dc8/ns_weak_reference_8h.html#ae0733fa80af55f9336c16cbe1c6ac414">IMETHOD_VISIBILITY</a>&#160;&#160;&#160;<a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html">nsThreadUtils.h</a> の <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00273">273</a> 行で定義されています。</p>
+
+</div>
+</div>
+<a class="anchor" id="ae0733fa80af55f9336c16cbe1c6ac414"></a><!-- doxytag: member="nsThreadUtils.h::IMETHOD_VISIBILITY" ref="ae0733fa80af55f9336c16cbe1c6ac414" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="../../d9/d14/build__stage_2email_2js_2mix_8js.html#ae57540f837ee76af1c71776a8f46ae53">define</a> <a class="el" href="../../d1/dc8/ns_weak_reference_8h.html#ae0733fa80af55f9336c16cbe1c6ac414">IMETHOD_VISIBILITY</a>&#160;&#160;&#160;<a class="el" href="../../d3/dd8/nscore_8h.html#a04df1e5dd199e045c2ead0a74e94d0e5">NS_VISIBILITY_HIDDEN</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html">nsThreadUtils.h</a> の <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00273">273</a> 行で定義されています。</p>
+
+</div>
+</div>
+<hr/><h2>関数</h2>
+<a class="anchor" id="adc6c821c50e68b193aec6398ea698010"></a><!-- doxytag: member="nsThreadUtils.h::do_GetCurrentThread" ref="adc6c821c50e68b193aec6398ea698010" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;<a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a>&gt; <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#adc6c821c50e68b193aec6398ea698010">do_GetCurrentThread</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html">nsThreadUtils.h</a> の <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00211">211</a> 行で定義されています。</p>
+
+<p>参照先 <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a0e23955f86320c4cfa18dc879048a0b8">NS_GetCurrentThread()</a>, と <a class="el" href="../../d9/d42/caldav__worker_8js_source.html#l00017">thread</a>.</p>
+<div class="fragment"><pre class="fragment">                      {
+  <a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a> = <span class="keyword">nullptr</span>;
+  <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a0e23955f86320c4cfa18dc879048a0b8">NS_GetCurrentThread</a>(&amp;thread);
+  <span class="keywordflow">return</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsIThread&gt;</a>(<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>);
+}
+</pre></div>
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_adc6c821c50e68b193aec6398ea698010_cgraph.svg" width="358" height="40"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aff412a81d1086982d6780afc2a478eff"></a><!-- doxytag: member="nsThreadUtils.h::do_GetMainThread" ref="aff412a81d1086982d6780afc2a478eff" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/d17/structalready___add_refed.html">already_AddRefed</a>&lt;<a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a>&gt; <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#aff412a81d1086982d6780afc2a478eff">do_GetMainThread</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html">nsThreadUtils.h</a> の <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00218">218</a> 行で定義されています。</p>
+
+<p>参照先 <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#ae4c5142b834aaae025ffce4a0a883179">NS_GetMainThread()</a>, と <a class="el" href="../../d9/d42/caldav__worker_8js_source.html#l00017">thread</a>.</p>
+
+<p>参照元 <a class="el" href="../../dd/d04/ns_proxy_release_8h_source.html#l00121">MOZ_FINAL&lt; T &gt;::~nsMainThreadPtrHolder()</a>.</p>
+<div class="fragment"><pre class="fragment">                   {
+  <a class="code" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a> = <span class="keyword">nullptr</span>;
+  <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#ae4c5142b834aaae025ffce4a0a883179">NS_GetMainThread</a>(&amp;thread);
+  <span class="keywordflow">return</span> <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsIThread&gt;</a>(<a class="code" href="../../d9/d42/caldav__worker_8js.html#a35139327f12356355bbdd875e374c469">thread</a>);
+}
+</pre></div>
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_aff412a81d1086982d6780afc2a478eff_cgraph.svg" width="331" height="40"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_aff412a81d1086982d6780afc2a478eff_icgraph.svg" width="443" height="40"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ac209c4e6e9b9c3cb894231f001f0c9a2"></a><!-- doxytag: member="nsThreadUtils.h::NS_DispatchToCurrentThread" ref="ac209c4e6e9b9c3cb894231f001f0c9a2" args="(nsIRunnable *event)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#ac209c4e6e9b9c3cb894231f001f0c9a2">NS_DispatchToCurrentThread</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Dispatch the given event to the current thread.</p>
+<dl class="params"><dt><b>引数:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>The event to dispatch.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>戻り値:</b></dt><dd>NS_ERROR_INVALID_ARG If event is null. </dd></dl>
+
+<p>参照元 <a class="el" href="../../de/d54/_http_base_channel_8h_source.html#l00380">mozilla::net::HttpAsyncAborter&lt; T &gt;::AsyncCall()</a>, と <a class="el" href="../../db/d04/_channel_event_queue_8h_source.html#l00144">mozilla::net::ChannelEventQueue::Resume()</a>.</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_ac209c4e6e9b9c3cb894231f001f0c9a2_icgraph.svg" width="534" height="94"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a0fc41a358332e9db1313c1f9935c90d4"></a><!-- doxytag: member="nsThreadUtils.h::NS_DispatchToMainThread" ref="a0fc41a358332e9db1313c1f9935c90d4" args="(nsIRunnable *event, uint32_t dispatchFlags=NS_DISPATCH_NORMAL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a0fc41a358332e9db1313c1f9935c90d4">NS_DispatchToMainThread</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>dispatchFlags</em> = <code><a class="el" href="../../dc/dc2/ns_i_event_target_8h.html#a31b4ddb25d7cd084d8939f3137816573">NS_DISPATCH_NORMAL</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Dispatch the given event to the main thread.</p>
+<dl class="params"><dt><b>引数:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>The event to dispatch. </td></tr>
+    <tr><td class="paramname">dispatchFlags</td><td>The flags to pass to the main thread's dispatch method.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>戻り値:</b></dt><dd>NS_ERROR_INVALID_ARG If event is null. </dd></dl>
+
+<p>参照元 <a class="el" href="../../da/d89/_media_metadata_manager_8h_source.html#l00050">mozilla::MediaMetadataManager::DispatchMetadataIfNeeded()</a>, <a class="el" href="../../d2/dca/gfx_a_surface_8h_source.html#l00399">nsAutoRefTraits&lt; nsMainThreadSurfaceRef &gt;::Release()</a>, と <a class="el" href="../../dd/dd6/_media_manager_8h_source.html#l00295">mozilla::MediaOperationRunnable::Run()</a>.</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_a0fc41a358332e9db1313c1f9935c90d4_icgraph.svg" width="622" height="147"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a0e23955f86320c4cfa18dc879048a0b8"></a><!-- doxytag: member="nsThreadUtils.h::NS_GetCurrentThread" ref="a0e23955f86320c4cfa18dc879048a0b8" args="(nsIThread **result)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a0e23955f86320c4cfa18dc879048a0b8">NS_GetCurrentThread</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **&#160;</td>
+          <td class="paramname"><em>result</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get a reference to the current thread.</p>
+<dl class="params"><dt><b>引数:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>The resulting <a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>参照元 <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00211">do_GetCurrentThread()</a>, <a class="el" href="../../da/d19/_g_l_context_8h_source.html#l02172">mozilla::gl::GLContext::GLContext()</a>, <a class="el" href="../../da/d19/_g_l_context_8h_source.html#l02311">mozilla::gl::GLContext::IsOwningThreadCurrent()</a>, と <a class="el" href="../../de/d7d/transportlayer_8h_source.html#l00065">mozilla::TransportLayer::RunOnThread()</a>.</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_a0e23955f86320c4cfa18dc879048a0b8_icgraph.svg" width="510" height="200"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ae4c5142b834aaae025ffce4a0a883179"></a><!-- doxytag: member="nsThreadUtils.h::NS_GetMainThread" ref="ae4c5142b834aaae025ffce4a0a883179" args="(nsIThread **result)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#ae4c5142b834aaae025ffce4a0a883179">NS_GetMainThread</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **&#160;</td>
+          <td class="paramname"><em>result</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get a reference to the main thread.</p>
+<dl class="params"><dt><b>引数:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>The resulting <a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> object. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>参照元 <a class="el" href="../../da/d19/_g_l_context_8h_source.html#l02313">mozilla::gl::GLContext::DispatchToOwningThread()</a>, と <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00218">do_GetMainThread()</a>.</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_ae4c5142b834aaae025ffce4a0a883179_icgraph.svg" width="100%" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a1acff48cf44c9425388ce048f16ced11"></a><!-- doxytag: member="nsThreadUtils.h::NS_HasPendingEvents" ref="a1acff48cf44c9425388ce048f16ced11" args="(nsIThread *thread=nullptr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a1acff48cf44c9425388ce048f16ced11">NS_HasPendingEvents</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *&#160;</td>
+          <td class="paramname"><em>thread</em> = <code><a class="el" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a></code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Shortcut for <a class="el" href="../../d3/d7d/interfacens_i_thread.html#aebe71bb532a88973563ce287b43740c1">nsIThread::HasPendingEvents</a>.</p>
+<p>It is an error to call this function when the given thread is not the current thread. This function will return false if called from some other thread.</p>
+<dl class="params"><dt><b>引数:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">thread</td><td>The current thread or null.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>戻り値:</b></dt><dd>A boolean value that if "true" indicates that there are pending events in the current thread's event queue. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a74b704f371917f1aa50c77cc59f5abba"></a><!-- doxytag: member="nsThreadUtils.h::NS_IsMainThread" ref="a74b704f371917f1aa50c77cc59f5abba" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a74b704f371917f1aa50c77cc59f5abba">NS_IsMainThread</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Test to see if the current thread is the main thread.</p>
+<dl class="return"><dt><b>戻り値:</b></dt><dd>true if the current thread is the main thread, and false otherwise. </dd></dl>
+
+<p>参照元 <a class="el" href="../../d5/d8e/_i_d_b_transaction_8h_source.html#l00247">IDBTransaction::Abort()</a>, <a class="el" href="../../dd/dd6/_media_manager_8h_source.html#l00068">mozilla::GetUserMediaCallbackMediaStreamListener::Activate()</a>, <a class="el" href="../../d7/d33/_i_d_b_object_store_8h_source.html#l00295">MOZ_FINAL&lt; T &gt;::Add()</a>, <a class="el" href="../../de/df8/_media_stream_graph_8h_source.html#l00328">mozilla::MediaStream::AddMainThreadListener()</a>, <a class="el" href="../../d8/df4/ns_layout_statics_8h_source.html#l00022">nsLayoutStatics::AddRef()</a>, <a class="el" href="../../d2/dca/gfx_a_surface_8h_source.html#l00408">nsAutoRefTraits&lt; nsMainThreadSurfaceRef &gt;::AddRef()</a>, <a class="el" href="../../d3/dca/_audio_node_engine_8h_source.html#l00189">mozilla::AudioNodeEngine::AudioNodeEngine()</a>, <a class="el" href="../../d9/d1b/_audio_node_stream_8h_source.html#l00049">mozilla::AudioNodeStream::AudioNodeStream()</a>, <a class="el" href="../../d7/d33/_i_d_b_object_store_8h_source.html#l00280">MOZ_FINAL&lt; T &gt;::AutoIncrement()</a>, <a class="el" href="../../dd/dd6/_media_manager_8h_source.html#l00102">mozilla::GetUserMediaCallbackMediaStreamListener::CapturingAudio()</a>, <a class="el" href="../../dd/dd6/_media_manager_8h_source.html#l00097">mozilla::GetUserMediaCallbackMediaStreamListener::CapturingVideo()</a>, <a class="el" href="../../d3/dca/_audio_node_engine_8h_source.html#l00299">mozilla::AudioNodeEngine::ClearNode()</a>, <a class="el" href="../../d1/de6/_clear_on_shutdown_8h_source.html#l00073">mozilla::ClearOnShutdown()</a>, <a class="el" href="../../d5/d8e/_i_d_b_transaction_8h_source.html#l00234">IDBTransaction::Db()</a>, <a class="el" href="../../d3/def/ns_device_storage_8h_source.html#l00099">MOZ_FINAL&lt; T &gt;::Dispatch()</a>, <a class="el" href="../../dd/d04/ns_proxy_release_8h_source.html#l00134">MOZ_FINAL&lt; T &gt;::get()</a>, <a class="el" href="../../db/da0/_image_container_8h_source.html#l00798">mozilla::layers::CairoImage::GetAsSurface()</a>, <a class="el" href="../../d1/d94/_database_8h_source.html#l00202">mozilla::places::MOZ_FINAL::GetAsyncStatement()</a>, <a class="el" href="../../de/df8/_media_stream_graph_8h_source.html#l00344">mozilla::MediaStream::GetCurrentTime()</a>, <a class="el" href="../../d6/d59/_i_d_b_index_8h_source.html#l00166">MOZ_FINAL&lt; T &gt;::GetName()</a>, <a class="el" href="../../d2/d57/_i_d_b_database_8h_source.html#l00176">IDBDatabase::GetName()</a>, <a class="el" href="../../da/d5e/_i_d_b_request_8h_source.html#l00119">IDBRequest::GetSource()</a>, <a class="el" href="../../d1/d94/_database_8h_source.html#l00164">mozilla::places::MOZ_FINAL::GetStatement()</a>, <a class="el" href="../../d6/d59/_i_d_b_index_8h_source.html#l00215">MOZ_FINAL&lt; T &gt;::GetStoreName()</a>, <a class="el" href="../../da/d5e/_i_d_b_request_8h_source.html#l00126">IDBRequest::GetTransaction()</a>, <a class="el" href="../../dd/dd6/_media_manager_8h_source.html#l00433">mozilla::MOZ_FINAL::GetWindowListeners()</a>, <a class="el" href="../../de/df8/_media_stream_graph_8h_source.html#l00445">mozilla::MediaStream::GetWrapper()</a>, <a class="el" href="../../d1/dd6/ns_plugin_host_8h_source.html#l00323">PluginDestructionGuard::Init()</a>, <a class="el" href="../../d3/def/ns_device_storage_8h_source.html#l00090">MOZ_FINAL&lt; T &gt;::Invalidate()</a>, <a class="el" href="../../de/df8/_media_stream_graph_8h_source.html#l00355">mozilla::MediaStream::IsDestroyed()</a>, <a class="el" href="../../de/df8/_media_stream_graph_8h_source.html#l00350">mozilla::MediaStream::IsFinished()</a>, <a class="el" href="../../d1/de6/_clear_on_shutdown_8h_source.html#l00088">mozilla::KillClearOnShutdown()</a>, <a class="el" href="../../d6/d59/_i_d_b_index_8h_source.html#l00183">MOZ_FINAL&lt; T &gt;::MultiEntry()</a>, <a class="el" href="../../d3/dca/_audio_node_engine_8h_source.html#l00293">mozilla::AudioNodeEngine::NodeMainThread()</a>, <a class="el" href="../../dd/d04/ns_proxy_release_8h_source.html#l00113">MOZ_FINAL&lt; T &gt;::nsMainThreadPtrHolder()</a>, <a class="el" href="../../d6/d59/_i_d_b_index_8h_source.html#l00173">MOZ_FINAL&lt; T &gt;::ObjectStore()</a>, <a class="el" href="../../dc/d7d/_file_helper_8h_source.html#l00061">FileHelper::OnStreamClose()</a>, <a class="el" href="../../dc/d7d/_file_helper_8h_source.html#l00068">FileHelper::OnStreamDestroy()</a>, <a class="el" href="../../d7/d33/_i_d_b_object_store_8h_source.html#l00287">MOZ_FINAL&lt; T &gt;::Put()</a>, <a class="el" href="../../d8/df4/ns_layout_statics_8h_source.html#l00034">nsLayoutStatics::Release()</a>, <a class="el" href="../../d2/dca/gfx_a_surface_8h_source.html#l00399">nsAutoRefTraits&lt; nsMainThreadSurfaceRef &gt;::Release()</a>, <a class="el" href="../../dd/dd6/_media_manager_8h_source.html#l00135">mozilla::GetUserMediaCallbackMediaStreamListener::Remove()</a>, <a class="el" href="../../de/df8/_media_stream_graph_8h_source.html#l00335">mozilla::MediaStream::RemoveMainThreadListener()</a>, <a class="el" href="../../dd/dd6/_media_manager_8h_source.html#l00216">mozilla::GetUserMediaNotificationEvent::Run()</a>, <a class="el" href="../../dd/dd6/_media_manager_8h_source.html#l00295">mozilla::MediaOperationRunnable::Run()</a>, <a class="el" href="../../dc/d12/_data_channel_8h_source.html#l00502">mozilla::DataChannelOnMessageAvailable::Run()</a>, <a class="el" href="../../df/d3c/ns_html5_stream_parser_8h_source.html#l00155">nsHtml5StreamParser::SetDocumentCharset()</a>, <a class="el" href="../../df/d3c/ns_html5_stream_parser_8h_source.html#l00163">nsHtml5StreamParser::SetObserver()</a>, <a class="el" href="../../d7/d33/_i_d_b_object_store_8h_source.html#l00273">MOZ_FINAL&lt; T &gt;::Transaction()</a>, <a class="el" href="../../d6/d59/_i_d_b_index_8h_source.html#l00190">MOZ_FINAL&lt; T &gt;::Unique()</a>, と <a class="el" href="../../dd/d04/ns_proxy_release_8h_source.html#l00121">MOZ_FINAL&lt; T &gt;::~nsMainThreadPtrHolder()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a837aaa583d5b8fe5d83ef69a79b097ae"></a><!-- doxytag: member="nsThreadUtils.h::NS_NewNamedThread" ref="a837aaa583d5b8fe5d83ef69a79b097ae" args="(const char(&amp;name)[LEN], nsIThread **result, nsIRunnable *initialEvent=nullptr, uint32_t stackSize=nsIThreadManager::DEFAULT_STACK_SIZE)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t LEN&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a837aaa583d5b8fe5d83ef69a79b097ae">NS_NewNamedThread</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> char(&amp;)&#160;</td>
+          <td class="paramname"><em>name</em>[LEN], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *&#160;</td>
+          <td class="paramname"><em>initialEvent</em> = <code><a class="el" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>stackSize</em> = <code><a class="el" href="../../db/d87/interfacens_i_thread_manager.html#a97960309d606ec90abdad3efd315f5e7">nsIThreadManager::DEFAULT_STACK_SIZE</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Creates a named thread, otherwise the same as NS_NewThread </p>
+
+<p> <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html">nsThreadUtils.h</a> の <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00068">68</a> 行で定義されています。</p>
+
+<p>参照先 <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#adddc6067b168c668ea69073f68e97f71">NS_NewThread()</a>, <a class="el" href="../../da/d7d/cook_8js_source.html#l00001">result</a>, と <a class="el" href="../../d2/d7d/jsapi_8h_source.html#l02808">stackSize</a>.</p>
+<div class="fragment"><pre class="fragment">{
+    <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> rv = <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#adddc6067b168c668ea69073f68e97f71">NS_NewThread</a>(result, initialEvent, <a class="code" href="../../d2/d7d/jsapi_8h.html#a46e5dff29239c8fa0aa9a630df41494a">stackSize</a>);
+    NS_SetThreadName&lt;LEN&gt;(*<a class="code" href="../../da/d7d/cook_8js.html#a65ab37df1aa3fe0eb3d8e51a835fb617">result</a>, <a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>);
+    <span class="keywordflow">return</span> rv;
+}
+</pre></div>
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_a837aaa583d5b8fe5d83ef69a79b097ae_cgraph.svg" width="331" height="40"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a05579de186952af4b58ec5d0a32bf65f"></a><!-- doxytag: member="nsThreadUtils.h::NS_NewNonOwningRunnableMethod" ref="a05579de186952af4b58ec5d0a32bf65f" args="(PtrType ptr, Method method)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PtrType , typename Method &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">nsRunnableMethodTraits&lt;Method, <a class="el" href="../../d7/dd2/qcmstypes_8h.html#a65e9886d74aaee76545e83dd09011727">false</a>&gt;::base_type* <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a05579de186952af4b58ec5d0a32bf65f">NS_NewNonOwningRunnableMethod</a> </td>
+          <td>(</td>
+          <td class="paramtype">PtrType&#160;</td>
+          <td class="paramname"><em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Method&#160;</td>
+          <td class="paramname"><em>method</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html">nsThreadUtils.h</a> の <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00384">384</a> 行で定義されています。</p>
+<div class="fragment"><pre class="fragment">{
+  <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d9/d6b/classns_runnable_method_impl.html">nsRunnableMethodImpl&lt;Method, false&gt;</a>(ptr, method);
+}
+</pre></div>
+</div>
+</div>
+<a class="anchor" id="af587a38959089a2b20092d49728ff4ac"></a><!-- doxytag: member="nsThreadUtils.h::NS_NewRunnableMethod" ref="af587a38959089a2b20092d49728ff4ac" args="(PtrType ptr, Method method)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename PtrType , typename Method &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">nsRunnableMethodTraits&lt;Method, <a class="el" href="../../df/d49/system_2camera_2js_2camera_8js.html#a930920b2bc42824a5c03be681830f4b2">true</a>&gt;::base_type* <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#af587a38959089a2b20092d49728ff4ac">NS_NewRunnableMethod</a> </td>
+          <td>(</td>
+          <td class="paramtype">PtrType&#160;</td>
+          <td class="paramname"><em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Method&#160;</td>
+          <td class="paramname"><em>method</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p> <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html">nsThreadUtils.h</a> の <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00377">377</a> 行で定義されています。</p>
+
+<p>参照元 <a class="el" href="../../de/d54/_http_base_channel_8h_source.html#l00380">mozilla::net::HttpAsyncAborter&lt; T &gt;::AsyncCall()</a>, と <a class="el" href="../../db/d04/_channel_event_queue_8h_source.html#l00144">mozilla::net::ChannelEventQueue::Resume()</a>.</p>
+<div class="fragment"><pre class="fragment">{
+  <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d9/d6b/classns_runnable_method_impl.html">nsRunnableMethodImpl&lt;Method, true&gt;</a>(ptr, method);
+}
+</pre></div>
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_af587a38959089a2b20092d49728ff4ac_icgraph.svg" width="507" height="94"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="adddc6067b168c668ea69073f68e97f71"></a><!-- doxytag: member="nsThreadUtils.h::NS_NewThread" ref="adddc6067b168c668ea69073f68e97f71" args="(nsIThread **result, nsIRunnable *initialEvent=nullptr, uint32_t stackSize=nsIThreadManager::DEFAULT_STACK_SIZE)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#adddc6067b168c668ea69073f68e97f71">NS_NewThread</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> **&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d1/dad/interfacens_i_runnable.html">nsIRunnable</a> *&#160;</td>
+          <td class="paramname"><em>initialEvent</em> = <code><a class="el" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>stackSize</em> = <code><a class="el" href="../../db/d87/interfacens_i_thread_manager.html#a97960309d606ec90abdad3efd315f5e7">nsIThreadManager::DEFAULT_STACK_SIZE</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create a new thread, and optionally provide an initial event for the thread.</p>
+<dl class="params"><dt><b>引数:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>The resulting <a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> object. </td></tr>
+    <tr><td class="paramname">initialEvent</td><td>The initial event to run on this thread. This parameter may be null. </td></tr>
+    <tr><td class="paramname">stackSize</td><td>The size in bytes to reserve for the thread's stack.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>戻り値:</b></dt><dd>NS_ERROR_INVALID_ARG Indicates that the given name is not unique. </dd></dl>
+
+<p>参照元 <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00068">NS_NewNamedThread()</a>.</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_adddc6067b168c668ea69073f68e97f71_icgraph.svg" width="331" height="40"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a88bbef60e7587e65f43afc9e9d41d440"></a><!-- doxytag: member="nsThreadUtils.h::NS_ProcessNextEvent" ref="a88bbef60e7587e65f43afc9e9d41d440" args="(nsIThread *thread=nullptr, bool mayWait=true)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a88bbef60e7587e65f43afc9e9d41d440">NS_ProcessNextEvent</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *&#160;</td>
+          <td class="paramname"><em>thread</em> = <code><a class="el" href="../../d8/dd4/ns_c_s_s_prop_list_8h.html#a0fd163987980515e24ce34fc3926206d">nullptr</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/dd2/qcmstypes_8h.html#acac1f8caeb95c0bd16fe8c0743249831">bool</a>&#160;</td>
+          <td class="paramname"><em>mayWait</em> = <code><a class="el" href="../../df/d49/system_2camera_2js_2camera_8js.html#a930920b2bc42824a5c03be681830f4b2">true</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Shortcut for <a class="el" href="../../d3/d7d/interfacens_i_thread.html#a1d709d1de8c0d8a098a0bd6e1a80a017">nsIThread::ProcessNextEvent</a>.</p>
+<p>It is an error to call this function when the given thread is not the current thread. This function will simply return false if called from some other thread.</p>
+<dl class="params"><dt><b>引数:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">thread</td><td>The current thread or null. </td></tr>
+    <tr><td class="paramname">mayWait</td><td>A boolean parameter that if "true" indicates that the method may block the calling thread to wait for a pending event.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>戻り値:</b></dt><dd>A boolean value that if "true" indicates that an event from the current thread's event queue was processed. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2f7fb6bc4189e9c2e8bb8bb4318a6620"></a><!-- doxytag: member="nsThreadUtils.h::NS_ProcessPendingEvents" ref="a2f7fb6bc4189e9c2e8bb8bb4318a6620" args="(nsIThread *thread, PRIntervalTime timeout=PR_INTERVAL_NO_TIMEOUT)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../d3/dd8/nscore_8h.html#aacf7cf7ba6945bc41b23e3e17d1534bb">NS_METHOD</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a2f7fb6bc4189e9c2e8bb8bb4318a6620">NS_ProcessPendingEvents</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *&#160;</td>
+          <td class="paramname"><em>thread</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/dc8/prinrval_8h.html#a8a324cccce4fc21e339a82315bc0a47f">PRIntervalTime</a>&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code><a class="el" href="../../d7/dc8/prinrval_8h.html#a53ea90d97ce2085229d4763478c09888">PR_INTERVAL_NO_TIMEOUT</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Process all pending events for the given thread before returning. This method simply calls ProcessNextEvent on the thread while HasPendingEvents continues to return true and the time spent in NS_ProcessPendingEvents does not exceed the given timeout value.</p>
+<dl class="params"><dt><b>引数:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">thread</td><td>The thread object for which to process pending events. If null, then events will be processed for the current thread. </td></tr>
+    <tr><td class="paramname">timeout</td><td>The maximum number of milliseconds to spend processing pending events. Events are not pre-empted to honor this timeout. Rather, the timeout value is simply used to determine whether or not to process another event. Pass PR_INTERVAL_NO_TIMEOUT to specify no timeout. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a21e0442d954d23858e07c0ec20daeb23"></a><!-- doxytag: member="nsThreadUtils.h::NS_SetThreadName" ref="a21e0442d954d23858e07c0ec20daeb23" args="(nsIThread *thread, const nsACString &amp;name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a4ad63441be30fd4b3216edb81b9626e1">NS_SetThreadName</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *&#160;</td>
+          <td class="paramname"><em>thread</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> nsACString &amp;&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Set name of the target thread. This operation is asynchronous. </p>
+
+<p>参照元 <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00038">NS_SetThreadName()</a>.</p>
+
+<p><div class="dynheader">
+呼出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_a21e0442d954d23858e07c0ec20daeb23_icgraph.svg" width="347" height="40"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a4ad63441be30fd4b3216edb81b9626e1"></a><!-- doxytag: member="nsThreadUtils.h::NS_SetThreadName" ref="a4ad63441be30fd4b3216edb81b9626e1" args="(nsIThread *thread, const char(&amp;name)[LEN])" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t LEN&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/dd8/nscore_8h.html#a707a65401f87ac27894dbe2573c692fd">NS_COM_GLUE</a> <a class="el" href="../../dc/d2c/prtpool_8h.html#a7797d332996f57719d6d316bee73873d">void</a> <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a4ad63441be30fd4b3216edb81b9626e1">NS_SetThreadName</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/interfacens_i_thread.html">nsIThread</a> *&#160;</td>
+          <td class="paramname"><em>thread</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d6/d92/cdefs_8h.html#a2c212835823e3c54a8ab6d95c652660e">const</a> char(&amp;)&#160;</td>
+          <td class="paramname"><em>name</em>[LEN]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Static length version of the above function checking length of the name at compile time. </p>
+
+<p> <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html">nsThreadUtils.h</a> の <a class="el" href="../../d6/d6b/ns_thread_utils_8h_source.html#l00038">38</a> 行で定義されています。</p>
+
+<p>参照先 <a class="el" href="../../d6/d6b/ns_thread_utils_8h.html#a21e0442d954d23858e07c0ec20daeb23">NS_SetThreadName()</a>, と <a class="el" href="../../d3/d68/_value_8h.html#a3b52e66790b3e7fa53b9794163d633e5">static_assert()</a>.</p>
+<div class="fragment"><pre class="fragment">{
+  <a class="code" href="../../d3/d68/_value_8h.html#a3b52e66790b3e7fa53b9794163d633e5">static_assert</a>(LEN &lt;= 16,
+                <span class="stringliteral">&quot;Thread name must be no more than 16 characters&quot;</span>);
+  <a class="code" href="../../d6/d6b/ns_thread_utils_8h.html#a21e0442d954d23858e07c0ec20daeb23">NS_SetThreadName</a>(thread, nsDependentCString(<a class="code" href="../../d9/d04/expat_8h.html#a4a7cccd86625791f7f2ce3fb477aa9c1">name</a>));
+}
+</pre></div>
+<p><div class="dynheader">
+関数の呼び出しグラフ:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/d6b/ns_thread_utils_8h_a4ad63441be30fd4b3216edb81b9626e1_cgraph.svg" width="347" height="94"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d6/d6b/ns_thread_utils_8h.html">nsThreadUtils.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:57:36に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

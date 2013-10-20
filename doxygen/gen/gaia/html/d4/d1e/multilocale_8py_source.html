@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: multilocale.py ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d4/d1e/multilocale_8py.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">multilocale.py</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d4/d1e/multilocale_8py.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a><a class="code" href="../../df/d70/namespacemultilocale.html">00001</a> <span class="comment">#!/usr/bin/env python</span>
+<a name="l00002"></a>00002 
+<a name="l00003"></a>00003 <span class="keyword">import</span> os
+<a name="l00004"></a>00004 <span class="keyword">import</span> shutil
+<a name="l00005"></a>00005 <span class="keyword">import</span> fnmatch
+<a name="l00006"></a>00006 <span class="keyword">import</span> json
+<a name="l00007"></a>00007 <span class="keyword">import</span> re
+<a name="l00008"></a>00008 <span class="keyword">from</span> optparse <span class="keyword">import</span> OptionParser
+<a name="l00009"></a>00009 <span class="keyword">import</span> logging
+<a name="l00010"></a>00010 <span class="keyword">import</span> platform
+<a name="l00011"></a>00011 
+<a name="l00012"></a><a class="code" href="../../df/d70/namespacemultilocale.html#abfd53515f27cdfc267f3c4bed7262be8">00012</a> section_line = re.compile(<span class="stringliteral">&#39;\[(?P&lt;section&gt;.*)\]&#39;</span>)
+<a name="l00013"></a><a class="code" href="../../df/d70/namespacemultilocale.html#a81e8f819f7dc7a81f949a1e1294a59a3">00013</a> import_line = re.compile(<span class="stringliteral">&#39;@import url\((?P&lt;filename&gt;.*)\)&#39;</span>)
+<a name="l00014"></a><a class="code" href="../../df/d70/namespacemultilocale.html#a38e6be1fa85e118eac76db0ffe38d24c">00014</a> property_line = re.compile(<span class="stringliteral">&#39;(?P&lt;id&gt;.*)\s*[:=]\s*(?P&lt;value&gt;.*)&#39;</span>)
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="keyword">def </span>_get_locales(filename):
+<a name="l00017"></a>00017     locales_list = json.load(<a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(filename), encoding=<span class="stringliteral">&quot;utf-8&quot;</span>)
+<a name="l00018"></a>00018     <span class="keywordflow">return</span> locales_list.keys()
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 
+<a name="l00021"></a><a class="code" href="../../df/d70/namespacemultilocale.html#a73da6516b2a30e6c06fe49bc2f43187e">00021</a> <span class="keyword">def </span><a class="code" href="../../df/d70/namespacemultilocale.html#a73da6516b2a30e6c06fe49bc2f43187e">find_files</a>(dirs, pattern):
+<a name="l00022"></a>00022     matches = []
+<a name="l00023"></a>00023     <span class="keywordflow">for</span> dir <span class="keywordflow">in</span> dirs:
+<a name="l00024"></a>00024         <span class="keywordflow">for</span> current, dirnames, filenames <span class="keywordflow">in</span> os.walk(dir):
+<a name="l00025"></a>00025             <span class="keywordflow">for</span> filename <span class="keywordflow">in</span> fnmatch.filter(filenames, pattern):
+<a name="l00026"></a>00026                 matches.append(os.path.join(current, filename))
+<a name="l00027"></a>00027     <span class="keywordflow">return</span> matches
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 
+<a name="l00030"></a><a class="code" href="../../df/d70/namespacemultilocale.html#a9930f934ae43dabb9eddf0a087966fae">00030</a> <span class="keyword">def </span><a class="code" href="../../df/d70/namespacemultilocale.html#a9930f934ae43dabb9eddf0a087966fae">parse_manifest_properties</a>(filename):
+<a name="l00031"></a>00031     with <a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(filename) <span class="keyword">as</span> f:
+<a name="l00032"></a>00032         data = f.readlines()
+<a name="l00033"></a>00033     strings = {
+<a name="l00034"></a>00034         <span class="stringliteral">&quot;default&quot;</span>: {},
+<a name="l00035"></a>00035         <span class="stringliteral">&quot;entry_points&quot;</span>: {},
+<a name="l00036"></a>00036     }
+<a name="l00037"></a>00037     <span class="keywordflow">for</span> line <span class="keywordflow">in</span> data:
+<a name="l00038"></a>00038         m = property_line.search(line)
+<a name="l00039"></a>00039         <span class="keywordflow">if</span> <span class="keywordflow">not</span> m <span class="keywordflow">or</span> line.strip().startswith(<span class="stringliteral">&#39;#&#39;</span>):
+<a name="l00040"></a>00040             <span class="keywordflow">continue</span>
+<a name="l00041"></a>00041         value = m.group(<span class="stringliteral">&#39;value&#39;</span>).strip()
+<a name="l00042"></a>00042         <span class="keywordflow">if</span> <span class="stringliteral">&#39;.&#39;</span> <span class="keywordflow">in</span> m.group(<span class="stringliteral">&#39;id&#39;</span>):
+<a name="l00043"></a>00043             entry_point, key = m.group(<span class="stringliteral">&#39;id&#39;</span>).split(<span class="stringliteral">&#39;.&#39;</span>,1)
+<a name="l00044"></a>00044             <span class="keywordflow">if</span> entry_point <span class="keywordflow">not</span> <span class="keywordflow">in</span> strings[<span class="stringliteral">&quot;entry_points&quot;</span>]:
+<a name="l00045"></a>00045                 strings[<span class="stringliteral">&quot;entry_points&quot;</span>][entry_point] = {}
+<a name="l00046"></a>00046             strings[<span class="stringliteral">&quot;entry_points&quot;</span>][entry_point][key.strip()] = value
+<a name="l00047"></a>00047         <span class="keywordflow">else</span>:
+<a name="l00048"></a>00048             key = m.group(<span class="stringliteral">&#39;id&#39;</span>)
+<a name="l00049"></a>00049             strings[<span class="stringliteral">&quot;default&quot;</span>][key.strip()] = value
+<a name="l00050"></a>00050     <span class="keywordflow">return</span> strings
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052 
+<a name="l00053"></a><a class="code" href="../../df/d70/namespacemultilocale.html#abfd1c4989c424b677df139fd0fc56aaf">00053</a> <span class="keyword">def </span><a class="code" href="../../df/d70/namespacemultilocale.html#abfd1c4989c424b677df139fd0fc56aaf">parse_ini</a>(filename):
+<a name="l00054"></a>00054     log = logging.getLogger(__name__)
+<a name="l00055"></a>00055     with <a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(filename) <span class="keyword">as</span> f:
+<a name="l00056"></a>00056         data = f.readlines()
+<a name="l00057"></a>00057     section = <span class="stringliteral">&#39;default&#39;</span>
+<a name="l00058"></a>00058     imports = { section: [] }
+<a name="l00059"></a>00059     <span class="keywordflow">for</span> line <span class="keywordflow">in</span> data:
+<a name="l00060"></a>00060         <span class="keywordflow">if</span> line.strip() == <span class="stringliteral">&quot;&quot;</span> <span class="keywordflow">or</span> line.startswith(<span class="stringliteral">&#39;!&#39;</span>) <span class="keywordflow">or</span> line.startswith(<span class="stringliteral">&#39;#&#39;</span>):
+<a name="l00061"></a>00061             <span class="keywordflow">continue</span>
+<a name="l00062"></a>00062         <span class="keywordflow">elif</span> line.strip().startswith(<span class="stringliteral">&#39;[&#39;</span>): <span class="comment"># Section header</span>
+<a name="l00063"></a>00063             section = section_line.search(line).group(<span class="stringliteral">&#39;section&#39;</span>)
+<a name="l00064"></a>00064             imports[section] = []
+<a name="l00065"></a>00065         <span class="keywordflow">elif</span> <span class="stringliteral">&#39;@import&#39;</span> <span class="keywordflow">in</span> line: <span class="comment"># Import lines</span>
+<a name="l00066"></a>00066             property_file = import_line.search(line).group(<span class="stringliteral">&#39;filename&#39;</span>)
+<a name="l00067"></a>00067             imports[section].<a class="code" href="../../dc/d5e/apps_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#afe45b12054b6269d2537c8e0e4233b68">append</a>(property_file)
+<a name="l00068"></a>00068         <span class="keywordflow">else</span>:
+<a name="l00069"></a>00069             log.warn(<span class="stringliteral">&#39;parse_ini - found a line with contents &#39;</span>
+<a name="l00070"></a>00070                      <span class="stringliteral">&#39;unaccounted for &quot;%s&quot;&#39;</span>, line.strip())
+<a name="l00071"></a>00071     <span class="keywordflow">return</span> imports
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 
+<a name="l00074"></a><a class="code" href="../../df/d70/namespacemultilocale.html#a3b0f66faef314972847c1878a56c91c7">00074</a> <span class="keyword">def </span><a class="code" href="../../df/d70/namespacemultilocale.html#a3b0f66faef314972847c1878a56c91c7">serialize_ini</a>(outfile, imports):
+<a name="l00075"></a>00075     <span class="keyword">def </span>_section(locale):
+<a name="l00076"></a>00076         <span class="keywordflow">return</span> <span class="stringliteral">&quot;[%s]&quot;</span> % locale
+<a name="l00077"></a>00077     <span class="keyword">def </span>_import(path):
+<a name="l00078"></a>00078         <span class="keywordflow">return</span> <span class="stringliteral">&quot;@import url(%s)&quot;</span> % path
+<a name="l00079"></a>00079     output = []
+<a name="l00080"></a>00080     <span class="keywordflow">for</span> locale, paths <span class="keywordflow">in</span> imports.items():
+<a name="l00081"></a>00081         <span class="keywordflow">if</span> locale == <span class="stringliteral">&quot;default&quot;</span>:
+<a name="l00082"></a>00082             <span class="keywordflow">for</span> path <span class="keywordflow">in</span> paths:
+<a name="l00083"></a>00083                 output.insert(0, _import(path))
+<a name="l00084"></a>00084             <span class="keywordflow">continue</span>
+<a name="l00085"></a>00085         output.append(_section(locale))
+<a name="l00086"></a>00086         <span class="keywordflow">for</span> path <span class="keywordflow">in</span> paths:
+<a name="l00087"></a>00087             output.append(_import(path))
+<a name="l00088"></a>00088     with <a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(outfile, <span class="stringliteral">&#39;w&#39;</span>) <span class="keyword">as</span> o:
+<a name="l00089"></a>00089         o.write(<span class="stringliteral">&quot;\n&quot;</span>.<a class="code" href="../../de/d11/path_8js.html#a9c4b06c29cf28f47c4f54ed4e30c85b3">join</a>(output))
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091 
+<a name="l00092"></a><a class="code" href="../../df/d70/namespacemultilocale.html#ad6a45f647f79d1fdd35d319c89434b4d">00092</a> <span class="keyword">def </span><a class="code" href="../../df/d70/namespacemultilocale.html#ad6a45f647f79d1fdd35d319c89434b4d">add_locale_imports</a>(locales, ini_file):
+<a name="l00093"></a>00093     <span class="stringliteral">&quot;&quot;&quot;Recreate an ini file with all locales sections&quot;&quot;&quot;</span>
+<a name="l00094"></a>00094     log = logging.getLogger(__name__)
+<a name="l00095"></a>00095     imports = {
+<a name="l00096"></a>00096         <span class="stringliteral">&quot;default&quot;</span>: <a class="code" href="../../df/d70/namespacemultilocale.html#abfd1c4989c424b677df139fd0fc56aaf">parse_ini</a>(ini_file)[<span class="stringliteral">&quot;default&quot;</span>]
+<a name="l00097"></a>00097     }
+<a name="l00098"></a>00098     <span class="keywordflow">for</span> locale <span class="keywordflow">in</span> locales:
+<a name="l00099"></a>00099         log.info(<span class="stringliteral">&quot;adding %s to %s&quot;</span> % (locale, ini_file))
+<a name="l00100"></a>00100         imports[locale] = []
+<a name="l00101"></a>00101         <span class="keywordflow">for</span> path <span class="keywordflow">in</span> imports[<span class="stringliteral">&quot;default&quot;</span>]:
+<a name="l00102"></a>00102             locale_path = path.replace(<span class="stringliteral">&quot;en-US&quot;</span>, locale)
+<a name="l00103"></a>00103             imports[locale].<a class="code" href="../../dc/d5e/apps_2email_2js_2ext_2mailapi_2imap_2probe_8js.html#afe45b12054b6269d2537c8e0e4233b68">append</a>(locale_path)
+<a name="l00104"></a>00104             log.debug(<span class="stringliteral">&quot;added %s&quot;</span> % locale_path)
+<a name="l00105"></a>00105     <a class="code" href="../../df/d70/namespacemultilocale.html#a3b0f66faef314972847c1878a56c91c7">serialize_ini</a>(ini_file, imports)
+<a name="l00106"></a>00106     log.info(<span class="stringliteral">&quot;updated %s saved&quot;</span> % ini_file)
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108 
+<a name="l00109"></a><a class="code" href="../../df/d70/namespacemultilocale.html#ae5269f4f6c0c7f6c88c25321e2dfbead">00109</a> <span class="keyword">def </span><a class="code" href="../../df/d70/namespacemultilocale.html#ae5269f4f6c0c7f6c88c25321e2dfbead">copy_properties</a>(source, locales, ini_file):
+<a name="l00110"></a>00110     log = logging.getLogger(__name__)
+<a name="l00111"></a>00111     ini_dirname = os.path.dirname(ini_file)
+<a name="l00112"></a>00112     imports = <a class="code" href="../../df/d70/namespacemultilocale.html#abfd1c4989c424b677df139fd0fc56aaf">parse_ini</a>(ini_file)
+<a name="l00113"></a>00113     <span class="keywordflow">for</span> locale <span class="keywordflow">in</span> locales:
+<a name="l00114"></a>00114         log.info(<span class="stringliteral">&quot;copying %s files as per %s&quot;</span> % (locale, ini_file))
+<a name="l00115"></a>00115         <span class="keywordflow">for</span> path <span class="keywordflow">in</span> imports[locale]:
+<a name="l00116"></a>00116             target_path = os.path.join(ini_dirname, path)
+<a name="l00117"></a>00117             <span class="comment"># apps/browser/locales/browser.fr.properties becomes</span>
+<a name="l00118"></a>00118             <span class="comment"># apps/browser/browser.properties</span>
+<a name="l00119"></a>00119             source_path = target_path.replace(os.sep + <span class="stringliteral">&#39;locales&#39;</span>, <span class="stringliteral">&#39;&#39;</span>) \
+<a name="l00120"></a>00120                                      .<a class="code" href="../../dc/d89/wappush_2js_2message_8js.html#a7c5f9536f6c7849a4a7a592bfedf18f1">replace</a>(<span class="stringliteral">&#39;.%s&#39;</span> % locale, <span class="stringliteral">&#39;&#39;</span>)
+<a name="l00121"></a>00121             source_path = os.path.join(source, locale, source_path)
+<a name="l00122"></a>00122             <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(source_path):
+<a name="l00123"></a>00123                 log.warn(<span class="stringliteral">&#39;%s does not exist&#39;</span> % source_path)
+<a name="l00124"></a>00124                 <span class="keywordflow">continue</span>
+<a name="l00125"></a>00125             shutil.copy(source_path, target_path)
+<a name="l00126"></a>00126             log.debug(<span class="stringliteral">&quot;copied %s to %s&quot;</span> % (source_path, target_path))
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128 
+<a name="l00129"></a><a class="code" href="../../df/d70/namespacemultilocale.html#a68c469191ea20068f16279ce82a10be7">00129</a> <span class="keyword">def </span><a class="code" href="../../df/d70/namespacemultilocale.html#a68c469191ea20068f16279ce82a10be7">add_locale_manifest</a>(source, locales, manifest_file):
+<a name="l00130"></a>00130     log = logging.getLogger(__name__)
+<a name="l00131"></a>00131     with <a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(manifest_file) <span class="keyword">as</span> f:
+<a name="l00132"></a>00132         manifest = json.load(f, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>)
+<a name="l00133"></a>00133     <span class="keywordflow">for</span> locale <span class="keywordflow">in</span> locales:
+<a name="l00134"></a>00134         log.info(<span class="stringliteral">&quot;adding %s to %s&quot;</span> % (locale, manifest_file))
+<a name="l00135"></a>00135         manifest_properties = os.path.join(source, locale,
+<a name="l00136"></a>00136                                            os.path.dirname(manifest_file), 
+<a name="l00137"></a>00137                                            <span class="stringliteral">&#39;manifest.properties&#39;</span>)
+<a name="l00138"></a>00138         log.debug(<span class="stringliteral">&quot;getting strings from %s&quot;</span> % manifest_properties)
+<a name="l00139"></a>00139         <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(manifest_properties):
+<a name="l00140"></a>00140             log.warn(<span class="stringliteral">&quot;%s does not exist&quot;</span> % manifest_properties)
+<a name="l00141"></a>00141             <span class="keywordflow">continue</span>
+<a name="l00142"></a>00142         strings = <a class="code" href="../../df/d70/namespacemultilocale.html#a9930f934ae43dabb9eddf0a087966fae">parse_manifest_properties</a>(manifest_properties)
+<a name="l00143"></a>00143         <span class="keywordflow">if</span> <span class="stringliteral">&quot;entry_points&quot;</span> <span class="keywordflow">in</span> manifest:
+<a name="l00144"></a>00144             <span class="keywordflow">for</span> name, ep <span class="keywordflow">in</span> manifest[<span class="stringliteral">&quot;entry_points&quot;</span>].items():
+<a name="l00145"></a>00145                 <span class="keywordflow">if</span> <span class="stringliteral">&quot;locales&quot;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> ep:
+<a name="l00146"></a>00146                     <span class="keywordflow">continue</span>
+<a name="l00147"></a>00147                 log.debug(<span class="stringliteral">&quot;adding to entry_points.%s.locales&quot;</span> % name)
+<a name="l00148"></a>00148                 <span class="keywordflow">if</span> name <span class="keywordflow">not</span> <span class="keywordflow">in</span> strings[<span class="stringliteral">&quot;entry_points&quot;</span>]:
+<a name="l00149"></a>00149                     log.warn(<span class="stringliteral">&quot;%s.* strings are missing from %s&quot;</span> %
+<a name="l00150"></a>00150                                 (name, manifest_properties))
+<a name="l00151"></a>00151                     <span class="keywordflow">continue</span>
+<a name="l00152"></a>00152                 ep[<span class="stringliteral">&quot;locales&quot;</span>][locale] = {}
+<a name="l00153"></a>00153                 ep[<span class="stringliteral">&quot;locales&quot;</span>][locale].<a class="code" href="../../dd/d6d/mock__spinner_8js.html#ab10b009b0da48f61217a18daf8e20cd8">update</a>(strings[<span class="stringliteral">&quot;entry_points&quot;</span>][name])
+<a name="l00154"></a>00154         <span class="keywordflow">if</span> <span class="stringliteral">&quot;locales&quot;</span> <span class="keywordflow">in</span> manifest:
+<a name="l00155"></a>00155             log.debug(<span class="stringliteral">&quot;adding to locales&quot;</span>)
+<a name="l00156"></a>00156             manifest[<span class="stringliteral">&quot;locales&quot;</span>][locale] = {}
+<a name="l00157"></a>00157             manifest[<span class="stringliteral">&quot;locales&quot;</span>][locale].<a class="code" href="../../dd/d6d/mock__spinner_8js.html#ab10b009b0da48f61217a18daf8e20cd8">update</a>(strings[<span class="stringliteral">&quot;default&quot;</span>])
+<a name="l00158"></a>00158     f.close()
+<a name="l00159"></a>00159     with <a class="code" href="../../df/d65/openaudio_8js.html#ad0452adbe6c8d74d2e2afaa489294b68">open</a>(manifest_file, <span class="stringliteral">&#39;w&#39;</span>) <span class="keyword">as</span> o:
+<a name="l00160"></a>00160         json.dump(manifest, o, encoding=<span class="stringliteral">&quot;utf-8&quot;</span>, indent=2)
+<a name="l00161"></a>00161     log.debug(<span class="stringliteral">&quot;updated %s saved&quot;</span> % manifest_file)
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163 
+<a name="l00164"></a><a class="code" href="../../df/d70/namespacemultilocale.html#a13c6fdd49cd8d2035cf7c73241cbd490">00164</a> <span class="keyword">def </span><a class="code" href="../../df/d70/namespacemultilocale.html#a13c6fdd49cd8d2035cf7c73241cbd490">setup_logging</a>(volume=1, console=True, filename=None):
+<a name="l00165"></a>00165     logger = logging.getLogger(__name__)
+<a name="l00166"></a>00166     levels = [logging.DEBUG,
+<a name="l00167"></a>00167               logging.INFO,
+<a name="l00168"></a>00168               logging.WARNING,
+<a name="l00169"></a>00169               logging.ERROR,
+<a name="l00170"></a>00170               logging.CRITICAL][::1]
+<a name="l00171"></a>00171     <span class="keywordflow">if</span> volume &gt; len(levels):
+<a name="l00172"></a>00172         volume = len(levels) - 1
+<a name="l00173"></a>00173     <span class="keywordflow">elif</span> volume &lt; 0:
+<a name="l00174"></a>00174         volume = 0
+<a name="l00175"></a>00175     logger.setLevel(levels[len(levels)-volume])
+<a name="l00176"></a>00176     <span class="keywordflow">if</span> console:
+<a name="l00177"></a>00177         console_handler = logging.StreamHandler()
+<a name="l00178"></a>00178         console_formatter = logging.Formatter(<span class="stringliteral">&#39;%(levelname)s: %(message)s&#39;</span>)
+<a name="l00179"></a>00179         console_handler.setFormatter(console_formatter)
+<a name="l00180"></a>00180         logger.addHandler(console_handler)
+<a name="l00181"></a>00181     <span class="keywordflow">if</span> filename:
+<a name="l00182"></a>00182         file_handler = logging.FileHandler(filename)
+<a name="l00183"></a>00183         file_formatter = logging.Formatter(<span class="stringliteral">&#39;%(asctime) - %(levelname)s: %(message)s&#39;</span>)
+<a name="l00184"></a>00184         file_handler.addFormatter(file_formatter)
+<a name="l00185"></a>00185         logger.addHandler(file_handler)
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187 
+<a name="l00188"></a><a class="code" href="../../df/d70/namespacemultilocale.html#a89e39995e9684ed7f533a48df90e0f0d">00188</a> <span class="keyword">def </span><a class="code" href="../../df/d70/namespacemultilocale.html#a89e39995e9684ed7f533a48df90e0f0d">make_relative</a>(path, gaia):
+<a name="l00189"></a>00189     <span class="keywordflow">if</span> platform.system() <span class="keywordflow">is</span> <span class="stringliteral">&#39;Windows&#39;</span>:
+<a name="l00190"></a>00190         gaia = gaia.replace(<span class="stringliteral">&#39;\\\\&#39;</span>, <span class="stringliteral">&#39;\\&#39;</span>)
+<a name="l00191"></a>00191     <span class="keywordflow">return</span> path[len(gaia)+1:]
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193 
+<a name="l00194"></a><a class="code" href="../../df/d70/namespacemultilocale.html#a0bb7270d91a5714c457499a14baeb81d">00194</a> <span class="keyword">def </span><a class="code" href="../../df/d70/namespacemultilocale.html#a0bb7270d91a5714c457499a14baeb81d">main</a>():
+<a name="l00195"></a>00195     parser = OptionParser(<span class="stringliteral">&quot;%prog [OPTIONS] [LOCALES...] - create multilocale Gaia&quot;</span>)
+<a name="l00196"></a>00196     parser.add_option(<span class="stringliteral">&quot;-v&quot;</span>, <span class="stringliteral">&quot;--verbose&quot;</span>, 
+<a name="l00197"></a>00197                       action=<span class="stringliteral">&quot;count&quot;</span>, dest=<span class="stringliteral">&quot;verbose&quot;</span>, default=2,
+<a name="l00198"></a>00198                       help=<span class="stringliteral">&quot;use more to make louder&quot;</span>)
+<a name="l00199"></a>00199     parser.add_option(<span class="stringliteral">&quot;-i&quot;</span>, <span class="stringliteral">&quot;--ini&quot;</span>, 
+<a name="l00200"></a>00200                       action=<span class="stringliteral">&quot;store_true&quot;</span>, dest=<span class="stringliteral">&quot;onlyini&quot;</span>,  default=<span class="keyword">False</span>,
+<a name="l00201"></a>00201                       help=(<span class="stringliteral">&quot;just edit the ini files and exit; &quot;</span>
+<a name="l00202"></a>00202                             <span class="stringliteral">&quot;use this with DEBUG=1 make profile&quot;</span>))
+<a name="l00203"></a>00203     parser.add_option(<span class="stringliteral">&quot;--target&quot;</span>, 
+<a name="l00204"></a>00204                       action=<span class="stringliteral">&quot;append&quot;</span>, dest=<span class="stringliteral">&quot;target&quot;</span>,
+<a name="l00205"></a>00205                       help=(<span class="stringliteral">&quot;path to directory to make changes in &quot;</span>
+<a name="l00206"></a>00206                             <span class="stringliteral">&quot;(more than one is fine)&quot;</span>))
+<a name="l00207"></a>00207     parser.add_option(<span class="stringliteral">&quot;--source&quot;</span>, 
+<a name="l00208"></a>00208                       action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;source&quot;</span>,
+<a name="l00209"></a>00209                       help=<span class="stringliteral">&quot;path to the l10n basedir&quot;</span>)
+<a name="l00210"></a>00210     parser.add_option(<span class="stringliteral">&quot;--config&quot;</span>, 
+<a name="l00211"></a>00211                       action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;config_file&quot;</span>,
+<a name="l00212"></a>00212                       help=(<span class="stringliteral">&quot;path to the languages.json config file; &quot;</span>
+<a name="l00213"></a>00213                             <span class="stringliteral">&quot;will be used instead of LOCALES&quot;</span>))
+<a name="l00214"></a>00214     parser.add_option(<span class="stringliteral">&quot;--gaia&quot;</span>,
+<a name="l00215"></a>00215                       action=<span class="stringliteral">&quot;store&quot;</span>, dest=<span class="stringliteral">&quot;gaia&quot;</span>,
+<a name="l00216"></a>00216                       help=<span class="stringliteral">&quot;path to gaia directory&quot;</span>)
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218     options, locales = parser.parse_args()
+<a name="l00219"></a>00219 
+<a name="l00220"></a>00220     <a class="code" href="../../df/d70/namespacemultilocale.html#a13c6fdd49cd8d2035cf7c73241cbd490">setup_logging</a>(volume=options.verbose)
+<a name="l00221"></a>00221     log = logging.getLogger(__name__)
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223     <span class="keywordflow">if</span> options.config_file <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:
+<a name="l00224"></a>00224         locales = _get_locales(options.config_file)
+<a name="l00225"></a>00225         log.debug(<span class="stringliteral">&quot;config file specified; ignoring any locales passed as args&quot;</span>)
+<a name="l00226"></a>00226     <span class="keywordflow">elif</span> len(locales) == 0:
+<a name="l00227"></a>00227         parser.error(<span class="stringliteral">&quot;You need to specify --config or pass the list of locales&quot;</span>)
+<a name="l00228"></a>00228     <span class="keywordflow">if</span> options.target <span class="keywordflow">is</span> <span class="keywordtype">None</span>:
+<a name="l00229"></a>00229         parser.error(<span class="stringliteral">&quot;You need to specify at least one --target&quot;</span>)
+<a name="l00230"></a>00230     <span class="keywordflow">if</span> options.source <span class="keywordflow">is</span> <span class="keywordtype">None</span> <span class="keywordflow">and</span> <span class="keywordflow">not</span> options.onlyini:
+<a name="l00231"></a>00231         parser.error(<span class="stringliteral">&quot;You need to specify --source (unless you meant --ini)&quot;</span>)
+<a name="l00232"></a>00232     <span class="keywordflow">if</span> options.gaia <span class="keywordflow">is</span> <span class="keywordtype">None</span>:
+<a name="l00233"></a>00233         parser.error(<span class="stringliteral">&quot;You need to specify --gaia&quot;</span>)
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235     <span class="keywordflow">if</span> <span class="stringliteral">&quot;en-US&quot;</span> <span class="keywordflow">in</span> locales:
+<a name="l00236"></a>00236         locales.remove(<span class="stringliteral">&quot;en-US&quot;</span>)
+<a name="l00237"></a>00237     ini_files = <a class="code" href="../../df/d70/namespacemultilocale.html#a73da6516b2a30e6c06fe49bc2f43187e">find_files</a>(options.target, <span class="stringliteral">&quot;*.ini&quot;</span>)
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239     <span class="comment"># 1. link properties files from the inis</span>
+<a name="l00240"></a>00240     <span class="keywordflow">for</span> ini_file <span class="keywordflow">in</span> ini_files:
+<a name="l00241"></a>00241         log.info(<span class="stringliteral">&quot;########## adding locale import rules to %s&quot;</span> % ini_file)
+<a name="l00242"></a>00242         <a class="code" href="../../df/d70/namespacemultilocale.html#ad6a45f647f79d1fdd35d319c89434b4d">add_locale_imports</a>(locales, ini_file)
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244     <span class="keywordflow">if</span> options.onlyini:
+<a name="l00245"></a>00245         parser.exit(1)
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247     <span class="comment"># 2. copy properties files as per the inis</span>
+<a name="l00248"></a>00248     <span class="keywordflow">for</span> ini_file <span class="keywordflow">in</span> ini_files:
+<a name="l00249"></a>00249         log.info(<span class="stringliteral">&quot;########## copying locale files as per %s&quot;</span> % ini_file)
+<a name="l00250"></a>00250         ini_file = <a class="code" href="../../df/d70/namespacemultilocale.html#a89e39995e9684ed7f533a48df90e0f0d">make_relative</a>(ini_file, options.gaia)
+<a name="l00251"></a>00251         <a class="code" href="../../df/d70/namespacemultilocale.html#ae5269f4f6c0c7f6c88c25321e2dfbead">copy_properties</a>(options.source, locales, ini_file)
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253     <span class="comment"># 3. edit manifests</span>
+<a name="l00254"></a>00254     manifest_files = <a class="code" href="../../df/d70/namespacemultilocale.html#a73da6516b2a30e6c06fe49bc2f43187e">find_files</a>(options.target, <span class="stringliteral">&#39;manifest.webapp&#39;</span>)
+<a name="l00255"></a>00255     <span class="keywordflow">for</span> manifest_file <span class="keywordflow">in</span> manifest_files:
+<a name="l00256"></a>00256         log.info(<span class="stringliteral">&quot;########## adding localized names to %s&quot;</span> % manifest_file)
+<a name="l00257"></a>00257         manifest_file = <a class="code" href="../../df/d70/namespacemultilocale.html#a89e39995e9684ed7f533a48df90e0f0d">make_relative</a>(manifest_file, options.gaia)
+<a name="l00258"></a>00258         <a class="code" href="../../df/d70/namespacemultilocale.html#a68c469191ea20068f16279ce82a10be7">add_locale_manifest</a>(options.source, locales, manifest_file)
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261 <span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:
+<a name="l00262"></a>00262     <a class="code" href="../../df/d70/namespacemultilocale.html#a0bb7270d91a5714c457499a14baeb81d">main</a>()
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d4/d1e/multilocale_8py.html">multilocale.py</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:51に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

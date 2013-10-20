@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>FxOS Code Reading: nsCSSStyleSheet.h ソースファイル</title>
+
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">FxOS Code Reading
+   &#160;<span id="projectnumber">0.0.1</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- 作成： Doxygen 1.7.6.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'検索');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>メインページ</span></a></li>
+      <li><a href="../../pages.html"><span>関連ページ</span></a></li>
+      <li><a href="../../modules.html"><span>モジュール</span></a></li>
+      <li><a href="../../namespaces.html"><span>パッケージ</span></a></li>
+      <li><a href="../../annotated.html"><span>データ構造</span></a></li>
+      <li class="current"><a href="../../files.html"><span>ファイル</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="検索" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>ファイル一覧</span></a></li>
+      <li><a href="../../globals.html"><span>グローバル</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('d2/d13/ns_c_s_s_style_sheet_8h.html','../../');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">nsCSSStyleSheet.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d2/d13/ns_c_s_s_style_sheet_8h.html">説明を見る。</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */</span>
+<a name="l00002"></a>00002 <span class="comment">// vim:cindent:tabstop=2:expandtab:shiftwidth=2:</span>
+<a name="l00003"></a>00003 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public</span>
+<a name="l00004"></a>00004 <span class="comment"> * License, v. 2.0. If a copy of the MPL was not distributed with this</span>
+<a name="l00005"></a>00005 <span class="comment"> * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/* representation of a CSS style sheet */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="preprocessor">#ifndef nsCSSStyleSheet_h_</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span><span class="preprocessor">#define nsCSSStyleSheet_h_</span>
+<a name="l00011"></a>00011 <span class="preprocessor"></span>
+<a name="l00012"></a>00012 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/da8/_attributes_8h.html">mozilla/Attributes.h</a>&quot;</span>
+<a name="l00013"></a>00013 <span class="preprocessor">#include &quot;<a class="code" href="../../db/d6d/_memory_reporting_8h.html">mozilla/MemoryReporting.h</a>&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/db8/_element_8h.html">mozilla/dom/Element.h</a>&quot;</span>
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/dd8/nscore_8h.html">nscore.h</a>&quot;</span>
+<a name="l00017"></a>00017 <span class="preprocessor">#include &quot;<a class="code" href="../../d5/d03/ns_c_o_m_ptr_8h.html">nsCOMPtr.h</a>&quot;</span>
+<a name="l00018"></a>00018 <span class="preprocessor">#include &quot;<a class="code" href="../../de/db2/ns_auto_ptr_8h.html">nsAutoPtr.h</a>&quot;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &quot;<a class="code" href="../../d0/d34/ns_i_style_sheet_8h.html">nsIStyleSheet.h</a>&quot;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &quot;<a class="code" href="../../d9/dbf/ns_i_d_o_m_c_s_s_style_sheet_8h.html">nsIDOMCSSStyleSheet.h</a>&quot;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="../../de/d40/ns_i_c_s_s_loader_observer_8h.html">nsICSSLoaderObserver.h</a>&quot;</span>
+<a name="l00022"></a>00022 <span class="preprocessor">#include &quot;<a class="code" href="../../dc/da8/ns_c_o_m_array_8h.html">nsCOMArray.h</a>&quot;</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="../../d1/db9/ns_t_array_8h.html">nsTArray.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="../../d3/d37/ns_string_8h.html">nsString.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="../../da/dae/_c_o_r_s_mode_8h.html">mozilla/CORSMode.h</a>&quot;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d4f/ns_cycle_collection_participant_8h.html">nsCycleCollectionParticipant.h</a>&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="../../d2/d2a/ns_wrapper_cache_8h.html">nsWrapperCache.h</a>&quot;</span>
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="keyword">class </span><a class="code" href="../../d3/da8/classns_x_m_l_name_space_map.html">nsXMLNameSpaceMap</a>;
+<a name="l00030"></a>00030 <span class="keyword">class </span><a class="code" href="../../df/d8f/classns_c_s_s_rule_processor.html">nsCSSRuleProcessor</a>;
+<a name="l00031"></a>00031 <span class="keyword">class </span><a class="code" href="../../d5/d7f/interfacens_i_principal.html">nsIPrincipal</a>;
+<a name="l00032"></a>00032 <span class="keyword">class </span><a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>;
+<a name="l00033"></a>00033 <span class="keyword">class </span>nsMediaList;
+<a name="l00034"></a>00034 <span class="keyword">class </span>nsMediaQueryResultCacheKey;
+<a name="l00035"></a>00035 <span class="keyword">class </span><a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>;
+<a name="l00036"></a>00036 <span class="keyword">class </span><a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>;
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="keyword">namespace </span>mozilla {
+<a name="l00039"></a>00039 <span class="keyword">namespace </span>css {
+<a name="l00040"></a>00040 <span class="keyword">class </span>Rule;
+<a name="l00041"></a>00041 <span class="keyword">class </span>GroupRule;
+<a name="l00042"></a>00042 <span class="keyword">class </span>ImportRule;
+<a name="l00043"></a>00043 }
+<a name="l00044"></a>00044 }
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 <span class="comment">// -------------------------------</span>
+<a name="l00047"></a>00047 <span class="comment">// CSS Style Sheet Inner Data Container</span>
+<a name="l00048"></a>00048 <span class="comment">//</span>
+<a name="l00049"></a>00049 
+<a name="l00050"></a><a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html">00050</a> <span class="keyword">class </span><a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html">nsCSSStyleSheetInner</a> {
+<a name="l00051"></a>00051 <span class="keyword">public</span>:
+<a name="l00052"></a><a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html#a4778a7034542ddcf415452307c02edc4">00052</a>   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html#a4778a7034542ddcf415452307c02edc4">nsCSSStyleSheet</a>;
+<a name="l00053"></a><a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html#a6f50ba9874343a076e4d8d6f1b7a3daa">00053</a>   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../df/d8f/classns_c_s_s_rule_processor.html">nsCSSRuleProcessor</a>;
+<a name="l00054"></a>00054 <span class="keyword">private</span>:
+<a name="l00055"></a>00055   <a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html">nsCSSStyleSheetInner</a>(<a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html#a4778a7034542ddcf415452307c02edc4">nsCSSStyleSheet</a>* aPrimarySheet,
+<a name="l00056"></a>00056                        <a class="code" href="../../d2/d93/namespacemozilla.html#acaed670280dfe306445f2ff31089f03e">mozilla::CORSMode</a> aCORSMode);
+<a name="l00057"></a>00057   <a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html">nsCSSStyleSheetInner</a>(<a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html">nsCSSStyleSheetInner</a>&amp; aCopy,
+<a name="l00058"></a>00058                        <a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html#a4778a7034542ddcf415452307c02edc4">nsCSSStyleSheet</a>* aPrimarySheet);
+<a name="l00059"></a>00059   ~<a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html">nsCSSStyleSheetInner</a>();
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061   <a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html">nsCSSStyleSheetInner</a>* CloneFor(<a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html#a4778a7034542ddcf415452307c02edc4">nsCSSStyleSheet</a>* aPrimarySheet);
+<a name="l00062"></a>00062   <span class="keywordtype">void</span> AddSheet(<a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html#a4778a7034542ddcf415452307c02edc4">nsCSSStyleSheet</a>* aSheet);
+<a name="l00063"></a>00063   <span class="keywordtype">void</span> RemoveSheet(<a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html#a4778a7034542ddcf415452307c02edc4">nsCSSStyleSheet</a>* aSheet);
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065   <span class="keywordtype">void</span> RebuildNameSpaces();
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067   <span class="comment">// Create a new namespace map</span>
+<a name="l00068"></a>00068   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> CreateNamespaceMap();
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070   <span class="keywordtype">size_t</span> <a class="code" href="../../df/d8f/classns_c_s_s_rule_processor.html#ad763799b473ac018fff17de3009e5292">SizeOfIncludingThis</a>(mozilla::MallocSizeOf aMallocSizeOf) <span class="keyword">const</span>;
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072   <a class="code" href="../../d2/dcf/classns_auto_t_array.html">nsAutoTArray&lt;nsCSSStyleSheet*, 8&gt;</a> mSheets;
+<a name="l00073"></a>00073   nsCOMPtr&lt;nsIURI&gt;       mSheetURI; <span class="comment">// for error reports, etc.</span>
+<a name="l00074"></a>00074   nsCOMPtr&lt;nsIURI&gt;       mOriginalSheetURI;  <span class="comment">// for GetHref.  Can be null.</span>
+<a name="l00075"></a>00075   nsCOMPtr&lt;nsIURI&gt;       mBaseURI; <span class="comment">// for resolving relative URIs</span>
+<a name="l00076"></a>00076   nsCOMPtr&lt;nsIPrincipal&gt; mPrincipal;
+<a name="l00077"></a>00077   <a class="code" href="../../d3/d4e/classns_c_o_m_array.html">nsCOMArray&lt;mozilla::css::Rule&gt;</a> mOrderedRules;
+<a name="l00078"></a>00078   <a class="code" href="../../d1/d89/classns_auto_ptr.html">nsAutoPtr&lt;nsXMLNameSpaceMap&gt;</a> mNameSpaceMap;
+<a name="l00079"></a>00079   <span class="comment">// Linked list of child sheets.  This is al fundamentally broken, because</span>
+<a name="l00080"></a>00080   <span class="comment">// each of the child sheets has a unique parent... We can only hope (and</span>
+<a name="l00081"></a>00081   <span class="comment">// currently this is the case) that any time page JS can get ts hands on a</span>
+<a name="l00082"></a>00082   <span class="comment">// child sheet that means we&#39;ve already ensured unique inners throughout its</span>
+<a name="l00083"></a>00083   <span class="comment">// parent chain and things are good.</span>
+<a name="l00084"></a>00084   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsCSSStyleSheet&gt;</a> mFirstChild;
+<a name="l00085"></a>00085   <a class="code" href="../../d2/d93/namespacemozilla.html#acaed670280dfe306445f2ff31089f03e">mozilla::CORSMode</a>      mCORSMode;
+<a name="l00086"></a>00086   <span class="keywordtype">bool</span>                   mComplete;
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00089"></a>00089 <span class="preprocessor"></span>  <span class="keywordtype">bool</span>                   mPrincipalSet;
+<a name="l00090"></a>00090 <span class="preprocessor">#endif</span>
+<a name="l00091"></a>00091 <span class="preprocessor"></span>};
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094 <span class="comment">// -------------------------------</span>
+<a name="l00095"></a>00095 <span class="comment">// CSS Style Sheet</span>
+<a name="l00096"></a>00096 <span class="comment">//</span>
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098 <span class="keyword">class </span>CSSRuleListImpl;
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="comment">// CID for the nsCSSStyleSheet class</span>
+<a name="l00101"></a>00101 <span class="comment">// ca926f30-2a7e-477e-8467-803fb32af20a</span>
+<a name="l00102"></a><a class="code" href="../../d2/d13/ns_c_s_s_style_sheet_8h.html#a7a1060201b1829d35437f79ec9211d27">00102</a> <span class="preprocessor">#define NS_CSS_STYLE_SHEET_IMPL_CID     \</span>
+<a name="l00103"></a>00103 <span class="preprocessor">{ 0xca926f30, 0x2a7e, 0x477e, \</span>
+<a name="l00104"></a>00104 <span class="preprocessor"> { 0x84, 0x67, 0x80, 0x3f, 0xb3, 0x2a, 0xf2, 0x0a } }</span>
+<a name="l00105"></a>00105 <span class="preprocessor"></span>
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107 <span class="keyword">class </span><a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html">MOZ_FINAL</a> : <span class="keyword">public</span> <a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a>,
+<a name="l00108"></a>00108                                   <span class="keyword">public</span> <a class="code" href="../../d8/dfd/interfacens_i_d_o_m_c_s_s_style_sheet.html">nsIDOMCSSStyleSheet</a>,
+<a name="l00109"></a>00109                                   <span class="keyword">public</span> <a class="code" href="../../df/dc0/classns_i_c_s_s_loader_observer.html">nsICSSLoaderObserver</a>,
+<a name="l00110"></a>00110                                   <span class="keyword">public</span> <a class="code" href="../../d0/d7e/classns_wrapper_cache.html">nsWrapperCache</a>
+<a name="l00111"></a>00111 {
+<a name="l00112"></a>00112 <span class="keyword">public</span>:
+<a name="l00113"></a>00113   <a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>(<a class="code" href="../../d2/d93/namespacemozilla.html#acaed670280dfe306445f2ff31089f03e">mozilla::CORSMode</a> aCORSMode);
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115   <a class="code" href="../../d0/d5a/ns_i_supports_impl_8h.html#ab396d595c983350cd489cccf23b555c5">NS_DECL_CYCLE_COLLECTING_ISUPPORTS</a>
+<a name="l00116"></a>00116   <a class="code" href="../../d2/d4f/ns_cycle_collection_participant_8h.html#a5664183eaa0ef8bf31d2a6ffb6c992f0">NS_DECL_CYCLE_COLLECTION_SCRIPT_HOLDER_CLASS_AMBIGUOUS</a>(<a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>,
+<a name="l00117"></a>00117                                                          <a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a>)
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119   <a class="code" href="../../d9/d0a/ns_i_d_8h.html#ab2e83258854a9633645a84fd907d9e48">NS_DECLARE_STATIC_IID_ACCESSOR</a>(<a class="code" href="../../d2/d13/ns_c_s_s_style_sheet_8h.html#a7a1060201b1829d35437f79ec9211d27">NS_CSS_STYLE_SHEET_IMPL_CID</a>)
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121   <span class="comment">// nsIStyleSheet interface</span>
+<a name="l00122"></a>00122   <span class="keyword">virtual</span> <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>* <a class="code" href="../../d4/de1/classns_i_style_sheet.html#aacf80be0d3b245946a852b6238874e63">GetSheetURI</a>() <span class="keyword">const</span> MOZ_OVERRIDE;
+<a name="l00123"></a>00123   <span class="keyword">virtual</span> <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>* <a class="code" href="../../d4/de1/classns_i_style_sheet.html#aa9f46a0443c289919fa0a083f1277f68">GetBaseURI</a>() <span class="keyword">const</span> MOZ_OVERRIDE;
+<a name="l00124"></a>00124   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/dcb/interfacens_i_d_o_m_style_sheet.html#a2aa40dae8b109b22ef262e1d4a38943f">GetTitle</a>(nsString&amp; aTitle) <span class="keyword">const</span> MOZ_OVERRIDE;
+<a name="l00125"></a>00125   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../dd/dcb/interfacens_i_d_o_m_style_sheet.html#a055cd6d5f3a0e484b026cb7bdd49caba">GetType</a>(nsString&amp; <a class="code" href="../../df/d33/ns_x_u_l_app_a_p_i_8h.html#a02213a397ee55db7eba28bed963f63df">aType</a>) <span class="keyword">const</span> MOZ_OVERRIDE;
+<a name="l00126"></a>00126   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d4/de1/classns_i_style_sheet.html#acbeb2fdf033f23976dad6cf9127ed894">HasRules</a>() <span class="keyword">const</span> MOZ_OVERRIDE;
+<a name="l00127"></a>00127   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d4/de1/classns_i_style_sheet.html#ab65749ddc83bff8568c6fc8e756bfb89">IsApplicable</a>() <span class="keyword">const</span> MOZ_OVERRIDE;
+<a name="l00128"></a>00128   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d4/de1/classns_i_style_sheet.html#a0dd1f797c1387376ab5a49970a92908f">SetEnabled</a>(<span class="keywordtype">bool</span> aEnabled) MOZ_OVERRIDE;
+<a name="l00129"></a>00129   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="../../d4/de1/classns_i_style_sheet.html#a9760da0e95f6c44dacd1513291b5a3aa">IsComplete</a>() <span class="keyword">const</span> MOZ_OVERRIDE;
+<a name="l00130"></a>00130   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d4/de1/classns_i_style_sheet.html#a054d3187d15dbad43b67b9b0218c3e56">SetComplete</a>() MOZ_OVERRIDE;
+<a name="l00131"></a>00131   <span class="keyword">virtual</span> <a class="code" href="../../d4/de1/classns_i_style_sheet.html">nsIStyleSheet</a>* <a class="code" href="../../d4/de1/classns_i_style_sheet.html#aa9750b37988f9f85232f7de22f6c66b8">GetParentSheet</a>() <span class="keyword">const</span> MOZ_OVERRIDE;  <span class="comment">// may be null</span>
+<a name="l00132"></a>00132   <span class="keyword">virtual</span> <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* <a class="code" href="../../d4/de1/classns_i_style_sheet.html#a8544cab370d6b7153f4faf899a3ae8ab">GetOwningDocument</a>() <span class="keyword">const</span> MOZ_OVERRIDE;  <span class="comment">// may be null</span>
+<a name="l00133"></a>00133   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d4/de1/classns_i_style_sheet.html#a2ab45f11a6e31e335fc84664b9ab7d0e">SetOwningDocument</a>(<a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocument) MOZ_OVERRIDE;
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135   <span class="comment">// Find the ID of the owner inner window.</span>
+<a name="l00136"></a>00136   uint64_t FindOwningWindowInnerID() <span class="keyword">const</span>;
+<a name="l00137"></a>00137 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00138"></a>00138 <span class="preprocessor"></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d7/d8a/list_8js.html#a8a1a2034843b0ebcea5dbc6450eaf356">List</a>(<a class="code" href="../../d1/ddf/ns_i_content_viewer_file_8idl.html#a2a9799b7b2af884315027dd95725e0c3">FILE</a>* <a class="code" href="../../db/da2/namespacejs.html#ae38c69c83e560d6765bddb6b3d53cc46">out</a> = stdout, int32_t aIndent = 0) <span class="keyword">const</span> MOZ_OVERRIDE;
+<a name="l00139"></a>00139 <span class="preprocessor">#endif</span>
+<a name="l00140"></a>00140 <span class="preprocessor"></span>
+<a name="l00141"></a>00141   <span class="keywordtype">void</span> AppendStyleSheet(<a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>* aSheet);
+<a name="l00142"></a>00142   <span class="keywordtype">void</span> InsertStyleSheetAt(<a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>* aSheet, int32_t aIndex);
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144   <span class="comment">// XXX do these belong here or are they generic?</span>
+<a name="l00145"></a>00145   <span class="keywordtype">void</span> PrependStyleRule(<a class="code" href="../../d5/df2/classmozilla_1_1css_1_1_rule.html">mozilla::css::Rule</a>* aRule);
+<a name="l00146"></a>00146   <span class="keywordtype">void</span> AppendStyleRule(<a class="code" href="../../d5/df2/classmozilla_1_1css_1_1_rule.html">mozilla::css::Rule</a>* aRule);
+<a name="l00147"></a>00147   <span class="keywordtype">void</span> ReplaceStyleRule(<a class="code" href="../../d5/df2/classmozilla_1_1css_1_1_rule.html">mozilla::css::Rule</a>* aOld, <a class="code" href="../../d5/df2/classmozilla_1_1css_1_1_rule.html">mozilla::css::Rule</a>* aNew);
+<a name="l00148"></a>00148 
+<a name="l00149"></a>00149   int32_t StyleRuleCount() <span class="keyword">const</span>;
+<a name="l00150"></a>00150   <a class="code" href="../../d5/df2/classmozilla_1_1css_1_1_rule.html">mozilla::css::Rule</a>* GetStyleRuleAt(int32_t aIndex) <span class="keyword">const</span>;
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> DeleteRuleFromGroup(<a class="code" href="../../d2/d85/classmozilla_1_1css_1_1_group_rule.html">mozilla::css::GroupRule</a>* aGroup, uint32_t aIndex);
+<a name="l00153"></a>00153   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> InsertRuleIntoGroup(<span class="keyword">const</span> nsAString&amp; aRule, <a class="code" href="../../d2/d85/classmozilla_1_1css_1_1_group_rule.html">mozilla::css::GroupRule</a>* aGroup, uint32_t aIndex, uint32_t* _retval);
+<a name="l00154"></a>00154   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> ReplaceRuleInGroup(<a class="code" href="../../d2/d85/classmozilla_1_1css_1_1_group_rule.html">mozilla::css::GroupRule</a>* aGroup, <a class="code" href="../../d5/df2/classmozilla_1_1css_1_1_rule.html">mozilla::css::Rule</a>* aOld, <a class="code" href="../../d5/df2/classmozilla_1_1css_1_1_rule.html">mozilla::css::Rule</a>* aNew);
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156   int32_t StyleSheetCount() <span class="keyword">const</span>;
+<a name="l00157"></a>00157 
+<a name="l00163"></a>00163   <span class="keywordtype">void</span> SetURIs(<a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>* aSheetURI, <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>* aOriginalSheetURI, <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>* aBaseURI);
+<a name="l00164"></a>00164 
+<a name="l00170"></a>00170   <span class="keywordtype">void</span> SetPrincipal(<a class="code" href="../../d5/d7f/interfacens_i_principal.html">nsIPrincipal</a>* aPrincipal);
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172   <span class="comment">// Principal() never returns a null pointer.</span>
+<a name="l00173"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a6167b5f4a3160668dc9fd1bac7f30be7">00173</a>   <a class="code" href="../../d5/d7f/interfacens_i_principal.html">nsIPrincipal</a>* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a6167b5f4a3160668dc9fd1bac7f30be7">Principal</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mInner-&gt;mPrincipal; }
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175   <span class="comment">// The document this style sheet is associated with.  May be null</span>
+<a name="l00176"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a29eba4595ac5c2715e75d669ab170662">00176</a>   <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a29eba4595ac5c2715e75d669ab170662">GetDocument</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mDocument; }
+<a name="l00177"></a>00177 
+<a name="l00178"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a11adc6aead6062d4ec76bc6323c7c4c0">00178</a>   <span class="keywordtype">void</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a11adc6aead6062d4ec76bc6323c7c4c0">SetTitle</a>(<span class="keyword">const</span> nsAString&amp; aTitle) { mTitle = aTitle; }
+<a name="l00179"></a>00179   <span class="keywordtype">void</span> SetMedia(nsMediaList* aMedia);
+<a name="l00180"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a400f7ad98a463a669af4d14f416c5048">00180</a>   <span class="keywordtype">void</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a400f7ad98a463a669af4d14f416c5048">SetOwningNode</a>(<a class="code" href="../../d7/de8/classns_i_node.html">nsINode</a>* aOwningNode) { mOwningNode = aOwningNode; <span class="comment">/* Not ref counted */</span> }
+<a name="l00181"></a>00181 
+<a name="l00182"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#abded0c6c4fb356342eeb6e4f517daace">00182</a>   <span class="keywordtype">void</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#abded0c6c4fb356342eeb6e4f517daace">SetOwnerRule</a>(mozilla::css::ImportRule* aOwnerRule) { mOwnerRule = aOwnerRule; <span class="comment">/* Not ref counted */</span> }
+<a name="l00183"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa1478a2131edfc54b501e8a304a8311b">00183</a>   mozilla::css::ImportRule* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa1478a2131edfc54b501e8a304a8311b">GetOwnerRule</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mOwnerRule; }
+<a name="l00184"></a>00184 
+<a name="l00185"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a4a15e53e45b294e2b45e16979b175352">00185</a>   <a class="code" href="../../d3/da8/classns_x_m_l_name_space_map.html">nsXMLNameSpaceMap</a>* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a4a15e53e45b294e2b45e16979b175352">GetNameSpaceMap</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mInner-&gt;mNameSpaceMap; }
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187   <a class="code" href="../../d3/d17/structalready___add_refed.html">already_AddRefed&lt;nsCSSStyleSheet&gt;</a> Clone(<a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>* aCloneParent,
+<a name="l00188"></a>00188                                           mozilla::css::ImportRule* aCloneOwnerRule,
+<a name="l00189"></a>00189                                           <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aCloneDocument,
+<a name="l00190"></a>00190                                           <a class="code" href="../../d7/de8/classns_i_node.html">nsINode</a>* aCloneOwningNode) <span class="keyword">const</span>;
+<a name="l00191"></a>00191 
+<a name="l00192"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ae9ce4df73dfcae4418e283072cc7e903">00192</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ae9ce4df73dfcae4418e283072cc7e903">IsModified</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mDirty; }
+<a name="l00193"></a>00193 
+<a name="l00194"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#afbe78fceba5a9ee5d2048a6d3428307e">00194</a>   <span class="keywordtype">void</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#afbe78fceba5a9ee5d2048a6d3428307e">SetModifiedByChildRule</a>() {
+<a name="l00195"></a>00195     <a class="code" href="../../dc/d6d/ns_debug_8h.html#ad0ae7f43205a729107e59d101665b8fa">NS_ASSERTION</a>(mDirty,
+<a name="l00196"></a>00196                  <span class="stringliteral">&quot;sheet must be marked dirty before handing out child rules&quot;</span>);
+<a name="l00197"></a>00197     DidDirty();
+<a name="l00198"></a>00198   }
+<a name="l00199"></a>00199 
+<a name="l00200"></a>00200   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> AddRuleProcessor(<a class="code" href="../../df/d8f/classns_c_s_s_rule_processor.html">nsCSSRuleProcessor</a>* aProcessor);
+<a name="l00201"></a>00201   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> DropRuleProcessor(<a class="code" href="../../df/d8f/classns_c_s_s_rule_processor.html">nsCSSRuleProcessor</a>* aProcessor);
+<a name="l00202"></a>00202 
+<a name="l00206"></a>00206   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> InsertRuleInternal(<span class="keyword">const</span> nsAString&amp; aRule,
+<a name="l00207"></a>00207                               uint32_t aIndex, uint32_t* aReturn);
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209   <span class="comment">/* Get the URI this sheet was originally loaded from, if any.  Can</span>
+<a name="l00210"></a>00210 <span class="comment">     return null */</span>
+<a name="l00211"></a>00211   <span class="keyword">virtual</span> <a class="code" href="../../dd/d71/interfacens_i_u_r_i.html">nsIURI</a>* GetOriginalURI() <span class="keyword">const</span>;
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213   <span class="comment">// nsICSSLoaderObserver interface</span>
+<a name="l00214"></a>00214   <a class="code" href="../../d3/dd8/nscore_8h.html#abbc6d740d4f54ed1c90bbed28dcef65a">NS_IMETHOD</a> <a class="code" href="../../df/dc0/classns_i_c_s_s_loader_observer.html#a15f76f82bdfabc054a49f30d6fedc3ed">StyleSheetLoaded</a>(<a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>* aSheet, <span class="keywordtype">bool</span> aWasAlternate,
+<a name="l00215"></a>00215                               <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> aStatus) MOZ_OVERRIDE;
+<a name="l00216"></a>00216 
+<a name="l00217"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa681c24d2dbed7aac1063c3666e9ab6b">00217</a>   <span class="keyword">enum</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa681c24d2dbed7aac1063c3666e9ab6b">EnsureUniqueInnerResult</a> {
+<a name="l00218"></a>00218     <span class="comment">// No work was needed to ensure a unique inner.</span>
+<a name="l00219"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa681c24d2dbed7aac1063c3666e9ab6ba4556b89d1f4eacada506f1517e23db43">00219</a>     <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa681c24d2dbed7aac1063c3666e9ab6ba4556b89d1f4eacada506f1517e23db43">eUniqueInner_AlreadyUnique</a>,
+<a name="l00220"></a>00220     <span class="comment">// A clone was done to ensure a unique inner (which means the style</span>
+<a name="l00221"></a>00221     <span class="comment">// rules in this sheet have changed).</span>
+<a name="l00222"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa681c24d2dbed7aac1063c3666e9ab6ba7b021f34f4629b9cd02ec602620c0272">00222</a>     <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa681c24d2dbed7aac1063c3666e9ab6ba7b021f34f4629b9cd02ec602620c0272">eUniqueInner_ClonedInner</a>,
+<a name="l00223"></a>00223     <span class="comment">// A clone was attempted, but it failed.</span>
+<a name="l00224"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aa681c24d2dbed7aac1063c3666e9ab6bad22d19f0e0ae88247c4a74df6e59eb75">00224</a>     eUniqueInner_CloneFailed
+<a name="l00225"></a>00225   };
+<a name="l00226"></a>00226   EnsureUniqueInnerResult EnsureUniqueInner();
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228   <span class="comment">// Append all of this sheet&#39;s child sheets to aArray.  Return true</span>
+<a name="l00229"></a>00229   <span class="comment">// on success and false on allocation failure.</span>
+<a name="l00230"></a>00230   <span class="keywordtype">bool</span> AppendAllChildSheets(<a class="code" href="../../d8/d6f/classns_t_array.html">nsTArray&lt;nsCSSStyleSheet*&gt;</a>&amp; aArray);
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232   <span class="keywordtype">bool</span> UseForPresentation(<a class="code" href="../../d0/d65/classns_pres_context.html">nsPresContext</a>* aPresContext,
+<a name="l00233"></a>00233                             nsMediaQueryResultCacheKey&amp; aKey) <span class="keyword">const</span>;
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> ParseSheet(<span class="keyword">const</span> nsAString&amp; aInput);
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237   <span class="comment">// nsIDOMStyleSheet interface</span>
+<a name="l00238"></a>00238   <a class="code" href="../../dd/d44/ns_i_d_o_m_style_sheet_8h.html#a7fa23d2051037be20dfa8135fb6cbde8">NS_DECL_NSIDOMSTYLESHEET</a>
+<a name="l00239"></a>00239 
+<a name="l00240"></a>00240   <span class="comment">// nsIDOMCSSStyleSheet interface</span>
+<a name="l00241"></a>00241   <a class="code" href="../../d9/dbf/ns_i_d_o_m_c_s_s_style_sheet_8h.html#a9fc053b7db3eae1a577af1ed486d8e32">NS_DECL_NSIDOMCSSSTYLESHEET</a>
+<a name="l00242"></a>00242 
+<a name="l00243"></a>00243   <span class="comment">// Function used as a callback to rebuild our inner&#39;s child sheet</span>
+<a name="l00244"></a>00244   <span class="comment">// list after we clone a unique inner for ourselves.</span>
+<a name="l00245"></a>00245   <span class="keyword">static</span> <span class="keywordtype">bool</span> RebuildChildList(<a class="code" href="../../d5/df2/classmozilla_1_1css_1_1_rule.html">mozilla::css::Rule</a>* aRule, <span class="keywordtype">void</span>* aBuilder);
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247   <span class="keywordtype">size_t</span> <a class="code" href="../../d4/de1/classns_i_style_sheet.html#af7bae4b39b6ece33763ec9f67b8c0cea">SizeOfIncludingThis</a>(mozilla::MallocSizeOf aMallocSizeOf) <span class="keyword">const</span> MOZ_OVERRIDE;
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249   <span class="comment">// Get this style sheet&#39;s CORS mode</span>
+<a name="l00250"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a30e80e0421882094e6683a26da86899c">00250</a>   <a class="code" href="../../d2/d93/namespacemozilla.html#acaed670280dfe306445f2ff31089f03e">mozilla::CORSMode</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a30e80e0421882094e6683a26da86899c">GetCORSMode</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mInner-&gt;mCORSMode; }
+<a name="l00251"></a>00251 
+<a name="l00252"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ac50dbe68d1374ced65efe76d5a03c644">00252</a>   <a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ac50dbe68d1374ced65efe76d5a03c644">GetScopeElement</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mScopeElement; }
+<a name="l00253"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ac728be022a188004e475a693aad08701">00253</a>   <span class="keywordtype">void</span> SetScopeElement(<a class="code" href="../../de/da4/classmozilla_1_1dom_1_1_element.html">mozilla::dom::Element</a>* aScopeElement)
+<a name="l00254"></a>00254   {
+<a name="l00255"></a>00255     mScopeElement = aScopeElement;
+<a name="l00256"></a>00256   }
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258   <span class="comment">// WebIDL StyleSheet API</span>
+<a name="l00259"></a>00259   <span class="comment">// Our nsIStyleSheet::GetType is a const method, so it ends up</span>
+<a name="l00260"></a>00260   <span class="comment">// ambiguous with with the XPCOM version.  Just disambiguate.</span>
+<a name="l00261"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a9d2545d749e55f509c3a1b9da3796e3c">00261</a>   <span class="keywordtype">void</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a9d2545d749e55f509c3a1b9da3796e3c">GetType</a>(nsString&amp; aType) {
+<a name="l00262"></a>00262     <span class="keyword">const_cast&lt;</span><span class="keyword">const </span><a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>*<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;<a class="code" href="../../dd/dcb/interfacens_i_d_o_m_style_sheet.html#a055cd6d5f3a0e484b026cb7bdd49caba">GetType</a>(aType);
+<a name="l00263"></a>00263   }
+<a name="l00264"></a>00264   <span class="comment">// Our XPCOM GetHref is fine for WebIDL</span>
+<a name="l00265"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a1ad7d793b98fe03455c8157a013d29b3">00265</a>   <a class="code" href="../../d7/de8/classns_i_node.html">nsINode</a>* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a1ad7d793b98fe03455c8157a013d29b3">GetOwnerNode</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mOwningNode; }
+<a name="l00266"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#afc0727630dbbd325b29cdc2527ad9422">00266</a>   <a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#afc0727630dbbd325b29cdc2527ad9422">GetParentStyleSheet</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mParent; }
+<a name="l00267"></a>00267   <span class="comment">// Our nsIStyleSheet::GetTitle is a const method, so it ends up</span>
+<a name="l00268"></a>00268   <span class="comment">// ambiguous with with the XPCOM version.  Just disambiguate.</span>
+<a name="l00269"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a95d701a0ca1463e41452f28d674ff221">00269</a>   <span class="keywordtype">void</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a95d701a0ca1463e41452f28d674ff221">GetTitle</a>(nsString&amp; aTitle) {
+<a name="l00270"></a>00270     <span class="keyword">const_cast&lt;</span><span class="keyword">const </span><a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>*<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;<a class="code" href="../../dd/dcb/interfacens_i_d_o_m_style_sheet.html#a2aa40dae8b109b22ef262e1d4a38943f">GetTitle</a>(aTitle);
+<a name="l00271"></a>00271   }
+<a name="l00272"></a>00272   <a class="code" href="../../d7/db5/interfacens_i_d_o_m_media_list.html">nsIDOMMediaList</a>* Media();
+<a name="l00273"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ae8d6b48a4e2517b7ce2a6c8184cb9d4e">00273</a>   <span class="keywordtype">bool</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ae8d6b48a4e2517b7ce2a6c8184cb9d4e">Disabled</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mDisabled; }
+<a name="l00274"></a>00274   <span class="comment">// The XPCOM SetDisabled is fine for WebIDL</span>
+<a name="l00275"></a>00275 
+<a name="l00276"></a>00276   <span class="comment">// WebIDL CSSStyleSheet API</span>
+<a name="l00277"></a>00277   <span class="comment">// Can&#39;t be inline because we can&#39;t include ImportRule here.  And can&#39;t be</span>
+<a name="l00278"></a>00278   <span class="comment">// called GetOwnerRule because that would be ambiguous with the ImportRule</span>
+<a name="l00279"></a>00279   <span class="comment">// version.</span>
+<a name="l00280"></a>00280   <a class="code" href="../../d4/d47/interfacens_i_d_o_m_c_s_s_rule.html">nsIDOMCSSRule</a>* GetDOMOwnerRule() <span class="keyword">const</span>;
+<a name="l00281"></a>00281   <a class="code" href="../../d6/d84/interfacens_i_d_o_m_c_s_s_rule_list.html">nsIDOMCSSRuleList</a>* <a class="code" href="../../d8/dfd/interfacens_i_d_o_m_c_s_s_style_sheet.html#a2767ea3df465fb5d35efa7fb099f8c6e">GetCssRules</a>(<a class="code" href="../../dd/d9c/classmozilla_1_1_error_result.html">mozilla::ErrorResult</a>&amp; aRv);
+<a name="l00282"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a0da55664cdecc3633279b7d44ee70445">00282</a>   uint32_t <a class="code" href="../../d8/dfd/interfacens_i_d_o_m_c_s_s_style_sheet.html#acb4df12ea7baa3910c32eaa19320c21f">InsertRule</a>(<span class="keyword">const</span> nsAString&amp; aRule, uint32_t aIndex,
+<a name="l00283"></a>00283                       <a class="code" href="../../dd/d9c/classmozilla_1_1_error_result.html">mozilla::ErrorResult</a>&amp; aRv) {
+<a name="l00284"></a>00284     uint32_t retval;
+<a name="l00285"></a>00285     aRv = <a class="code" href="../../d8/dfd/interfacens_i_d_o_m_c_s_s_style_sheet.html#acb4df12ea7baa3910c32eaa19320c21f">InsertRule</a>(aRule, aIndex, &amp;retval);
+<a name="l00286"></a>00286     <span class="keywordflow">return</span> retval;
+<a name="l00287"></a>00287   }
+<a name="l00288"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#abc0056244445de5d705f459a8fcb58c9">00288</a>   <span class="keywordtype">void</span> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#abc0056244445de5d705f459a8fcb58c9">DeleteRule</a>(uint32_t aIndex, <a class="code" href="../../dd/d9c/classmozilla_1_1_error_result.html">mozilla::ErrorResult</a>&amp; aRv) {
+<a name="l00289"></a>00289     aRv = <a class="code" href="../../d8/dfd/interfacens_i_d_o_m_c_s_s_style_sheet.html#a982fad8d34bc442414fbe2ddd2df2ac5">DeleteRule</a>(aIndex);
+<a name="l00290"></a>00290   }
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292   <span class="comment">// WebIDL miscellaneous bits</span>
+<a name="l00293"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a33da0f06d58ca47f14f800052d865d7b">00293</a>   <a class="code" href="../../d9/d7d/structmozilla_1_1dom_1_1_parent_object.html">mozilla::dom::ParentObject</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a33da0f06d58ca47f14f800052d865d7b">GetParentObject</a>()<span class="keyword"> const </span>{
+<a name="l00294"></a>00294     <span class="keywordflow">if</span> (mOwningNode) {
+<a name="l00295"></a>00295       <span class="keywordflow">return</span> <a class="code" href="../../d9/d7d/structmozilla_1_1dom_1_1_parent_object.html">mozilla::dom::ParentObject</a>(mOwningNode);
+<a name="l00296"></a>00296     }
+<a name="l00297"></a>00297 
+<a name="l00298"></a>00298     <span class="keywordflow">return</span> <a class="code" href="../../d9/d7d/structmozilla_1_1dom_1_1_parent_object.html">mozilla::dom::ParentObject</a>(static_cast&lt;nsIStyleSheet*&gt;(mParent),
+<a name="l00299"></a>00299                                       mParent);
+<a name="l00300"></a>00300   }
+<a name="l00301"></a>00301   <span class="keyword">virtual</span> JSObject* <a class="code" href="../../d7/d4b/namespacemozilla_1_1dom.html#a0c1b6eb7dc87d20bf7ad4b99af954c20">WrapObject</a>(<a class="code" href="../../d9/d28/jspubtd_8h.html#a1511e24a5b9d6d2e0e689afd9c6c0b9b">JSContext</a>* aCx,
+<a name="l00302"></a>00302                                <a class="code" href="../../df/dfb/class_j_s_1_1_handle.html">JS::Handle&lt;JSObject*&gt;</a> aScope) MOZ_OVERRIDE;
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304 <span class="keyword">private</span>:
+<a name="l00305"></a>00305   <a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>(<span class="keyword">const</span> <a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>&amp; aCopy,
+<a name="l00306"></a>00306                   <a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>* aParentToUse,
+<a name="l00307"></a>00307                   mozilla::css::ImportRule* aOwnerRuleToUse,
+<a name="l00308"></a>00308                   <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>* aDocumentToUse,
+<a name="l00309"></a>00309                   <a class="code" href="../../d7/de8/classns_i_node.html">nsINode</a>* aOwningNodeToUse);
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311   <a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>(<span class="keyword">const</span> <a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>&amp; aCopy) MOZ_DELETE;
+<a name="l00312"></a>00312   <a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>&amp; aCopy) MOZ_DELETE;
+<a name="l00313"></a>00313 
+<a name="l00314"></a>00314 <span class="keyword">protected</span>:
+<a name="l00315"></a>00315   <span class="keyword">virtual</span> ~<a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>();
+<a name="l00316"></a>00316 
+<a name="l00317"></a>00317   <span class="keywordtype">void</span> ClearRuleCascades();
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> WillDirty();
+<a name="l00320"></a>00320   <span class="keywordtype">void</span>     DidDirty();
+<a name="l00321"></a>00321 
+<a name="l00322"></a>00322   <span class="comment">// Return success if the subject principal subsumes the principal of our</span>
+<a name="l00323"></a>00323   <span class="comment">// inner, error otherwise.  This will also succeed if the subject has</span>
+<a name="l00324"></a>00324   <span class="comment">// UniversalXPConnect or if access is allowed by CORS.  In the latter case,</span>
+<a name="l00325"></a>00325   <span class="comment">// it will set the principal of the inner to the subject principal.</span>
+<a name="l00326"></a>00326   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> SubjectSubsumesInnerPrincipal();
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328   <span class="comment">// Add the namespace mapping from this @namespace rule to our namespace map</span>
+<a name="l00329"></a>00329   <a class="code" href="../../d8/dcf/ns_error_8h.html#ae1573874dc40023f078c3a69c4ce4538">nsresult</a> RegisterNamespaceRule(<a class="code" href="../../d5/df2/classmozilla_1_1css_1_1_rule.html">mozilla::css::Rule</a>* aRule);
+<a name="l00330"></a>00330 
+<a name="l00331"></a>00331   <span class="comment">// Drop our reference to mRuleCollection</span>
+<a name="l00332"></a>00332   <span class="keywordtype">void</span> DropRuleCollection();
+<a name="l00333"></a>00333 
+<a name="l00334"></a>00334   <span class="comment">// Drop our reference to mMedia</span>
+<a name="l00335"></a>00335   <span class="keywordtype">void</span> DropMedia();
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337   <span class="comment">// Unlink our inner, if needed, for cycle collection</span>
+<a name="l00338"></a>00338   <span class="keywordtype">void</span> UnlinkInner();
+<a name="l00339"></a>00339   <span class="comment">// Traverse our inner, if needed, for cycle collection</span>
+<a name="l00340"></a>00340   <span class="keywordtype">void</span> TraverseInner(<a class="code" href="../../d9/d36/classns_cycle_collection_traversal_callback.html">nsCycleCollectionTraversalCallback</a> &amp;);
+<a name="l00341"></a>00341 
+<a name="l00342"></a>00342 <span class="keyword">protected</span>:
+<a name="l00343"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a9feb4419bb548d65237cdce47dc33539">00343</a>   nsString              <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a9feb4419bb548d65237cdce47dc33539">mTitle</a>;
+<a name="l00344"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a98d06de98d903a15b3b8252930c86c55">00344</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsMediaList&gt;</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a98d06de98d903a15b3b8252930c86c55">mMedia</a>;
+<a name="l00345"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a18c27ecec803377f68afab6357639448">00345</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;nsCSSStyleSheet&gt;</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a18c27ecec803377f68afab6357639448">mNext</a>;
+<a name="l00346"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a400dc4adfb9f523bab84d3cf71db2805">00346</a>   <a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>*      <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a400dc4adfb9f523bab84d3cf71db2805">mParent</a>;    <span class="comment">// weak ref</span>
+<a name="l00347"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a66d7057e37c8e3b41e28a67c3e273fad">00347</a>   mozilla::css::ImportRule* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a66d7057e37c8e3b41e28a67c3e273fad">mOwnerRule</a>; <span class="comment">// weak ref</span>
+<a name="l00348"></a>00348 
+<a name="l00349"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aac58c0a0c324b1c4b2c2d73428a88c41">00349</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;CSSRuleListImpl&gt;</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#aac58c0a0c324b1c4b2c2d73428a88c41">mRuleCollection</a>;
+<a name="l00350"></a>00350   <a class="code" href="../../de/dd1/classns_i_document.html">nsIDocument</a>*          mDocument; <span class="comment">// weak ref; parents maintain this for their children</span>
+<a name="l00351"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a30bd725909987462f36e427c5877a3b5">00351</a>   <a class="code" href="../../d7/de8/classns_i_node.html">nsINode</a>*              <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a30bd725909987462f36e427c5877a3b5">mOwningNode</a>; <span class="comment">// weak ref</span>
+<a name="l00352"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a6a3c957e3365d63209cddef713adb516">00352</a>   <span class="keywordtype">bool</span>                  <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a6a3c957e3365d63209cddef713adb516">mDisabled</a>;
+<a name="l00353"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a86bb493a40c9598e81b66fe243c47f49">00353</a>   <span class="keywordtype">bool</span>                  <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a86bb493a40c9598e81b66fe243c47f49">mDirty</a>; <span class="comment">// has been modified </span>
+<a name="l00354"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a3a53bbe3b0e0f0c7a70f3a05f7cdd6b0">00354</a>   <a class="code" href="../../d0/d01/classns_ref_ptr.html">nsRefPtr&lt;mozilla::dom::Element&gt;</a> <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a3a53bbe3b0e0f0c7a70f3a05f7cdd6b0">mScopeElement</a>;
+<a name="l00355"></a>00355 
+<a name="l00356"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a687ee67051f7457b50d5afc1d137b54f">00356</a>   <a class="code" href="../../d7/ded/classns_c_s_s_style_sheet_inner.html">nsCSSStyleSheetInner</a>* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a687ee67051f7457b50d5afc1d137b54f">mInner</a>;
+<a name="l00357"></a>00357 
+<a name="l00358"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#adae49bf266f88ebfb7dd1f2fa6e8a9db">00358</a>   <a class="code" href="../../d2/dcf/classns_auto_t_array.html">nsAutoTArray&lt;nsCSSRuleProcessor*, 8&gt;</a>* <a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#adae49bf266f88ebfb7dd1f2fa6e8a9db">mRuleProcessors</a>;
+<a name="l00359"></a>00359 
+<a name="l00360"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a55cb3968807661c7d85966c1e7f97711">00360</a>   <span class="keyword">friend</span> <span class="keyword">class </span>nsMediaList;
+<a name="l00361"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#a6f50ba9874343a076e4d8d6f1b7a3daa">00361</a>   <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="../../df/d8f/classns_c_s_s_rule_processor.html">nsCSSRuleProcessor</a>;
+<a name="l00362"></a><a class="code" href="../../d4/dfc/class_m_o_z___f_i_n_a_l.html#ab402313cf3598b302b4d105dcab286ce">00362</a>   <span class="keyword">friend</span> <span class="keyword">struct </span>ChildSheetListBuilder;
+<a name="l00363"></a>00363 };
+<a name="l00364"></a>00364 
+<a name="l00365"></a>00365 <a class="code" href="../../d9/d0a/ns_i_d_8h.html#a0182e8f549ac52140d3a80fc81b15fed">NS_DEFINE_STATIC_IID_ACCESSOR</a>(<a class="code" href="../../de/de3/ns_i_editor_style_sheets_8idl.html#a5812da4e489d390ba384c08908460399">nsCSSStyleSheet</a>, <a class="code" href="../../d2/d13/ns_c_s_s_style_sheet_8h.html#a7a1060201b1829d35437f79ec9211d27">NS_CSS_STYLE_SHEET_IMPL_CID</a>)
+<a name="l00366"></a>00366 
+<a name="l00367"></a>00367 <span class="preprocessor">#endif </span><span class="comment">/* !defined(nsCSSStyleSheet_h_) */</span>
+</pre></div></div><!-- contents -->
+</div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>全て</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>データ構造</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>ネームスペース</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>ファイル</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>関数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>変数</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>型定義</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>列挙型</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>列挙型の値</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>フレンド</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>マクロ定義</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="../../d2/d13/ns_c_s_s_style_sheet_8h.html">nsCSSStyleSheet.h</a>      </li>
+
+    <li class="footer">FxOS Code Readingに対してSat Oct 19 2013 00:52:59に生成されました。
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>
