@@ -34,6 +34,10 @@ FxOSコードリーディングのまとめサイト的に使いたい
     *   http://minashiro.net/computer/how-to-enable-japanese-ime-in-firefox-os/
 *   [Firefox OS][FxOS][Gaia] 日本語キーボードの出し方と日本語IME用の辞書の作り方 - 藪下
     *   http://www.gcg.bz/labo_blog/?p=523
+*   安定しているというv1.2で、無理やり日本語IMEを有効にしてみた - 水城珠洲
+    *   http://minashiro.net/computer/in-v1-2-that-is-stable-i-tried-to-enable-the-japanese-ime-force/
+*   Firefox OS Masterブランチで、日本語辞書の展開先が変更になりました - 水城珠洲
+    *   http://minashiro.net/computer/in-firefox-os-master-branch-deploy-the-japanese-dictionary-has-been-changed/
 
 ### Alcatel One Touch Fireとか
 *   Alcatel One Touch Fire Hacking (Mini)Guideの間違っているかもしれない機械訳+αな文書 
