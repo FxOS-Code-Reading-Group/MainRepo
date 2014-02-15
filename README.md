@@ -46,6 +46,7 @@ FxOSコードリーディングのまとめサイト的に使いたい
 ## ページ内リンク
 1. [FireFoxOSCodeReading虎の巻](https://github.com/FxOS-Code-Reading-Group/MainRepo/wiki/CodeReading)
 2. [DirectoryMAP](https://github.com/FxOS-Code-Reading-Group/MainRepo/wiki/DirectoryMap)
+3. [reading.fxos.org の Web サイトの編集方法](https://github.com/FxOS-Code-Reading-Group/fxos-code-reading-group.github.io/wiki/reading.fxos.org-%E3%81%AE-Web-%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AE%E7%B7%A8%E9%9B%86%E6%96%B9%E6%B3%95)
 
 ## メモというか仮置き場
 1. [memo_LocalStrage関連(gecko)](https://github.com/FxOS-Code-Reading-Group/MainRepo/wiki/LocalStrage)
